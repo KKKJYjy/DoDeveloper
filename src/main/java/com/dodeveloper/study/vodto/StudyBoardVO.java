@@ -26,4 +26,6 @@ public class StudyBoardVO {
 	private String contactLink;
 	private String status;
 	private Timestamp endDate;
+	private int readCount;
+	private int scrape;
 }
