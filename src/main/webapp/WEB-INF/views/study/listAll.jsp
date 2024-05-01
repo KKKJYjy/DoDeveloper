@@ -72,8 +72,12 @@
 	});
 </script>
 <style>
-.stu {
-	height: 500px;
+.studyBasic {
+  --default-color: #ffffff;
+  --default-color-rgb: 255, 255, 255;
+  --background-color: #000000;
+  --background-color-rgb: 0, 0, 0;
+  padding: 150px 0;
 }
 </style>
 </head>
@@ -83,18 +87,20 @@
 
 	<main id="main">
 		<!-- Basic Section - Study Page -->
-		<section id="study">
+		<section id="study" class="studyBasic">
 
-			<!-- 공지사항 넣을 부분 -->
-			<div class="container mt-4"></div>
 
-			<div class="mt-4">
-				<h3 class="center text-center">
+			<div class="container">
+				<h3 class="center text-center text-light">
 					<b>🔥 개발 스터디 모집해요</b>
 				</h3>
 			</div>
+			
+			<!-- 공지사항 넣을 부분 -->
+			<div class="container pt-5">공지사항</div>
+			
 			<!-- 상단 필터 & 검색부분 -->
-			<div class="container mt-4">
+			<div class="container pt-5">
 
 				<!-- 스터디할 언어 선택해서 select -->
 				<div class="row">
@@ -147,7 +153,7 @@
 			</div>
 
 			<!-- 스터디 모임글 리스트 -->
-			<div class="container mt-4">
+			<div class="container pt-4">
 
 				<%-- ${studyList } --%>
 				<div class="row row-cols-md-4 ">
