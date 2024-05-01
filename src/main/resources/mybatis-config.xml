@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias alias="MemberVO"
+			type="com.dodeveloper.member.vo.MemberVO" />
+		<typeAlias alias="RegisterDTO"
+			type="com.dodeveloper.member.dto.RegisterDTO" />
+		<typeAlias alias="MessageVO"
+			type="com.dodeveloper.message.vodto.MessageVO" />		
+		<typeAlias alias="MessageDTO"
+			type="com.dodeveloper.message.vodto.MessageDTO" />
+	</typeAliases>
+</configuration>

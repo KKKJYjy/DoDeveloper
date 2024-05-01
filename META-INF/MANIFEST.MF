@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: DoDeveloper
+Bundle-SymbolicName: DoDeveloper
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-16
+Automatic-Module-Name: DoDeveloper
+Export-Package: com.dodeveloper.commons.controller,
+ com.dodeveloper.member.controller,
+ com.dodeveloper.member.dao,
+ mappers
