@@ -15,6 +15,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class StudyBoardVO {
+	private int stuNo;
 	private String stuWriter;
 	private String stuTitle;
 	private String stuContent;
