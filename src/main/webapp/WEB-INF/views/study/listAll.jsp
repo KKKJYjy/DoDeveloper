@@ -72,12 +72,12 @@
 	});
 </script>
 <style>
-.studyBasic {
-  --default-color: #ffffff;
-  --default-color-rgb: 255, 255, 255;
-  --background-color: #000000;
-  --background-color-rgb: 0, 0, 0;
-  padding: 150px 0;
+.studyBasic { 
+	--default-color: #212529; 
+	--default-color-rgb: 255, 255, 255; 
+	--background-color: #212529; 
+	--background-color-rgb: 0, 0, 0;
+	padding: 150px 0;
 }
 </style>
 </head>
@@ -89,132 +89,136 @@
 		<!-- Basic Section - Study Page -->
 		<section id="study" class="studyBasic">
 
-
-			<div class="container">
-				<h3 class="center text-center text-light">
-					<b>🔥 개발 스터디 모집해요</b>
-				</h3>
-			</div>
-			
-			<!-- 공지사항 넣을 부분 -->
-			<div class="container pt-5">공지사항</div>
-			
-			<!-- 상단 필터 & 검색부분 -->
-			<div class="container pt-5">
-
-				<!-- 스터디할 언어 선택해서 select -->
-				<div class="row">
-					<div class="col-md-2">
-						<select class="studyLang form-control" multiple="multiple"
-							style="width: 100%;">
-							<option>React</option>
-							<option>javascript</option>
-							<option>Vue</option>
-							<option>Nextjs</option>
-							<option>Java</option>
-							<option>Spring</option>
-							<option>Kotlin</option>
-							<option>Swift</option>
-							<option>Flutter</option>
-						</select>
-					</div>
-
-					<!-- 모집중 or 모집마감 -->
-					<div class="col-md-2">
-						<button class="btn btn-outline-secondary" style="width: 100%">모집중만
-							보기</button>
-					</div>
-
-					<div class="col-md-3"></div>
-
-					<!-- 검색바 -->
-					<div class="col-md-5 justify-content-right">
-						<div class="row">
-							<div class="col-md-3">
-								<select class="form-select">
-									<option>검색 방법</option>
-									<option>제목</option>
-									<option>작성자</option>
-									<option>내용</option>
-								</select>
-							</div>
-							<div class="col-md-6">
-								<input type="text" class="form-control mb-4"
-									placeholder="검색할 내용을 입력해주세요" />
-							</div>
-							<div class="col-md-3">
-								<input type="button" class="btn btn-secondary" value="검색"
-									style="width: 100%" />
-							</div>
-						</div>
-					</div>
-
+			<div class="container" style="width: 80%">
+				<div class="container">
+					<h3 class="center text-center text-light">
+						<b>🔥 개발 스터디 모집</b>
+					</h3>
 				</div>
-			</div>
 
-			<!-- 스터디 모임글 리스트 -->
-			<div class="container pt-4">
+				<!-- 공지사항 넣을 부분 -->
+				<div class="container mt-3">공지사항</div>
 
-				<%-- ${studyList } --%>
-				<div class="row row-cols-md-4 ">
-					<!-- 모임글 추가하기 -->
-					<div class="col">
-						<div class="card">
-							<div class="card-body p-4 text-center" style="height: 260px;">
-								<h5 style="line-height: 212px;">
-									<b>나도 스터디 만들기</b>
-								</h5>
-							</div>
+				<!-- 상단 필터 & 검색부분 -->
+				<div class="container mt-3">
+
+					<!-- 스터디할 언어 선택해서 select -->
+					<div class="row">
+						<div class="col-md-2">
+							<select class="studyLang form-control" multiple="multiple"
+								style="width: 100%;">
+								<option>React</option>
+								<option>javascript</option>
+								<option>Vue</option>
+								<option>Nextjs</option>
+								<option>Java</option>
+								<option>Spring</option>
+								<option>Kotlin</option>
+								<option>Swift</option>
+								<option>Flutter</option>
+							</select>
 						</div>
-					</div>
-					
 
-					<c:forEach var="study" items="${studyList }">
+						<!-- 모집중 or 모집마감 -->
+						<div class="col-md-2">
+							<button class="btn btn-outline-secondary" style="width: 100%">모집중만
+								보기</button>
+						</div>
 
-						<!-- 모임글 1개 -->
-						<div class="col">
-							<div class="card">
-								<div class="card-body p-4">
-									<div class="">
-										<p class="card-subtitle mb-2 text-body-secondary">📍${study.stuLoc }</p>
-									</div>
+						<div class="col-md-3"></div>
 
-									<!-- 제목 -->
-									<div class="mt-4">
-										<h5 class="card-title">
-											<b>${study.stuTitle }</b>
-										</h5>
-									</div>
-
-									<!-- 스터디 언어 stuStack테이블에서 가져올 예정 -->
-									<div class="mt-4">
-										<p class="card-text">
-											<span class="badge text-bg-secondary">Java</span> <span
-												class="badge text-bg-secondary">Spring</span> <span
-												class="badge text-bg-secondary">javascript</span>
-										</p>
-									</div>
-
-									<div class="d-flex mt-4">
-										<div class="me-auto">
-											<p class="card-text">${study.stuWriter }</p>
-										</div>
-										<div class="">
-											<p class="card-text">조회수 ${study.readCount }</p>
-										</div>
-										<div class="">
-											<p class="card-text">스크랩수 ${study.scrape }</p>
-										</div>
-									</div>
+						<!-- 검색바 -->
+						<div class="col-md-5 justify-content-right">
+							<div class="row">
+								<div class="col-md-4">
+									<select class="form-select">
+										<option>검색 방법</option>
+										<option>제목</option>
+										<option>작성자</option>
+										<option>내용</option>
+									</select>
+								</div>
+								<div class="col-md-6">
+									<input type="text" class="form-control mb-4"
+										placeholder="검색할 내용 입력" />
+								</div>
+								<div class="col-md-2">
+									<input type="button" class="btn btn-secondary" value="검색"
+										style="width: 100%" />
 								</div>
 							</div>
 						</div>
 
-					</c:forEach>
+					</div>
 				</div>
 
-			</div>
+				<!-- 스터디 모임글 리스트 -->
+				<div class="container mt-3">
 
+					<%-- 	${studyList }
+				${stuStackList } --%>
+					<div class="row row-cols-md-4 ">
+						<!-- 모임글 추가하기 -->
+						<div class="col">
+							<div class="card">
+								<div class="card-body p-4 text-center" style="height: 276px;">
+									<h5 style="line-height: 212px; cursor: pointer;"
+										onclick="location.href='/study/writeStudyBoard';">
+										<b>나도 스터디 만들기</b>
+									</h5>
+								</div>
+							</div>
+						</div>
+
+
+						<c:forEach var="study" items="${studyList }">
+
+							<!-- 모임글 1개 -->
+							<div class="col" style="cursor: pointer; height: 276px;">
+								<div class="card">
+									<div class="card-body p-4">
+										<div class="">
+											<p class="card-subtitle mb-2 text-body-secondary">📍${study.stuLoc }</p>
+										</div>
+
+										<!-- 제목 -->
+										<div class="mt-4">
+											<h5 class="card-title">
+												<b>${study.stuTitle }</b>
+											</h5>
+										</div>
+
+										<!-- 스터디 언어 stuStack테이블에서 가져올 예정 -->
+										<div class="mt-4">
+											<p class="card-text">
+												<c:forEach var="stack" items="${stuStackList }">
+													<c:if test="${study.stuNo == stack.stuBoardNo }">
+														<span class="badge text-bg-secondary">${stack.stackName }</span>
+													</c:if>
+												</c:forEach>
+											</p>
+										</div>
+
+										<div class="d-flex mt-4">
+											<div class="me-auto">
+												<p class="card-text">${study.stuWriter }</p>
+											</div>
+											<div class="">
+												<p class="card-text">조회수 ${study.readCount }</p>
+											</div>
+											<div class="">
+												<p class="card-text">스크랩수 ${study.scrape }</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</c:forEach>
+					</div>
+
+				</div>
+			</div>
 
 		</section>
 		<!-- End Basic Section -->

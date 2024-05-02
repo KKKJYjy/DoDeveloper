@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.dodeveloper.study.vodto.StuStackVO;
 import com.dodeveloper.study.vodto.StudyBoardVO;
 
 @Repository
@@ -19,6 +20,11 @@ public class StudyDAOImpl implements StudyDAO {
 	@Override
 	public List<StudyBoardVO> selectAllList() throws Exception {
 		return ses.selectList(ns + ".selectAllList");
+	}
+
+	@Override
+	public List<StuStackVO> selectAllStudyStack(int stuBoardNo) {
+		return ses.selectList(ns + ".selectAllstudyStack", stuBoardNo);
 	}
 
 }
