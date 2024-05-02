@@ -171,6 +171,13 @@
 			<!-- <scope>test</scope> -->
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.10.1</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/org.bgee.log4jdbc-log4j2/log4jdbc-log4j2-jdbc4.1 -->
 		<!-- mybatis에 위임한 jdbc작업의 로그를 추적하기 위해 설치되는 라이브러리 -->
 		<dependency>
