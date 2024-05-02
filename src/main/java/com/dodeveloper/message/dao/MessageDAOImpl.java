@@ -15,7 +15,7 @@ public class MessageDAOImpl implements MessageDAO{
 	private String namespace = "com.dodeveloper.mappers.messageMapper";
 	
 	@Override
-	public MessageVO getMessageByNo(int messageNo) throws Exception {
+	public MessageVO selectMessageByNo(int messageNo) throws Exception {
 		return template.selectOne(namespace + ".selectMessageByNo", messageNo);
 	}
 
