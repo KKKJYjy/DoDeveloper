@@ -44,7 +44,7 @@
 						<!-- User Profile-->
 						<li class="sidebar-item"><a
 							class="sidebar-link waves-effect waves-dark sidebar-link"
-							href="/dashboard" aria-expanded="false"><i
+							href="/admin/dashboard" aria-expanded="false"><i
 								class="mdi me-2 mdi-gauge"></i><span class="hide-menu">Dashboard</span></a>
 						</li>
 						<li class="sidebar-item"><a
@@ -55,7 +55,7 @@
 						</a></li>
 						<li class="sidebar-item"><a
 							class="sidebar-link waves-effect waves-dark sidebar-link"
-							href="table-basic.html" aria-expanded="false"><i
+							href="/admin/table" aria-expanded="false"><i
 								class="mdi me-2 mdi-table"></i><span class="hide-menu">Table</span></a>
 						</li>
 						<li class="sidebar-item"><a
@@ -70,18 +70,15 @@
 									Map</span></a></li>
 						<li class="sidebar-item"><a
 							class="sidebar-link waves-effect waves-dark sidebar-link"
-							href="pages-blank.html" aria-expanded="false"><i
+							href="/admin/blank" aria-expanded="false"><i
 								class="mdi me-2 mdi-book-open-variant"></i><span
 								class="hide-menu">Blank</span></a></li>
 						<li class="sidebar-item"><a
 							class="sidebar-link waves-effect waves-dark sidebar-link"
-							href="/inquiry" aria-expanded="false"><i
+							href="/admin/inquiry" aria-expanded="false"><i
 								class="mdi me-2 mdi-help-circle"></i><span class="hide-menu">문의
 									</span></a></li>
-						<li class="text-center p-20 upgrade-btn"><a
-							href="https://www.wrappixel.com/templates/materialpro/"
-							class="btn btn-warning text-white mt-4" target="_blank">Upgrade
-								to Pro</a></li>
+						
 					</ul>
 				</nav>
 				<!-- End Sidebar navigation -->
