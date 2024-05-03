@@ -6,8 +6,8 @@
 	<typeAliases>
 		<typeAlias alias="MemberVO"
 			type="com.dodeveloper.member.vo.MemberVO" />
-		<typeAlias alias="RegisterDTO"
-			type="com.dodeveloper.member.dto.RegisterDTO" />
+		<typeAlias alias="ProfileVO"
+			type="com.dodeveloper.mypage.vo.ProfileVO" />
 		<typeAlias alias="MessageVO"
 			type="com.dodeveloper.message.vodto.MessageVO" />		
 		<typeAlias alias="MessageDTO"
