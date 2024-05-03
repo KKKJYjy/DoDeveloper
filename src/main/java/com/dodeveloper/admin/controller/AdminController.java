@@ -25,21 +25,21 @@ private static final Logger logger = LoggerFactory.getLogger(AdminController.cla
 		
 	}
 	
-	@RequestMapping(value = "/inquiry", method = RequestMethod.GET)
-	public void inquiry() {
-		logger.info("inquiry 페이지 호출");
-	
-	
-	}
-	
-	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-	public void dashboard() {
-		logger.info("dashboard 페이지 호출");
-		
-		
-		
-	}
-	
+//	@RequestMapping(value = "/inquiry", method = RequestMethod.GET)
+//	public void inquiry() {
+//		logger.info("inquiry 페이지 호출");
+//	
+//	
+//	}
+//	
+//	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+//	public void dashboard() {
+//		logger.info("dashboard 페이지 호출");
+//		
+//		
+//		
+//	}
+//	
 	
 	
 	
