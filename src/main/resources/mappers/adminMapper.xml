@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dodeveloper.mappers.adminMapper">
+
+	<!-- 유저 전체조회 -->
+	<select id="selectUser" resultType="">
+		select userId, userName, email, careers, registerDate, status from member
+	</select>
+	
+	<!-- 신고 테이블 조회 -->
+	<select id="selectReport">
+		select * from reportBoard
+	</select>
+	
+	<!-- 유저아이디 검색 -->
+	<select id="selectUserId">
+		select userId, userName, email, careers, registerDate, status from member where userId = #{userId}
+	</select>
+
+	<!-- 신고내역 삭제 -->
+	<delete id="">
+		
+	</delete>
+</mapper>
