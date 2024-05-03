@@ -76,8 +76,15 @@
 		base-package="com.dodeveloper.member.dao"></context:component-scan>
 	<context:component-scan
 		base-package="com.dodeveloper.etc"></context:component-scan>
-
 	<context:component-scan
 		base-package="com.dodeveloper.message.dao"></context:component-scan>
+
+
+
+	<!-- 기업&재직자 리뷰 패키지를 조사(scan)하여 객체를 스프링 컨테이너에 관리하도록 설정 -->
+	<context:component-scan
+		base-package="com.dodeveloper.company.service"></context:component-scan>
+	<context:component-scan
+		base-package="com.dodeveloper.company.dao"></context:component-scan>
 
 </beans>
