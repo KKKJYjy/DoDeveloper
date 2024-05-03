@@ -56,7 +56,7 @@
 	<context:component-scan base-package="com.dodeveloper.member.controller" />
 	<context:component-scan base-package="com.dodeveloper.study.controller" />
 	<context:component-scan base-package="com.dodeveloper.lecture.controller" />
-	<context:component-scan base-package="com.dodeveloper.worker.controller" />
+	<context:component-scan base-package="com.dodeveloper.company.controller" />
 	<context:component-scan base-package="com.dodeveloper.algorithm.controller" />
 	<context:component-scan base-package="com.dodeveloper.message.controller" />
 	
