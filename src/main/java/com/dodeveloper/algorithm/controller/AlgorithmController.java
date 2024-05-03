@@ -10,9 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dodeveloper.algorithm.service.AlgService;
 import com.dodeveloper.algorithm.vodto.AlgBoardDTO;
+import com.dodeveloper.algorithm.vodto.AlgDetailDTO;
 
 @Controller
 @RequestMapping("/algorithm")
@@ -35,6 +37,20 @@ public class AlgorithmController {
 		
 		
 		model.addAttribute("algBoardList",returnMap);
+	}
+	
+	
+	@GetMapping("/algDetail")
+	public void getAlgDetail(@RequestParam("boardNo") int boardNo,Model model) throws Exception {
+		System.out.println("알고리즘상세 : "+boardNo+" 번 알고리즘");
+		
+		List<AlgDetailDTO> returnMap = null;
+		
+		
+		returnMap = aService.getListDetail(boardNo);
+		
+		
+		model.addAttribute("algDetailList", returnMap);
 	}
 
 }

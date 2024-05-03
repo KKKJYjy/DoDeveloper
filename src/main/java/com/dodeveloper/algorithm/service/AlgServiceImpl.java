@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.dodeveloper.algorithm.dao.AlgDAO;
 import com.dodeveloper.algorithm.vodto.AlgBoardDTO;
+import com.dodeveloper.algorithm.vodto.AlgDetailDTO;
 import com.dodeveloper.member.dto.LoginDTO;
 
 @Service
@@ -18,7 +19,7 @@ public class AlgServiceImpl implements AlgService {
 	
 	@Override
 	public List<AlgBoardDTO> getListAllBoard() throws Exception {
-		// TODO Auto-generated method stub
+		// algBoard 리스트 받아옴
 		System.out.println("게시판조회(서브스)");
 		List<AlgBoardDTO> algBoardList = null;
 		
@@ -27,6 +28,17 @@ public class AlgServiceImpl implements AlgService {
 		System.out.println(algBoardList.toString()+"(service)");
 		
 		return algBoardList;
+	}
+
+
+	@Override
+	public List<AlgDetailDTO> getListDetail(int boardNo) throws Exception {
+		// boardNo 에 해당하는 algDetail 리스트 받아오기
+		List<AlgDetailDTO> algDetailList = null;
+		System.out.println(boardNo+"번의 알고리즘 조회");
+		algDetailList = aDao.selectAlgDetail(boardNo);
+		
+		return algDetailList;
 	}
 
 }

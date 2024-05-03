@@ -65,24 +65,13 @@ prefix="c"%>
       <!-- Basic Section - Algorithm Page -->
       <section id="algorithm" class="basic">
         <div class="container">
-          <h1>알고리즘</h1>
+        	
+          <h1>${algDetailList[0].algDetailTitle}</h1>
+        	
           <h1>alg</h1>
 
-          <div class="container mt-3">
-            <h2>알고리즘 목록</h2>
-            <p>
-              The disabled class adds a lighter text color to the disabled item.
-              And if used on links, it will remove the default hover effect.
-            </p>
-            <div class="list-group">
-              <c:forEach var="alg" items="${algBoardList}">
-                <a href="/algorithm/algDetail?boardNo=${alg.boardNo}" class="list-group-item">${alg.title }</a>
-                <div>/////////////////////////////</div>
-              </c:forEach>
-            </div>
-          </div>
-
-          <div>${algBoardList}</div>
+          
+          <div>${algDetailList}</div>
         </div>
       </section>
       <!-- End Basic Section -->

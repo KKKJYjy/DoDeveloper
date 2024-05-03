@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.dodeveloper.algorithm.vodto.AlgBoardDTO;
+import com.dodeveloper.algorithm.vodto.AlgDetailDTO;
 import com.dodeveloper.member.dto.LoginDTO;
 
 @Repository
@@ -24,6 +25,12 @@ public class AlgDAOImpl implements AlgDAO {
 //		return ses.selectList(ns+".selectAlgBoard");
 		return ses.selectList(ns+".selectAlgBoard");
 	//	return null;
+	}
+
+	@Override
+	public List<AlgDetailDTO> selectAlgDetail(int boardNo) throws Exception {
+		// TODO Auto-generated method stub
+		return ses.selectList(ns+".selectAlgDetail",boardNo);
 	}
 
 }
