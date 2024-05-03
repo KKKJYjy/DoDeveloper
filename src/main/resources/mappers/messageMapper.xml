@@ -11,5 +11,5 @@
 
 	<select id="selectMessages" resultType="MessageVO">
 	</select>
-
+	
 </mapper>

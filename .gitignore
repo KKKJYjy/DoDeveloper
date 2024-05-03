@@ -156,4 +156,5 @@ src/test/*
 
 *.code-workspace
 
+.DS_Store
 # End of https://www.gitignore.io/api/git,java,maven,windows,eclipse
