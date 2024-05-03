@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+pageEncoding="UTF-8"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core"
+prefix="c"%>
 <!DOCTYPE html>
 <html lang="ko">
   <head>
@@ -13,7 +13,10 @@
 
     <!-- Favicons -->
     <link href="/resources/assets/img/favicon.png" rel="icon" />
-    <link href="/resources/assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
+    <link
+      href="/resources/assets/img/apple-touch-icon.png"
+      rel="apple-touch-icon"
+    />
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect" />
@@ -24,13 +27,22 @@
     />
 
     <!-- Vendor CSS Files -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
     <link
       href="/resources/assets/vendor/glightbox/css/glightbox.min.css"
       rel="stylesheet"
     />
-    <link href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" rel="stylesheet" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+      rel="stylesheet"
+    />
     <link href="/resources/assets/vendor/aos/aos.css" rel="stylesheet" />
 
     <!-- Template Main CSS File -->
@@ -43,22 +55,39 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   </head>
 
-  <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">    
-	<%@ include file="../header.jsp"%>
+  <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
+    <%@ include file="../header.jsp"%>
 
-	<main id="main">
+    <main id="main">
       <!-- Basic Section - Algorithm Page -->
       <section id="algorithm" class="basic">
         <div class="container">
-        	<h1>알고리즘</h1>
+          <h1>알고리즘</h1>
+          <h1>alg</h1>
+
+          <div class="container mt-3">
+            <h2>알고리즘 목록</h2>
+            <p>
+              The disabled class adds a lighter text color to the disabled item.
+              And if used on links, it will remove the default hover effect.
+            </p>
+            <div class="list-group">
+              <c:forEach var="alg" items="${algBoardList}">
+                <a href="#" class="list-group-item">${alg.title }</a>
+                <div>/////////////////////////////</div>
+              </c:forEach>
+            </div>
+          </div>
+
+          <div>${algBoardList}</div>
         </div>
       </section>
       <!-- End Basic Section -->
     </main>
-    
+
     <%@ include file="../footer.jsp"%>
 
     <!-- Scroll Top Button -->
