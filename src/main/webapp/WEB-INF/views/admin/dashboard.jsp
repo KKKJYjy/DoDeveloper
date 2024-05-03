@@ -14,7 +14,15 @@
 
 	<!-- 내용 추가 -->
 
-
+	<main id="dashboard">
+      <!-- Basic Section - Index Page -->
+      <section id="dashboard" class="basic">
+        <div class="container">
+        	<h1>홈</h1>
+        </div>
+      </section>
+      <!-- End Basic Section -->
+    </main>
 
 
 
