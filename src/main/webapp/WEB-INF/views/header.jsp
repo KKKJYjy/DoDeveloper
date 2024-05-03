@@ -36,7 +36,7 @@
 					<li><a href="/index">홈</a></li>
 					<li><a href="/study/listAll">스터디 모임</a></li>
 					<li><a href="/lecture/listAll">강의추천</a></li>
-					<li><a href="/worker/listAll">재직자리뷰</a></li>
+					<li><a href="/companyInfo/entire">기업리뷰</a></li>
 					<li><a href="/algorithm/listAll">알고리즘</a></li>
 					<li><a href="/message">쪽지함</a></li>
 					<li><a href="/member/login">로그인</a></li>
@@ -48,7 +48,7 @@
 			<div class="d-flex align-items-center">
 				<c:choose>
 					<c:when test="${sessionScope.loginMember != null}">
-						<li class="loginUser me-3"><a href="#"> <span>${sessionScope.loginMember.userName} 님!<span></a></li>
+						<li class="loginUser me-3"><a href="mypage/myProfile"> <span>${sessionScope.loginMember.userName} 님!<span></a></li>
 						<a class="btn-logout" href="/member/logout">로그아웃</a>
 					</c:when>
 					<c:otherwise>

@@ -15,4 +15,5 @@
 	<insert id="insertIntoMessage" useGeneratedKeys="true" keyProperty="messageNo" parameterType="MessageDTO">
 		insert into message(writer, title, content) values(#{writer}, #{title}, #{content});
 	</insert>
+
 </mapper>
