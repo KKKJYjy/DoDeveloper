@@ -78,9 +78,16 @@
 		base-package="com.dodeveloper.etc"></context:component-scan>
 	<context:component-scan
 		base-package="com.dodeveloper.message.dao"></context:component-scan>
+
+		
+	<!-- study 관련 패키지 -->
+	<context:component-scan base-package="com.dodeveloper.study.service"></context:component-scan>
+	<context:component-scan base-package="com.dodeveloper.study.dao"></context:component-scan>
+
 	<context:component-scan
 		base-package="com.dodeveloper.algorithm.service"></context:component-scan>
 	<context:component-scan
 		base-package="com.dodeveloper.algorithm.dao"></context:component-scan>
+
 
 </beans>
