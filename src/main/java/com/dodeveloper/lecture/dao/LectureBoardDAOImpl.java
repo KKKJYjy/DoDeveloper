@@ -8,11 +8,11 @@ import org.springframework.stereotype.Repository;
 
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
 
-@Repository // ¾Æ·¡ÀÇ Å¬·¡½º°¡ DAO °´Ã¼ÀÓÀ» ¸í½Ã
+@Repository // ì•„ë˜ì˜ í´ë˜ìŠ¤ê°€ DAO ê°ì²´ì„ì„ ëª…ì‹œ
 public class LectureBoardDAOImpl implements LectureBoardDAO {
 	
 	@Autowired
-	private SqlSession ses; // SqlSession °´Ã¼¸¦ ÁÖÀÔ
+	private SqlSession ses; // SqlSession ê°ì²´ ì£¼ì…
 	
 	private static String ns = "com.dodeveloper.mappers.lectureBoardMapper";
 	

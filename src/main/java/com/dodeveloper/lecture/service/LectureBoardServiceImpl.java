@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 import com.dodeveloper.lecture.dao.LectureBoardDAO;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
 
-@Service // ¾Æ·¡ÀÇ Å¬·¡½º°¡ ¼­ºñ½º °´Ã¼ÀÓÀ» ¸í½Ã
+@Service // ì•„ë˜ì˜ í´ë˜ìŠ¤ê°€ ì„œë¹„ìŠ¤ ê°ì²´ì„ì„ ëª…ì‹œí•˜ëŠ” ê²ƒ
 public class LectureBoardServiceImpl implements LectureBoardService {
 
 	@Autowired
-	private LectureBoardDAO lDao; // ½ºÇÁ¸µ ÄÁÅ×ÀÌ³Ê¿¡ ÀÖ´Â LectureDAO °´Ã¼¸¦ Ã£¾Æ ÁÖÀÔ
+	private LectureBoardDAO lDao; // ìŠ¤í”„ë§ ì»¨í…Œì´ë„ˆì— ìˆëŠ” LectureDAO ê°ì²´ë¥¼ ì°¾ì•„ ì£¼ì…
 
 	/**
 	 * @methodName : getListAllBoard
@@ -20,13 +20,13 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	 * @date : 2024.05.02
 	 * @param : 
 	 * @return : List<LectureBoardVO>
-	 * @description : °Ô½ÃÆÇ ÀüÃ¼ Á¶È¸¿¡ ´ëÇÑ ¼­ºñ½º ¸Ş¼­µå
+	 * @description : ê²Œì‹œíŒ ì „ì²´ ì¡°íšŒì— ëŒ€í•œ ì„œë¹„ìŠ¤ ë©”ì„œë“œ
 	 */
 	@Override
 	public List<LectureBoardVO> getListAllBoard() throws Exception {
-		System.out.println("¼­ºñ½º´Ü ÀüÃ¼ °Ô½Ã±Û È£Ãâ!");
+		System.out.println("ì„œë¹„ìŠ¤ë‹¨ : í˜ì´ì§€ ê¸€ ì¡°íšŒ!");
 		
-		// DAO´Ü È£Ãâ (selectListAllLecBoard()¸Ş¼­µå È£Ãâ)
+		// DAOë‹¨ í˜¸ì¶œ (selectListAllLecBoard()ë©”ì„œë“œ í˜¸ì¶œ)
 		List<LectureBoardVO> lecBoardList = lDao.selectListAllLecBoard();
 
 		return lecBoardList;

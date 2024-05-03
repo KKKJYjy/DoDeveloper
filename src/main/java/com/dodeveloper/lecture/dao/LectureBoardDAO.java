@@ -6,6 +6,6 @@ import com.dodeveloper.lecture.vodto.LectureBoardVO;
 
 public interface LectureBoardDAO {
 	
-	// °Ô½ÃÆÇÀÇ ±ÛÀ» Á¶È¸ÇÏ´Â ¸Ş¼­µå
+	// ê²Œì‹œíŒì˜ ê¸€ì„ ì¡°íšŒí•˜ëŠ” ë©”ì„œë“œ
 	List<LectureBoardVO> selectListAllLecBoard() throws Exception;
 }

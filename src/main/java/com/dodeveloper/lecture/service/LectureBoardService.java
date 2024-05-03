@@ -6,6 +6,6 @@ import com.dodeveloper.lecture.vodto.LectureBoardVO;
 
 public interface LectureBoardService {
 	
-	// °Ô½ÃÆÇÀÇ lecNo¹ø ÆäÀÌÁöÀÇ ±ÛÀ» Á¶È¸ÇÏ´Â ¸Ş¼­µå
+	// ê²Œì‹œíŒì˜ lecNoë²ˆ í˜ì´ì§€ì˜ ê¸€ì„ ì¡°íšŒí•˜ëŠ” ë©”ì„œë“œ
 	List<LectureBoardVO> getListAllBoard() throws Exception;
 }

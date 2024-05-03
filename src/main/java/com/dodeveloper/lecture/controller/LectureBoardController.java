@@ -13,32 +13,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.dodeveloper.lecture.service.LectureBoardService;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
 
-@Controller // ¾Æ·¡ÀÇ Å¬·¡½º°¡ ÄÁÆ®·Ñ·¯ °´Ã¼ÀÓÀ» ¸í½Ã
-@RequestMapping("/lecture") // "/lecture"°¡ GET¹æ½ÄÀ¸·Î ¿äÃ»µÉ ¶§ ¾Æ·¡ÀÇ Å¬·¡½º°¡ µ¿ÀÛµÇµµ·Ï ¼³Á¤ÇÔ
+@Controller // ì•„ë˜ì˜ í´ë˜ìŠ¤ê°€ ì»¨íŠ¸ë¡¤ëŸ¬ ê°ì²´ì„ì„ ëª…ì‹œ
+@RequestMapping("/lecture") // "/lecture"ê°€ GETë°©ì‹ìœ¼ë¡œ ìš”ì²­ë  ë•Œ ì•„ë˜ì˜ í´ë˜ìŠ¤ê°€ ë™ì‘ë˜ë„ë¡ ì„¤ì •
 public class LectureBoardController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(LectureBoardController.class);
 	
 	@Autowired
-	private LectureBoardService lService; // ½ºÇÁ¸µ ÄÁÅ×ÀÌ³Ê¿¡¼­ LectureService °´Ã¼¸¦ Ã£¾Æ ÁÖÀÔ
+	private LectureBoardService lService; // ìŠ¤í”„ë§ ì»¨í…Œì´ë„ˆì—ì„œ LectureService ê°ì²´ë¥¼ ì°¾ì•„ ì£¼ì…
 	
 	/**
 	 * @methodName : listAllGet
 	 * @author : kde
 	 * @date : 2024.05.02
-	 * @param : Model model : ÀüÃ¼ °Ô½Ã±ÛÀ» ¹ÙÀÎµù ÇÑ ÈÄ °Ô½ÃÆÇ ÀüÃ¼ ÆäÀÌÁö·Î ÀÌµ¿½ÃÅ°´Â °´Ã¼
+	 * @param : Model model : Viewë‹¨(listAll)ìœ¼ë¡œ ë°”ì¸ë”©í•˜ëŠ” ì „ìš© ê°ì²´
 	 * @return : void
 	 * @throws Exception 
-	 * @description : °­ÀÇ ÃßÃµ °Ô½ÃÆÇ ÀüÃ¼ ±Û Á¶È¸¸¦ ´ã´çÇÏ´Â controller ¸Ş¼­µå
+	 * @description : ê°•ì˜ ì¶”ì²œ ê²Œì‹œíŒ ì „ì²´ ê¸€ ì¡°íšŒë¥¼ ë‹´ë‹¹í•˜ëŠ” controller ë©”ì„œë“œ
 	 */
 	@GetMapping(value = "/listAll")
 	public void listAllBoardGet(Model model) throws Exception {
-		logger.info("°­ÀÇ ÃßÃµ °Ô½ÃÆÇ ÀüÃ¼ °Ô½Ã±Û Á¶È¸ : listAll View");
+		logger.info("ê°•ì˜ ì¶”ì²œ ê²Œì‹œíŒ ì „ì²´ ê²Œì‹œê¸€ ì¡°íšŒ : listAll View");
 		
-		// ¼­ºñ½º´Ü È£Ãâ (getListAllBoard() ¸Ş¼­µå È£Ãâ)
+		// ì„œë¹„ìŠ¤ë‹¨ í˜¸ì¶œ (getListAllBoard() ë©”ì„œë“œ í˜¸ì¶œ)
 		List<LectureBoardVO> lectureBoardList = lService.getListAllBoard();
 		
-		// ¹ÙÀÎµù
+		// ë°”ì¸ë”©
 		model.addAttribute("lectureBoardList", lectureBoardList);
 	}
 }
