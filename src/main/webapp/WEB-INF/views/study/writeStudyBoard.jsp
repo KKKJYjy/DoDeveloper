@@ -27,7 +27,9 @@
 	rel="stylesheet" />
 
 <!-- include summernote css/js -->
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<link
+	href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css"
+	rel="stylesheet">
 
 <!-- Favicons -->
 <link href="/resources/assets/img/favicon.png" rel="icon" />
@@ -74,15 +76,22 @@
 			placeholder : '언어 선택 (최대 3개)'
 		});
 
-		$('#summernote').summernote({
+		$('.summernote').summernote({
 			placeholder : '스터디 목표와 모임 주기, 스터디 방식 등 자유롭게 스터디에 대해 소개해주세요.',
 			tabsize : 3,
 			height : 300,
-			
+
 		});
-		
-		// 지도 검색한 값
-		let searchMap = 
+
+		//지도 검색 버튼을 클릭했을 때
+		$("#searchMapBtn").click(function() {
+			// 지도 검색한 값 가져오기
+			let searchMap = $("#searchMap").val();
+			console.log(searchMap);
+
+			// 검색한 값 키워드로 장소를 검색
+			ps.keywordSearch(searchMap, placesSearchCB);
+		})
 
 		// 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
 		infowindow = new kakao.maps.InfoWindow({
@@ -102,13 +111,11 @@
 		// 장소 검색 객체를 생성합니다
 		var ps = new kakao.maps.services.Places();
 
-		// 키워드로 장소를 검색합니다
-		ps.keywordSearch('화곡역 투썸', placesSearchCB);
-
 	});
 
 	// 키워드 검색 완료 시 호출되는 콜백함수 입니다
 	function placesSearchCB(data, status, pagination) {
+
 		if (status === kakao.maps.services.Status.OK) {
 
 			// 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
@@ -125,6 +132,10 @@
 		}
 	}
 
+	let mapX = '';
+	let mapY = '';
+	let mapName = '';
+
 	// 지도에 마커를 표시하는 함수입니다
 	function displayMarker(place) {
 
@@ -140,6 +151,59 @@
 			infowindow.setContent('<div style="padding:5px;font-size:12px;">'
 					+ place.place_name + '</div>');
 			infowindow.open(map, marker);
+
+			// 지도 검색바에 선택한 장소명 출력
+			$("#searchMap").val(place.place_name);
+
+			mapY = place.y;
+			mapX = place.x;
+			mapName = place.place_name;
+
+			console.log(mapX, mapY, mapName);
+		});
+	}
+
+	function getNewStudy() {
+		let result = false;
+		/* let stuWriter = '${loginMember.userId }';
+		let stuTitle = $("#stuTitle").val();
+		let stuContent = $("#stuContent").val();
+		let stuLoc = mapName;
+		let stuX = mapX;
+		let stuY = mapY;
+		let stuDate = $("#stuDate").val();
+		let stuPers = $("#stuPers").val();
+		let endDate = $("#endDate").val();
+		let contactLink = $("#contactLink").val(); */
+		
+		let newStudyDTO = {
+			"stuWriter" :  '${loginMember.userId }',
+			"stuTitle" : $("#stuTitle").val(),
+			"stuContent" : $("#stuContent").val(),
+			"stuLoc" : mapName,
+			"stuX" : mapY,
+			"stuY" : mapX,
+			"stuDate" : $("#stuDate").val(),
+			"stuPers" : $("#stuPers").val(),
+			"endDate" : $("#endDate").val(),
+			"contactLink" : $("#contactLink").val()
+		};
+		
+		console.log(newStudyDTO);
+
+		$.ajax({
+			url : '/study/insertStudy',
+			type : 'post',
+			data : JSON.stringify(newStudyDTO), //보내는 데이터
+			dataType : 'text',
+			async : 'false', //받아올 데이터가 있어야 파싱 가능.
+			headers : { //서버에 보내지는 데이터의 형식
+				"content-type" : "application/json"	
+			},
+			success : function(data) {
+				console.log(data);
+				
+			}
 		});
 	}
 </script>
@@ -150,15 +214,15 @@
 	--background-color: #212529; 
 	--background-color-rgb: 0, 0, 0;
 	padding: 150px 0;
-	
 }
 
-.note-editable { 
+.note-editable {
 	background-color: white;
 	color: black;
 }
+
 .note-toolbar {
-	background-color: #f8f9fa;	
+	background-color: #f8f9fa;
 }
 </style>
 </head>
@@ -169,96 +233,116 @@
 	<main id="main">
 		<!-- Basic Section - Study Page -->
 		<section id="study" class="studyBasic">
-		<div class="container" style="width:80%">
-			<div class="container">
-				<h3 class="center text-center text-light">
-					<b>🔥 개발 스터디 만들기</b>
-				</h3>
-			</div>
+			<div class="container" style="width: 80%">
+				<div class="container">
+					<h3 class="center text-center text-light">
+						<b>🔥 개발 스터디 만들기</b>
+					</h3>
+				</div>
 
-			<div class="container pt-5">
-				<form>
-					<div class="row mb-4">
-						<div class="col-md-6 ">
-							<div class="mb-2 text-light">
-								<b>모집 인원</b>
-							</div>
-							<select id="stuPers" class="form-select">
-								<option value="-1">인원 미정 ~ 10명 이상</option>
-								<option value="인원 미정">인원 미정</option>
-								<option value="1명">1명</option>
-								<option value="2명">2명</option>
-								<option value="3명">3명</option>
-								<option value="4명">4명</option>
-								<option value="5명">5명</option>
-								<option value="6명">6명</option>
-								<option value="7명">7명</option>
-								<option value="8명">8명</option>
-								<option value="9명">9명</option>
-								<option value="10명">10명</option>
-							</select>
-						</div>
-						<div class="col-md-6">
-							<div class="mb-2 text-light">
-								<b>모집 마감일</b>
-							</div>
-							<input type="date" class="form-control" id="endDate" name="endDate" />
-						</div>
-					</div>
+				<div class="container pt-5">
 
-					<div class="row mb-4">
-						<div class="col-md-6">
-							<div class="mb-2 text-light">
-								<b>연락 방법</b>
-							</div>
-							<input id="contactLink" name="contactLink" type="text" class="form-control" placeholder="오픈톡 링크" />
-						</div>
-						<div class="col-md-6">
-							<div class="mb-2 text-light">
-								<b>진행 기간</b>
-							</div>
-							<select id="stuDate" class="form-select">
-								<option value="-1">기간 미정 ~ 6개월 이상</option>
-								<option value="기간 미정">기간 미정</option>
-								<option value="1개월">1개월</option>
-								<option value="2개월">2개월</option>
-								<option value="3개월">3개월</option>
-								<option value="4개월">4개월</option>
-								<option value="5개월">5개월</option>
-								<option value="6개월">6개월</option>
-							</select>
-						</div>
-					</div>
 
+				<form action="/study/insertStack" method="post">
+					<!-- 스터디 언어 선택 -->
 					<div class="row mb-4">
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div class="mb-2 text-light">
 								<b>스터디 언어</b>
 							</div>
 							<select class="studyLang form-control" multiple="multiple"
-								style="width: 100%">
+								style="width: 100%" id="stackName" name="stackName">
 								<!-- ajax로 stack테이블에 있는 애들 대려오기 -->
-								<option>React</option>
-								<option>javascript</option>
-								<option>Vue</option>
-								<option>Nextjs</option>
-								<option>Java</option>
-								<option>Spring</option>
-								<option>Kotlin</option>
-								<option>Swift</option>
-								<option>Flutter</option>
+								<option value="1">React</option>
+								<option value="2">javascript</option>
+								<option value="3">Vue</option>
+								<option value="4">Nextjs</option>
+								<option value="5">Java</option>
+								<option value="6">Spring</option>
+								<option value="7">Kotlin</option>
+								<option value="8">Swift</option>
+								<option value="9">Flutter</option>
 							</select>
 						</div>
-						<div class="offset-md-6"></div>
 					</div>
+					
+					
+					
+					<input type="text" class="form-control" id="stuWriter" 
+					value="${loginMember.userId }" hidden="true" />
+					
+					
+						<div class="row mb-4">
 
-					<div class="mb-2 text-light">
-						<b>모집글 제목</b>
-					</div>
-					<input id="stuTitle" name="stuTitle" type="text" class="form-control mb-4" placeholder="제목 입력" />
-					<textarea id="summernote" class="note-editable" name="editordata" style="background-color: white"></textarea>
+							<!-- 모집인원 -->
+							<div class="col-md-6 ">
+								<div class="mb-2 text-light">
+									<b>모집 인원</b>
+								</div>
+								<select id="stuPers" class="form-select">
+									<option value="-1">인원 미정 ~ 10명 이상</option>
+									<option value="인원 미정">인원 미정</option>
+									<option value="1명">1명</option>
+									<option value="2명">2명</option>
+									<option value="3명">3명</option>
+									<option value="4명">4명</option>
+									<option value="5명">5명</option>
+									<option value="6명">6명</option>
+									<option value="7명">7명</option>
+									<option value="8명">8명</option>
+									<option value="9명">9명</option>
+									<option value="10명">10명</option>
+								</select>
+							</div>
+
+							<!-- 마감일 -->
+							<div class="col-md-6">
+								<div class="mb-2 text-light">
+									<b>모집 마감일</b>
+								</div>
+								<input type="date" class="form-control" id="endDate" />
+							</div>
+						</div>
+
+						<div class="row mb-4">
+
+							<!-- 연락 방법 -->
+							<div class="col-md-6">
+								<div class="mb-2 text-light">
+									<b>연락 방법</b>
+								</div>
+								<input id="contactLink" type="text" class="form-control" placeholder="오픈톡 링크" />
+							</div>
+
+							<!-- 진행 기간 -->
+							<div class="col-md-6">
+								<div class="mb-2 text-light">
+									<b>진행 기간</b>
+								</div>
+								<select id="stuDate" class="form-select">
+									<option value="-1">기간 미정 ~ 6개월 이상</option>
+									<option value="기간 미정">기간 미정</option>
+									<option value="1개월">1개월</option>
+									<option value="2개월">2개월</option>
+									<option value="3개월">3개월</option>
+									<option value="4개월">4개월</option>
+									<option value="5개월">5개월</option>
+									<option value="6개월">6개월</option>
+								</select>
+							</div>
+						</div>
 
 
+						<!-- 제목 -->
+						<div class="mb-2 text-light">
+							<b>모집글 제목</b>
+						</div>
+						<input id="stuTitle" type="text" class="form-control mb-4" placeholder="제목 입력" />
+
+						<!-- 내용 -->
+						<textarea id="stuContent" class="note-editable summernote" style="background-color: white"></textarea>
+
+					<!-- 카카오 지도 입력 부분 -->
 					<div class="row mt-4">
 						<div class="mb-2 text-light">
 							<b>스터디 예정 장소</b>
@@ -268,13 +352,15 @@
 								placeholder="스터디 예정 장소 입력" />
 						</div>
 						<div class="col-md-2">
-							<input type="button" class="btn btn-secondary" value="검색"
-								style="width: 100%" />
+							<input id="searchMapBtn" type="button" class="btn btn-secondary"
+								value="검색" style="width: 100%" />
 						</div>
 					</div>
 
+					<!-- 카카오 지도 출력 부분 -->
 					<div id="map" style="width: 100%; height: 500px;"></div>
 
+					<!-- 취소 글쓰기 버튼 -->
 					<div class="row mt-4">
 						<div class="col-md-6">
 							<input type="reset" class="btn btn-outline-secondary" value="취소"
@@ -282,11 +368,12 @@
 						</div>
 						<div class="col-md-6">
 							<input type="submit" class="btn btn-secondary" value="글쓰기"
-								style="width: 100%" />
+								style="width: 100%" onclick="return getNewStudy();" />
 						</div>
 					</div>
-				</form>
-			</div>
+					</form>
+
+				</div>
 			</div>
 		</section>
 		<!-- End Basic Section -->

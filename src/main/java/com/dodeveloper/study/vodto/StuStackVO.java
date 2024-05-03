@@ -1,6 +1,5 @@
 package com.dodeveloper.study.vodto;
 
-import java.sql.Timestamp;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -18,5 +17,4 @@ public class StuStackVO {
 	private int stuStackNo;
 	private int stuBoardNo;
 	private int chooseStack;
-	private String stackName;
 }

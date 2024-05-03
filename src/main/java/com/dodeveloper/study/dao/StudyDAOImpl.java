@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.dodeveloper.study.vodto.StuStackVO;
 import com.dodeveloper.study.vodto.StudyBoardVO;
+import com.dodeveloper.study.vodto.StuStackDTO;
 
 @Repository
 public class StudyDAOImpl implements StudyDAO {
@@ -23,7 +24,7 @@ public class StudyDAOImpl implements StudyDAO {
 	}
 
 	@Override
-	public List<StuStackVO> selectAllStudyStack(int stuBoardNo) {
+	public List<StuStackDTO> selectAllStudyStack(int stuBoardNo) {
 		return ses.selectList(ns + ".selectAllstudyStack", stuBoardNo);
 	}
 

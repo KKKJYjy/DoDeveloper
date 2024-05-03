@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.dodeveloper.study.dao.StudyDAO;
 import com.dodeveloper.study.vodto.StuStackVO;
 import com.dodeveloper.study.vodto.StudyBoardVO;
+import com.dodeveloper.study.vodto.StuStackDTO;
 
 @Service
 public class StudyServiceImpl implements StudyService {
@@ -21,7 +22,7 @@ public class StudyServiceImpl implements StudyService {
 	}
 
 	@Override
-	public List<StuStackVO> selectAllStudyStack(int stuNo) throws Exception {
+	public List<StuStackDTO> selectAllStudyStack(int stuNo) throws Exception {
 		System.out.println("서비스단" + sDao.selectAllStudyStack(stuNo).toString());
 		return sDao.selectAllStudyStack(stuNo);
 	}

@@ -10,7 +10,7 @@
 	</select>
 
 	<select id="selectAllstudyStack"
-		resultType="com.dodeveloper.study.vodto.StuStackVO">
+		resultType="com.dodeveloper.study.vodto.StuStackDTO">
 		select * from stack s
 		inner join stuStack t
 		on s.stackNo = t.chooseStack
