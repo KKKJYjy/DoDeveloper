@@ -8,4 +8,7 @@
 		select * from messageBox where receiver = #{receiver} order by messageBoxNo desc limit #{startPoint}, #{amountToShow};
 	</select>
 
+	<insert id="insertIntoMessageBox" parameterType="MessageBoxDTO">
+		insert into messageBox(messageNo, receiver) values(#{messageNo} , #{receiver});
+	</insert>
 </mapper>
