@@ -29,6 +29,8 @@ public class StudyContoller {
 
 	@Autowired
 	StudyService stuService;
+	
+	
 
 	// 스터디 모든 목록을 불러오는 메서드
 	@GetMapping(value = "/listAll")
@@ -73,11 +75,16 @@ public class StudyContoller {
 	}
 
 	// 스터디 작성 버튼을 누르면 stuStack 테이블에 인서트
+	//@RequestBody List<StuStackVO> newStack
 	@RequestMapping(value = "/insertStack", method = RequestMethod.POST)
-	public void insertStack(@RequestParam StuStackDTO newStack) {
+	public ResponseEntity<String> insertStack(@RequestBody List<StuStackVO> newStack) {
 
-		logger.info("insertStack: 새로 추가할 스터디 스택" + newStack.toString());
+		ResponseEntity<String> result = null;
+		//stuNo값을 가져오자....어떻게
+		
+		logger.info("insertStack: 새로 추가할 스터디 스택가져오자" + newStack.toString());
 
+		return result;
 	}
 
 }

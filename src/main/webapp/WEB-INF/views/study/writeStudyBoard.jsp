@@ -243,32 +243,35 @@
 				<div class="container pt-5">
 
 
-				<form action="/study/insertStack" method="post">
-					<!-- 스터디 언어 선택 -->
-					<div class="row mb-4">
-						<div class="col-md-12">
-							<div class="mb-2 text-light">
-								<b>스터디 언어</b>
+					<form action="/study/insertStack" method="post">
+						<!-- 스터디 언어 선택 -->
+						<div class="row mb-4">
+							<div class="col-md-12">
+								<div class="mb-2 text-light">
+									<b>스터디 언어</b>
+								</div>
+								<select class="studyLang form-control" multiple="multiple"
+									style="width: 100%" id="chooseStack" name="chooseStack[]">
+									<!-- ajax로 stack테이블에 있는 애들 대려오기 -->
+									<option value="1">React</option>
+									<option value="2">javascript</option>
+									<option value="3">Vue</option>
+									<option value="4">Nextjs</option>
+									<option value="5">Java</option>
+									<option value="6">Spring</option>
+									<option value="7">Kotlin</option>
+									<option value="8">Swift</option>
+									<option value="9">Flutter</option>
+								</select>
 							</div>
-							<select class="studyLang form-control" multiple="multiple"
-								style="width: 100%" id="stackName" name="stackName">
-								<!-- ajax로 stack테이블에 있는 애들 대려오기 -->
-								<option value="1">React</option>
-								<option value="2">javascript</option>
-								<option value="3">Vue</option>
-								<option value="4">Nextjs</option>
-								<option value="5">Java</option>
-								<option value="6">Spring</option>
-								<option value="7">Kotlin</option>
-								<option value="8">Swift</option>
-								<option value="9">Flutter</option>
-							</select>
 						</div>
-					</div>
 					
 					
 					
 					<input type="text" class="form-control" id="stuWriter" 
+					value="${loginMember.userId }" hidden="true" />
+					
+					<input type="text" class="form-control" id="stuNo" name="stuNo" 
 					value="${loginMember.userId }" hidden="true" />
 					
 					
