@@ -13,6 +13,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class MessageDTO {
+	private int messageNo;
 	private String writer;
 	private String title;
 	private String content;
