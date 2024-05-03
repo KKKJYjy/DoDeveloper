@@ -29,7 +29,7 @@ private static final Logger logger = LoggerFactory.getLogger(AdminController.cla
 	public void inquiry() {
 		logger.info("inquiry 페이지 호출");
 	
-		
+	
 	}
 	
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
