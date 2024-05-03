@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.dodeveloper.message.vodto.MessageBoxDTO;
 import com.dodeveloper.message.vodto.MessageBoxVO;
 
 @Repository
@@ -26,6 +27,11 @@ public class MessageBoxDAOImpl implements MessageBoxDAO{
 		map.put("amountToShow", Integer.valueOf(amountToShow));
 		
 		return template.selectList(namespace + ".selectMessageBoxByReceiver", map);
+	}
+
+	@Override
+	public boolean insert(MessageBoxDTO messageBoxDTO) throws Exception {
+		return template.insert(namespace + ".insertIntoMessageBox", messageBoxDTO) == 1;
 	}
 
 }
