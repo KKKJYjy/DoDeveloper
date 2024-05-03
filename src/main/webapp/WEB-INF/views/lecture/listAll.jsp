@@ -131,8 +131,9 @@ select option:hover {
 								</thead>
 								<tbody>
 									<c:forEach var="lectureBoard" items="${lectureBoardList }">
+									<!-- /lecture/viewBoard?lecNo가 /lecture/viewBoard 경로 -->
 										<tr
-											onclick="location.href='/lecture/view?lecNo=${lectureBoard.lecNo }';">
+											onclick="location.href='/lecture/viewBoard?lecNo=${lectureBoard.lecNo }';">
 											<td>${lectureBoard.lecNo }</td>
 											<td>${lectureBoard.lecTitle }</td>
 											<td>${lectureBoard.lecWriter }</td>
