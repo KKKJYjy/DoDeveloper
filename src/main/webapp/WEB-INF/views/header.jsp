@@ -36,7 +36,7 @@
 					<li><a href="/index">홈</a></li>
 					<li><a href="/study/listAll">스터디 모임</a></li>
 					<li><a href="/lecture/listAll">강의추천</a></li>
-					<li><a href="/worker/listAll">재직자리뷰</a></li>
+					<li><a href="/companyInfo/entire">기업리뷰</a></li>
 					<li><a href="/algorithm/listAll">알고리즘</a></li>
 					<li><a href="/message">쪽지함</a></li>
 					<li><a href="/member/login">로그인</a></li>
