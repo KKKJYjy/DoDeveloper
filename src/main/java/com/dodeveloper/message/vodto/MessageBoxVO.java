@@ -8,13 +8,14 @@ import lombok.Setter;
 import lombok.ToString;
 
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
 @ToString
-public class MessageDTO {
+public class MessageBoxVO {
+	private int messageBoxNo;
 	private int messageNo;
-	private String writer;
-	private String title;
-	private String content;
+	private String receiver;
+	private String isRead;
+	private String isDeleted;
 }
