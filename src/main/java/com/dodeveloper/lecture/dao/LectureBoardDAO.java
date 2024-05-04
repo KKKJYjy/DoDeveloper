@@ -2,6 +2,7 @@ package com.dodeveloper.lecture.dao;
 
 import java.util.List;
 
+import com.dodeveloper.lecture.vodto.LectureBoardDTO;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
 
 public interface LectureBoardDAO {
@@ -20,5 +21,9 @@ public interface LectureBoardDAO {
 	
 	// ?번 글의 조회수를 증가하는 메서드
 	int updateReadCount(int lecNo) throws Exception;
+	
+	// 게시판에 새로운 글을 insert하는 메서드
+	int insertNewLectureBoard(LectureBoardDTO newLecBoard) throws Exception;
+	
 	
 }
