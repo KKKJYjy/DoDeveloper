@@ -51,8 +51,8 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <style>
 select option:hover {
-    background-color: #444; /* 마우스 호버 시 배경 색상을 짙은 회색(#444)으로 변경 */
-    color: #333; /* 마우스 호버 시 텍스트 색상을 짙은 회색(#333)으로 변경 */
+	background-color: #444; /* 마우스 호버 시 배경 색상을 짙은 회색(#444)으로 변경 */
+	color: #333; /* 마우스 호버 시 텍스트 색상을 짙은 회색(#333)으로 변경 */
 }
 </style>
 
@@ -109,8 +109,9 @@ select option:hover {
 							<li><a class="dropdown-item" href="#">추천순</a></li>
 							<li><a class="dropdown-item" href="#">조회순</a></li>
 						</ul>
+
 						<button type="button" class="btn btn-dark writeren"
-							onclick="location.href='';">글 작성</button>
+							onclick="location.href='/lecture/writeBoard';">글 작성</button>
 					</div>
 
 
@@ -131,7 +132,7 @@ select option:hover {
 								</thead>
 								<tbody>
 									<c:forEach var="lectureBoard" items="${lectureBoardList }">
-									<!-- /lecture/viewBoard?lecNo가 /lecture/viewBoard 경로 -->
+										<!-- /lecture/viewBoard?lecNo가 /lecture/viewBoard 경로 -->
 										<tr
 											onclick="location.href='/lecture/viewBoard?lecNo=${lectureBoard.lecNo }';">
 											<td>${lectureBoard.lecNo }</td>
