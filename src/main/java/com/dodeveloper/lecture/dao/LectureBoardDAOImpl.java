@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.dodeveloper.lecture.vodto.LectureBoardDTO;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
 
 @Repository // 아래의 클래스가 DAO 객체임을 명시
@@ -96,6 +97,29 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	public int updateReadCount(int lecNo) throws Exception {
 		
 		return ses.update(ns + ".updateReadCount", lecNo);
+	}
+
+	/**
+	 * @methodName : insertNewLectureBoard
+	 * @author : kde
+	 * @date : 2024.05.04
+	 * @param : LectureBoardDTO newLecBoard - 유저가 작성한 글을 insert
+	 * @return : 
+	 * @description : 
+	 */
+	@Override
+	public int insertNewLectureBoard(LectureBoardDTO newLecBoard) throws Exception {
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("lecTitle", newLecBoard.getLecTitle());
+		params.put("lecReview", newLecBoard.getLecReview());
+		params.put("lecWriter", newLecBoard.getLecWriter());
+		params.put("lecScore", newLecBoard.getLecScore());
+		params.put("lecLink", newLecBoard.getLecLink());
+		
+		System.out.println("새로 저장될 글 : " + newLecBoard.getLecNo());
+		
+		return ses.insert(ns + ".insertLectureBoard", params);
 	}
 
 }
