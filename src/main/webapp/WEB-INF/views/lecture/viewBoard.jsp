@@ -126,9 +126,9 @@
 					<!-- 글 수정 & 글 삭제 로그인 한 유저만 가능 -->
 					<div class="btns">
 						<button type="button" class="btn"
-							onclick="location.href='/board/modify?boardNo=${lecBoard.lecNo}';">글수정</button>
+							onclick="location.href='/lecture/modifyBoard?lecNo=${lecBoard.lecNo}';">글수정</button>
 						<button type="button" class="btn"
-							onclick="location.href='/board/remove?boardNo=${lecBoard.lecNo}';">글삭제</button>
+							onclick="location.href='/lecture/remove?lecNo=${lecBoard.lecNo}';">글삭제</button>
 						<div class="btn-group">
 							<button type="button" class="btn"
 								onclick="location.href='/lecture/listAll';">목록으로</button>
