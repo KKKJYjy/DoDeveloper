@@ -394,7 +394,7 @@
 						<div class="row mt-4">
 							<div class="col-md-6">
 								<input type="reset" class="btn btn-outline-secondary" value="취소"
-									style="width: 100%" />
+									style="width: 100%" onclick="location.href='/study/listAll';" />
 							</div>
 							<div class="col-md-6">
 								<input type="submit" class="btn btn-secondary" value="글쓰기"
