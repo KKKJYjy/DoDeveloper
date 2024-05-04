@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dodeveloper.lecture.dao.LectureBoardDAO;
+import com.dodeveloper.lecture.vodto.LectureBoardDTO;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
 
 @Service // 아래의 클래스가 서비스 객체임을 명시하는 것
@@ -84,6 +85,27 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 		Map<String, Object> result = new HashMap<String, Object>();
 		
 		result.put("lecBoard", lecBoard);
+		
+		return result;
+	}
+
+	/**
+	 * @methodName : writeBoardService
+	 * @author : kde
+	 * @date : 2024.05.04
+	 * @param : LectureBoardDTO newLecBoard - 저장될 게시글
+	 * @return : boolean
+	 * @description : newLecBoard가 DB에 저장 (insert)
+	 */
+	@Override
+	public boolean writeBoardService(LectureBoardDTO newLecBoard) throws Exception {
+		
+		boolean result = false;
+		
+		// dao단 호출
+		if (lDao.insertNewLectureBoard(newLecBoard) == 1) {
+			result = true;
+		}
 		
 		return result;
 	}

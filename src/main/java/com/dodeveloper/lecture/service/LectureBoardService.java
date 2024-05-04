@@ -3,6 +3,7 @@ package com.dodeveloper.lecture.service;
 import java.util.List;
 import java.util.Map;
 
+import com.dodeveloper.lecture.vodto.LectureBoardDTO;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
 
 public interface LectureBoardService {
@@ -15,5 +16,10 @@ public interface LectureBoardService {
 	
 	// 게시물을 얻어오는 메서드(글 수정시 글을 가져온다.)
 	Map<String, Object> getBoardByBoardNo(int lecNo) throws Exception;
+	
+	// 
+	
+	// 게시글을 저장하는 메서드
+	boolean writeBoardService(LectureBoardDTO newLecBoard) throws Exception;
 	
 }
