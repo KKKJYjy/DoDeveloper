@@ -157,7 +157,7 @@
 						<!-- 모임글 추가하기 -->
 						<div class="col">
 							<div class="card">
-								<div class="card-body p-4 text-center" style="height: 276px;">
+								<div class="card-body p-4 text-center" style="height: 251px;">
 									<h5 style="line-height: 212px; cursor: pointer;"
 										onclick="location.href='/study/writeStudyBoard';">
 										<b>나도 스터디 만들기</b>
@@ -170,9 +170,9 @@
 						<c:forEach var="study" items="${studyList }">
 
 							<!-- 모임글 1개 -->
-							<div class="col" style="cursor: pointer; height: 276px;">
+							<div class="col mb-4" style="cursor: pointer;">
 								<div class="card">
-									<div class="card-body p-4">
+									<div class="card-body p-4" style="width:100%;height: 251px;">
 										<div class="">
 											<p class="card-subtitle mb-2 text-body-secondary">📍${study.stuLoc }</p>
 										</div>
