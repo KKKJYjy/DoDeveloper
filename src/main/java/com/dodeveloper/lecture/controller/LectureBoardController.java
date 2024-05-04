@@ -84,8 +84,10 @@ public class LectureBoardController {
 	 * @description : 유저가 게시글 작성 버튼을 눌렀을 때 게시글 작성 페이지로 가는 메서드
 	 */
 	@RequestMapping("/writeBoard")
-	public void writeBoard() {
+	public String writeBoard() {
 		logger.info("controller : 글을 작성하러 갈게요!");
+		
+		return "/lecture/writeBoard";
 	}
 	
 	/**
