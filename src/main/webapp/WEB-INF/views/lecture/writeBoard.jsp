@@ -87,12 +87,12 @@
 					<!-- 단, 유저가 select박스 중 다른 것을 눌렀을 경우 input박스는 사라져야 한다. -->
 					<!-- 링크를 올렸을 때 바로 북마크가 생기도록 -->
 					<div class="lecBoard">
-						<form action="/board/writePOST" method="post">
+						<form action="/lecture/writePOST" method="post">
 							<div class="mb-3 mt-3">
 								<label for="lecWriter" class="form-label"></label> <input
 									type="text" class="form-control" id="lecWriter"
 									name="lecWriter" value="${sessionScope.loginMember.userId}" />
-									님께서 시청하신 강의 중 좋았던 강의 링크를 공유해주시고 후기를 남겨주세요.
+								님께서 시청하신 강의 중 좋았던 강의 링크를 공유해주시고 후기를 남겨주세요.
 							</div>
 
 							<div class="mb-3 mt-3">
@@ -127,19 +127,22 @@
 									placeholder="☆☆☆☆☆" />
 							</div>
 
+							<!-- 글 수정 & 글 삭제 로그인 한 유저만 가능 -->
+							<div class="btns">
+								<input type="submit" class="btn btn-success" value="글 저장" /> <input
+									type="button" class="btn btn-danger" value="취소"
+									onclick="resetWriteBoard();" />
+								<div class="btn-group">
+									<button type="button" class="btn"
+										onclick="location.href='/lecture/listAll';">목록으로</button>
+								</div>
+							</div>
+
+
 						</form>
 					</div>
 
-					<!-- 글 수정 & 글 삭제 로그인 한 유저만 가능 -->
-					<div class="btns">
-						<input type="submit" class="btn btn-success" value="글 저장" /> <input
-							type="button" class="btn btn-danger" value="취소"
-							onclick="resetWriteBoard();" />
-						<div class="btn-group">
-							<button type="button" class="btn"
-								onclick="location.href='/lecture/listAll';">목록으로</button>
-						</div>
-					</div>
+
 
 
 
