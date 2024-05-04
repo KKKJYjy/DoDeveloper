@@ -40,4 +40,15 @@
 		1 where lecNo = #{lecNo} and bType = 1;
 	</update>
 
+	<!-- 유저가 작성한 글을 insert하는 쿼리문 -->
+	<insert id="insertLectureBoard" useGeneratedKeys="true"
+		keyProperty="lecNo" parameterType="LectureBoardDTO">
+		insert into lectureBoard(bType,
+		lecTitle, lecReview, lecWriter,
+		lecScore, lecLink)
+		values('1',
+		#{lecTitle}, #{lecReview}, #{lecWriter}, #{lecScore},
+		#{lecLink})
+	</insert>
+
 </mapper>
