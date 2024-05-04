@@ -65,4 +65,27 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 		return result;
 	}
 
+	/**
+	 * @methodName : getBoardByBoardNo
+	 * @author : kde
+	 * @date : 2024.05.04
+	 * @param : int lecNo - 얻어오려는 글 번호
+	 * @return : Map<String, Object>
+	 * @description : 게시글 수정을 위해 게시글 번호와 같은 게시글을 반환하는 메서드
+	 */
+	@Override
+	public Map<String, Object> getBoardByBoardNo(int lecNo) throws Exception {
+		
+		// DAO단에서 조회된 글 가져오기
+		LectureBoardVO lecBoard = lDao.selectBoardLecNo(lecNo);
+		
+		System.out.println("조회된 글 : " + lecBoard.toString());
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		result.put("lecBoard", lecBoard);
+		
+		return result;
+	}
+
 }
