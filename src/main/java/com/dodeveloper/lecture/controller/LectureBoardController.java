@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.dodeveloper.lecture.service.LectureBoardService;
+import com.dodeveloper.lecture.vodto.LectureBoardDTO;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
 
 @Controller // 아래의 클래스가 컨트롤러 객체임을 명시
@@ -73,6 +74,18 @@ public class LectureBoardController {
 		mav.setViewName("/lecture/viewBoard");
 
 		return mav;
+	}
+	
+	/**
+	 * @methodName : writeBoard
+	 * @author : 
+	 * @date : 2024.05.04
+	 * @return : void
+	 * @description : 유저가 게시글 작성 버튼을 눌렀을 때 게시글 작성 페이지로 가는 메서드
+	 */
+	@RequestMapping("/writeBoard")
+	public void writeBoard() {
+		logger.info("controller : 글을 작성하러 갈게요!");
 	}
 
 }
