@@ -16,9 +16,9 @@ private static final Logger logger = LoggerFactory.getLogger(AdminController.cla
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/dashboard", method = RequestMethod.GET)
 	public void index() {
-		logger.info("index페이지 호출");
+		logger.info("index�럹�씠吏� �샇異�");
 		
 		
 		
@@ -27,17 +27,9 @@ private static final Logger logger = LoggerFactory.getLogger(AdminController.cla
 	
 	@RequestMapping(value = "/inquiry", method = RequestMethod.GET)
 	public void inquiry() {
-		logger.info("inquiry 페이지 호출");
+		logger.info("inquiry �럹�씠吏� �샇異�");
 	
 	
-	}
-	
-	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-	public void dashboard() {
-		logger.info("dashboard 페이지 호출");
-		
-		
-		
 	}
 	
 	
