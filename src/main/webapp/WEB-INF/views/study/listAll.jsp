@@ -63,6 +63,10 @@
   ======================================================== -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	
+<!-- 스터디 listAll css 파일 -->
+<link href="/resources/assets/css/study/listAll.css" rel="stylesheet" />
+
 <script>
 	$(function() {
 		$('.studyLang').select2({
@@ -71,15 +75,7 @@
 
 	});
 </script>
-<style>
-.studyBasic { 
-	--default-color: #212529; 
-	--default-color-rgb: 255, 255, 255; 
-	--background-color: #212529; 
-	--background-color-rgb: 0, 0, 0;
-	padding: 150px 0;
-}
-</style>
+
 </head>
 
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">

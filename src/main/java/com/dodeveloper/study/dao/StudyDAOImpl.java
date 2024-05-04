@@ -1,12 +1,15 @@
 package com.dodeveloper.study.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.dodeveloper.study.vodto.StuStackVO;
+import com.dodeveloper.study.vodto.StudyBoardDTO;
 import com.dodeveloper.study.vodto.StudyBoardVO;
 import com.dodeveloper.study.vodto.StuStackDTO;
 
@@ -26,6 +29,25 @@ public class StudyDAOImpl implements StudyDAO {
 	@Override
 	public List<StuStackDTO> selectAllStudyStack(int stuBoardNo) {
 		return ses.selectList(ns + ".selectAllstudyStack", stuBoardNo);
+	}
+
+	@Override
+	public int selectNextStuNo() throws Exception {
+		return ses.selectOne(ns + ".selectNextStuNo");
+	}
+
+	@Override
+	public int insertNewStack(int stuBoardNo, int chooseStack) throws Exception {
+		Map<String, Integer> param = new HashMap<String, Integer>();
+		param.put("stuBoardNo", stuBoardNo);
+		param.put("chooseStack", chooseStack);
+		
+		return ses.insert(ns + ".insertNewStack", param);
+	}
+
+	@Override
+	public int insertNewStudy(StudyBoardDTO newStudyDTO) throws Exception {
+		return ses.insert(ns + ".insertNewStudy", newStudyDTO);
 	}
 
 }

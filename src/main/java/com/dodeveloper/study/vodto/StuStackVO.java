@@ -14,7 +14,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class StuStackVO {
-	private int stuStackNo;
 	private int stuBoardNo;
-	private int chooseStack;
+	private int[] chooseStack;
 }

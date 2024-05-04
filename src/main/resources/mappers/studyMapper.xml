@@ -6,7 +6,7 @@
 
 	<select id="selectAllList"
 		resultType="com.dodeveloper.study.vodto.StudyBoardVO">
-		SELECT * FROM studyBoard
+		SELECT * FROM studyBoard order by wrritenDate desc
 	</select>
 
 	<select id="selectAllstudyStack"
@@ -16,5 +16,19 @@
 		on s.stackNo = t.chooseStack
 		where t.stuBoardNo = #{stuBoardNo}
 	</select>
+	
+	<select id="selectNextStuNo" resultType="int">
+		select stuNo from studyBoard
+		order by wrritenDate desc limit 0, 1
+	</select>
+	
+	<insert id="insertNewStack">
+		insert into stuStack(stuBoardNo, chooseStack) values(#{stuBoardNo}, #{chooseStack})
+	</insert>
+	
+	<insert id="insertNewStudy">
+		insert into studyBoard(stuWriter, stuTitle, stuContent, stuLoc, stuX, stuY, stuDate, stuPers, contactLink, endDate) 
+		values(#{stuWriter}, #{stuTitle}, #{stuContent}, #{stuLoc}, #{stuX}, #{stuY}, #{stuDate}, #{stuPers}, #{contactLink}, #{endDate})
+	</insert>
 
 </mapper>
