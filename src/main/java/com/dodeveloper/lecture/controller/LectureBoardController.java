@@ -87,5 +87,26 @@ public class LectureBoardController {
 	public void writeBoard() {
 		logger.info("controller : 글을 작성하러 갈게요!");
 	}
+	
+	/**
+	 * @methodName : modifyBoard
+	 * @author : 
+	 * @date : 2024.05.04
+	 * @param : @RequestParam("lecNo") int lecNo - 수정될 게시글 번호
+	 * @param : Model model - View단(modifyBoard)으로 바인딩하는 전용 객체
+	 * @return : void
+	 * @throws Exception 
+	 * @description : 유저가 작성한 게시글을 수정하는 메서드
+	 */
+	@GetMapping("/modifyBoard")
+	public String modifyBoard(@RequestParam("lecNo") int lecNo, Model model) throws Exception {
+		logger.info("controller : 게시글을 수정할게요!");
+		
+		Map<String, Object> map = lService.getBoardByBoardNo(lecNo);
+		
+		model.addAttribute("result", map);
+		
+		return "/lecture/modifyBoard";
+	}
 
 }
