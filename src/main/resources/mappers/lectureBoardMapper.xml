@@ -11,5 +11,33 @@
 		lecReadCount, lecPostDate
 		from lectureBoard order by lecNo desc
 	</select>
-	
+
+	<!-- ?번 글을 가져오는 쿼리문 -->
+	<select id="selectBoardLecNo" resultType="LectureBoardVO">
+		select * from
+		lectureBoard where lecNo = #{lecNo}
+	</select>
+
+	<!-- ?번 글을 ?유저가 조회했다는 이력을 기록하는 쿼리문 -->
+	<insert id="insertReadCountProcess">
+		insert into readCount(readWho, boardNo, bType)
+		values(#{user}, #{boardNo}, 1);
+	</insert>
+
+	<!-- 유저가 ?번 글을 언제 읽었는지 select하는 메서드 -->
+	<select id="getDateDiff" resultType="int">
+		select ifnull(a.diff, -1) as
+		datediff from
+		(select datediff(now(), (select readWhen from readCount
+		where bType = 1 and
+		readWho=#{user} and readNo=#{readNo} order by
+		readNo desc limit 1)) as diff) a
+	</select>
+
+	<!-- ?번 글의 조회수를 증가하는 메서드 -->
+	<update id="updateReadCount">
+		update lectureBoard set lecReadCount = lecReadCount +
+		1 where lecNo = #{lecNo} and bType = 1;
+	</update>
+
 </mapper>
