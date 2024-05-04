@@ -24,7 +24,7 @@
 		values(#{user}, #{boardNo}, 1);
 	</insert>
 
-	<!-- 유저가 ?번 글을 언제 읽었는지 select하는 메서드 -->
+	<!-- 유저가 ?번 글을 언제 읽었는지 select하는 쿼리문 -->
 	<select id="getDateDiff" resultType="int">
 		select ifnull(a.diff, -1) as
 		datediff from
@@ -34,7 +34,7 @@
 		readNo desc limit 1)) as diff) a
 	</select>
 
-	<!-- ?번 글의 조회수를 증가하는 메서드 -->
+	<!-- ?번 글의 조회수를 증가하는 쿼리문 -->
 	<update id="updateReadCount">
 		update lectureBoard set lecReadCount = lecReadCount +
 		1 where lecNo = #{lecNo} and bType = 1;
