@@ -14,23 +14,23 @@ import com.dodeveloper.lecture.vodto.LectureBoardVO;
 
 @Repository // 아래의 클래스가 DAO 객체임을 명시
 public class LectureBoardDAOImpl implements LectureBoardDAO {
-	
+
 	@Autowired
 	private SqlSession ses; // SqlSession 객체 주입
-	
+
 	private static String ns = "com.dodeveloper.mappers.lectureBoardMapper";
-	
+
 	/**
 	 * @methodName : selectListAllLecBoard
 	 * @author : kde
 	 * @date : 2024.05.02
-	 * @param : 
+	 * @param :
 	 * @return : List<LectureBoardVO>
 	 * @description : 게시판 전체 조회에 대한 DAO 메서드
 	 */
 	@Override
 	public List<LectureBoardVO> selectListAllLecBoard() throws Exception {
-		
+
 		return ses.selectList(ns + ".getAllBoard");
 	}
 
@@ -39,12 +39,12 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 * @author : kde
 	 * @date : 2024.05.03
 	 * @param : int lecNo - 게시글 번호
-	 * @return : 
+	 * @return :
 	 * @description : ?번 글을 가져오는 메서드
 	 */
 	@Override
 	public LectureBoardVO selectBoardLecNo(int lecNo) throws Exception {
-		
+
 		return ses.selectOne(ns + ".selectBoardLecNo", lecNo);
 	}
 
@@ -60,10 +60,10 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	@Override
 	public int insertReadCountProcess(String user, int lecNo) throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
-		
+
 		params.put("user", user);
 		params.put("lecNo", lecNo);
-		
+
 		return ses.insert(ns + ".insertReadCountProcess", params);
 	}
 
@@ -79,10 +79,10 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	@Override
 	public int selectDiff(String user, int lecNo) throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
-		
+
 		params.put("user", user);
 		params.put("lecNo", lecNo);
-		
+
 		return ses.selectOne(ns + ".getDateDiff", params);
 	}
 
@@ -96,7 +96,7 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 */
 	@Override
 	public int updateReadCount(int lecNo) throws Exception {
-		
+
 		return ses.update(ns + ".updateReadCount", lecNo);
 	}
 
@@ -105,21 +105,21 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 * @author : kde
 	 * @date : 2024.05.04
 	 * @param : LectureBoardDTO newLecBoard - 유저가 작성한 글을 insert
-	 * @return : 
+	 * @return :
 	 * @description : 유저가 작성한 글을 insert
 	 */
 	@Override
 	public int insertNewLectureBoard(LectureBoardDTO newLecBoard) throws Exception {
-		
+
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("lecTitle", newLecBoard.getLecTitle());
 		params.put("lecReview", newLecBoard.getLecReview());
 		params.put("lecWriter", newLecBoard.getLecWriter());
 		params.put("lecScore", newLecBoard.getLecScore());
 		params.put("lecLink", newLecBoard.getLecLink());
-		
+
 		System.out.println("새로 저장될 글 : " + newLecBoard.getLecNo());
-		
+
 		return ses.insert(ns + ".insertLectureBoard", params);
 	}
 
@@ -133,8 +133,22 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 */
 	@Override
 	public int updateLectureBoard(LectureBoardDTO modifyBoard) throws Exception {
-		
+
 		return ses.update(ns + ".updateLectureBoard", modifyBoard);
+	}
+
+	/**
+	 * @methodName : deleteLectureBoard
+	 * @author : kde
+	 * @date : 2024.05.05
+	 * @param : int lecNo - 삭제될 게시글 번호
+	 * @return : int
+	 * @description : 게시글을 삭제(delete)하는 메서드
+	 */
+	@Override
+	public int deleteLectureBoard(int lecNo) throws Exception {
+
+		return ses.delete(ns + ".deleteLectureBoard", lecNo);
 	}
 
 }

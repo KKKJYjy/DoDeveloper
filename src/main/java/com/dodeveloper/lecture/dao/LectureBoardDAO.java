@@ -28,4 +28,7 @@ public interface LectureBoardDAO {
 	// 실제 게시글을 수정하는 메서드
 	int updateLectureBoard(LectureBoardDTO modifyBoard) throws Exception;
 	
+	// lecNo번 게시글 삭제 처리하는 메서드
+	int deleteLectureBoard(int lecNo) throws Exception;
+	
 }
