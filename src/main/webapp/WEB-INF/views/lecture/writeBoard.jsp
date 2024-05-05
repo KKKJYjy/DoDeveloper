@@ -61,6 +61,30 @@
 			inputField.style.display = "none";
 		}
 	}
+
+	/* 유효성 검사 */
+	function validateForm() {
+		var lecTitle = document.getElementById("lecTitle").value;
+		var lecLink = document.getElementById("lecLink").value;
+		var lecReview = document.getElementById("lecReview").value;
+		var lecScore = document.getElementById("lecScore").value;
+
+		if (lecTitle === "") {
+			alert("제목을 입력해주세요.");
+			return false;
+		} else if (lecLink === "") {
+			alert("링크를 작성해주세요.");
+			return false;
+		} else if (lecReview === "") {
+			alert("후기를 작성해주세요.");
+			return false;
+		} else if (lecScore === "") {
+			alert("별점을 체크해주세요.");
+			return false;
+		}
+
+		return true;
+	}
 </script>
 </head>
 

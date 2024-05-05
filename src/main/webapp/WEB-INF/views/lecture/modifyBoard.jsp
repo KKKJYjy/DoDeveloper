@@ -61,6 +61,30 @@
 			inputField.style.display = "none";
 		}
 	}
+
+	/* 유효성 검사 */
+	function validateForm() {
+		var lecTitle = document.getElementById("lecTitle").value;
+		var lecLink = document.getElementById("lecLink").value;
+		var lecReview = document.getElementById("lecReview").value;
+		var lecScore = document.getElementById("lecScore").value;
+
+		if (lecTitle === "") {
+			alert("제목을 입력해주세요.");
+			return false;
+		} else if (lecLink === "") {
+			alert("링크를 작성해주세요.");
+			return false;
+		} else if (lecReview === "") {
+			alert("후기를 작성해주세요.");
+			return false;
+		} else if (lecScore === "") {
+			alert("별점을 체크해주세요.");
+			return false;
+		}
+
+		return true;
+	}
 </script>
 </head>
 
@@ -79,89 +103,75 @@
 						</div>
 					</div>
 
-
-
 					<!-- 글 작성은 로그인 한 유저만 가능하니 유저 id가 바로 뜰수 있도록 -->
 					<!-- 별점은 ☆로 5개로 하되 반개는 안되고 한개씩만 가능 -->
 					<!-- 후기는 select박스로 결정하는 것도 있고 "내가 작성"을 누를 경우 input박스가 생기도록 -->
 					<!-- 단, 유저가 select박스 중 다른 것을 눌렀을 경우 input박스는 사라져야 한다. -->
 					<!-- 링크를 올렸을 때 바로 북마크가 생기도록 -->
 					<div class="lecBoard">
-						<form action="/board/writePOST" method="post">
+						<form action="/lecture/modifyPost" method="post">
+						<input type="hidden" name="lecNo" value="${result.lecBoard.lecNo }" >
 							<div class="mb-3 mt-3">
 								<label for="lecWriter" class="form-label"></label> <input
 									type="text" class="form-control" id="lecWriter"
 									name="lecWriter" value="${sessionScope.loginMember.userId}" />
-									님께서 시청하신 강의 중 좋았던 강의 링크를 공유해주시고 후기를 남겨주세요.
+								님께서 시청하신 강의 중 좋았던 강의 링크를 공유해주시고 후기를 남겨주세요.
 							</div>
 
 							<div class="mb-3 mt-3">
 								<label for="lecTitle" class="form-label">제목</label> <input
-									type="text" class="form-control" id="lecWriter"
-									name="lecWriter" value="${result.lecBoard.lecTitle}" />
+									type="text" class="form-control" id="lecTitle" name="lecTitle"
+									value="${result.lecBoard.lecTitle}" />
 							</div>
 
 							<div class="mb-3 mt-3">
 								<label for="lecLink" class="form-label">강의 링크</label>
 								<textarea id="lecLink" name="lecLink" rows="5" cols="500"
-									placeholder="강의 링크를 공유해주세요." class="form-control"></textarea>
-							
-								<input
-									type="text" class="form-control" id="lecWriter"
-									name="lecWriter" value="${result.lecBoard.lecLink}" />
-							
+									class="form-control">${result.lecBoard.lecLink}</textarea>
 							</div>
 
 							<div class="mb-3 mt-3">
-								<label for="lecReview" class="form-label">강의 후기</label> 
-								<select
+								<label for="lecReview" class="form-label">강의 후기</label> <select
 									id="lecReviewSelect" name="lecReview" onchange="showInput()">
-									<option value="australia">-- 강의 후기 선택 --</option>
-									<option value="option1">초보자가 듣기 너무 좋아요.</option>
-									<option value="option2">기초가 있으신 분들이 들으셔야 할 것 같아요.</option>
-									<option value="option3">등등 생각 좀 해볼게요...</option>
-									<option value="option4">강의 후기 직접 작성할게요.</option>
+									<option value="australia"
+										${result.lecBoard.lecReview == 'australia' ? 'selected' : ''}>--
+										강의 후기 선택 --</option>
+									<option value="option1"
+										${result.lecBoard.lecReview == 'option1' ? 'selected' : ''}>초보자가
+										듣기 너무 좋아요.</option>
+									<option value="option2"
+										${result.lecBoard.lecReview == 'option2' ? 'selected' : ''}>기초가
+										있으신 분들이 들으셔야 할 것 같아요.</option>
+									<option value="option3"
+										${result.lecBoard.lecReview == 'option3' ? 'selected' : ''}>등등
+										생각 좀 해볼게요...</option>
+									<option value="option4"
+										${result.lecBoard.lecReview == 'option4' ? 'selected' : ''}>강의
+										후기 직접 작성할게요.</option>
 								</select>
 								<textarea class="form-control" id="lecReviewInput"
 									name="lecReview" placeholder="강의 후기 직접 작성해주세요..."
-									style="display: none;"></textarea>
-									
-									
-									<input
-									type="text" class="form-control" id="lecWriter"
-									name="lecWriter" value="${result.lecBoard.lecReview}" />
-									
-									
+									${result.lecBoard.lecReview == 'option4' ? '' : 'style="display: none;"'}>${result.lecBoard.lecReview}</textarea>
 							</div>
 
 							<div class="mb-3 mt-3">
-								<label for="lecScore" class="form-label">별점</label>
-								
-								<input
-									type="text" class="form-control" id="lecWriter"
-									name="lecWriter" value="${result.lecBoard.lecScore}" />
-								
-								 <input
+								<label for="lecScore" class="form-label">별점</label> <input
 									type="text" class="form-control" id="lecScore" name="lecScore"
-									placeholder="☆☆☆☆☆" />
+									value="${result.lecBoard.lecScore}" placeholder="☆☆☆☆☆" />
 							</div>
 
+							<!-- 글 수정 & 글 삭제 로그인 한 유저만 가능 -->
+							<div class="btns">
+								<input type="submit" class="btn btn-success" value="글 저장" /> <input
+									type="button" class="btn btn-danger" value="취소"
+									onclick="resetWriteBoard();" />
+								<div class="btn-group">
+									<button type="button" class="btn"
+										onclick="location.href='/lecture/listAll';">목록으로</button>
+								</div>
+							</div>
 						</form>
 					</div>
-
-					<!-- 글 수정 & 글 삭제 로그인 한 유저만 가능 -->
-					<div class="btns">
-						<input type="submit" class="btn btn-success" value="글 저장" /> <input
-							type="button" class="btn btn-danger" value="취소"
-							onclick="resetWriteBoard();" />
-						<div class="btn-group">
-							<button type="button" class="btn"
-								onclick="location.href='/lecture/listAll';">목록으로</button>
-						</div>
-					</div>
-
-
-
 
 				</section>
 			</div>
