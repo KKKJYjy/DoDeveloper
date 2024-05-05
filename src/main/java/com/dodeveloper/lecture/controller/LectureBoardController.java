@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -76,10 +77,10 @@ public class LectureBoardController {
 
 		return mav;
 	}
-	
+
 	/**
 	 * @methodName : writeBoard
-	 * @author : 
+	 * @author :
 	 * @date : 2024.05.04
 	 * @return : void
 	 * @description : 유저가 게시글 작성 버튼을 눌렀을 때 게시글 작성 페이지로 가는 메서드
@@ -87,28 +88,28 @@ public class LectureBoardController {
 	@RequestMapping("/writeBoard")
 	public String writeBoard() {
 		logger.info("controller : 글을 작성하러 갈게요!");
-		
+
 		return "/lecture/writeBoard";
 	}
-	
+
 	/**
 	 * @methodName : writeBoard
-	 * @author : 
+	 * @author :
 	 * @date : 2024.05.04
 	 * @param : LectureBoardDTO newLecBoard - 유저가 작성한 글 객체
-	 * @param : 
-	 * @param : 
+	 * @param :
+	 * @param :
 	 * @return : String
-	 * @throws Exception 
+	 * @throws Exception
 	 * @description : 유저가 작성한 글을 실제 DB(lectureBoard)에 insert 시키기 위한 controller 메서드
-	 * 유저가 작성한 글을 DB에 보내야하니까 POST 방식을 사용
+	 *              유저가 작성한 글을 DB에 보내야하니까 POST 방식을 사용
 	 */
 	@RequestMapping(value = "/writePOST", method = RequestMethod.POST)
 	public String writeBoard(LectureBoardDTO newLecBoard) throws Exception {
 		logger.info("controller : " + newLecBoard.toString() + "글을 저장하러 갈게요!");
-		
+
 		String returnPage = "/lecture/listAll"; // 게시판 전체 조회 페이지로
-		
+
 		// 서비스단 호출
 		if (lService.writeBoardService(newLecBoard)) {
 			// 유저가 작성한 게시글 저장이 성공했을 경우
@@ -117,54 +118,69 @@ public class LectureBoardController {
 			// 유저가 작성한 게시글 저장이 실패한 경우
 			returnPage = "redirect:" + returnPage + "?status=writeFail";
 		}
-		
+
 		return returnPage;
 	}
-	
+
 	/**
 	 * @methodName : modifyBoard
-	 * @author : 
+	 * @author :
 	 * @date : 2024.05.04
 	 * @param : @RequestParam("lecNo") int lecNo - 수정될 게시글 번호
 	 * @param : Model model - View단(modifyBoard)으로 바인딩하는 전용 객체
 	 * @return : void
-	 * @throws Exception 
+	 * @throws Exception
 	 * @description : 유저가 작성한 게시글을 수정하는 메서드
 	 */
 	@GetMapping("/modifyLectureBoard")
 	public String modifyBoard(@RequestParam("lecNo") int lecNo, Model model) throws Exception {
 		logger.info("controller : 게시글을 수정할게요!");
-		
+
 		Map<String, Object> map = lService.getBoardByBoardNo(lecNo);
-		
+
 		model.addAttribute("result", map);
-		
+
 		return "/lecture/modifyBoard";
 	}
-	
-	
+
 	/**
 	 * @methodName : modifyBoard
-	 * @author : 
+	 * @author :
 	 * @date : 2024.05.04
 	 * @param : LectureBoardDTO modifyBoard - 새롭게 수정되어야 할 게시글
 	 * @param : HttpServletRequest req
 	 * @return : String
-	 * @throws Exception 
+	 * @throws Exception
 	 * @description : 게시글 수정 시 update 처리
 	 */
 	@PostMapping("/modifyPost")
 	public String modifyBoard(LectureBoardDTO modifyBoard, HttpServletRequest req) throws Exception {
 		logger.info("controller : 게시글 수정 update");
-		
+
 		System.out.println(modifyBoard.toString() + "을 수정!");
-		
+
 		// 서비스단 호출
 		lService.modifyBoard(modifyBoard);
-		
+
 		// 수정 후 viewBoard의 lecNo로 간다.
 		return "redirect:/lecture/viewBoard?lecNo=" + modifyBoard.getLecNo();
 	}
 
+	/**
+	 * @methodName : removeLectureBoard
+	 * @author :
+	 * @date : 2024.05.05
+	 * @param : @RequestParam("lecNo") int lecNo - 게시글 삭제할 번호
+	 * @return : String
+	 * @description : 게시글 삭제 시 delete 처리
+	 */
+	@RequestMapping("/removeLectureBoard")
+	public String removeLectureBoard(@RequestParam("lecNo") int lecNo) throws Exception {
+		System.out.println(lecNo + "번 게시글을 삭제 처리하자!");
+
+		lService.deleteLectureBoard(lecNo);
+
+		return "redirect:/lecture/listAll";
+	}
 
 }
