@@ -125,4 +125,19 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 		
 	}
 
+	/**
+	 * @methodName : deleteLectureBoard
+	 * @author : kde
+	 * @date : 2024.05.05
+	 * @param : int lecNo - 삭제 처리하려는 게시글 번호
+	 * @return : boolean
+	 * @description : lecNo번 글을 삭제 처리
+	 */
+	@Override
+	public void deleteLectureBoard(int lecNo) throws Exception {
+		
+		lDao.deleteLectureBoard(lecNo);
+		
+	}
+
 }
