@@ -25,5 +25,7 @@ public interface LectureBoardDAO {
 	// 게시판에 새로운 글을 insert하는 메서드
 	int insertNewLectureBoard(LectureBoardDTO newLecBoard) throws Exception;
 	
+	// 실제 게시글을 수정하는 메서드
+	int updateLectureBoard(LectureBoardDTO modifyBoard) throws Exception;
 	
 }

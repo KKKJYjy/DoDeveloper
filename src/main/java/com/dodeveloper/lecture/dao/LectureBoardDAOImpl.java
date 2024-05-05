@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.dodeveloper.lecture.vodto.LectureBoardDTO;
@@ -105,7 +106,7 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 * @date : 2024.05.04
 	 * @param : LectureBoardDTO newLecBoard - 유저가 작성한 글을 insert
 	 * @return : 
-	 * @description : 
+	 * @description : 유저가 작성한 글을 insert
 	 */
 	@Override
 	public int insertNewLectureBoard(LectureBoardDTO newLecBoard) throws Exception {
@@ -120,6 +121,20 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 		System.out.println("새로 저장될 글 : " + newLecBoard.getLecNo());
 		
 		return ses.insert(ns + ".insertLectureBoard", params);
+	}
+
+	/**
+	 * @methodName : updateLectureBoard
+	 * @author : kde
+	 * @date : 2024.05.04
+	 * @param : LectureBoardDTO modifyBoard
+	 * @return : int
+	 * @description : 실제 게시글을 수정하는 메서드
+	 */
+	@Override
+	public int updateLectureBoard(LectureBoardDTO modifyBoard) throws Exception {
+		
+		return ses.update(ns + ".updateLectureBoard", modifyBoard);
 	}
 
 }
