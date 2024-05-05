@@ -75,6 +75,11 @@
 					<!-- 또한 좋아요 & 스크랩 & 신고 로그인 한 유저만 가능하다. -->
 					<div class="lecBoard">
 						<div class="mb-3 mt-3">
+							<label for="lecNo" class="form-label">글 번호</label>
+							<div class="content">${lecBoard.lecNo }</div>
+						</div>
+					
+						<div class="mb-3 mt-3">
 							<label for="lecWriter" class="form-label">작성자Id</label>
 							<div class="content">${lecBoard.lecWriter }</div>
 						</div>
@@ -102,7 +107,7 @@
 						<div class="mb-3 mt-3">
 							<label for="lecLink" class="form-label">강의 북마크(링크)</label> <input
 								type="text" class="form-control" id="title"
-								value="${lecBoard.lecLink }" />
+								value="${lecBoard.lecLink }" readonly="readonly"/>
 						</div>
 
 						<div class="mb-3 mt-3">
@@ -126,7 +131,7 @@
 					<!-- 글 수정 & 글 삭제 로그인 한 유저만 가능 -->
 					<div class="btns">
 						<button type="button" class="btn"
-							onclick="location.href='/lecture/modifyBoard?lecNo=${lecBoard.lecNo}';">글수정</button>
+							onclick="location.href='/lecture/modifyLectureBoard?lecNo=${lecBoard.lecNo}';">글수정</button>
 						<button type="button" class="btn"
 							onclick="location.href='/lecture/remove?lecNo=${lecBoard.lecNo}';">글삭제</button>
 						<div class="btn-group">
