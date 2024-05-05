@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.dodeveloper.lecture.vodto.LectureBoardDTO;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
+import com.dodeveloper.lecture.vodto.LectureSearchDTO;
 
 @Repository // 아래의 클래스가 DAO 객체임을 명시
 public class LectureBoardDAOImpl implements LectureBoardDAO {
@@ -149,6 +150,44 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	public int deleteLectureBoard(int lecNo) throws Exception {
 
 		return ses.delete(ns + ".deleteLectureBoard", lecNo);
+	}
+
+	/**
+	 * @methodName : getLectureBoardCntWithSc
+	 * @author : kde
+	 * @date : 2024.05.05
+	 * @param : LectureSearchDTO lsDTO - 검색조건의 Type와 value
+	 * @return : int
+	 * @description : 검색어가 있을 경우 검색된 글의 갯수를 가져오는 메서드 - 검색조건
+	 */
+	@Override
+	public int lectureBoardCntWithSc(LectureSearchDTO lsDTO) throws Exception {
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("searchType", lsDTO.getSearchType());
+		// lsDTO.getSearchValue() 앞 뒤로 "%"를 붙이는 이유
+		// ex) 자바를 검색했을 경우 자바라는 글이 포함된 글은 나오지않아서 "%"를 붙여준다.
+		params.put("searchValue", "%" + lsDTO.getSearchValue() + "%");
+		
+		return ses.selectOne(ns + ".getLectureBoardCntWithSc", params);
+	}
+
+	/**
+	 * @methodName : getLectureBoardListWithSc
+	 * @author : kde
+	 * @date : 2024.05.05
+	 * @param : LectureSearchDTO lsDTO - 검색조건의 Type와 value
+	 * @return : List<LectureBoardVO>
+	 * @description : 검색어가 있을 경우 검색된 글을 가져오는 메서드 - 검색조건
+	 */
+	@Override
+	public List<LectureBoardVO> lectureBoardListWithSc(LectureSearchDTO lsDTO) throws Exception {
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("searchType", lsDTO.getSearchType());
+		params.put("searchValue", "%" + lsDTO.getSearchValue() + "%");
+		
+		return ses.selectList(ns + ".getLectureBoardListWithSc", params);
 	}
 
 }

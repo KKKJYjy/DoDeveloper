@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.dodeveloper.lecture.vodto.LectureBoardDTO;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
+import com.dodeveloper.lecture.vodto.LectureSearchDTO;
 
 public interface LectureBoardDAO {
 	
@@ -30,5 +31,11 @@ public interface LectureBoardDAO {
 	
 	// lecNo번 게시글 삭제 처리하는 메서드
 	int deleteLectureBoard(int lecNo) throws Exception;
+	
+	// 검색어가 있을 경우 검색된 글의 갯수를 가져오는 메서드 - 검색조건
+	int lectureBoardCntWithSc(LectureSearchDTO lsDTO) throws Exception;
+	
+	// 검색어가 있을 경우 검색된 글을 가져오는 메서드 - 검색조건
+	List<LectureBoardVO> lectureBoardListWithSc(LectureSearchDTO lsDTO) throws Exception;
 	
 }
