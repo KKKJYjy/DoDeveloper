@@ -78,7 +78,7 @@
 							<label for="lecNo" class="form-label">글 번호</label>
 							<div class="content">${lecBoard.lecNo }</div>
 						</div>
-					
+
 						<div class="mb-3 mt-3">
 							<label for="lecWriter" class="form-label">작성자Id</label>
 							<div class="content">${lecBoard.lecWriter }</div>
@@ -107,7 +107,7 @@
 						<div class="mb-3 mt-3">
 							<label for="lecLink" class="form-label">강의 북마크(링크)</label> <input
 								type="text" class="form-control" id="title"
-								value="${lecBoard.lecLink }" readonly="readonly"/>
+								value="${lecBoard.lecLink }" readonly="readonly" />
 						</div>
 
 						<div class="mb-3 mt-3">
@@ -133,7 +133,7 @@
 						<button type="button" class="btn"
 							onclick="location.href='/lecture/modifyLectureBoard?lecNo=${lecBoard.lecNo}';">글수정</button>
 						<button type="button" class="btn"
-							onclick="location.href='/lecture/remove?lecNo=${lecBoard.lecNo}';">글삭제</button>
+							onclick="location.href='/lecture/removeLectureBoard?lecNo=${lecBoard.lecNo}';">글삭제</button>
 						<div class="btn-group">
 							<button type="button" class="btn"
 								onclick="location.href='/lecture/listAll';">목록으로</button>
