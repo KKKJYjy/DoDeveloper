@@ -46,9 +46,16 @@
 		insert into lectureBoard(bType,
 		lecTitle, lecReview, lecWriter,
 		lecScore, lecLink)
-		values('1',
+		values(1,
 		#{lecTitle}, #{lecReview}, #{lecWriter}, #{lecScore},
 		#{lecLink})
 	</insert>
+
+	<!-- 유저가 작성한 글을 수정(update)하는 쿼리문 -->
+	<update id="updateLectureBoard">
+		update lectureBoard set lecTitle = #{lecTitle},
+		lecReview = #{lecReview}, lecScore = #{lecScore}, lecLink = #{lecLink}
+		where lecNo = #{lecNo} and bType = 1;
+	</update>
 
 </mapper>
