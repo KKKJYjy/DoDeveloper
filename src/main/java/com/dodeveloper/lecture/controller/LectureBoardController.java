@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -130,7 +131,7 @@ public class LectureBoardController {
 	 * @throws Exception 
 	 * @description : 유저가 작성한 게시글을 수정하는 메서드
 	 */
-	@GetMapping("/modifyBoard")
+	@GetMapping("/modifyLectureBoard")
 	public String modifyBoard(@RequestParam("lecNo") int lecNo, Model model) throws Exception {
 		logger.info("controller : 게시글을 수정할게요!");
 		
@@ -140,5 +141,30 @@ public class LectureBoardController {
 		
 		return "/lecture/modifyBoard";
 	}
+	
+	
+	/**
+	 * @methodName : modifyBoard
+	 * @author : 
+	 * @date : 2024.05.04
+	 * @param : LectureBoardDTO modifyBoard - 새롭게 수정되어야 할 게시글
+	 * @param : HttpServletRequest req
+	 * @return : String
+	 * @throws Exception 
+	 * @description : 게시글 수정 시 update 처리
+	 */
+	@PostMapping("/modifyPost")
+	public String modifyBoard(LectureBoardDTO modifyBoard, HttpServletRequest req) throws Exception {
+		logger.info("controller : 게시글 수정 update");
+		
+		System.out.println(modifyBoard.toString() + "을 수정!");
+		
+		// 서비스단 호출
+		lService.modifyBoard(modifyBoard);
+		
+		// 수정 후 viewBoard의 lecNo로 간다.
+		return "redirect:/lecture/viewBoard?lecNo=" + modifyBoard.getLecNo();
+	}
+
 
 }
