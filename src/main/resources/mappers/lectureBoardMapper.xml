@@ -64,4 +64,43 @@
 		bType = 1;
 	</delete>
 
+	<!-- 검색어가 없을 경우 게시글 전체 글 갯수를 얻어오는 쿼리문 - 검색조건 -->
+	<select id="getTotalLectureBoard" resultType="int">
+		select count(*) as
+		totalPostCnt from lectureBoard
+	</select>
+
+	<!-- 검색어가 있을 경우 검색된 글의 갯수를 가져오는 쿼리문 - 검색조건 -->
+	<select id="getLectureBoardCntWithSc" resultType="int">
+		select count(*) from lectureBoard
+		<choose>
+			<when test="searchType == 'lecTitle'">where lecTitle like
+				#{searchValue}
+			</when>
+			<when test="searchType == 'lecWriter'">where lecWriter like
+				#{searchValue}
+			</when>
+			<otherwise>
+				where lecReview like #{searchValue}
+			</otherwise>
+		</choose>
+	</select>
+
+	<!-- 검색어가 있을 경우 검색된 글을 가져오는 쿼리문 - 검색조건 -->
+	<select id="getLectureBoardListWithSc" resultType="LectureBoardVO">
+		select * from lectureBoard
+		<choose>
+			<when test="searchType == 'lecTitle'">where lecTitle like
+				#{searchValue}
+			</when>
+			<when test="searchType == 'lecWriter'">where lecWriter like
+				#{searchValue}
+			</when>
+			<otherwise>
+				where lecReview like #{searchValue}
+			</otherwise>
+		</choose>
+	</select>
+
+
 </mapper>
