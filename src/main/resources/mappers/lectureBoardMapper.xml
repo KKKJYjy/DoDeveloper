@@ -58,4 +58,10 @@
 		where lecNo = #{lecNo} and bType = 1;
 	</update>
 
+	<!-- 유저가 게시글 삭제(delete)하는 쿼리문 -->
+	<delete id="deleteLectureBoard">
+		delete from lectureBoard where lecNo = #{lecNo} and
+		bType = 1;
+	</delete>
+
 </mapper>
