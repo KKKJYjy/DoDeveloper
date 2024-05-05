@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.dodeveloper.lecture.service.LectureBoardService;
@@ -181,6 +182,20 @@ public class LectureBoardController {
 		lService.deleteLectureBoard(lecNo);
 
 		return "redirect:/lecture/listAll";
+	}
+	
+	/**
+	 * @methodName : cancelBoard
+	 * @author : 
+	 * @date : 2024.05.05
+	 * @return : String
+	 * @description : 유저가 게시글을 작성하려다 취소버튼을 누른 경우에 작동되는 메서드
+	 */
+	@RequestMapping(value = "/cancel", method = RequestMethod.POST, produces = "text/plain; charset=utf-8")
+	public @ResponseBody String cancelBoard() {
+		System.out.println("게시글 작성 안할래요!");
+		
+		return "success";
 	}
 
 }
