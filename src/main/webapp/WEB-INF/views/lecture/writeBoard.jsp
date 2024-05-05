@@ -51,6 +51,7 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
+	/* 강의 후기 작성시 "내가 작성"을 눌렀을 때 input 박스가 보이도록 설정 */
 	function showInput() {
 		var selectBox = document.getElementById("lecReviewSelect");
 		var inputField = document.getElementById("lecReviewInput");
@@ -60,6 +61,25 @@
 		} else {
 			inputField.style.display = "none";
 		}
+	}
+
+	/* 게시글을 작성하다가 취소 눌렀을 때 */
+	function cancelWriteBoard() {
+		
+		alert("게시글을 작성 안하시겠습니까?");
+		
+		$.ajax({
+			url : '/lecture/cancel',
+			type : 'post',
+			dataType : 'text', // 수신받을 데이터의 타입
+			success : function(data) { // data(json)
+				// 통신 성공하면 실행할 내용들....
+				console.log(data);
+				if (data == 'success') {
+					location.href = '/lecture/listAll';
+				}
+			}
+		});
 	}
 
 	/* 유효성 검사 */
@@ -155,7 +175,7 @@
 							<div class="btns">
 								<input type="submit" class="btn btn-success" value="글 저장" /> <input
 									type="button" class="btn btn-danger" value="취소"
-									onclick="resetWriteBoard();" />
+									onclick="cancelWriteBoard();" />
 								<div class="btn-group">
 									<button type="button" class="btn"
 										onclick="location.href='/lecture/listAll';">목록으로</button>
