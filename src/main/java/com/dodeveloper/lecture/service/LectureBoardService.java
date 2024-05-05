@@ -17,9 +17,9 @@ public interface LectureBoardService {
 	// 게시물을 얻어오는 메서드(글 수정시 글을 가져온다.)
 	Map<String, Object> getBoardByBoardNo(int lecNo) throws Exception;
 	
-	// 
-	
 	// 게시글을 저장하는 메서드
 	boolean writeBoardService(LectureBoardDTO newLecBoard) throws Exception;
 	
+	// 게시글을 수정하는 메서드
+	void modifyBoard(LectureBoardDTO modifyBoard) throws Exception;
 }

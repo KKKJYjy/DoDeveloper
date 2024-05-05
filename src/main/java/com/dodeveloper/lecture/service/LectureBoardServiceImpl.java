@@ -110,4 +110,19 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 		return result;
 	}
 
+	/**
+	 * @methodName : modifyBoard
+	 * @author : kde
+	 * @date : 2024.05.04
+	 * @param : LectureBoardDTO modifyBoard - 수정되어야 할 게시글
+	 * @return : boolean
+	 * @description : 게시글 수정 시 update 처리
+	 */
+	@Override
+	public void modifyBoard(LectureBoardDTO modifyBoard) throws Exception {
+		
+		lDao.updateLectureBoard(modifyBoard);
+		
+	}
+
 }
