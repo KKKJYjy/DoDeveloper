@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.dodeveloper.lecture.dao.LectureBoardDAO;
 import com.dodeveloper.lecture.vodto.LectureBoardDTO;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
+import com.dodeveloper.lecture.vodto.LectureSearchDTO;
 
 @Service // 아래의 클래스가 서비스 객체임을 명시하는 것
 public class LectureBoardServiceImpl implements LectureBoardService {
@@ -26,13 +27,18 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	 * @description : 게시판 전체 조회에 대한 서비스 메서드
 	 */
 	@Override
-	public List<LectureBoardVO> getListAllBoard() throws Exception {
-		System.out.println("서비스단 : 페이지 전체 게시글 조회!");
-		
-		// DAO단 호출 (selectListAllLecBoard()메서드 호출)
-		List<LectureBoardVO> lecBoardList = lDao.selectListAllLecBoard();
-
-		return lecBoardList;
+	public List<LectureBoardVO> getListAllBoard(int lecNo, LectureSearchDTO lsDTO) throws Exception {
+	    System.out.println("서비스단 : 페이지 전체 게시글 조회!");
+	    
+	    List<LectureBoardVO> lecBoardList = null;
+	    
+	    if (lsDTO.getSearchType() != null && lsDTO.getSearchValue() != null) {
+	        lecBoardList = lDao.lectureBoardListWithSc(lsDTO);
+	    } else {
+	        lecBoardList = lDao.selectListAllLecBoard();
+	    }
+	    
+	    return lecBoardList;
 	}
 
 	/**
