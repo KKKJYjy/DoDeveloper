@@ -49,6 +49,35 @@
   ======================================================== -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+/* 검색 조건 */
+function isValid() {
+    let searchType = $('#searchType').val();
+    let searchValue = $('#searchValue').val();
+
+    if (searchType === "-1") {
+        alert("검색 조건을 선택해주세요.");
+        return false;
+    }
+
+    if (searchValue.trim() === "") {
+        alert("검색어를 입력해주세요.");
+        return false;
+    }
+
+    // SQL 쿼리문 키워드 검사
+    let sqlKeywords = ["OR", "SELECT", "AND", "INSERT", "UPDATE", "DELETE", "DROP", "EXEC", "TRUNCATE", "CREATE", "ALTER"];
+    for (let i = 0; i < sqlKeywords.length; i++) {
+        if (searchValue.toUpperCase().includes(sqlKeywords[i])) {
+            alert("검색어에 유효하지 않은 키워드가 포함되어 있습니다.");
+            return false;
+        }
+    }
+
+    return true;
+}
+	
+</script>
 <style>
 select option:hover {
 	background-color: #444; /* 마우스 호버 시 배경 색상을 짙은 회색(#444)으로 변경 */
@@ -77,19 +106,19 @@ select option:hover {
 					<div id="board-search">
 						<div class="container">
 							<div class="search-window">
-								<form action="">
+								<form action="/lecture/listAll" method="GET">
 									<div class="search-wrap searchbar">
 										<!-- 검색 기능 -->
 										<div class="input-group mt-3 mb-3">
-											<select id="btn" name="searchType">
+											<select id="searchType" name="searchType">
 												<option value="-1">---- 검색 조건을 입력하세요 ----</option>
-												<option value="title">제목</option>
-												<option value="writer">작성자</option>
-												<option value="content">본문</option>
+												<option value="lecTitle">제목</option>
+												<option value="lecWriter">작성자</option>
+												<option value="lecReview">본문</option>
 											</select>
 										</div>
 										<div class="input-group mt-3 mb-3">
-											<input id="search" type="text" name="searchValue"
+											<input id="searchValue" type="text" name="searchValue"
 												placeholder="검색어를 입력해주세요.">
 											<button type="submit" class="btn btn-dark"
 												onclick="return isValid();">검색</button>
