@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.dodeveloper.lecture.service.LectureBoardService;
 import com.dodeveloper.lecture.vodto.LectureBoardDTO;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
+import com.dodeveloper.lecture.vodto.LectureSearchDTO;
 
 @Controller // 아래의 클래스가 컨트롤러 객체임을 명시
 @RequestMapping("/lecture") // "/lecture"가 GET방식으로 요청될 때 아래의 클래스가 동작되도록 설정
@@ -39,19 +40,34 @@ public class LectureBoardController {
 	 * @author : kde
 	 * @date : 2024.05.02
 	 * @param : Model model : View단(listAll)으로 바인딩하는 전용 객체
+	 * @param : @RequestParam(value = "lecNo", defaultValue = "1") int lecNo
+	 * int 매개변수 'lecNo'가 존재하지만 기본 유형으로 선언되기 때문에 null값으로 변환할 수 없어서 객체 래퍼로 선언한 것
+	 * @param : LectureSearchDTO lsDTO - 검색어 Type와 Value를 가져옴
 	 * @return : void
 	 * @throws Exception
 	 * @description : 강의 추천 게시판 전체 글 조회를 담당하는 controller 메서드
 	 */
 	@GetMapping(value = "/listAll")
-	public void listAllBoardGet(Model model) throws Exception {
+	public void listAllBoardGet(Model model, @RequestParam(value = "searchType", required = false) String searchType,
+            @RequestParam(value = "searchValue", required = false) String searchValue, LectureSearchDTO lsDTO) throws Exception {
 		logger.info("강의 추천 게시판 전체 게시글 조회 : listAll View");
-
-		// 서비스단 호출 (getListAllBoard() 메서드 호출)
-		List<LectureBoardVO> lectureBoardList = lService.getListAllBoard();
-
+		logger.info("검색어 : " + lsDTO.toString());
+		
+		List<LectureBoardVO> lectureBoardList = null;
+		
+		if (searchType != null && searchValue != null) {
+			// 검색 조건이 있을 경우
+			lsDTO.setSearchType(searchType);
+			lsDTO.setSearchValue(searchValue);
+			lectureBoardList = lService.getListAllBoard(1, lsDTO);
+		} else {
+			// 검색 조건이 없을 경우
+			lectureBoardList = lService.getListAllBoard(1, lsDTO);
+		}
+		
 		// 바인딩
 		model.addAttribute("lectureBoardList", lectureBoardList);
+		
 	}
 
 	/**
