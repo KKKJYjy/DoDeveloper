@@ -15,6 +15,8 @@
 		<typeAlias alias="MessageBoxVO"
 			type="com.dodeveloper.message.vodto.MessageBoxVO" />		
 		<typeAlias alias="MessageBoxDTO"
-			type="com.dodeveloper.message.vodto.MessageBoxDTO" />
+			type="com.dodeveloper.message.vodto.MessageBoxDTO" />		
+		<typeAlias alias="MessageFileDTO"
+			type="com.dodeveloper.message.vodto.MessageFileDTO" />
 	</typeAliases>
 </configuration>
