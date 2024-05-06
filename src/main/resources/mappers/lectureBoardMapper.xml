@@ -87,7 +87,8 @@
 	</select>
 
 	<!-- 검색어가 있을 경우 검색된 글을 가져오는 쿼리문 - 검색조건 -->
-	<select id="getLectureBoardListWithSc" resultType="LectureBoardVO">
+	<select id="getLectureBoardListWithSc"
+		resultType="LectureBoardVO">
 		select * from lectureBoard
 		<choose>
 			<when test="searchType == 'lecTitle'">where lecTitle like
@@ -102,5 +103,18 @@
 		</choose>
 	</select>
 
+	<!-- 검색 필터를 클릭했을 시에 조건에 맞는 글을 가져오는 쿼리문 - 검색 필터 -->
+	<select id="getLectureBoardListFilter"
+		resultType="LectureBoardVO">
+		select * from lectureBoard order by
+		<choose>
+			<when test="filterType == 'latest'">lecPostDate desc</when>
+			<when test="filterType 
+		== 'popular'">lecLikeCount desc</when>
+			<when test="filterType == 'view'">lecReadCount
+				desc
+			</when>
+		</choose>
+	</select>
 
 </mapper>
