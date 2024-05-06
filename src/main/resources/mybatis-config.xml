@@ -20,6 +20,8 @@
 			type="com.dodeveloper.lecture.vodto.LectureBoardVO" />
 		<typeAlias alias="LectureBoardDTO"
 			type="com.dodeveloper.lecture.vodto.LectureBoardDTO" />
+		<typeAlias alias="LectureSearchDTO"
+			type="com.dodeveloper.lecture.vodto.LectureSearchDTO" />
 
 	</typeAliases>
 </configuration>
