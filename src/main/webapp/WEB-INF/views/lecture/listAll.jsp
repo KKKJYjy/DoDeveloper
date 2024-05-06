@@ -50,32 +50,33 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
-/* 검색 조건 */
-function isValid() {
-    let searchType = $('#searchType').val();
-    let searchValue = $('#searchValue').val();
+	/* 검색 조건 */
+	function isValid() {
+		let searchType = $('#searchType').val();
+		let searchValue = $('#searchValue').val();
 
-    if (searchType === "-1") {
-        alert("검색 조건을 선택해주세요.");
-        return false;
-    }
+		if (searchType === "-1") {
+			alert("검색 조건을 선택해주세요.");
+			return false;
+		}
 
-    if (searchValue.trim() === "") {
-        alert("검색어를 입력해주세요.");
-        return false;
-    }
+		if (searchValue.trim() === "") {
+			alert("검색어를 입력해주세요.");
+			return false;
+		}
 
-    // SQL 쿼리문 키워드 검사
-    let sqlKeywords = ["OR", "SELECT", "AND", "INSERT", "UPDATE", "DELETE", "DROP", "EXEC", "TRUNCATE", "CREATE", "ALTER"];
-    for (let i = 0; i < sqlKeywords.length; i++) {
-        if (searchValue.toUpperCase().includes(sqlKeywords[i])) {
-            alert("검색어에 유효하지 않은 키워드가 포함되어 있습니다.");
-            return false;
-        }
-    }
+		// SQL 쿼리문 키워드 검사
+		let sqlKeywords = [ "OR", "SELECT", "AND", "INSERT", "UPDATE",
+				"DELETE", "DROP", "EXEC", "TRUNCATE", "CREATE", "ALTER" ];
+		for (let i = 0; i < sqlKeywords.length; i++) {
+			if (searchValue.toUpperCase().includes(sqlKeywords[i])) {
+				alert("검색어에 유효하지 않은 키워드가 포함되어 있습니다.");
+				return false;
+			}
+		}
 
-    return true;
-}
+		return true;
+	}
 	
 </script>
 <style>
@@ -128,18 +129,18 @@ select option:hover {
 							</div>
 						</div>
 					</div>
-
-
+					
+					
 					<div class="button-container">
 						<button type="button" class="btn btn-dark dropdown-toggle filters"
 							data-bs-toggle="dropdown">검색 필터</button>
-						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="#">최신순</a></li>
-							<li><a class="dropdown-item" href="#">추천순</a></li>
-							<li><a class="dropdown-item" href="#">조회순</a></li>
+						<ul class="dropdown-menu" id="filterType" name="filterType">
+							<li><a class="dropdown-item" href="?filterType=latest">최신순</a></li>
+							<li><a class="dropdown-item" href="?filterType=popular">인기순</a></li>
+							<li><a class="dropdown-item" href="?filterType=view">조회순</a></li>
 						</ul>
 
-						<button type="button" class="btn btn-dark writeren"
+						<button type="button" class="btn btn-dark writeren" id="applyFilterBtn"
 							onclick="location.href='/lecture/writeBoard';">글 작성</button>
 					</div>
 
