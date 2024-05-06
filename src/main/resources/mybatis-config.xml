@@ -16,5 +16,7 @@
 			type="com.dodeveloper.message.vodto.MessageBoxVO" />		
 		<typeAlias alias="MessageBoxDTO"
 			type="com.dodeveloper.message.vodto.MessageBoxDTO" />
+		<typeAlias alias="StudyBoardVO"
+			type="com.dodeveloper.study.vodto.StudyBoardVO" />
 	</typeAliases>
 </configuration>

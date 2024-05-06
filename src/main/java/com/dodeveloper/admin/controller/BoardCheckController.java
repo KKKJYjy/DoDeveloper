@@ -1,0 +1,34 @@
+package com.dodeveloper.admin.controller;
+
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.dodeveloper.admin.service.AdminService;
+import com.dodeveloper.study.vodto.StudyBoardVO;
+
+//@Controller
+//@RequestMapping("/admin")
+//public class BoardCheckController {
+//	
+//	private static final Logger logger = LoggerFactory.getLogger(BoardCheckController.class);
+//	
+//	@Autowired
+//	private AdminService aService;
+//	
+//	@RequestMapping("/table")
+//	public void listStudyBoard(Model model) throws Exception {
+//		logger.info("study게시글 조회");
+//		
+//		List<StudyBoardVO> studyBoardList = aService.getlistStudyBoard();
+//		
+//		model.addAttribute("studyBoardList", studyBoardList);
+//		
+//		
+//	}
+//}
