@@ -2,6 +2,7 @@ package com.dodeveloper.lecture.dao;
 
 import java.util.List;
 
+
 import com.dodeveloper.lecture.vodto.LectureBoardDTO;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
 import com.dodeveloper.lecture.vodto.LectureSearchDTO;
@@ -37,5 +38,9 @@ public interface LectureBoardDAO {
 	
 	// 검색어가 있을 경우 검색된 글을 가져오는 메서드 - 검색조건
 	List<LectureBoardVO> lectureBoardListWithSc(LectureSearchDTO lsDTO) throws Exception;
+	
+	// 검색 필터(최신순 / 인기순 / 조회순)을 선택했을 때 글을 가져오는 메서드 - 검색 필터
+	List<LectureBoardVO> listAllBoardByFilter(List<LectureBoardVO> lectureBoardList, String filterType) throws Exception;
+	
 	
 }

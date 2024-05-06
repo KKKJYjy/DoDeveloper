@@ -1,6 +1,7 @@
 package com.dodeveloper.lecture.dao;
 
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -106,7 +107,7 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 * @author : kde
 	 * @date : 2024.05.04
 	 * @param : LectureBoardDTO newLecBoard - 유저가 작성한 글을 insert
-	 * @return :
+	 * @return : int
 	 * @description : 유저가 작성한 글을 insert
 	 */
 	@Override
@@ -162,13 +163,13 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 */
 	@Override
 	public int lectureBoardCntWithSc(LectureSearchDTO lsDTO) throws Exception {
-		
+
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("searchType", lsDTO.getSearchType());
 		// lsDTO.getSearchValue() 앞 뒤로 "%"를 붙이는 이유
 		// ex) 자바를 검색했을 경우 자바라는 글이 포함된 글은 나오지않아서 "%"를 붙여준다.
 		params.put("searchValue", "%" + lsDTO.getSearchValue() + "%");
-		
+
 		return ses.selectOne(ns + ".getLectureBoardCntWithSc", params);
 	}
 
@@ -182,12 +183,28 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 */
 	@Override
 	public List<LectureBoardVO> lectureBoardListWithSc(LectureSearchDTO lsDTO) throws Exception {
-		
+
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("searchType", lsDTO.getSearchType());
 		params.put("searchValue", "%" + lsDTO.getSearchValue() + "%");
-		
+
 		return ses.selectList(ns + ".getLectureBoardListWithSc", params);
+	}
+
+	/**
+	 * @methodName : listAllBoardByFilter
+	 * @author : kde
+	 * @date : 2024.05.06
+	 * @param : List<LectureBoardVO> lectureBoardList - 게시글 목록
+	 * @param : String filterType - 필터 타입(최신순 / 인기순 / 조회순)
+	 * @return : List<LectureBoardVO>
+	 * @description : 검색 필터(최신순 / 인기순 / 조회순)을 선택했을 때 글을 가져오는 메서드 - 검색 필터
+	 */
+	@Override
+	public List<LectureBoardVO> listAllBoardByFilter(List<LectureBoardVO> lectureBoardList, String filterType)
+			throws Exception {
+		
+		return ses.selectList(ns + ".getLectureBoardListFilter", filterType);
 	}
 
 }
