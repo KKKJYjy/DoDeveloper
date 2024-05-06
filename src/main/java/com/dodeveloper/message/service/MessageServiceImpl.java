@@ -11,10 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dodeveloper.message.dao.MessageBoxDAO;
 import com.dodeveloper.message.dao.MessageDAO;
+import com.dodeveloper.message.dao.MessageFileDAO;
 import com.dodeveloper.message.vodto.MessageBoxDTO;
 import com.dodeveloper.message.vodto.MessageBoxVO;
 import com.dodeveloper.message.vodto.MessageDTO;
 import com.dodeveloper.message.vodto.MessageVO;
+import com.dodeveloper.message.vodto.SendMessageDTO;
+import com.dodeveloper.message.vodto.MessageFileDTO;
 
 @Service
 public class MessageServiceImpl implements MessageService{
@@ -24,6 +27,9 @@ public class MessageServiceImpl implements MessageService{
 
 	@Autowired
 	private MessageBoxDAO messageBoxDAO;
+	
+	@Autowired
+	private MessageFileDAO messageFileDAO;
 	
 	@Override
 	public MessageVO getMessageByNo(int messageNo) throws Exception {
@@ -48,7 +54,11 @@ public class MessageServiceImpl implements MessageService{
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-	public void sendMessage(MessageDTO messageToSend, List<String> receiverIdList) throws Exception {
+	public void sendMessage(SendMessageDTO sendMessageDTO) throws Exception {
+		
+		MessageDTO messageToSend = sendMessageDTO.getMessage();
+		List<String> receiverIdList = sendMessageDTO.getReceiverIdList();
+		List<MessageFileDTO> uploadedFileList = sendMessageDTO.getFileList();
 		
 		int pk = messageDAO.insertIntoMessage(messageToSend);
 		for(String receiver : receiverIdList) {
@@ -56,6 +66,14 @@ public class MessageServiceImpl implements MessageService{
 				throw new Exception("insert into messageBox 에서 오류가 발생함");
 			}
 		}
+		
+		for(MessageFileDTO file : uploadedFileList) {
+			file.setMessageNo(pk);
+			if(messageFileDAO.insertIntoMessageFile(file) != 1) {
+				throw new Exception("insert into messageFile 에서 오류가 발생함");
+			}
+		}
+		
 	}
 
 }
