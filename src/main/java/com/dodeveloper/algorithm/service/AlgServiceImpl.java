@@ -41,4 +41,11 @@ public class AlgServiceImpl implements AlgService {
 		return algDetailList;
 	}
 
+
+	@Override
+	public void writeAlgBoard(AlgBoardDTO algBoardDTO) {
+		// 
+		aDao.insertAlgBoard(algBoardDTO);
+	}
+
 }

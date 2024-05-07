@@ -33,4 +33,10 @@ public class AlgDAOImpl implements AlgDAO {
 		return ses.selectList(ns+".selectAlgDetail",boardNo);
 	}
 
+	@Override
+	public void insertAlgBoard(AlgBoardDTO algBoardDTO) {
+		// 알고리즘 게시판 글쓰기에 입력된 값을 DB Insert문으로 
+		
+	}
+
 }

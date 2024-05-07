@@ -12,4 +12,8 @@ public interface AlgService {
 	
 	// alg상세게시판 조회
 	List<AlgDetailDTO> getListDetail(int boardNo) throws Exception;
+
+	void writeAlgBoard(AlgBoardDTO algBoardDTO);
+
+	
 }

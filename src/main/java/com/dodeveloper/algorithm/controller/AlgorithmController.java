@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dodeveloper.algorithm.service.AlgService;
@@ -52,5 +53,22 @@ public class AlgorithmController {
 		
 		model.addAttribute("algDetailList", returnMap);
 	}
+	
+	@RequestMapping(value="/writePOST",method = RequestMethod.POST)
+	public String writeAlg(AlgBoardDTO algBoardDTO) throws Exception {
+		System.out.println("글 작성()");
+		System.out.println(algBoardDTO);
+		//aService.writeAlgBoard(algBoardDTO);
+		
+		return "/algorithm/listAll";
+	}
+	
+	@RequestMapping("/writePOST") // "/algorithm/write"가 get 방식으로 요청될 때... 호출
+	public String writeBoard() {
+		// //algorithm/writeBoard.jsp로 포워딩
+		System.out.println("글작성");
+		return "/algorithm/writeBoard";
+	}
+
 
 }
