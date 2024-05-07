@@ -15,11 +15,16 @@
 <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
 
 <!-- 부트스트랩 -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet">
+
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 
 <!-- select2 css cdn -->
 <link
@@ -69,6 +74,8 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
+
+
 <!-- 스터디 writeStudyBoard css 파일 -->
 <link href="/resources/assets/css/study/writeStudyBoard.css"
 	rel="stylesheet" />
@@ -98,7 +105,7 @@
 
 		// 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
 		var iwContent = `<div style="padding:10px; width:100%; "><p class="mb-1"><b>${studyList.stuLoc}</b></p>`;
-		iwContent += `<p class="pb-2"><a href="https://map.kakao.com/link/map/${studyList.stuLoc},${studyList.stuX }, ${studyList.stuY }" target="_blank"><span class="badge text-bg-secondary">큰지도보기</span></a>`;
+		iwContent += `<p class="pb-2"><a href="https://map.kakao.com/link/map/${studyList.stuLoc},${studyList.stuX }, ${studyList.stuY }" target="_blank"><span class="badge text-bg-secondary me-2">큰지도보기</span></a>`;
 		iwContent += `<a href="https://map.kakao.com/link/to/${studyList.stuLoc},${studyList.stuX }, ${studyList.stuY }" target="_blank"><span class="badge text-bg-secondary">길찾기</span></a></p>`;
 		iwContent += `</div>`; 
 		
@@ -126,6 +133,21 @@
 		    roadview.setPanoId(panoId, position); //panoId와 중심좌표를 통해 로드뷰 실행
 		});
 		
+		
+		
+		//북마크 버튼을 눌렀을 때
+		let book = 0;
+        $('.bookMark').on('click',function(){
+            if(book==0){
+                $(this).attr('class','bi-bookmark-fill');
+               	book++;
+            }else if(book==1){
+                $(this).attr('class','bi-bookmark');
+                book--;
+            }
+
+        });
+		
 	});
 	
 </script>
@@ -140,9 +162,18 @@
 		<section id="study" class="studyBasic">
 			<div class="container" style="width: 80%">
 				<div class="container">
-					<h3 class="text-light">
-						<b>${studyList.stuTitle }</b>
-					</h3>
+				
+					<div class="d-flex">
+						<div class="me-auto">
+							<h3 class="text-light">
+								<b>${studyList.stuTitle }</b>
+							</h3>
+						</div>
+						<div class="">
+							<i class="bi bi-share fs-5 me-2" style="color: #ffffff;"></i>
+						</div>
+					</div>
+					
 					<p class="text-light mt-3">
 						<b>${studyList.stuWriter }</b>
 					</p>
@@ -210,7 +241,7 @@
 					<!-- 내용 -->
 					<div class="card mt-3">
 						<div class="card-body">
-							<div class="mb-2 ">
+							<div class="mb-2">
 								<b>스터디 소개</b>
 							</div>
 							<div class="">${studyList.stuContent }</div>
@@ -225,9 +256,11 @@
 								<b>스터디 예정 장소</b>
 							</div>
 							<div class="row">
+								<!-- 카카오 지도 출력 부분 -->
 								<div class="col-md-6">
 									<div id="map" style="width: 100%; height: 400px;"></div>
 								</div>
+								<!-- 카카오 로드뷰 부분 -->
 								<div class="col-md-6">
 									<div id="roadview" style="width: 100%; height: 400px;"></div>
 								</div>
@@ -235,19 +268,21 @@
 						</div>
 					</div>
 
-					<!-- 카카오 지도 출력 부분 -->
 
-					<!-- 취소 글쓰기 버튼 -->
+					<!-- 북마크, 참여신청 버튼 -->
 					<div class="row mt-4">
-						<div class="col-md-6">
-							<input type="reset" class="btn btn-outline-secondary" value="취소"
-								style="width: 100%" onclick="location.href='/study/listAll';" />
+						<div class="col-md-1">
+							<button type="button" class="btn btn-danger bookBtn" style="width:100%">
+								<i class="bi bi-bookmark bookMark"></i>
+							</button>
 						</div>
-						<div class="col-md-6">
-							<input type="submit" class="btn btn-secondary" value="글쓰기"
-								style="width: 100%" onclick="return isVaild();" />
+						<div class="col-md-11">
+							<input type="submit" class="btn btn-secondary" value="참여신청"
+								style="width: 100%" onclick="" />
 						</div>
 					</div>
+					
+					
 
 				</div>
 			</div>
