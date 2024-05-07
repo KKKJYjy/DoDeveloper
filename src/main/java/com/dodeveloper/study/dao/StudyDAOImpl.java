@@ -50,4 +50,9 @@ public class StudyDAOImpl implements StudyDAO {
 		return ses.insert(ns + ".insertNewStudy", newStudyDTO);
 	}
 
+	@Override
+	public StudyBoardVO selectStudyByStuNo(int stuNo) throws Exception {
+		return ses.selectOne(ns + ".selectStudyByStuNo", stuNo);
+	}
+
 }

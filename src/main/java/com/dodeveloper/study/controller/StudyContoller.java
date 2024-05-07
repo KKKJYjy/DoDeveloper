@@ -106,4 +106,26 @@ public class StudyContoller {
 		return result;
 	}
 
+	// stuNo번째 스터디 글을 불러오는 메서드
+	@GetMapping("/viewStudyBoard")
+	public void viewStudyBoard(@RequestParam("stuNo") int stuNo, Model model) throws Exception {
+
+		logger.info(stuNo + "번 글을 조회하자");
+
+		// 스터디 목록
+		StudyBoardVO studyList = stuService.selectStudyByStuNo(stuNo);
+
+		// 스터디 No번째글 스터디 언어 목록
+		List<StuStackDTO> stuStackList = new ArrayList<StuStackDTO>();
+
+		// stuNo를 넘겨주어 공부할 언어 정보를 가져오자
+
+		stuStackList.addAll(stuService.selectAllStudyStack(studyList.getStuNo()));
+
+		System.out.println(stuStackList.toString());
+		model.addAttribute("studyList", studyList);
+		model.addAttribute("stuStackList", stuStackList);
+
+	}
+
 }

@@ -7,7 +7,7 @@
 <meta charset="utf-8" />
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-<title>Study List - DoDeveloper</title>
+<title>Write Study - DoDeveloper</title>
 <meta content="" name="description" />
 <meta content="" name="keywords" />
 
@@ -106,7 +106,7 @@
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		mapOption = {
 			center : new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-			level : 5
+			level : 2
 		// 지도의 확대 레벨
 		};
 
@@ -166,7 +166,9 @@
 
 			console.log(mapX, mapY, mapName);
 		});
+
 	}
+
 
 	//1) 카카오 map값을 같이 보내기 위해서 form이 아닌 ajax로 처리한다. (insertStudy)
 	//2) multiSelect만 form 값으로 보낸다. (insertStack)

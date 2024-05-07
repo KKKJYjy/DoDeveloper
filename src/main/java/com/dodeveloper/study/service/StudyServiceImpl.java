@@ -43,4 +43,9 @@ public class StudyServiceImpl implements StudyService {
 		return sDao.insertNewStudy(newStudyDTO);
 	}
 
+	@Override
+	public StudyBoardVO selectStudyByStuNo(int stuNo) throws Exception {
+		return sDao.selectStudyByStuNo(stuNo);
+	}
+
 }

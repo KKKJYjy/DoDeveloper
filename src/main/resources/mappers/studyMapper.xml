@@ -30,5 +30,9 @@
 		insert into studyBoard(stuWriter, stuTitle, stuContent, stuLoc, stuX, stuY, stuDate, stuPers, contactLink, endDate) 
 		values(#{stuWriter}, #{stuTitle}, #{stuContent}, #{stuLoc}, #{stuX}, #{stuY}, #{stuDate}, #{stuPers}, #{contactLink}, #{endDate})
 	</insert>
+	
+	<select id="selectStudyByStuNo" resultType="com.dodeveloper.study.vodto.StudyBoardVO">
+		SELECT * FROM studyBoard where stuNo = #{stuNo}
+	</select>
 
 </mapper>

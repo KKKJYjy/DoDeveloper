@@ -23,5 +23,7 @@ public interface StudyService {
 	//새로운 스터디글 인서트
 	int insertNewStudy(StudyBoardDTO newStudyDTO) throws Exception;
 
+	//stuNo번째 스터디 글을 조회하는 메서드
+	StudyBoardVO selectStudyByStuNo(int stuNo) throws Exception;
 	
 }
