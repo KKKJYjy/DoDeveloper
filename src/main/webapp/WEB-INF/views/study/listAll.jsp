@@ -200,11 +200,11 @@
 											<div class="me-auto">
 												<p class="card-text">${study.stuWriter }</p>
 											</div>
-											<div class="">
-												<p class="card-text">조회수 ${study.readCount }</p>
+											<div class="me-2">
+												<p class="card-text text-body-secondary"><i class="bi bi-eye"></i> ${study.readCount }</p>
 											</div>
 											<div class="">
-												<p class="card-text">스크랩수 ${study.scrape }</p>
+												<p class="card-text text-body-secondary"><i class="bi bi-bookmark"></i> ${study.scrape }</p>
 											</div>
 										</div>
 									</div>
