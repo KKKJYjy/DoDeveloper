@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dodeveloper.mappers.replyMapper">
+
+	<!-- 부모글이 ?번 글에 대한 모든 댓글을 가져오는 쿼리문 -->
+	<select id="selectAllReply" resultType="com.dodeveloper.reply.vodto.ReplyVO">
+		select * from reply where bNo = #{bNo} and bType = 1 order by
+		writtenDate desc
+	</select>
+
+	<insert id="insertReply">
+		insert into reply(bNo, replyer, replyContent, bType) values(#{bNo},
+		#{replyer}, #{replyContent}, 1)
+	</insert>
+</mapper>
