@@ -20,6 +20,7 @@ import com.dodeveloper.study.service.StudyService;
 import com.dodeveloper.study.vodto.StuStackVO;
 import com.dodeveloper.study.vodto.StudyBoardDTO;
 import com.dodeveloper.study.vodto.StudyBoardVO;
+import com.dodeveloper.study.vodto.SearchStudyDTO;
 import com.dodeveloper.study.vodto.StuStackDTO;
 
 @Controller
@@ -31,13 +32,13 @@ public class StudyContoller {
 	@Autowired
 	StudyService stuService;
 
-	// 스터디 모든 목록을 불러오는 메서드
+	// 스터디 모든 목록을 불러오는 메서드 + 검색 기능 추가
 	@GetMapping(value = "/listAll")
-	public void listAllGet(Model model) throws Exception {
+	public void listAllGet(Model model, SearchStudyDTO sDTO) throws Exception {
 		logger.info("listAll View.");
 
 		// 스터디 목록
-		List<StudyBoardVO> studyList = stuService.selectAllList();
+		List<StudyBoardVO> studyList = stuService.selectAllList(sDTO);
 
 		// 스터디 No번째글 스터디 언어 목록
 		List<StuStackDTO> stuStackList = new ArrayList<StuStackDTO>();

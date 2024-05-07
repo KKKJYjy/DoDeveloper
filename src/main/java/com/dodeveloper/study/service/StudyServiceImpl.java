@@ -9,6 +9,7 @@ import com.dodeveloper.study.dao.StudyDAO;
 import com.dodeveloper.study.vodto.StuStackVO;
 import com.dodeveloper.study.vodto.StudyBoardDTO;
 import com.dodeveloper.study.vodto.StudyBoardVO;
+import com.dodeveloper.study.vodto.SearchStudyDTO;
 import com.dodeveloper.study.vodto.StuStackDTO;
 
 @Service
@@ -18,8 +19,20 @@ public class StudyServiceImpl implements StudyService {
 	StudyDAO sDao;
 	
 	@Override
-	public List<StudyBoardVO> selectAllList() throws Exception {
-		return sDao.selectAllList();
+	public List<StudyBoardVO> selectAllList(SearchStudyDTO sDTO) throws Exception {
+		
+		//검색어가 있을 경우의 게시글 목록과 없는 경우의 게시글 목록이 다르다.
+		List<StudyBoardVO> lst = null;
+		
+		if(sDTO.getSearchType() != null && sDTO.getSearchContent() != null) {
+			//검색어가 있는 경우
+			lst = sDao.selectAllListWithsDTO(sDTO);
+		}else {
+			//검색어가 없는 경우
+			lst = sDao.selectAllList();
+		}
+		
+		return lst;
 	}
 
 	@Override

@@ -34,5 +34,21 @@
 	<select id="selectStudyByStuNo" resultType="com.dodeveloper.study.vodto.StudyBoardVO">
 		SELECT * FROM studyBoard where stuNo = #{stuNo}
 	</select>
+	
+	<select id="selectAllListWithsDTO" resultType="com.dodeveloper.study.vodto.StudyBoardVO">
+		select * from studyBoard
+		<choose>
+			<when test="searchType == 'title'">
+				where stuTitle like #{searchContent}
+			</when>
+			<when test="searchType == 'writer'">
+				where stuWriter like #{searchContent}
+			</when>
+			<otherwise>
+				where stuContent like #{searchContent}
+			</otherwise>
+		</choose>
+		order by wrritenDate desc
+	</select>
 
 </mapper>

@@ -162,27 +162,31 @@
 						<div class="col-md-3"></div>
 
 						<!-- 검색바 -->
-						<div class="col-md-5 justify-content-right">
-							<div class="row">
-								<div class="col-md-4">
-									<select class="form-select" id="searchType" name="searchType">
-										<option value="-1">검색 방법</option>
-										<option value="title">제목</option>
-										<option value="writer">작성자</option>
-										<option value="content">내용</option>
-									</select>
+
+						<div class="col-md-5">
+							<form>
+								<div class="row">
+									<div class="col-md-4">
+										<select class="form-select" id="searchType" name="searchType">
+											<option value="-1">검색 방법</option>
+											<option value="title">제목</option>
+											<option value="writer">작성자</option>
+											<option value="content">내용</option>
+										</select>
+									</div>
+									<div class="col-md-6">
+										<input type="text" class="form-control mb-4"
+											id="searchContent" name="searchContent"
+											placeholder="검색할 내용 입력" />
+									</div>
+									<div class="col-md-2">
+										<input type="button" class="btn btn-secondary" value="검색"
+											style="width: 100%" onclick="return isValid();" />
+									</div>
 								</div>
-								<div class="col-md-6">
-									<input type="text" class="form-control mb-4" id="searchContent"
-										name="searchContent" placeholder="검색할 내용 입력"
-										 />
-								</div>
-								<div class="col-md-2">
-									<input type="button" class="btn btn-secondary" value="검색"
-										style="width: 100%" onclick="return isValid();" />
-								</div>
-							</div>
+							</form>
 						</div>
+
 
 					</div>
 				</div>
