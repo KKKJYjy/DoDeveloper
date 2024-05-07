@@ -9,12 +9,16 @@
 		<typeAlias alias="ProfileVO"
 			type="com.dodeveloper.mypage.vo.ProfileVO" />
 		<typeAlias alias="MessageVO"
-			type="com.dodeveloper.message.vodto.MessageVO" />		
+			type="com.dodeveloper.message.vodto.MessageVO" />
 		<typeAlias alias="MessageDTO"
-			type="com.dodeveloper.message.vodto.MessageDTO" />		
+			type="com.dodeveloper.message.vodto.MessageDTO" />
 		<typeAlias alias="MessageBoxVO"
-			type="com.dodeveloper.message.vodto.MessageBoxVO" />		
+			type="com.dodeveloper.message.vodto.MessageBoxVO" />
 		<typeAlias alias="MessageBoxDTO"
 			type="com.dodeveloper.message.vodto.MessageBoxDTO" />
+		<typeAlias alias="StudyBoardVO"
+			type="com.dodeveloper.study.vodto.StudyBoardVO" />
+		<typeAlias alias="BadMemberBoardVO"
+			type="com.dodeveloper.admin.vo.BadMemberBoardVO" />
 	</typeAliases>
 </configuration>
