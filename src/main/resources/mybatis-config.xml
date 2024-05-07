@@ -6,11 +6,15 @@
 	<typeAliases>
 		<typeAlias alias="MemberVO"
 			type="com.dodeveloper.member.vo.MemberVO" />
-		<typeAlias alias="RegisterDTO"
-			type="com.dodeveloper.member.dto.RegisterDTO" />
+		<typeAlias alias="ProfileVO"
+			type="com.dodeveloper.mypage.vo.ProfileVO" />
 		<typeAlias alias="MessageVO"
 			type="com.dodeveloper.message.vodto.MessageVO" />		
 		<typeAlias alias="MessageDTO"
-			type="com.dodeveloper.message.vodto.MessageDTO" />
+			type="com.dodeveloper.message.vodto.MessageDTO" />		
+		<typeAlias alias="MessageBoxVO"
+			type="com.dodeveloper.message.vodto.MessageBoxVO" />		
+		<typeAlias alias="MessageBoxDTO"
+			type="com.dodeveloper.message.vodto.MessageBoxDTO" />
 	</typeAliases>
 </configuration>

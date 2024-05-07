@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-    <title>Worker List - DoDeveloper</title>
+    <title>CompanyInfo List - DoDeveloper</title>
     <meta content="" name="description" />
     <meta content="" name="keywords" />
 
@@ -47,19 +47,23 @@
   </head>
 
   <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">    
-	<%@ include file="../header.jsp"%>
+	<c:import url="../header.jsp" />
 
 	<main id="main">
-      <!-- Basic Section - Worker Page -->
-      <section id=worker" class="basic">
+      <!-- Basic Section - CompanyInfo Page -->
+      <section id="companyInfo" class="basic">
         <div class="container">
-        	<h1>재직자 리뷰</h1>
+        	<h1>기업 리뷰</h1>
+        	
+        	<div>
+        		${ciList}
+        	</div>
         </div>
       </section>
       <!-- End Basic Section -->
     </main>
     
-    <%@ include file="../footer.jsp"%>
+    <c:import url="../footer.jsp" />
 
     <!-- Scroll Top Button -->
     <a
