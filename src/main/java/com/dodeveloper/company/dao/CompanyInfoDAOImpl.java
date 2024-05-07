@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.dodeveloper.company.vodto.CompanyInfoVO;
-import com.dodeveloper.company.vodto.revCompanyBoardVO;
+import com.dodeveloper.company.vodto.RevCompanyBoardVO;
 
 /**
  * @packageName : com.dodeveloper.company.dao
@@ -36,7 +36,7 @@ public class CompanyInfoDAOImpl implements CompanyInfoDAO {
 	}
 
 	@Override
-	public List<revCompanyBoardVO> selectCompanyInfoRev(int companyInfoNo) throws Exception {
+	public List<RevCompanyBoardVO> selectCompanyInfoRev(int companyInfoNo) throws Exception {
 		
 		return ses.selectList(ns + ".getRevCompanyList", companyInfoNo);
 		

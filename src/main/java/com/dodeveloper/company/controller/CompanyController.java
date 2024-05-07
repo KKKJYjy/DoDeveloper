@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.dodeveloper.company.service.CompanyInfoService;
 import com.dodeveloper.company.vodto.CompanyInfoVO;
-import com.dodeveloper.company.vodto.revCompanyBoardVO;
+import com.dodeveloper.company.vodto.RevCompanyBoardVO;
 
 
 /**
@@ -81,7 +81,7 @@ public class CompanyController {
 		logger.info(companyInfoNo + "기업 리뷰 페이지 조회");
 		
 		// 서비스단 호출(getCompanyInfoRev())
-		List<revCompanyBoardVO> revList = ciService.getCompanyInfoRev(companyInfoNo);
+		List<RevCompanyBoardVO> revList = ciService.getCompanyInfoRev(companyInfoNo);
 		
 		model.addAttribute("revList", revList); // 바인딩
 		// revList : revCompanyBoard.jsp로 간다~

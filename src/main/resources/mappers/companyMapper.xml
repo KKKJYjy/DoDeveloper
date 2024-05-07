@@ -10,7 +10,7 @@
 		select * from companyinfo order by companyInfoNo asc
 	</select>
 	
-	<select id="getRevCompanyList" resultType="com.dodeveloper.company.vodto.revCompanyBoardVO">
+	<select id="getRevCompanyList" resultType="com.dodeveloper.company.vodto.RevCompanyBoardVO">
 		select * from companyrevboard where companyInfoNo = #{companyInfoNo}
 	</select>
 </mapper>    

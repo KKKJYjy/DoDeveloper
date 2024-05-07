@@ -12,7 +12,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class revCompanyBoardVO {
+public class RevCompanyBoardVO {
 	private int revNo;
 	private String revWriter;
 	private String revTitle;

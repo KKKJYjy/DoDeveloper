@@ -73,7 +73,7 @@
 	<main id="main">
 		<!-- Basic Section - CompanyInfo Page -->
 		<section id="companyInfo" class="basic">
-			<h1>기업리뷰</h1>
+			<!-- <h1>기업리뷰</h1> -->
 
 			<!-- 기업 전체 리스트 -->
 			<div class="container mt-3">
