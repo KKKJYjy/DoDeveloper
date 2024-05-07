@@ -94,6 +94,8 @@
 	<!-- 댓글 패키지 -->
 	<context:component-scan
 		base-package="com.dodeveloper.reply.dao"></context:component-scan>
+	<context:component-scan
+		base-package="com.dodeveloper.reply.service"></context:component-scan>
 
 
 	<!-- 기업&재직자 리뷰 패키지를 조사(scan)하여 객체를 스프링 컨테이너에 관리하도록 설정 -->
