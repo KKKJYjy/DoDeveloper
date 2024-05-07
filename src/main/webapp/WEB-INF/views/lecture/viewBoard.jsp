@@ -50,7 +50,39 @@
   ======================================================== -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+	//댓글 조회에 대한 js
+	$(document).ready(function() {
+		// 댓글 목록 가져오기
+		var bNo = `${lecBoard.lecNo }`;
+		refreshReplyList(bNo);
+	});
 
+	// 댓글 목록을 가져와서 화면에 표시하는 함수 -> refreshReplyList
+	function refreshReplyList(bNo) {
+		$.ajax({
+			type : "GET",
+			url : "/reply/list/" + bNo,
+			success : function(replies) {
+				var html = "";
+				for (var i = 0; i < replies.length; i++) {
+					html += "<div class='reply'>" + replies[i].replyContent
+							+ "</div>";
+				}
+				$(".replies").html(html); // 댓글 목록을 출력할 요소에 HTML 추가
+			},
+			// 댓글 목록을 불러오다가 오류가 났을 경우 alert창을 띄운다.
+			// xhr - XMLHttpRequest 객체
+			// status - 오류 상태
+			// error - 오류에 대한 정보
+			error : function(xhr, status, error) {
+				alert("댓글 목록을 불러오는 중 오류가 발생했습니다.");
+				console.error(error);
+			}
+		});
+	}
+	// ---------------------------------------------------------------------
+</script>
 </head>
 
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
@@ -151,8 +183,9 @@
 						</div>
 					</div>
 
-
-
+					<div class="replies">
+						<!-- 댓글 목록이 여기에 표시됩니다 -->
+					</div>
 
 				</section>
 
