@@ -10,20 +10,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.dodeveloper.reply.service.ReplyService;
+import com.dodeveloper.reply.vodto.ReplyDTO;
 import com.dodeveloper.reply.vodto.ReplyVO;
 
 @Controller
 @RequestMapping("/reply")
 public class ReplyController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(LectureBoardController.class);
-	
+
 	@Autowired
-	private ReplyService rService;
-	
+	private ReplyService rService; // 스프링 컨테이너에서 ReplyService 객체를 찾아 주입
+
 	/**
 	 * @methodName : selectAllReply
 	 * @author :
@@ -35,15 +38,51 @@ public class ReplyController {
 	@GetMapping("/list/{bNo}")
 	public ResponseEntity<List<ReplyVO>> selectAllReply(@PathVariable("bNo") int bNo) {
 		try {
+
 			// Service단에서 게시글 번호에 대한 모든 댓글을 가져와서 replyList 담고,
 			List<ReplyVO> replyList = rService.selectAllReply(bNo);
+
 			// ResponseEntity에 담아서 반환하는데 HTTP상태 코드는 200(OK)이다.
 			return new ResponseEntity<List<ReplyVO>>(replyList, HttpStatus.OK);
+
 		} catch (Exception e) {
 			e.printStackTrace();
+
 			// Service단에서 게시글 번호에 대한 모든 댓글을 못가져왔을 경우 빈 목록을 반환
 			return new ResponseEntity<List<ReplyVO>>(HttpStatus.INTERNAL_SERVER_ERROR);
+
 		}
+	}
+
+	/**
+	 * @methodName : insertReply
+	 * @author :
+	 * @date : 2024.05.08
+	 * @param : @PathVariable("bNo") int bNo - 게시글 번호
+	 * @param : @RequestBody ReplyDTO rDTO - ReplyDTO(댓글 작성시 반환할 변수들)
+	 * @return : ResponseEntity<String>
+	 * @description : ?번 글에 대한 댓글을 작성하는 메서드
+	 */
+	@RequestMapping(value = "/{bNo}", method = RequestMethod.POST, produces = "text/plain; charset=utf-8")
+	public ResponseEntity<String> insertReply(@PathVariable("bNo") int bNo, @RequestBody ReplyDTO rDTO) {
+		System.out.println(bNo + "번 게시글에 " + rDTO.toString() + "댓글 작성 완료!");
+
+		ResponseEntity<String> result = null;
+
+		// rDTO 객체의 bNo 속성을 bNo 변수의 값으로 설정 후, rDTO 객체가 특정 게시글 번호를 가지도록
+		rDTO.setBNo(bNo);
+
+		try {
+			if (rService.insertReply(rDTO) == 1) {
+				// 댓글 작성에 성공했을 경우
+				result = new ResponseEntity<String>("댓글 작성 성공", HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			// 댓글 작성에 실패했을 경우
+			result = new ResponseEntity<String>("댓글 작성 실패", HttpStatus.CONFLICT);
+		}
+		return result;
 	}
 
 }
