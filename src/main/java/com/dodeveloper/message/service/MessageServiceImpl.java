@@ -22,14 +22,16 @@ import com.dodeveloper.message.vodto.MessageFileDTO;
 @Service
 public class MessageServiceImpl implements MessageService{
 
-	@Autowired
 	private MessageDAO messageDAO;
-
-	@Autowired
 	private MessageBoxDAO messageBoxDAO;
+	private MessageFileDAO messageFileDAO;
 	
 	@Autowired
-	private MessageFileDAO messageFileDAO;
+	public MessageServiceImpl(MessageDAO messageDAO, MessageBoxDAO messageBoxDAO, MessageFileDAO messageFileDAO) {
+		this.messageDAO = messageDAO;
+		this.messageBoxDAO = messageBoxDAO;
+		this.messageFileDAO = messageFileDAO;
+	}
 	
 	@Override
 	public MessageVO getMessageByNo(int messageNo) throws Exception {

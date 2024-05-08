@@ -9,14 +9,18 @@ import com.dodeveloper.message.vodto.MessageFileDTO;
 @Repository
 public class MessageFileDAOImpl implements MessageFileDAO {
 
-	@Autowired
-	private SqlSessionTemplate sessionTemplate;
-	
+	private SqlSessionTemplate template;
 	private String namespace = "com.dodeveloper.mappers.messageFileMapper";
+	
+	@Autowired
+	public MessageFileDAOImpl(SqlSessionTemplate template) {
+		this.template = template;
+	}
+	
 	
 	@Override
 	public int insertIntoMessageFile(MessageFileDTO uploadfile) throws Exception {
-		return sessionTemplate.insert(namespace + ".insertIntoMessageFile", uploadfile);
+		return template.insert(namespace + ".insertIntoMessageFile", uploadfile);
 	}
 
 }
