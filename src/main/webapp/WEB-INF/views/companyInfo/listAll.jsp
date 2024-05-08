@@ -93,7 +93,7 @@
 								<h4 class="card-title">${ci.companyInfoName }</h4>
 								<div class="card-text">${ci.companyInfoFields}</div>
 								<div class="card-text">${ci.companyInfoLocation }</div>
-							</div>
+							</div>	
 						</a>
 					</c:forEach>
 				</ul>
