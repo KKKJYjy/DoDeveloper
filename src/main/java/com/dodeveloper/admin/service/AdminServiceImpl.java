@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dodeveloper.admin.dao.AdminDAO;
+import com.dodeveloper.admin.vo.AdminVO;
+import com.dodeveloper.admin.vo.BadMemberBoardVO;
 import com.dodeveloper.study.vodto.StudyBoardVO;
 
 
@@ -16,13 +18,24 @@ public class AdminServiceImpl implements AdminService {
 	private AdminDAO aDao;
 	
 	@Override
-	public List<StudyBoardVO> getlistStudyBoard() throws Exception {
+	public List<AdminVO> getlistStudyBoard() throws Exception {
 		
 		System.out.println("서비스단 : study게시물 조회");
 		
-		List<StudyBoardVO> studyBoardList = aDao.selectlistStudyBoard();
+		List<AdminVO> stuBoardList = aDao.selectlistStuBoard();
 		
-		return studyBoardList;
+		return stuBoardList;
+	}
+
+	@Override
+	public List<BadMemberBoardVO> getListBadMemberBoard() throws Exception {
+		
+		System.out.println("서비스단 : 불량 회원 게시물 조회");
+		
+		List<BadMemberBoardVO> badMemberList = aDao.selectListBadMemberBoard();
+	
+		return badMemberList;
 	}
 
 }
+

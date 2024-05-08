@@ -4,8 +4,12 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dodeveloper.mappers.adminMapper">
 
-<select id="getBoard" resultType="StudyBoardVO">
+<select id="getBoard" resultType="AdminVO">
 	select * from studyBoard order by stuNo desc
+</select>
+
+<select id="getBadMemberBoard" resultType="BadMemberBoardVO">
+	select * from reportBoard order by reportNo desc
 </select>
 
 </mapper>

@@ -11,13 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.dodeveloper.admin.service.AdminService;
+import com.dodeveloper.admin.vo.AdminVO;
+import com.dodeveloper.admin.vo.BadMemberBoardVO;
 import com.dodeveloper.study.vodto.StudyBoardVO;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
-	
+
 	@Autowired
 	private AdminService aService;
 
@@ -33,8 +35,12 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/inquiry", method = RequestMethod.GET)
-	public void inquiry() {
-		logger.info("inquiry 페이지 호출");
+	public void inquiry(Model model) throws Exception {
+		logger.info("불량 회원 게시글 페이지 호출");
+		
+		List<BadMemberBoardVO> bedMemberBoardList = aService.getListBadMemberBoard();
+		
+		model.addAttribute("bedMemberBoardList", bedMemberBoardList);
 
 	}
 
@@ -45,12 +51,19 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/table", method = RequestMethod.GET)
-	public void table(Model model) throws Exception {
-		logger.info("study게시글 조회");
+	public void table(Model model)  {
+		logger.info("table 호출");
 
-		List<StudyBoardVO> studyBoardList = aService.getlistStudyBoard();
+		
+	}
+	
+	@RequestMapping(value = "/selectBoard", method = RequestMethod.GET)
+	public void selectBoard(Model model) throws Exception {
+		logger.info("게시판 조회 페이지");
+		
+		List<AdminVO> stuBoardList = aService.getlistStudyBoard();
 
-		model.addAttribute("studyBoardList", studyBoardList);
+		model.addAttribute("stuBoardList", stuBoardList);
 	}
 
 }

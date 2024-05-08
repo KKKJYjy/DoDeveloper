@@ -30,6 +30,13 @@
 <link href="../resources/assets/plugins/c3-master/c3.min.css" rel="stylesheet" />
 <!-- Custom CSS -->
 <link href="../resources/css/style.min.css" rel="stylesheet" />
+<style>
+#chat-channel-button {
+	position: fixed;
+	left: 960px;
+	
+}
+</style>
   </head>
 
   <body>
@@ -68,33 +75,7 @@
         <!-- ============================================================== -->
         <!-- Bread crumb and right sidebar toggle -->
         <!-- ============================================================== -->
-        <div class="page-breadcrumb">
-          <div class="row align-items-center">
-            <div class="col-md-6 col-8 align-self-center">
-              <h3 class="page-title mb-0 p-0">Dashboard</h3>
-              <div class="d-flex align-items-center">
-                <nav aria-label="breadcrumb">
-                  <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">
-                      Dashboard
-                    </li>
-                  </ol>
-                </nav>
-              </div>
-            </div>
-            <div class="col-md-6 col-4 align-self-center">
-              <div class="text-end upgrade-btn">
-                <a
-                  href="https://www.wrappixel.com/templates/materialpro/"
-                  class="btn btn-danger d-none d-md-inline-block text-white"
-                  target="_blank"
-                  >Upgrade to Pro</a
-                >
-              </div>
-            </div>
-          </div>
-        </div>
+        
         <!-- ============================================================== -->
         <!-- End Bread crumb and right sidebar toggle -->
         <!-- ============================================================== -->
@@ -102,17 +83,7 @@
         <!-- Container fluid  -->
         <!-- ============================================================== -->
         <div class="container-fluid">
-          <!-- ============================================================== -->
-          <!-- Sales chart -->
-          <!-- ============================================================== -->
-
-          <!-- ============================================================== -->
-          <!-- Sales chart -->
-          <!-- ============================================================== -->
-
-          <!-- ============================================================== -->
-          <!-- Table -->
-          <!-- ============================================================== -->
+        
         </div>
         <!-- ============================================================== -->
         <!-- End Container fluid  -->
@@ -122,7 +93,8 @@
         <!-- ============================================================== -->
         <footer class="footer">
           © 2021 Material Pro Admin by
-          <a href="https://www.wrappixel.com/">wrappixel.com </a>
+          <a href="https://www.wrappixel.com/">wrappixel.com</a>
+          <div id="chat-channel-button"></div>
         </footer>
         <!-- ============================================================== -->
         <!-- End footer -->

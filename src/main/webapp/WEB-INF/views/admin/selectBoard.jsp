@@ -63,7 +63,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="board" items="${studyBoardList }">
+				<c:forEach var="board" items="${stuBoardList }">
 					<tr>
 						<td>${board.stuNo }</td>
 						<td>${board.stuWriter }</td>

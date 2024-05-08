@@ -6,7 +6,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.dodeveloper.study.vodto.StudyBoardVO;
+import com.dodeveloper.admin.vo.AdminVO;
+import com.dodeveloper.admin.vo.BadMemberBoardVO;
 
 
 
@@ -19,10 +20,16 @@ public class AdminDAOImpl implements AdminDAO {
 	private static String ns = "com.dodeveloper.mappers.adminMapper";
 	
 	@Override
-	public List<StudyBoardVO> selectlistStudyBoard() throws Exception {
+	public List<AdminVO> selectlistStuBoard() throws Exception {
 		
 	
 		return ses.selectList(ns + ".getBoard");
+	}
+
+	@Override
+	public List<BadMemberBoardVO> selectListBadMemberBoard() throws Exception {
+		
+		return ses.selectList(ns + ".getBadMemberBoard");
 	}
 
 }
