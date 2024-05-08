@@ -11,10 +11,10 @@ import com.dodeveloper.reply.vodto.ReplyVO;
 
 @Repository
 public class ReplyDAOImpl implements ReplyDAO {
-	
+
 	@Autowired
 	private SqlSession ses;
-	
+
 	private static String ns = "com.dodeveloper.mappers.replyMapper";
 
 	/**
@@ -27,8 +27,22 @@ public class ReplyDAOImpl implements ReplyDAO {
 	 */
 	@Override
 	public List<ReplyVO> selectAllReply(int bNo) throws Exception {
-		
+
 		return ses.selectList(ns + ".selectAllReply", bNo);
 	}
-	
+
+	/**
+	 * @methodName : insertReply
+	 * @author : kde
+	 * @date : 2024.05.08
+	 * @param : ReplyDTO rDTO - ReplyDTO(댓글 작성시 반환할 변수들)
+	 * @return : int
+	 * @description : ?번 글에 대한 댓글을 작성하는 메서드
+	 */
+	@Override
+	public int insertReply(ReplyDTO rDTO) throws Exception {
+
+		return ses.insert(ns + ".insertReply", rDTO);
+	}
+
 }
