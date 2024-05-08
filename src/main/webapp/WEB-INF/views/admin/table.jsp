@@ -47,13 +47,18 @@
   </ul>
 
 
+	
 
 	<div class="container">
 		<h4>게시글 전체 조회 페이지</h4>
 
 
 
+
 		<table class="table table-hover">
+		
+		
+		
 			<thead>
 				<tr>
 					<th>글번호</th>
@@ -84,6 +89,8 @@
 			</tbody>
 		</table>
 	</div>
+	
+	
 
 
 
