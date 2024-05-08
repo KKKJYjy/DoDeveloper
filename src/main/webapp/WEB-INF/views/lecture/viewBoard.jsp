@@ -82,6 +82,68 @@
 		});
 	}
 	// ---------------------------------------------------------------------
+
+	// 댓글 작성시 저장하는 js
+	$(function() {
+
+		// 댓글 저장 버튼 클릭 이벤트
+		$('.saveReply').click(function() {
+			let replyContent = $('#replyContent').val(); // 댓글 내용 가져오기
+			if (replyContent === '') {
+				// 댓글을 입력안하고 댓글 작성 버튼을 눌렀을 경우
+				alert('댓글을 입력해주세요!');
+				$('#replyContent').focus(); // 포커스를 입력창에 넣어주기
+			} else {
+				let replyer = preAuth(); // 댓글 작성자 가져오기
+				if (replyer !== '') {
+					let bNo = ${lecBoard.lecNo}; // 게시글 번호 가져오기
+					let newReply = {
+						"bNo" : bNo + "", // 문자열로 변환
+						"replyContent" : replyContent,
+						"replyer" : replyer
+					}; // 댓글 객체 생성
+
+					console.log('게시글 번호 가져오기');
+
+					// AJAX를 이용하여 댓글 추가 요청 보내기
+					$.ajax({
+						url : '/reply/' + bNo,
+						type : 'post',
+						data : JSON.stringify(newReply), // 서버에 넘겨주는 데이터
+						headers : { // 서버에 보내지는 데이터의 형식이 json임을 알림
+							"content-type" : "application/json"
+						},
+						dataType : "text", // 수신받을 데이터의 타입
+						async : 'false',
+						success : function(data) { // data(json)
+							// 통신 성공하면 실행할 내용들....
+							console.log(data);
+							if (data == 'success') {
+								$('.replies').empty();
+								$('#replyContent').val('');
+
+								getAllReplies(); // 댓글 작성 후 모든 댓글 조회
+							}
+						},
+						error : function(data) { // HttpStatus Code가 200이 아닐때...
+							console.log(data);
+						}
+					});
+				}
+			}
+		});
+	});
+
+	// ---------------------------------------------------------------------
+	// 댓글 처리 전 로그인 인증
+	function preAuth() {
+		let writer = '${sessionScope.loginMember.userId}';
+		if (writer === '') { // 로그인 하지 않았다면 로그인 페이지로 이동
+			location.href = '/member/login?redirectUrl=view&lecNo=${lecBoard.lecNo}';
+		}
+		return writer;
+	}
+	// ---------------------------------------------------------------------
 </script>
 </head>
 
@@ -176,8 +238,7 @@
 					<div class="writeReply">
 						<div class="mb-3 mt-3">
 							<label for="replyContent" class="form-label">댓글 내용 : </label>
-							<textarea cols="600" rows="5" id="replyContent"
-								class="form-control"></textarea>
+							<textarea id="replyContent" class="form-control" rows="1"></textarea>
 							<button type="button" class="btn btn-info saveReply">댓글
 								저장</button>
 						</div>
