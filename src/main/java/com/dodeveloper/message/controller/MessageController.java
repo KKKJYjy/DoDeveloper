@@ -41,9 +41,23 @@ public class MessageController {
 
 	RestTemplate restTemplate = new RestTemplate();
 
-	@Autowired
 	private MessageService messageService;
-
+	private FileProcessing fileProcessing;
+	
+	/*
+	 * TODO : 메세지 발송인과 로그인 된 회원의 id가 일치하는지 확인하는 작업
+	 * 만약 메세지 발송인과 로그인 된 회원의 id가 일치하지 않는다면,
+	 * 악의적으로 변조된 패킷을 받았거나, 뭔가 예상치 못한 문제가 생긴 것이다.
+	 * 이런 예외를 따로 처리해주어야 한다.
+	 */
+	
+	@Autowired
+	public MessageController(MessageService messageService, FileProcessing fileProcessing) {
+		this.messageService = messageService;
+		this.fileProcessing = fileProcessing;
+	}
+	
+	
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ModelAndView home() {
 		ModelAndView modelAndView = new ModelAndView();
@@ -52,6 +66,7 @@ public class MessageController {
 		return modelAndView;
 	}
 
+	
 	@RequestMapping(value = "/{receiver}/received/{startPoint}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public ResponseEntity<String> showReceivedMessages(@PathVariable("receiver") String receiver,
 			@PathVariable("startPoint") int startPoint) throws Exception {
@@ -60,6 +75,7 @@ public class MessageController {
 		return ResponseEntity.ok(gson.toJson(receivedMessages));
 	}
 
+	
 	@RequestMapping(value = "/{writer}/sent/{startPoint}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public ResponseEntity<String> showSentMessages(@PathVariable("writer") String writer,
 			@PathVariable("startPoint") int startPoint) throws Exception {
@@ -68,22 +84,21 @@ public class MessageController {
 		return ResponseEntity.ok(gson.toJson(sentMessages));
 	}
 
+	
 	@RequestMapping(value = "", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
-	public ResponseEntity<String> sendMessage(@RequestBody SendMessageDTO sendMessageDTO, HttpServletRequest request)
+	public ResponseEntity<String> sendMessage(@RequestBody SendMessageDTO sendMessageDTO)
 			throws Exception {
 
 		LinkedList<MessageFileDTO> uploadedFiles = new LinkedList<MessageFileDTO>();
-		String tempUploadPath = request.getSession().getServletContext().getRealPath(UploadPaths.tempUploadPath);
-		String realUploadPath = request.getSession().getServletContext().getRealPath(UploadPaths.realUploadPath);
-
-		for (MessageFileDTO file : sendMessageDTO.getFileList()) {
-			String movedFileName = FileProcessing.moveFile(file.getUploadName(), tempUploadPath,
-					realUploadPath);
-			
-			uploadedFiles.add(new MessageFileDTO(-1, movedFileName, file.getExt(), file.getOriginalName()));
-		}
-		
+	
 		try {
+			for (MessageFileDTO file : sendMessageDTO.getFileList()) {
+				String movedFileName = fileProcessing.saveTempFilePermanantly(file.getUploadName());
+				
+				uploadedFiles.add(new MessageFileDTO(-1, movedFileName, fileProcessing.getExtension(movedFileName), 
+						fileProcessing.getOriginalName(movedFileName)));
+			}
+			
 			sendMessageDTO.setFileList(uploadedFiles);
 			messageService.sendMessage(sendMessageDTO);
 		} catch (Exception e) {
@@ -92,29 +107,28 @@ public class MessageController {
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 
+	
 	@RequestMapping(value = "/file", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	public ResponseEntity<MessageFileDTO> uploadFile(@RequestBody MultipartFile file, HttpServletRequest request) {
+	public ResponseEntity<String> uploadFile(@RequestBody MultipartFile file) {
 
 		logger.info("file upload start");
 		String uploadName = null;
-		String originalName = file.getOriginalFilename();
-		String ext = FileProcessing.getExtension(originalName);
 		
-		if (originalName.length() > 50) {
-			return new ResponseEntity<MessageFileDTO>(HttpStatus.BAD_REQUEST);
+		if (file.getOriginalFilename().length() > 50) {
+			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		}
-
-		String uploadPath = request.getSession().getServletContext().getRealPath(UploadPaths.tempUploadPath);
-		logger.info("file upload path is : " + uploadPath);
 
 		try {
-			uploadName = FileProcessing.fileUpload(file, uploadPath);
-
+			uploadName = fileProcessing.uploadFileTemporarily(file);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<MessageFileDTO>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		}
 
-		return new ResponseEntity<MessageFileDTO>(new MessageFileDTO(-1, uploadName, ext, originalName), HttpStatus.OK);
+		if(uploadName == null) {
+			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);			
+		}
+		
+		return new ResponseEntity<String>(uploadName, HttpStatus.OK);
 	}
 }
