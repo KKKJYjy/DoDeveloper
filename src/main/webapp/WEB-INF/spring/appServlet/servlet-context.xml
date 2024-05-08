@@ -48,6 +48,8 @@
 			<!-- /board/write 매핑 주소가 들어오면 authInterceptor 객체가 동작하도록 -->
 			<!-- 게시판 글쓰기 -->
 			<mapping path="/board/write" />
+			<!-- 스터디 게시판 글쓰기 버튼을 누르면 authInterceptor 객체가 동작 -->
+			<mapping path="/study/writeStudyBoard" />
 			<beans:ref bean="authInterceptor" />
 		</interceptor>
 	</interceptors>
