@@ -1,6 +1,5 @@
 package com.dodeveloper.study.vodto;
 
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +12,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class StuStackVO {
-	private int stuBoardNo;
-	private int[] chooseStack;
+public class StackVO {
+	private int stackNo;
+	private String stackName;
 }
