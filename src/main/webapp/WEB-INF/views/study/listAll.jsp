@@ -201,7 +201,7 @@
 						<div class="col">
 							<div class="card">
 								<div class="card-body p-4 text-center" style="height: 251px;">
-									<h5 style="line-height: 200px; cursor: pointer;"
+									<h5 class="text-danger"style="line-height: 200px; cursor: pointer;"
 										onclick="location.href='/study/writeStudyBoard';">
 										<b>나도 스터디 만들기</b>
 									</h5>
@@ -216,7 +216,7 @@
 							<div class="col mb-4" style="cursor: pointer;"
 								onclick="location.href='/study/viewStudyBoard?stuNo=${study.stuNo}';">
 								<div class="card">
-									<div class="card-body p-4" style="width: 100%; height: 251px;">
+									<div class="card-body p-4" style="width: 100%;">
 										<div class="">
 											<p class="card-subtitle mb-2 text-body-secondary">📍${study.stuLoc }</p>
 										</div>
