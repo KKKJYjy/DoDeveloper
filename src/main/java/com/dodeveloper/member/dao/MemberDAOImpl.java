@@ -8,6 +8,7 @@ import com.dodeveloper.member.dto.LoginDTO;
 import com.dodeveloper.member.dto.RegisterDTO;
 import com.dodeveloper.member.dto.SessionDTO;
 import com.dodeveloper.member.vo.MemberVO;
+import com.dodeveloper.mypage.dto.ChangePwdDTO;
 
 @Repository
 public class MemberDAOImpl implements MemberDAO {
@@ -22,6 +23,9 @@ public class MemberDAOImpl implements MemberDAO {
 	
 	private static final String DUPLICATE_USER_ID = NS + ".duplicateUserId";
 	private static final String REGISTER_MEMBER = NS + ".registerMember";
+	private static final String GET_MEMBER_INFO = NS + ".getMemberInfo";
+	private static final String CHECK_USER_PWD = NS + ".checkUserPwd";
+	private static final String CHANGE_PWD = NS + ".changePwd";
 	
 	@Override
 	public MemberVO loginMember(LoginDTO dto) throws Exception {
@@ -46,5 +50,20 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public int registerMember(RegisterDTO registerDTO) throws Exception {
 		return sqlSession.update(REGISTER_MEMBER, registerDTO);
+	}
+
+	@Override
+	public MemberVO getMemberInfo(String userId) throws Exception {
+		return sqlSession.selectOne(GET_MEMBER_INFO, userId);
+	}
+
+	@Override
+	public int checkUserPwd(ChangePwdDTO changePwdDTO) throws Exception {
+		return sqlSession.selectOne(CHECK_USER_PWD, changePwdDTO);
+	}
+
+	@Override
+	public int changeUserPwd(ChangePwdDTO changePwdDTO) throws Exception {
+		return sqlSession.update(CHANGE_PWD, changePwdDTO);
 	}
 }
