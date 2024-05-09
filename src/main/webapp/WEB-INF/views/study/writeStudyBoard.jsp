@@ -205,7 +205,7 @@
 			alert('스터디 예정 장소를 클릭해주세요.');
 		} else {
 			result = true;
-			alert("유효성 검사 통과!");
+			//alert("유효성 검사 통과!");
 		}
 
 	}
@@ -213,9 +213,9 @@
 	function insertStudy() {
 		let result = false;
 
-		
-		
 		//유효성 검사
+		isVaild();
+		
 		if ($("#chooseStack").val() != '' && $("#chooseStack").val() != null
 				&& $("#stuPers").val() != -1 && $("#endDate").val() != ''
 				&& $("#endDate").val() != null && $("#contactLink").val() != ''
@@ -250,12 +250,14 @@
 				},
 				success : function(data) {
 					console.log(data);
-					result = true;
+					result = true; //insertStudy 먼저 수행한뒤 insertStack 수행하도록
 					
 				}
 			});
 			
 			console.log("if문 끝나기전",result);
+		}else{
+			
 		}
 
 		console.log("if문 끝난후",result);
