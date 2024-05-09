@@ -34,15 +34,7 @@
 	rel="stylesheet" />
 <!-- Custom CSS -->
 <link href="/resources/admin/css/style.min.css" rel="stylesheet" />
-<script type="text/javascript">
-        function goToPage() {
-            // 선택된 옵션의 값 읽기
-            var selectedOption = document.getElementById("selectBoard").value;
-            
-            // 선택된 페이지로 이동
-            window.location.href = selectedOption;
-        }
-    </script>
+
 </head>
 <body>
 
@@ -263,28 +255,12 @@
 				<div class="row">
 					<!-- column -->
 
-					<select id="selectBoard">
-						<option value="">--- 선택 ---</option>
-						<option value="/admin/selectBoard">스터디게시판</option>
-						<option value="">강의추천게시판</option>
-						<option value="">알고리즘게시판</option>
-						<option value="">제직자리뷰게시판</option>
-					</select>
-					<button onclick="goToPage()">조회</button>
+			
 
 
 
 				</div>
-				<!-- ============================================================== -->
-				<!-- End PAge Content -->
-				<!-- ============================================================== -->
-				<!-- ============================================================== -->
-				<!-- Right sidebar -->
-				<!-- ============================================================== -->
-				<!-- .right-sidebar -->
-				<!-- ============================================================== -->
-				<!-- End Right sidebar -->
-				<!-- ============================================================== -->
+			
 			</div>
 			<!-- ============================================================== -->
 			<!-- End Container fluid  -->

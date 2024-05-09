@@ -61,14 +61,14 @@ public class AdminController {
 		
 	}
 	
-	@RequestMapping(value = "/selectBoard", method = RequestMethod.GET)
-	public void selectBoard(Model model) throws Exception {
-		logger.info("게시판 조회 페이지");
-		
-		List<AdminVO> stuBoardList = aService.getlistStudyBoard();
-
-		model.addAttribute("stuBoardList", stuBoardList);
-	}
+//	@RequestMapping(value = "/selectBoard", method = RequestMethod.GET)
+//	public void selectBoard(Model model) throws Exception {
+//		logger.info("게시판 조회 페이지");
+//		
+//		List<AdminVO> stuBoardList = aService.getlistStudyBoard();
+//
+//		model.addAttribute("stuBoardList", stuBoardList);
+//	}
 
    @RequestMapping(value="/userList")
    public void userList(Model model) throws Exception {
