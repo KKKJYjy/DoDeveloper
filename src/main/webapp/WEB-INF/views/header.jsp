@@ -48,7 +48,7 @@
 			<div class="d-flex align-items-center">
 				<c:choose>
 					<c:when test="${sessionScope.loginMember != null}">
-						<li class="loginUser me-3"><a href="mypage/myProfile"> <span>${sessionScope.loginMember.userName} 님!<span></a></li>
+						<li class="loginUser me-3"><a href="/mypage/myProfile"> <span>${sessionScope.loginMember.userName} 님!<span></a></li>
 						<a class="btn-logout" href="/member/logout">로그아웃</a>
 					</c:when>
 					<c:otherwise>
