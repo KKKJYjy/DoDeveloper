@@ -7,7 +7,7 @@
 <meta charset="utf-8" />
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-<title>Write Study - DoDeveloper</title>
+<title>modify Study - DoDeveloper</title>
 <meta content="" name="description" />
 <meta content="" name="keywords" />
 
@@ -76,11 +76,37 @@
 <script>
 	$(function() {
 
+		//스터디 언어 멀티셀렉트 디폴트값(전에 유저가 선택했던 값) 세팅 
+		let stuStack = '${chooseStack}'.slice(1,-1).replace(" ", "").split(',');
+		console.log(stuStack);
+		
+		for (let i=0 ; i < stuStack.length; i++){
+			//console.log(i,":" ,stuStack[i]);
+			console.log(stuStack[i]);
+			$("#chooseStack").val(stuStack[i]).prop("selected", true);
+			
+		}
+		//console.log(${stuStackList.size()})
+		//console.log(${stuStackList[0].chooseStack})
+		//$("#chooseStack").val(${stuStackList[0].chooseStack}).prop("selected", true);
+		
+		//모집인원 셀렉트 디폴트값(전에 유저가 선택했던 값) 세팅
+		$("#stuPers").val('${studyList.stuPers }명').prop("selected", true);
+		
+		//모집마감일 달력 디폴트값(전에 유저가 선택했던 값) 세팅 'yyyy-mm-dd'형식으로 변환
+		let endDate = new Date('${studyList.endDate}').toISOString().slice(0, 10);
+		$("#endDate").val(endDate);
+
+		//진행기간 셀렉트 디폴트값(전에 유저가 선택했던 값) 세팅
+		$("#stuDate").val('${studyList.stuDate }').prop("selected", true);
+		
+		
+		
 		$('.studyLang').select2({
 			maximumSelectionLength : 3,
 			placeholder : '언어 선택 (최대 3개)'
 		});
-
+		
 		$('.summernote').summernote({
 			placeholder : '스터디 목표와 모임 주기, 스터디 방식 등 자유롭게 스터디에 대해 소개해주세요.',
 			tabsize : 3,
@@ -277,14 +303,19 @@
 					<form action="/study/insertStack" method="post">
 
 						<!-- 스터디 언어 선택 -->
+						
 						<div class="row mb-4">
 							<div class="col-md-12">
 								<div class="mb-2 text-light">
-									<b>스터디 언어</b>
+									<b>스터디 언어 ${stackList }</b>
 								</div>
+								
+								
 								<select class="studyLang form-control" multiple="multiple"
-									style="width: 100%" id="chooseStack" name="chooseStack">
-									<!-- ajax로 stack테이블에 있는 애들 대려오기 -->
+									style="width: 100%" id="chooseStack" name="chooseStack" >
+									<%-- <c:forEach var="stack" items="${stackList }">
+										<option>${stack.stackName }</option>
+									</c:forEach> --%>
 									<option value="1">React</option>
 									<option value="2">javascript</option>
 									<option value="3">Vue</option>
@@ -341,7 +372,7 @@
 									<b>연락 방법</b>
 								</div>
 								<input id="contactLink" type="text" class="form-control"
-									placeholder="오픈톡 링크" />
+									placeholder="오픈톡 링크" value="${studyList.contactLink }" />
 							</div>
 
 							<!-- 진행 기간 -->
@@ -368,11 +399,11 @@
 							<b>모집글 제목</b>
 						</div>
 						<input id="stuTitle" type="text" class="form-control mb-4"
-							placeholder="제목 입력" />
+							placeholder="제목 입력" value="${studyList.stuTitle }" />
 
 						<!-- 내용 -->
 						<textarea id="stuContent" class="note-editable summernote"
-							style="background-color: white"></textarea>
+							style="background-color: white">${studyList.stuContent }</textarea>
 
 						<!-- 카카오 지도 입력 부분 -->
 						<div class="row mt-4">
@@ -381,7 +412,7 @@
 							</div>
 							<div class="col-md-10">
 								<input type="text" class="form-control mb-4" id="searchMap"
-									placeholder="스터디 예정 장소 입력" />
+									placeholder="스터디 예정 장소 입력" value="${studyList.stuLoc }" />
 							</div>
 							<div class="col-md-2">
 								<input id="searchMapBtn" type="button" class="btn btn-secondary"
@@ -399,7 +430,7 @@
 									style="width: 100%" onclick="location.href='/study/listAll';" />
 							</div>
 							<div class="col-md-6">
-								<input type="submit" class="btn btn-secondary" value="글쓰기"
+								<input type="submit" class="btn btn-secondary" value="수정"
 									style="width: 100%" onclick="return isVaild();" />
 							</div>
 						</div>
