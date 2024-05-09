@@ -84,5 +84,33 @@ public class ReplyController {
 		}
 		return result;
 	}
+	
+	/**
+	 * @methodName : updateReply
+	 * @author : 
+	 * @date : 2024.05.08
+	 * @param : @PathVariable("replyNo") int replyNo - 수정되는 댓글 번호
+	 * @param : @RequestBody ReplyDTO rDTO - 수정되는 댓글 그 자체
+	 * @return : ResponseEntity<String>
+	 * @description : 게시글에 유저가 작성한 댓글을 수정하는 메서드
+	 */
+	@RequestMapping(value = "/modify/{replyNo}", method = RequestMethod.PUT)
+	public ResponseEntity<String> updateReply(@PathVariable("replyNo") int replyNo, @RequestBody ReplyDTO rDTO) {
+		System.out.println(replyNo + "번 댓글에" + rDTO.toString() + "수정 완료 되었습니다!");
+		
+		ResponseEntity<String> result = null;
+		
+		try {
+			if (rService.updateReply(rDTO) == 1) {
+				result = new ResponseEntity<String>("댓글 수정 완료", HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+			result = new ResponseEntity<String>("댓글 수정 실패", HttpStatus.CONFLICT);
+		} 
+		
+		return result;
+	}
 
 }
