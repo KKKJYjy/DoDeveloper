@@ -88,5 +88,13 @@ public class CompanyController {
 		
 		 return "/companyInfo/revCompanyBoard"; 
 	}
+	
+	
+	@RequestMapping("/writtenBoard")   // "/companyInfo/written"가 GET방식으로 요청될 때 호출
+	public String writtenBoard() {
+		// /companyInfo/writtenBoard.jsp로 포워딩
+		
+		return "companyInfo/writtenBoard"; 
+	}
 
 }
