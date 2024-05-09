@@ -169,11 +169,9 @@
 
 	}
 
-
 	//1) 카카오 map값을 같이 보내기 위해서 form이 아닌 ajax로 처리한다. (insertStudy)
 	//2) multiSelect만 form 값으로 보낸다. (insertStack)
 	function isVaild() {
-		let result = false;
 
 		//유효성 검사
 		if ($("#chooseStack").val() == '' || $("#chooseStack").val() == null) {
@@ -205,9 +203,19 @@
 		} else if (mapX == 0 || mapX == null || mapY == 0 || mapY == null) {
 			$("#searchMap").focus();
 			alert('스터디 예정 장소를 클릭해주세요.');
+		} else {
+			result = true;
+			alert("유효성 검사 통과!");
 		}
 
-		//유효성 검사에 통과했을 때에만 아래 코드 실행
+	}
+
+	function insertStudy() {
+		let result = false;
+
+		
+		
+		//유효성 검사
 		if ($("#chooseStack").val() != '' && $("#chooseStack").val() != null
 				&& $("#stuPers").val() != -1 && $("#endDate").val() != ''
 				&& $("#endDate").val() != null && $("#contactLink").val() != ''
@@ -217,44 +225,41 @@
 				&& $("#stuContent").val() != null
 				&& $("#searchMap").val() != '' && $("#searchMap").val() != null
 				&& mapX != 0 && mapX != null && mapY != 0 && mapY != null) {
-			//alert("유효성 검사 통과!");
-			insertStudy();
-			result = true;
 
+			let newStudyDTO = {
+				"stuWriter" : '${loginMember.userId }',
+				"stuTitle" : $("#stuTitle").val(),
+				"stuContent" : $("#stuContent").val(),
+				"stuLoc" : mapName,
+				"stuX" : mapX,
+				"stuY" : mapY,
+				"stuDate" : $("#stuDate").val(),
+				"stuPers" : $("#stuPers").val(),
+				"endDate" : $("#endDate").val(),
+				"contactLink" : $("#contactLink").val()
+			};
+
+			$.ajax({
+				url : '/study/insertStudy',
+				type : 'post',
+				data : JSON.stringify(newStudyDTO), //보내는 데이터
+				dataType : 'text',
+				async : false, //받아올 데이터가 있어야 파싱 가능.
+				headers : { //서버에 보내지는 데이터의 형식
+					"content-type" : "application/json"
+				},
+				success : function(data) {
+					console.log(data);
+					result = true;
+					
+				}
+			});
+			
+			console.log("if문 끝나기전",result);
 		}
+
+		console.log("if문 끝난후",result);
 		return result;
-	}
-
-	function insertStudy() {
-		alert("유효성 검사 통과!");
-
-		let newStudyDTO = {
-			"stuWriter" : '${loginMember.userId }',
-			"stuTitle" : $("#stuTitle").val(),
-			"stuContent" : $("#stuContent").val(),
-			"stuLoc" : mapName,
-			"stuX" : mapX,
-			"stuY" : mapY,
-			"stuDate" : $("#stuDate").val(),
-			"stuPers" : $("#stuPers").val(),
-			"endDate" : $("#endDate").val(),
-			"contactLink" : $("#contactLink").val()
-		};
-
-		$.ajax({
-			url : '/study/insertStudy',
-			type : 'post',
-			data : JSON.stringify(newStudyDTO), //보내는 데이터
-			dataType : 'text',
-			async : 'false', //받아올 데이터가 있어야 파싱 가능.
-			headers : { //서버에 보내지는 데이터의 형식
-				"content-type" : "application/json"
-			},
-			success : function(data) {
-				console.log(data);
-
-			}
-		});
 	}
 </script>
 </head>
@@ -400,7 +405,7 @@
 							</div>
 							<div class="col-md-6">
 								<input type="submit" class="btn btn-secondary" value="글쓰기"
-									style="width: 100%" onclick="return isVaild();" />
+									style="width: 100%" onclick="return insertStudy();" />
 							</div>
 						</div>
 					</form>
