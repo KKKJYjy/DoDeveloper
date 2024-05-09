@@ -10,9 +10,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dodeveloper.algorithm.service.AlgService;
 import com.dodeveloper.algorithm.vodto.AlgBoardDTO;
+import com.dodeveloper.algorithm.vodto.AlgDetailDTO;
 
 @Controller
 @RequestMapping("/algorithm")
@@ -36,5 +39,36 @@ public class AlgorithmController {
 		
 		model.addAttribute("algBoardList",returnMap);
 	}
+	
+	
+	@GetMapping("/algDetail")
+	public void getAlgDetail(@RequestParam("boardNo") int boardNo,Model model) throws Exception {
+		System.out.println("알고리즘상세 : "+boardNo+" 번 알고리즘");
+		
+		List<AlgDetailDTO> returnMap = null;
+		
+		
+		returnMap = aService.getListDetail(boardNo);
+		
+		
+		model.addAttribute("algDetailList", returnMap);
+	}
+	
+	@RequestMapping(value="/writePOST",method = RequestMethod.POST)
+	public String writeAlg(AlgBoardDTO algBoardDTO) throws Exception {
+		System.out.println("글 작성()");
+		System.out.println(algBoardDTO);
+		aService.writeAlgBoard(algBoardDTO);
+		
+		return "redirect:listAll";
+	}
+	
+	@RequestMapping("/writePOST") // "/algorithm/write"가 get 방식으로 요청될 때... 호출
+	public String writeBoard() {
+		// //algorithm/writeBoard.jsp로 포워딩
+		System.out.println("글작성");
+		return "/algorithm/writeBoard";
+	}
+
 
 }

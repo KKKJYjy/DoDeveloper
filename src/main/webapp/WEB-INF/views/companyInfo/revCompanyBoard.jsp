@@ -7,7 +7,7 @@
 <meta charset="utf-8" />
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-<title>Algorithm List - DoDeveloper</title>
+<title>CompanyInfo List - DoDeveloper</title>
 <meta content="" name="description" />
 <meta content="" name="keywords" />
 
@@ -26,9 +26,9 @@
 <!-- Vendor CSS Files -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-	rel="stylesheet" />
+	rel="stylesheet">
 <link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link href="/resources/assets/vendor/glightbox/css/glightbox.min.css"
 	rel="stylesheet" />
 <link
@@ -48,46 +48,86 @@
   ======================================================== -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<style>
+.companyInfo {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.float {
+	position: fixed;
+	width: 60px;
+	height: 60px;
+	bottom: 40px;
+	right: 40px;
+	background-color: #0C9;
+	color: #FFF;
+	border-radius: 50px;
+	text-align: center;
+	box-shadow: 2px 2px 3px #999;
+}
+
+.my-float {
+	margin-top: 22px;
+}
+</style>
 </head>
 
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
-	<%@ include file="../header.jsp"%>
+	<c:import url="../header.jsp" />
 
 	<main id="main">
-		<!-- Basic Section - Algorithm Page -->
-		<section id="algorithm" class="basic">
-			<div class="container">
-				<h1>알고리즘</h1>
-				<h1>alg</h1>
+		<!-- Basic Section - CompanyInfo Page -->
+		<section id="companyInfo" class="basic">
+			<!-- <h1>기업리뷰 상세 페이지</h1> -->
+			<div class="container mt-3">
+			
+				<!-- 해당 기업 리뷰 클릭하면 기업후기 대신 기업명 표기 구현 예정
+					작성자는 익명 처리 할 예정 -->
+				<p>기업후기</p>
 
-				<div class="container mt-3">
-					<h2>알고리즘 목록</h2>
-					<p>The disabled class adds a lighter text color to the disabled
-						item. And if used on links, it will remove the default hover
-						effect.</p>
-					<div class="list-group">
-						<c:forEach var="alg" items="${algBoardList}">
-							<a href="/algorithm/algDetail?boardNo=${alg.boardNo}"
-								class="list-group-item">${alg.title }</a>
-							<div>/////////////////////////////</div>
-						</c:forEach>
-					</div>
+				<ul class="list-group">
 
-					<div class="btns">
-
-						<button type="button" class="btn btn-info"
-							onclick="location.href='/algorithm/writePOST';">글쓰기</button>
-
-					</div>
-				</div>
-
-				<div>${algBoardList}</div>
+					<c:forEach var="rev" items="${revList}">
+						<table class="table table-striped">
+							
+							<tr>
+								<th>작성자</th>
+								<td>${rev.revWriter}</td>
+							</tr>
+							<tr>
+								<th>제목</th>
+								<td>${rev.revTitle}</td>
+							</tr>
+							<tr>
+								<th>파트</th>
+								<td>${rev.revProfession}</td>
+							</tr>
+							<tr>
+								<th>내용</th>
+								<td>${rev.revContent}</td>
+							</tr>
+							<tr>
+								<th>장점</th>
+								<td>${rev.revGood}</td>
+							</tr>
+							<tr>
+								<th>단점</th>
+								<td>${rev.revBed}</td>
+							</tr>
+						</table>
+					</c:forEach>
+				</ul>
 			</div>
+			<a href="/companyInfo/writtenBoard?companyInfoNo=${param.companyInfoNo}" 
+				class="float"><i class="fa fa-plus my-float"></i></a>
 		</section>
 		<!-- End Basic Section -->
 	</main>
 
-	<%@ include file="../footer.jsp"%>
+	<c:import url="../footer.jsp" />
 
 	<!-- Scroll Top Button -->
 	<a href="#" id="scroll-top"
@@ -119,5 +159,8 @@
 
 	<!-- Template Main JS File -->
 	<script src="/resources/assets/js/main.js"></script>
+	<script src="https://kit.fontawesome.com/ffcac42df4.js" crossorigin="anonymous"></script>
 </body>
 </html>
+
+
