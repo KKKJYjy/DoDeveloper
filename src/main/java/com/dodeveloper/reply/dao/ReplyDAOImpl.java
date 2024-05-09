@@ -45,4 +45,18 @@ public class ReplyDAOImpl implements ReplyDAO {
 		return ses.insert(ns + ".insertReply", rDTO);
 	}
 
+	/**
+	 * @methodName : updateReply
+	 * @author : kde
+	 * @date : 2024.05.08
+	 * @param : ReplyDTO updateDTO - 댓글 수정할때 필요한 변수들
+	 * @return : int
+	 * @description : ?번 글에 대한 댓글을 수정하는 메서드
+	 */
+	@Override
+	public int updateReply(ReplyDTO rDTO) throws Exception {
+		
+		return ses.update(ns + ".updateReply", rDTO);
+	}
+
 }
