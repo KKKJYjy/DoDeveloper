@@ -26,8 +26,8 @@
 		<typeAlias alias="LectureSearchDTO"
 			type="com.dodeveloper.lecture.vodto.LectureSearchDTO" />
 
-
-
-
+     <typeAlias alias="ReportVO"
+			type="com.dodeveloper.admin.vo.ReportVO" />	
+    
 	</typeAliases>
 </configuration>
