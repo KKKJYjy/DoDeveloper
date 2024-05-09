@@ -63,23 +63,57 @@
   ======================================================== -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<!-- 스터디 listAll css 파일 -->
+<link href="/resources/assets/css/study/listAll.css" rel="stylesheet" />
+
 <script>
 	$(function() {
 		$('.studyLang').select2({
 			placeholder : '스터디 언어'
 		});
-
 	});
+
+	//검색 조건 유효성 체크
+	function isValid() {
+		let result = false;
+
+		let searchType = $("#searchType").val();
+		let searchContent = $("#searchContent").val();
+
+		console.log(searchType, searchContent);
+
+		//검색어에 있어서는 안되는 쿼리문 키워드 배열로 정의
+		let keyWord = new Array("OR", "SELECT", "AND", "INSERT", "UPDATE",
+				"DELETE", "DROP", "EXEC", "TRUNCATE", "CREATE", "ALTER");
+
+		if (searchType != -1 && searchContent.length > 0) {
+			//검색 방법과 검색 내용이 있을 때 쿼리문 키워드가 존재하는지 검사
+
+			let regEx;
+			for (let i = 0; i < keyWord.length; i++) {
+				//keyWord 배열에 있는 문자열 패턴이 있는지 없는지 전역적으로 검사하는 객체 생성
+				regEx = new RegExp(keyWord[i], "gi");
+
+				if (regEx.test(searchContent)) {
+					//유저가 입력한 검색어에 키워드가 존재하는지 검사
+					alert('검색어가 올바르지 않습니다!');
+					$('#searchContent').val('');
+					$('#searchContent').focus();
+					return false;
+				}
+			}
+
+			result = true; //검색방법, 검색 내용 있을 때
+
+		} else { //검색 방법과 검색 내용, 쿼리문 키워드 없을 때
+			alert('검색 방법과 검색 내용을 입력하세요!');
+		}
+
+		return result;
+	}
 </script>
-<style>
-.studyBasic { 
-	--default-color: #212529; 
-	--default-color-rgb: 255, 255, 255; 
-	--background-color: #212529; 
-	--background-color-rgb: 0, 0, 0;
-	padding: 150px 0;
-}
-</style>
+
 </head>
 
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
@@ -128,26 +162,31 @@
 						<div class="col-md-3"></div>
 
 						<!-- 검색바 -->
-						<div class="col-md-5 justify-content-right">
-							<div class="row">
-								<div class="col-md-4">
-									<select class="form-select">
-										<option>검색 방법</option>
-										<option>제목</option>
-										<option>작성자</option>
-										<option>내용</option>
-									</select>
+
+						<div class="col-md-5">
+							<form>
+								<div class="row">
+									<div class="col-md-4">
+										<select class="form-select" id="searchType" name="searchType">
+											<option value="-1">검색 방법</option>
+											<option value="title">제목</option>
+											<option value="writer">작성자</option>
+											<option value="content">내용</option>
+										</select>
+									</div>
+									<div class="col-md-6">
+										<input type="text" class="form-control mb-4"
+											id="searchContent" name="searchContent"
+											placeholder="검색할 내용 입력" />
+									</div>
+									<div class="col-md-2">
+										<input type="button" class="btn btn-secondary" value="검색"
+											style="width: 100%" onclick="return isValid();" />
+									</div>
 								</div>
-								<div class="col-md-6">
-									<input type="text" class="form-control mb-4"
-										placeholder="검색할 내용 입력" />
-								</div>
-								<div class="col-md-2">
-									<input type="button" class="btn btn-secondary" value="검색"
-										style="width: 100%" />
-								</div>
-							</div>
+							</form>
 						</div>
+
 
 					</div>
 				</div>
@@ -161,8 +200,8 @@
 						<!-- 모임글 추가하기 -->
 						<div class="col">
 							<div class="card">
-								<div class="card-body p-4 text-center" style="height: 276px;">
-									<h5 style="line-height: 212px; cursor: pointer;"
+								<div class="card-body p-4 text-center" style="height: 251px;">
+									<h5 style="line-height: 200px; cursor: pointer;"
 										onclick="location.href='/study/writeStudyBoard';">
 										<b>나도 스터디 만들기</b>
 									</h5>
@@ -174,9 +213,10 @@
 						<c:forEach var="study" items="${studyList }">
 
 							<!-- 모임글 1개 -->
-							<div class="col" style="cursor: pointer; height: 276px;">
+							<div class="col mb-4" style="cursor: pointer;"
+								onclick="location.href='/study/viewStudyBoard?stuNo=${study.stuNo}';">
 								<div class="card">
-									<div class="card-body p-4">
+									<div class="card-body p-4" style="width: 100%; height: 251px;">
 										<div class="">
 											<p class="card-subtitle mb-2 text-body-secondary">📍${study.stuLoc }</p>
 										</div>
@@ -203,11 +243,15 @@
 											<div class="me-auto">
 												<p class="card-text">${study.stuWriter }</p>
 											</div>
-											<div class="">
-												<p class="card-text">조회수 ${study.readCount }</p>
+											<div class="me-2">
+												<p class="card-text text-body-secondary">
+													<i class="bi bi-eye"></i> ${study.readCount }
+												</p>
 											</div>
 											<div class="">
-												<p class="card-text">스크랩수 ${study.scrape }</p>
+												<p class="card-text text-body-secondary">
+													<i class="bi bi-bookmark"></i> ${study.scrape }
+												</p>
 											</div>
 										</div>
 									</div>

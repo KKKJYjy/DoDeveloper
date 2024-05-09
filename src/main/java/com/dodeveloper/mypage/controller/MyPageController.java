@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dodeveloper.member.service.MemberService;
+import com.dodeveloper.member.vo.MemberVO;
+import com.dodeveloper.mypage.dto.ChangePwdDTO;
 import com.dodeveloper.mypage.dto.ProfileDTO;
 import com.dodeveloper.mypage.service.MyPageService;
 import com.dodeveloper.mypage.vo.ProfileVO;
@@ -32,6 +35,9 @@ public class MyPageController {
 
 	@Autowired
 	private MyPageService myPageService;
+	
+	@Autowired
+	private MemberService mService;
 	
 	@GetMapping("/myProfile")
 	public void myProfileGet() {
@@ -127,6 +133,34 @@ public class MyPageController {
 		if (myPageService.removeProfileImage(userId) > 0) {
 			returnMap.put("state", "T");
 			returnMap.put("message", "Success");
+		} else {
+			returnMap.put("state", "F");
+			returnMap.put("message", "Fail");
+		}
+		
+		HttpHeaders headers = new HttpHeaders();
+		Charset utf8 = Charset.forName("utf-8");
+		MediaType mediaType = new MediaType(MediaType.APPLICATION_JSON_UTF8, utf8);
+		headers.setContentType(mediaType);
+		
+		return ResponseEntity.ok().headers(headers).body(returnMap);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/changePwd", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<Map<String, Object>> changePwd(@RequestBody ChangePwdDTO changePwdDTO) throws Exception {
+		System.out.println("changePwdDTO : " + changePwdDTO.toString());
+		
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		
+		int result = mService.checkUserPwd(changePwdDTO);
+		System.out.println("changePwd result : " + result);
+		
+		if (result > 0) {
+			if (mService.changeUserPwd(changePwdDTO) > 0) {
+				returnMap.put("state", "T");
+				returnMap.put("message", "Success");
+			}
 		} else {
 			returnMap.put("state", "F");
 			returnMap.put("message", "Fail");

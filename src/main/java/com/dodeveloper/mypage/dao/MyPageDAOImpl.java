@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.dodeveloper.mypage.dto.ChangePwdDTO;
 import com.dodeveloper.mypage.dto.ProfileDTO;
 import com.dodeveloper.mypage.vo.ProfileVO;
 
@@ -18,6 +19,7 @@ public class MyPageDAOImpl implements MyPageDAO {
 	private static final String SET_PROFILE_IMAGE = NS + ".setProfileImage";
 	private static final String GET_PROFILE_IMAGE = NS + ".getProfileImage";
 	private static final String REMOVE_PROFILE_IMAGE = NS + ".removeProfileImage";
+	
 	
 	@Override
 	public int setProfileImage(ProfileDTO profileDTO) throws Exception {
