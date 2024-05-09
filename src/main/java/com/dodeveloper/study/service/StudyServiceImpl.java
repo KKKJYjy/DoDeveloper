@@ -67,4 +67,9 @@ public class StudyServiceImpl implements StudyService {
 		return sDao.selectAllStack();
 	}
 
+	@Override
+	public int deleteStudyBoard(int stuNo) throws Exception {
+		return sDao.deleteStudyBoard(stuNo);
+	}
+
 }

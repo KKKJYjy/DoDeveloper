@@ -31,6 +31,9 @@ public interface StudyService {
 
 	//stack테이블의 전체 데이터를 조회하는 메서드
 	List<StackVO> selectAllStack() throws Exception;
+	
+	//stuNo번째 글을 삭제하는 메서드
+	int deleteStudyBoard(int stuNo) throws Exception;
 
 	
 	

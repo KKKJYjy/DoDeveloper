@@ -176,8 +176,17 @@ public class StudyContoller {
 
 	// stuNo번째 글을 삭제하는 메서드
 	@GetMapping("/deleteStudy")
-	public void deleteStudyBoard(@RequestParam("stuNo") int stuNo) {
+	public String deleteStudyBoard(@RequestParam("stuNo") int stuNo) throws Exception {
+		
+		String result = null;
+		
 		logger.info(stuNo + "번 글을 삭제하자");
+		if(stuService.deleteStudyBoard(stuNo) == 1) {
+			result = "/study/listAll";
+			logger.info(stuNo + "번 글을 삭제 성공!");
+		}
+		
+		return "redirect:" + result;
 	}
 
 }

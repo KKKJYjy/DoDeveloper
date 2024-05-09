@@ -71,4 +71,9 @@ public class StudyDAOImpl implements StudyDAO {
 		return ses.selectList(ns + ".selectAllStack");
 	}
 
+	@Override
+	public int deleteStudyBoard(int stuNo) throws Exception {
+		return ses.delete(ns + ".deleteStudyBoard", stuNo);
+	}
+
 }
