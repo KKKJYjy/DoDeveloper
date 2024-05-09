@@ -14,5 +14,5 @@ public interface AlgDAO {
 	// boardNo 에 해당하는 algDetail 테이블 조회
 	List<AlgDetailDTO> selectAlgDetail(int boardNo) throws Exception;
 
-	void insertAlgBoard(AlgBoardDTO algBoardDTO);
+	int insertAlgBoard(AlgBoardDTO algBoardDTO);
 }

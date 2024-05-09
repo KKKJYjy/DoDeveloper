@@ -44,8 +44,8 @@ public class AlgServiceImpl implements AlgService {
 
 	@Override
 	public void writeAlgBoard(AlgBoardDTO algBoardDTO) {
-		// 
-		aDao.insertAlgBoard(algBoardDTO);
+		System.out.println("글쓰기(서비스)"); 
+		int insert = aDao.insertAlgBoard(algBoardDTO);
 	}
 
 }

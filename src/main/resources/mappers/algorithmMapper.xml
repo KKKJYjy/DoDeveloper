@@ -15,4 +15,11 @@
 		select * from algDetail where algBoardNo = #{boardNo}
 	</select>
 	
+	<!-- algBoard 에 새 항목 insert  -->
+	<insert id="insertAlgBoard">
+		insert into algBoard (classificationCode, title, comment) values(#{classificationCode},#{title},#{comment})
+	</insert>
+	
+	
+	
 </mapper>

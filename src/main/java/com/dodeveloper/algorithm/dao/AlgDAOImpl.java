@@ -34,8 +34,11 @@ public class AlgDAOImpl implements AlgDAO {
 	}
 
 	@Override
-	public void insertAlgBoard(AlgBoardDTO algBoardDTO) {
-		// 알고리즘 게시판 글쓰기에 입력된 값을 DB Insert문으로 
+	public int insertAlgBoard(AlgBoardDTO algBoardDTO) {
+		// 알고리즘 게시판 글쓰기에 입력된 값을 DB Insert문으로
+		System.out.println("글쓰기(DAO)");
+		
+		return ses.insert(ns+".insertAlgBoard", algBoardDTO);
 		
 	}
 

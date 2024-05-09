@@ -58,9 +58,9 @@ public class AlgorithmController {
 	public String writeAlg(AlgBoardDTO algBoardDTO) throws Exception {
 		System.out.println("글 작성()");
 		System.out.println(algBoardDTO);
-		//aService.writeAlgBoard(algBoardDTO);
+		aService.writeAlgBoard(algBoardDTO);
 		
-		return "/algorithm/listAll";
+		return "redirect:listAll";
 	}
 	
 	@RequestMapping("/writePOST") // "/algorithm/write"가 get 방식으로 요청될 때... 호출
