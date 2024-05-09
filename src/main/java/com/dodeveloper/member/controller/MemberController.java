@@ -42,9 +42,11 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value = "/loginPost", method = RequestMethod.POST)
-	public void loginPost(LoginDTO loginDTO, Model model, HttpSession session) throws Exception {
+	public String loginPost(LoginDTO loginDTO, Model model, HttpSession session) throws Exception {
 		logger.info("login...LoginDTO={}", loginDTO);
-
+		
+		String result = "";
+		
 		MemberVO loginMember = mService.login(loginDTO);
 		if (loginMember != null) {
 
@@ -53,9 +55,18 @@ public class MemberController {
 
 			mService.keepLogin(new SessionDTO(sessionId, sessionLimit, loginMember.getUserId()));
 			model.addAttribute(SessionNames.LOGIN_MEMBER, loginMember);
+			
+			System.out.println("로그인 성공");
+			
+			result = "/member/loginPost";
 		} else {
-			model.addAttribute("loginResult", "Login Fail!!");
+			model.addAttribute("loginResult", "fail");
+			
+			System.out.println("로그인 실패");
+			
+			result = "redirect:/member/login";			
 		}
+		return result;
 	}
 
 	@GetMapping("/logout")
@@ -80,7 +91,7 @@ public class MemberController {
 			session.removeAttribute(SessionNames.LOGIN_MEMBER);
 			session.invalidate();
 		}
-		return "redirect:/"; // index로 이동
+		return "redirect:/member/login"; // index로 이동
 	}
 
 	@GetMapping("/register")

@@ -17,4 +17,5 @@ import lombok.ToString;
 public class SendMessageDTO {
     public MessageDTO message;
     public LinkedList<String> receiverIdList;
+    public LinkedList<MessageFileDTO> fileList;
 }

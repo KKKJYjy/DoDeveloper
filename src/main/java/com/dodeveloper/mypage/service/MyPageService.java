@@ -1,5 +1,6 @@
 package com.dodeveloper.mypage.service;
 
+import com.dodeveloper.mypage.dto.ChangePwdDTO;
 import com.dodeveloper.mypage.dto.ProfileDTO;
 import com.dodeveloper.mypage.vo.ProfileVO;
 

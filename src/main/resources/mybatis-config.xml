@@ -15,13 +15,19 @@
 		<typeAlias alias="MessageBoxVO"
 			type="com.dodeveloper.message.vodto.MessageBoxVO" />
 		<typeAlias alias="MessageBoxDTO"
-			type="com.dodeveloper.message.vodto.MessageBoxDTO" />
+			type="com.dodeveloper.message.vodto.MessageBoxDTO" />		
+		<typeAlias alias="MessageFileDTO"
+			type="com.dodeveloper.message.vodto.MessageFileDTO" />
+    
 		<typeAlias alias="LectureBoardVO"
 			type="com.dodeveloper.lecture.vodto.LectureBoardVO" />
 		<typeAlias alias="LectureBoardDTO"
 			type="com.dodeveloper.lecture.vodto.LectureBoardDTO" />
 		<typeAlias alias="LectureSearchDTO"
 			type="com.dodeveloper.lecture.vodto.LectureSearchDTO" />
+
+
+
 
 	</typeAliases>
 </configuration>

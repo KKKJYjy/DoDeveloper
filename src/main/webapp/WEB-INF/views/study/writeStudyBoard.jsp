@@ -7,7 +7,7 @@
 <meta charset="utf-8" />
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-<title>Study List - DoDeveloper</title>
+<title>Write Study - DoDeveloper</title>
 <meta content="" name="description" />
 <meta content="" name="keywords" />
 
@@ -68,6 +68,11 @@
   ======================================================== -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<!-- 스터디 writeStudyBoard css 파일 -->
+<link href="/resources/assets/css/study/writeStudyBoard.css"
+	rel="stylesheet" />
+
 <script>
 	$(function() {
 
@@ -101,7 +106,7 @@
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		mapOption = {
 			center : new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-			level : 5
+			level : 2
 		// 지도의 확대 레벨
 		};
 
@@ -161,35 +166,80 @@
 
 			console.log(mapX, mapY, mapName);
 		});
+
 	}
 
-	function getNewStudy() {
+
+	//1) 카카오 map값을 같이 보내기 위해서 form이 아닌 ajax로 처리한다. (insertStudy)
+	//2) multiSelect만 form 값으로 보낸다. (insertStack)
+	function isVaild() {
 		let result = false;
-		/* let stuWriter = '${loginMember.userId }';
-		let stuTitle = $("#stuTitle").val();
-		let stuContent = $("#stuContent").val();
-		let stuLoc = mapName;
-		let stuX = mapX;
-		let stuY = mapY;
-		let stuDate = $("#stuDate").val();
-		let stuPers = $("#stuPers").val();
-		let endDate = $("#endDate").val();
-		let contactLink = $("#contactLink").val(); */
-		
+
+		//유효성 검사
+		if ($("#chooseStack").val() == '' || $("#chooseStack").val() == null) {
+			$("#chooseStack").focus();
+			alert('스터디할 언어를 선택해주세요.');
+		} else if ($("#stuPers").val() == -1) {
+			$("#stuPers").focus();
+			alert('스터디 모집 인원을 입력해주세요.');
+		} else if ($("#endDate").val() == '' || $("#endDate").val() == null) {
+			$("#endDate").focus();
+			alert('스터디 모집 마감일을 입력해주세요.');
+		} else if ($("#contactLink").val() == ''
+				|| $("#contactLink").val() == null) {
+			$("#contactLink").focus();
+			alert('스터디 연락 방법을 입력해주세요.');
+		} else if ($("#stuDate").val() == -1) {
+			$("#stuDate").focus();
+			alert('스터디 진행 기간을 입력해주세요.');
+		} else if ($("#stuTitle").val() == '' || $("#stuTitle").val() == null) {
+			$("#stuTitle").focus();
+			alert('스터디 제목을 입력해주세요.');
+		} else if ($("#stuContent").val() == ''
+				|| $("#stuContent").val() == null) {
+			$("#stuContent").focus();
+			alert('스터디 내용을 입력해주세요.');
+		} else if ($("#searchMap").val() == '' || $("#searchMap").val() == null) {
+			$("#searchMap").focus();
+			alert('스터디 예정 장소를 입력해주세요.');
+		} else if (mapX == 0 || mapX == null || mapY == 0 || mapY == null) {
+			$("#searchMap").focus();
+			alert('스터디 예정 장소를 클릭해주세요.');
+		}
+
+		//유효성 검사에 통과했을 때에만 아래 코드 실행
+		if ($("#chooseStack").val() != '' && $("#chooseStack").val() != null
+				&& $("#stuPers").val() != -1 && $("#endDate").val() != ''
+				&& $("#endDate").val() != null && $("#contactLink").val() != ''
+				&& $("#contactLink").val() != null && $("#stuDate").val() != -1
+				&& $("#stuTitle").val() != '' && $("#stuTitle").val() != null
+				&& $("#stuContent").val() != ''
+				&& $("#stuContent").val() != null
+				&& $("#searchMap").val() != '' && $("#searchMap").val() != null
+				&& mapX != 0 && mapX != null && mapY != 0 && mapY != null) {
+			//alert("유효성 검사 통과!");
+			insertStudy();
+			result = true;
+
+		}
+		return result;
+	}
+
+	function insertStudy() {
+		alert("유효성 검사 통과!");
+
 		let newStudyDTO = {
-			"stuWriter" :  '${loginMember.userId }',
+			"stuWriter" : '${loginMember.userId }',
 			"stuTitle" : $("#stuTitle").val(),
 			"stuContent" : $("#stuContent").val(),
 			"stuLoc" : mapName,
-			"stuX" : mapY,
-			"stuY" : mapX,
+			"stuX" : mapX,
+			"stuY" : mapY,
 			"stuDate" : $("#stuDate").val(),
 			"stuPers" : $("#stuPers").val(),
 			"endDate" : $("#endDate").val(),
 			"contactLink" : $("#contactLink").val()
 		};
-		
-		console.log(newStudyDTO);
 
 		$.ajax({
 			url : '/study/insertStudy',
@@ -198,33 +248,15 @@
 			dataType : 'text',
 			async : 'false', //받아올 데이터가 있어야 파싱 가능.
 			headers : { //서버에 보내지는 데이터의 형식
-				"content-type" : "application/json"	
+				"content-type" : "application/json"
 			},
 			success : function(data) {
 				console.log(data);
-				
+
 			}
 		});
 	}
 </script>
-<style>
-.studyBasic { 
-	--default-color: #212529; 
-	--default-color-rgb: 255, 255, 255; 
-	--background-color: #212529; 
-	--background-color-rgb: 0, 0, 0;
-	padding: 150px 0;
-}
-
-.note-editable {
-	background-color: white;
-	color: black;
-}
-
-.note-toolbar {
-	background-color: #f8f9fa;
-}
-</style>
 </head>
 
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
@@ -242,8 +274,8 @@
 
 				<div class="container pt-5">
 
-
 					<form action="/study/insertStack" method="post">
+
 						<!-- 스터디 언어 선택 -->
 						<div class="row mb-4">
 							<div class="col-md-12">
@@ -251,7 +283,7 @@
 									<b>스터디 언어</b>
 								</div>
 								<select class="studyLang form-control" multiple="multiple"
-									style="width: 100%" id="chooseStack" name="chooseStack[]">
+									style="width: 100%" id="chooseStack" name="chooseStack">
 									<!-- ajax로 stack테이블에 있는 애들 대려오기 -->
 									<option value="1">React</option>
 									<option value="2">javascript</option>
@@ -265,16 +297,10 @@
 								</select>
 							</div>
 						</div>
-					
-					
-					
-					<input type="text" class="form-control" id="stuWriter" 
-					value="${loginMember.userId }" hidden="true" />
-					
-					<input type="text" class="form-control" id="stuNo" name="stuNo" 
-					value="${loginMember.userId }" hidden="true" />
-					
-					
+
+						<input type="text" class="form-control" id="stuWriter"
+							value="${loginMember.userId }" hidden="true" />
+
 						<div class="row mb-4">
 
 							<!-- 모집인원 -->
@@ -314,7 +340,8 @@
 								<div class="mb-2 text-light">
 									<b>연락 방법</b>
 								</div>
-								<input id="contactLink" type="text" class="form-control" placeholder="오픈톡 링크" />
+								<input id="contactLink" type="text" class="form-control"
+									placeholder="오픈톡 링크" />
 							</div>
 
 							<!-- 진행 기간 -->
@@ -340,40 +367,42 @@
 						<div class="mb-2 text-light">
 							<b>모집글 제목</b>
 						</div>
-						<input id="stuTitle" type="text" class="form-control mb-4" placeholder="제목 입력" />
+						<input id="stuTitle" type="text" class="form-control mb-4"
+							placeholder="제목 입력" />
 
 						<!-- 내용 -->
-						<textarea id="stuContent" class="note-editable summernote" style="background-color: white"></textarea>
+						<textarea id="stuContent" class="note-editable summernote"
+							style="background-color: white"></textarea>
 
-					<!-- 카카오 지도 입력 부분 -->
-					<div class="row mt-4">
-						<div class="mb-2 text-light">
-							<b>스터디 예정 장소</b>
+						<!-- 카카오 지도 입력 부분 -->
+						<div class="row mt-4">
+							<div class="mb-2 text-light">
+								<b>스터디 예정 장소</b>
+							</div>
+							<div class="col-md-10">
+								<input type="text" class="form-control mb-4" id="searchMap"
+									placeholder="스터디 예정 장소 입력" />
+							</div>
+							<div class="col-md-2">
+								<input id="searchMapBtn" type="button" class="btn btn-secondary"
+									value="검색" style="width: 100%" />
+							</div>
 						</div>
-						<div class="col-md-10">
-							<input type="text" class="form-control mb-4" id="searchMap"
-								placeholder="스터디 예정 장소 입력" />
-						</div>
-						<div class="col-md-2">
-							<input id="searchMapBtn" type="button" class="btn btn-secondary"
-								value="검색" style="width: 100%" />
-						</div>
-					</div>
 
-					<!-- 카카오 지도 출력 부분 -->
-					<div id="map" style="width: 100%; height: 500px;"></div>
+						<!-- 카카오 지도 출력 부분 -->
+						<div id="map" style="width: 100%; height: 500px;"></div>
 
-					<!-- 취소 글쓰기 버튼 -->
-					<div class="row mt-4">
-						<div class="col-md-6">
-							<input type="reset" class="btn btn-outline-secondary" value="취소"
-								style="width: 100%" />
+						<!-- 취소 글쓰기 버튼 -->
+						<div class="row mt-4">
+							<div class="col-md-6">
+								<input type="reset" class="btn btn-outline-secondary" value="취소"
+									style="width: 100%" onclick="location.href='/study/listAll';" />
+							</div>
+							<div class="col-md-6">
+								<input type="submit" class="btn btn-secondary" value="글쓰기"
+									style="width: 100%" onclick="return isVaild();" />
+							</div>
 						</div>
-						<div class="col-md-6">
-							<input type="submit" class="btn btn-secondary" value="글쓰기"
-								style="width: 100%" onclick="return getNewStudy();" />
-						</div>
-					</div>
 					</form>
 
 				</div>

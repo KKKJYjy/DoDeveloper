@@ -14,12 +14,14 @@ import com.dodeveloper.message.vodto.MessageVO;
 @Repository
 public class MessageDAOImpl implements MessageDAO{
 
-	//insertIntoMessage
+	private SqlSessionTemplate template;
+	private String namespace = "com.dodeveloper.mappers.messageMapper";
 	
 	@Autowired
-	private SqlSessionTemplate template;
+	public MessageDAOImpl(SqlSessionTemplate template) {
+		this.template = template;
+	}
 	
-	private String namespace = "com.dodeveloper.mappers.messageMapper";
 	
 	@Override
 	public MessageVO selectMessageByNo(int messageNo) throws Exception {

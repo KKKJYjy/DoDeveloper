@@ -34,7 +34,7 @@ public class LectureBoardController {
 
 	@Autowired
 	private LectureBoardService lService; // 스프링 컨테이너에서 LectureService 객체를 찾아 주입
-
+  
 	// 생성자를 이용하여 객체 주입
 	public LectureBoardController(LectureBoardService service) {
 		this.lService = service;

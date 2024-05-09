@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.dodeveloper.company.dao.CompanyInfoDAO;
 import com.dodeveloper.company.vodto.CompanyInfoVO;
+import com.dodeveloper.company.vodto.RevCompanyBoardVO;
 
 /**
  * @packageName : com.dodeveloper.company.service
@@ -46,6 +47,25 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
 		List<CompanyInfoVO> ciList = ciDao.selectEntireCompanyInfo(); 
 		
 		return ciList;
+	}
+
+
+	/**
+	 * @methodName : getCompanyInfoRev
+	 * @author : kimso05
+	 * @date : 2024.05.06 
+	 * @return : List<revCompanyBoardVO> : 기업 리뷰 게시글
+	 * @throws Exception 
+	 * @description : 클릭한 기업 리뷰 정보 조회에 대한 서비스 메서드
+	 */
+	@Override
+	public List<RevCompanyBoardVO> getCompanyInfoRev(int companyInfoNo) throws Exception  {
+		System.out.println("서비스단 : 클릭한 기업 리뷰 게시글!!!!!!");
+		
+		// DAO단 호출 (selectCompanyInfoRev())
+		List<RevCompanyBoardVO> revList = ciDao.selectCompanyInfoRev(companyInfoNo);
+		
+		return revList;
 	}
 
 }
