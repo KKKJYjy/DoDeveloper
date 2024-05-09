@@ -6,6 +6,7 @@ import com.dodeveloper.study.vodto.StuStackVO;
 import com.dodeveloper.study.vodto.StudyBoardDTO;
 import com.dodeveloper.study.vodto.StudyBoardVO;
 import com.dodeveloper.study.vodto.SearchStudyDTO;
+import com.dodeveloper.study.vodto.StackVO;
 import com.dodeveloper.study.vodto.StuStackDTO;
 
 public interface StudyDAO {
@@ -29,6 +30,9 @@ public interface StudyDAO {
 	StudyBoardVO selectStudyByStuNo(int stuNo)throws Exception;
 
 	//검색어가 있을 경우 해당되는 스터디 리스트를 가져오는 메서드
-	List<StudyBoardVO> selectAllListWithsDTO(SearchStudyDTO sDTO);
+	List<StudyBoardVO> selectAllListWithsDTO(SearchStudyDTO sDTO) throws Exception;
+
+	//stack테이블의 모든 리스트를 가져오는 메서드
+	List<StackVO> selectAllStack() throws Exception;
 
 }

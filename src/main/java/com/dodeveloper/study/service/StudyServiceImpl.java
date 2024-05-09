@@ -10,6 +10,7 @@ import com.dodeveloper.study.vodto.StuStackVO;
 import com.dodeveloper.study.vodto.StudyBoardDTO;
 import com.dodeveloper.study.vodto.StudyBoardVO;
 import com.dodeveloper.study.vodto.SearchStudyDTO;
+import com.dodeveloper.study.vodto.StackVO;
 import com.dodeveloper.study.vodto.StuStackDTO;
 
 @Service
@@ -59,6 +60,11 @@ public class StudyServiceImpl implements StudyService {
 	@Override
 	public StudyBoardVO selectStudyByStuNo(int stuNo) throws Exception {
 		return sDao.selectStudyByStuNo(stuNo);
+	}
+
+	@Override
+	public List<StackVO> selectAllStack() throws Exception {
+		return sDao.selectAllStack();
 	}
 
 }

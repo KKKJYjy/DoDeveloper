@@ -1,5 +1,7 @@
 package com.dodeveloper.study.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,7 @@ import com.dodeveloper.study.vodto.StuStackVO;
 import com.dodeveloper.study.vodto.StudyBoardDTO;
 import com.dodeveloper.study.vodto.StudyBoardVO;
 import com.dodeveloper.study.vodto.SearchStudyDTO;
+import com.dodeveloper.study.vodto.StackVO;
 import com.dodeveloper.study.vodto.StuStackDTO;
 
 @Controller
@@ -127,6 +130,42 @@ public class StudyContoller {
 		model.addAttribute("studyList", studyList);
 		model.addAttribute("stuStackList", stuStackList);
 
+	}
+
+	// stuNo번째 글을 수정하는 페이지로 이동하는 메서드
+	@GetMapping("/modifyStudyBoard")
+	public void modifyStudyBoard(@RequestParam("stuNo") int stuNo, Model model) throws Exception {
+		logger.info(stuNo + "번 글을 수정하는 페이지로 이동");
+
+		// 스터디 목록
+		StudyBoardVO studyList = stuService.selectStudyByStuNo(stuNo);
+
+		// 스터디 No번째글 스터디 언어 목록
+		List<StuStackDTO> stuStackListByNo = new ArrayList<StuStackDTO>();
+
+		// stuNo를 넘겨주어 공부할 언어 정보를 가져오자
+		stuStackListByNo.addAll(stuService.selectAllStudyStack(studyList.getStuNo()));
+		
+		//stuNo번째 공부할 언어중 chooseStack만 담는 배열
+		List<Integer> chooseStack = new ArrayList<Integer>();
+		
+		for(StuStackDTO stuStack :stuStackListByNo) {
+			chooseStack.add(stuStack.getChooseStack());
+		}
+		// stack테이블의 모든 값들을 가져오자
+		List<StackVO> stackList = stuService.selectAllStack();
+		System.out.println(stackList.toString());
+		
+		System.out.println(stuStackListByNo.toString());
+		model.addAttribute("studyList", studyList);
+		model.addAttribute("stackList", stackList);
+		model.addAttribute("chooseStack", chooseStack);
+	}
+
+	// stuNo번째 글을 삭제하는 메서드
+	@GetMapping("/deleteStudy")
+	public void deleteStudyBoard(@RequestParam("stuNo") int stuNo) {
+		logger.info(stuNo + "번 글을 삭제하자");
 	}
 
 }

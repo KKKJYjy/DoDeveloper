@@ -1,11 +1,13 @@
 package com.dodeveloper.study.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.dodeveloper.study.vodto.StuStackVO;
 import com.dodeveloper.study.vodto.StudyBoardDTO;
 import com.dodeveloper.study.vodto.StudyBoardVO;
 import com.dodeveloper.study.vodto.SearchStudyDTO;
+import com.dodeveloper.study.vodto.StackVO;
 import com.dodeveloper.study.vodto.StuStackDTO;
 
 public interface StudyService {
@@ -26,5 +28,10 @@ public interface StudyService {
 
 	//stuNo번째 스터디 글을 조회하는 메서드
 	StudyBoardVO selectStudyByStuNo(int stuNo) throws Exception;
+
+	//stack테이블의 전체 데이터를 조회하는 메서드
+	List<StackVO> selectAllStack() throws Exception;
+
+	
 	
 }

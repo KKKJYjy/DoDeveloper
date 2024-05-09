@@ -12,6 +12,7 @@ import com.dodeveloper.study.vodto.StuStackVO;
 import com.dodeveloper.study.vodto.StudyBoardDTO;
 import com.dodeveloper.study.vodto.StudyBoardVO;
 import com.dodeveloper.study.vodto.SearchStudyDTO;
+import com.dodeveloper.study.vodto.StackVO;
 import com.dodeveloper.study.vodto.StuStackDTO;
 
 @Repository
@@ -57,12 +58,17 @@ public class StudyDAOImpl implements StudyDAO {
 	}
 
 	@Override
-	public List<StudyBoardVO> selectAllListWithsDTO(SearchStudyDTO sDTO) {
+	public List<StudyBoardVO> selectAllListWithsDTO(SearchStudyDTO sDTO) throws Exception {
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("searchType", sDTO.getSearchType());
 		param.put("searchContent", "%" +sDTO.getSearchContent() + "%");
 		
 		return ses.selectList(ns + ".selectAllListWithsDTO", param);
+	}
+
+	@Override
+	public List<StackVO> selectAllStack() throws Exception {
+		return ses.selectList(ns + ".selectAllStack");
 	}
 
 }

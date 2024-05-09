@@ -25,7 +25,6 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-
 <!-- select2 css cdn -->
 <link
 	href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/css/select2.min.css"
@@ -133,7 +132,7 @@
 		    roadview.setPanoId(panoId, position); //panoId와 중심좌표를 통해 로드뷰 실행
 		});
 		
-		
+		// =====================================
 		
 		//북마크 버튼을 눌렀을 때
 		let book = 0;
@@ -147,10 +146,17 @@
             }
 
         });
+
 		
 	});
 	
+	
 </script>
+<style>
+i {
+	cursor: pointer;
+}
+</style>
 </head>
 
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
@@ -162,21 +168,58 @@
 		<section id="study" class="studyBasic">
 			<div class="container" style="width: 80%">
 				<div class="container">
-				
+
 					<div class="d-flex">
 						<div class="me-auto">
 							<h3 class="text-light">
 								<b>${studyList.stuTitle }</b>
 							</h3>
 						</div>
+						<!-- 로그인한 유저와 작성자가 같을 때에만 수정 삭제 버튼이 보이도록 처리 -->
+						<c:if test="${loginMember.userId == studyList.stuWriter }">
+							<!-- 수정 버튼 -->
+							<div class=""
+								onclick="location.href='/study/modifyStudyBoard?stuNo=${studyList.stuNo}';">
+								<i class="bi bi-pencil fs-5 me-2" style="color: #ffffff;"></i>
+							</div>
+							<!-- 삭제 버튼 -->
+							<div class="studyBoardDelete" data-bs-toggle="modal" data-bs-target="#deleteModal">
+								<i class="bi bi-trash3 fs-5 me-2" style="color: #ffffff;"></i>
+							</div>
+						</c:if>
 						<div class="">
 							<i class="bi bi-share fs-5 me-2" style="color: #ffffff;"></i>
 						</div>
 					</div>
-					
+
 					<p class="text-light mt-3">
 						<b>${studyList.stuWriter }</b>
 					</p>
+				</div>
+
+			
+				<!-- 삭제 확인용 모달창 -->
+				<div class="modal fade" id="deleteModal">
+					<div class="modal-dialog">
+						<div class="modal-content">
+
+							<!-- Modal Header -->
+							<div class="modal-header">
+								<h4 class="modal-title">스터디 모집글 삭제</h4>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+							</div>
+
+							<!-- Modal body -->
+							<div class="modal-body">해당 글을 삭제하시겠습니까?</div>
+
+							<!-- Modal footer -->
+							<div class="modal-footer">
+								<button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">취소</button>
+								<button type="button" class="btn btn-danger" onclick="location.href='/study/deleteStudy?stuNo=${studyList.stuNo }';">삭제</button>
+							</div>
+
+						</div>
+					</div>
 				</div>
 
 
@@ -209,7 +252,8 @@
 								<!-- 연락 방법 -->
 								<div class="col-md-6">
 									<div class="mb-1 ">
-										<b>연락 방법</b> <span class="">${studyList.contactLink }</span>
+										<b>연락 방법</b> <span class=""><a
+											href="${studyList.contactLink }">${studyList.contactLink }</a></span>
 									</div>
 								</div>
 
@@ -272,7 +316,8 @@
 					<!-- 북마크, 참여신청 버튼 -->
 					<div class="row mt-4">
 						<div class="col-md-1">
-							<button type="button" class="btn btn-danger bookBtn" style="width:100%">
+							<button type="button" class="btn btn-danger bookBtn"
+								style="width: 100%">
 								<i class="bi bi-bookmark bookMark"></i>
 							</button>
 						</div>
@@ -281,8 +326,8 @@
 								style="width: 100%" onclick="" />
 						</div>
 					</div>
-					
-					
+
+
 
 				</div>
 			</div>

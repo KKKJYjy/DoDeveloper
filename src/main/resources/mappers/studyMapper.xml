@@ -50,5 +50,9 @@
 		</choose>
 		order by wrritenDate desc
 	</select>
+	
+	<select id="selectAllStack" resultType="com.dodeveloper.study.vodto.StackVO">
+		SELECT * FROM stack
+	</select>
 
 </mapper>
