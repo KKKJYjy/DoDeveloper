@@ -1,5 +1,4 @@
-package com.dodeveloper.study.vodto;
-
+package com.dodeveloper.mypage.dto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -13,7 +12,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class StuStackVO {
-	private int stuBoardNo;
-	private int[] chooseStack;
+public class ChangePwdDTO {
+	private String userId;
+	private String currentUserPwd;
+	private String newUserPwd;
 }

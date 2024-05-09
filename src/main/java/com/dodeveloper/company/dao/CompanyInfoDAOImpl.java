@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.dodeveloper.company.vodto.CompanyInfoVO;
+import com.dodeveloper.company.vodto.RevCompanyBoardVO;
 
 /**
  * @packageName : com.dodeveloper.company.dao
@@ -32,6 +33,13 @@ public class CompanyInfoDAOImpl implements CompanyInfoDAO {
 	public List<CompanyInfoVO> selectEntireCompanyInfo() throws Exception {
 		
 		return ses.selectList(ns + ".getEntireCompanyInfo"); // 파라메터 없음 (쿼리문은 : ns + ".id")
+	}
+
+	@Override
+	public List<RevCompanyBoardVO> selectCompanyInfoRev(int companyInfoNo) throws Exception {
+		
+		return ses.selectList(ns + ".getRevCompanyList", companyInfoNo);
+		
 	}
 
 }

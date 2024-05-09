@@ -7,7 +7,7 @@
 <meta charset="utf-8" />
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-<title>Algorithm List - DoDeveloper</title>
+<title>CompanyInfo List - DoDeveloper</title>
 <meta content="" name="description" />
 <meta content="" name="keywords" />
 
@@ -26,9 +26,9 @@
 <!-- Vendor CSS Files -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-	rel="stylesheet" />
+	rel="stylesheet">
 <link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link href="/resources/assets/vendor/glightbox/css/glightbox.min.css"
 	rel="stylesheet" />
 <link
@@ -50,49 +50,51 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 
+
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
-	<%@ include file="../header.jsp"%>
+	<c:import url="../header.jsp" />
 
 	<main id="main">
-		<!-- Basic Section - Algorithm Page -->
-		<section id="algorithm" class="basic">
+		<!-- Basic Section - CompanyInfo Page -->
+		<section id="companyInfo" class="basic">
 			<div class="container">
-				<h1>알고리즘</h1>
-				<h1>alg</h1>
+				<h4>기업 리뷰 작성 페이지</h4>
 
-				<div class="container mt-3">
-					<h2>알고리즘 목록</h2>
-					<p>The disabled class adds a lighter text color to the disabled
-						item. And if used on links, it will remove the default hover
-						effect.</p>
-					<div class="list-group">
-						<c:forEach var="alg" items="${algBoardList}">
-							<a href="/algorithm/algDetail?boardNo=${alg.boardNo}"
-								class="list-group-item">${alg.title }</a>
-							<div>/////////////////////////////</div>
-						</c:forEach>
+				<form action="" method="post">
+					<div class="mb-3 mt-3">
+						<label for="userId" class="form-label">글쓴이: </label> <input
+							type="text" class="form-control" id="userId" 
+							name="userId" value="" />
 					</div>
 
-					<div class="btns">
-
-						<button type="button" class="btn btn-info"
-							onclick="location.href='/algorithm/writePOST';">글쓰기</button>
-
+					<div class="mb-3 mt-3">
+						<label for="title" class="form-label">제목 : </label> <input
+							type="text" class="form-control" id="title"
+							placeholder="글 제목을 입력하세요..." name="title" />
 					</div>
-				</div>
 
-				<div>${algBoardList}</div>
+					<div class="mb-3 mt-3">
+						<label for="mobile" class="form-label">글 내용: </label>
+						<textarea cols="600" rows="10" id="content" name="content"
+							class="form-control">
+            			</textarea>
+					</div>
+
+					<input type="submit" class="btn btn-success" value="글 저장" onclick="" /> 
+					<input type="reset" class="btn btn-danger" value="취소" onclick="location.href='/writtenBoard/revCompanyBoard';" />
+				</form>
+
 			</div>
+
+
+
 		</section>
 		<!-- End Basic Section -->
 	</main>
 
-	<%@ include file="../footer.jsp"%>
+	<c:import url="../footer.jsp" />
 
-	<!-- Scroll Top Button -->
-	<a href="#" id="scroll-top"
-		class="scroll-top d-flex align-items-center justify-content-center"><i
-		class="bi bi-arrow-up-short"></i></a>
+
 
 	<!-- Preloader -->
 	<div id="preloader">
@@ -121,3 +123,5 @@
 	<script src="/resources/assets/js/main.js"></script>
 </body>
 </html>
+
+

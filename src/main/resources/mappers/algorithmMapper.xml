@@ -4,13 +4,22 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dodeveloper.mappers.algorithmMapper">
 
+	<!--  게시글조회 
+	-->
 	<select id="selectAlgBoard" resultType="com.dodeveloper.algorithm.vodto.AlgBoardDTO">
 		select * from algBoard
 	</select>
 	
-	<!--  게시글조회 
-	<select id="selectAlgBoard" resultType="com.dodeveloper.algorithm.vodto">
-		select * from algBoard
+	<!--  boardNo 에 해당하는 algDetail 조회 -->
+	<select id="selectAlgDetail" resultType="com.dodeveloper.algorithm.vodto.AlgDetailDTO">
+		select * from algDetail where algBoardNo = #{boardNo}
 	</select>
-	-->
+	
+	<!-- algBoard 에 새 항목 insert  -->
+	<insert id="insertAlgBoard">
+		insert into algBoard (classificationCode, title, comment) values(#{classificationCode},#{title},#{comment})
+	</insert>
+	
+	
+	
 </mapper>
