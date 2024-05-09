@@ -11,5 +11,110 @@
 		lecReadCount, lecPostDate
 		from lectureBoard order by lecNo desc
 	</select>
-	
+
+	<!-- ?번 글을 가져오는 쿼리문 -->
+	<select id="selectBoardLecNo" resultType="LectureBoardVO">
+		select * from
+		lectureBoard where lecNo = #{lecNo}
+	</select>
+
+	<!-- ?번 글을 ?유저가 조회했다는 이력을 기록하는 쿼리문 -->
+	<insert id="insertReadCountProcess">
+		insert into readCount(readWho, boardNo, bType)
+		values(#{user}, #{boardNo}, 1);
+	</insert>
+
+	<!-- 유저가 ?번 글을 언제 읽었는지 select하는 쿼리문 -->
+	<select id="getDateDiff" resultType="int">
+		select ifnull(a.diff, -1) as
+		datediff from
+		(select datediff(now(), (select readWhen from readCount
+		where bType = 1 and
+		readWho=#{user} and readNo=#{readNo} order by
+		readNo desc limit 1)) as diff) a
+	</select>
+
+	<!-- ?번 글의 조회수를 증가하는 쿼리문 -->
+	<update id="updateReadCount">
+		update lectureBoard set lecReadCount = lecReadCount +
+		1 where lecNo = #{lecNo} and bType = 1;
+	</update>
+
+	<!-- 유저가 작성한 글을 insert하는 쿼리문 -->
+	<insert id="insertLectureBoard" useGeneratedKeys="true"
+		keyProperty="lecNo" parameterType="LectureBoardDTO">
+		insert into lectureBoard(bType,
+		lecTitle, lecReview, lecWriter,
+		lecScore, lecLink)
+		values(1,
+		#{lecTitle}, #{lecReview}, #{lecWriter}, #{lecScore},
+		#{lecLink})
+	</insert>
+
+	<!-- 유저가 작성한 글을 수정(update)하는 쿼리문 -->
+	<update id="updateLectureBoard">
+		update lectureBoard set lecTitle = #{lecTitle},
+		lecReview = #{lecReview}, lecScore = #{lecScore}, lecLink = #{lecLink}
+		where lecNo = #{lecNo} and bType = 1;
+	</update>
+
+	<!-- 유저가 게시글 삭제(delete)하는 쿼리문 -->
+	<delete id="deleteLectureBoard">
+		delete from lectureBoard where lecNo = #{lecNo} and
+		bType = 1;
+	</delete>
+
+	<!-- 검색어가 없을 경우 게시글 전체 글 갯수를 얻어오는 쿼리문 - 검색조건 -->
+	<select id="getTotalLectureBoard" resultType="int">
+		select count(*) as
+		totalPostCnt from lectureBoard
+	</select>
+
+	<!-- 검색어가 있을 경우 검색된 글의 갯수를 가져오는 쿼리문 - 검색조건 -->
+	<select id="getLectureBoardCntWithSc" resultType="int">
+		select count(*) from lectureBoard
+		<choose>
+			<when test="searchType == 'lecTitle'">where lecTitle like
+				#{searchValue}
+			</when>
+			<when test="searchType == 'lecWriter'">where lecWriter like
+				#{searchValue}
+			</when>
+			<otherwise>
+				where lecReview like #{searchValue}
+			</otherwise>
+		</choose>
+	</select>
+
+	<!-- 검색어가 있을 경우 검색된 글을 가져오는 쿼리문 - 검색조건 -->
+	<select id="getLectureBoardListWithSc"
+		resultType="LectureBoardVO">
+		select * from lectureBoard
+		<choose>
+			<when test="searchType == 'lecTitle'">where lecTitle like
+				#{searchValue}
+			</when>
+			<when test="searchType == 'lecWriter'">where lecWriter like
+				#{searchValue}
+			</when>
+			<otherwise>
+				where lecReview like #{searchValue}
+			</otherwise>
+		</choose>
+	</select>
+
+	<!-- 검색 필터를 클릭했을 시에 조건에 맞는 글을 가져오는 쿼리문 - 검색 필터 -->
+	<select id="getLectureBoardListFilter"
+		resultType="LectureBoardVO">
+		select * from lectureBoard order by
+		<choose>
+			<when test="filterType == 'latest'">lecPostDate desc</when>
+			<when test="filterType 
+		== 'popular'">lecLikeCount desc</when>
+			<when test="filterType == 'view'">lecReadCount
+				desc
+			</when>
+		</choose>
+	</select>
+
 </mapper>

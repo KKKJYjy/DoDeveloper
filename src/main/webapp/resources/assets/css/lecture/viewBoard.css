@@ -1,1 +1,36 @@
-@charset "UTF-8";
+/* 전체 버튼 */
+.btns {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px; /* 버튼과의 간격 조정 */
+}
+
+.btns .btn {
+    background-color: #555;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 10px; /* 버튼 사이의 간격 조정 */
+}
+
+.btns .btn:first-child {
+    margin-left: 0; /* 첫 번째 버튼에는 간격을 주지 않음 */
+}
+
+/* 버튼에 마우스를 가져갔을 경우 */
+.btns .btn:hover {
+    background-color: #444;
+}
+
+.btns .btn:hover {
+    color: #fff;
+}
+
+.btn-group {
+    display: flex;
+    align-items: center; /* 버튼 그룹 세로 중앙 정렬 */
+    margin-left: 10px; /* 좋아요와 신고 버튼 간격 조정 */
+}

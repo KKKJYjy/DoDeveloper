@@ -6,8 +6,10 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
 	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
 		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
@@ -68,6 +70,9 @@
 	<aop:aspectj-autoproxy />
 
 	<aop:config></aop:config>
+	
+	<task:scheduler id="jobScheduler" pool-size="10"/>
+	<task:annotation-driven scheduler="jobScheduler"/>
 
 	<!-- 아래의 패키지를 조사(scan)하여 객체를 스프링 컨테이너에 관리하도록 설정 -->
 	<context:component-scan
@@ -82,15 +87,22 @@
 		base-package="com.dodeveloper.etc"></context:component-scan>
 
 	<context:component-scan
-		base-package="com.dodeveloper.message.dao"></context:component-scan>	
+		base-package="com.dodeveloper.message.dao"></context:component-scan>
 	<context:component-scan
 		base-package="com.dodeveloper.message.service"></context:component-scan>
 
+	<context:component-scan
+		base-package="com.dodeveloper.etc"></context:component-scan>
 
 	<context:component-scan
 		base-package="com.dodeveloper.lecture.service"></context:component-scan>
 	<context:component-scan
 		base-package="com.dodeveloper.lecture.dao"></context:component-scan>
+	<!-- 댓글 패키지 -->
+	<context:component-scan
+		base-package="com.dodeveloper.reply.dao"></context:component-scan>
+	<context:component-scan
+		base-package="com.dodeveloper.reply.service"></context:component-scan>
 
 
 	<!-- 기업&재직자 리뷰 패키지를 조사(scan)하여 객체를 스프링 컨테이너에 관리하도록 설정 -->
@@ -98,10 +110,12 @@
 		base-package="com.dodeveloper.company.service"></context:component-scan>
 	<context:component-scan
 		base-package="com.dodeveloper.company.dao"></context:component-scan>
-		
+
 	<!-- study 관련 패키지 -->
-	<context:component-scan base-package="com.dodeveloper.study.service"></context:component-scan>
-	<context:component-scan base-package="com.dodeveloper.study.dao"></context:component-scan>
+	<context:component-scan
+		base-package="com.dodeveloper.study.service"></context:component-scan>
+	<context:component-scan
+		base-package="com.dodeveloper.study.dao"></context:component-scan>
 
 	<context:component-scan
 		base-package="com.dodeveloper.algorithm.service"></context:component-scan>

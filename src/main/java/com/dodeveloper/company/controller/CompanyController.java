@@ -2,6 +2,8 @@ package com.dodeveloper.company.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +11,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.dodeveloper.company.service.CompanyInfoService;
 import com.dodeveloper.company.vodto.CompanyInfoVO;
+import com.dodeveloper.company.vodto.RevCompanyBoardVO;
 
 
 /**
@@ -28,7 +33,7 @@ import com.dodeveloper.company.vodto.CompanyInfoVO;
  * 
  */
 @Controller // CompanyController: 컨트롤러 객체임을 명시
-@RequestMapping("/companyInfo") // "/companyInfo" GET방식으로 요청 
+@RequestMapping("/companyInfo") // "/companyInfo"가 GET방식으로 요청 
 public class CompanyController {
 
 	private static final Logger logger = LoggerFactory.getLogger(CompanyController.class);
@@ -58,6 +63,45 @@ public class CompanyController {
 		// ciList : listAll.jsp로 간다~
 		
 		return "companyInfo/listAll"; //컨트롤러의 메서드 반환값이 void일때는 매핑된 uri이름과 같은 이름의 jsp로 포워딩 된다! 
+	}
+	
+	
+	/**
+	 * @methodName : companyRevBoard
+	 * @author : kimso05
+	 * @date : 2024.05.05
+	 * @param : int companyInfoNo : 유저가 클릭한 해당 기업 리뷰 
+	 * @return : String
+	 * @throws Exception 
+	 * @description : 각각의 해당 기업 리뷰 상세 페이지 
+	 */
+	@RequestMapping("/revCompanyBoard") // "/companyInfo/revCompanyBoard"가 GET방식으로 요청될 때 호출 
+	public String companyRevBoard(@RequestParam("companyInfoNo") int companyInfoNo, Model model) throws Exception {
+		// /companyInfo/revCompanyBoard.jsp로 포워딩-> 유저가 기업클릭하면 클릭한 기업 리뷰를 볼 수 있다.
+		logger.info(companyInfoNo + "기업 리뷰 페이지 조회");
+		
+		// 서비스단 호출(getCompanyInfoRev())
+		List<RevCompanyBoardVO> revList = ciService.getCompanyInfoRev(companyInfoNo);
+		
+		model.addAttribute("revList", revList); // 바인딩
+		// revList : revCompanyBoard.jsp로 간다~
+		
+		 return "/companyInfo/revCompanyBoard"; 
+	}
+	
+	
+	/**
+	 * @methodName : writtenBoard
+	 * @author : kimso05
+	 * @date : 2024.05.09
+	 * @return : String
+	 * @description : "/companyInfo/writtenBoard" (기업 리뷰 작성 페이지)로 포워딩 시키는 메서드   
+	 */
+	@RequestMapping("/writtenBoard")   // "/companyInfo/written"가 GET방식으로 요청될 때 호출
+	public String writtenBoard() {
+		// /companyInfo/writtenBoard.jsp로 포워딩
+		
+		return "companyInfo/writtenBoard"; 
 	}
 
 }

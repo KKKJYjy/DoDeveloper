@@ -10,6 +10,7 @@ import com.dodeveloper.member.dto.LoginDTO;
 import com.dodeveloper.member.dto.RegisterDTO;
 import com.dodeveloper.member.dto.SessionDTO;
 import com.dodeveloper.member.vo.MemberVO;
+import com.dodeveloper.mypage.dto.ChangePwdDTO;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -21,16 +22,7 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public MemberVO login(LoginDTO loginDTO) throws Exception {
-		MemberVO loginMember = null;
-		// 로그인 시도
-		loginMember = mDao.loginMember(loginDTO); // select
-
-		if (loginMember != null) {
-			System.out.println("로그인 성공");
-		} else {
-			System.out.println("로그인 실패");
-		}
-		return loginMember;
+		return mDao.loginMember(loginDTO);
 	}
 
 	@Override
@@ -52,5 +44,20 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int registerMember(RegisterDTO registerDTO) throws Exception {
 		return mDao.registerMember(registerDTO);
+	}
+
+	@Override
+	public MemberVO getMemberInfo(String userId) throws Exception {
+		return mDao.getMemberInfo(userId);
+	}
+
+	@Override
+	public int checkUserPwd(ChangePwdDTO changePwdDTO) throws Exception {
+		return mDao.checkUserPwd(changePwdDTO);
+	}
+
+	@Override
+	public int changeUserPwd(ChangePwdDTO changePwdDTO) throws Exception {
+		return mDao.changeUserPwd(changePwdDTO);
 	}
 }

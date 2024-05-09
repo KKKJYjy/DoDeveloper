@@ -6,7 +6,7 @@
 
 	<select id="selectAllList"
 		resultType="com.dodeveloper.study.vodto.StudyBoardVO">
-		SELECT * FROM studyBoard
+		SELECT * FROM studyBoard order by wrritenDate desc
 	</select>
 
 	<select id="selectAllstudyStack"
@@ -15,6 +15,44 @@
 		inner join stuStack t
 		on s.stackNo = t.chooseStack
 		where t.stuBoardNo = #{stuBoardNo}
+	</select>
+	
+	<select id="selectNextStuNo" resultType="int">
+		select stuNo from studyBoard
+		order by wrritenDate desc limit 0, 1
+	</select>
+	
+	<insert id="insertNewStack">
+		insert into stuStack(stuBoardNo, chooseStack) values(#{stuBoardNo}, #{chooseStack})
+	</insert>
+	
+	<insert id="insertNewStudy">
+		insert into studyBoard(stuWriter, stuTitle, stuContent, stuLoc, stuX, stuY, stuDate, stuPers, contactLink, endDate) 
+		values(#{stuWriter}, #{stuTitle}, #{stuContent}, #{stuLoc}, #{stuX}, #{stuY}, #{stuDate}, #{stuPers}, #{contactLink}, #{endDate})
+	</insert>
+	
+	<select id="selectStudyByStuNo" resultType="com.dodeveloper.study.vodto.StudyBoardVO">
+		SELECT * FROM studyBoard where stuNo = #{stuNo}
+	</select>
+	
+	<select id="selectAllListWithsDTO" resultType="com.dodeveloper.study.vodto.StudyBoardVO">
+		select * from studyBoard
+		<choose>
+			<when test="searchType == 'title'">
+				where stuTitle like #{searchContent}
+			</when>
+			<when test="searchType == 'writer'">
+				where stuWriter like #{searchContent}
+			</when>
+			<otherwise>
+				where stuContent like #{searchContent}
+			</otherwise>
+		</choose>
+		order by wrritenDate desc
+	</select>
+	
+	<select id="selectAllStack" resultType="com.dodeveloper.study.vodto.StackVO">
+		SELECT * FROM stack
 	</select>
 
 </mapper>
