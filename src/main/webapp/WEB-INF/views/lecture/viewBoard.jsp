@@ -50,7 +50,24 @@
   ======================================================== -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<style>
+.content {
+	padding: 15px;
+	border: 1px solid #595959;
+}
+
+.replyer {
+	margin-right: 10px;
+}
+
+.replyBtns img {
+	width: 25px;
+	margin-right: 5px;
+}
+</style>
 <script>
+	//---------------------------------------------------------------------
+
 	//댓글 조회에 대한 js
 	$(document).ready(function() {
 		// 댓글 목록 가져오기
@@ -58,7 +75,31 @@
 		refreshReplyList(bNo);
 	});
 
-	// 댓글 목록을 가져와서 화면에 표시하는 함수 -> refreshReplyList
+	//---------------------------------------------------------------------
+
+	// 댓글 전체 조회
+	function getAllReplies() {
+		let lecNo = ${lecBoard.lecNo};
+
+		$.ajax({
+			url : "/reply/list/" + bNo,
+			type : "get",
+			dataType : "json", // 수신받을 데이터의 타입
+			async : 'false',
+			success : function(data) { // data(json)
+				// 통신 성공하면 실행할 내용들....
+				console.log(data);
+
+				replies = data;
+
+				outputReplies(data);
+			}
+		});
+	}
+
+	//---------------------------------------------------------------------
+
+	//댓글 목록을 가져와서 화면에 표시하는 함수 -> refreshReplyList
 	function refreshReplyList(bNo) {
 		$.ajax({
 			type : "GET",
@@ -66,8 +107,9 @@
 			success : function(replies) {
 				var html = "";
 				for (var i = 0; i < replies.length; i++) {
-					html += "<div class='reply'>" + replies[i].replyContent
-							+ "</div>";
+					html += "<div class='reply'>" + replies[i].replyNo + " | "
+							+ replies[i].replyContent + " | "
+							+ replies[i].replyer + "</div>";
 				}
 				$(".replies").html(html); // 댓글 목록을 출력할 요소에 HTML 추가
 			},
@@ -81,7 +123,41 @@
 			}
 		});
 	}
+
 	// ---------------------------------------------------------------------
+
+	// 댓글 처리 전 로그인 인증
+	function preAuth() {
+		let writer = '${sessionScope.loginMember.userId}';
+		if (writer === '') { // 로그인 하지 않았다면 로그인 페이지로 이동
+			location.href = '/member/login?redirectUrl=view&lecNo=${lecBoard.lecNo}';
+		}
+		return writer;
+	}
+
+	//---------------------------------------------------------------------
+
+	// 댓글 출력 방식
+	function outputReplies(data) {
+		let output = `<div class="list-group replies">`;
+		$.each(data, function(i, reply) {
+			output += `<ul class="list-group-item">`;
+			output += `<div class='reply' id='reply_${reply.replyNo}'>`;
+			output += `<div class='replyNo'>${reply.replyNo}</div>`;
+			output += `<div style='flex:1'>${reply.replyContent}</div>`;
+			output += `<div class='replyer'>${reply.replyer}</div>`;
+			let diff = processPostDate(reply.writtenDate);
+			output += `<div>${diff}</div>`;
+			output += `<div class='replyBtns'><img src='/resources/images/reply/replyedit.png' onclick='showModifyReply(${reply.replyNo});'/>`;
+			output += `<img src='/resources/images/reply/replytrash.png' onclick='' /></div>`;
+			output += `</div>`;
+			output += `</ul>`;
+		});
+		output += `</div>`;
+		$('.replies').html(output);
+	}
+
+	//---------------------------------------------------------------------
 
 	// 댓글 작성시 저장하는 js
 	$(function() {
@@ -96,7 +172,11 @@
 			} else {
 				let replyer = preAuth(); // 댓글 작성자 가져오기
 				if (replyer !== '') {
-					let bNo = ${lecBoard.lecNo}; // 게시글 번호 가져오기
+					let bNo = $
+					{
+						lecBoard.lecNo
+					}
+					; // 게시글 번호 가져오기
 					let newReply = {
 						"bNo" : bNo + "", // 문자열로 변환
 						"replyContent" : replyContent,
@@ -135,15 +215,77 @@
 	});
 
 	// ---------------------------------------------------------------------
-	// 댓글 처리 전 로그인 인증
-	function preAuth() {
-		let writer = '${sessionScope.loginMember.userId}';
-		if (writer === '') { // 로그인 하지 않았다면 로그인 페이지로 이동
-			location.href = '/member/login?redirectUrl=view&lecNo=${lecBoard.lecNo}';
-		}
-		return writer;
-	}
-	// ---------------------------------------------------------------------
+	
+	
+// 댓글 수정 버튼에 대한 js
+function showModifyReply(replyNo) {
+    let user = preAuth(); // 로그인 한 유저를 user 변수로
+    let writer = null;
+
+    $.each(replies, function(i, r) {
+        if (replyNo == r.replyNo) {
+            writer = r.replyer; // 댓글 작성자
+        }
+    });
+
+    // 로그인 한 유저는 본인 댓글 일 때만 수정이 가능하도록
+    if (user == writer) {
+        // 숨겨진 수정창을 보여줌
+        $('#modifyReplyContainer').show();
+
+        // 기존의 수정창을 비움
+        $('#modifyReplyContent').val('');
+
+        // 수정 버튼에 replyNo 정보 추가
+        $('#modifyReplyContent').data('replyNo', replyNo);
+    } else {
+        alert('작성자 본인만 수정이 가능합니다.');
+    }
+}
+
+// 댓글 수정 요청
+function modifyReply() {
+    let replyNo = $('#modifyReplyContent').data('replyNo');
+    let replyContent = $('#modifyReplyContent').val();
+    let modifyReply = {
+        "replyNo": replyNo,
+        "replyContent": replyContent
+    };
+
+    // 댓글 내용이 비어있는지 확인
+    if (replyContent.trim() === '') {
+        alert('댓글 내용을 입력하세요.');
+        return;
+    }
+
+    // 서버로 수정된 내용 전송
+    $.ajax({
+        url: `/modify/${replyNo}`,
+        type: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify(modifyReply),
+        success: function(response) {
+            if (response === '댓글 수정 완료') {
+                alert('댓글이 수정되었습니다.');
+                // 수정된 댓글 새로고침
+                refreshReplyList();
+                // 수정창 숨김
+                $('#modifyReplyContainer').hide();
+            } else {
+                alert('댓글 수정에 실패했습니다.');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+            alert('댓글 수정 중 오류가 발생했습니다.');
+        }
+    });
+}
+
+// 취소 버튼 클릭 시 수정창 숨김
+function cancelModify() {
+    $('#modifyReplyContainer').hide();
+}
 </script>
 </head>
 
@@ -246,7 +388,17 @@
 
 					<div class="replies">
 						<!-- 댓글 목록이 여기에 표시됩니다 -->
+						<label for="modifyReplyContent" class="form-label">수정할 댓글
+							내용 : </label>
+						<textarea id="modifyReplyContent" class="form-control" rows="1"></textarea>
+						<button type="button" class="btn btn-info" onclick="modifyReply()">수정
+							완료</button>
+						<button type="button" class="btn btn-secondary"
+							onclick="cancelModify()">취소</button>
 					</div>
+
+					<!-- 댓글 수정 입력창 -->
+					<div id="modifyReplyContainer" style="display: none;"></div>
 
 				</section>
 
