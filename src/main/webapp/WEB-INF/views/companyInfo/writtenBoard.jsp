@@ -48,22 +48,6 @@
   ======================================================== -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-<style>
-.companyCard {
-	display: flex;
-	justify-content: space-around;
-	align-item: center;
-	margin-bottom: 10px;
-	padding: 20px 10px;
-	overflow: auto;
-	padding: 20px 10px;
-}
-
-.companyDesc {
-	flex: 1;
-}
-</style>
 </head>
 
 
@@ -73,41 +57,44 @@
 	<main id="main">
 		<!-- Basic Section - CompanyInfo Page -->
 		<section id="companyInfo" class="basic">
-			<!-- <h1>기업리뷰</h1> -->
+			<div class="container">
+				<h4>기업 리뷰 작성 페이지</h4>
 
-			<!-- 기업 전체 리스트 -->
-			<div class="container mt-3">
-				<p>IT/웹/통신</p>
+				<form action="" method="post">
+					<div class="mb-3 mt-3">
+						<label for="userId" class="form-label">글쓴이: </label> <input
+							type="text" class="form-control" id="userId" 
+							name="userId" value="" />
+					</div>
 
-				<ul class="list-group">
-					<c:forEach var="ci" items="${ciList}">
-						<a href="/companyInfo/revCompanyBoard?companyInfoNo=${ci.companyInfoNo }"
-							class="list-group-item list-group-item-action companyCard">
+					<div class="mb-3 mt-3">
+						<label for="title" class="form-label">제목 : </label> <input
+							type="text" class="form-control" id="title"
+							placeholder="글 제목을 입력하세요..." name="title" />
+					</div>
 
-							<div style="width: 200px;" >
-								<img class="companyLogo" src="${ci.companyInfoImgLogo}"
-									alt="${ci.companyInfoName }"
-									style="width: 100px; height: 100px;">
-							</div>
-							<div class="companyDesc" >
-								<h4 class="card-title">${ci.companyInfoName }</h4>
-								<div class="card-text">${ci.companyInfoFields}</div>
-								<div class="card-text">${ci.companyInfoLocation }</div>
-							</div>	
-						</a>
-					</c:forEach>
-				</ul>
+					<div class="mb-3 mt-3">
+						<label for="mobile" class="form-label">글 내용: </label>
+						<textarea cols="600" rows="10" id="content" name="content"
+							class="form-control">
+            			</textarea>
+					</div>
+
+					<input type="submit" class="btn btn-success" value="글 저장" onclick="" /> 
+					<input type="reset" class="btn btn-danger" value="취소" onclick="location.href='/writtenBoard/revCompanyBoard';" />
+				</form>
+
 			</div>
+
+
+
 		</section>
 		<!-- End Basic Section -->
 	</main>
 
 	<c:import url="../footer.jsp" />
 
-	<!-- Scroll Top Button -->
-	<a href="#" id="scroll-top"
-		class="scroll-top d-flex align-items-center justify-content-center"><i
-		class="bi bi-arrow-up-short"></i></a>
+
 
 	<!-- Preloader -->
 	<div id="preloader">

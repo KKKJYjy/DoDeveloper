@@ -50,22 +50,30 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <style>
-.companyCard {
+.companyInfo {
 	display: flex;
 	justify-content: space-around;
-	align-item: center;
-	margin-bottom: 10px;
-	padding: 20px 10px;
-	overflow: auto;
-	padding: 20px 10px;
+	align-items: center;
 }
 
-.companyDesc {
-	flex: 1;
+.float {
+	position: fixed;
+	width: 60px;
+	height: 60px;
+	bottom: 40px;
+	right: 40px;
+	background-color: #0C9;
+	color: #FFF;
+	border-radius: 50px;
+	text-align: center;
+	box-shadow: 2px 2px 3px #999;
+}
+
+.my-float {
+	margin-top: 22px;
 }
 </style>
 </head>
-
 
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
 	<c:import url="../header.jsp" />
@@ -73,31 +81,48 @@
 	<main id="main">
 		<!-- Basic Section - CompanyInfo Page -->
 		<section id="companyInfo" class="basic">
-			<!-- <h1>기업리뷰</h1> -->
-
-			<!-- 기업 전체 리스트 -->
+			<!-- <h1>기업리뷰 상세 페이지</h1> -->
 			<div class="container mt-3">
-				<p>IT/웹/통신</p>
+			
+				<!-- 해당 기업 리뷰 클릭하면 기업후기 대신 기업명 표기 구현 예정
+					작성자는 익명 처리 할 예정 -->
+				<p>기업후기</p>
 
 				<ul class="list-group">
-					<c:forEach var="ci" items="${ciList}">
-						<a href="/companyInfo/revCompanyBoard?companyInfoNo=${ci.companyInfoNo }"
-							class="list-group-item list-group-item-action companyCard">
 
-							<div style="width: 200px;" >
-								<img class="companyLogo" src="${ci.companyInfoImgLogo}"
-									alt="${ci.companyInfoName }"
-									style="width: 100px; height: 100px;">
-							</div>
-							<div class="companyDesc" >
-								<h4 class="card-title">${ci.companyInfoName }</h4>
-								<div class="card-text">${ci.companyInfoFields}</div>
-								<div class="card-text">${ci.companyInfoLocation }</div>
-							</div>	
-						</a>
+					<c:forEach var="rev" items="${revList}">
+						<table class="table table-striped">
+							
+							<tr>
+								<th>작성자</th>
+								<td>${rev.revWriter}</td>
+							</tr>
+							<tr>
+								<th>제목</th>
+								<td>${rev.revTitle}</td>
+							</tr>
+							<tr>
+								<th>파트</th>
+								<td>${rev.revProfession}</td>
+							</tr>
+							<tr>
+								<th>내용</th>
+								<td>${rev.revContent}</td>
+							</tr>
+							<tr>
+								<th>장점</th>
+								<td>${rev.revGood}</td>
+							</tr>
+							<tr>
+								<th>단점</th>
+								<td>${rev.revBed}</td>
+							</tr>
+						</table>
 					</c:forEach>
 				</ul>
 			</div>
+			<a href="/companyInfo/writtenBoard?companyInfoNo=${param.companyInfoNo}" 
+				class="float"><i class="fa fa-plus my-float"></i></a>
 		</section>
 		<!-- End Basic Section -->
 	</main>
@@ -134,6 +159,7 @@
 
 	<!-- Template Main JS File -->
 	<script src="/resources/assets/js/main.js"></script>
+	<script src="https://kit.fontawesome.com/ffcac42df4.js" crossorigin="anonymous"></script>
 </body>
 </html>
 
