@@ -57,16 +57,20 @@ public class StudyContoller {
 			// System.out.println(s.getStuNo());
 		}
 
-		//System.out.println(stuStackList.toString());
+		// System.out.println(stuStackList.toString());
 		model.addAttribute("studyList", studyList);
 		model.addAttribute("stuStackList", stuStackList);
 	}
 
 	// 스터디 작성 페이지로 이동하는 메서드
 	@GetMapping(value = "/writeStudyBoard")
-	public void writeBoard() {
+	public void writeBoard(Model model) throws Exception {
 		logger.info("writeStudyBoard View.");
 
+		// stack테이블의 모든 값들을 가져오자
+		List<StackVO> stackList = stuService.selectAllStack();
+		model.addAttribute("stackList", stackList);
+		
 	}
 
 	// 스터디 작성 버튼을 누르면 study 테이블에 인서트
@@ -74,19 +78,19 @@ public class StudyContoller {
 	public ResponseEntity<String> insertStudy(@RequestBody StudyBoardDTO newStudyDTO) {
 
 		ResponseEntity<String> result = null;
-		
+
 		logger.info("insertStudy: 새로 추가할 스터디 모집글" + newStudyDTO.toString());
 
 		// 새로추가할 newStudyDTO를 멤버변수 newStudy에 저장
 		newStudy = newStudyDTO;
 		logger.info("insertStudy: 새로 추가할 스터디 모집글" + newStudy.toString());
 
-		if(newStudy != null) {
+		if (newStudy != null) {
 			result = new ResponseEntity<String>("success", HttpStatus.OK);
-		}else {
+		} else {
 			result = new ResponseEntity<String>(HttpStatus.CONFLICT);
 		}
-		
+
 		return result;
 
 	}
@@ -95,20 +99,19 @@ public class StudyContoller {
 	@PostMapping(value = "/insertStack")
 	public String insertStack(StuStackVO newStack) throws Exception {
 		String result = null;
-		
+
 		// StuStackVO의 stuBoardNo값 세팅
-		newStack.setStuBoardNo(stuService.selectNextStuNo()+1);
+		newStack.setStuBoardNo(stuService.selectNextStuNo() + 1);
 		System.out.println("insertStack: 추가할 스터디 스택 게시글 번호" + newStack.getStuBoardNo());
 		int[] chooseStacks = newStack.getChooseStack();
-		
+
 		logger.info("insertStack: 새로 추가할 스터디 스택가져오자" + newStack.toString());
 		logger.info("insertStack: 새로 추가할 스터디 스터디 모집글" + newStudy.toString());
-		
+
 //		if (chooseStacks != null) {
 		if (stuService.insertNewStudy(newStudy) == 1) {
 			System.out.println("스터디글추가성공");
-			
-			
+
 			for (int chooseStack : chooseStacks) {
 				if (stuService.insertNewStack(newStack.getStuBoardNo(), chooseStack) == 1) {
 					System.out.println("스택추가성공");
@@ -177,15 +180,15 @@ public class StudyContoller {
 	// stuNo번째 글을 삭제하는 메서드
 	@GetMapping("/deleteStudy")
 	public String deleteStudyBoard(@RequestParam("stuNo") int stuNo) throws Exception {
-		
+
 		String result = null;
-		
+
 		logger.info(stuNo + "번 글을 삭제하자");
-		if(stuService.deleteStudyBoard(stuNo) == 1) {
+		if (stuService.deleteStudyBoard(stuNo) == 1) {
 			result = "/study/listAll";
 			logger.info(stuNo + "번 글을 삭제 성공!");
 		}
-		
+
 		return "redirect:" + result;
 	}
 

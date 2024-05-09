@@ -215,7 +215,7 @@
 
 		//유효성 검사
 		isVaild();
-		
+
 		if ($("#chooseStack").val() != '' && $("#chooseStack").val() != null
 				&& $("#stuPers").val() != -1 && $("#endDate").val() != ''
 				&& $("#endDate").val() != null && $("#contactLink").val() != ''
@@ -251,16 +251,16 @@
 				success : function(data) {
 					console.log(data);
 					result = true; //insertStudy 먼저 수행한뒤 insertStack 수행하도록
-					
+
 				}
 			});
-			
-			console.log("if문 끝나기전",result);
-		}else{
-			
+
+			console.log("if문 끝나기전", result);
+		} else {
+
 		}
 
-		console.log("if문 끝난후",result);
+		console.log("if문 끝난후", result);
 		return result;
 	}
 </script>
@@ -291,16 +291,9 @@
 								</div>
 								<select class="studyLang form-control" multiple="multiple"
 									style="width: 100%" id="chooseStack" name="chooseStack">
-									<!-- ajax로 stack테이블에 있는 애들 대려오기 -->
-									<option value="1">React</option>
-									<option value="2">javascript</option>
-									<option value="3">Vue</option>
-									<option value="4">Nextjs</option>
-									<option value="5">Java</option>
-									<option value="6">Spring</option>
-									<option value="7">Kotlin</option>
-									<option value="8">Swift</option>
-									<option value="9">Flutter</option>
+									<c:forEach var="stack" items="${stackList }">
+										<option value="${stack.stackNo }">${stack.stackName }</option>
+									</c:forEach>
 								</select>
 							</div>
 						</div>
