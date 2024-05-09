@@ -160,8 +160,8 @@
 			// 지도 검색바에 선택한 장소명 출력
 			$("#searchMap").val(place.place_name);
 
-			mapY = place.y;
-			mapX = place.x;
+			mapY = place.x;
+			mapX = place.y;
 			mapName = place.place_name;
 
 			console.log(mapX, mapY, mapName);
