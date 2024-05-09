@@ -1,3 +1,4 @@
+
 package com.dodeveloper.lecture.controller;
 
 import java.util.List;
@@ -232,3 +233,4 @@ public class LectureBoardController {
 	}
 
 }
+

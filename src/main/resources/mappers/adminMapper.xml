@@ -3,6 +3,16 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dodeveloper.mappers.adminMapper">
+
+
+<select id="getBoard" resultType="AdminVO">
+	select * from studyBoard order by stuNo desc
+</select>
+
+<select id="getBadMemberBoard" resultType="BadMemberBoardVO">
+	select * from reportBoard order by reportNo desc
+</select>
+
 	
 	<!-- 유저 전체 조회 -->
 	<select id="selectAllUser" resultType="MemberVO">
@@ -23,5 +33,6 @@
 	<delete id="deleteReport">
 		delete * from reportBoard where writer = #{userId}
 	</delete>
+
 
 </mapper>

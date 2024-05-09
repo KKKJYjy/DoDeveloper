@@ -56,12 +56,12 @@
 					<a class="navbar-brand ms-4" href="index.html"> <!-- Logo icon -->
 						<b class="logo-icon"> <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
 							<!-- Dark Logo icon --> <img
-							src="../resources/admin/assets/images/logo-light-icon.png" alt="homepage"
+
+							src="/resources/admin/assets/images/logo-light-icon.png" alt="homepage"
 							class="dark-logo" />
 					</b> <!--End Logo icon --> <!-- Logo text --> <span class="logo-text">
 							<!-- dark Logo text --> <img
-							src="../resources/admin/assets/images/logo-light-text.png" alt="homepage"
-							class="dark-logo" />
+							src="/resources/admin/assets/images/logo-light-text.png" alt="homepage" class="dark-logo" />
 					</span>
 					</a>
 					<!-- ============================================================== -->
@@ -115,7 +115,9 @@
 							class="nav-link dropdown-toggle text-muted waves-effect waves-dark"
 							href="#" id="navbarDropdown" role="button"
 							data-bs-toggle="dropdown" aria-expanded="false">
-								<img src="../resources/admin/assets/images/users/1.jpg" alt="user"
+
+								<img src="/resources/admin/assets/images/users/1.jpg" alt="user"
+
 								class="profile-pic me-2" />Markarn Doe
 						</a>
 							<ul class="dropdown-menu" aria-labelledby="navbarDropdown"></ul>
@@ -123,6 +125,31 @@
 					</ul>
 				</div>
 			</nav>
+		<div class="page-wrapper">
+			 <div class="container-fluid">
+				<div class="page-breadcrumb">
+          <div class="row align-items-center">
+            <div class="col-md-6 col-8 align-self-center">
+              <h3 class="page-title mb-0 p-0">Dashboard</h3>
+              <div class="d-flex align-items-center">
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                      Dashboard
+                    </li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+            <div class="col-md-6 col-4 align-self-center">
+              <div class="text-end upgrade-btn">
+              </div>
+            </div>
+          </div>
+        </div>
+       </div>
+       </div>
 		</header>
 		<!-- ============================================================== -->
 		<!-- End Topbar header -->

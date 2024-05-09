@@ -1,6 +1,7 @@
 package com.dodeveloper.admin.vo;
 
-import java.sql.Timestamp;
+import java.security.Timestamp;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,14 +14,13 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class AdminVO {
-	private int stuNo;
-	private String stuWriter;
-	private String stuTitle;
-	private String stuContent;
-	private String stuLoc;
-	private String stuDate;
+public class BadMemberBoardVO {
+	private int no;
+	private String userId;
+	private int boardNo;
+	private int penaltyCnt;
+	private String suspendReason;
+	private Timestamp registerDate;
+	private Timestamp releaseDate;
 	private String status;
-	private Timestamp endDate;
-
 }
