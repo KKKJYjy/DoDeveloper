@@ -90,6 +90,13 @@ public class CompanyController {
 	}
 	
 	
+	/**
+	 * @methodName : writtenBoard
+	 * @author : kimso05
+	 * @date : 2024.05.09
+	 * @return : String
+	 * @description : "/companyInfo/writtenBoard" (기업 리뷰 작성 페이지)로 포워딩 시키는 메서드   
+	 */
 	@RequestMapping("/writtenBoard")   // "/companyInfo/written"가 GET방식으로 요청될 때 호출
 	public String writtenBoard() {
 		// /companyInfo/writtenBoard.jsp로 포워딩
