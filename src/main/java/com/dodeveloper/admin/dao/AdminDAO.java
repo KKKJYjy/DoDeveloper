@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.dodeveloper.admin.vo.AdminVO;
 import com.dodeveloper.admin.vo.BadMemberBoardVO;
+import com.dodeveloper.member.vo.MemberVO;
 
 public interface AdminDAO {
 

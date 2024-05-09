@@ -19,13 +19,13 @@
 			type="com.dodeveloper.message.vodto.MessageBoxDTO" />
 		<typeAlias alias="AdminVO"
 			type="com.dodeveloper.admin.vo.AdminVO" />
+			
 		<typeAlias alias="BadMemberBoardVO"
 			type="com.dodeveloper.admin.vo.BadMemberBoardVO" />
-
-			type="com.dodeveloper.message.vodto.MessageBoxDTO" />		
+		
 		<typeAlias alias="MessageFileDTO"
 			type="com.dodeveloper.message.vodto.MessageFileDTO" />
-    
+
 		<typeAlias alias="LectureBoardVO"
 			type="com.dodeveloper.lecture.vodto.LectureBoardVO" />
 		<typeAlias alias="LectureBoardDTO"
@@ -33,9 +33,9 @@
 		<typeAlias alias="LectureSearchDTO"
 			type="com.dodeveloper.lecture.vodto.LectureSearchDTO" />
 
-     <typeAlias alias="ReportVO"
-			type="com.dodeveloper.admin.vo.ReportVO" />	
-    
+		<typeAlias alias="ReportVO"
+			type="com.dodeveloper.admin.vo.ReportVO" />
+
 
 	</typeAliases>
 </configuration>

@@ -13,9 +13,7 @@ public interface AdminService {
 	
 	List<BadMemberBoardVO> getListBadMemberBoard() throws Exception;
 
-public interface AdminService {
 	// 전체 유저를 조회하는 메서드
 	List<MemberVO> getAllUser() throws Exception;
 
-  }
-}
+ }

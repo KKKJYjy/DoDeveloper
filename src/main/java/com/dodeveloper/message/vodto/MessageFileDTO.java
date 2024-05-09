@@ -1,7 +1,5 @@
 package com.dodeveloper.message.vodto;
 
-import javax.annotation.processing.Generated;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
