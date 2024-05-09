@@ -59,7 +59,7 @@ private static final Logger logger = LoggerFactory.getLogger(AdminController.cla
 	   List<MemberVO> returnMap = null;
 	   
 	   returnMap = aService.getAllUser();
-	   model.addAttribute("userList", (List<MemberVO>)returnMap.get("userList"));
+	   
 	   
 	   
 	   
