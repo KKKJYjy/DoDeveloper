@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+<beans:beans
+	xmlns="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
@@ -7,35 +8,40 @@
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
-	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
-	
+	<!-- DispatcherServlet Context: defines this servlet's request-processing 
+		infrastructure -->
+
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
 
-	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
+		up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 
-	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
-	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
+		in the /WEB-INF/views directory -->
+	<beans:bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
-	
+
 	<!-- 파일 업로드 관련 객체 설정 (파일의 경우 데이터가 크기 때문에 서블릿에서 받은 데이터를 재조립하는 과정이 필요한데, 이때 
 		사용되는 객체가 아래의 객체이다. (최대 업로드 파일 사이즈 : 10Mb -->
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<beans:property name="maxUploadSize" value="10485760" />
+		<beans:property name="defaultEncoding" value="utf-8" />
 	</beans:bean>
-	
+
 	<beans:bean id="loginInterceptor"
 		class="com.dodeveloper.commons.interceptor.LoginInterceptor">
 	</beans:bean>
-	
+
 	<beans:bean id="authInterceptor"
 		class="com.dodeveloper.commons.interceptor.AuthInterceptor">
 	</beans:bean>
-	
+
 	<!-- 인터셉터가 동작하는 매핑 설정 -->
 	<interceptors>
 		<interceptor>
@@ -43,7 +49,7 @@
 			<mapping path="/member/loginPost" />
 			<beans:ref bean="loginInterceptor" />
 		</interceptor>
-		
+
 		<interceptor>
 			<!-- /board/write 매핑 주소가 들어오면 authInterceptor 객체가 동작하도록 -->
 			<!-- 게시판 글쓰기 -->
@@ -53,15 +59,24 @@
 			<beans:ref bean="authInterceptor" />
 		</interceptor>
 	</interceptors>
-	
-	<context:component-scan base-package="com.dodeveloper.commons.controller" />
-	<context:component-scan base-package="com.dodeveloper.member.controller" />
-	<context:component-scan base-package="com.dodeveloper.mypage.controller" />
-	<context:component-scan base-package="com.dodeveloper.study.controller" />
-	<context:component-scan base-package="com.dodeveloper.lecture.controller" />
-	<context:component-scan base-package="com.dodeveloper.company.controller" />
-	<context:component-scan base-package="com.dodeveloper.algorithm.controller" />
-	<context:component-scan base-package="com.dodeveloper.message.controller" />
-	<context:component-scan base-package="com.dodeveloper.admin.controller" />
-	
+
+	<context:component-scan
+		base-package="com.dodeveloper.commons.controller" />
+	<context:component-scan
+		base-package="com.dodeveloper.member.controller" />
+	<context:component-scan
+		base-package="com.dodeveloper.mypage.controller" />
+	<context:component-scan
+		base-package="com.dodeveloper.study.controller" />
+	<context:component-scan
+		base-package="com.dodeveloper.lecture.controller" />
+	<context:component-scan
+		base-package="com.dodeveloper.company.controller" />
+	<context:component-scan
+		base-package="com.dodeveloper.algorithm.controller" />
+	<context:component-scan
+		base-package="com.dodeveloper.message.controller" />
+	<context:component-scan
+		base-package="com.dodeveloper.admin.controller" />
+
 </beans:beans>

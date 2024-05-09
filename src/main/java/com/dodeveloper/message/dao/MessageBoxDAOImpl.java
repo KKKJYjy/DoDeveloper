@@ -16,8 +16,12 @@ public class MessageBoxDAOImpl implements MessageBoxDAO{
 
 	private String namespace = "com.dodeveloper.mappers.messageBoxMapper";
 	
-	@Autowired
 	private SqlSessionTemplate template;
+	
+	@Autowired
+	public MessageBoxDAOImpl(SqlSessionTemplate template) {
+		this.template = template;
+	}
 	
 	@Override
 	public List<MessageBoxVO> selectByReceiver(String receiver, int startPoint, int amountToShow) throws Exception {
