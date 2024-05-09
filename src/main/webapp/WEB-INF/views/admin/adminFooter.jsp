@@ -17,18 +17,19 @@
 	href="https://www.wrappixel.com/templates/materialpro-lite/" />
 <!-- Favicon icon -->
 <link rel="icon" type="image/png" sizes="16x16"
-	href="../resources/assets/images/favicon.png" />
+	href="/resources/admin/assets/images/favicon.png" />
 <!-- chartist CSS -->
-<link href="../resources/assets/plugins/chartist-js/dist/chartist.min.css"
+<link href="/resources/admin/assets/plugins/chartist-js/dist/chartist.min.css"
 	rel="stylesheet" />
-<link href="../resources/assets/plugins/chartist-js/dist/chartist-init.css"
+<link href="/resources/admin/assets/plugins/chartist-js/dist/chartist-init.css"
 	rel="stylesheet" />
 <link
-	href="../resources/assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css"
+	href="/resources/admin/assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css"
 	rel="stylesheet" />
 <!--This page css - Morris CSS -->
-<link href="../resources/assets/plugins/c3-master/c3.min.css" rel="stylesheet" />
+<link href="/resources/admin/assets/plugins/c3-master/c3.min.css" rel="stylesheet" />
 <!-- Custom CSS -->
+
 <link href="../resources/css/style.min.css" rel="stylesheet" />
 <style>
 #chat-channel-button {
@@ -37,6 +38,7 @@
 	
 }
 </style>
+  
   </head>
 
   <body>
@@ -103,27 +105,27 @@
      
     </div>
     
-   <script src="../resources/assets/plugins/jquery/dist/jquery.min.js"></script>
+   <script src="/resources/admin/assets/plugins/jquery/dist/jquery.min.js"></script>
 		<!-- Bootstrap tether Core JavaScript -->
 		<script
-			src="../resources/assets/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-		<script src="../resources/js/app-style-switcher.js"></script>
+			src="/resources/admin/assets/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+		<script src="/resources/admin/js/app-style-switcher.js"></script>
 		<!--Wave Effects -->
-		<script src="../resources/js/waves.js"></script>
+		<script src="/resources/admin/js/waves.js"></script>
 		<!--Menu sidebar -->
-		<script src="../resources/js/sidebarmenu.js"></script>
+		<script src="/resources/admin/js/sidebarmenu.js"></script>
 		<!-- ============================================================== -->
 		<!-- This page plugins -->
 		<!-- ============================================================== -->
 		<!-- chartist chart -->
-		<script src="../resources/assets/plugins/chartist-js/dist/chartist.min.js"></script>
+		<script src="/resources/admin/assets/plugins/chartist-js/dist/chartist.min.js"></script>
 		<script
-			src="../resources/assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
+			src="/resources/admin/assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
 		<!--c3 JavaScript -->
-		<script src="../resources/assets/plugins/d3/d3.min.js"></script>
-		<script src="../resources/assets/plugins/c3-master/c3.min.js"></script>
+		<script src="/resources/admin/assets/plugins/d3/d3.min.js"></script>
+		<script src="/resources/admin/assets/plugins/c3-master/c3.min.js"></script>
 		<!--Custom JavaScript -->
-		<script src="../resources/js/pages/dashboards/dashboard1.js"></script>
-		<script src="../resources/js/custom.js"></script>
+		<script src="/resources/admin/js/pages/dashboards/dashboard1.js"></script>
+		<script src="/resources/admin/js/custom.js"></script>
   </body>
 </html>

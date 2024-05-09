@@ -4,6 +4,7 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dodeveloper.mappers.adminMapper">
 
+
 <select id="getBoard" resultType="AdminVO">
 	select * from studyBoard order by stuNo desc
 </select>
@@ -11,5 +12,27 @@
 <select id="getBadMemberBoard" resultType="BadMemberBoardVO">
 	select * from reportBoard order by reportNo desc
 </select>
+
+	
+	<!-- 유저 전체 조회 -->
+	<select id="selectAllUser" resultType="MemberVO">
+		select userId, userName, email, careers, registerDate, status from member
+	</select>
+	
+	<!-- 유저 아이디로 조회 -->
+	<select id="selectUserId" resultType="MemberVO">
+		select userId, userName, email, careers, registerDate, status from member where userId = #{userId}
+	</select>
+	
+	<!-- 신고내역 조회 -->
+	<select id="selectReport" resultType="ReportVO">
+		select * from reportBoard
+	</select>
+	
+	<!-- 신고내역 삭제 -->
+	<delete id="deleteReport">
+		delete * from reportBoard where writer = #{userId}
+	</delete>
+
 
 </mapper>

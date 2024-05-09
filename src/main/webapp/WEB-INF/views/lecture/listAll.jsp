@@ -49,10 +49,40 @@
   ======================================================== -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+	/* 검색 조건 */
+	function isValid() {
+		let searchType = $('#searchType').val();
+		let searchValue = $('#searchValue').val();
+
+		if (searchType === "-1") {
+			alert("검색 조건을 선택해주세요.");
+			return false;
+		}
+
+		if (searchValue.trim() === "") {
+			alert("검색어를 입력해주세요.");
+			return false;
+		}
+
+		// SQL 쿼리문 키워드 검사
+		let sqlKeywords = [ "OR", "SELECT", "AND", "INSERT", "UPDATE",
+				"DELETE", "DROP", "EXEC", "TRUNCATE", "CREATE", "ALTER" ];
+		for (let i = 0; i < sqlKeywords.length; i++) {
+			if (searchValue.toUpperCase().includes(sqlKeywords[i])) {
+				alert("검색어에 유효하지 않은 키워드가 포함되어 있습니다.");
+				return false;
+			}
+		}
+
+		return true;
+	}
+	
+</script>
 <style>
 select option:hover {
-    background-color: #444; /* 마우스 호버 시 배경 색상을 짙은 회색(#444)으로 변경 */
-    color: #333; /* 마우스 호버 시 텍스트 색상을 짙은 회색(#333)으로 변경 */
+	background-color: #444; /* 마우스 호버 시 배경 색상을 짙은 회색(#444)으로 변경 */
+	color: #333; /* 마우스 호버 시 텍스트 색상을 짙은 회색(#333)으로 변경 */
 }
 </style>
 
@@ -77,19 +107,19 @@ select option:hover {
 					<div id="board-search">
 						<div class="container">
 							<div class="search-window">
-								<form action="">
+								<form action="/lecture/listAll" method="GET">
 									<div class="search-wrap searchbar">
 										<!-- 검색 기능 -->
 										<div class="input-group mt-3 mb-3">
-											<select id="btn" name="searchType">
+											<select id="searchType" name="searchType">
 												<option value="-1">---- 검색 조건을 입력하세요 ----</option>
-												<option value="title">제목</option>
-												<option value="writer">작성자</option>
-												<option value="content">본문</option>
+												<option value="lecTitle">제목</option>
+												<option value="lecWriter">작성자</option>
+												<option value="lecReview">본문</option>
 											</select>
 										</div>
 										<div class="input-group mt-3 mb-3">
-											<input id="search" type="text" name="searchValue"
+											<input id="searchValue" type="text" name="searchValue"
 												placeholder="검색어를 입력해주세요.">
 											<button type="submit" class="btn btn-dark"
 												onclick="return isValid();">검색</button>
@@ -99,18 +129,19 @@ select option:hover {
 							</div>
 						</div>
 					</div>
-
-
+					
+					
 					<div class="button-container">
 						<button type="button" class="btn btn-dark dropdown-toggle filters"
 							data-bs-toggle="dropdown">검색 필터</button>
-						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="#">최신순</a></li>
-							<li><a class="dropdown-item" href="#">추천순</a></li>
-							<li><a class="dropdown-item" href="#">조회순</a></li>
+						<ul class="dropdown-menu" id="filterType" name="filterType">
+							<li><a class="dropdown-item" href="?filterType=latest">최신순</a></li>
+							<li><a class="dropdown-item" href="?filterType=popular">인기순</a></li>
+							<li><a class="dropdown-item" href="?filterType=view">조회순</a></li>
 						</ul>
-						<button type="button" class="btn btn-dark writeren"
-							onclick="location.href='';">글 작성</button>
+
+						<button type="button" class="btn btn-dark writeren" id="applyFilterBtn"
+							onclick="location.href='/lecture/writeBoard';">글 작성</button>
 					</div>
 
 
@@ -131,8 +162,9 @@ select option:hover {
 								</thead>
 								<tbody>
 									<c:forEach var="lectureBoard" items="${lectureBoardList }">
+										<!-- /lecture/viewBoard?lecNo가 /lecture/viewBoard 경로 -->
 										<tr
-											onclick="location.href='/lecture/view?lecNo=${lectureBoard.lecNo }';">
+											onclick="location.href='/lecture/viewBoard?lecNo=${lectureBoard.lecNo }';">
 											<td>${lectureBoard.lecNo }</td>
 											<td>${lectureBoard.lecTitle }</td>
 											<td>${lectureBoard.lecWriter }</td>

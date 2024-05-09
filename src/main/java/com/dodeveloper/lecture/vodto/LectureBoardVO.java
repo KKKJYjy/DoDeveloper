@@ -15,15 +15,15 @@ import lombok.ToString;
 @Setter
 @ToString
 public class LectureBoardVO {
-	private int lecNo; // ±Û ¹øÈ£
-	private int bType; // °Ô½ÃÆÇ ±¸ºĞ
-	private String lecTitle; // Á¦¸ñ
-	private String lecReview; // ÈÄ±â
-	private String lecWriter; // ÀÛ¼ºÀÚ
-	private Timestamp lecPostDate; // ÀÛ¼ºÀÏÀÚ
-	private int lecReadCount; // Á¶È¸¼ö
-	private int lecLikeCount; // ÁÁ¾Æ¿ä ¼ö
-	private int lecScore; // º°Á¡
-	private String lecLink; // ¸µÅ©
-	private int scrap; // ½ºÅ©·¦
+	private int lecNo; // ê¸€ ë²ˆí˜¸
+	private int bType; // ê²Œì‹œíŒ êµ¬ë¶„
+	private String lecTitle; // ì œëª©
+	private String lecReview; // í›„ê¸°
+	private String lecWriter; // ì‘ì„±ì
+	private Timestamp lecPostDate; // ì‘ì„±ì¼ì‹œ
+	private int lecReadCount; // ì¡°íšŒìˆ˜
+	private int lecLikeCount; // ì¢‹ì•„ìš” ìˆ˜
+	private int lecScore; // ë³„ì 
+	private String lecLink; // ë§í¬
+	private int scrap; // ìŠ¤í¬ë©
 }

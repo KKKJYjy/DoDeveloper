@@ -15,6 +15,7 @@
 	<!-- 내용 추가 -->
 
 	<main id="dashboard">
+
 		<!-- Basic Section - Index Page -->
 		<section id="dashboard" class="basic">
 			<div class="container">
@@ -23,8 +24,6 @@
 		</section>
 		<!-- End Basic Section -->
 	</main>
-
-
 
 	<c:import url="./adminFooter.jsp"></c:import>
 

@@ -56,12 +56,12 @@
 					<a class="navbar-brand ms-4" href="index.html"> <!-- Logo icon -->
 						<b class="logo-icon"> <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
 							<!-- Dark Logo icon --> <img
+
 							src="/resources/admin/assets/images/logo-light-icon.png" alt="homepage"
 							class="dark-logo" />
 					</b> <!--End Logo icon --> <!-- Logo text --> <span class="logo-text">
 							<!-- dark Logo text --> <img
-							src="/resources/admin/assets/images/logo-light-text.png" alt="homepage"
-							class="dark-logo" />
+							src="/resources/admin/assets/images/logo-light-text.png" alt="homepage" class="dark-logo" />
 					</span>
 					</a>
 					<!-- ============================================================== -->
@@ -115,7 +115,9 @@
 							class="nav-link dropdown-toggle text-muted waves-effect waves-dark"
 							href="#" id="navbarDropdown" role="button"
 							data-bs-toggle="dropdown" aria-expanded="false">
+
 								<img src="/resources/admin/assets/images/users/1.jpg" alt="user"
+
 								class="profile-pic me-2" />Markarn Doe
 						</a>
 							<ul class="dropdown-menu" aria-labelledby="navbarDropdown"></ul>
