@@ -96,7 +96,7 @@ public class ReplyController {
 	 */
 	@RequestMapping(value = "/modify/{replyNo}", method = RequestMethod.PUT)
 	public ResponseEntity<String> updateReply(@PathVariable("replyNo") int replyNo, @RequestBody ReplyDTO rDTO) {
-		System.out.println(replyNo + "번 댓글에" + rDTO.toString() + "수정 완료 되었습니다!");
+		System.out.println(replyNo + "번 " + rDTO.toString() + "댓글 수정이 완료 되었습니다!");
 		
 		ResponseEntity<String> result = null;
 		
