@@ -56,10 +56,13 @@ public class StudyContoller {
 
 			// System.out.println(s.getStuNo());
 		}
+		// stack테이블의 모든 값들을 가져오자
+		List<StackVO> stackList = stuService.selectAllStack();
 
 		// System.out.println(stuStackList.toString());
 		model.addAttribute("studyList", studyList);
 		model.addAttribute("stuStackList", stuStackList);
+		model.addAttribute("stackList", stackList);
 	}
 
 	// 스터디 작성 페이지로 이동하는 메서드
@@ -70,7 +73,7 @@ public class StudyContoller {
 		// stack테이블의 모든 값들을 가져오자
 		List<StackVO> stackList = stuService.selectAllStack();
 		model.addAttribute("stackList", stackList);
-		
+
 	}
 
 	// 스터디 작성 버튼을 누르면 study 테이블에 인서트

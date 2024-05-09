@@ -141,15 +141,9 @@
 						<div class="col-md-2">
 							<select class="studyLang form-control" multiple="multiple"
 								style="width: 100%;">
-								<option>React</option>
-								<option>javascript</option>
-								<option>Vue</option>
-								<option>Nextjs</option>
-								<option>Java</option>
-								<option>Spring</option>
-								<option>Kotlin</option>
-								<option>Swift</option>
-								<option>Flutter</option>
+								<c:forEach var="stack" items="${stackList }">
+									<option value="${stack.stackNo }">${stack.stackName }</option>
+								</c:forEach>
 							</select>
 						</div>
 
@@ -201,7 +195,8 @@
 						<div class="col">
 							<div class="card">
 								<div class="card-body p-4 text-center" style="height: 251px;">
-									<h5 class="text-danger"style="line-height: 200px; cursor: pointer;"
+									<h5 class="text-danger"
+										style="line-height: 200px; cursor: pointer;"
 										onclick="location.href='/study/writeStudyBoard';">
 										<b>나도 스터디 만들기</b>
 									</h5>
