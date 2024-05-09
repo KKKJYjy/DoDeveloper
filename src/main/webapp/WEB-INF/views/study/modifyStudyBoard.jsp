@@ -308,7 +308,6 @@
 							<div class="col-md-12">
 								<div class="mb-2 text-light">
 									<b>스터디 언어 ${stackList }</b>
-									
 								</div>
 								
 								
