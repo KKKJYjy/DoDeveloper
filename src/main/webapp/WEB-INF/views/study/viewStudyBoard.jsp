@@ -178,16 +178,21 @@ i {
 						<!-- 로그인한 유저와 작성자가 같을 때에만 수정 삭제 버튼이 보이도록 처리 -->
 						<c:if test="${loginMember.userId == studyList.stuWriter }">
 							<!-- 수정 버튼 -->
-							<div class=""
+						
+							<div class="icon-link icon-link-hover"
+								style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);"
 								onclick="location.href='/study/modifyStudyBoard?stuNo=${studyList.stuNo}';">
 								<i class="bi bi-pencil fs-5 me-2" style="color: #ffffff;"></i>
 							</div>
 							<!-- 삭제 버튼 -->
-							<div class="studyBoardDelete" data-bs-toggle="modal" data-bs-target="#deleteModal">
+							<div class="studyBoardDelete icon-link icon-link-hover"
+								style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);" 
+								data-bs-toggle="modal" data-bs-target="#deleteModal">
 								<i class="bi bi-trash3 fs-5 me-2" style="color: #ffffff;"></i>
 							</div>
 						</c:if>
-						<div class="">
+						<div class="icon-link icon-link-hover"
+							style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);">
 							<i class="bi bi-share fs-5 me-2" style="color: #ffffff;"></i>
 						</div>
 					</div>
@@ -197,7 +202,7 @@ i {
 					</p>
 				</div>
 
-			
+
 				<!-- 삭제 확인용 모달창 -->
 				<div class="modal fade" id="deleteModal">
 					<div class="modal-dialog">
@@ -214,8 +219,10 @@ i {
 
 							<!-- Modal footer -->
 							<div class="modal-footer">
-								<button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">취소</button>
-								<button type="button" class="btn btn-danger" onclick="location.href='/study/deleteStudy?stuNo=${studyList.stuNo }';">삭제</button>
+								<button type="button" class="btn btn-outline-danger"
+									data-bs-dismiss="modal">취소</button>
+								<button type="button" class="btn btn-danger"
+									onclick="location.href='/study/deleteStudy?stuNo=${studyList.stuNo }';">삭제</button>
 							</div>
 
 						</div>
