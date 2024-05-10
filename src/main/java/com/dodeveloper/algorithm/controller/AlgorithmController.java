@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dodeveloper.algorithm.service.AlgService;
 import com.dodeveloper.algorithm.vodto.AlgBoardDTO;
+import com.dodeveloper.algorithm.vodto.AlgClassificationDTO;
 import com.dodeveloper.algorithm.vodto.AlgDetailDTO;
 
 @Controller
@@ -64,10 +65,32 @@ public class AlgorithmController {
 	}
 	
 	@RequestMapping("/writePOST") // "/algorithm/write"가 get 방식으로 요청될 때... 호출
-	public String writeBoard() {
+	public String writeBoard( Model model ) throws Exception {
 		// //algorithm/writeBoard.jsp로 포워딩
 		System.out.println("글작성");
+		
+		List<AlgClassificationDTO> returnMap = null;
+		
+		// 알고리즘코드번호 테이블 받아와야 함
+		returnMap = aService.getAlgClassification();
+		System.out.println(returnMap.toString());
+		model.addAttribute("algClassification", returnMap);
+		
 		return "/algorithm/writeBoard";
+	}
+	
+	@RequestMapping(value = "/newClassification", method = RequestMethod.GET)
+	public String newClassification(@RequestParam("algClassification") String algClassification) {
+		System.out.println("!!!!!!!!!!!!");
+		System.out.println(algClassification);
+		try {
+			aService.writeAlgClassification(algClassification);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "redirect:writePOST";
 	}
 
 
