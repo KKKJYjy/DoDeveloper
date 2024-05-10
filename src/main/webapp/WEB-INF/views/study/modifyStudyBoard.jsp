@@ -74,10 +74,17 @@
 	rel="stylesheet" />
 
 <script>
+
+
 	$(function() {
+		
+		// 유저가 전에 선택했던 지도의 값 세팅
+		let mapX = '${studyList.stuY }';
+		let mapY = '${studyList.stuX }';
+		let mapName = '${studyList.stuLoc}';
 
 		//모집인원 셀렉트 디폴트값(전에 유저가 선택했던 값) 세팅
-		$("#stuPers").val('${studyList.stuPers }명').prop("selected", true);
+		$("#stuPers").val('${studyList.stuPers }').prop("selected", true);
 		
 		//모집마감일 달력 디폴트값(전에 유저가 선택했던 값) 세팅 'yyyy-mm-dd'형식으로 변환
 		let endDate = new Date('${studyList.endDate}').toISOString().slice(0, 10);
@@ -86,21 +93,62 @@
 		//진행기간 셀렉트 디폴트값(전에 유저가 선택했던 값) 세팅
 		$("#stuDate").val('${studyList.stuDate }').prop("selected", true);
 		
-		
-		
+		//스터디 언어 셀렉트 박스
 		$('.studyLang').select2({
 			maximumSelectionLength : 3,
 			placeholder : '언어 선택 (최대 3개)'
 		});
 		
+		//스터디 내용 입력 박스
 		$('.summernote').summernote({
 			placeholder : '스터디 목표와 모임 주기, 스터디 방식 등 자유롭게 스터디에 대해 소개해주세요.',
 			tabsize : 3,
 			height : 300,
+		});
+		
+		//=======================================================================		
+		//전에 유저가 입력했던 지도 관련 정보들 가져오기
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		mapOption = {
+			center : new kakao.maps.LatLng(${studyList.stuX }, ${studyList.stuY }), // 지도의 중심좌표
+			level : 2 // 지도의 확대 레벨
+		};
 
+		// 지도를 생성합니다    
+		map = new kakao.maps.Map(mapContainer, mapOption);
+
+		// 전에 유저가 선택했던 좌표 설정 (마커가 표시될 위치)  
+		var markerPosition = new kakao.maps.LatLng(${studyList.stuX }, ${studyList.stuY });
+
+		// 전에 유저가 선택했던 마커를 생성
+		var marker = new kakao.maps.Marker({
+			position : markerPosition
 		});
 
-		//지도 검색 버튼을 클릭했을 때
+		// 마커가 지도 위에 표시되도록 설정
+		marker.setMap(map);
+		
+		// 전에 유저가 선택했던 마커 위에 출력할 인포 메세지 설정
+		// 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+		var iwContent = `<div style="padding:10px; width:100%; "><p class="mb-1"><b>${studyList.stuLoc}</b></p>`;
+		iwContent += `<p class="pb-2"><a href="https://map.kakao.com/link/map/${studyList.stuLoc},${studyList.stuX }, ${studyList.stuY }" target="_blank"><span class="badge text-bg-secondary me-2">큰지도보기</span></a>`;
+		iwContent += `<a href="https://map.kakao.com/link/to/${studyList.stuLoc},${studyList.stuX }, ${studyList.stuY }" target="_blank"><span class="badge text-bg-secondary">길찾기</span></a></p>`;
+		iwContent += `</div>`; 
+		
+		iwPosition = new kakao.maps.LatLng(${studyList.stuX }, ${studyList.stuY }); //인포윈도우 표시 위치입니다
+
+		// 전에 유저가 선택했던 마커 위에 인포 메세지 출력하기 위한 객체 설정
+		var infowindow = new kakao.maps.InfoWindow({
+			position : iwPosition,
+			content : iwContent
+		});
+
+		// 전에 유저가 선택했던 마커 위에 인포메세지 출력
+		// 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
+		infowindow.open(map, marker);
+		
+		//=======================================================================
+		//수정 페이지에서 수정할때 > 지도 검색 버튼을 클릭했을 때
 		$("#searchMapBtn").click(function() {
 			// 지도 검색한 값 가져오기
 			let searchMap = $("#searchMap").val();
@@ -108,23 +156,16 @@
 
 			// 검색한 값 키워드로 장소를 검색
 			ps.keywordSearch(searchMap, placesSearchCB);
+			
+			// 전에 선택했던 장소 마커와 윈포도우 제거 
+			infowindow.close(map, marker); 
 		})
 
 		// 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
-		infowindow = new kakao.maps.InfoWindow({
+		infowindowClick = new kakao.maps.InfoWindow({
 			zIndex : 1
 		});
-
-		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-		mapOption = {
-			center : new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-			level : 2
-		// 지도의 확대 레벨
-		};
-
-		// 지도를 생성합니다    
-		map = new kakao.maps.Map(mapContainer, mapOption);
-
+		
 		// 장소 검색 객체를 생성합니다
 		var ps = new kakao.maps.services.Places();
 
@@ -149,10 +190,6 @@
 		}
 	}
 
-	let mapX = '';
-	let mapY = '';
-	let mapName = '';
-
 	// 지도에 마커를 표시하는 함수입니다
 	function displayMarker(place) {
 
@@ -165,9 +202,9 @@
 		// 마커에 클릭이벤트를 등록합니다
 		kakao.maps.event.addListener(marker, 'click', function() {
 			// 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
-			infowindow.setContent('<div style="padding:5px;font-size:12px;">'
+			infowindowClick.setContent('<div style="padding:5px;font-size:12px;">'
 					+ place.place_name + '</div>');
-			infowindow.open(map, marker);
+			infowindowClick.open(map, marker);
 
 			// 지도 검색바에 선택한 장소명 출력
 			$("#searchMap").val(place.place_name);
@@ -222,7 +259,7 @@
 
 	}
 
-	function insertStudy() {
+	function modifyStudy() {
 		let result = false;
 
 		//유효성 검사
@@ -252,7 +289,7 @@
 			};
 
 			$.ajax({
-				url : '/study/insertStudy',
+				url : '/study/modifyStudy',
 				type : 'post',
 				data : JSON.stringify(newStudyDTO), //보내는 데이터
 				dataType : 'text',
@@ -294,11 +331,9 @@
 				</div>
 
 				<div class="container pt-5">
-
-					<form action="/study/insertStack" method="post">
-
+				
+					<form action="/study/updateStack" method="post">
 						<!-- 스터디 언어 선택 -->
-						
 						<div class="row mb-4">
 							<div class="col-md-12">
 								<div class="mb-2 text-light">
@@ -322,25 +357,23 @@
 							value="${loginMember.userId }" hidden="true" />
 
 						<div class="row mb-4">
-
 							<!-- 모집인원 -->
 							<div class="col-md-6 ">
 								<div class="mb-2 text-light">
 									<b>모집 인원</b>
 								</div>
 								<select id="stuPers" class="form-select">
-									<option value="-1">인원 미정 ~ 10명 이상</option>
-									<option value="인원 미정">인원 미정</option>
-									<option value="1명">1명</option>
-									<option value="2명">2명</option>
-									<option value="3명">3명</option>
-									<option value="4명">4명</option>
-									<option value="5명">5명</option>
-									<option value="6명">6명</option>
-									<option value="7명">7명</option>
-									<option value="8명">8명</option>
-									<option value="9명">9명</option>
-									<option value="10명">10명</option>
+									<option value="-1">1명 ~ 10명 이상 선택</option>
+									<option value="1">1명</option>
+									<option value="2">2명</option>
+									<option value="3">3명</option>
+									<option value="4">4명</option>
+									<option value="5">5명</option>
+									<option value="6">6명</option>
+									<option value="7">7명</option>
+									<option value="8">8명</option>
+									<option value="9">9명</option>
+									<option value="10">10명</option>
 								</select>
 							</div>
 
@@ -420,7 +453,7 @@
 							</div>
 							<div class="col-md-6">
 								<input type="submit" class="btn btn-secondary" value="수정"
-									style="width: 100%" onclick="return insertStudy();" />
+									style="width: 100%" onclick="return modifyStudy();" />
 							</div>
 						</div>
 					</form>

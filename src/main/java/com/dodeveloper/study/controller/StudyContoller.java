@@ -179,6 +179,14 @@ public class StudyContoller {
 		model.addAttribute("stackList", stackList);
 		model.addAttribute("chooseStack", chooseStack);
 	}
+	
+	//수정 페이지에서 수정 버튼을 눌렀을때 실제로 디비를 수정하는 메서드
+	@PostMapping("/modifyStudy")
+	public String modifyStudy() {
+		String result = null;
+		
+		return result;
+	}
 
 	// stuNo번째 글을 삭제하는 메서드
 	@GetMapping("/deleteStudy")
