@@ -31,6 +31,7 @@ import com.dodeveloper.message.vodto.SendMessageDTO;
 import com.dodeveloper.message.vodto.MessageFileDTO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
 @RestController
 @RequestMapping("/message")
@@ -72,7 +73,14 @@ public class MessageController {
 			@PathVariable("startPoint") int startPoint) throws Exception {
 
 		List<MessageVO> receivedMessages = messageService.getReceivedMessages(receiver, startPoint, 30);
-		return ResponseEntity.ok(gson.toJson(receivedMessages));
+		int receivedMessageCnt = messageService.getReceivedMessageCnt(receiver);
+		
+		JsonObject jsonToSend = new JsonObject();
+		
+		jsonToSend.addProperty("messageCnt", receivedMessageCnt);
+		jsonToSend.add("messages", gson.toJsonTree(receivedMessages));
+		
+		return ResponseEntity.ok(gson.toJson(jsonToSend));
 	}
 
 	
@@ -81,7 +89,14 @@ public class MessageController {
 			@PathVariable("startPoint") int startPoint) throws Exception {
 
 		List<MessageVO> sentMessages = messageService.getSentMessages(writer, startPoint, 30);
-		return ResponseEntity.ok(gson.toJson(sentMessages));
+		int sentMessageCnt = messageService.getSentMessageCnt(writer);
+		
+		JsonObject jsonToSend = new JsonObject();
+		
+		jsonToSend.addProperty("messageCnt", sentMessageCnt);
+		jsonToSend.add("messages", gson.toJsonTree(sentMessages));
+		
+		return ResponseEntity.ok(gson.toJson(jsonToSend));
 	}
 
 	
