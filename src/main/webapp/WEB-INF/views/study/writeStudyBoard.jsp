@@ -309,18 +309,17 @@
 									<b>모집 인원</b>
 								</div>
 								<select id="stuPers" class="form-select">
-									<option value="-1">인원 미정 ~ 10명 이상</option>
-									<option value="인원 미정">인원 미정</option>
-									<option value="1명">1명</option>
-									<option value="2명">2명</option>
-									<option value="3명">3명</option>
-									<option value="4명">4명</option>
-									<option value="5명">5명</option>
-									<option value="6명">6명</option>
-									<option value="7명">7명</option>
-									<option value="8명">8명</option>
-									<option value="9명">9명</option>
-									<option value="10명">10명</option>
+									<option value="-1">1명 ~ 10명 이상 선택</option>
+									<option value="1">1명</option>
+									<option value="2">2명</option>
+									<option value="3">3명</option>
+									<option value="4">4명</option>
+									<option value="5">5명</option>
+									<option value="6">6명</option>
+									<option value="7">7명</option>
+									<option value="8">8명</option>
+									<option value="9">9명</option>
+									<option value="10">10명</option>
 								</select>
 							</div>
 
