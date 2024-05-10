@@ -12,32 +12,60 @@
 	Kakao.init('505dac3eb6f86064a1b842e6ddf54fec'); // 사용하려는 앱의 JavaScript 키 입력
 </script>
 <title>카카오톡 1대1 문의</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
-		Kakao.Channel.createChatButton({
-			container : '#chat-channel-button',
-			channelPublicId : '_ZeUTxl',
-		});
-		
-		Kakao.Channel.addChannel({
-			  channelPublicId: '_ZeUTxl'
-			});
+Kakao.Channel.followChannel({
+	  channelPublicId: '${CHANNEL_PUBLIC_ID}',
+	})
+	  .then(function(response) {
+	    console.log(response)
+	    // 채널 간편 추가 성공 처리
+	  })
+	  .catch(function(error) {
+	    console.error(error)
+	    // 채널 간편 추가 실패 처리
+	  })
 
-		Kakao.Channel.chat({
-			channelPublicId : '_ZeUTxl' // 카카오톡 채널 홈 URL에 명시된 id로 설정합니다.
-		});
-	</script>
+
+	Kakao.Channel.createChatButton({
+		container : '#chat-channel-button',
+		channelPublicId : '_ZeUTxl',
+	});
+
+	Kakao.Channel.addChannel({
+		channelPublicId : '_ZeUTxl'
+	});
 	
+	
+	Kakao.API.request({
+		  url: '/v1/api/talk/channels',
+		})
+		  .then(function(response) {
+		    console.log(response);
+		  })
+		  .catch(function(error) {
+		    console.log(error);
+		  });
+
+</script>
+
 
 </head>
 
 <body>
 	<c:import url="./adminHeader.jsp"></c:import>
 
+
+
+	
+
 	<a id="chat-channel-button" href="javascript:chatChannel()"> <img
 		src="/tool/resource/static/img/button/channel/consult/consult_small_yellow_pc.png"
-		alt="" />
+		alt="카카오톡 채널 채팅하기 버튼" />
 	</a>
-	
+
+
 	<c:import url="./adminFooter.jsp"></c:import>
 
 
@@ -45,11 +73,11 @@
 
 
 
-	
 
-	
-	
-	
+
+
+
+
 
 
 
