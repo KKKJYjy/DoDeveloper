@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.dodeveloper.admin.service.AdminBoardService;
 import com.dodeveloper.admin.vo.AdminArgBoardVO;
 import com.dodeveloper.admin.vo.AdminLectureVO;
+import com.dodeveloper.admin.vo.AdminReviewBoardVO;
 import com.dodeveloper.admin.vo.AdminVO;
 
 @Controller
@@ -55,8 +56,12 @@ public class AdminBoardController {
 	}
 	
 	@RequestMapping(value = "/reviewBoard", method = RequestMethod.GET)
-	public void reviewBoard() {
+	public void reviewBoard(Model model) throws Exception {
 		logger.info("reviewBoard 조회");
+		
+		List<AdminReviewBoardVO> revBoardList = bService.getlistRevBoard();
+		
+		model.addAttribute("revBoardList", revBoardList);
 	}
 	
 

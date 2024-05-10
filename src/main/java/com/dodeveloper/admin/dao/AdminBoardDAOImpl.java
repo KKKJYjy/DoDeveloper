@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.dodeveloper.admin.vo.AdminArgBoardVO;
 import com.dodeveloper.admin.vo.AdminLectureVO;
+import com.dodeveloper.admin.vo.AdminReviewBoardVO;
 import com.dodeveloper.admin.vo.AdminVO;
 
 @Repository
@@ -35,5 +36,11 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 	public List<AdminArgBoardVO> selectListArgBoard() throws Exception {
 		
 		return ses.selectList(ns + ".getArgBoard");
+	}
+
+	@Override
+	public List<AdminReviewBoardVO> selectListRevBoard() throws Exception {
+		
+		return ses.selectList(ns + ".getRevBoard");
 	}
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.dodeveloper.admin.dao.AdminBoardDAO;
 import com.dodeveloper.admin.vo.AdminArgBoardVO;
 import com.dodeveloper.admin.vo.AdminLectureVO;
+import com.dodeveloper.admin.vo.AdminReviewBoardVO;
 import com.dodeveloper.admin.vo.AdminVO;
 
 @Service
@@ -45,6 +46,16 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		List<AdminArgBoardVO> argBoardList = bDao.selectListArgBoard();
 		
 		return argBoardList;
+	}
+
+	@Override
+	public List<AdminReviewBoardVO> getlistRevBoard() throws Exception {
+		
+		System.out.println("서비스단 : review게시물 조회");
+		
+		List<AdminReviewBoardVO> revBoardList = bDao.selectListRevBoard();
+		
+		return revBoardList;
 	}
 
 }

@@ -18,6 +18,44 @@
 		<li class="nav-item"><a class="nav-link" href="/admin/reviewBoard">제직자리뷰게시판</a></li>
 	</ul>
 	
+	
+	<div class="container">
+		<h4>리뷰게시글 전체 조회 페이지</h4>
+
+
+
+		<div class="container mt-3">
+			<table class="table table-hover">
+
+
+
+				<thead>
+					<tr>
+						<th>글번호</th>
+						<th>작성자</th>
+						<th>작성일</th>
+						<th>제목</th>
+						<th>부서</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="board" items="${revBoardList }">
+						<tr onclick="location.href = '/adminView/reviewDetails?revNo=${board.revNo}';">
+							<td>${board.revNo }</td>
+							<td>${board.revWriter }</td>
+							<td>${board.revPostDate }</td>
+							<td>${board.revTitle }</td>
+							<td>${board.revProfession }</td>
+						</tr>
+
+
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	
+	
 	<c:import url="./adminFooter.jsp"></c:import>
 </body>
 </html>

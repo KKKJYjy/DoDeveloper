@@ -23,6 +23,11 @@
 	<select id="getArgBoard" resultType="AdminArgBoardVO">
 		select * from algBoard order by boardNo desc
 	</select>
+	
+	<!-- 리뷰게시판 조회 -->
+	<select id="getRevBoard" resultType="AdminReviewBoardVO">
+		select * from companyrevboard order by revNo desc
+	</select>
 
 
 	<!-- 유저 전체 조회 -->

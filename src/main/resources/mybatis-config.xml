@@ -29,6 +29,10 @@
 		<typeAlias alias="AdminArgBoardVO"
 			type="com.dodeveloper.admin.vo.AdminArgBoardVO" />
 
+		<typeAlias alias="AdminReviewBoardVO"
+			type="com.dodeveloper.admin.vo.AdminReviewBoardVO" />
+
+
 		<typeAlias alias="MessageFileDTO"
 			type="com.dodeveloper.message.vodto.MessageFileDTO" />
 
