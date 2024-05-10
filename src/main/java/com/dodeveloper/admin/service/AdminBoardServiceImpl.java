@@ -18,6 +18,8 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	@Autowired
 	private AdminBoardDAO bDao;
 	
+
+	
 	@Override
 	public List<AdminVO> getlistStudyBoard() throws Exception {
 		
@@ -57,5 +59,6 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		
 		return revBoardList;
 	}
-
+	
+	
 }
