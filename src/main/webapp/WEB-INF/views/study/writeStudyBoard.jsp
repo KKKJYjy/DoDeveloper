@@ -309,7 +309,7 @@
 									<b>모집 인원</b>
 								</div>
 								<select id="stuPers" class="form-select">
-									<option value="-1">1명 ~ 10명 이상 선택</option>
+									<option value="-1">1명 ~ 10명 선택</option>
 									<option value="1">1명</option>
 									<option value="2">2명</option>
 									<option value="3">3명</option>
@@ -349,8 +349,7 @@
 									<b>진행 기간</b>
 								</div>
 								<select id="stuDate" class="form-select">
-									<option value="-1">기간 미정 ~ 6개월 이상</option>
-									<option value="기간 미정">기간 미정</option>
+									<option value="-1">1개월 ~ 6개월 선택</option>
 									<option value="1개월">1개월</option>
 									<option value="2개월">2개월</option>
 									<option value="3개월">3개월</option>
