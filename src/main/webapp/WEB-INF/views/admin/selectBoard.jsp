@@ -45,6 +45,19 @@
 		return result;
 	}
 </script>
+<script>
+	//이미지를 생성합니다.
+	let img = document.createElement("img");
+	img.src = "/resources/admin/images/delete.png"; // 이미지 파일 경로를 지정합니다.
+
+	// 새로운 <td> 요소를 생성하고 이미지를 그 안에 추가합니다.
+	let td = document.createElement("td");
+	td.appendChild(img);
+
+	// 새로운 <tr> 요소를 선택하고 새로운 <td> 요소를 추가합니다.
+	let tr = document.getElementById("table");
+	tr.appendChild(td);
+</script>
 </head>
 <body>
 	<c:import url="./adminHeader.jsp"></c:import>
@@ -74,7 +87,7 @@
 	<div class="container">
 		<h4>스터디게시글 전체 조회 페이지</h4>
 
-	<c:import url="./search.jsp"></c:import>
+		<c:import url="./search.jsp"></c:import>
 
 
 		<div class="container mt-3">
@@ -95,7 +108,7 @@
 				</thead>
 				<tbody>
 					<c:forEach var="board" items="${stuBoardList }">
-						<tr
+						<tr id="table"
 							onclick="location.href = '/adminView/viewDetails?stuNo=${board.stuNo}';">
 							<td>${board.stuNo }</td>
 							<td>${board.stuWriter }</td>
