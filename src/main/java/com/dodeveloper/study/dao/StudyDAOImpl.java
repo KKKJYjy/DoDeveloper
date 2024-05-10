@@ -76,4 +76,17 @@ public class StudyDAOImpl implements StudyDAO {
 		return ses.delete(ns + ".deleteStudyBoard", stuNo);
 	}
 
+	@Override
+	public int modifyStudy(StudyBoardDTO modifyStudy) throws Exception {
+		return ses.update(ns + ".modifyStudy", modifyStudy);
+	}
+
+	@Override
+	public int modifyStack(int stuBoardNo, int chooseStack) throws Exception {
+		Map<String, Integer> param = new HashMap<String, Integer>();
+		param.put("stuBoardNo", stuBoardNo);
+		param.put("chooseStack", chooseStack);
+		return ses.update(ns + ".modifyStack", param);
+	}
+
 }

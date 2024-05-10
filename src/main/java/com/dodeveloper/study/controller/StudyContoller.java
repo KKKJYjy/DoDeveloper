@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -103,28 +104,11 @@ public class StudyContoller {
 	public String insertStack(StuStackVO newStack) throws Exception {
 		String result = null;
 
-		// StuStackVO의 stuBoardNo값 세팅
-		newStack.setStuBoardNo(stuService.selectNextStuNo() + 1);
-		System.out.println("insertStack: 추가할 스터디 스택 게시글 번호" + newStack.getStuBoardNo());
-		int[] chooseStacks = newStack.getChooseStack();
-
-		logger.info("insertStack: 새로 추가할 스터디 스택가져오자" + newStack.toString());
-		logger.info("insertStack: 새로 추가할 스터디 스터디 모집글" + newStudy.toString());
-
-//		if (chooseStacks != null) {
-		if (stuService.insertNewStudy(newStudy) == 1) {
-			System.out.println("스터디글추가성공");
-
-			for (int chooseStack : chooseStacks) {
-				if (stuService.insertNewStack(newStack.getStuBoardNo(), chooseStack) == 1) {
-					System.out.println("스택추가성공");
-					result = "redirect:/study/listAll";
-					newStudy = null;
-				}
-			}
+		if(stuService.insertStudyWithStack(newStudy ,newStack) ==1) {
+			result = "redirect:/study/listAll";
+			logger.info("스터디테이블, 스터디스택 인서트 성공");
 		}
-//		}
-
+		
 		return result;
 	}
 
@@ -180,11 +164,40 @@ public class StudyContoller {
 		model.addAttribute("chooseStack", chooseStack);
 	}
 	
-	//수정 페이지에서 수정 버튼을 눌렀을때 실제로 디비를 수정하는 메서드
+	
+	// =======================여기 아직 테스트 안해봄
+
+	// 수정 페이지에서 수정 버튼을 눌렀을때 실제로 스터디 모임글 디비를 수정하는 메서드
 	@PostMapping("/modifyStudy")
-	public String modifyStudy() {
+	public ResponseEntity<String> modifyStudy(@RequestBody StudyBoardDTO modifyStudyDTO) {
+
+		ResponseEntity<String> result = null;
+
+		logger.info("modifyStudy: 수정할 스터디 모집글" + modifyStudyDTO.toString());
+
+		// 수정할 newStudyDTO를 멤버변수 newStudy에 저장
+		newStudy = modifyStudyDTO;
+		logger.info("modifyStudy: 수정할 스터디 모집글" + newStudy.toString());
+
+		if (newStudy != null) {
+			result = new ResponseEntity<String>("success", HttpStatus.OK);
+		} else {
+			result = new ResponseEntity<String>(HttpStatus.CONFLICT);
+		}
+
+		return result;
+	}
+
+	// 수정 페이지에서 수정 버튼을 눌렀을때 실제로 스터디 모임글의 스터디 언어 디비를 수정하는 메서드
+	@PostMapping(value = "/modifyStack")
+	public String modifyStack(StuStackVO modifyStackVO) throws Exception {
 		String result = null;
 		
+		//수정에 성공했다면 수정한 상세 페이지로 이동
+		if(stuService.modifyStudy(newStudy, modifyStackVO) == 1) {
+			result = "redirect:/study/viewStudyBoard?stuNo=" + newStudy.getStuNo();
+		}
+
 		return result;
 	}
 

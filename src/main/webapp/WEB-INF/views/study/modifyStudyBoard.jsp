@@ -75,13 +75,13 @@
 
 <script>
 
+	// 유저가 전에 선택했던 지도의 값 세팅
+	let mapX = '${studyList.stuY }';
+	let mapY = '${studyList.stuX }';
+	let mapName = '${studyList.stuLoc}';
 
 	$(function() {
 		
-		// 유저가 전에 선택했던 지도의 값 세팅
-		let mapX = '${studyList.stuY }';
-		let mapY = '${studyList.stuX }';
-		let mapName = '${studyList.stuLoc}';
 
 		//모집인원 셀렉트 디폴트값(전에 유저가 선택했던 값) 세팅
 		$("#stuPers").val('${studyList.stuPers }').prop("selected", true);
@@ -276,7 +276,7 @@
 				&& $("#searchMap").val() != '' && $("#searchMap").val() != null
 				&& mapX != 0 && mapX != null && mapY != 0 && mapY != null) {
 
-			let newStudyDTO = {
+			let modifyStudyDTO = {
 				"stuWriter" : '${loginMember.userId }',
 				"stuTitle" : $("#stuTitle").val(),
 				"stuContent" : $("#stuContent").val(),
@@ -292,7 +292,7 @@
 			$.ajax({
 				url : '/study/modifyStudy',
 				type : 'post',
-				data : JSON.stringify(newStudyDTO), //보내는 데이터
+				data : JSON.stringify(modifyStudyDTO), //보내는 데이터
 				dataType : 'text',
 				async : false, //받아올 데이터가 있어야 파싱 가능.
 				headers : { //서버에 보내지는 데이터의 형식
@@ -300,7 +300,7 @@
 				},
 				success : function(data) {
 					console.log(data);
-					result = true; //insertStudy 먼저 수행한뒤 insertStack 수행하도록
+					result = true; //modifyStudy 먼저 수행한뒤 modifyStack 수행하도록
 					
 				}
 			});
@@ -332,8 +332,8 @@
 				</div>
 
 				<div class="container pt-5">
-				
-					<form action="/study/updateStack" method="post">
+
+					<form action="/study/modifyStack" method="post">
 						<!-- 스터디 언어 선택 -->
 						<div class="row mb-4">
 							<div class="col-md-12">
@@ -341,14 +341,13 @@
 									<b>스터디 언어 ${chooseStack }</b>
 								</div>
 								<select class="studyLang form-control" multiple="multiple"
-									style="width: 100%" id="chooseStack" name="chooseStack" >
+									style="width: 100%" id="chooseStack" name="chooseStack">
 									<c:forEach var="stack" items="${stackList }">
 										<option value="${stack.stackNo }"
 											<c:forEach var="choose" items="${chooseStack }">
 												<c:if test ="${choose eq stack.stackNo}">selected="selected"</c:if>
 											</c:forEach>>
-											${stack.stackName }
-										</option>
+											${stack.stackName }</option>
 									</c:forEach>
 								</select>
 							</div>

@@ -20,11 +20,8 @@ public interface StudyService {
 	//다음 게시글 번호를 얻어오는 메서드
 	int selectNextStuNo() throws Exception;
 
-	//stuBoardNo번째 글의 스터디할 언어 인서트
-	int insertNewStack(int stuBoardNo, int chooseStack) throws Exception;
-
-	//새로운 스터디글 인서트
-	int insertNewStudy(StudyBoardDTO newStudyDTO) throws Exception;
+	//새로운 스터디글 + 스터디언어를 insert하는 메서드
+	int insertStudyWithStack(StudyBoardDTO newStudy, StuStackVO newStack) throws Exception;
 
 	//stuNo번째 스터디 글을 조회하는 메서드
 	StudyBoardVO selectStudyByStuNo(int stuNo) throws Exception;
@@ -35,6 +32,8 @@ public interface StudyService {
 	//stuNo번째 글을 삭제하는 메서드
 	int deleteStudyBoard(int stuNo) throws Exception;
 
-	
+	//stuNo번째 글과 스택 테이블을 수정하는 메서드
+	int modifyStudy(StudyBoardDTO newStudy, StuStackVO modifyStackVO) throws Exception;
+
 	
 }

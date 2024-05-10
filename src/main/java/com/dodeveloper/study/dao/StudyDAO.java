@@ -38,4 +38,10 @@ public interface StudyDAO {
 	//stuNo번째 글을 삭제하는 메서드
 	int deleteStudyBoard(int stuNo) throws Exception;
 
+	//stuNo번째 글을 수정하는 메서드
+	int modifyStudy(StudyBoardDTO modifyStudy) throws Exception;
+
+	//stuNo번째 스터디 언어를 수정하는 메서드
+	int modifyStack(int stuBoardNo, int chooseStack) throws Exception;
+
 }
