@@ -38,4 +38,9 @@ public class MessageBoxDAOImpl implements MessageBoxDAO{
 		return template.insert(namespace + ".insertIntoMessageBox", messageBoxDTO) == 1;
 	}
 
+	@Override
+	public int selectMessageBoxCntByReceiverId(String receiver) throws Exception {
+		return template.selectOne(namespace + ".selectMessageBoxCntByReceiver", receiver);
+	}
+
 }

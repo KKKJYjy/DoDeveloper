@@ -13,4 +13,7 @@ public interface MessageService {
 	List<MessageVO> getReceivedMessages(String receiver, int startPoint, int amountToShow) throws Exception;
 	List<MessageVO> getSentMessages(String writer, int startPoint, int amountToShow) throws Exception;
 	void sendMessage(SendMessageDTO sendMessageDTO) throws Exception;
+	
+	int getReceivedMessageCnt(String receiver) throws Exception;
+	int getSentMessageCnt(String sender) throws Exception;
 }

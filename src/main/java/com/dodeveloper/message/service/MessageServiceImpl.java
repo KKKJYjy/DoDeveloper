@@ -78,4 +78,14 @@ public class MessageServiceImpl implements MessageService{
 		
 	}
 
+	@Override
+	public int getReceivedMessageCnt(String receiver) throws Exception {
+		return messageBoxDAO.selectMessageBoxCntByReceiverId(receiver);
+	}
+
+	@Override
+	public int getSentMessageCnt(String sender) throws Exception {
+		return messageDAO.selectMessageCntByUserID(sender);
+	}
+
 }
