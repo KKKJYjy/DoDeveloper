@@ -16,4 +16,6 @@ public interface ReplyDAO {
 	// ?번 글에 대한 댓글을 수정하는 메서드
 	int updateReply(ReplyDTO rDTO) throws Exception;
 	
+	// ?번 댓글을 삭제하는 메서드
+	int deleteReply(int replyNo) throws Exception;
 }
