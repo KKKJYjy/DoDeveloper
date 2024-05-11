@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.dodeveloper.reply.service.ReplyService;
 import com.dodeveloper.reply.vodto.ReplyDTO;
 import com.dodeveloper.reply.vodto.ReplyVO;
 
-@Controller
+@RestController
 @RequestMapping("/reply")
 public class ReplyController {
 
@@ -94,14 +95,14 @@ public class ReplyController {
 	 * @return : ResponseEntity<String>
 	 * @description : 게시글에 유저가 작성한 댓글을 수정하는 메서드
 	 */
-	@RequestMapping(value = "/modify/{replyNo}", method = RequestMethod.PUT)
-	public ResponseEntity<String> updateReply(@PathVariable("replyNo") int replyNo, @RequestBody ReplyDTO rDTO) {
-		System.out.println(replyNo + "번 " + rDTO.toString() + "댓글 수정이 완료 되었습니다!");
+	@RequestMapping(value = "/{replyNo}", method = RequestMethod.PUT)
+	public ResponseEntity<String> updateReply(@PathVariable("replyNo") int replyNo, @RequestBody ReplyDTO newReply) {
+		System.out.println(replyNo + "번 " + newReply.toString() + "댓글 수정이 완료 되었습니다!");
 		
 		ResponseEntity<String> result = null;
 		
 		try {
-			if (rService.updateReply(rDTO) == 1) {
+			if (rService.updateReply(newReply) == 1) {
 				result = new ResponseEntity<String>("댓글 수정 완료", HttpStatus.OK);
 			}
 		} catch (Exception e) {
