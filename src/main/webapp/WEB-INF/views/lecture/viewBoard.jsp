@@ -292,7 +292,7 @@ function modifyReply(replyNo) {
 	
 	$.ajax({
 		url : "/reply/" + replyNo,
-		type : "put", // controller단에 method가 put
+		type : "put", // 데이터가 수정되었으니 넣고
 		contentType : "application/json", // 서버에 전송되는 데이터 타입
 		dataType : "text", // 수신받을 데이터타입은 text형식
 		data : JSON.stringify(modifyReply), // 데이터를 JSON 문자열로 변환하여 전송
@@ -308,6 +308,41 @@ function modifyReply(replyNo) {
 	});
 }
 
+//---------------------------------------------------------------------
+
+// 게시글 삭제 시 로그인 유저만 가능하도록
+function showRemoveReply(replyNo) {
+	// alert(replyNo);
+	let user = preAuth(); // 로그인 한 유저
+	
+	let writer = null;
+	
+	$.each(replies, function(i, r) {
+		if (replyNo == r.replyNo) {
+			
+			writer = r.replyer; // 댓글 작성자
+		}
+	});
+	
+	if (user == writer) {
+		if (window.confirm(replyNo + "번 댓글을 삭제하겠습니까?")) {
+			$.ajax({
+				url : "/reply/" + replyNo,
+				type : "delete", // 데이터가 삭제니 delete
+				data : JSON.stringify(modifyReply), // 데이터를 JSON 문자열로 변환하여 전송
+				dataType : "text", // text 타입으로 수신받고
+				async : 'false', // 비동기 요청을 동기적으로 처리하도록 설정하는 옵션
+				success : function(data) {
+					console.log(data);
+					
+					if (data == 'success') {
+						getAllReplies(); // 전체 댓글 가져오기
+					}
+				}
+			});
+		}
+	}
+}
 </script>
 </head>
 
