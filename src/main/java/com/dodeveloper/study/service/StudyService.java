@@ -33,7 +33,6 @@ public interface StudyService {
 	int deleteStudyBoard(int stuNo) throws Exception;
 
 	//stuNo번째 글과 스택 테이블을 수정하는 메서드
-	int modifyStudy(StudyBoardDTO newStudy, StuStackVO modifyStackVO) throws Exception;
-
+	int modifyStudyWithStack(StudyBoardDTO newStudy, StuStackVO modifyStack) throws Exception;
 	
 }

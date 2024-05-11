@@ -281,7 +281,7 @@
 
 				<div class="container pt-5">
 
-					<form action="/study/insertStack" method="post">
+					<form action="/study/insertStackWithStack" method="post">
 
 						<!-- 스터디 언어 선택 -->
 						<div class="row mb-4">

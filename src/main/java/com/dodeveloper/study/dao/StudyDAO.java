@@ -42,6 +42,6 @@ public interface StudyDAO {
 	int modifyStudy(StudyBoardDTO modifyStudy) throws Exception;
 
 	//stuNo번째 스터디 언어를 수정하는 메서드
-	int modifyStack(int stuBoardNo, int chooseStack) throws Exception;
+	int modifyStack(StuStackVO modifyStack) throws Exception;
 
 }

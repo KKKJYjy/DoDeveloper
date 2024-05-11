@@ -58,5 +58,16 @@
 	<delete id="deleteStudyBoard">
 		delete from studyBoard where stuNo = #{stuNo}
 	</delete>
+	
+	<update id="modifyStudy">
+		update studyBoard set 
+		stuTitle = #{stuTitle}, stuContent = #{stuContent}, stuLoc = #{stuLoc}, stuX = #{stuX}, stuY = #{stuY}, 
+		stuDate = #{stuDate}, stuPers = #{stuPers}, contactLink = #{contactLink}, endDate = #{endDate} 
+		where stuNo = #{stuNo}
+	</update>
+	
+	<update id="modifyStack">
+		update stuStack set chooseStack = #{chooseStack} where stuStackNo = #{stuStackNo}
+	</update>
 
 </mapper>

@@ -77,7 +77,7 @@ public class StudyContoller {
 
 	}
 
-	// 스터디 작성 버튼을 누르면 study 테이블에 인서트
+	// 1) 스터디 작성 버튼을 누르면 이 메서드가 먼저 수행되어 newStudyDTO를 멤버변수 newStudy에 저장한다
 	@RequestMapping(value = "/insertStudy", method = RequestMethod.POST)
 	public ResponseEntity<String> insertStudy(@RequestBody StudyBoardDTO newStudyDTO) {
 
@@ -99,9 +99,9 @@ public class StudyContoller {
 
 	}
 
-	// 스터디 작성 버튼을 누르면 stuStack 테이블에 인서트
-	@PostMapping(value = "/insertStack")
-	public String insertStack(StuStackVO newStack) throws Exception {
+	// 2) 스터디 작성 버튼을 누르면, insertStudy 메서드가 먼저 수행된 뒤에 insertStudyWithStack가 실행된다
+	@PostMapping(value = "/insertStackWithStack")
+	public String insertStudyWithStack(StuStackVO newStack) throws Exception {
 		String result = null;
 
 		if(stuService.insertStudyWithStack(newStudy ,newStack) ==1) {
@@ -138,7 +138,7 @@ public class StudyContoller {
 	@GetMapping("/modifyStudyBoard")
 	public void modifyStudyBoard(@RequestParam("stuNo") int stuNo, Model model) throws Exception {
 		logger.info(stuNo + "번 글을 수정하는 페이지로 이동");
-
+		
 		// 스터디 목록
 		StudyBoardVO studyList = stuService.selectStudyByStuNo(stuNo);
 
@@ -159,24 +159,25 @@ public class StudyContoller {
 		System.out.println(stackList.toString());
 
 		System.out.println(stuStackListByNo.toString());
-		model.addAttribute("studyList", studyList);
-		model.addAttribute("stackList", stackList);
-		model.addAttribute("chooseStack", chooseStack);
+		model.addAttribute("studyList", studyList); // 현재 스터디 모임글
+		model.addAttribute("chooseStack", chooseStack); // 현재 스터디 모임글에서 선택된 스택만(스터디 언어)
+		model.addAttribute("stuStackListByNo", stuStackListByNo); // 현재 스터디 모임글의 전체 StuStackDTO
+		model.addAttribute("stackList", stackList); // 스택 테이블(셀렉트 박스를 세팅을 위한)
+		
 	}
 	
 	
 	// =======================여기 아직 테스트 안해봄
 
-	// 수정 페이지에서 수정 버튼을 눌렀을때 실제로 스터디 모임글 디비를 수정하는 메서드
+	// 1) 스터디 수정 버튼을 누르면 이 메서드가 먼저 수행되어 modifyStudyDTO를 멤버변수 newStudy에 저장한다
+	// @RequestBody StudyBoardDTO modifyStudyDTO
 	@PostMapping("/modifyStudy")
 	public ResponseEntity<String> modifyStudy(@RequestBody StudyBoardDTO modifyStudyDTO) {
 
 		ResponseEntity<String> result = null;
 
-		logger.info("modifyStudy: 수정할 스터디 모집글" + modifyStudyDTO.toString());
-
-		// 수정할 newStudyDTO를 멤버변수 newStudy에 저장
 		newStudy = modifyStudyDTO;
+		
 		logger.info("modifyStudy: 수정할 스터디 모집글" + newStudy.toString());
 
 		if (newStudy != null) {
@@ -188,13 +189,17 @@ public class StudyContoller {
 		return result;
 	}
 
+	// 2) 스터디 작성 버튼을 누르면, modifyStudy 메서드가 먼저 수행된 뒤에 modifyStudyWithStack가 실행된다
 	// 수정 페이지에서 수정 버튼을 눌렀을때 실제로 스터디 모임글의 스터디 언어 디비를 수정하는 메서드
 	@PostMapping(value = "/modifyStack")
-	public String modifyStack(StuStackVO modifyStackVO) throws Exception {
+	public String modifyStudyWithStack(StuStackVO modifyStack) throws Exception {
 		String result = null;
 		
+		
+		logger.info("modifyStack: 수정할 스택" +modifyStack.toString());
+		
 		//수정에 성공했다면 수정한 상세 페이지로 이동
-		if(stuService.modifyStudy(newStudy, modifyStackVO) == 1) {
+		if(stuService.modifyStudyWithStack(newStudy, modifyStack) == 1) {
 			result = "redirect:/study/viewStudyBoard?stuNo=" + newStudy.getStuNo();
 		}
 

@@ -50,11 +50,10 @@ public class StudyServiceImpl implements StudyService {
 		return sDao.selectNextStuNo();
 	}
 
-	
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
 	public int insertStudyWithStack(StudyBoardDTO newStudy, StuStackVO newStack) throws Exception {
-		
+
 		int result = 0;
 		
 		// StuStackVO의 stuBoardNo값 세팅
@@ -77,8 +76,8 @@ public class StudyServiceImpl implements StudyService {
 		}
 
 		return result;
+
 	}
-	
 
 	@Override
 	public StudyBoardVO selectStudyByStuNo(int stuNo) throws Exception {
@@ -89,39 +88,35 @@ public class StudyServiceImpl implements StudyService {
 	public List<StackVO> selectAllStack() throws Exception {
 		return sDao.selectAllStack();
 	}
-	
-	
-
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-	public int modifyStudy(StudyBoardDTO newStudy, StuStackVO modifyStackVO) throws Exception {
+	public int modifyStudyWithStack(StudyBoardDTO newStudy, StuStackVO modifyStack) throws Exception {
 
 		int result = 0;
 
 		// StuStackVO의 stuBoardNo값 세팅
-		modifyStackVO.setStuBoardNo(sDao.selectNextStuNo());
-		System.out.println("modifyStack: 수정할 스터디 스택 게시글 번호" + modifyStackVO.getStuBoardNo());
-		int[] chooseStacks = modifyStackVO.getChooseStack();
+		modifyStack.setStuBoardNo(newStudy.getStuNo());
 
-		System.out.println("insertStack: 수정할 스터디 스택가져오자" + modifyStackVO.toString());
+		System.out.println("modifyStack: 수정할 스터디 스택" + modifyStack.toString());
+		int[] chooseStacks = modifyStack.getChooseStack();
+
 		System.out.println("insertStack: 수정할 스터디 스터디 모집글" + newStudy.toString());
 
 		if (sDao.modifyStudy(newStudy) == 1) {
 			System.out.println("스터디글수정성공");
 
 			for (int chooseStack : chooseStacks) {
-				if (sDao.modifyStack(modifyStackVO.getStuBoardNo(), chooseStack) == 1) {
-					System.out.println("스택수정성공");
+				if (sDao.modifyStack(modifyStack) == 1) {
+					System.out.println("스택추가성공");
 					result = 1;
 				}
 			}
+
 		}
 
 		return result;
 	}
-
-	
 
 	@Override
 	public int deleteStudyBoard(int stuNo) throws Exception {

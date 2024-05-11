@@ -82,11 +82,8 @@ public class StudyDAOImpl implements StudyDAO {
 	}
 
 	@Override
-	public int modifyStack(int stuBoardNo, int chooseStack) throws Exception {
-		Map<String, Integer> param = new HashMap<String, Integer>();
-		param.put("stuBoardNo", stuBoardNo);
-		param.put("chooseStack", chooseStack);
-		return ses.update(ns + ".modifyStack", param);
+	public int modifyStack(StuStackVO modifyStack) throws Exception {
+		return ses.update(ns + ".modifyStack", modifyStack);
 	}
 
 }

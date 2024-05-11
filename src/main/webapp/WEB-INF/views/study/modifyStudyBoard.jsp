@@ -277,6 +277,7 @@
 				&& mapX != 0 && mapX != null && mapY != 0 && mapY != null) {
 
 			let modifyStudyDTO = {
+				"stuNo" : '${studyList.stuNo}', // 수정할 글번호 설정
 				"stuWriter" : '${loginMember.userId }',
 				"stuTitle" : $("#stuTitle").val(),
 				"stuContent" : $("#stuContent").val(),
@@ -338,7 +339,7 @@
 						<div class="row mb-4">
 							<div class="col-md-12">
 								<div class="mb-2 text-light">
-									<b>스터디 언어 ${chooseStack }</b>
+									<b>스터디 언어 ${stuStackListByNo[0].stuStackNo }</b>
 								</div>
 								<select class="studyLang form-control" multiple="multiple"
 									style="width: 100%" id="chooseStack" name="chooseStack">
@@ -352,9 +353,14 @@
 								</select>
 							</div>
 						</div>
-
+						
+						<!-- 스터디 언어 수정할때 시작 stuStackNo값 -->
+						<input type="text" class="form-control" id="stuWriter"
+							value="${stuStackListByNo[0].stuStackNo }" hidden="true" />
+							
 						<input type="text" class="form-control" id="stuWriter"
 							value="${loginMember.userId }" hidden="true" />
+
 
 						<div class="row mb-4">
 							<!-- 모집인원 -->
