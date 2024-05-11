@@ -57,4 +57,18 @@ public class ReplyServiceImpl implements ReplyService {
 		return rDao.updateReply(rDTO);
 	}
 
+	/**
+	 * @methodName : deleteReply
+	 * @author : kde
+	 * @date : 2024.05.11
+	 * @param : int replyNo - 댓글 번호
+	 * @return : int
+	 * @description : ?번 댓글을 삭제하는 메서드
+	 */
+	@Override
+	public int deleteReply(int replyNo) throws Exception {
+		
+		return rDao.deleteReply(replyNo);
+	}
+
 }
