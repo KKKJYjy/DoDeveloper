@@ -113,5 +113,36 @@ public class ReplyController {
 		
 		return result;
 	}
+	
+	/**
+	 * @methodName : removeReply
+	 * @author : 
+	 * @date : 2024.05.11
+	 * @param : 
+	 * @param : 
+	 * @param : 
+	 * @return : ResponseEntity<String>
+	 * @description : 게시글에 유저가 작성한 댓글을 삭제하는 메서드
+	 */
+	@RequestMapping(value = "/{replyNo}")
+	public ResponseEntity<String> removeReply(@PathVariable("replyNo") int replyNo) {
+		System.out.println(replyNo + "번 댓글이 삭제되었습니다!");
+		
+		ResponseEntity<String> result = null;
+		
+		try {
+			if (rService.deleteReply(replyNo) == 1) {
+				// 댓글 삭제
+				result = new ResponseEntity<String>("댓글 삭제 완료", HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			// 댓글 삭제 실패
+			e.printStackTrace();
+			
+			result = new ResponseEntity<String>("댓글 삭제 실패", HttpStatus.BAD_REQUEST);
+		}
+		
+		return result;
+	}
 
 }
