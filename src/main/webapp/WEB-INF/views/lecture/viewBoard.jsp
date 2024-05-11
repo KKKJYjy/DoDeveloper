@@ -325,7 +325,7 @@ function showRemoveReply(replyNo) {
 	});
 	
 	if (user == writer) {
-		if (window.confirm(replyNo + "번 댓글을 삭제하겠습니까?")) {
+		if (window.confirm("댓글을 삭제하겠습니까?")) {
 			$.ajax({
 				url : "/reply/" + replyNo,
 				type : "delete", // 데이터가 삭제니 delete

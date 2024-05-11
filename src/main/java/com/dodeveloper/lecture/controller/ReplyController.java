@@ -76,12 +76,12 @@ public class ReplyController {
 		try {
 			if (rService.insertReply(rDTO) == 1) {
 				// 댓글 작성에 성공했을 경우
-				result = new ResponseEntity<String>("댓글 작성 성공", HttpStatus.OK);
+				result = new ResponseEntity<String>("success", HttpStatus.OK);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			// 댓글 작성에 실패했을 경우
-			result = new ResponseEntity<String>("댓글 작성 실패", HttpStatus.CONFLICT);
+			result = new ResponseEntity<String>("fail", HttpStatus.CONFLICT);
 		}
 		return result;
 	}
@@ -103,12 +103,12 @@ public class ReplyController {
 		
 		try {
 			if (rService.updateReply(newReply) == 1) {
-				result = new ResponseEntity<String>("댓글 수정 완료", HttpStatus.OK);
+				result = new ResponseEntity<String>("success", HttpStatus.OK);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			
-			result = new ResponseEntity<String>("댓글 수정 실패", HttpStatus.CONFLICT);
+			result = new ResponseEntity<String>("fail", HttpStatus.CONFLICT);
 		} 
 		
 		return result;
@@ -133,13 +133,13 @@ public class ReplyController {
 		try {
 			if (rService.deleteReply(replyNo) == 1) {
 				// 댓글 삭제
-				result = new ResponseEntity<String>("댓글 삭제 완료", HttpStatus.OK);
+				result = new ResponseEntity<String>("success", HttpStatus.OK);
 			}
 		} catch (Exception e) {
 			// 댓글 삭제 실패
 			e.printStackTrace();
 			
-			result = new ResponseEntity<String>("댓글 삭제 실패", HttpStatus.BAD_REQUEST);
+			result = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
 		}
 		
 		return result;
