@@ -56,24 +56,35 @@
 }
 
 .reply {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 10px;
+	border-bottom: 1px solid #ccc;
 }
 
-<!-- 삭제 버튼 -->
+<!-- 수정 & 삭제 버튼 -->
 .replyBtns {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+	margin-left: inherit;
+	margin-bottom: auto;
+	float: right;
+	float: inherit;
 }
 
-.replyBtns img {
-    width: 30px;
+.replyEditBtns {
+	top: -3%;
+}
+
+.replyEditBtns, .replyRemoveBtns {
+	position: absolute;
+	float: right;
+	margin-left: inherit;
+	margin-bottom: 200px;
+}
+
+.replyEditBtns img, .replyRemoveBtns img {
+	width: 30px;
 	height: 30px;
-	margin-left: auto;
 }
 </style>
 <script>
@@ -181,10 +192,13 @@ function outputReplies(data) {
 		let diff = processPostDate(reply.writtenDate);
 		output += `<div>\${diff}</div>`; // 댓글 시간
 		
-		// output += `<div class='replyBtns'><img src='/resources/images/reply/replyedit.png' onclick='showModifyReply(\${reply.replyNo});'/>`;
 		output += `<div class='replyBtns'>`;
+		output += `<div class='replyEditBtns'>`;
 		output += `<img src='/resources/images/reply/replyedit.png' onclick='showModifyReply(\${reply.replyNo});' />`;
-		// output += `<img src='/resources/images/reply/replytrash.png' onclick='' />`;
+		output += `</div>`;
+		output += `<div class='replyRemoveBtns'>`;
+		output += `<img src='/resources/images/reply/replytrash.png' onclick='showRemoveReply(\${reply.replyNo});' />`;
+		output += `</div>`;
 		output += `</div>`;
 		
 		output += `</div>`;
@@ -388,7 +402,8 @@ function modifyReply(replyNo) {
 					<div class="writeReply">
 						<div class="mb-3 mt-3">
 							<label for="replyContent" class="form-label">댓글 내용 : </label>
-							<textarea id="replyContent" class="form-control" cols="100" rows="1"></textarea>
+							<textarea id="replyContent" class="form-control" cols="100"
+								rows="1"></textarea>
 							<button type="button" class="btn btn-secondary saveReply">댓글
 								저장</button>
 							<button type="button" class="btn btn-secondary"
