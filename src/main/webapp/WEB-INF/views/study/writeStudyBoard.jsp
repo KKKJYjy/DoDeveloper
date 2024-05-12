@@ -172,7 +172,7 @@
 	//1) 카카오 map값을 같이 보내기 위해서 form이 아닌 ajax로 처리한다. (insertStudy)
 	//2) multiSelect만 form 값으로 보낸다. (insertStack)
 	function isVaild() {
-
+		let result = false;
 		//유효성 검사
 		if ($("#chooseStack").val() == '' || $("#chooseStack").val() == null) {
 			$("#chooseStack").focus();
@@ -207,24 +207,25 @@
 			result = true;
 			//alert("유효성 검사 통과!");
 		}
-
+		return result;
 	}
 
 	function insertStudy() {
 		let result = false;
 
 		//유효성 검사
-		isVaild();
-
-		if ($("#chooseStack").val() != '' && $("#chooseStack").val() != null
-				&& $("#stuPers").val() != -1 && $("#endDate").val() != ''
-				&& $("#endDate").val() != null && $("#contactLink").val() != ''
-				&& $("#contactLink").val() != null && $("#stuDate").val() != -1
-				&& $("#stuTitle").val() != '' && $("#stuTitle").val() != null
-				&& $("#stuContent").val() != ''
-				&& $("#stuContent").val() != null
-				&& $("#searchMap").val() != '' && $("#searchMap").val() != null
-				&& mapX != 0 && mapX != null && mapY != 0 && mapY != null) {
+			
+		/* $("#chooseStack").val() != '' && $("#chooseStack").val() != null
+		&& $("#stuPers").val() != -1 && $("#endDate").val() != ''
+		&& $("#endDate").val() != null && $("#contactLink").val() != ''
+		&& $("#contactLink").val() != null && $("#stuDate").val() != -1
+		&& $("#stuTitle").val() != '' && $("#stuTitle").val() != null
+		&& $("#stuContent").val() != ''
+		&& $("#stuContent").val() != null
+		&& $("#searchMap").val() != '' && $("#searchMap").val() != null
+		&& mapX != 0 && mapX != null && mapY != 0 && mapY != null */
+		
+		if (isVaild()) {
 
 			let newStudyDTO = {
 				"stuWriter" : '${loginMember.userId }',
