@@ -32,6 +32,34 @@
 	<select id="getRevBoard" resultType="AdminReviewBoardVO">
 		select * from companyrevboard order by revNo desc
 	</select>
+	
+	<!-- 검색어가 있을 경우 글의 갯수를 가져오는 쿼리문 -->
+	<select id="getStuBoardCntWithSC" resultType="int">
+		select count(*) from studyBoard
+		<choose>
+			<when test="searchType == 'stuTitle'">
+				where stuTitle like #{searchValue}
+			</when>
+			<when test="searchType == 'stuWriter'">
+				where stuWriter like #{searchValue}
+			</when>
+		</choose>
+	</select>
+	
+	<!-- 검색어가 있을 경우 검색된 글을 가져오는 쿼리문 -->
+	<select id="getStuBoardListWithSC" resultType="AdminVO">
+		select * from studyBoard
+		<choose>
+			<when test="searchType == 'stuTitle'">
+				where stuTitle like #{searchValue}
+			</when>
+			<when test="searchType == 'stuWriter'">
+				where stuWriter like #{searchValue}
+			</when>
+		</choose>
+		
+			order by stuNo desc limit #{startRowIndex}, #{viewPostCntPerPage}
+	</select>
 
 
 	<!-- 유저 전체 조회 -->

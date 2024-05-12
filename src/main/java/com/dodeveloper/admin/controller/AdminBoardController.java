@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.dodeveloper.admin.dto.SearchCriteriaDTO;
 import com.dodeveloper.admin.etc.PagingInfo;
 import com.dodeveloper.admin.service.AdminBoardService;
 import com.dodeveloper.admin.vo.AdminArgBoardVO;
@@ -32,14 +33,26 @@ public class AdminBoardController {
 	
 	
 	@RequestMapping(value = "/selectBoard", method = RequestMethod.GET)
-	public void selectBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo) throws Exception {
+	public void selectBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+			SearchCriteriaDTO sc) throws Exception {
 		logger.info(pageNo + "번째 study게시판 페이지 조회");
 		
-		Map<String, Object> returnMap = bService.getlistStudyBoard(pageNo);
+		Map<String, Object> returnMap = null;
+		
+		String resultPage = null;
+		
+		// Map<String, Object> returnMap = bService.getlistStudyBoard(pageNo);
 
+		if (pageNo <= 0) {
+			pageNo = 1;
+		}
+		
 		// model.addAttribute("stuBoardList", stuBoardList);
+		returnMap = bService.getlistStudyBoard(pageNo, sc);
 		model.addAttribute("stuBoardList", (List<AdminVO>)returnMap.get("stuBoardList"));
 		model.addAttribute("pagingInfo", (PagingInfo)returnMap.get("pagingInfo"));
+		
+		resultPage = "/admin/selectBoard";
 	}
 	
 	@RequestMapping(value = "/lectureBoard", method = RequestMethod.GET)

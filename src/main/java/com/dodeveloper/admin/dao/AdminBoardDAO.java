@@ -2,6 +2,7 @@ package com.dodeveloper.admin.dao;
 
 import java.util.List;
 
+import com.dodeveloper.admin.dto.SearchCriteriaDTO;
 import com.dodeveloper.admin.etc.PagingInfo;
 import com.dodeveloper.admin.vo.AdminArgBoardVO;
 import com.dodeveloper.admin.vo.AdminLectureVO;
@@ -23,5 +24,10 @@ public interface AdminBoardDAO {
 
 	// 게시글 전체 갯수 구할 수 있는 메서드
 	int selectTotalBoardCnt() throws Exception;
-
+	
+	// 검색된 글의 갯수를 가져오는 메서드
+	int selectBoardSearchCritera(SearchCriteriaDTO sc) throws Exception;
+	
+	// 검색어가 있을 경우 검색된 글을 가져오는 메서드
+	List<AdminVO> selectBoardListSC(SearchCriteriaDTO sc, PagingInfo pi) throws Exception;
 }
