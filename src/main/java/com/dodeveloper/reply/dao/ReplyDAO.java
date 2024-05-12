@@ -18,4 +18,5 @@ public interface ReplyDAO {
 	
 	// ?번 댓글을 삭제하는 메서드
 	int deleteReply(int replyNo) throws Exception;
+	
 }

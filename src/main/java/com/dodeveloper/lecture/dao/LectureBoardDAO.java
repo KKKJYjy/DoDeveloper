@@ -42,5 +42,4 @@ public interface LectureBoardDAO {
 	// 검색 필터(최신순 / 인기순 / 조회순)을 선택했을 때 글을 가져오는 메서드 - 검색 필터
 	List<LectureBoardVO> listAllBoardByFilter(List<LectureBoardVO> lectureBoardList, String filterType) throws Exception;
 	
-	
 }

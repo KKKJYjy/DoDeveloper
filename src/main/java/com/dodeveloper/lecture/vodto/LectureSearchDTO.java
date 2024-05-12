@@ -13,6 +13,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class LectureSearchDTO {
-	private String searchType;
-	private String searchValue;
+	private String searchType; // 검색 조건
+	private String searchValue; // 검색 값
 }

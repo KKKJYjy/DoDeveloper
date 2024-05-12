@@ -23,10 +23,10 @@ public interface LectureBoardService {
 	boolean writeBoardService(LectureBoardDTO newLecBoard) throws Exception;
 
 	// 게시글을 수정하는 메서드
-	void modifyBoard(LectureBoardDTO modifyBoard) throws Exception;
+	boolean modifyBoard(LectureBoardDTO modifyBoard) throws Exception;
 
 	// 게시글을 삭제 처리하는 메서드
-	void deleteLectureBoard(int lecNo) throws Exception;
+	boolean deleteLectureBoard(int lecNo) throws Exception;
 	
 	// 검색 조건을 선택하고 검색어를 입력했을 때 글을 가져오는 메서드 - 검색 조건
 	List<LectureBoardVO> listAllBoardBySearch(int lecNo, LectureSearchDTO lsDTO) throws Exception;

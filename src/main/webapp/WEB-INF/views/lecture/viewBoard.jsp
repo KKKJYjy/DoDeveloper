@@ -63,8 +63,8 @@
 	border-bottom: 1px solid #ccc;
 }
 
-<!-- 수정 & 삭제 버튼 -->
-.replyBtns {
+<!--
+수정 & 삭제 버튼 -->.replyBtns {
 	margin-left: inherit;
 	margin-bottom: auto;
 	float: right;
@@ -310,7 +310,7 @@ function modifyReply(replyNo) {
 
 //---------------------------------------------------------------------
 
-// 게시글 삭제 시 로그인 유저만 가능하도록
+// 댓글 삭제 시 로그인 유저만 가능하도록
 function showRemoveReply(replyNo) {
 	// alert(replyNo);
 	let user = preAuth(); // 로그인 한 유저
@@ -343,6 +343,29 @@ function showRemoveReply(replyNo) {
 		}
 	}
 }
+
+//---------------------------------------------------------------------
+
+// 댓글을 작성하다가 취소 눌렀을 때
+function cancelWriteReply() {
+	alert("댓글 작성 안하시겠습니까?");
+	
+	$.ajax({
+		url : '/reply/cancelReply',
+		type : 'post',
+		dataType : 'text', // 수신받을 데이터의 타입
+		success : function(data) { // data(json)
+			// 통신 성공하면 실행할 내용들....
+			console.log(data);
+			if (data == 'success') {
+				location.href = '/lecture/viewBoard?lecNo=${lecBoard.lecNo}';
+				getAllReplies(); // 전체 댓글 가져오기
+			}
+		}
+	});
+}
+
+
 </script>
 </head>
 
@@ -414,24 +437,32 @@ function showRemoveReply(replyNo) {
 						</div>
 
 						<div class="btns">
+
 							<button type="button" class="btn btn-dark"
 								onclick="location.href='/board/listAll';">좋아요</button>
 							<button type="button" class="btn btn-dark"
 								onclick="location.href='/board/listAll';">신고</button>
+
 						</div>
 					</div>
 
 					<!-- 글 수정 & 글 삭제 로그인 한 유저만 가능 -->
+
 					<div class="btns">
-						<button type="button" class="btn"
-							onclick="location.href='/lecture/modifyLectureBoard?lecNo=${lecBoard.lecNo}';">글수정</button>
-						<button type="button" class="btn"
-							onclick="location.href='/lecture/removeLectureBoard?lecNo=${lecBoard.lecNo}';">글삭제</button>
+
+						<a href="/lecture/modifyLectureBoard?lecNo=${lecBoard.lecNo}"
+							class="btn">글수정</a> <a
+							href="/lecture/removeLectureBoard?lecNo=${lecBoard.lecNo}"
+							class="btn">글삭제</a>
+
+					</div>
+
+					<div class="btns">
 						<div class="btn-group">
-							<button type="button" class="btn"
-								onclick="location.href='/lecture/listAll';">목록으로</button>
+							<a href="/lecture/listAll" class="btn">목록으로</a>
 						</div>
 					</div>
+
 
 					<!-- 댓글 작성 로그인 한 유저만 가능 -->
 					<div class="writeReply">
@@ -442,7 +473,7 @@ function showRemoveReply(replyNo) {
 							<button type="button" class="btn btn-secondary saveReply">댓글
 								저장</button>
 							<button type="button" class="btn btn-secondary"
-								onclick="cancelModify()">취소</button>
+								onclick="cancelWriteReply();">취소</button>
 						</div>
 					</div>
 

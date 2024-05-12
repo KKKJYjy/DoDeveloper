@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dodeveloper.reply.service.ReplyService;
@@ -118,7 +119,7 @@ public class ReplyController {
 	 * @methodName : removeReply
 	 * @author : 
 	 * @date : 2024.05.11
-	 * @param : 
+	 * @param : @PathVariable("replyNo") int replyNo - 삭제할 댓글 번호
 	 * @param : 
 	 * @param : 
 	 * @return : ResponseEntity<String>
@@ -143,6 +144,13 @@ public class ReplyController {
 		}
 		
 		return result;
+	}
+	
+	@RequestMapping(value = "/cancelReply", method = RequestMethod.POST)
+	public @ResponseBody String cancelReply() {
+		System.out.println("댓글 작성 안할래요!");
+		
+		return "success";
 	}
 
 }

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dodeveloper.lecture.dao.LectureBoardDAO;
 import com.dodeveloper.lecture.vodto.LectureBoardDTO;
@@ -58,10 +59,10 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 		} else {
 			// 검색어가 없는 경우
 			return lDao.selectListAllLecBoard();
-			
+
 		}
 	}
-	
+
 	/**
 	 * @methodName : listAllBoardByFilter
 	 * @author : kde
@@ -72,8 +73,9 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	 * @description : 검색 필터(최신순 / 인기순 / 조회순)을 선택했을 때 글을 가져오는 메서드 - 검색 필터
 	 */
 	@Override
-	public List<LectureBoardVO> listAllBoardByFilter(List<LectureBoardVO> lectureBoardList, String filterType) throws Exception {
-		
+	public List<LectureBoardVO> listAllBoardByFilter(List<LectureBoardVO> lectureBoardList, String filterType)
+			throws Exception {
+
 		return lDao.listAllBoardByFilter(lectureBoardList, filterType);
 	}
 
@@ -89,6 +91,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	 * 3) 하루 이내에 읽은 적이 있다 -> 게시글만 가져옴(유저가 글을 조회하도록)
 	 */
 	@Override
+	@Transactional(readOnly = true)
 	public Map<String, Object> getBoardByBoardNo(int lecNo, String user) throws Exception {
 		System.out.println(lDao.selectDiff(user, lecNo));
 
@@ -98,11 +101,6 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 		Map<String, Object> result = new HashMap<String, Object>();
 
 		result.put("lecBoard", lecBoard); // 조회된 글 바인딩
-
-//		
-//		if (lDao.selectDiff(user, lecNo) == -1) {
-//			// 하루 이내에 읽은 적이 없을 경우
-//		}
 
 		return result;
 	}
@@ -143,8 +141,12 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 
 		boolean result = false;
 
+		newLecBoard.setLecReview(newLecBoard.getLecReview().replace("\r\n", "</ br>"));
+
 		// dao단 호출
-		if (lDao.insertNewLectureBoard(newLecBoard) == 1) {
+		if (lDao.insertNewLectureBoard(newLecBoard) == 1) { // 실제 게시글 (insert)
+			System.out.println("새로 저장될 게시글 번호 : " + newLecBoard.getLecNo());
+
 			result = true;
 		}
 
@@ -160,10 +162,14 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	 * @description : 게시글 수정 시 update 처리
 	 */
 	@Override
-	public void modifyBoard(LectureBoardDTO modifyBoard) throws Exception {
+	public boolean modifyBoard(LectureBoardDTO modifyBoard) throws Exception {
+		boolean result = false;
 
-		lDao.updateLectureBoard(modifyBoard);
+		if (lDao.updateLectureBoard(modifyBoard) == 1) {
+			result = true;
+		}
 
+		return result;
 	}
 
 	/**
@@ -175,10 +181,15 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	 * @description : lecNo번 글을 삭제 처리
 	 */
 	@Override
-	public void deleteLectureBoard(int lecNo) throws Exception {
+	public boolean deleteLectureBoard(int lecNo) throws Exception {
 
-		lDao.deleteLectureBoard(lecNo);
+		boolean result = false;
 
+		if (lDao.deleteLectureBoard(lecNo) == 1) {
+			result = true;
+		}
+
+		return result;
 	}
 
 }

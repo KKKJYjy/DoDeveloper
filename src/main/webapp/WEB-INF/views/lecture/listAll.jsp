@@ -152,7 +152,7 @@ select option:hover {
 							<table class="board-table">
 								<thead>
 									<tr>
-										<th>글번호</th>
+										<!-- <th>글번호</th> -->
 										<th>제목</th>
 										<th>작성자</th>
 										<th>작성 날짜</th>
@@ -165,7 +165,7 @@ select option:hover {
 										<!-- /lecture/viewBoard?lecNo가 /lecture/viewBoard 경로 -->
 										<tr
 											onclick="location.href='/lecture/viewBoard?lecNo=${lectureBoard.lecNo }';">
-											<td>${lectureBoard.lecNo }</td>
+											<!-- <td>${lectureBoard.lecNo }</td> -->
 											<td>${lectureBoard.lecTitle }</td>
 											<td>${lectureBoard.lecWriter }</td>
 											<td>${lectureBoard.lecPostDate }</td>

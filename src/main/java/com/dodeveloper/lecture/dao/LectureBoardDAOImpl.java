@@ -41,7 +41,7 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 * @author : kde
 	 * @date : 2024.05.03
 	 * @param : int lecNo - 게시글 번호
-	 * @return :
+	 * @return :LectureBoardVO - 게시글을 가져올때 필요한 변수들
 	 * @description : ?번 글을 가져오는 메서드
 	 */
 	@Override
@@ -113,16 +113,16 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	@Override
 	public int insertNewLectureBoard(LectureBoardDTO newLecBoard) throws Exception {
 
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("lecTitle", newLecBoard.getLecTitle());
-		params.put("lecReview", newLecBoard.getLecReview());
-		params.put("lecWriter", newLecBoard.getLecWriter());
-		params.put("lecScore", newLecBoard.getLecScore());
-		params.put("lecLink", newLecBoard.getLecLink());
+//		Map<String, Object> params = new HashMap<String, Object>();
+//		params.put("lecTitle", newLecBoard.getLecTitle());
+//		params.put("lecReview", newLecBoard.getLecReview());
+//		params.put("lecWriter", newLecBoard.getLecWriter());
+//		params.put("lecScore", newLecBoard.getLecScore());
+//		params.put("lecLink", newLecBoard.getLecLink());
 
 		System.out.println("새로 저장될 글 : " + newLecBoard.getLecNo());
 
-		return ses.insert(ns + ".insertLectureBoard", params);
+		return ses.insert(ns + ".insertLectureBoard", newLecBoard);
 	}
 
 	/**

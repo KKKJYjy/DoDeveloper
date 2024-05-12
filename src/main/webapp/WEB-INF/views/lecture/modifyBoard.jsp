@@ -110,7 +110,8 @@
 					<!-- 링크를 올렸을 때 바로 북마크가 생기도록 -->
 					<div class="lecBoard">
 						<form action="/lecture/modifyPost" method="post">
-						<input type="hidden" name="lecNo" value="${result.lecBoard.lecNo }" >
+							<input type="hidden" name="lecNo"
+								value="${result.lecBoard.lecNo }">
 							<div class="mb-3 mt-3">
 								<label for="lecWriter" class="form-label"></label> <input
 									type="text" class="form-control" id="lecWriter"
@@ -133,25 +134,15 @@
 							<div class="mb-3 mt-3">
 								<label for="lecReview" class="form-label">강의 후기</label> <select
 									id="lecReviewSelect" name="lecReview" onchange="showInput()">
-									<option value="australia"
-										${result.lecBoard.lecReview == 'australia' ? 'selected' : ''}>--
-										강의 후기 선택 --</option>
-									<option value="option1"
-										${result.lecBoard.lecReview == 'option1' ? 'selected' : ''}>초보자가
-										듣기 너무 좋아요.</option>
-									<option value="option2"
-										${result.lecBoard.lecReview == 'option2' ? 'selected' : ''}>기초가
-										있으신 분들이 들으셔야 할 것 같아요.</option>
-									<option value="option3"
-										${result.lecBoard.lecReview == 'option3' ? 'selected' : ''}>등등
-										생각 좀 해볼게요...</option>
-									<option value="option4"
-										${result.lecBoard.lecReview == 'option4' ? 'selected' : ''}>강의
-										후기 직접 작성할게요.</option>
+									<option value="australia">-- 강의 후기 선택 --</option>
+									<option value="초보자가 듣기 너무 좋아요.">초보자가 듣기 너무 좋아요.</option>
+									<option value="기초가 있으신 분들이 들으셔야 할 것 같아요.">기초가 있으신 분들이 들으셔야 할 것 같아요.</option>
+									<option value="등등 생각 좀 해볼게요...">등등 생각 좀 해볼게요...</option>
+									<option value="option4">강의 후기 직접 작성할게요.</option>
 								</select>
 								<textarea class="form-control" id="lecReviewInput"
 									name="lecReview" placeholder="강의 후기 직접 작성해주세요..."
-									${result.lecBoard.lecReview == 'option4' ? '' : 'style="display: none;"'}>${result.lecBoard.lecReview}</textarea>
+									style="display: none;"></textarea>
 							</div>
 
 							<div class="mb-3 mt-3">
