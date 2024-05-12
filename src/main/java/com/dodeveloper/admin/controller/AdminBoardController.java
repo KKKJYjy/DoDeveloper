@@ -1,6 +1,7 @@
 package com.dodeveloper.admin.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.dodeveloper.admin.etc.PagingInfo;
 import com.dodeveloper.admin.service.AdminBoardService;
 import com.dodeveloper.admin.vo.AdminArgBoardVO;
 import com.dodeveloper.admin.vo.AdminLectureVO;
@@ -29,12 +32,14 @@ public class AdminBoardController {
 	
 	
 	@RequestMapping(value = "/selectBoard", method = RequestMethod.GET)
-	public void selectBoard(Model model) throws Exception {
-		logger.info("study게시판 조회 페이지");
+	public void selectBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo) throws Exception {
+		logger.info(pageNo + "번째 study게시판 페이지 조회");
 		
-		List<AdminVO> stuBoardList = bService.getlistStudyBoard();
+		Map<String, Object> returnMap = bService.getlistStudyBoard(pageNo);
 
-		model.addAttribute("stuBoardList", stuBoardList);
+		// model.addAttribute("stuBoardList", stuBoardList);
+		model.addAttribute("stuBoardList", (List<AdminVO>)returnMap.get("stuBoardList"));
+		model.addAttribute("pagingInfo", (PagingInfo)returnMap.get("pagingInfo"));
 	}
 	
 	@RequestMapping(value = "/lectureBoard", method = RequestMethod.GET)

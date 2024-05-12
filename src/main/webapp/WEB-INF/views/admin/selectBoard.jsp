@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
@@ -44,6 +45,17 @@
 
 		return result;
 	}
+	
+	$(function () {
+		
+		let pageNo = '${param.pageNo}';
+		if (pageNo == '') {
+			pageNo = 1;
+		}
+		
+		$(`#\${pageNo}`).addClass('active')
+		
+	})
 </script>
 <script>
 	//이미지를 생성합니다.
@@ -124,6 +136,23 @@
 				</tbody>
 			</table>
 		</div>
+		${pagingInfo }
+		
+		<ul class="pagination">
+		<c:if test="${param.pageNo > 1 }">
+			<li class="page-item"><a class="page-link" href="/admin/selectBoard?pageNo=${param.pageNo -1 }">Previous</a></li>
+			
+		</c:if>
+			<c:forEach var="i" begin="${pagingInfo.startNumOfCurrentPagingBlock }" end="${pagingInfo.endNumOfCurrentPagingBlock }" step="1">
+				<li class="page-item" id="${i }"><a class="page-link" href="/admin/selectBoard?pageNo=${i }">${i }</a></li>
+			</c:forEach>
+			
+			<c:if test="${param.pageNo < pagingInfo.totalPageCnt }">
+				<li class="page-item"><a class="page-link" href="/admin/selectBoard?pageNo=${param.pageNo +1 }">Next</a></li>
+			</c:if>
+		</ul>
+	
+		
 	</div>
 
 

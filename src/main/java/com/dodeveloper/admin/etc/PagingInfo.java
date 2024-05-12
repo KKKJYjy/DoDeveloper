@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-public class Paging {
+
 	@Component
 	@NoArgsConstructor(access = AccessLevel.PROTECTED)
 	// --------------- 실제 페이징을 만들 때 필요한 변수들 ----------------------
@@ -139,4 +139,4 @@ public class Paging {
 					+ startNumOfCurrentPagingBlock + ", endNumOfCurrentPagingBlock=" + endNumOfCurrentPagingBlock + "]";
 		}
 	}
-}
+
