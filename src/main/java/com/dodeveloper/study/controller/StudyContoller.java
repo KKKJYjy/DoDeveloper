@@ -27,6 +27,7 @@ import com.dodeveloper.study.vodto.StudyBoardVO;
 import com.dodeveloper.study.vodto.SearchStudyDTO;
 import com.dodeveloper.study.vodto.StackVO;
 import com.dodeveloper.study.vodto.StuStackDTO;
+import com.dodeveloper.study.vodto.StuStackModifyDTO;
 
 @Controller
 @RequestMapping("/study")
@@ -107,6 +108,7 @@ public class StudyContoller {
 		if(stuService.insertStudyWithStack(newStudy ,newStack) ==1) {
 			result = "redirect:/study/listAll";
 			logger.info("스터디테이블, 스터디스택 인서트 성공");
+			//newStudy = null;
 		}
 		
 		return result;
@@ -151,8 +153,12 @@ public class StudyContoller {
 		// stuNo번째 공부할 언어중 chooseStack만 담는 배열
 		List<Integer> chooseStack = new ArrayList<Integer>();
 
+		//stuNo번째 공부할 언어중 stuStackNo만 담는 배열
+		List<Integer> stuStackNo = new ArrayList<Integer>();
+		
 		for (StuStackDTO stuStack : stuStackListByNo) {
 			chooseStack.add(stuStack.getChooseStack());
+			stuStackNo.add(stuStack.getStuStackNo());
 		}
 		// stack테이블의 모든 값들을 가져오자
 		List<StackVO> stackList = stuService.selectAllStack();
@@ -161,7 +167,7 @@ public class StudyContoller {
 		System.out.println(stuStackListByNo.toString());
 		model.addAttribute("studyList", studyList); // 현재 스터디 모임글
 		model.addAttribute("chooseStack", chooseStack); // 현재 스터디 모임글에서 선택된 스택만(스터디 언어)
-		model.addAttribute("stuStackListByNo", stuStackListByNo); // 현재 스터디 모임글의 전체 StuStackDTO
+		model.addAttribute("stuStackNo", stuStackNo); // 현재 스터디 모임글의 선택된 stuStackNo(pk)
 		model.addAttribute("stackList", stackList); // 스택 테이블(셀렉트 박스를 세팅을 위한)
 		
 	}
@@ -192,15 +198,16 @@ public class StudyContoller {
 	// 2) 스터디 작성 버튼을 누르면, modifyStudy 메서드가 먼저 수행된 뒤에 modifyStudyWithStack가 실행된다
 	// 수정 페이지에서 수정 버튼을 눌렀을때 실제로 스터디 모임글의 스터디 언어 디비를 수정하는 메서드
 	@PostMapping(value = "/modifyStack")
-	public String modifyStudyWithStack(StuStackVO modifyStack) throws Exception {
+	public String modifyStudyWithStack(StuStackModifyDTO modifyStack) throws Exception {
 		String result = null;
-		
 		
 		logger.info("modifyStack: 수정할 스택" +modifyStack.toString());
 		
 		//수정에 성공했다면 수정한 상세 페이지로 이동
 		if(stuService.modifyStudyWithStack(newStudy, modifyStack) == 1) {
 			result = "redirect:/study/viewStudyBoard?stuNo=" + newStudy.getStuNo();
+			logger.info("스터디테이블, 스터디스택 업데이트 성공");
+			//newStudy = null;
 		}
 
 		return result;

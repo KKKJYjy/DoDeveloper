@@ -15,6 +15,7 @@ import com.dodeveloper.study.vodto.StudyBoardVO;
 import com.dodeveloper.study.vodto.SearchStudyDTO;
 import com.dodeveloper.study.vodto.StackVO;
 import com.dodeveloper.study.vodto.StuStackDTO;
+import com.dodeveloper.study.vodto.StuStackModifyDTO;
 
 @Service
 public class StudyServiceImpl implements StudyService {
@@ -52,27 +53,37 @@ public class StudyServiceImpl implements StudyService {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-	public int insertStudyWithStack(StudyBoardDTO newStudy, StuStackVO newStack) throws Exception {
+	public int insertStudyWithStack(StudyBoardDTO newStudy, StuStackVO newStack)  {
 
 		int result = 0;
-		
-		// StuStackVO의 stuBoardNo값 세팅
-		newStack.setStuBoardNo(sDao.selectNextStuNo() + 1);
-		System.out.println("insertStack: 추가할 스터디 스택 게시글 번호" + newStack.getStuBoardNo());
-		int[] chooseStacks = newStack.getChooseStack();
 
-		System.out.println("insertStack: 새로 추가할 스터디 스택가져오자" + newStack.toString());
-		System.out.println("insertStack: 새로 추가할 스터디 스터디 모집글" + newStudy.toString());
 
-		if (sDao.insertNewStudy(newStudy) == 1) {
-			System.out.println("스터디글추가성공");
 
-			for (int chooseStack : chooseStacks) {
-				if (sDao.insertNewStack(newStack.getStuBoardNo(), chooseStack) == 1) {
-					System.out.println("스택추가성공");
-					result = 1;
+		try {
+			// StuStackVO의 stuBoardNo값 세팅
+			newStack.setStuBoardNo(sDao.selectNextStuNo() + 1);
+			System.out.println("insertStack: 추가할 스터디 스택 게시글 번호" + newStack.getStuBoardNo());
+			
+			int[] chooseStacks = newStack.getChooseStack();
+			
+			if (sDao.insertNewStudy(newStudy) == 1) {
+				System.out.println("스터디글추가성공");
+
+				System.out.println("insertStack: 새로 추가할 스터디 스택가져오자" + newStack.toString());
+				System.out.println("insertStack: 새로 추가할 스터디 스터디 모집글" + newStudy.toString());
+				
+				for (int chooseStack : chooseStacks) {
+					if (sDao.insertNewStack(newStack.getStuBoardNo(), chooseStack) == 1) {
+						System.out.println("스택추가성공");
+						result = 1;
+					}
 				}
+			}else {
+				System.out.println("스터디글추가실패");
 			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		return result;
@@ -91,7 +102,7 @@ public class StudyServiceImpl implements StudyService {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-	public int modifyStudyWithStack(StudyBoardDTO newStudy, StuStackVO modifyStack) throws Exception {
+	public int modifyStudyWithStack(StudyBoardDTO newStudy, StuStackModifyDTO modifyStack) throws Exception {
 
 		int result = 0;
 
@@ -99,18 +110,32 @@ public class StudyServiceImpl implements StudyService {
 		modifyStack.setStuBoardNo(newStudy.getStuNo());
 
 		System.out.println("modifyStack: 수정할 스터디 스택" + modifyStack.toString());
-		int[] chooseStacks = modifyStack.getChooseStack();
-
 		System.out.println("insertStack: 수정할 스터디 스터디 모집글" + newStudy.toString());
+		
+		int[] chooseStacks = modifyStack.getChooseStack();
+		int[] deleteStackNo = modifyStack.getStuStackNo();
+		
 
 		if (sDao.modifyStudy(newStudy) == 1) {
 			System.out.println("스터디글수정성공");
 
+			// 전에 있었던 스터디 언어 애들 지우기
+			for (int deleteNo : deleteStackNo) {
+				System.out.println("지울 스터디 스택번호" + deleteNo);
+				
+				if (sDao.deleteStudyStack(deleteNo) == 1) {					
+					System.out.println("스택 지우기 성공");					
+				}
+
+			}
+			
+			// 스터디 언어 새로 인서트하기
 			for (int chooseStack : chooseStacks) {
-				if (sDao.modifyStack(modifyStack) == 1) {
-					System.out.println("스택추가성공");
+				if (sDao.insertNewStack(modifyStack.getStuBoardNo(), chooseStack) == 1) {
+					System.out.println("스택수정성공");
 					result = 1;
 				}
+
 			}
 
 		}

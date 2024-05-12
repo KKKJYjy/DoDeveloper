@@ -9,6 +9,7 @@ import com.dodeveloper.study.vodto.StudyBoardVO;
 import com.dodeveloper.study.vodto.SearchStudyDTO;
 import com.dodeveloper.study.vodto.StackVO;
 import com.dodeveloper.study.vodto.StuStackDTO;
+import com.dodeveloper.study.vodto.StuStackModifyDTO;
 
 public interface StudyService {
 	//전체 게시글을 조회하는 메서드 + 검색 기능 추가
@@ -33,6 +34,6 @@ public interface StudyService {
 	int deleteStudyBoard(int stuNo) throws Exception;
 
 	//stuNo번째 글과 스택 테이블을 수정하는 메서드
-	int modifyStudyWithStack(StudyBoardDTO newStudy, StuStackVO modifyStack) throws Exception;
+	int modifyStudyWithStack(StudyBoardDTO newStudy, StuStackModifyDTO modifyStack) throws Exception;
 	
 }

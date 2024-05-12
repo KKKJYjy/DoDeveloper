@@ -69,5 +69,9 @@
 	<update id="modifyStack">
 		update stuStack set chooseStack = #{chooseStack} where stuStackNo = #{stuStackNo}
 	</update>
+	
+	<delete id="deleteStudyStack">
+		delete from stuStack where stuStackNo = #{stuStackNo}
+	</delete>
 
 </mapper>

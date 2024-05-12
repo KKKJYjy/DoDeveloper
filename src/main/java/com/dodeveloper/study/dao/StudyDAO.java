@@ -8,6 +8,7 @@ import com.dodeveloper.study.vodto.StudyBoardVO;
 import com.dodeveloper.study.vodto.SearchStudyDTO;
 import com.dodeveloper.study.vodto.StackVO;
 import com.dodeveloper.study.vodto.StuStackDTO;
+import com.dodeveloper.study.vodto.StuStackModifyDTO;
 
 public interface StudyDAO {
 	
@@ -42,6 +43,11 @@ public interface StudyDAO {
 	int modifyStudy(StudyBoardDTO modifyStudy) throws Exception;
 
 	//stuNo번째 스터디 언어를 수정하는 메서드
-	int modifyStack(StuStackVO modifyStack) throws Exception;
+	int modifyStack(int stuStackNo, int chooseStack) throws Exception;
+
+	//stuNo번째 스터디 언어를 삭제하는 메서드
+	int deleteStudyStack(int stuStackNo) throws Exception;
+
+
 
 }
