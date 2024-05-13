@@ -167,16 +167,13 @@ public class StudyContoller {
 		System.out.println(stuStackListByNo.toString());
 		model.addAttribute("studyList", studyList); // 현재 스터디 모임글
 		model.addAttribute("chooseStack", chooseStack); // 현재 스터디 모임글에서 선택된 스택만(스터디 언어)
-		model.addAttribute("stuStackNo", stuStackNo); // 현재 스터디 모임글의 선택된 stuStackNo(pk)
-		model.addAttribute("stackList", stackList); // 스택 테이블(셀렉트 박스를 세팅을 위한)
+		model.addAttribute("stuStackNo", stuStackNo); // 현재 스터디 모임글의 선택된 stuStackNo만(pk)
+		model.addAttribute("stackList", stackList); // 전체 스택 테이블(셀렉트 박스를 세팅을 위한)
 		
 	}
 	
-	
-	// =======================여기 아직 테스트 안해봄
 
 	// 1) 스터디 수정 버튼을 누르면 이 메서드가 먼저 수행되어 modifyStudyDTO를 멤버변수 newStudy에 저장한다
-	// @RequestBody StudyBoardDTO modifyStudyDTO
 	@PostMapping("/modifyStudy")
 	public ResponseEntity<String> modifyStudy(@RequestBody StudyBoardDTO modifyStudyDTO) {
 
