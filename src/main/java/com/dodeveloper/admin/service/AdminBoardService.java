@@ -21,5 +21,5 @@ public interface AdminBoardService {
 		List<AdminArgBoardVO> getlistArgBoard() throws Exception;
 		
 	// 제직자리뷰게시판 조회하는 메서드
-		List<AdminReviewBoardVO> getlistRevBoard() throws Exception;
+		Map<String, Object> getlistRevBoard(int pageNo) throws Exception;
 }

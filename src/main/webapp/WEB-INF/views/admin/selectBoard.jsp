@@ -27,9 +27,9 @@
 			// 검색어에 쿼리문 키워드가 존재하는지 확인
 			let regEx;
 			for (let i = 0; i < sqlKeyWord.length; i++) {
-				regEx = new RegExp(sqlKeyWord[i], "gi") // sqlKeyWord 배열에 있는 문자열 패턴이 있는지 없는지 전역적으로 검사하는 객체 생성
+				regEx = new RegExp(sqlKeyWord[i], "gi") // sqlKeyWord 배열에 있는 문자열 패턴이 있는지 없는지 검사하는 객체 생성
 
-				if (regEx.test(searchValue)) { // 유저가 입력한 검색어에 sql키워드가 존재한다
+				if (regEx.test(searchValue)) { 
 					alert('검색어가 올바르지 않습니다!');
 					$('#searchValue').val('');
 					$('#searchValue').focus();
@@ -136,7 +136,7 @@
 				</tbody>
 			</table>
 		</div>
-		${pagingInfo }
+		
 		
 		<ul class="pagination">
 		<c:if test="${param.pageNo > 1 }">

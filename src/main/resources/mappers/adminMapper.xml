@@ -30,7 +30,7 @@
 	
 	<!-- 리뷰게시판 조회 -->
 	<select id="getRevBoard" resultType="AdminReviewBoardVO">
-		select * from companyrevboard order by revNo desc
+		select * from companyrevboard order by revNo desc limit #{startRowIndex},#{viewPostCntPerPage}
 	</select>
 	
 	<!-- 검색어가 있을 경우 글의 갯수를 가져오는 쿼리문 -->

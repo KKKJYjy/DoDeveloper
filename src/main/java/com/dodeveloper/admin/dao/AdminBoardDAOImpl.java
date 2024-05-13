@@ -50,9 +50,13 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 	}
 
 	@Override
-	public List<AdminReviewBoardVO> selectListRevBoard() throws Exception {
+	public List<AdminReviewBoardVO> selectListRevBoard(PagingInfo pi) throws Exception {
 		
-		return ses.selectList(ns + ".getRevBoard");
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("startRowIndex", pi.getStartRowIndex());
+		params.put("viewPostCntPerPage", pi.getViewPostCntPerPage());
+		
+		return ses.selectList(ns + ".getRevBoard", params);
 	}
 
 	@Override

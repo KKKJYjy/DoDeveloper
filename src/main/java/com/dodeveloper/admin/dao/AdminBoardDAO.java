@@ -20,7 +20,7 @@ public interface AdminBoardDAO {
 	List<AdminArgBoardVO> selectListArgBoard() throws Exception;
 
 	// review게시판 조회 메서드
-	List<AdminReviewBoardVO> selectListRevBoard() throws Exception;
+	List<AdminReviewBoardVO> selectListRevBoard(PagingInfo pi) throws Exception;
 
 	// 게시글 전체 갯수 구할 수 있는 메서드
 	int selectTotalBoardCnt() throws Exception;
