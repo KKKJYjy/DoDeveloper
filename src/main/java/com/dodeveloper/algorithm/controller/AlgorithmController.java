@@ -81,7 +81,7 @@ public class AlgorithmController {
 	
 	@RequestMapping(value = "/newClassification", method = RequestMethod.GET)
 	public String newClassification(@RequestParam("algClassification") String algClassification) {
-		System.out.println("!!!!!!!!!!!!");
+		//System.out.println("!!!!!!!!!!!!");
 		System.out.println(algClassification);
 		try {
 			aService.writeAlgClassification(algClassification);
@@ -91,6 +91,38 @@ public class AlgorithmController {
 		}
 		
 		return "redirect:writePOST";
+	}
+	
+	
+	@RequestMapping(value = "/modifyAlg", method = RequestMethod.GET)
+	public void modifyBoard(AlgBoardDTO algBoardDTO, Model model) throws Exception {
+		// 알고리즘게시판 수정페이지로 이동할 때 algBoard 를 modifyAlg.jsp 로 전달
+		System.out.println("!!!!!!!!!!!!");
+		List<AlgBoardDTO> returnMap = null;
+		
+		// AlgClassification 항목을 수정하려면 ㄱList<AlgClassificationDTO>도 modifyAlg.jsp 로 전달(GET)
+		List<AlgClassificationDTO> returnMap2 = null;
+		
+		returnMap = aService.getListAllBoard();
+		returnMap2 = aService.getAlgClassification();
+		
+		model.addAttribute("algBoardList",returnMap);
+		model.addAttribute("algClassification",returnMap2);
+		
+		//
+		
+	}
+	
+	
+	@RequestMapping(value = "/modifyAlg", method = RequestMethod.POST)
+	public String modifyAlg(AlgBoardDTO algBoardDTO) {
+		System.out.println("modmod");
+		System.out.println(algBoardDTO);
+		
+		//aService.updateAlgBoard(algBoardDTO);
+		
+		
+		return "redirect:listAll";
 	}
 
 

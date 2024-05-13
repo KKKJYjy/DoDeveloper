@@ -73,12 +73,7 @@ prefix="c"%>
           
           <div>${algDetailList}</div>
         </div>
-     
       </section>
-      
-      
-      
-      
       <!-- End Basic Section -->
     </main>
 

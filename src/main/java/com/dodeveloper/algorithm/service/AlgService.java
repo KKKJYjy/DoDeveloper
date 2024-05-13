@@ -23,5 +23,7 @@ public interface AlgService {
 	// algClassification 글 쓰기
 	void writeAlgClassification(String algClassification) throws Exception;
 
+	void updateAlgBoard(AlgBoardDTO algBoardDTO);
+
 	
 }
