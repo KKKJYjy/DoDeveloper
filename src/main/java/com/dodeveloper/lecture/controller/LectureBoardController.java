@@ -235,6 +235,21 @@ public class LectureBoardController {
 
 		return "success";
 	}
+	
+    /**
+     * @methodName : cancelModifyBoard
+     * @author : 
+     * @date : 2024.05.12
+     * @param : 
+     * @return : String
+     * @description : 게시글 수정하려다가 취소 버튼을 누른 경우 작동되는 메서드
+     */
+    @RequestMapping(value = "/cancelModify", method = RequestMethod.POST)
+    public @ResponseBody String cancelModifyBoard() {
+        System.out.println("게시글 수정 취소 요청");
+
+        return "success";
+    }
 
 }
 

@@ -62,6 +62,27 @@
 		}
 	}
 
+	function cancelModifyBoard() {
+		// EL표현식을 사용하되 굳이 자바에서 쿼리스트링으로 안받아와도 된다? - 공부
+	    let lecNo = '${param.lecNo}'; // 쿼리스트링에서 lecNo를 가져와라
+	    alert("게시글을 작성 안하시겠습니까?");
+	    
+	    $.ajax({
+	        url : '/lecture/cancelModify', // 수정된 부분
+	        type : 'post',
+	        data: { lecNo: lecNo }, // lecNo를 데이터로 전송
+	        dataType : 'text', // 수신받을 데이터의 타입
+	        success : function(data) { // data(json)
+	            // 통신 성공하면 실행할 내용들....
+	            console.log(data);
+	            if (data == 'success') {
+					location.href = '/lecture/viewBoard?lecNo='+lecNo;
+					// location.href = '/lecture/viewBoard?lecNo=${lecBoard.lecNo}'; -> 지역변수를 사용안할 경우 이 코드 사용
+				}
+	        }
+	    });
+	}
+
 	/* 유효성 검사 */
 	function validateForm() {
 		var lecTitle = document.getElementById("lecTitle").value;
@@ -136,7 +157,8 @@
 									id="lecReviewSelect" name="lecReview" onchange="showInput()">
 									<option value="australia">-- 강의 후기 선택 --</option>
 									<option value="초보자가 듣기 너무 좋아요.">초보자가 듣기 너무 좋아요.</option>
-									<option value="기초가 있으신 분들이 들으셔야 할 것 같아요.">기초가 있으신 분들이 들으셔야 할 것 같아요.</option>
+									<option value="기초가 있으신 분들이 들으셔야 할 것 같아요.">기초가 있으신 분들이
+										들으셔야 할 것 같아요.</option>
 									<option value="등등 생각 좀 해볼게요...">등등 생각 좀 해볼게요...</option>
 									<option value="option4">강의 후기 직접 작성할게요.</option>
 								</select>
@@ -155,7 +177,7 @@
 							<div class="btns">
 								<input type="submit" class="btn btn-success" value="글 저장" /> <input
 									type="button" class="btn btn-danger" value="취소"
-									onclick="resetWriteBoard();" />
+									onclick="cancelModifyBoard();" />
 								<div class="btn-group">
 									<button type="button" class="btn"
 										onclick="location.href='/lecture/listAll';">목록으로</button>
