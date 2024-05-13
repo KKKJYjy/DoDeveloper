@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.dodeveloper.study.vodto.StuStackVO;
 import com.dodeveloper.study.vodto.StudyBoardDTO;
 import com.dodeveloper.study.vodto.StudyBoardVO;
+import com.dodeveloper.study.vodto.PagingInfo;
 import com.dodeveloper.study.vodto.SearchStudyDTO;
 import com.dodeveloper.study.vodto.StackVO;
 import com.dodeveloper.study.vodto.StuStackDTO;
@@ -24,8 +25,8 @@ public class StudyDAOImpl implements StudyDAO {
 	private static String ns = "com.dodeveloper.mappers.studyMapper";
 	
 	@Override
-	public List<StudyBoardVO> selectAllList() throws Exception {
-		return ses.selectList(ns + ".selectAllList");
+	public List<StudyBoardVO> selectAllList(PagingInfo pi) throws Exception {
+		return ses.selectList(ns + ".selectAllList", pi);
 	}
 
 	@Override
@@ -58,10 +59,12 @@ public class StudyDAOImpl implements StudyDAO {
 	}
 
 	@Override
-	public List<StudyBoardVO> selectAllListWithsDTO(SearchStudyDTO sDTO) throws Exception {
+	public List<StudyBoardVO> selectAllListWithsDTO(SearchStudyDTO sDTO, PagingInfo pi) throws Exception {
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("searchType", sDTO.getSearchType());
-		param.put("searchContent", "%" +sDTO.getSearchContent() + "%");
+		param.put("searchValue", "%" +sDTO.getSearchValue() + "%");
+		param.put("startRowIndex", pi.getStartRowIndex());
+		param.put("viewPostCntPerPage", pi.getViewPostCntPerPage());
 		
 		return ses.selectList(ns + ".selectAllListWithsDTO", param);
 	}
@@ -94,6 +97,19 @@ public class StudyDAOImpl implements StudyDAO {
 	public int deleteStudyStack(int stuStackNo) throws Exception {
 		
 		return ses.delete(ns + ".deleteStudyStack", stuStackNo);
+	}
+
+	@Override
+	public int selectTotalBoardCnt() throws Exception {
+		return ses.selectOne(ns + ".selectTotalBoardCnt");
+	}
+
+	@Override
+	public int selectTotalBoardCntWithSdto(SearchStudyDTO sDTO) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("searchType", sDTO.getSearchType());
+		param.put("searchValue", "%" +sDTO.getSearchValue() + "%");
+		return ses.selectOne(ns + ".selectTotalBoardCntWithSdto", param);
 	}
 
 }

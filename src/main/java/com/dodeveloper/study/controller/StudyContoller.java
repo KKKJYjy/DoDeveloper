@@ -1,9 +1,9 @@
 package com.dodeveloper.study.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +23,7 @@ import com.dodeveloper.study.service.StudyService;
 import com.dodeveloper.study.vodto.StuStackVO;
 import com.dodeveloper.study.vodto.StudyBoardDTO;
 import com.dodeveloper.study.vodto.StudyBoardVO;
+import com.dodeveloper.study.vodto.PagingInfo;
 import com.dodeveloper.study.vodto.SearchStudyDTO;
 import com.dodeveloper.study.vodto.StackVO;
 import com.dodeveloper.study.vodto.StuStackDTO;
@@ -42,18 +42,24 @@ public class StudyContoller {
 
 	// 스터디 모든 목록을 불러오는 메서드 + 검색 기능 추가
 	@GetMapping(value = "/listAll")
-	public void listAllGet(Model model, SearchStudyDTO sDTO) throws Exception {
+	public void listAllGet(Model model, @RequestParam(value="pageNo", defaultValue = "1") int pageNo, SearchStudyDTO sDTO) throws Exception {
 		logger.info("listAll View.");
 
-		// 스터디 목록
-		List<StudyBoardVO> studyList = stuService.selectAllList(sDTO);
+		Map<String, Object> result = null;
+		
+		if(pageNo <= 0) {
+			pageNo = 1;
+		}
+		
+		// 스터디 목록 + 페이징 객체 같이 가지고있는 result 
+		result = stuService.selectAllList(sDTO, pageNo);
+		List<StudyBoardVO> studyList = (List<StudyBoardVO>)result.get("studyList");
 
 		// 스터디 No번째글 스터디 언어 목록
 		List<StuStackDTO> stuStackList = new ArrayList<StuStackDTO>();
 
 		for (StudyBoardVO s : studyList) {
 			// stuNo를 넘겨주어 공부할 언어 정보를 가져오자
-
 			stuStackList.addAll(stuService.selectAllStudyStack(s.getStuNo()));
 
 			// System.out.println(s.getStuNo());
@@ -65,6 +71,7 @@ public class StudyContoller {
 		model.addAttribute("studyList", studyList);
 		model.addAttribute("stuStackList", stuStackList);
 		model.addAttribute("stackList", stackList);
+		model.addAttribute("pagingInfo", (PagingInfo)result.get("pagingInfo"));
 	}
 
 	// 스터디 작성 페이지로 이동하는 메서드

@@ -7,6 +7,7 @@
 	<select id="selectAllList"
 		resultType="com.dodeveloper.study.vodto.StudyBoardVO">
 		SELECT * FROM studyBoard order by wrritenDate desc
+		limit #{startRowIndex}, #{viewPostCntPerPage}
 	</select>
 
 	<select id="selectAllstudyStack"
@@ -39,16 +40,16 @@
 		select * from studyBoard
 		<choose>
 			<when test="searchType == 'title'">
-				where stuTitle like #{searchContent}
+				where stuTitle like #{searchValue}
 			</when>
 			<when test="searchType == 'writer'">
-				where stuWriter like #{searchContent}
+				where stuWriter like #{searchValue}
 			</when>
 			<otherwise>
-				where stuContent like #{searchContent}
+				where stuContent like #{searchValue}
 			</otherwise>
 		</choose>
-		order by wrritenDate desc
+		order by wrritenDate desc limit #{startRowIndex}, #{viewPostCntPerPage}
 	</select>
 	
 	<select id="selectAllStack" resultType="com.dodeveloper.study.vodto.StackVO">
@@ -73,5 +74,26 @@
 	<delete id="deleteStudyStack">
 		delete from stuStack where stuStackNo = #{stuStackNo}
 	</delete>
+	
+	<select id="selectTotalBoardCnt" resultType="int">
+		select count(*) from studyBoard
+	</select>
+	
+	<select id="selectTotalBoardCntWithSdto" resultType="int">
+		select count(*) from studyBoard
+		<choose>
+			<when test="searchType == 'title'">
+				where stuTitle like #{searchValue}
+			</when>
+			<when test="searchType == 'writer'">
+				where stuWriter like #{searchValue}
+			</when>
+			<otherwise>
+				where stuContent like #{searchValue}
+			</otherwise>
+		</choose>
+	</select>
+	
+	
 
 </mapper>
