@@ -88,4 +88,9 @@ public class MessageServiceImpl implements MessageService{
 		return messageDAO.selectMessageCntByUserID(sender);
 	}
 
+	@Override
+	public List<MessageFileDTO> getMessageFilesByMessageNo(int messageNo) throws Exception {
+		return messageFileDAO.selectMessageFileByMessageNo(messageNo);
+	}
+
 }

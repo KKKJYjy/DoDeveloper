@@ -31,6 +31,7 @@ import com.dodeveloper.message.vodto.SendMessageDTO;
 import com.dodeveloper.message.vodto.MessageFileDTO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 @RestController
@@ -38,7 +39,7 @@ import com.google.gson.JsonObject;
 public class MessageController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MessageController.class);
-	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	private static final Gson gson = new GsonBuilder().create();
 
 	RestTemplate restTemplate = new RestTemplate();
 
@@ -67,6 +68,20 @@ public class MessageController {
 		return modelAndView;
 	}
 
+	@RequestMapping(value = "/{userId}/{messageNo}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public ResponseEntity<String> getMessage(@PathVariable("userId") String userId,
+			@PathVariable("messageNo") int messageNo) throws Exception {
+		
+		MessageVO message = messageService.getMessageByNo(messageNo);
+		List<MessageFileDTO> messageFiles = messageService.getMessageFilesByMessageNo(messageNo);
+
+		JsonObject jsonToSend = new JsonObject();
+		
+		jsonToSend.add("message", gson.toJsonTree(message));
+		jsonToSend.add("messageFiles", gson.toJsonTree(messageFiles));
+		
+		return ResponseEntity.ok(gson.toJson(jsonToSend));
+	}
 	
 	@RequestMapping(value = "/{receiver}/received/{startPoint}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public ResponseEntity<String> showReceivedMessages(@PathVariable("receiver") String receiver,
