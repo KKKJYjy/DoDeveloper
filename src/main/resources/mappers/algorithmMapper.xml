@@ -27,9 +27,17 @@
 	
 	
 	<!--  algClassification 에 새 항목 insert -->
-	<insert id="">
+	<insert id="insertAlgClassification">
 		insert into algClassification(algClassification) values(#{algClassification})
 	</insert>
+	
+	
+	<!--  algBoard 수정 -->
+	<update id="updateAlgBoard">
+		update algBoard set comment = #{comment}, title = #{title}, classificationCode = #{classificationCode} where boardNo = #{boardNo}
+	</update>
+	
+	
 	
 	
 	

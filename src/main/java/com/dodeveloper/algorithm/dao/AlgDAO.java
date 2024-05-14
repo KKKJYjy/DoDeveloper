@@ -22,4 +22,6 @@ public interface AlgDAO {
 	List<AlgClassificationDTO> selectAlgClassification() throws Exception;
 
 	int insertAlgClassification(String algClassification) throws Exception;
+
+	int updateAlgBoard(AlgBoardDTO algBoardDTO);
 }

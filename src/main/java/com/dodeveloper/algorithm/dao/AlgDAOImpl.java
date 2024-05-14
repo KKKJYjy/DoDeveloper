@@ -54,7 +54,13 @@ public class AlgDAOImpl implements AlgDAO {
 	@Override
 	public int insertAlgClassification(String algClassification) throws Exception {
 		// TODO Auto-generated method stub
-		return ses.insert(ns+".", algClassification);
+		return ses.insert(ns+".insertAlgClassification", algClassification);
+	}
+
+	@Override
+	public int updateAlgBoard(AlgBoardDTO algBoardDTO) {
+		// TODO Auto-generated method stub
+		return ses.update(ns+".updateAlgBoard",algBoardDTO);
 	}
 
 }

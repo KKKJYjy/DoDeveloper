@@ -69,4 +69,13 @@ public class AlgServiceImpl implements AlgService {
 		
 	}
 
+
+	@Override
+	public void updateAlgBoard(AlgBoardDTO algBoardDTO) {
+		// algBoard 수정
+		
+		aDao.updateAlgBoard(algBoardDTO);
+		
+	}
+
 }

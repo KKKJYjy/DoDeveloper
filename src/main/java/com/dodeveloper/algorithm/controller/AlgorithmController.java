@@ -3,6 +3,9 @@ package com.dodeveloper.algorithm.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +21,18 @@ import com.dodeveloper.algorithm.vodto.AlgBoardDTO;
 import com.dodeveloper.algorithm.vodto.AlgClassificationDTO;
 import com.dodeveloper.algorithm.vodto.AlgDetailDTO;
 
+import jakarta.servlet.http.HttpSession;
+import jakarta.websocket.Session;
+
 @Controller
 @RequestMapping("/algorithm")
 public class AlgorithmController {
 	
 	@Autowired
 	AlgService aService;
+	
+	@Autowired
+	HttpSession ses;
 	
 	private static final Logger logger = LoggerFactory.getLogger(AlgorithmController.class);
 	
@@ -119,10 +128,39 @@ public class AlgorithmController {
 		System.out.println("modmod");
 		System.out.println(algBoardDTO);
 		
-		//aService.updateAlgBoard(algBoardDTO);
+		aService.updateAlgBoard(algBoardDTO);
 		
 		
 		return "redirect:listAll";
+	}
+	
+	
+	
+	@RequestMapping("/writeDetailPOST") // "/algorithm/write"가 get 방식으로 요청될 때... 호출
+	public String writeDetailBoard( Model model, HttpServletRequest req, HttpSession ses) throws Exception {
+		// //algorithm/writeBoard.jsp로 포워딩
+		System.out.println("상세글작성");
+		
+		System.out.println(ses.getAttribute("boardNo"));
+		
+		int boardNo = Integer.parseInt((String) ses.getAttribute("boardNo"));
+		
+		System.out.println(boardNo);
+		
+		
+		
+		
+		
+		
+		
+		
+		return "/algorithm/writeDetail";
+	}
+	
+	
+	@RequestMapping(value = "/writeDetailPOST", method = RequestMethod.POST)
+	public void writeAlgDetail() {
+		
 	}
 
 

@@ -58,6 +58,15 @@
 			<mapping path="/study/writeStudyBoard" />
 			<beans:ref bean="authInterceptor" />
 		</interceptor>
+		
+		
+		<interceptor>
+			<!-- algDetail게시판 글 작성 시 로그인이 필요하므로 -->
+			<mapping path="/algorithm/modifyAlg" />
+			<beans:ref bean="authInterceptor" />
+		</interceptor>
+		
+		
 	</interceptors>
 
 	<context:component-scan
