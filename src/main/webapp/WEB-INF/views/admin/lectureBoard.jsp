@@ -6,25 +6,40 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+	$(function() {
+
+		let pageNo = '${param.pageNo}';
+		if (pageNo == '') {
+			pageNo = 1;
+		}
+
+		$(`#\${pageNo}`).addClass('active')
+
+	})
+</script>
 </head>
 <body>
 	<c:import url="./adminHeader.jsp"></c:import>
 
-
-	<p class="text-center">강의추천게시판</p>
-	<ul class="nav justify-content-center box">
-		<li class="nav-item"><a class="nav-link"
-			href="/admin/selectBoard">스터디게시판</a></li>
-		<li class="nav-item"><a class="nav-link"
-			href="/admin/lectureBoard">강의추천게시판</a></li>
-		<li class="nav-item"><a class="nav-link"
-			href="/admin/algorithmBoard">알고리즘게시판</a></li>
-		<li class="nav-item"><a class="nav-link"
-			href="/admin/reviewBoard">제직자리뷰게시판</a></li>
-	</ul>
+	<div class="container mt-3">
+		<p class="text-center">강의추천게시판</p>
+		<ul class="nav nav-tabs nav-justified">
+			<li class="nav-item"><a class="nav-link"
+				href="/admin/selectBoard">스터디게시판</a></li>
+			<li class="nav-item"><a class="nav-link"
+				href="/admin/lectureBoard">강의추천게시판</a></li>
+			<li class="nav-item"><a class="nav-link"
+				href="/admin/algorithmBoard">알고리즘게시판</a></li>
+			<li class="nav-item"><a class="nav-link"
+				href="/admin/reviewBoard">제직자리뷰게시판</a></li>
+		</ul>
+	</div>
 
 	<div class="container">
-		<h4>강의추천게시글 전체 조회 페이지</h4>
+		
 
 		<c:import url="./search.jsp"></c:import>
 
@@ -46,7 +61,7 @@
 				<tbody>
 					<c:forEach var="board" items="${lecBoardList }">
 						<tr
-							onclick="location.href = '/adminView/lectureDetails?lecNo=${board.lecNo}';">
+							onclick="location.href = '/lecture/viewBoard?lecNo=${board.lecNo}';">
 							<td>${board.lecNo }</td>
 							<td>${board.lecWriter }</td>
 							<td>${board.lecTitle }</td>
@@ -60,6 +75,25 @@
 				</tbody>
 			</table>
 		</div>
+
+		<ul class="pagination">
+			<c:if test="${param.pageNo > 1 }">
+				<li class="page-item"><a class="page-link"
+					href="/admin/lectureBoard?pageNo=${param.pageNo -1 }">Previous</a></li>
+
+			</c:if>
+			<c:forEach var="i"
+				begin="${pagingInfo.startNumOfCurrentPagingBlock }"
+				end="${pagingInfo.endNumOfCurrentPagingBlock }" step="1">
+				<li class="page-item" id="${i }"><a class="page-link"
+					href="/admin/lectureBoard?pageNo=${i }">${i }</a></li>
+			</c:forEach>
+
+			<c:if test="${param.pageNo < pagingInfo.totalPageCnt }">
+				<li class="page-item"><a class="page-link"
+					href="/admin/lectureBoard?pageNo=${param.pageNo +1 }">Next</a></li>
+			</c:if>
+		</ul>
 	</div>
 
 

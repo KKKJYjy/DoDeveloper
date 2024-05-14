@@ -6,7 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
+<style>
+.box {
+	
+}
+</style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
@@ -29,7 +33,7 @@
 			for (let i = 0; i < sqlKeyWord.length; i++) {
 				regEx = new RegExp(sqlKeyWord[i], "gi") // sqlKeyWord 배열에 있는 문자열 패턴이 있는지 없는지 검사하는 객체 생성
 
-				if (regEx.test(searchValue)) { 
+				if (regEx.test(searchValue)) {
 					alert('검색어가 올바르지 않습니다!');
 					$('#searchValue').val('');
 					$('#searchValue').focus();
@@ -45,16 +49,16 @@
 
 		return result;
 	}
-	
-	$(function () {
-		
+
+	$(function() {
+
 		let pageNo = '${param.pageNo}';
 		if (pageNo == '') {
 			pageNo = 1;
 		}
-		
+
 		$(`#\${pageNo}`).addClass('active')
-		
+
 	})
 </script>
 <script>
@@ -80,24 +84,25 @@
 
 
 
-
-	<p class="text-center">스터디게시판</p>
-	<ul class="nav justify-content-center box">
-		<li class="nav-item"><a class="nav-link"
-			href="/admin/selectBoard">스터디게시판</a></li>
-		<li class="nav-item"><a class="nav-link"
-			href="/admin/lectureBoard">강의추천게시판</a></li>
-		<li class="nav-item"><a class="nav-link"
-			href="/admin/algorithmBoard">알고리즘게시판</a></li>
-		<li class="nav-item"><a class="nav-link"
-			href="/admin/reviewBoard">제직자리뷰게시판</a></li>
-	</ul>
+	<div class="container mt-3">
+		<p class="text-center">스터디게시판</p>
+		<ul class="nav nav-tabs nav-justified">
+			<li class="nav-item"><a class="nav-link"
+				href="/admin/selectBoard">스터디게시판</a></li>
+			<li class="nav-item"><a class="nav-link"
+				href="/admin/lectureBoard">강의추천게시판</a></li>
+			<li class="nav-item"><a class="nav-link"
+				href="/admin/algorithmBoard">알고리즘게시판</a></li>
+			<li class="nav-item"><a class="nav-link"
+				href="/admin/reviewBoard">제직자리뷰게시판</a></li>
+		</ul>
+	</div>
 
 
 
 
 	<div class="container">
-		<h4>스터디게시글 전체 조회 페이지</h4>
+
 
 		<c:import url="./search.jsp"></c:import>
 
@@ -121,7 +126,7 @@
 				<tbody>
 					<c:forEach var="board" items="${stuBoardList }">
 						<tr id="table"
-							onclick="location.href = '/adminView/viewDetails?stuNo=${board.stuNo}';">
+							onclick="location.href = '/study/viewStudyBoard?stuNo=${board.stuNo}';">
 							<td>${board.stuNo }</td>
 							<td>${board.stuWriter }</td>
 							<td>${board.stuTitle }</td>
@@ -136,23 +141,28 @@
 				</tbody>
 			</table>
 		</div>
-		
-		
+
+
 		<ul class="pagination">
-		<c:if test="${param.pageNo > 1 }">
-			<li class="page-item"><a class="page-link" href="/admin/selectBoard?pageNo=${param.pageNo -1 }">Previous</a></li>
-			
-		</c:if>
-			<c:forEach var="i" begin="${pagingInfo.startNumOfCurrentPagingBlock }" end="${pagingInfo.endNumOfCurrentPagingBlock }" step="1">
-				<li class="page-item" id="${i }"><a class="page-link" href="/admin/selectBoard?pageNo=${i }">${i }</a></li>
+			<c:if test="${param.pageNo > 1 }">
+				<li class="page-item"><a class="page-link"
+					href="/admin/selectBoard?pageNo=${param.pageNo -1 }">Previous</a></li>
+
+			</c:if>
+			<c:forEach var="i"
+				begin="${pagingInfo.startNumOfCurrentPagingBlock }"
+				end="${pagingInfo.endNumOfCurrentPagingBlock }" step="1">
+				<li class="page-item" id="${i }"><a class="page-link"
+					href="/admin/selectBoard?pageNo=${i }">${i }</a></li>
 			</c:forEach>
-			
+
 			<c:if test="${param.pageNo < pagingInfo.totalPageCnt }">
-				<li class="page-item"><a class="page-link" href="/admin/selectBoard?pageNo=${param.pageNo +1 }">Next</a></li>
+				<li class="page-item"><a class="page-link"
+					href="/admin/selectBoard?pageNo=${param.pageNo +1 }">Next</a></li>
 			</c:if>
 		</ul>
-	
-		
+
+
 	</div>
 
 

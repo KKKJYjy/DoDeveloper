@@ -106,13 +106,19 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	}
 
 	@Override
-	public List<AdminLectureVO> getlistLectureBoard() throws Exception {
+	public Map<String, Object> getlistLectureBoard(int pageNo) throws Exception {
 		
 		System.out.println("서비스단 : lecture게시물 조회");
 		
-		List<AdminLectureVO> lecBoardList = bDao.selectListLecBoard();
+		makePagingInfo(pageNo);
 		
-		return lecBoardList;
+		List<AdminLectureVO> lecBoardList = bDao.selectListLecBoard(pi);
+		
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		returnMap.put("lecBoardList", lecBoardList);
+		returnMap.put("pagingInfo", this.pi);
+		
+		return returnMap;
 	}
 
 	@Override

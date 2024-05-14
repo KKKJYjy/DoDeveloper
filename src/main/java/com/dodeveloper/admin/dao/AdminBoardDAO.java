@@ -14,7 +14,7 @@ public interface AdminBoardDAO {
 	List<AdminVO> selectlistStuBoard(PagingInfo pi) throws Exception;
 
 	// 강의게시판 조회 메서드
-	List<AdminLectureVO> selectListLecBoard() throws Exception;
+	List<AdminLectureVO> selectListLecBoard(PagingInfo pi) throws Exception;
 
 	// 알고리즘게시판 조회 메서드
 	List<AdminArgBoardVO> selectListArgBoard() throws Exception;

@@ -11,7 +11,7 @@
 	<h1>상세보기 페이지</h1>
 
 
-	<div>${stuBoardList }</div>
+	
 
 </body>
 </html>

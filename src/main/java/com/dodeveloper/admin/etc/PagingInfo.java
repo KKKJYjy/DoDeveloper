@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 		private int startRowIndex; // 그 페이지에서 보여주기 시작할 row index번호
 
 		// ----------------------- 페이징 블럭을 만들때 필요한 변수들 -------------------------
-		private int pageCntPerBlock = 10; // 1개의 블럭에 몇 페이지씩 보여줄 것인지...
+		private int pageCntPerBlock = 5; // 1개의 블럭에 몇 페이지씩 보여줄 것인지...
 		private int totalPageBlockCnt; // 전체 페이지 블럭 갯수
 		private int pageBlockOfCurrentPage; // 현재 페이지가 속한 페이징 블럭의 번호
 		private int startNumOfCurrentPagingBlock; // 현재 페이징 블럭에서의 출력 시작 페이지 번호

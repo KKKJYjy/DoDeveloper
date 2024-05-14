@@ -13,18 +13,18 @@ public class AdminViewDetaileController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AdminViewDetaileController.class);
 	
-	@RequestMapping(value = "/viewDetails", method = RequestMethod.GET)
-	public void viewDetails() {
+	@RequestMapping(value = "/viewStudyBoard", method = RequestMethod.GET)
+	public void viewStudyBoard() {
 		logger.info("상세페이지 호출");
 	}
 	
-	@RequestMapping(value = "/lectureDetails", method = RequestMethod.GET)
-	public void lectureDetails() {
+	@RequestMapping(value = "/viewBoard", method = RequestMethod.GET)
+	public void viewBoard() {
 		logger.info("강의추천 상세페이지 호출");
 	}
 	
-	@RequestMapping(value = "/argDetails", method = RequestMethod.GET)
-	public void argDetails() {
+	@RequestMapping(value = "/algDetail", method = RequestMethod.GET)
+	public void algDetail() {
 		logger.info("알고리즘 상세페이지 호출");
 	}
 	

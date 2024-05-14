@@ -20,7 +20,7 @@
 	
 	<!-- 강의추천게시판 조회 -->
 	<select id="getLecBoard" resultType="AdminLectureVO">
-	 	select * from lectureBoard order by lecNo desc
+	 	select * from lectureBoard order by lecNo desc limit #{startRowIndex},#{viewPostCntPerPage}
 	</select>
 	
 	<!-- 알고리즘게시판 조회 -->

@@ -6,26 +6,30 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
 
 	<c:import url="./adminHeader.jsp"></c:import>
 
-	<p class="text-center">알고리즘게시판</p>
-	<ul class="nav justify-content-center box">
-		<li class="nav-item"><a class="nav-link"
-			href="/admin/selectBoard">스터디게시판</a></li>
-		<li class="nav-item"><a class="nav-link"
-			href="/admin/lectureBoard">강의추천게시판</a></li>
-		<li class="nav-item"><a class="nav-link"
-			href="/admin/algorithmBoard">알고리즘게시판</a></li>
-		<li class="nav-item"><a class="nav-link"
-			href="/admin/reviewBoard">제직자리뷰게시판</a></li>
-	</ul>
+	<div class="container mt-3">
+		<p class="text-center">알고리즘게시판</p>
+		<ul class="nav nav-tabs nav-justified">
+			<li class="nav-item"><a class="nav-link"
+				href="/admin/selectBoard">스터디게시판</a></li>
+			<li class="nav-item"><a class="nav-link"
+				href="/admin/lectureBoard">강의추천게시판</a></li>
+			<li class="nav-item"><a class="nav-link"
+				href="/admin/algorithmBoard">알고리즘게시판</a></li>
+			<li class="nav-item"><a class="nav-link"
+				href="/admin/reviewBoard">제직자리뷰게시판</a></li>
+		</ul>
+	</div>
 
 
 	<div class="container">
-		<h4>알고리즘게시글 전체 조회 페이지</h4>
+
 
 		<c:import url="./search.jsp"></c:import>
 
@@ -44,7 +48,7 @@
 				<tbody>
 					<c:forEach var="board" items="${argBoardList }">
 						<tr
-							onclick="location.href = '/adminView/argDetails?boardNo=${board.boardNo}';">
+							onclick="location.href = '/algorithm/algDetail?boardNo=${board.boardNo}';">
 							<td>${board.boardNo }</td>
 							<td>${board.title }</td>
 							<td>${board.comment }</td>

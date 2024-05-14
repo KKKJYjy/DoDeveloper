@@ -58,6 +58,7 @@ Kakao.Channel.followChannel({
 
 
 
+
 	
 
 	<a id="chat-channel-button" href="javascript:chatChannel()"> <img

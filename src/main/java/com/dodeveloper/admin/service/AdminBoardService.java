@@ -15,7 +15,7 @@ public interface AdminBoardService {
 		Map<String, Object> getlistStudyBoard(int pageNo, SearchCriteriaDTO sc) throws Exception;
 	
 	// 강의추천게시판 조회하는 메서드
-		List<AdminLectureVO> getlistLectureBoard() throws Exception;
+		Map<String, Object> getlistLectureBoard(int pageNo) throws Exception;
 		
 	// 알고리즘게시판 조회하는 메서드
 		List<AdminArgBoardVO> getlistArgBoard() throws Exception;
