@@ -25,7 +25,7 @@
 	
 	<!-- 알고리즘게시판 조회 -->
 	<select id="getArgBoard" resultType="AdminArgBoardVO">
-		select * from algBoard order by boardNo desc
+		select * from algBoard order by boardNo desc limit #{startRowIndex},#{viewPostCntPerPage}
 	</select>
 	
 	<!-- 리뷰게시판 조회 -->

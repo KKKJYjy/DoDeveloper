@@ -69,12 +69,13 @@ public class AdminBoardController {
 	}
 	
 	@RequestMapping(value = "/algorithmBoard", method = RequestMethod.GET)
-	public void algorithmBoard(Model model) throws Exception {
+	public void algorithmBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo) throws Exception {
 		logger.info("algorithmBoard 조회");
 		
-		List<AdminArgBoardVO> argBoardList = bService.getlistArgBoard();
+		Map<String, Object> returnMap = bService.getlistArgBoard(pageNo);
+		model.addAttribute("argBoardList", (List<AdminArgBoardVO>)returnMap.get("argBoardList"));
+		model.addAttribute("pagingInfo", (PagingInfo)returnMap.get("pagingInfo"));
 		
-		model.addAttribute("argBoardList", argBoardList);
 	}
 	
 	@RequestMapping(value = "/reviewBoard", method = RequestMethod.GET)

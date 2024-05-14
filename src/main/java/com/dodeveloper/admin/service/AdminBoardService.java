@@ -18,7 +18,7 @@ public interface AdminBoardService {
 		Map<String, Object> getlistLectureBoard(int pageNo) throws Exception;
 		
 	// 알고리즘게시판 조회하는 메서드
-		List<AdminArgBoardVO> getlistArgBoard() throws Exception;
+		Map<String, Object> getlistArgBoard(int pageNo) throws Exception;
 		
 	// 제직자리뷰게시판 조회하는 메서드
 		Map<String, Object> getlistRevBoard(int pageNo) throws Exception;

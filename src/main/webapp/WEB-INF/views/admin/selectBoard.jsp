@@ -6,50 +6,27 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <style>
-.box {
-	
-}
+	.butt {
+	margin: 10px;
+	}
 </style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
-	function isValid() {
-		let result = false;
 
-		let searchType = $('#searchType').val();
-		let searchValue = $('#searchValue').val();
-
-		console.log(searchType, searchValue);
-
-		// 검색어에 있어서는 안되는 쿼리문 키워드를 배열로 정의
-		let sqlKeyWord = new Array("OR", "SELECT", "AND", "INSERT", "UPDATE",
-				"DELETE", "DROP", "EXEC", "TRUNCATE", "CREATE", "ALTER");
-
-		if (searchType != "-1" && searchValue.length > 0) { // 검색조건과 검색어가 있는지 확인
-
-			// 검색어에 쿼리문 키워드가 존재하는지 확인
-			let regEx;
-			for (let i = 0; i < sqlKeyWord.length; i++) {
-				regEx = new RegExp(sqlKeyWord[i], "gi") // sqlKeyWord 배열에 있는 문자열 패턴이 있는지 없는지 검사하는 객체 생성
-
-				if (regEx.test(searchValue)) {
-					alert('검색어가 올바르지 않습니다!');
-					$('#searchValue').val('');
-					$('#searchValue').focus();
-					return false;
-				}
-			}
-
-			result = true;
-
-		} else {
-			alert('검색 조건과 검색어를 입력하시고 검색 버튼을 누르세요!');
-		}
-
-		return result;
+	function deleteBoard() {
+		$('.modal').show();
+		
 	}
-
+	
+	function btnClose() {
+		$('.btnm').hide();
+		
+	}
+	
 	$(function() {
 
 		let pageNo = '${param.pageNo}';
@@ -76,6 +53,7 @@
 </script>
 </head>
 <body>
+<div class="page-wrapper">
 	<c:import url="./adminHeader.jsp"></c:import>
 
 
@@ -105,15 +83,18 @@
 
 
 		<c:import url="./search.jsp"></c:import>
+		
+		<button type="button" class="btn btn-secondary butt" onclick="return deleteBoard();">게시글삭제</button>
 
 
 		<div class="container mt-3">
-			<table class="table table-hover">
+			<table class="table table-light table-hover">
 
 
 
 				<thead>
 					<tr>
+						<th></th>
 						<th>글번호</th>
 						<th>작성자</th>
 						<th>제목</th>
@@ -127,13 +108,14 @@
 					<c:forEach var="board" items="${stuBoardList }">
 						<tr id="table"
 							onclick="location.href = '/study/viewStudyBoard?stuNo=${board.stuNo}';">
+							<td><input type="checkbox" /></td>
 							<td>${board.stuNo }</td>
 							<td>${board.stuWriter }</td>
 							<td>${board.stuTitle }</td>
 							<td>${board.stuLoc }</td>
 							<td>${board.stuDate }</td>
 							<td>${board.status }</td>
-							<td>${board.endDate }</td>
+							<td>${board.endDate }</td>	
 						</tr>
 
 
@@ -163,6 +145,32 @@
 		</ul>
 
 
+
+
+		<!-- The Modal -->
+		<div class="modal btnm" id="myModal">
+		  <div class="modal-dialog btnm">
+		    <div class="modal-content btnm">
+
+		      <!-- Modal Header -->
+		      <div class="modal-header">
+		        <h4 class="modal-title"></h4>
+		        <button type="button" class="btn-close btnm" data-bs-dismiss="modal" onclick="return btnClose();"></button>
+		      </div>
+
+		      <!-- Modal body -->
+		      <div class="modal-body btnm">
+		        게시글을 삭제하시겠습니까?
+		      </div>
+
+		      <!-- Modal footer -->
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-danger btnm" data-bs-dismiss="modal" onclick="return btnClose();">Close</button>
+		      </div>
+
+		    </div>
+		  </div>
+		</div>
 	</div>
 
 
@@ -171,5 +179,6 @@
 
 
 	<c:import url="./adminFooter.jsp"></c:import>
+	</div>
 </body>
 </html>

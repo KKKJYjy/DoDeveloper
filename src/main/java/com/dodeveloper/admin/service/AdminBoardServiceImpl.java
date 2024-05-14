@@ -122,13 +122,19 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	}
 
 	@Override
-	public List<AdminArgBoardVO> getlistArgBoard() throws Exception {
+	public Map<String, Object> getlistArgBoard(int pageNo) throws Exception {
 		
 		System.out.println("서비스단 : 알고리즘 게시물 조회");
 		
-		List<AdminArgBoardVO> argBoardList = bDao.selectListArgBoard();
+		makePagingInfo(pageNo);
 		
-		return argBoardList;
+		List<AdminArgBoardVO> argBoardList = bDao.selectListArgBoard(pi);
+		
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		returnMap.put("argBoardList", argBoardList);
+		returnMap.put("pagingInfo", this.pi);
+		
+		return returnMap;
 	}
 
 	@Override

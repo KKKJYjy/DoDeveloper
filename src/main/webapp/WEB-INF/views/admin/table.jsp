@@ -25,19 +25,23 @@
 
 
 
+	<div class="container mt-3">
+		<p class="text-center">게시판 조회</p>
+		<ul class="nav nav-tabs nav-justified">
+			<li class="nav-item"><a class="nav-link"
+				href="/admin/selectBoard">스터디게시판</a></li>
+			<li class="nav-item"><a class="nav-link"
+				href="/admin/lectureBoard">강의추천게시판</a></li>
+			<li class="nav-item"><a class="nav-link"
+				href="/admin/algorithmBoard">알고리즘게시판</a></li>
+			<li class="nav-item"><a class="nav-link"
+				href="/admin/reviewBoard">제직자리뷰게시판</a></li>
+		</ul>
+	</div>
 
-	<p class="text-center">게시판 조회</p>
-	<ul class="nav justify-content-center box">
-		<li class="nav-item"><a class="nav-link" href="/admin/selectBoard">스터디게시판</a></li>
-		<li class="nav-item"><a class="nav-link" href="/admin/lectureBoard">강의추천게시판</a></li>
-		<li class="nav-item"><a class="nav-link" href="/admin/algorithmBoard">알고리즘게시판</a></li>
-		<li class="nav-item"><a class="nav-link" href="/admin/reviewBoard">제직자리뷰게시판</a></li>
-		</li>
-	</ul>
 
 
-	
-	
+
 
 
 

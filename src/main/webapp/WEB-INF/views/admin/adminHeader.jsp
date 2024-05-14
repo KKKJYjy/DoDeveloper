@@ -41,6 +41,16 @@
 			<div class="lds-pos"></div>
 		</div>
 	</div>
+	
+	 <div
+      id="main-wrapper"
+      data-layout="vertical"
+      data-navbarbg="skin6"
+      data-sidebartype="full"
+      data-sidebar-position="absolute"
+      data-header-position="absolute"
+      data-boxed-layout="full"
+    >
 	<!-- ============================================================== -->
 	<!-- Main wrapper - style you can find in pages.scss -->
 	<!-- ============================================================== -->
@@ -232,6 +242,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 	<!-- ============================================================== -->
 	<!-- End Topbar header -->
