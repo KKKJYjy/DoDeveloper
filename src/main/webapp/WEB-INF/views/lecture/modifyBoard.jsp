@@ -63,9 +63,8 @@
 	}
 
 	function cancelModifyBoard() {
-		// EL표현식을 사용하되 굳이 자바에서 쿼리스트링으로 안받아와도 된다? - 공부
 	    let lecNo = '${param.lecNo}'; // 쿼리스트링에서 lecNo를 가져와라
-	    alert("게시글을 작성 안하시겠습니까?");
+	    alert("게시글을 수정 안하시겠습니까?");
 	    
 	    $.ajax({
 	        url : '/lecture/cancelModify', // 수정된 부분

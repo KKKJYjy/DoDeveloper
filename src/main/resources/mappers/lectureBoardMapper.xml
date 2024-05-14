@@ -21,17 +21,17 @@
 	<!-- ?번 글을 ?유저가 조회했다는 이력을 기록하는 쿼리문 -->
 	<insert id="insertReadCountProcess">
 		insert into readCount(readWho, boardNo, bType)
-		values(#{user}, #{boardNo}, 1);
+		values(#{user}, #{lecNo}, 1);
 	</insert>
 
 	<!-- 유저가 ?번 글을 언제 읽었는지 select하는 쿼리문 -->
 	<select id="getDateDiff" resultType="int">
 		select ifnull(a.diff, -1) as
 		datediff from
-		(select datediff(now(), (select readWhen from readCount
-		where bType = 1 and
-		readWho=#{user} and readNo=#{readNo} order by
-		readNo desc limit 1)) as diff) a
+		(select datediff(now(),
+		(select readWhen from readCount where bType = 1 and readWho=#{user} and
+		boardNo=#{lecNo} order by readNo desc limit 1))
+		as diff) a
 	</select>
 
 	<!-- ?번 글의 조회수를 증가하는 쿼리문 -->

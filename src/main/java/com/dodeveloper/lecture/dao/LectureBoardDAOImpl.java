@@ -49,6 +49,39 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 
 		return ses.selectOne(ns + ".selectBoardLecNo", lecNo);
 	}
+	
+	/**
+	 * @methodName : selectDiff
+	 * @author : kde
+	 * @date : 2024.05.03
+	 * @param : String user - 글을 조회한 유저
+	 * @param : int lecNo - 게시글
+	 * @return : int
+	 * @description : 유저가 ?번 글을 언제 읽었는지 select하는 메서드
+	 */
+	@Override
+	public int selectDiff(String user, int lecNo) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		
+		params.put("user", user);
+		params.put("lecNo", lecNo);
+
+		return ses.selectOne(ns + ".getDateDiff", params);
+	}
+	
+	/**
+	 * @methodName : updateReadCount
+	 * @author : kde
+	 * @date : 2024.05.03
+	 * @param : int lecNo - 게시글
+	 * @return : int
+	 * @description : ?번 글의 조회수를 증가하는 메서드
+	 */
+	@Override
+	public int updateReadCount(int lecNo) throws Exception {
+
+		return ses.update(ns + ".updateReadCount", lecNo);
+	}
 
 	/**
 	 * @methodName : insertReadCountProcess
@@ -67,39 +100,6 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 		params.put("lecNo", lecNo);
 
 		return ses.insert(ns + ".insertReadCountProcess", params);
-	}
-
-	/**
-	 * @methodName : selectDiff
-	 * @author : kde
-	 * @date : 2024.05.03
-	 * @param : String user - 글을 조회한 유저
-	 * @param : int lecNo - 게시글
-	 * @return : int
-	 * @description : 유저가 ?번 글을 언제 읽었는지 select하는 메서드
-	 */
-	@Override
-	public int selectDiff(String user, int lecNo) throws Exception {
-		Map<String, Object> params = new HashMap<String, Object>();
-
-		params.put("user", user);
-		params.put("lecNo", lecNo);
-
-		return ses.selectOne(ns + ".getDateDiff", params);
-	}
-
-	/**
-	 * @methodName : updateReadCount
-	 * @author : kde
-	 * @date : 2024.05.03
-	 * @param : int lecNo - 게시글
-	 * @return : int
-	 * @description : ?번 글의 조회수를 증가하는 메서드
-	 */
-	@Override
-	public int updateReadCount(int lecNo) throws Exception {
-
-		return ses.update(ns + ".updateReadCount", lecNo);
 	}
 
 	/**

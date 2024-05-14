@@ -28,6 +28,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	 * @description : 게시판 전체 조회에 대한 서비스 메서드
 	 */
 	@Override
+	@Transactional(readOnly = true)
 	public List<LectureBoardVO> getListAllBoard(int lecNo) throws Exception {
 		System.out.println("서비스단 : 페이지 전체 게시글 조회!");
 
@@ -84,19 +85,26 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	 * @author : kde
 	 * @date : 2024.05.03
 	 * @param : int boardNo - 조회할 글 번호
-	 * @param : String user - 조회하는 유저 (로그인 하지 않았을 경우 session id)
+	 * @param : String user - 조회하는 유저
 	 * @return : Map<String, Object>
 	 * @description : 1) user가 조회하는 글을 하루 이내에 읽은 적이 있는지 없는지 검사
 	 * 2) 하루 이내에 읽은 적이 없다 -> 조회수 증가(update), 조회이력 - 기록을 남긴다(insert), 글 가져옴(유저가 글을 조회하도록)
 	 * 3) 하루 이내에 읽은 적이 있다 -> 게시글만 가져옴(유저가 글을 조회하도록)
 	 */
 	@Override
-	@Transactional(readOnly = true)
 	public Map<String, Object> getBoardByBoardNo(int lecNo, String user) throws Exception {
-		System.out.println(lDao.selectDiff(user, lecNo));
+		System.out.println(user + "가" + lecNo + "번 글을 조회한다.");
+		
+		if (lDao.selectDiff(user, lecNo) == -1) {
+			// user가 하루 이내에 읽은 적이 없을 경우
+			lDao.updateReadCount(lecNo); // 조회수 증가
+			lDao.insertReadCountProcess(user, lecNo); // 유저가 조회했다는 이력을 기록
+		}
 
 		// 조회된 글 가져오기
 		LectureBoardVO lecBoard = lDao.selectBoardLecNo(lecNo);
+		
+		System.out.println("조회된 글 : " + lecBoard.toString());
 
 		Map<String, Object> result = new HashMap<String, Object>();
 
@@ -115,7 +123,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	 */
 	@Override
 	public Map<String, Object> getBoardByBoardNo(int lecNo) throws Exception {
-
+		
 		// DAO단에서 조회된 글 가져오기
 		LectureBoardVO lecBoard = lDao.selectBoardLecNo(lecNo);
 
