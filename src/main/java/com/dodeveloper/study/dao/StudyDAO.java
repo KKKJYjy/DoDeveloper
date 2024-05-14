@@ -5,7 +5,7 @@ import java.util.List;
 import com.dodeveloper.study.vodto.StuStackVO;
 import com.dodeveloper.study.vodto.StudyBoardDTO;
 import com.dodeveloper.study.vodto.StudyBoardVO;
-import com.dodeveloper.study.vodto.PagingInfo;
+import com.dodeveloper.study.etc.PagingInfo;
 import com.dodeveloper.study.vodto.SearchStudyDTO;
 import com.dodeveloper.study.vodto.StackVO;
 import com.dodeveloper.study.vodto.StuStackDTO;

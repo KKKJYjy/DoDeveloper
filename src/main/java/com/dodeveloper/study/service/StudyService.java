@@ -25,8 +25,11 @@ public interface StudyService {
 	//새로운 스터디글 + 스터디언어를 insert하는 메서드
 	int insertStudyWithStack(StudyBoardDTO newStudy, StuStackVO newStack) throws Exception;
 
-	//stuNo번째 스터디 글을 조회하는 메서드
+	//stuNo번째 스터디 글을 조회하는 메서드 (수정할 때)
 	StudyBoardVO selectStudyByStuNo(int stuNo) throws Exception;
+	
+	//stuNo번째 스터디 글 조회시 조회수를 올려야할지 말아야할지 정하는 메서드
+	Map<String, Object> selectStudyByStuNo(int stuNo, String userId, int bType) throws Exception;
 
 	//stack테이블의 전체 데이터를 조회하는 메서드
 	List<StackVO> selectAllStack() throws Exception;

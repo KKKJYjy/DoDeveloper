@@ -1,9 +1,12 @@
 package com.dodeveloper.study.controller;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,11 +22,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.dodeveloper.member.vo.MemberVO;
+import com.dodeveloper.study.etc.PagingInfo;
 import com.dodeveloper.study.service.StudyService;
 import com.dodeveloper.study.vodto.StuStackVO;
 import com.dodeveloper.study.vodto.StudyBoardDTO;
 import com.dodeveloper.study.vodto.StudyBoardVO;
-import com.dodeveloper.study.vodto.PagingInfo;
+
+import javax.servlet.http.Cookie;
+
 import com.dodeveloper.study.vodto.SearchStudyDTO;
 import com.dodeveloper.study.vodto.StackVO;
 import com.dodeveloper.study.vodto.StuStackDTO;
@@ -42,18 +49,19 @@ public class StudyContoller {
 
 	// 스터디 모든 목록을 불러오는 메서드 + 검색 기능 추가
 	@GetMapping(value = "/listAll")
-	public void listAllGet(Model model, @RequestParam(value="pageNo", defaultValue = "1") int pageNo, SearchStudyDTO sDTO) throws Exception {
+	public void listAllGet(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+			SearchStudyDTO sDTO) throws Exception {
 		logger.info("listAll View.");
 
 		Map<String, Object> result = null;
-		
-		if(pageNo <= 0) {
+
+		if (pageNo <= 0) {
 			pageNo = 1;
 		}
-		
-		// 스터디 목록 + 페이징 객체 같이 가지고있는 result 
+
+		// 스터디 목록 + 페이징 객체 같이 가지고있는 result
 		result = stuService.selectAllList(sDTO, pageNo);
-		List<StudyBoardVO> studyList = (List<StudyBoardVO>)result.get("studyList");
+		List<StudyBoardVO> studyList = (List<StudyBoardVO>) result.get("studyList");
 
 		// 스터디 No번째글 스터디 언어 목록
 		List<StuStackDTO> stuStackList = new ArrayList<StuStackDTO>();
@@ -71,7 +79,7 @@ public class StudyContoller {
 		model.addAttribute("studyList", studyList);
 		model.addAttribute("stuStackList", stuStackList);
 		model.addAttribute("stackList", stackList);
-		model.addAttribute("pagingInfo", (PagingInfo)result.get("pagingInfo"));
+		model.addAttribute("pagingInfo", (PagingInfo) result.get("pagingInfo"));
 	}
 
 	// 스터디 작성 페이지로 이동하는 메서드
@@ -112,34 +120,48 @@ public class StudyContoller {
 	public String insertStudyWithStack(StuStackVO newStack) throws Exception {
 		String result = null;
 
-		if(stuService.insertStudyWithStack(newStudy ,newStack) ==1) {
+		if (stuService.insertStudyWithStack(newStudy, newStack) == 1) {
 			result = "redirect:/study/listAll";
 			logger.info("스터디테이블, 스터디스택 인서트 성공");
-			//newStudy = null;
+			// newStudy = null;
 		}
-		
+
 		return result;
 	}
 
 	// stuNo번째 스터디 글을 불러오는 메서드
 	@GetMapping("/viewStudyBoard")
-	public void viewStudyBoard(@RequestParam("stuNo") int stuNo, Model model) throws Exception {
+	public String viewStudyBoard(@RequestParam("stuNo") int stuNo, Model model, HttpServletRequest req,
+			HttpServletResponse resp) throws Exception {
 
-		logger.info(stuNo + "번 글을 조회하자");
+		//유저 정보
+		String userId = null;	
+		MemberVO loginMember = (MemberVO)req.getSession().getAttribute("loginMember");
+		
+		// 로그인한 유저의 경우
+		if(loginMember != null) {
+			userId = loginMember.getUserId();
+			//System.out.println("로그인된 유저아이디:" + userId);
+		}else if (haveCookie(req, "rses") == null) {
+			// 비회원의 경우 쿠키가 저장되어있는지 검사
+			// rses라는 이름의 쿠키가 없다면
+			String sesId = req.getSession().getId(); // 세션아이디 저장
+			userId = sesId; // sesId를 userId에 저장
+			// sesId라는 이름의 쿠키 저장
+			saveCookie(resp, sesId);	
+		} else {
+			// rses라는 이름의 쿠키가 있다면, 있던 쿠키값 그대로 쓰기
+			userId = haveCookie(req, "rses");
+		}
+		
+		logger.info(userId + "가" + stuNo + "번 글을 조회한다");
+		
+		Map<String, Object> result = stuService.selectStudyByStuNo(stuNo, userId, 2);
 
-		// 스터디 목록
-		StudyBoardVO studyList = stuService.selectStudyByStuNo(stuNo);
-
-		// 스터디 No번째글 스터디 언어 목록
-		List<StuStackDTO> stuStackList = new ArrayList<StuStackDTO>();
-
-		// stuNo를 넘겨주어 공부할 언어 정보를 가져오자
-
-		stuStackList.addAll(stuService.selectAllStudyStack(studyList.getStuNo()));
-
-		System.out.println(stuStackList.toString());
-		model.addAttribute("studyList", studyList);
-		model.addAttribute("stuStackList", stuStackList);
+		model.addAttribute("studyList", (StudyBoardVO)result.get("studyList"));
+		model.addAttribute("stuStackList", (List<StuStackDTO>)result.get("stuStackList"));
+		
+		return "study/viewStudyBoard";
 
 	}
 
@@ -147,7 +169,7 @@ public class StudyContoller {
 	@GetMapping("/modifyStudyBoard")
 	public void modifyStudyBoard(@RequestParam("stuNo") int stuNo, Model model) throws Exception {
 		logger.info(stuNo + "번 글을 수정하는 페이지로 이동");
-		
+
 		// 스터디 목록
 		StudyBoardVO studyList = stuService.selectStudyByStuNo(stuNo);
 
@@ -160,9 +182,9 @@ public class StudyContoller {
 		// stuNo번째 공부할 언어중 chooseStack만 담는 배열
 		List<Integer> chooseStack = new ArrayList<Integer>();
 
-		//stuNo번째 공부할 언어중 stuStackNo만 담는 배열
+		// stuNo번째 공부할 언어중 stuStackNo만 담는 배열
 		List<Integer> stuStackNo = new ArrayList<Integer>();
-		
+
 		for (StuStackDTO stuStack : stuStackListByNo) {
 			chooseStack.add(stuStack.getChooseStack());
 			stuStackNo.add(stuStack.getStuStackNo());
@@ -176,9 +198,8 @@ public class StudyContoller {
 		model.addAttribute("chooseStack", chooseStack); // 현재 스터디 모임글에서 선택된 스택만(스터디 언어)
 		model.addAttribute("stuStackNo", stuStackNo); // 현재 스터디 모임글의 선택된 stuStackNo만(pk)
 		model.addAttribute("stackList", stackList); // 전체 스택 테이블(셀렉트 박스를 세팅을 위한)
-		
+
 	}
-	
 
 	// 1) 스터디 수정 버튼을 누르면 이 메서드가 먼저 수행되어 modifyStudyDTO를 멤버변수 newStudy에 저장한다
 	@PostMapping("/modifyStudy")
@@ -187,7 +208,7 @@ public class StudyContoller {
 		ResponseEntity<String> result = null;
 
 		newStudy = modifyStudyDTO;
-		
+
 		logger.info("modifyStudy: 수정할 스터디 모집글" + newStudy.toString());
 
 		if (newStudy != null) {
@@ -204,14 +225,14 @@ public class StudyContoller {
 	@PostMapping(value = "/modifyStack")
 	public String modifyStudyWithStack(StuStackModifyDTO modifyStack) throws Exception {
 		String result = null;
-		
-		logger.info("modifyStack: 수정할 스택" +modifyStack.toString());
-		
-		//수정에 성공했다면 수정한 상세 페이지로 이동
-		if(stuService.modifyStudyWithStack(newStudy, modifyStack) == 1) {
+
+		logger.info("modifyStack: 수정할 스택" + modifyStack.toString());
+
+		// 수정에 성공했다면 수정한 상세 페이지로 이동
+		if (stuService.modifyStudyWithStack(newStudy, modifyStack) == 1) {
 			result = "redirect:/study/viewStudyBoard?stuNo=" + newStudy.getStuNo();
 			logger.info("스터디테이블, 스터디스택 업데이트 성공");
-			//newStudy = null;
+			// newStudy = null;
 		}
 
 		return result;
@@ -230,6 +251,29 @@ public class StudyContoller {
 		}
 
 		return "redirect:" + result;
+	}
+
+	// sesId값을 저장한 쿠키 "rses"를 저장 (하루짜리)
+	private void saveCookie(HttpServletResponse resp, String sesId) {
+		Cookie sesCookie = new Cookie("rses", sesId); // sesId값을 rses라는 쿠키 이름으로 저장
+		sesCookie.setPath("/");
+		sesCookie.setMaxAge(60 * 60 * 24);
+		resp.addCookie(sesCookie);
+	}
+
+	// 쿠키가 있는지 없는지 검사
+	private String haveCookie(HttpServletRequest req, String cookieName) {
+		String result = null;
+
+		// 쿠키가 여러개니까 쿠키가 있는동안 반복
+		for (Cookie c : req.getCookies()) {
+			if (c.getName().equals(cookieName)) {
+				// 쿠키의 이름이 넘겨받은 쿠키이름과 같다면 쓰던 쿠키값 반환
+				result = c.getValue();
+			}
+		} // 다 돌리고도 없다면 쿠키가 없는 경우. null 반환
+
+		return result;
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.dodeveloper.study.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,11 +11,12 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dodeveloper.lookup.dao.LookupDAO;
 import com.dodeveloper.study.dao.StudyDAO;
+import com.dodeveloper.study.etc.PagingInfo;
 import com.dodeveloper.study.vodto.StuStackVO;
 import com.dodeveloper.study.vodto.StudyBoardDTO;
 import com.dodeveloper.study.vodto.StudyBoardVO;
-import com.dodeveloper.study.vodto.PagingInfo;
 import com.dodeveloper.study.vodto.SearchStudyDTO;
 import com.dodeveloper.study.vodto.StackVO;
 import com.dodeveloper.study.vodto.StuStackDTO;
@@ -25,6 +27,9 @@ public class StudyServiceImpl implements StudyService {
 
 	@Autowired
 	StudyDAO sDao;
+
+	@Autowired
+	LookupDAO lDao;
 
 	@Autowired
 	private PagingInfo pi;
@@ -167,7 +172,43 @@ public class StudyServiceImpl implements StudyService {
 
 	@Override
 	public StudyBoardVO selectStudyByStuNo(int stuNo) throws Exception {
+
 		return sDao.selectStudyByStuNo(stuNo);
+
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+	public Map<String, Object> selectStudyByStuNo(int stuNo, String userId, int bType) throws Exception {
+
+		Map<String, Object> result = new HashMap<String, Object>();
+
+		//System.out.println(stuNo + "번째 글을" + userId + "가 조회한다 - 서비스단");
+		System.out.println(lDao.selectDiff(userId, stuNo, bType));
+		
+		// 하루이내에 같은 유저가 현재 글을 본적이 있는지 체크
+		if (lDao.selectDiff(userId, stuNo, bType) == -1) {
+			// 읽은적이 한번도 없다면
+			lDao.insertLookup(userId, stuNo, bType);
+			lDao.updateLookupStudyBoard(stuNo);
+		}else {
+			System.out.println("이미오늘조회했다");
+		}
+
+		// stuNo번째 스터디 글
+		StudyBoardVO studyList = sDao.selectStudyByStuNo(stuNo);
+		
+		// 스터디 stuNo번째글 스터디 언어 목록
+		List<StuStackDTO> stuStackList = new ArrayList<StuStackDTO>();
+		
+		// stuNo를 넘겨주어 공부할 언어 정보를 가져오자
+		stuStackList.addAll(sDao.selectAllStudyStack(studyList.getStuNo()));
+
+		result.put("studyList", studyList);
+		result.put("stuStackList", stuStackList);
+		
+		return result;
+
 	}
 
 	@Override
@@ -221,4 +262,5 @@ public class StudyServiceImpl implements StudyService {
 	public int deleteStudyBoard(int stuNo) throws Exception {
 		return sDao.deleteStudyBoard(stuNo);
 	}
+
 }
