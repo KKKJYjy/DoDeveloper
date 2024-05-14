@@ -5,6 +5,7 @@ import java.util.List;
 
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -29,7 +30,16 @@ import com.dodeveloper.lecture.service.LectureBoardService;
 import com.dodeveloper.lecture.vodto.LectureBoardDTO;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
 import com.dodeveloper.lecture.vodto.LectureSearchDTO;
+import com.dodeveloper.member.dto.LoginDTO;
+import com.dodeveloper.member.vo.MemberVO;
 
+/**
+ * @PackageName : com.dodeveloper.lecture.controller
+ * @fileName : LectureBoardController.java
+ * @author : 
+ * @date : 2024.05.13
+ * @description : 
+ */
 @Controller // 아래의 클래스가 컨트롤러 객체임을 명시
 @RequestMapping("/lecture") // "/lecture"가 GET방식으로 요청될 때 아래의 클래스가 동작되도록 설정
 public class LectureBoardController {
@@ -90,7 +100,6 @@ public class LectureBoardController {
 
 	}
 
-
 	/**
 	 * @methodName : viewBoard
 	 * @author :
@@ -103,10 +112,26 @@ public class LectureBoardController {
 	@GetMapping("/viewBoard") // 상세 게시글로 가도록 Mapping함
 	public ModelAndView viewBoard(@RequestParam("lecNo") int lecNo, HttpServletRequest req, HttpServletResponse resp,
 			ModelAndView mav, HttpSession ses) throws Exception {
+		
+		String user = null;
+		
+		if (ses.getAttribute("loginMember") != null) {
+			// 로그인 한 유저의 경우
+			user = ((MemberVO) ses.getAttribute("loginMember")).getUserId();
+		} else if (cookieExist(req, "rses") == null) {
+			// 로그인 안한 유저의 경우 쿠키가 없으면
+			// sessionId를 불러온다.
+			String sesId = req.getSession().getId();
+			user = sesId;
+			saveCookie(resp, sesId);
+			System.out.println("로그인 안한 "+ user + "의 쿠키값");
+		} else {
+			// 로그인을 하지않았는데 쿠키가 있다면
+			// 쿠키를 찾아서 조회수를 안올리도록
+			user = cookieExist(req, "rses");
+		}
 
-		String user = (String) ses.getAttribute("user");
-
-		System.out.println("현재 상태의 유저 : " + user + "가" + lecNo + "번 글을 조회한다!");
+		System.out.println("현재 상태의 유저 : " + user + "가 " + lecNo + "번 글을 조회한다!");
 
 		Map<String, Object> result = lService.getBoardByBoardNo(lecNo, user);
 
@@ -114,6 +139,45 @@ public class LectureBoardController {
 		mav.setViewName("/lecture/viewBoard");
 
 		return mav;
+	}
+
+	/**
+	 * @methodName : saveCookie
+	 * @author : 
+	 * @date : 2024.05.14
+	 * @param : HttpServletResponse resp
+	 * @param : String sesId - sessionId 값
+	 * @return : void
+	 * @description : 세션 Id값을 쿠키에 '1일' 저장
+	 * 조회수를 올리기 위해 user가 로그인을 하지않아도 sessionId값을 이용해 기록이 남도록
+	 */
+	private void saveCookie(HttpServletResponse resp, String sesId) {
+		Cookie sessionCookie = new Cookie("rses", sesId);
+		sessionCookie.setMaxAge(60 * 60 * 24);
+		resp.addCookie(sessionCookie);
+	}
+
+	/**
+	 * @methodName : cookieExist
+	 * @author : 
+	 * @date : 2024.05.13
+	 * @param : HttpServletRequest req
+	 * @param : String cookieName - 찾을 쿠키 이름
+	 * @return : String
+	 * @description : 쿠키 이름을 가지고, 그 이름의 쿠키를 찾는 메서드
+	 * 조회수를 올리기 위해 user가 로그인을 하지않아도 sessionId값을 이용해 기록이 남도록해서
+	 * user 한명 당 게시글 한번에 조회수 한번만 올라갈 수 있도록 하기
+	 */
+	private String cookieExist(HttpServletRequest req, String cookieName) {
+		String result = null;
+		
+		for (Cookie c : req.getCookies()) {
+			if (c.getName().equals(cookieName)) {
+				// 로그인을 하지 않았는데 쿠키가 있는 유저
+				result = c.getValue();
+			}
+		}
+		return result;
 	}
 
 	/**
