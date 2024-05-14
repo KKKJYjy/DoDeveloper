@@ -1,4 +1,4 @@
-package com.dodeveloper.study.vodto;
+package com.dodeveloper.study.etc;
 
 import org.springframework.stereotype.Component;
 
