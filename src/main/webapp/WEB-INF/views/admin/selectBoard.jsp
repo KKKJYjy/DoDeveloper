@@ -53,13 +53,16 @@
 </script>
 </head>
 <body>
-<div class="page-wrapper">
+
 	<c:import url="./adminHeader.jsp"></c:import>
 
 
 
+    
+    
+    <div class="page-wrapper">
 
-
+<div class="container-fluid">
 
 
 	<div class="container mt-3">
@@ -79,7 +82,6 @@
 
 
 
-	<div class="container">
 
 
 		<c:import url="./search.jsp"></c:import>
@@ -87,7 +89,8 @@
 		<button type="button" class="btn btn-secondary butt" onclick="return deleteBoard();">게시글삭제</button>
 
 
-		<div class="container mt-3">
+
+		
 			<table class="table table-light table-hover">
 
 
@@ -171,7 +174,7 @@
 		    </div>
 		  </div>
 		</div>
-	</div>
+	
 
 
 
@@ -180,5 +183,6 @@
 
 	<c:import url="./adminFooter.jsp"></c:import>
 	</div>
+	
 </body>
 </html>

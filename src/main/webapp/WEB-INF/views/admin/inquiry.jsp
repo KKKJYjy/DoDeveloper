@@ -56,7 +56,7 @@ Kakao.Channel.followChannel({
 <body>
 	<c:import url="./adminHeader.jsp"></c:import>
 
-
+	
 
 
 	
