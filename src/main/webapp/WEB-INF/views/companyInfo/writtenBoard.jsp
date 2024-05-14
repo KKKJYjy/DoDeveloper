@@ -49,51 +49,73 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
-
-
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
-	<c:import url="../header.jsp" />
-
+	<%@ include file="../header.jsp"%>
 	<main id="main">
 		<!-- Basic Section - CompanyInfo Page -->
 		<section id="companyInfo" class="basic">
 			<div class="container">
+
 				<h4>기업 리뷰 작성 페이지</h4>
 
-				<form action="" method="post">
+				<form action="/companyInfo/writtenBoard" method="post">
 					<div class="mb-3 mt-3">
-						<label for="userId" class="form-label">글쓴이: </label> <input
-							type="text" class="form-control" id="userId" 
-							name="userId" value="" />
+						<label for="revWriter" class="form-label">작성자: </label> <input
+							type="text" class="form-control" id="revWriter"
+							placeholder="입력하신 모든 정보는 익명으로 처리되니 걱정마세요!" name="revWriter"
+							value="${sessionScope.loginMember.userId }" />
 					</div>
 
 					<div class="mb-3 mt-3">
-						<label for="title" class="form-label">제목 : </label> <input
-							type="text" class="form-control" id="title"
-							placeholder="글 제목을 입력하세요..." name="title" />
+						<label for="revTitle" class="form-label">기업 한 줄 평 : </label> <input
+							type="text" class="form-control" id="revTitle" 
+							placeholder="(20자 이상) 기업에 대해 작성해 주세요" name="revTitle" />
 					</div>
 
 					<div class="mb-3 mt-3">
-						<label for="mobile" class="form-label">글 내용: </label>
-						<textarea cols="600" rows="10" id="content" name="content"
-							class="form-control">
-            			</textarea>
+						<label for="revProfession" class="form-label">파트 : </label> <input
+							type="text" class="form-control" id="revProfession"
+							placeholder="업무 분야" name="revProfession" />
 					</div>
 
-					<input type="submit" class="btn btn-success" value="글 저장" onclick="" /> 
-					<input type="reset" class="btn btn-danger" value="취소" onclick="location.href='/writtenBoard/revCompanyBoard';" />
+					<div class="mb-3 mt-3">
+						<label for="revContent" class="form-label">내용: </label>
+						<textarea cols="600" rows="10" id="revContent" placeholder="(30자 이상) 기업에 관한 리뷰 글 작성해 주세요"
+						name="revContent" class="form-control"></textarea>
+					</div>
+
+					<div class="mb-3 mt-3">
+						<label for="revGood" class="form-label">장점: </label>
+						<textarea cols="300" rows="10" id="revGood" name="revGood" placeholder="(30자 이상) 만족스러운 점을 작성해 주세요"
+							class="form-control"></textarea>
+					</div>
+
+					<div class="mb-3 mt-3">
+						<label for="revBed" class="form-label">단점: </label>
+						<textarea cols="600" rows="10" id="revBed" name="revBed" placeholder="(30자 이상) 아쉬운 점을 작성해 주세요"
+							class="form-control"></textarea>
+					</div>
+					
+					<div>
+						<input type="hidden" name="companyInfoNo" value="${param.companyInfoNo}">
+					</div>
+					
+					<div>
+						<input type="hidden" name="bType" value="3">
+					</div>
+					
+					
+
+					<input type="submit" class="btn btn-success" value="글 저장" /> <input
+						type="reset" class="btn btn-danger" value="취소"
+						onclick="location.href='/writtenBoard/revCompanyBoard';" />
 				</form>
-
 			</div>
-
-
-
 		</section>
 		<!-- End Basic Section -->
 	</main>
 
-	<c:import url="../footer.jsp" />
-
+	<%@ include file="../footer.jsp"%>
 
 
 	<!-- Preloader -->
