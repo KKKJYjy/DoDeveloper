@@ -146,9 +146,35 @@
             }
 
         });
-
-		
+        
+        
+        //url 쿼리스트링 값 가져오기
+        let url = new URL(window.location.href);
+        let urlParams = url.searchParams;
+        
+        console.log(urlParams);
+        
+        if(urlParams.get('status') == 'success'){
+        	alert("참여신청 완료했습니다.");	
+        }
+        
+        
 	});
+	
+	//참여신청팝업창에서 참여신청버튼을 눌렀을 때 유효성검사
+	function isVaild(){
+		let result = false;
+		
+		if($("#reason").val() == null || $("#reason").val() == ''){
+			alert("참여 신청 이유를 입력해주세요");
+		}else if($("#reason").val().length < 10){
+			alert("참여 신청 이유는 10자 이상 입력해주세요");
+		}else{
+			result = true;			
+		}
+		
+		return result;
+	}
 	
 	
 </script>
@@ -178,21 +204,21 @@ i {
 						<!-- 로그인한 유저와 작성자가 같을 때에만 수정 삭제 버튼이 보이도록 처리 -->
 						<c:if test="${loginMember.userId == studyList.stuWriter }">
 							<!-- 수정 버튼 -->
-						
+
 							<div class="icon-link icon-link-hover"
-								style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);"
+								style="-bs-icon-link-transform: translate3d(0, -.125rem, 0);"
 								onclick="location.href='/study/modifyStudyBoard?stuNo=${studyList.stuNo}';">
 								<i class="bi bi-pencil fs-5 me-2" style="color: #ffffff;"></i>
 							</div>
 							<!-- 삭제 버튼 -->
 							<div class="studyBoardDelete icon-link icon-link-hover"
-								style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);" 
+								style="-bs-icon-link-transform: translate3d(0, -.125rem, 0);"
 								data-bs-toggle="modal" data-bs-target="#deleteModal">
 								<i class="bi bi-trash3 fs-5 me-2" style="color: #ffffff;"></i>
 							</div>
 						</c:if>
 						<div class="icon-link icon-link-hover"
-							style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);">
+							style="-bs-icon-link-transform: translate3d(0, -.125rem, 0);">
 							<i class="bi bi-share fs-5 me-2" style="color: #ffffff;"></i>
 						</div>
 					</div>
@@ -319,8 +345,10 @@ i {
 						</div>
 					</div>
 
-
+					
+					<!-- 로그인한 유저와 작성자가 다를 때에만 참여신청 버튼이 보이도록 처리 -->
 					<!-- 북마크, 참여신청 버튼 -->
+					<c:if test="${loginMember.userId != studyList.stuWriter }">
 					<div class="row mt-4">
 						<div class="col-md-1">
 							<button type="button" class="btn btn-danger bookBtn"
@@ -329,11 +357,42 @@ i {
 							</button>
 						</div>
 						<div class="col-md-11">
-							<input type="submit" class="btn btn-secondary" value="참여신청"
-								style="width: 100%" onclick="" />
+							<input type="button" class="btn btn-secondary" value="참여신청"
+								style="width: 100%" data-bs-toggle="modal" data-bs-target="#exampleModal" />
 						</div>
 					</div>
+					</c:if>
 
+
+					<!-- 참여신청 버튼 눌렀을 때 뜨는 모달창 -->
+					<div class="modal fade" id="exampleModal" tabindex="-1"
+						aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog  modal-dialog-centered">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h1 class="modal-title fs-5" id="exampleModalLabel">${studyList.stuWriter }님의 스터디에 참여 신청</h1>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"
+										aria-label="Close"></button>
+								</div>
+								<form action="/studyApply/insertApply" method="post">
+									<div class="modal-body">
+										<input type="text" id="applyId" name="applyId" value="${loginMember.userId }" hidden="true" />
+										<input type="text" id="stuNo" name="stuNo" value="${studyList.stuNo}" hidden="true" />
+										<div class="mb-3">
+											<label 
+											for="reason" class="col-form-label">참여 신청하는 이유를 간단하게 입력해주세요.</label>
+											<textarea class="form-control" id="reason" name="reason" placeholder="10자 이상 입력하세요"></textarea>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">취소</button>
+										<input type="submit" class="btn btn-danger" onclick="return isVaild();" value="참여신청" />
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
 
 
 				</div>
