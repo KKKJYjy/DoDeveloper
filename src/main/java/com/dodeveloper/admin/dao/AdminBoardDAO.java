@@ -30,4 +30,9 @@ public interface AdminBoardDAO {
 	
 	// 검색어가 있을 경우 검색된 글을 가져오는 메서드
 	List<AdminVO> selectBoardListSC(SearchCriteriaDTO sc, PagingInfo pi) throws Exception;
+	
+	// stuNo번 글 삭제
+	// int stuBoardDelete(int stuNo) throws Exception;
+	
+	public void deleteStu(String stuNo)throws Exception;
 }

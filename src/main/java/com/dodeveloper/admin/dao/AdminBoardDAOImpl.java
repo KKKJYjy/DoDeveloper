@@ -95,5 +95,17 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 		return ses.selectList(ns + ".getStuBoardListWithSC", params);
 	}
 
+	@Override
+	public void deleteStu(String stuNo) throws Exception {
+		
+		ses.delete(ns + ".deleteStuBoard", stuNo);
+	}
+
+	//@Override
+//	public int stuBoardDelete(int stuNo) throws Exception {
+//		
+//		return ses.delete(ns + ".deleteStuBoard", stuNo);
+//	}
+
 	
 }

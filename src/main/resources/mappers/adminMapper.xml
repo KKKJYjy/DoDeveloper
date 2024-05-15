@@ -60,6 +60,11 @@
 		
 			order by stuNo desc limit #{startRowIndex}, #{viewPostCntPerPage}
 	</select>
+	
+	<!-- stuBoard게시글 삭제 -->
+	<delete id="deleteStuBoard">
+		delete from studyBoard where stuNo = #{stuNo}
+	</delete>
 
 
 	<!-- 유저 전체 조회 -->

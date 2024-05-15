@@ -22,4 +22,9 @@ public interface AdminBoardService {
 		
 	// 제직자리뷰게시판 조회하는 메서드
 		Map<String, Object> getlistRevBoard(int pageNo) throws Exception;
+		
+	// 스터디 게시물 삭체 처리하는 메서드
+	//	boolean studeleteBoard(int stuNo) throws Exception;
+		
+		void studeleteBoard(String stuNo) throws Exception;
 }

@@ -3,11 +3,15 @@ package com.dodeveloper.admin.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -91,6 +95,19 @@ public class AdminBoardController {
 		
 		
 	}
+	
+	@RequestMapping(value = "/delete")
+	public String removeStuBoard(HttpServletRequest request) {
+		
+		String[] remStuBoard = request.getParameterValues("valueArr");
+		int size = remStuBoard.length;
+		for (int i = 0; i < size; i++) {
+			
+		}
+		
+		return "redirect:selectBoard";
+	}
+	
 	
 
 }

@@ -154,6 +154,23 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		
 		return returnMap;
 	}
+
+//	@Override
+//	public boolean studeleteBoard(int stuNo) throws Exception {
+//		boolean result = false;
+//		
+//		if(bDao.stuBoardDelete(stuNo) == 1) {
+//			result = true;
+//		}
+//		
+//		return result;
+//	}
+
+	@Override
+	public void studeleteBoard(String stuNo) throws Exception {
+		bDao.deleteStu(stuNo);
+		
+	}
 	
 	
 }
