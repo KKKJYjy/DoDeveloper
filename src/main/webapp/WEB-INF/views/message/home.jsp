@@ -79,6 +79,8 @@
 				
 				closeDetailWindow(messageType.RECEIVED_MESSAGE);
 				closeDetailWindow(messageType.SENT_MESSAGE);
+
+				newMessageReceiverBtnEventBinder();
 				
 				$("#receivedMessageBtn").click(
 						function() {
@@ -114,6 +116,30 @@
 					changeMessageOptionBtnColor(this);
 				});
 				
+				//DodgerBlue
+				$(".dragAndDropDiv").on("dragenter",function(e){
+					e.preventDefault();
+					e.stopPropagation();
+				});
+				$(".dragAndDropDiv").on("dragover",function(e){
+					e.preventDefault();
+					e.stopPropagation();
+					$(this).css("background-color", "blue");
+				});
+				$(".dragAndDropDiv").on("dragleave",function(e){
+					e.preventDefault();
+					e.stopPropagation();
+					$(this).css("background-color", "DodgerBlue");
+				});
+				$(".dragAndDropDiv").on("drop",function(e){
+					e.preventDefault();
+					e.stopPropagation();
+					$(this).css("background-color", "DodgerBlue");
+					
+					let files = e.originalEvent.dataTransfer.files;
+
+					console.log(files);
+				})
 			});
 
 	function getReceivedMessage(startPoint) {
@@ -316,23 +342,96 @@
 	
 	
 	
+	function newMessageReceiverBtnEventBinder(){
+		$(".addNewReceiver").on("click",function(){
+			addNewMessageReceiver();
+		});
+		
+		$(".removeNewReceiver").on("click",function(){
+			removeNewMessageReceiver($(this).parent());
+		});
+	}
+	
+	let receiverInputCnt = 0;
+	function addNewMessageReceiver(){
+		let output = `
+			<div id="write-receiver-div-\${receiverInputCnt}" class="write-receiver-div" style="width: 100%">
+				<input type="text" class="form-control"
+					class="newmessage-receiver" placeholder="아이디를 입력하세요"
+					name="receiver" style="width: 80%; float: left;">
+				<button type="button" class="btn btn-success addNewReceiver"
+					style="float: left;">+</button>
+				<button type="button" class="btn btn-danger removeNewReceiver">-</button>
+			</div>`;
+		$("#newmessage-receiver-id-list").append(output);
+		
+		$("#write-receiver-div-" + receiverInputCnt).children(".addNewReceiver").on("click",function(){
+			addNewMessageReceiver();
+		});
+		
+		$("#write-receiver-div-" + receiverInputCnt).children(".removeNewReceiver").on("click",function(){
+			removeNewMessageReceiver($(this).parent());
+		});+
+		
+		receiverInputCnt++;
+	}
+	
+	function removeNewMessageReceiver(tagToRemove){
+		if( $('.write-receiver-div').length <= 1 ){
+			return;
+		}
+		tagToRemove.remove();
+	}
 	
 	
 	
-//	function
 	
 	
 	
+	function uploadEvent(){
+		let formData = new FormData();
+		let inputFile = $("input[name='uploadFile']");
+	}
 	
+	function postMessage(){
+		let result;
+
+		$.ajax({
+			url : "http://localhost:8081/message/" + uid + "/sent/" + startPoint,
+			method : "get",
+			dataType : "json",
+			async : false,
+			success : function(data) {
+				result = data;
+			},
+			error : function() {
+				console.log("실패");
+			}
+		})
+
+		return result;
 	
+	}
 	
+	function postFile(file){
+		let result;
+
+		$.ajax({
+			url : "http://localhost:8081/message/file",
+			method : "post",
+			dataType : "json",
+			async : false,
+			success : function(data) {
+				result = data;
+			},
+			error : function() {
+				console.log("실패");
+			}
+		})
+
+		return result;
 	
-	
-	
-	
-	
-	
-	
+	}
 	
 	
 	
@@ -468,27 +567,26 @@ body {
 						</div>
 
 
-						<div id="writeMessage" style="width: 90%; margin: 0 auto;">
-							<div id="writeMessageInterface"
-								style="width: 90%; margin: 0 auto;">
+						<div id="writeMessage"
+							style="width: 90%; height: 100%; overflow: auto; margin: 0 auto;">
 
-								<div style="color: black;">받는 이</div>
+							<div style="color: black;">받는 이</div>
+							<div id="newmessage-receiver-id-list">
 								<div class="write-receiver-div" style="width: 100%">
 									<input type="text" class="form-control"
 										class="newmessage-receiver" placeholder="아이디를 입력하세요"
 										name="receiver" style="width: 80%; float: left;">
-									<button type="button" class="btn btn-success"
+									<button type="button" class="btn btn-success addNewReceiver"
 										style="float: left;">+</button>
-									<button type="button" class="btn btn-danger">-</button>
+									<button type="button" class="btn btn-danger removeNewReceiver">-</button>
 								</div>
-
-								<div style="color: black;">메세지 내용</div>
-								<textarea class="form-control" rows="15" id="written-content"
-									name="content"></textarea>
-								<div
-									style="background-color: blue; width: 100%; height: 100px; text-align: center; display: flex; justify-content: center; align-content: center; flex-direction: column;">
-									파일 첨부</div>
 							</div>
+							<div style="color: black;">메세지 내용</div>
+							<textarea class="form-control" rows="15" id="written-content"
+								name="content"></textarea>
+							<div class="dragAndDropDiv"
+								style="background-color: DodgerBlue; width: 100%; height: 100px; text-align: center; display: flex; justify-content: center; align-content: center; flex-direction: column;">
+								파일 첨부</div>
 
 						</div>
 
