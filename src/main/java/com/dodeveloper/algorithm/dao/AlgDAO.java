@@ -24,4 +24,7 @@ public interface AlgDAO {
 	int insertAlgClassification(String algClassification) throws Exception;
 
 	int updateAlgBoard(AlgBoardDTO algBoardDTO);
+
+	// algDetail 항목 작성
+	int insertAlgDetail(AlgDetailDTO algDetailDTO);
 }

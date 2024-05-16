@@ -4,41 +4,56 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dodeveloper.mappers.algorithmMapper">
 
-	<!--  게시글조회 
-	-->
-	<select id="selectAlgBoard" resultType="com.dodeveloper.algorithm.vodto.AlgBoardDTO">
+	<!-- 게시글조회 -->
+	<select id="selectAlgBoard"
+		resultType="com.dodeveloper.algorithm.vodto.AlgBoardDTO">
 		select * from algBoard
 	</select>
-	
-	<!--  boardNo 에 해당하는 algDetail 조회 -->
-	<select id="selectAlgDetail" resultType="com.dodeveloper.algorithm.vodto.AlgDetailDTO">
+
+	<!-- boardNo 에 해당하는 algDetail 조회 -->
+	<select id="selectAlgDetail"
+		resultType="com.dodeveloper.algorithm.vodto.AlgDetailDTO">
 		select * from algDetail where algBoardNo = #{boardNo}
 	</select>
-	
-	<!--  알고리즘분류 테이블 조회 -->
-	<select id="selectAlgClassification" resultType="com.dodeveloper.algorithm.vodto.AlgClassificationDTO">
+
+	<!-- 알고리즘분류 테이블 조회 -->
+	<select id="selectAlgClassification"
+		resultType="com.dodeveloper.algorithm.vodto.AlgClassificationDTO">
 		select * from algClassification
 	</select>
-	
-	<!-- algBoard 에 새 항목 insert  -->
+
+	<!-- algBoard 에 새 항목 insert -->
 	<insert id="insertAlgBoard">
-		insert into algBoard (classificationCode, title, comment) values(#{classificationCode},#{title},#{comment})
+		insert into algBoard (classificationCode, title,
+		comment) values(#{classificationCode},#{title},#{comment})
 	</insert>
-	
-	
-	<!--  algClassification 에 새 항목 insert -->
+
+
+	<!-- algClassification 에 새 항목 insert -->
 	<insert id="insertAlgClassification">
-		insert into algClassification(algClassification) values(#{algClassification})
+		insert into algClassification(algClassification)
+		values(#{algClassification})
 	</insert>
-	
-	
-	<!--  algBoard 수정 -->
+
+	<!-- algDetail 에 새 항목 insert -->
+	<insert id="insertAlgDetail">
+		insert into algDetail (algBoardNo, writer, algDetailContent,
+		algDetailResult,algDetailComment,algDetailTitle)
+		values (#{algBoardNo},#{writer},#{algDetailContent},#{algDetailResult},#{algDetailComment},#{algDetailTitle});
+	</insert>
+
+
+	<!-- algBoard 수정 -->
 	<update id="updateAlgBoard">
-		update algBoard set comment = #{comment}, title = #{title}, classificationCode = #{classificationCode} where boardNo = #{boardNo}
+		update algBoard set comment = #{comment}, title =
+		#{title}, classificationCode = #{classificationCode} where boardNo =
+		#{boardNo}
 	</update>
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
 </mapper>

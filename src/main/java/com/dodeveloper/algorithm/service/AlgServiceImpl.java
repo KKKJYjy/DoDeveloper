@@ -78,4 +78,13 @@ public class AlgServiceImpl implements AlgService {
 		
 	}
 
+
+	@Override
+	public void writeAlgDetail(AlgDetailDTO algDetailDTO) {
+		// algDetail 글 작성
+		
+		aDao.insertAlgDetail(algDetailDTO);
+		
+	}
+
 }

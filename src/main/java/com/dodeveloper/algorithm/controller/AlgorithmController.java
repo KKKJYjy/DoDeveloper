@@ -135,9 +135,12 @@ public class AlgorithmController {
 	
 	
 	
-	@RequestMapping("/writeDetailPOST") // "/algorithm/write"가 get 방식으로 요청될 때... 호출
+	@RequestMapping("/writeDetailPOST") // "/algorithm/writeDetail"가 get 방식으로 요청될 때... 호출
 	public String writeDetailBoard( Model model, HttpServletRequest req, HttpSession ses) throws Exception {
 		// //algorithm/writeBoard.jsp로 포워딩
+		
+		List<AlgDetailDTO> algDetailDTO = null;
+		
 		System.out.println("상세글작성");
 		
 		System.out.println(ses.getAttribute("boardNo"));
@@ -145,6 +148,17 @@ public class AlgorithmController {
 		int boardNo = Integer.parseInt((String) ses.getAttribute("boardNo"));
 		
 		System.out.println(boardNo);
+		
+		
+		// db 에서 algDetail 정보를 받어서 서비스 단으로
+		algDetailDTO = aService.getListDetail(boardNo);
+		
+		
+		
+		
+		model.addAttribute("boardNo", boardNo);
+		model.addAttribute("algDetailList", algDetailDTO);
+		
 		
 		
 		
@@ -158,7 +172,18 @@ public class AlgorithmController {
 	
 	
 	@RequestMapping(value = "/writeDetailPOST", method = RequestMethod.POST)
-	public void writeAlgDetail() {
+	public String writeAlgDetail(AlgDetailDTO algDetailDTO) {
+		// jsp 에서 post로 받아온 정보를 algDetail 에 insert
+		System.out.println("$$$$$$$$$$$");
+		System.out.println(algDetailDTO);
+		
+		int boardNo = algDetailDTO.getAlgBoardNo();
+		
+		
+		aService.writeAlgDetail(algDetailDTO);
+		
+		return "redirect:algDetail?boardNo="+boardNo;
+		//return "/algorithm/algDetail?boardNo="+boardNo;
 		
 	}
 
