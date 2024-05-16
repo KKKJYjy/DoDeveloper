@@ -37,7 +37,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter implements Sessi
 
 		HttpSession session = request.getSession();
 		
-		MemberVO loginMember = (MemberVO)modelAndView.getModelMap().get("loginMember");
+		MemberVO loginMember = (MemberVO)modelAndView.getModelMap().get(LOGIN_MEMBER);
 		logger.info("LoginInterceptor.post>>" + loginMember);
 		
 		if (loginMember != null) {

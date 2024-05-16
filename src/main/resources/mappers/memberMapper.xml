@@ -15,7 +15,7 @@
 	</update>
 
 	<!-- 자동 로그인 유저인지 체크 -->
-	<select id="checkUserWithSessionKey" resultType="MemberVO">
+	<select id="checkLoginBefore" resultType="MemberVO">
 		select * from member where sessionVal = #{loginCookie} and sessionLimit > now()
 	</select>
 	
@@ -40,5 +40,19 @@
 	
 	<update id="changePwd">
 		update member set userPwd = sha1(md5(#{newUserPwd})) where userId = #{userId}
+	</update>
+	
+	<update id="changeProfile">
+		update member set email = #{email}, careers = #{careers} where userId = #{userId}
+	</update>
+	
+	<!-- 회원 탈퇴 insert -->
+	<insert id="dropMember">
+		insert into dropMember(dropUserId, dropReason) values(#{userId}, #{dropReason})
+	</insert>
+	
+	<!-- 회원탈퇴 status 변경 -->
+	<update id="changeDropStatus">
+		update member set status = #{status} where userId = #{userId}
 	</update>
 </mapper>

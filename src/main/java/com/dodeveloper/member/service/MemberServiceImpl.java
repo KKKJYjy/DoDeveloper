@@ -4,12 +4,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dodeveloper.member.dao.MemberDAO;
+import com.dodeveloper.member.dto.DropMemberDTO;
 import com.dodeveloper.member.dto.LoginDTO;
 import com.dodeveloper.member.dto.RegisterDTO;
 import com.dodeveloper.member.dto.SessionDTO;
 import com.dodeveloper.member.vo.MemberVO;
+import com.dodeveloper.mypage.dto.ChangeProfileDTO;
 import com.dodeveloper.mypage.dto.ChangePwdDTO;
 
 @Service
@@ -27,7 +32,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public void keepLogin(SessionDTO sessionDTO) throws Exception {
-		System.out.println("sessionDTO : " + sessionDTO.toString());
+		System.out.println("keepLogin sessionDTO : " + sessionDTO.toString());
 		mDao.keepLogin(sessionDTO);
 	}
 
@@ -59,5 +64,22 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int changeUserPwd(ChangePwdDTO changePwdDTO) throws Exception {
 		return mDao.changeUserPwd(changePwdDTO);
+	}
+
+	@Override
+	public int changeProfile(ChangeProfileDTO changeProfileDTO) throws Exception {
+		return mDao.changeProfile(changeProfileDTO);
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+	public boolean dropMember(DropMemberDTO dropMemberDTO) throws Exception {
+		boolean result = false;
+		if (mDao.dropMember(dropMemberDTO) > 0) {
+			if (mDao.changeDropStatus(dropMemberDTO) > 0) {
+				result = true;
+			}
+		}
+		return result;
 	}
 }

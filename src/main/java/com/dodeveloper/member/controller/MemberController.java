@@ -1,5 +1,6 @@
 package com.dodeveloper.member.controller;
 
+import java.nio.charset.Charset;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,20 +13,26 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.WebUtils;
 
 import com.dodeveloper.commons.interceptor.SessionNames;
+import com.dodeveloper.member.dto.DropMemberDTO;
 import com.dodeveloper.member.dto.LoginDTO;
 import com.dodeveloper.member.dto.RegisterDTO;
 import com.dodeveloper.member.dto.SessionDTO;
 import com.dodeveloper.member.service.MemberService;
 import com.dodeveloper.member.vo.MemberVO;
+import com.dodeveloper.mypage.dto.ChangeProfileDTO;
 
 @Controller
 @RequestMapping("/member")
@@ -48,15 +55,21 @@ public class MemberController {
 		String result = "";
 		
 		MemberVO loginMember = mService.login(loginDTO);
+		System.out.println("loginMember : " + loginMember);
 		if (loginMember != null) {
+			
+			System.out.println("로그인 성공1");
+			
+			if (loginDTO.isRemember()) {
+				String sessionId = session.getId();
+				System.out.println("sessionId : " + sessionId);
+				Timestamp sessionLimit = new Timestamp(System.currentTimeMillis() + (1000 * SessionNames.EXPIRE));
 
-			String sessionId = session.getId();
-			Timestamp sessionLimit = new Timestamp(System.currentTimeMillis() + (1000 * SessionNames.EXPIRE));
-
-			mService.keepLogin(new SessionDTO(sessionId, sessionLimit, loginMember.getUserId()));
+				mService.keepLogin(new SessionDTO(sessionId, sessionLimit, loginMember.getUserId()));
+			}
 			model.addAttribute(SessionNames.LOGIN_MEMBER, loginMember);
 			
-			System.out.println("로그인 성공");
+			System.out.println("로그인 성공2");
 			
 			result = "/member/loginPost";
 		} else {
@@ -127,6 +140,27 @@ public class MemberController {
 		return resultMap;
 	}
 	
-	
+	@ResponseBody
+	@RequestMapping(value = "/dropMember", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<Map<String, Object>> dropMember(@RequestBody DropMemberDTO dropMemberDTO) throws Exception {
+		System.out.println("dropMemberDTO : " + dropMemberDTO.toString());
+		
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		
+		if (mService.dropMember(dropMemberDTO)) {
+			returnMap.put("state", "T");
+			returnMap.put("message", "Success");
+		} else {
+			returnMap.put("state", "F");
+			returnMap.put("message", "Fail");
+		}
+		
+		HttpHeaders headers = new HttpHeaders();
+		Charset utf8 = Charset.forName("utf-8");
+		MediaType mediaType = new MediaType(MediaType.APPLICATION_JSON_UTF8, utf8);
+		headers.setContentType(mediaType);
+		
+		return ResponseEntity.ok().headers(headers).body(returnMap);
+	}
 	
 }

@@ -1,9 +1,11 @@
 package com.dodeveloper.member.service;
 
+import com.dodeveloper.member.dto.DropMemberDTO;
 import com.dodeveloper.member.dto.LoginDTO;
 import com.dodeveloper.member.dto.RegisterDTO;
 import com.dodeveloper.member.dto.SessionDTO;
 import com.dodeveloper.member.vo.MemberVO;
+import com.dodeveloper.mypage.dto.ChangeProfileDTO;
 import com.dodeveloper.mypage.dto.ChangePwdDTO;
 
 public interface MemberService {
@@ -30,4 +32,10 @@ public interface MemberService {
 	
 	// 비밀번호 변경
 	int changeUserPwd(ChangePwdDTO changePwdDTO) throws Exception;
+	
+	// 프로파일 변경
+	int changeProfile(ChangeProfileDTO changeProfileDTO) throws Exception;
+
+	// 회원 탈퇴
+	boolean dropMember(DropMemberDTO dropMemberDTO) throws Exception;
 }
