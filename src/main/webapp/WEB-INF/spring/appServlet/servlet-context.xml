@@ -37,6 +37,10 @@
 	<beans:bean id="loginInterceptor"
 		class="com.dodeveloper.commons.interceptor.LoginInterceptor">
 	</beans:bean>
+	
+	<beans:bean id="rememberInterceptor"
+		class="com.dodeveloper.commons.interceptor.RememberInterceptor">
+	</beans:bean>
 
 	<beans:bean id="authInterceptor"
 		class="com.dodeveloper.commons.interceptor.AuthInterceptor">
@@ -48,6 +52,12 @@
 			<!-- /member/loginPost 매핑 주소가 들어오면 loginInterceptor 객체가 동작하도록 -->
 			<mapping path="/member/loginPost" />
 			<beans:ref bean="loginInterceptor" />
+		</interceptor>
+		
+		<interceptor>
+			<!-- /**/ 매핑 주소가 들어오면 RememberInterceptor 객체가 동작하도록 -->
+			<mapping path="/**/" />
+			<beans:ref bean="rememberInterceptor" />
 		</interceptor>
 
 		<interceptor>
