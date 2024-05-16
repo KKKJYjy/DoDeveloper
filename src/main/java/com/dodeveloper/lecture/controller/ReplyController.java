@@ -1,13 +1,11 @@
 package com.dodeveloper.lecture.controller;
 
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,26 +32,28 @@ public class ReplyController {
 	 * @author :
 	 * @date : 2024.05.07
 	 * @param : @PathVariable("bNo") int bNo - 게시글 번호를 메서드의 매개변수로 전달하여 사용
+	 * @param : @PathVariable("bType") int bType - 게시판 구분을 메서드의 매개변수로 전달하여 사용
 	 * @return : ResponseEntity<List<ReplyVO>>
+	 * ResponseEntity - 응답하려는 데이터(json) + 응답 코드(HttpStatus)를 함께 가지고 응답 할 수 있는 객체
 	 * @description : (Read) 부모글이 ?번 글에 대한 모든 댓글을 가져오는 메서드
 	 */
-	@GetMapping("/list/{bNo}")
-	public ResponseEntity<List<ReplyVO>> selectAllReply(@PathVariable("bNo") int bNo) {
-		try {
+	@GetMapping("/list/{bType}/{bNo}")
+	public ResponseEntity<List<ReplyVO>> selectAllReply(@PathVariable("bNo") int bNo, @PathVariable("bType") int bType) {
+		logger.info("댓글 조회 bNo : " + bNo + ", bType : " + bType);
+		
+	    try {
+	        // 게시글 번호(bNo)에 해당하는 모든 댓글을 가져와서 replyList에 담고,
+	        List<ReplyVO> replyList = rService.selectAllReply(bNo, bType);
 
-			// Service단에서 게시글 번호에 대한 모든 댓글을 가져와서 replyList 담고,
-			List<ReplyVO> replyList = rService.selectAllReply(bNo);
+	        // 가져온 댓글 목록을 ResponseEntity에 담아서 반환.
+	        return ResponseEntity.ok(replyList);
 
-			// ResponseEntity에 담아서 반환하는데 HTTP상태 코드는 200(OK)이다.
-			return new ResponseEntity<List<ReplyVO>>(replyList, HttpStatus.OK);
+	    } catch (Exception e) {
+	        e.printStackTrace();
 
-		} catch (Exception e) {
-			e.printStackTrace();
-
-			// Service단에서 게시글 번호에 대한 모든 댓글을 못가져왔을 경우 빈 목록을 반환
-			return new ResponseEntity<List<ReplyVO>>(HttpStatus.INTERNAL_SERVER_ERROR);
-
-		}
+	        // 예외가 발생하면 500(Internal Server Error) 상태 코드를 반환.
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+	    }
 	}
 
 	/**
@@ -61,19 +61,24 @@ public class ReplyController {
 	 * @author :
 	 * @date : 2024.05.08
 	 * @param : @PathVariable("bNo") int bNo - 게시글 번호
+	 * @param : @PathVariable("bType") int bType - 게시판 구분
 	 * @param : @RequestBody ReplyDTO rDTO - ReplyDTO(댓글 작성시 반환할 변수들)
 	 * @return : ResponseEntity<String>
 	 * @description : ?번 글에 대한 댓글을 작성하는 메서드
 	 */
-	@RequestMapping(value = "/{bNo}", method = RequestMethod.POST, produces = "text/plain; charset=utf-8")
-	public ResponseEntity<String> insertReply(@PathVariable("bNo") int bNo, @RequestBody ReplyDTO rDTO) {
-		System.out.println(bNo + "번 게시글에 " + rDTO.toString() + "댓글 작성 완료!");
+	@RequestMapping(value = "/{bType}/{bNo}", method = RequestMethod.POST, produces = "text/plain; charset=utf-8")
+	public ResponseEntity<String> insertReply(@PathVariable("bNo") int bNo, @PathVariable("bType") int bType, @RequestBody ReplyDTO rDTO) {
+		System.out.println(bNo + "번 게시글에 " + bType + "게시판에 " + rDTO.toString() + "댓글 작성 완료!");
 
 		ResponseEntity<String> result = null;
 
 		// rDTO 객체의 bNo 속성을 bNo 변수의 값으로 설정 후, rDTO 객체가 특정 게시글 번호를 가지도록
 		rDTO.setBNo(bNo);
+		// rDTO 객체의 bType 속성을 bType 변수의 값으로 설정 후, rDTO 객체가 특정 게시판을 구분하도록
+		// rDTO.setBType(bType);
 
+		System.out.println(bNo + bType);
+		
 		try {
 			if (rService.insertReply(rDTO) == 1) {
 				// 댓글 작성에 성공했을 경우

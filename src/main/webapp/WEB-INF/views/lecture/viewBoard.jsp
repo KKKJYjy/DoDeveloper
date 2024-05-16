@@ -117,7 +117,7 @@ $(function() {
 
 				// AJAX를 이용하여 댓글 추가 요청 보내기
 				$.ajax({
-					url : '/reply/' + bNo,
+					url : '/reply/' + bType + "/"+ bNo,
 					type : 'post',
 					data : JSON.stringify(newReply), // 서버에 넘겨주는 데이터
 					headers : { // 서버에 보내지는 데이터의 형식이 json임을 알림
@@ -160,9 +160,12 @@ function preAuth() {
 // 전체 댓글 가져오기
 function getAllReplies() {
 	let bNo = '${lecBoard.lecNo}';
-
+	let bType = 1;
+	
+	// alert("bNo" + bNo + "bType" + bType);
+	
 	$.ajax({
-		url : "/reply/list/" + bNo,
+		url : "/reply/list/" + bType + "/" + bNo,
 		type : "get",
 		dataType : "json", // 수신받을 데이터의 타입
 		async : 'false',

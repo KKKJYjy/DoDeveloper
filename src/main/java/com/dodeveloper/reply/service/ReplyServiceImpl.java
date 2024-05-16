@@ -1,7 +1,6 @@
 package com.dodeveloper.reply.service;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +19,14 @@ public class ReplyServiceImpl implements ReplyService {
 	 * @author : kde
 	 * @date : 2024.05.07
 	 * @param : int bNo - 게시글 번호
+	 * @param : int bType - 게시판 구분
 	 * @return : List<ReplyVO>
 	 * @description : (Read) 부모글이 ?번 글에 대한 모든 댓글을 가져오는 메서드
 	 */
 	@Override
-	public List<ReplyVO> selectAllReply(int bNo) throws Exception {
-
-		return rDao.selectAllReply(bNo);
+	public List<ReplyVO> selectAllReply(int bNo, int bType) throws Exception {
+		
+		return rDao.selectAllReply(bNo, bType);
 	}
 
 	/**
@@ -40,6 +40,8 @@ public class ReplyServiceImpl implements ReplyService {
 	@Override
 	public int insertReply(ReplyDTO rDTO) throws Exception {
 
+		System.out.println("서비스단 댓글 작성 시 " +  rDTO.toString());
+		
 		return rDao.insertReply(rDTO);
 	}
 
