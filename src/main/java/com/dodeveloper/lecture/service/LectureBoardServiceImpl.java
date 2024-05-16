@@ -7,8 +7,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dodeveloper.lecture.dao.LectureBoardDAO;
+import com.dodeveloper.lecture.etc.PagingInfo;
 import com.dodeveloper.lecture.vodto.LectureBoardDTO;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
 import com.dodeveloper.lecture.vodto.LectureSearchDTO;
@@ -19,65 +21,151 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	@Autowired
 	private LectureBoardDAO lDao; // 스프링 컨테이너에 있는 LectureDAO 객체를 찾아 주입
 
+	@Autowired
+	private PagingInfo pi; // 스프링 컨테이너에 있는 PagingInfo 객체를 찾아 주입
+
 	/**
 	 * @methodName : getListAllBoard
 	 * @author : kde
 	 * @date : 2024.05.02
 	 * @param : int lecNo - 게시글 번호
+	 * @param : int pageNo - 페이지 번호
+	 * @param : LectureSearchDTO lsDTO - 검색할 때 가져올 Type, Value(검색조건)
 	 * @return : List<LectureBoardVO>
-	 * @description : 게시판 전체 조회에 대한 서비스 메서드
+	 * @description : 1) 게시판 전체 조회에 대한 서비스 메서드
+	 * 2) 검색 조건을 선택하고 검색어를 입력했을 때 글을 가져오는 메서드 - 검색 조건
+	 * 3) 검색 필터(최신순 / 인기순 / 조회순)을 선택했을 때 글을 가져오는 메서드 - 검색 필터
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public List<LectureBoardVO> getListAllBoard(int lecNo) throws Exception {
-		System.out.println("서비스단 : 페이지 전체 게시글 조회!");
+	public Map<String, Object> getListAllBoard(int pageNo, LectureSearchDTO lsDTO) throws Exception {
+	    System.out.println("서비스단 : " + pageNo + "페이지 전체 게시글 조회!" + lsDTO);
 
-		// DAO단 호출 (selectListAllLecBoard() 메서드 호출)
-		List<LectureBoardVO> lecBoardList = null;
+	    // DAO단 호출 (selectListAllLecBoard() 메서드 호출)
+	    List<LectureBoardVO> lectureBoardList = null;
 
-		return lDao.selectListAllLecBoard();
+	    // 페이징 처리
+	    makePagingInfo(pageNo, lsDTO);
 
+	    
+	    // 여기서 검색 필터부분에서 2페이지로 넘어갈 경우 filterType=view&searchType=&searchValue= 이렇게 나오니까
+	    // 이 부분 수정하기 if 문안에 또 if문 사용해서 searchType / searchValue 는 제외하기
+	    
+	    // 검색 조건 처리
+	    if (lsDTO.getSearchType() != null && lsDTO.getSearchValue() != null) {
+	        lectureBoardList = lDao.lectureBoardListWithSc(lsDTO, pi);
+//	        System.out.println("검색어가 있을 경우(검색조건)" + lDao.lectureBoardListWithSc(lsDTO, pi));
+	    } else {
+	        // 검색어가 없을 경우
+	        if (lsDTO.getFilterType() != null) {
+	            // 검색 필터가 있는 경우
+	            lectureBoardList = lDao.listAllBoardByFilter(lsDTO, pi);
+//	            System.out.println("검색필터 있을 경우" + lDao.listAllBoardByFilter(lsDTO, pi));
+	        } else {
+	            // 검색 필터가 없는 경우
+	            lectureBoardList = lDao.selectListAllLecBoard(pi);
+//	            System.out.println("검색필터 없을 경우" + lDao.selectListAllLecBoard(pi));
+	        }
+	    }
+
+	    Map<String, Object> returnMap = new HashMap<>();
+	    // 페이징 된 게시글 바인딩
+	    returnMap.put("lectureBoardList", lectureBoardList);
+	    // 페이징 정보를 바인딩
+	    returnMap.put("pagingInfo", this.pi);
+
+	    System.out.println(pi);
+
+	    return returnMap;
 	}
 
 	/**
-	 * @methodName : listAllBoardBySearch
-	 * @author : kde
-	 * @date : 2024.05.06
-	 * @param : int lecNo - 게시글 번호
-	 * @param : LectureSearchDTO lsDTO - 검색할 때 가져올 Type, Value
-	 * @return : List<LectureBoardVO>
-	 * @description : 검색 조건을 선택하고 검색어를 입력했을 때 글을 가져오는 메서드 - 검색 조건
+	 * @methodName : makePagingInfo
+	 * @date : 2024.05.15
+	 * @param : int pageNo - 보여줘야 할 페이지 번호
+	 * @param : LectureSearchDTO lsDTO - 검색조건 / 검색필터
+	 * @return : void
+	 * @description : 페이징 처리하는 메서드
+	 * 1) 검색 조건이 있을 경우 검색 조건에 대한 글의 갯수 가져오기
+	 * 2) 검색필터의 조건이 있는 경우 글의 갯수 가져오기
 	 */
-	@Override
-	public List<LectureBoardVO> listAllBoardBySearch(int lecNo, LectureSearchDTO lsDTO) throws Exception {
-		System.out.println("검색조건을 선택하고 검색어를 입력했습니다!");
+	private void makePagingInfo(int pageNo, LectureSearchDTO lsDTO) throws Exception {
 
-		// 검색 조건
-		// 검색어가 있는지 없는지 판단
-		if (lsDTO.getSearchType() != null && lsDTO.getSearchValue() != null) {
-			// 검색어가 있는 경우
-			return lDao.lectureBoardListWithSc(lsDTO);
-		} else {
-			// 검색어가 없는 경우
-			return lDao.selectListAllLecBoard();
+	    // pageNo값
+	    this.pi.setPageNo(pageNo);
 
-		}
+	    // 게시물의 데이터 갯수 구해 멤버 변수에 저장
+	    if (lsDTO.getSearchType() != null && lsDTO.getSearchValue() != null) {
+	        // 검색 조건이 있는 경우
+	        this.pi.setTotalPostCnt(lDao.lectureBoardCntWithSc(lsDTO)); // 검색 조건에 대한 글의 갯수
+	    } else if (lsDTO.getFilterType() != null) {
+	        // 검색 필터가 있는 경우
+	        this.pi.setTotalPostCnt(lDao.lectureBoardCntFilter(lsDTO)); // 검색 필터에 대한 글의 갯수
+	    } else {
+	        // 검색 조건과 검색 필터가 모두 없는 경우
+	        this.pi.setTotalPostCnt(lDao.selectTotalLectureBoardCnt()); // 전체 글의 갯수
+	    }
+
+	    // 총 페이지 수 저장
+	    this.pi.setTotalPageCnt();
+
+	    // 보여주기 시작할 글의 rowIndex 번호 구해서 저장
+	    this.pi.setStartRowIndex();
+
+	    // ----------------------------------------------------------
+
+	    // 전체 페이지 블럭 갯수 구해서 저장
+	    this.pi.setTotalPageBlockCnt();
+
+	    // 현재 페이지가 속한 페이징 블럭 번호 구해서 저장
+	    this.pi.setPageBlockOfCurrentPage();
+
+	    // 현재 페이징 블럭 시작 페이지 번호 구해서 저장
+	    this.pi.setStartNumOfCurrentPagingBlock();
+
+	    // 현재 페이징 블럭 끝 페이지 번호 구해서 저장
+	    this.pi.setEndNumOfCurrentPagingBlock();
 	}
 
 	/**
-	 * @methodName : listAllBoardByFilter
-	 * @author : kde
-	 * @date : 2024.05.06
-	 * @param : List<LectureBoardVO> lectureBoardList - 게시글 목록
-	 * @param : String filterType - 필터 타입(최신순 / 인기순 / 조회순)
-	 * @return : List<LectureBoardVO>
-	 * @description : 검색 필터(최신순 / 인기순 / 조회순)을 선택했을 때 글을 가져오는 메서드 - 검색 필터
+	 * @methodName : makePagingInfo
+	 * @author : 
+	 * @date : 2024.05.15
+	 * @param : int pageNo - 보여줘야 할 페이지 번호
+	 * @return : void
+	 * @description : 검색어가 없는 경우의 페이징 처리
+	 * 1) 페이징 구현할 때 필요한 값을 만들어 paginInfo 객체에 저장해야 한다.
+	 * 2) 페이징 블럭까지 처리해야한다.
 	 */
-	@Override
-	public List<LectureBoardVO> listAllBoardByFilter(List<LectureBoardVO> lectureBoardList, String filterType)
-			throws Exception {
+	private void makePagingInfo(int pageNo) throws Exception {
 
-		return lDao.listAllBoardByFilter(lectureBoardList, filterType);
+		// pageNo값
+		this.pi.setPageNo(pageNo);
+
+		// 게시물의 데이터 갯수 구해 멤버 변수에 저장
+		this.pi.setTotalPostCnt(lDao.selectTotalLectureBoardCnt());
+//		System.out.println("검색어가 없는 경우 : " + lDao.selectTotalLectureBoardCnt());
+
+		// 총 페이지 수 저장
+		this.pi.setTotalPageCnt();
+
+		// 보여주기 시작할 글의 rowIndex 번호 구해서 저장
+		this.pi.setStartRowIndex();
+
+		// ----------------------------------------------------------
+
+		// 전체 페이지 블럭 갯수 구해서 저장
+		this.pi.setTotalPageBlockCnt();
+
+		// 현재 페이지가 속한 페이징 블럭 번호 구해서 저장
+		this.pi.setPageBlockOfCurrentPage();
+
+		// 현재 페이징 블럭 시작 페이지 번호 구해서 저장
+		this.pi.setStartNumOfCurrentPagingBlock();
+
+		// 현재 페이징 블럭 끝 페이지 번호 구해서 저장
+		this.pi.setEndNumOfCurrentPagingBlock();
+
 	}
 
 	/**
@@ -94,7 +182,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	@Override
 	public Map<String, Object> getBoardByBoardNo(int lecNo, String user) throws Exception {
 		System.out.println(user + "가" + lecNo + "번 글을 조회한다.");
-		
+
 		if (lDao.selectDiff(user, lecNo) == -1) {
 			// user가 하루 이내에 읽은 적이 없을 경우
 			lDao.updateReadCount(lecNo); // 조회수 증가
@@ -103,7 +191,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 
 		// 조회된 글 가져오기
 		LectureBoardVO lecBoard = lDao.selectBoardLecNo(lecNo);
-		
+
 		System.out.println("조회된 글 : " + lecBoard.toString());
 
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -123,7 +211,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	 */
 	@Override
 	public Map<String, Object> getBoardByBoardNo(int lecNo) throws Exception {
-		
+
 		// DAO단에서 조회된 글 가져오기
 		LectureBoardVO lecBoard = lDao.selectBoardLecNo(lecNo);
 

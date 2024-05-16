@@ -78,6 +78,30 @@
 		return true;
 	}
 	
+	// 이 부분도 한번 확인하기
+	function isFilterValid() {
+		let filterType = $('#filterType').val();
+		
+		if (filterType === "-1") {
+			alert("검색 필터를 선택해주세요.");
+			return false;
+		}
+		return true;
+	}
+
+	/* 페이징 */
+	$(function() {
+		let pageNo = '${param.pageNo}';
+
+		// 비어 있거나 정의되지 않은 경우에 기본값을 1로 설정
+		if (pageNo === '' || pageNo === undefined) {
+			pageNo = 1;
+		}
+
+		// id가 pageNo변수인 태그를 찾아 그 태그에 'active'라는 이름의 클래스 부여
+		$(`\${pageNo}`).addClass('active');
+		// alert(pageNo);
+	});
 </script>
 <style>
 select option:hover {
@@ -129,8 +153,8 @@ select option:hover {
 							</div>
 						</div>
 					</div>
-					
-					
+
+
 					<div class="button-container">
 						<button type="button" class="btn btn-dark dropdown-toggle filters"
 							data-bs-toggle="dropdown">검색 필터</button>
@@ -140,7 +164,8 @@ select option:hover {
 							<li><a class="dropdown-item" href="?filterType=view">조회순</a></li>
 						</ul>
 
-						<button type="button" class="btn btn-dark writeren" id="applyFilterBtn"
+						<button type="button" class="btn btn-dark writeren"
+							id="applyFilterBtn"
 							onclick="location.href='/lecture/writeBoard';">글 작성</button>
 					</div>
 
@@ -181,11 +206,24 @@ select option:hover {
 
 
 				<!-- 페이징 -->
+				<!-- 여기서 사용한 쿼리스트링은 페이징 다음 페이지로 넘어갔을 때 조건을 유지하기 위해서 사용한 것 -->
 				<ul class="pagination">
-					<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-					<li class="page-item active"><a class="page-link" href="#">${i }</a></li>
-					<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+					<c:if test="${param.pageNo > 1}">
+						<li class="page-item "><a class="page-link"
+							href="/lecture/listAll?pageNo=${param.pageNo -1 }&filterType=${param.filterType}&searchType=${param.searchType}&searchValue=${param.searchValue}">Previous</a></li>
+					</c:if>
+					<c:forEach var="i"
+						begin="${pagingInfo.startNumOfCurrentPagingBlock }"
+						end="${pagingInfo.endNumOfCurrentPagingBlock }" step="1">
+						<li class="page-item " id="${i }"><a class="page-link"
+							href="/lecture/listAll?pageNo=${i }&filterType=${param.filterType}&searchType=${param.searchType}&searchValue=${param.searchValue}">${i }</a></li>
+					</c:forEach>
+					<c:if test="${param.pageNo < pagingInfo.totalPageCnt}">
+						<li class="page-item "><a class="page-link"
+							href="/lecture/listAll?pageNo=${param.pageNo +1 }&filterType=${param.filterType}&searchType=${param.searchType}&searchValue=${param.searchValue}">Next</a></li>
+					</c:if>
 				</ul>
+
 
 			</div>
 		</section>

@@ -13,8 +13,6 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,13 +22,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import com.dodeveloper.lecture.etc.PagingInfo;
 import com.dodeveloper.lecture.service.LectureBoardService;
 import com.dodeveloper.lecture.vodto.LectureBoardDTO;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
 import com.dodeveloper.lecture.vodto.LectureSearchDTO;
-import com.dodeveloper.member.dto.LoginDTO;
 import com.dodeveloper.member.vo.MemberVO;
 
 /**
@@ -67,36 +63,28 @@ public class LectureBoardController {
 	 * @description : 1) 강의 추천 게시판 전체 글 조회를 담당하는 controller 메서드
 	 * 2) 검색 조건 : 검색을 했을 경우 - 제목 / 작성자 / 내용
 	 */
-	@GetMapping(value = "/listAll")
-	public void listBoardGet(Model model,
-	        @RequestParam(value = "searchType", required = false) String searchType,
-	        @RequestParam(value = "searchValue", required = false) String searchValue,
-	        @RequestParam(value = "filterType", required = false) String filterType,
-	        LectureSearchDTO lsDTO) throws Exception {
+	@RequestMapping(value = "/listAll")
+	public void listBoardGet(Model model, LectureSearchDTO lsDTO,
+			@RequestParam(value = "pageNo", defaultValue = "1") int pageNo) throws Exception {
+		logger.info(pageNo + "게시글 전체 글을 조회하자!");
+		logger.info("검색어 : " + lsDTO.toString());
 	    
-	    List<LectureBoardVO> lectureBoardList = null;
-	    
-	    // 검색 필터와 검색 조건을 동시에 처리
-	    if (searchType != null && searchValue != null) {
-	    	logger.info("검색 조건을 선택하고 검색어를 입력했어요!");
-	        // 검색 조건이 있는 경우
-	        lsDTO.setSearchType(searchType);
-	        lsDTO.setSearchValue(searchValue);
-	        lectureBoardList = lService.listAllBoardBySearch(1, lsDTO);
-	    } else {
-	        // 검색 조건이 없는 경우
-	        lectureBoardList = lService.getListAllBoard(1);
-	    }
-	    
-	    // 검색 필터 적용
-	    if (filterType != null && !filterType.isEmpty()) {
-	    	logger.info("검색 필터를 선택했어요!");
-	        // 필터가 존재하면 해당 필터에 따라 게시글을 가져옴
-	        lectureBoardList = lService.listAllBoardByFilter(lectureBoardList, filterType);
-	    }
-	    
+		Map<String, Object> resultMap = null;
+		
+		String resultPage = null;
+		
+		if (pageNo <= 0) {
+			pageNo = 1;
+		}
+		
+		// 서비스단 호출(getListAllBoard() 메서드 호출)
+		resultMap = lService.getListAllBoard(pageNo, lsDTO);
+		
 	    // 바인딩
-	    model.addAttribute("lectureBoardList", lectureBoardList);
+		// 게시글 자체를 바인딩
+	    model.addAttribute("lectureBoardList", (List<LectureBoardVO>)resultMap.get("lectureBoardList"));
+	    // 페이징 정보를 바인딩
+	    model.addAttribute("pagingInfo", (PagingInfo)resultMap.get("pagingInfo"));
 
 	}
 
@@ -124,14 +112,15 @@ public class LectureBoardController {
 			String sesId = req.getSession().getId();
 			user = sesId;
 			saveCookie(resp, sesId);
-			System.out.println("로그인 안한 "+ user + "의 쿠키값");
+			
+			logger.info("로그인 안한 유저의 쿠키값" + user);
 		} else {
 			// 로그인을 하지않았는데 쿠키가 있다면
 			// 쿠키를 찾아서 조회수를 안올리도록
 			user = cookieExist(req, "rses");
 		}
 
-		System.out.println("현재 상태의 유저 : " + user + "가 " + lecNo + "번 글을 조회한다!");
+		logger.info("현재 상태의 유저 : " + user + "가 " + lecNo + "번 글을 조회한다!");
 
 		Map<String, Object> result = lService.getBoardByBoardNo(lecNo, user);
 
