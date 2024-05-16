@@ -8,32 +8,34 @@
 <title>Insert title here</title>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-</head>
 <script>
-$(function () {
-	
-	$('#status').change(function(){
-		
-		let newStatus = $(this).val();
-		let userId = "";
-		
-		
-		$.ajax({
-		    url: "/admin/status",
-		    type: "post",
-		    data: {"newStatus": newStatus, "userId": userId}, // 보내는 데이터
-		    success: function (data) {
-		      // data(json)
-		      // 통신 성공하면 실행할 내용들....
-		      console.log(data);
-		    },
-		  });
-		
-	})
-	
+	$(function() {
 
-}
+		$('#status').change(function() {
+
+			let newStatus = $(this).val();
+			let userId = "";
+
+			$.ajax({
+				url : "/admin/status",
+				type : "post",
+				data : {
+					"newStatus" : newStatus,
+					"userId" : userId
+				}, // 보내는 데이터
+				success : function(data) {
+					// data(json)
+					// 통신 성공하면 실행할 내용들....
+					console.log(data);
+				},
+			});
+
+		})
+
+	})
 </script>
+
+</head>
 <body>
 	<c:set var="contextPath" value="<%=request.getContextPath()%>" />
 	<c:import url="./adminHeader.jsp"></c:import>
@@ -46,6 +48,8 @@ $(function () {
 	<div class="page-wrapper">
 
 		<c:import url="./adminMiniHeader.jsp"></c:import>
+
+
 		<div class="container-fluid">
 
 			<!-- ============================================================== -->
@@ -77,27 +81,27 @@ $(function () {
 												<td>${user.email}</td>
 												<td>${user.registerDate}</td>
 												<td><c:choose>
-													<c:when test="${user.status == '정상회원'}">
-														<select class="form-select form-select-sm" id="status">
-															<option>${user.status}</option>
-															<option>정지회원</option>
-															<option>탈퇴회원</option>
-														</select>
+														<c:when test="${user.status == '정상회원'}">
+															<select class="form-select form-select-sm" id="status">
+																<option>${user.status}</option>
+																<option>정지회원</option>
+																<option>탈퇴회원</option>
+															</select>
 														</c:when>
-														
-														<c:when test="${user.status == '정지회원'}" >
-														<select class="form-select form-select-sm" id="status">
-															<option>${user.status}</option>
-															<option>정상회원</option>
-															<option>탈퇴회원</option>
-														</select>
+
+														<c:when test="${user.status == '정지회원'}">
+															<select class="form-select form-select-sm" id="status">
+																<option>${user.status}</option>
+																<option>정상회원</option>
+																<option>탈퇴회원</option>
+															</select>
 														</c:when>
 														<c:otherwise>
 															<select class="form-select form-select-sm" id="status">
-															<option>${user.status}</option>
-															<option>정상회원</option>
-															<option>정지회원</option>
-														</select>
+																<option>${user.status}</option>
+																<option>정상회원</option>
+																<option>정지회원</option>
+															</select>
 														</c:otherwise>
 													</c:choose></td>
 											</tr>
@@ -127,5 +131,7 @@ $(function () {
 
 		<c:import url="./adminFooter.jsp"></c:import>
 	</div>
+
+
 </body>
 </html>
