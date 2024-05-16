@@ -94,10 +94,13 @@
 	<context:component-scan
 		base-package="com.dodeveloper.etc"></context:component-scan>
 
+	<!-- Lecture 관련 패키지 -->
 	<context:component-scan
 		base-package="com.dodeveloper.lecture.service"></context:component-scan>
 	<context:component-scan
 		base-package="com.dodeveloper.lecture.dao"></context:component-scan>
+	<context:component-scan
+		base-package="com.dodeveloper.lecture.etc"></context:component-scan>
 	<!-- 댓글 패키지 -->
 	<context:component-scan
 		base-package="com.dodeveloper.reply.dao"></context:component-scan>

@@ -5,6 +5,7 @@ import java.util.List;
 
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -21,12 +22,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
+import com.dodeveloper.lecture.etc.PagingInfo;
 import com.dodeveloper.lecture.service.LectureBoardService;
 import com.dodeveloper.lecture.vodto.LectureBoardDTO;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
 import com.dodeveloper.lecture.vodto.LectureSearchDTO;
+import com.dodeveloper.member.vo.MemberVO;
 
+/**
+ * @PackageName : com.dodeveloper.lecture.controller
+ * @fileName : LectureBoardController.java
+ * @author : 
+ * @date : 2024.05.13
+ * @description : 
+ */
 @Controller // 아래의 클래스가 컨트롤러 객체임을 명시
 @RequestMapping("/lecture") // "/lecture"가 GET방식으로 요청될 때 아래의 클래스가 동작되도록 설정
 public class LectureBoardController {
@@ -54,39 +63,30 @@ public class LectureBoardController {
 	 * @description : 1) 강의 추천 게시판 전체 글 조회를 담당하는 controller 메서드
 	 * 2) 검색 조건 : 검색을 했을 경우 - 제목 / 작성자 / 내용
 	 */
-	@GetMapping(value = "/listAll")
-	public void listBoardGet(Model model,
-	        @RequestParam(value = "searchType", required = false) String searchType,
-	        @RequestParam(value = "searchValue", required = false) String searchValue,
-	        @RequestParam(value = "filterType", required = false) String filterType,
-	        LectureSearchDTO lsDTO) throws Exception {
+	@RequestMapping(value = "/listAll")
+	public void listBoardGet(Model model, LectureSearchDTO lsDTO,
+			@RequestParam(value = "pageNo", defaultValue = "1") int pageNo) throws Exception {
+		logger.info(pageNo + "게시글 전체 글을 조회하자!");
+		logger.info("검색어 : " + lsDTO.toString());
 	    
-	    List<LectureBoardVO> lectureBoardList = null;
-	    
-	    // 검색 필터와 검색 조건을 동시에 처리
-	    if (searchType != null && searchValue != null) {
-	    	logger.info("검색 조건을 선택하고 검색어를 입력했어요!");
-	        // 검색 조건이 있는 경우
-	        lsDTO.setSearchType(searchType);
-	        lsDTO.setSearchValue(searchValue);
-	        lectureBoardList = lService.listAllBoardBySearch(1, lsDTO);
-	    } else {
-	        // 검색 조건이 없는 경우
-	        lectureBoardList = lService.getListAllBoard(1);
-	    }
-	    
-	    // 검색 필터 적용
-	    if (filterType != null && !filterType.isEmpty()) {
-	    	logger.info("검색 필터를 선택했어요!");
-	        // 필터가 존재하면 해당 필터에 따라 게시글을 가져옴
-	        lectureBoardList = lService.listAllBoardByFilter(lectureBoardList, filterType);
-	    }
-	    
+		Map<String, Object> resultMap = null;
+		
+		String resultPage = null;
+		
+		if (pageNo <= 0) {
+			pageNo = 1;
+		}
+		
+		// 서비스단 호출(getListAllBoard() 메서드 호출)
+		resultMap = lService.getListAllBoard(pageNo, lsDTO);
+		
 	    // 바인딩
-	    model.addAttribute("lectureBoardList", lectureBoardList);
+		// 게시글 자체를 바인딩
+	    model.addAttribute("lectureBoardList", (List<LectureBoardVO>)resultMap.get("lectureBoardList"));
+	    // 페이징 정보를 바인딩
+	    model.addAttribute("pagingInfo", (PagingInfo)resultMap.get("pagingInfo"));
 
 	}
-
 
 	/**
 	 * @methodName : viewBoard
@@ -100,10 +100,27 @@ public class LectureBoardController {
 	@GetMapping("/viewBoard") // 상세 게시글로 가도록 Mapping함
 	public ModelAndView viewBoard(@RequestParam("lecNo") int lecNo, HttpServletRequest req, HttpServletResponse resp,
 			ModelAndView mav, HttpSession ses) throws Exception {
+		
+		String user = null;
+		
+		if (ses.getAttribute("loginMember") != null) {
+			// 로그인 한 유저의 경우
+			user = ((MemberVO) ses.getAttribute("loginMember")).getUserId();
+		} else if (cookieExist(req, "rses") == null) {
+			// 로그인 안한 유저의 경우 쿠키가 없으면
+			// sessionId를 불러온다.
+			String sesId = req.getSession().getId();
+			user = sesId;
+			saveCookie(resp, sesId);
+			
+			logger.info("로그인 안한 유저의 쿠키값" + user);
+		} else {
+			// 로그인을 하지않았는데 쿠키가 있다면
+			// 쿠키를 찾아서 조회수를 안올리도록
+			user = cookieExist(req, "rses");
+		}
 
-		String user = (String) ses.getAttribute("user");
-
-		System.out.println("현재 상태의 유저 : " + user + "가" + lecNo + "번 글을 조회한다!");
+		logger.info("현재 상태의 유저 : " + user + "가 " + lecNo + "번 글을 조회한다!");
 
 		Map<String, Object> result = lService.getBoardByBoardNo(lecNo, user);
 
@@ -111,6 +128,45 @@ public class LectureBoardController {
 		mav.setViewName("/lecture/viewBoard");
 
 		return mav;
+	}
+
+	/**
+	 * @methodName : saveCookie
+	 * @author : 
+	 * @date : 2024.05.14
+	 * @param : HttpServletResponse resp
+	 * @param : String sesId - sessionId 값
+	 * @return : void
+	 * @description : 세션 Id값을 쿠키에 '1일' 저장
+	 * 조회수를 올리기 위해 user가 로그인을 하지않아도 sessionId값을 이용해 기록이 남도록
+	 */
+	private void saveCookie(HttpServletResponse resp, String sesId) {
+		Cookie sessionCookie = new Cookie("rses", sesId);
+		sessionCookie.setMaxAge(60 * 60 * 24);
+		resp.addCookie(sessionCookie);
+	}
+
+	/**
+	 * @methodName : cookieExist
+	 * @author : 
+	 * @date : 2024.05.13
+	 * @param : HttpServletRequest req
+	 * @param : String cookieName - 찾을 쿠키 이름
+	 * @return : String
+	 * @description : 쿠키 이름을 가지고, 그 이름의 쿠키를 찾는 메서드
+	 * 조회수를 올리기 위해 user가 로그인을 하지않아도 sessionId값을 이용해 기록이 남도록해서
+	 * user 한명 당 게시글 한번에 조회수 한번만 올라갈 수 있도록 하기
+	 */
+	private String cookieExist(HttpServletRequest req, String cookieName) {
+		String result = null;
+		
+		for (Cookie c : req.getCookies()) {
+			if (c.getName().equals(cookieName)) {
+				// 로그인을 하지 않았는데 쿠키가 있는 유저
+				result = c.getValue();
+			}
+		}
+		return result;
 	}
 
 	/**
@@ -207,15 +263,16 @@ public class LectureBoardController {
 	 * @date : 2024.05.05
 	 * @param : @RequestParam("lecNo") int lecNo - 게시글 삭제할 번호
 	 * @return : String
+	 * @throws Exception 
 	 * @description : 게시글 삭제 시 delete 처리
 	 */
-	@RequestMapping("/removeLectureBoard")
+	@GetMapping("/removeLectureBoard")
 	public String removeLectureBoard(@RequestParam("lecNo") int lecNo) throws Exception {
-		System.out.println(lecNo + "번 게시글을 삭제 처리하자!");
-
-		lService.deleteLectureBoard(lecNo);
-
-		return "redirect:/lecture/listAll";
+	    logger.info("controller :" + lecNo + "번 게시글 삭제 delete");
+	    
+	    lService.deleteLectureBoard(lecNo);
+	    
+	    return "forward:/lecture/listAll"; // forward를 사용하여 다시 조회 페이지로 이동
 	}
 
 	/**
@@ -231,6 +288,21 @@ public class LectureBoardController {
 
 		return "success";
 	}
+	
+    /**
+     * @methodName : cancelModifyBoard
+     * @author : 
+     * @date : 2024.05.12
+     * @param : 
+     * @return : String
+     * @description : 게시글 수정하려다가 취소 버튼을 누른 경우 작동되는 메서드
+     */
+    @RequestMapping(value = "/cancelModify", method = RequestMethod.POST)
+    public @ResponseBody String cancelModifyBoard() {
+        System.out.println("게시글 수정 취소 요청");
+
+        return "success";
+    }
 
 }
 

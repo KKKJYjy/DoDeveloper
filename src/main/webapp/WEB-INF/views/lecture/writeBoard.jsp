@@ -155,9 +155,9 @@
 								<label for="lecReview" class="form-label">강의 후기</label> <select
 									id="lecReviewSelect" name="lecReview" onchange="showInput()">
 									<option value="australia">-- 강의 후기 선택 --</option>
-									<option value="option1">초보자가 듣기 너무 좋아요.</option>
-									<option value="option2">기초가 있으신 분들이 들으셔야 할 것 같아요.</option>
-									<option value="option3">등등 생각 좀 해볼게요...</option>
+									<option value="초보자가 듣기 너무 좋아요.">초보자가 듣기 너무 좋아요.</option>
+									<option value="기초가 있으신 분들이 들으셔야 할 것 같아요.">기초가 있으신 분들이 들으셔야 할 것 같아요.</option>
+									<option value="등등 생각 좀 해볼게요...">등등 생각 좀 해볼게요...</option>
 									<option value="option4">강의 후기 직접 작성할게요.</option>
 								</select>
 								<textarea class="form-control" id="lecReviewInput"
