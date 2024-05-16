@@ -21,19 +21,7 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
 
-    // 삭제 버튼을 클릭했을 때 체크된 항목만 삭제
-    document.addEventListener("DOMContentLoaded", function() {
-    let deleteButton = document.getElementById("deleteButton");
-
-    deleteButton.addEventListener("click", function() {
-        let checkboxes = document.querySelectorAll(".deleteCheckbox:checked");
-
-    checkboxes.forEach(checkbox => {
-        let item = checkbox.parentElement;
-        item.remove();
-        });
-    }); 
-});
+    
 
 
 
@@ -74,6 +62,26 @@
 
 	})
 	
+	
+	$(function(){
+			var chkObj = document.getElementsByName("rowCheck");
+			var rowCnt = chkObj.length;
+			
+			$("input[name='allCheck']").click(function(){
+				var chk_listArr = $("input[name='rowCheck']");
+				for (var i=0; i<chk_listArr.length; i++){
+					chk_listArr[i].checked = this.checked;
+				}
+			});
+			$("input[name='rowCheck']").click(function(){
+				if($("input[name='rowCheck']:checked").length == rowCnt){
+					$("input[name='allCheck']")[0].checked = true;
+				}
+				else{
+					$("input[name='allCheck']")[0].checked = false;
+				}
+			});
+		});
 	
 	function checkCheckbox() {
 	   let url = "delete";
@@ -157,7 +165,7 @@
 
 					<thead>
 						<tr>
-							<th></th>
+							<th><input id="allCheck" type="checkbox" name="allCheck"/></th>
 							<th>글번호</th>
 							<th>작성자</th>
 							<th>제목</th>

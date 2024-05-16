@@ -157,7 +157,7 @@
 						</li>
 						<li class="sidebar-item"><a
 							class="sidebar-link waves-effect waves-dark sidebar-link"
-							href="/userList" aria-expanded="false"> <i
+							href="/admin/userList" aria-expanded="false"> <i
 								class="mdi me-2 mdi-account-check"></i><span class="hide-menu">회원
 									관리</span>
 						</a></li>

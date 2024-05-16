@@ -57,6 +57,9 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	private void makePagingInfo(int pageNo, SearchCriteriaDTO sc) throws Exception {
 		this.pi.setPageNo(pageNo);
 		
+		this.pi.setViewPostCntPerPage(10);
+		this.pi.setPageCntPerBlock(3);
+		
 		this.pi.setTotalPostCnt(bDao.selectTotalBoardCnt());
 		
 		// 총 페이지 수
@@ -64,6 +67,8 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		
 		// 보여주기 시작할 글의 번호
 		this.pi.setStartRowIndex();
+		
+		
 		
 		
 		// 전체 페이지 블럭 갯수
@@ -82,6 +87,9 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	private void makePagingInfo(int pageNo) throws Exception {
 		this.pi.setPageNo(pageNo);
 		
+		this.pi.setViewPostCntPerPage(10);
+		this.pi.setPageCntPerBlock(3);
+		
 		// 게시물 데이터 갯수
 		this.pi.setTotalPostCnt(bDao.selectTotalBoardCnt());
 		
@@ -90,6 +98,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		
 		// 보여주기 시작할 글 번호
 		this.pi.setStartRowIndex();
+		
 		
 		
 		
