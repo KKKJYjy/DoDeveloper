@@ -2,15 +2,11 @@ package com.dodeveloper.admin.service;
 
 
 import java.util.List;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.dodeveloper.admin.dao.AdminDAO;
-import com.dodeveloper.admin.vo.AdminVO;
+
 import com.dodeveloper.admin.vo.BadMemberBoardVO;
-import com.dodeveloper.study.vodto.StudyBoardVO;
 import com.dodeveloper.member.vo.MemberVO;
 
 
@@ -20,15 +16,7 @@ public class AdminServiceImpl implements AdminService {
 	@Autowired
 	private AdminDAO aDao;
 	
-	@Override
-	public List<AdminVO> getlistStudyBoard() throws Exception {
-		
-		System.out.println("서비스단 : study게시물 조회");
-		
-		List<AdminVO> stuBoardList = aDao.selectlistStuBoard();
-		
-		return stuBoardList;
-	}
+	
 
 	@Override
 	public List<BadMemberBoardVO> getListBadMemberBoard() throws Exception {
@@ -40,6 +28,7 @@ public class AdminServiceImpl implements AdminService {
 		return badMemberList;
   }
   
+	
 	public List<MemberVO> getAllUser() throws Exception {
 		System.out.println("서비스단 유저 조회");
 		

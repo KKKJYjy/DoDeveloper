@@ -10,7 +10,7 @@ import com.dodeveloper.member.vo.MemberVO;
 
 public interface AdminDAO {
 
-	List<AdminVO> selectlistStuBoard() throws Exception;
+	
 	
 	List<BadMemberBoardVO> selectListBadMemberBoard() throws Exception;
   
