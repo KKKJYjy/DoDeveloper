@@ -97,24 +97,29 @@
 	   }
 	   else{
 		   let chk = confirm("정말 삭제하시겠습니까?");
-		   $.ajax({
-				url : url,
-				type : "post",
-				traditional : true,
-				data : {
-					valueArr : valueArr
-				},    
-				success : function(data) {
-					if (data == 1) {
-						alert("삭제 성공");
-						location.replace("selectBoard")
-					} 
-					else {
-						alert("삭제 실패");
-					}
-			}
-			
-		}); 
+		   if (!chk) {
+			   location.replace("selectBoard")
+		   } else {
+			   $.ajax({
+					url : url,
+					type : "post",
+					traditional : true,
+					data : {
+						valueArr : valueArr
+					},    
+					success : function(data) {
+						if (data = 1) {
+							alert("삭제 성공");
+							location.replace("selectBoard")
+						} 
+						else {
+							alert("삭제 실패");
+						}
+				}
+				
+			}); 
+		   }
+		 
 	   }
 	}
 </script>
@@ -125,9 +130,12 @@
 	<c:import url="./adminHeader.jsp"></c:import>
 
 
-
+<c:import url="./adminSidebar.jsp"></c:import>
 
 	<div class="page-wrapper">
+	
+	<c:import url="./adminMiniHeader.jsp"></c:import>
+	
 
 
 		<div class="container-fluid">

@@ -102,6 +102,24 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 		ses.delete(ns + ".deleteStuBoard", stuNo);
 	}
 
+	@Override
+	public void deleteAlg(String boardNo) throws Exception {
+		
+		ses.delete(ns + ".deleteAlgBoard", boardNo);
+	}
+
+	@Override
+	public void deleteLec(String lecNo) throws Exception {
+		
+		ses.delete(ns + ".deleteLecBoard", lecNo);
+	}
+
+	@Override
+	public void deleteRev(String revNo) throws Exception {
+		
+		ses.delete(ns + ".deleteRevBoard", revNo);
+	}
+
 	//@Override
 //	public int stuBoardDelete(int stuNo) throws Exception {
 //		

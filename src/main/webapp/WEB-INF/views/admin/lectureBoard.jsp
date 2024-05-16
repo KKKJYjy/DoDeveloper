@@ -9,89 +9,64 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <style>
-	body {
-    font-family: Arial, sans-serif;
-}
-
-.modal {
-    display: none; /* 숨김 상태로 시작 */
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgb(0, 0, 0);
-    background-color: rgba(0, 0, 0, 0.4); /* 투명한 검은 배경 */
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 400px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    animation: slideIn 0.4s;
-}
-
-@keyframes slideIn {
-    from { top: -300px; opacity: 0; }
-    to { top: 0; opacity: 1; }
-}
-
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.deBtn {
-	width: 70px;
-	position: relative;
-	left: 285px;
-	
-}
 </style>
 <script>
-	function deleteBoard() {
-		$('.modal').show();
+	$(function() {
+		var chkObj = document.getElementsByName("rowCheck");
+		var rowCnt = chkObj.length;
 
-	}
-
-	document.addEventListener("DOMContentLoaded", function() {
-		let modal = document.getElementById("myModal");
-		let openModalBtn = document.getElementById("openModalBtn");
-		let closeModalSpan = document.querySelector(".close");
-
-		// 모달 열기
-		openModalBtn.addEventListener("click", function() {
-			modal.style.display = "block";
-		});
-
-		// 모달 닫기 (x 버튼 클릭 시)
-		closeModalSpan.addEventListener("click", function() {
-			modal.style.display = "none";
-		});
-
-		// 모달 닫기 (모달 외부 클릭 시)
-		window.addEventListener("click", function(event) {
-			if (event.target == modal) {
-				modal.style.display = "none";
+		$("input[name='allCheck']").click(function() {
+			var chk_listArr = $("input[name='rowCheck']");
+			for (var i = 0; i < chk_listArr.length; i++) {
+				chk_listArr[i].checked = this.checked;
 			}
 		});
-
+		$("input[name='rowCheck']").click(function() {
+			if ($("input[name='rowCheck']:checked").length == rowCnt) {
+				$("input[name='allCheck']")[0].checked = true;
+			} else {
+				$("input[name='allCheck']")[0].checked = false;
+			}
+		});
 	});
+
+	function checkCheckbox() {
+		let url = "lecDelete";
+		let valueArr = new Array();
+		let list = $("input[name='rowCheck']");
+		for (let i = 0; i < list.length; i++) {
+			if (list[i].checked) {
+				valueArr.push(list[i].value);
+			}
+		}
+		if (valueArr.length == 0) {
+			alert("선택된 게시글이 없습니다");
+		} else {
+			let chk = confirm("정말 삭제하시겠습니까?");
+			lf (!chk) {
+				location.replace("lectureBoard")
+			} else {
+				$.ajax({
+					url : url,
+					type : "post",
+					traditional : true,
+					data : {
+						valueArr : valueArr
+					},
+					success : function(data) {
+						if (data = 1) {
+							alert("삭제 성공");
+							location.replace("lectureBoard")
+						} else {
+							alert("삭제 실패");
+						}
+					}
+
+				});
+			}
+			
+		}
+	}
 
 	$(function() {
 
@@ -109,7 +84,11 @@
 
 	<c:import url="./adminHeader.jsp"></c:import>
 
+	<c:import url="./adminSidebar.jsp"></c:import>
+
 	<div class="page-wrapper">
+
+		<c:import url="./adminMiniHeader.jsp"></c:import>
 
 		<div class="container-fluid">
 
@@ -132,7 +111,7 @@
 
 				<c:import url="./search.jsp"></c:import>
 
-				<button id="openModalBtn">게시글삭제</button>
+				<button id="openModalBtn" onclick="checkCheckbox()">게시글삭제</button>
 
 				<div class="container mt-3">
 					<table class="table table-light table-hover">
@@ -141,7 +120,7 @@
 
 						<thead>
 							<tr>
-								<th></th>
+								<th><input id="allCheck" type="checkbox" name="allCheck" /></th>
 								<th>글번호</th>
 								<th>작성자</th>
 								<th>제목</th>
@@ -154,7 +133,8 @@
 							<c:forEach var="board" items="${lecBoardList }">
 								<tr
 									onclick="location.href = '/lecture/viewBoard?lecNo=${board.lecNo}';">
-									<td><input type="checkbox" /></td>
+									<td><input type="checkbox" name="rowCheck"
+										class="deleteCheckbox" id="myCheckbox" value="${board.lecNo }" /></td>
 									<td>${board.lecNo }</td>
 									<td>${board.lecWriter }</td>
 									<td>${board.lecTitle }</td>

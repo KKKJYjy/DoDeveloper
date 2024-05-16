@@ -98,15 +98,51 @@ public class AdminBoardController {
 	}
 	
 	@RequestMapping(value = "/delete")
-	public String removeStuBoard(HttpServletRequest request) {
+	public String removeStuBoard(HttpServletRequest request) throws Exception {
 		
 		String[] remStuBoard = request.getParameterValues("valueArr");
 		int size = remStuBoard.length;
 		for (int i = 0; i < size; i++) {
-			
+			bService.studeleteBoard(remStuBoard[i]);
 		}
 		
 		return "redirect:selectBoard";
+	}
+	
+	@RequestMapping(value = "/algDelete")
+	public String removealgBoard(HttpServletRequest request) throws Exception {
+		
+		String[] remalgBoard = request.getParameterValues("valueArr");
+		int size = remalgBoard.length;
+		for (int i = 0; i <size; i++) {
+			bService.algdeleteBoard(remalgBoard[i]);
+		}
+		
+		return "redirect:algorithmBoard";
+	}
+	
+	@RequestMapping(value = "/lecDelete")
+	public String removeLecBoard(HttpServletRequest request) throws Exception {
+		
+		String[] remLecBoard = request.getParameterValues("valueArr");
+		int size = remLecBoard.length;
+		for (int i = 0; i < size; i++) {
+			bService.lecdeleteBoard(remLecBoard[i]);
+		}
+		
+		return "redirect:lectureBoard";
+	}
+	
+	@RequestMapping(value = "/revDelete")
+	public String removeRevBoard(HttpServletRequest request) throws Exception {
+		
+		String[] remRevBoard = request.getParameterValues("valueArr");
+		int size = remRevBoard.length;
+		for (int i = 0; i < size; i++) {
+			bService.revdeleteBoard(remRevBoard[i]);
+		}
+		
+		return "redirect:reviewBoard";
 	}
 	
 	

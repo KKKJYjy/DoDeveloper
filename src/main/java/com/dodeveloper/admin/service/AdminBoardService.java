@@ -26,5 +26,15 @@ public interface AdminBoardService {
 	// 스터디 게시물 삭체 처리하는 메서드
 	//	boolean studeleteBoard(int stuNo) throws Exception;
 		
+		// 스터디 게시물 삭제 처리하는 메서드
 		void studeleteBoard(String stuNo) throws Exception;
+		
+		// 강의 추천 게시판 삭제 처리하는 메서드
+		void lecdeleteBoard(String lecNo) throws Exception;
+		
+		// 알고리즘 게시물 삭제 처리하는 메서드
+		void algdeleteBoard(String boardNo) throws Exception;
+		
+		// review게물 삭제 처리하는 메서드
+		void revdeleteBoard(String revNo) throws Exception;
 }

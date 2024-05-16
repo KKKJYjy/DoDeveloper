@@ -65,6 +65,24 @@
 	<delete id="deleteStuBoard">
 		delete from studyBoard where stuNo = #{stuNo}
 	</delete>
+	
+	<!-- 강의추천 게시글 삭제 -->
+	<delete id="deleteLecBoard">
+		delete from lectureBoard where lecNo = #{lecNo}
+	</delete>
+	
+	<!-- 알고리즘 게시글 삭제 -->
+	<delete id="deleteAlgBoard">
+		delete from algBoard where boardNo = #{boardNo}
+	</delete>
+	
+	<!-- reviewBoard 게시글 삭제 -->
+	<delete id="deleteRevBoard">
+		delete from companyrevboard where revNo = #{revNo}
+	</delete>
+	
+	
+	
 
 
 	<!-- 유저 전체 조회 -->

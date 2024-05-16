@@ -178,7 +178,29 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 
 	@Override
 	public void studeleteBoard(String stuNo) throws Exception {
+		
 		bDao.deleteStu(stuNo);
+		
+	}
+
+	@Override
+	public void algdeleteBoard(String boardNo) throws Exception {
+		
+		bDao.deleteAlg(boardNo);
+		
+	}
+
+	@Override
+	public void lecdeleteBoard(String lecNo) throws Exception {
+		
+		bDao.deleteLec(lecNo);
+		
+	}
+
+	@Override
+	public void revdeleteBoard(String revNo) throws Exception {
+		
+		bDao.deleteRev(revNo);
 		
 	}
 	
