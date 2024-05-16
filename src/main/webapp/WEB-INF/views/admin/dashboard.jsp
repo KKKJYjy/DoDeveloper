@@ -12,6 +12,11 @@
 
 	<c:import url="./adminSidebar.jsp"></c:import>
 
+
+ <div class="page-wrapper">
+	
+	<c:import url="./adminMiniHeader.jsp"></c:import>
+                        <div class="container-fluid">
 	<!-- 내용 추가 -->
 
 	<main id="dashboard">
@@ -24,8 +29,8 @@
 		</section>
 		<!-- End Basic Section -->
 	</main>
-
+</div>
 	<c:import url="./adminFooter.jsp"></c:import>
-
+</div>
 </body>
 </html>
