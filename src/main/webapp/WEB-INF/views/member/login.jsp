@@ -38,10 +38,55 @@
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+function findId() {
+	alert("아이디 찾기 미구현");
+	$("#sb_findId").modal("hide");
+	console.log("아이디 찾기 결과");
+	$("#sb_findId_result").modal("show");
+}
+
+function findPwd() {
+	alert("비밀번호 찾기 미구현");
+	$("#sb_findPwd").modal("hide");
+	console.log("비밀번호 찾기 결과");
+	$("#sb_findPwd_result").modal("show");
+}
+
+function findPwdView() {
+	// 아이디 조회 모달 닫고 비밀번호 찾기 모달 열기
+	$("#sb_findId_result").modal("hide");
+	$("#sb_findPwd").modal("show");
+}
+
+function findIdLogin() {
+	console.log("조회한 아이디로 로그인");
+	$("#sb_findId_result").modal("hide");
+	
+	// 모달 창 닫으면서 유저 아이디칸에 조회한 아이디 넣어주기
+	$("userId").val("");
+	
+	// 백엔드 처리
+}
+
+function findPwdLogin() {
+	console.log("임시 비밀번호로 로그인");
+	$("#sb_findPwd_result").modal("hide");
+	
+	// 백엔드 처리
+}
+</script>
 </head>
 
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
 	<%@ include file="../header.jsp"%>
+	
+	
+	<!--
+	아래블로그 참고하셔요~^^
+	
+	https://velog.io/@yujinaa/spring-%ED%8C%80%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%9B%B9%EC%82%AC%EC%9D%B4%ED%8A%B8-%EC%A0%9C%EC%9E%91-10.-%EA%B4%80%EB%A6%AC%EC%9E%90-%ED%8E%98%EC%9D%B4%EC%A7%80
+	-->
 
 	<main id="main">
 		<!-- Basic Section - Login Page -->
@@ -69,21 +114,18 @@
 										<span class="input-group-text" id="addon-wrapping"><i class="bi bi-key-fill"></i></span> <input type="password" class="form-control" id="userPwd" name="userPwd" value="1234" placeholder="비밀번호를 입력해주세요" />
 									</div>
 								</div>
-								
-								${sessionScope.loginDTO}
-
 
 								<div class="form-check d-flex justify-content-between mb-4">
 									<div class="col">
-										<input class="form-check-input" type="checkbox" id="remember" name="remember" ${sessionScope.loginDTO.remember ? 'checked' : ''}> <label class="form-check-label" for="remember">로그인 정보 저장</label>
-									</div>
-									<div>
-										<a href="#" id="form-recovery" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"><i class="bi bi-question-diamond-fill me-1"></i>비밀번호 찾기</a>
+										<input class="form-check-input" type="checkbox" id="remember" name="remember" ${sessionScope.loginDTO.remember ? 'checked' : ''}> <label class="form-check-label" for="remember">로그인 유지</label>
 									</div>
 								</div>
-								<div class="d-grid gap-2 mx-auto mb-2">
+								<div class="d-grid gap-2 mx-auto mb-3">
 									<button type="submit" class="btn btn-secondary">로그인</button>
 									<button type="button" class="btn btn-register" onclick="location.href='/member/register'">회원가입</button>
+								</div>
+								<div class="text-center">
+									<i class="bi bi-question-diamond-fill me-1"></i> <a href="#" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#sb_findId">아이디 찾기</a> / <a href="#" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#sb_findPwd">비밀번호 찾기</a>
 								</div>
 							</div>
 						</div>
@@ -93,6 +135,167 @@
 		</section>
 		<!-- End Basic Section -->
 	</main>
+	
+	<!-- 아이디 찾기 Modal -->
+	<div class="modal fade" id="sb_findId" data-bs-backdrop="static"
+		data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="sb_findId_label" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="sb_findId_label">아이디 찾기</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="form-header text-center mb-4">
+						<div class="text-center">
+							<span class="fw-light fs-4 text-secondary">회원님의 이름과 이메일을 입력해주세요</span>
+						</div>
+					</div>
+
+					<div class="form_chagePwd d-flex flex-column">
+						<div class="mb-3 mt-2">
+							<div class="label-group">
+								<label for="sb_findId_userName" class="form-label">이름</label>
+							</div>
+							<input type="text" class="form-control" id="sb_findId_userName" />
+						</div>
+						<div class="mb-3 mt-2">
+							<div class="label-group">
+								<label for="sb_findId_email" class="form-label">이메일</label>
+							</div>
+							<input type="text" class="form-control" id="sb_findId_email" />
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">취소</button>
+					<button type="button" class="btn btn-danger" onclick="findId();">아이디 찾기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 비밀번호 찾기 Modal -->
+	<div class="modal fade" id="sb_findPwd" data-bs-backdrop="static"
+		data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="sb_findPwd_label" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="sb_findPwd_label">비밀번호 찾기</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="form-header text-center mb-4">
+						<div class="text-center">
+							<span class="fw-light fs-4 text-secondary">회원님의 아이디, 이름, 이메일을 입력해주세요</span>
+						</div>
+					</div>
+
+					<div class="form_chagePwd d-flex flex-column">
+						<div class="mb-3 mt-2">
+							<div class="label-group">
+								<label for="sb_findPwd_userId" class="form-label">아이디</label>
+							</div>
+							<input type="text" class="form-control" id="sb_findPwd_userId" />
+						</div>
+						<div class="mb-3 mt-2">
+							<div class="label-group">
+								<label for="sb_findPwd_userName" class="form-label">이름</label>
+							</div>
+							<input type="text" class="form-control" id="sb_findPwd_userName" />
+						</div>
+						<div class="mb-3 mt-2">
+							<div class="label-group">
+								<label for="sb_findPwd_email" class="form-label">이메일</label>
+							</div>
+							<input type="text" class="form-control" id="sb_findPwd_email" />
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">취소</button>
+					<button type="button" class="btn btn-danger" onclick="findPwd();">비밀번호 찾기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 아이디 찾기 결과 Modal -->
+	<div class="modal fade" id="sb_findId_result" data-bs-backdrop="static"
+		data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="sb_findId_result_label" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="sb_findId_result_label">아이디 찾기</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="form-header text-center mb-4">
+						<div class="text-center">
+							<span class="fw-light fs-4 text-secondary">아이디 찾기 결과</span>
+						</div>
+						<small class="text-muted">회원님의 아이디를 확인해주세요</small>
+					</div>
+
+					<div class="form_chagePwd d-flex flex-column">
+						<div class="mb-3 mt-2">
+							<div class="label-group">
+								<label for="sb_findId_result_userId" class="form-label">아이디</label>
+							</div>
+							<input type="text" class="form-control" id="sb_findId_result_userId" />
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" onclick="findIdLogin();">로그인 하기</button>
+					<button type="button" class="btn btn-danger" onclick="findPwdView();">비밀번호 찾기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 비밀번호 찾기 결과 Modal -->
+	<div class="modal fade" id="sb_findPwd_result" data-bs-backdrop="static"
+		data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="sb_findPwd_result_label" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="sb_findPwd_result_label">비밀번호 찾기</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="form-header text-center mb-4">
+						<div class="text-center">
+							<span class="fw-light fs-4 text-secondary">비밀번호 찾기 결과</span>
+						</div>
+						<small class="text-muted">회원님의 임시 비밀번호 입니다</small>
+					</div>
+
+					<div class="form_chagePwd d-flex flex-column">
+						<div class="mb-3 mt-2">
+							<div class="label-group">
+								<label for="sb_findPwd_result_userId" class="form-label">비밀번호</label>
+							</div>
+							<input type="text" class="form-control" id="sb_findPwd_result_userId" />
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" onclick="findPwdLogin();">로그인 하기</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<%@ include file="../footer.jsp"%>
 
