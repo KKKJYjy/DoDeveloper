@@ -57,33 +57,57 @@
 		<!-- Basic Section - Algorithm Page -->
 		<section id="algorithm" class="basic">
 			<div class="container">
-				<h1>알고리즘</h1>
-				<h1>alg</h1>
 
-				<div class="container mt-3">
-					<h2>알고리즘 목록</h2>
-					<p>The disabled class adds a lighter text color to the disabled
-						item. And if used on links, it will remove the default hover
-						effect.</p>
-					<div class="list-group">
-						<c:forEach var="alg" items="${algBoardList}">
-							<a href="/algorithm/algDetail?boardNo=${alg.boardNo}"
-								class="list-group-item">${alg.title }</a>
-							<div>/////////////////////////////</div>
+
+				<h1>${algBoardList}</h1>
+
+				<form action="/algorithm/modifyAlg" method="post">
+
+					<select class="form-select" id="boardNo" name="boardNo">
+						<option value="">수정할 게시판 제목을 선택하세요</option>
+						<c:forEach items="${algBoardList }" var="algBoardList">
+							<option value="${algBoardList.boardNo}">${algBoardList.title }</option>
+
 						</c:forEach>
+					</select>
+
+
+					<div class="mb-3 mt-3">
+						<label for="title" class="form-label">제목 : </label> <input
+							type="text" class="form-control" id="title"
+							placeholder="글 제목을 입력하세요..." name="title" />
 					</div>
 
-					<div class="btns">
-
-						<button type="button" class="btn btn-info"
-							onclick="location.href='/algorithm/writePOST';">글쓰기</button>
-						<button type="button" class="btn btn-info"
-							onclick="location.href='/algorithm/modifyAlg';">글수정</button>
+					<div class="mb-3 mt-3">
+						<label for="title" class="form-label">설명 : </label> <input
+							type="text" class="form-control" id="comment"
+							placeholder="글 제목을 입력하세요..." name="comment" />
 					</div>
-				</div>
 
-				<div>${algBoardList}</div>
-				
+
+					<h2>Select Menu</h2>
+					<p>To style a select menu in Bootstrap 5, add the .form-select
+						class to the select element:</p>
+					<label for="sel1" class="form-label">Select list (select
+						one):</label> <select class="form-select" id="classificationCode" name="classificationCode"
+						onchange="selectCode(this.value);">
+						<option value="0">생성할 알고리즘을 어디에 분류할지 선택</option>
+						<c:forEach items="${algClassification}" var="classification">
+
+							<option value="${classification.code }">${classification.code }
+								${classification.algClassification}</option>
+
+						</c:forEach>
+					</select>
+
+
+
+
+					<button type="submit">수정</button>
+					<button type="reset">취소</button>
+				</form>
+
+
 			</div>
 		</section>
 		<!-- End Basic Section -->
