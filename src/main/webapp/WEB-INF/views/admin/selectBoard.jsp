@@ -16,64 +16,6 @@
 .butt {
 	margin: 10px;
 }
-
-body {
-	font-family: Arial, sans-serif;
-}
-
-.modal {
-	display: none; /* 숨김 상태로 시작 */
-	position: fixed;
-	z-index: 1;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgb(0, 0, 0);
-	background-color: rgba(0, 0, 0, 0.4); /* 투명한 검은 배경 */
-}
-
-.modal-content {
-	background-color: #fefefe;
-	margin: 15% auto;
-	padding: 20px;
-	border: 1px solid #888;
-	width: 80%;
-	max-width: 400px;
-	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-	animation: slideIn 0.4s;
-}
-
-@
-keyframes slideIn {from { top:-300px;
-	opacity: 0;
-}
-
-to {
-	top: 0;
-	opacity: 1;
-}
-
-}
-.close {
-	color: #aaa;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
-}
-
-.close:hover, .close:focus {
-	color: #000;
-	text-decoration: none;
-	cursor: pointer;
-}
-
-.deBtn {
-	width: 70px;
-	position: relative;
-	left: 285px;
-}
 </style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -155,7 +97,7 @@ to {
 					valueArr : valueArr
 				},    
 				success : function(data) {
-					if (data = 1) {
+					if (data == 1) {
 						alert("삭제 성공");
 						location.replace("selectBoard")
 					} 
@@ -177,8 +119,8 @@ to {
 
 
 
-
 	<div class="page-wrapper">
+
 
 		<div class="container-fluid">
 
@@ -198,77 +140,76 @@ to {
 			</div>
 
 
+			<div class="container">
+
+
+
+				<c:import url="./search.jsp"></c:import>
+
+				<button id="openModalBtn" onclick="checkCheckbox()">게시글삭제</button>
 
 
 
 
-			<c:import url="./search.jsp"></c:import>
-
-			<button id="openModalBtn" onclick="checkCheckbox()">게시글삭제</button>
+				<table class="table table-light table-hover">
 
 
 
-
-			<table class="table table-light table-hover">
-
-
-
-				<thead>
-					<tr>
-						<th></th>
-						<th>글번호</th>
-						<th>작성자</th>
-						<th>제목</th>
-						<th>장소</th>
-						<th>기간</th>
-						<th>모집상태</th>
-						<th>종료일</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="board" items="${stuBoardList }">
-
-						<tr id="table"
-							onclick="location.href = '/study/viewStudyBoard?stuNo=${board.stuNo}';">
-							<td><input type="checkbox" name="rowCheck" class="deleteCheckbox"
-								id="myCheckbox"
-								value="${board.stuNo }" /></td>
-							<td>${board.stuNo }</td>
-							<td>${board.stuWriter }</td>
-							<td>${board.stuTitle }</td>
-							<td>${board.stuLoc }</td>
-							<td>${board.stuDate }</td>
-							<td>${board.status }</td>
-							<td>${board.endDate }</td>
+					<thead>
+						<tr>
+							<th></th>
+							<th>글번호</th>
+							<th>작성자</th>
+							<th>제목</th>
+							<th>장소</th>
+							<th>기간</th>
+							<th>모집상태</th>
+							<th>종료일</th>
 						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="board" items="${stuBoardList }">
+
+							<tr id="table"
+								onclick="location.href = '/study/viewStudyBoard?stuNo=${board.stuNo}';">
+								<td><input type="checkbox" name="rowCheck"
+									class="deleteCheckbox" id="myCheckbox" value="${board.stuNo }" /></td>
+								<td>${board.stuNo }</td>
+								<td>${board.stuWriter }</td>
+								<td>${board.stuTitle }</td>
+								<td>${board.stuLoc }</td>
+								<td>${board.stuDate }</td>
+								<td>${board.status }</td>
+								<td>${board.endDate }</td>
+							</tr>
 
 
+						</c:forEach>
+					</tbody>
+				</table>
+
+
+
+				<ul class="pagination">
+					<c:if test="${param.pageNo > 1 }">
+						<li class="page-item"><a class="page-link"
+							href="/admin/selectBoard?pageNo=${param.pageNo -1 }">Previous</a></li>
+
+					</c:if>
+					<c:forEach var="i"
+						begin="${pagingInfo.startNumOfCurrentPagingBlock }"
+						end="${pagingInfo.endNumOfCurrentPagingBlock }" step="1">
+						<li class="page-item" id="${i }"><a class="page-link"
+							href="/admin/selectBoard?pageNo=${i }">${i }</a></li>
 					</c:forEach>
-				</tbody>
-			</table>
+
+					<c:if test="${param.pageNo < pagingInfo.totalPageCnt }">
+						<li class="page-item"><a class="page-link"
+							href="/admin/selectBoard?pageNo=${param.pageNo +1 }">Next</a></li>
+					</c:if>
+				</ul>
+			</div>
 		</div>
-
-
-		<ul class="pagination">
-			<c:if test="${param.pageNo > 1 }">
-				<li class="page-item"><a class="page-link"
-					href="/admin/selectBoard?pageNo=${param.pageNo -1 }">Previous</a></li>
-
-			</c:if>
-			<c:forEach var="i"
-				begin="${pagingInfo.startNumOfCurrentPagingBlock }"
-				end="${pagingInfo.endNumOfCurrentPagingBlock }" step="1">
-				<li class="page-item" id="${i }"><a class="page-link"
-					href="/admin/selectBoard?pageNo=${i }">${i }</a></li>
-			</c:forEach>
-
-			<c:if test="${param.pageNo < pagingInfo.totalPageCnt }">
-				<li class="page-item"><a class="page-link"
-					href="/admin/selectBoard?pageNo=${param.pageNo +1 }">Next</a></li>
-			</c:if>
-		</ul>
-
-
 
 
 

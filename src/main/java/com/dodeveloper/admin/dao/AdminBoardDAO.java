@@ -34,5 +34,5 @@ public interface AdminBoardDAO {
 	// stuNo번 글 삭제
 	// int stuBoardDelete(int stuNo) throws Exception;
 	
-	public void deleteStu(String stuNo)throws Exception;
+    void deleteStu(String stuNo)throws Exception;
 }
