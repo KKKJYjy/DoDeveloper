@@ -54,6 +54,8 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		return returnMap;
 	}
 	
+	
+	
 	private void makePagingInfo(int pageNo, SearchCriteriaDTO sc) throws Exception {
 		this.pi.setPageNo(pageNo);
 		
@@ -83,6 +85,8 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		// 현재 페이징 블럭 끝 페이지 번호
 		this.pi.setEndNumOfCurrentPagingBlock();
 	}
+	
+	
 	
 	private void makePagingInfo(int pageNo) throws Exception {
 		this.pi.setPageNo(pageNo);
@@ -115,6 +119,8 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		this.pi.setEndNumOfCurrentPagingBlock();
 	}
 
+	
+	
 	@Override
 	public Map<String, Object> getlistLectureBoard(int pageNo) throws Exception {
 		
