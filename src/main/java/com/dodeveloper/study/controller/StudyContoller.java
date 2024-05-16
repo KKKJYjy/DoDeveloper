@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.member.vo.MemberVO;
-import com.dodeveloper.study.etc.PagingInfo;
 import com.dodeveloper.study.service.StudyService;
 import com.dodeveloper.study.vodto.StuStackVO;
 import com.dodeveloper.study.vodto.StudyBoardDTO;

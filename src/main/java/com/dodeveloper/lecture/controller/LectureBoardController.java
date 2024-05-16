@@ -22,7 +22,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import com.dodeveloper.lecture.etc.PagingInfo;
+
+import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.lecture.service.LectureBoardService;
 import com.dodeveloper.lecture.vodto.LectureBoardDTO;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;

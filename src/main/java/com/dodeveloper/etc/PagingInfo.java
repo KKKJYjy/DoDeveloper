@@ -1,4 +1,4 @@
-package com.dodeveloper.lecture.etc;
+package com.dodeveloper.etc;
 
 import org.springframework.stereotype.Component;
 
@@ -10,14 +10,14 @@ import lombok.NoArgsConstructor;
 public class PagingInfo {
 	
 	// 실제 페이징을 만들때 필요한 변수들
-	private int viewPostCntPerPage = 3; // 한 페이지당 보여줄 게시글의 갯수
+	private int viewPostCntPerPage; // 한 페이지당 보여줄 게시글의 갯수
 	private int totalPostCnt; // 전체 데이터(게시글)의 갯수
 	private int totalPageCnt; // 전체 페이지 수
 	private int pageNo; // 유저가 클릭한 (현재) 페이지 번호
 	private int startRowIndex; // 유저가 클릭한 페이지에서 보여주기 시작할 row index 번호
 	// -----------------------------------
 	// 페이징 블럭을 만들때 필요한 변수들
-	private int pageCntPerBlock = 2; // 1개의 블럭에 몇 페이지씩 보여줄 것인지
+	private int pageCntPerBlock; // 1개의 블럭에 몇 페이지씩 보여줄 것인지
 	private int totalPageBlockCnt; // 전체 페이지 블럭 갯수
 	private int pageBlockOfCurrentPage; // 현재 페이지가 속한 페이징 블럭의 번호
 	private int startNumOfCurrentPagingBlock; // 현재 페이징 블럭에서의 출력 시작 페이지 번호
