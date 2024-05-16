@@ -124,7 +124,6 @@ public class MessageController {
 		try {
 			for (MessageFileDTO file : sendMessageDTO.getFileList()) {
 				String movedFileName = fileProcessing.saveTempFilePermanantly(file.getUploadName());
-				
 				uploadedFiles.add(new MessageFileDTO(-1, movedFileName, fileProcessing.getExtension(movedFileName), 
 						fileProcessing.getOriginalName(movedFileName)));
 			}
@@ -134,7 +133,7 @@ public class MessageController {
 		} catch (Exception e) {
 			return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
 		}
-		return new ResponseEntity<String>(HttpStatus.OK);
+		return new ResponseEntity<String>("success", HttpStatus.OK);
 	}
 
 	
@@ -147,9 +146,10 @@ public class MessageController {
 		if (file.getOriginalFilename().length() > 50) {
 			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		}
-
+		
 		try {
 			uploadName = fileProcessing.uploadFileTemporarily(file);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
@@ -158,7 +158,7 @@ public class MessageController {
 		if(uploadName == null) {
 			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);			
 		}
-		
+
 		return new ResponseEntity<String>(uploadName, HttpStatus.OK);
 	}
 }

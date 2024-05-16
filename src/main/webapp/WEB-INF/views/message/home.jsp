@@ -65,6 +65,8 @@
 	let sentMessageDisplayStartPoint = 0;
 	let sentMessageDisplayAmount = 30;
 	
+	let fileCodeArray = new Array();
+		
 	let uid = "dooly";
 	
 	$(window).on(
@@ -137,9 +139,49 @@
 					$(this).css("background-color", "DodgerBlue");
 					
 					let files = e.originalEvent.dataTransfer.files;
+					
+					for(let file of files){
+						let formData = new FormData();
+						formData.append('file',file);
+						uploadName = postFile(formData);
+						
+						let fileInfo = new Object();
+						fileInfo.uploadName = uploadName;
 
-					console.log(files);
-				})
+						fileCodeArray.push(fileInfo);
+					}
+					
+					console.log(fileCodeArray);
+				});
+				
+				$("#messageSendBtn").click(function(){
+					let sendMessage = new Object();
+					
+					let message = new Object();
+					message.writer = uid;
+					let title = $('.newmessage-title').val();
+					message.title = title;
+					let content = $('.newmessage-content').val();
+					message.content = content;
+					
+					let receiverIdList = new Array();
+					let receiverInputs = $(".newmessage-receiver");
+					for(receiverInput of receiverInputs){
+						receiverIdList.push($(receiverInput).val());
+					}
+
+					let fileList = fileCodeArray;
+					fileCodeArray = new Array();
+					
+					
+					sendMessage.message = message;
+					sendMessage.receiverIdList = receiverIdList;
+					sendMessage.fileList = fileList;
+
+					console.log(JSON.stringify(sendMessage));
+					
+					postMessage(sendMessage);
+				});
 			});
 
 	function getReceivedMessage(startPoint) {
@@ -356,8 +398,7 @@
 	function addNewMessageReceiver(){
 		let output = `
 			<div id="write-receiver-div-\${receiverInputCnt}" class="write-receiver-div" style="width: 100%">
-				<input type="text" class="form-control"
-					class="newmessage-receiver" placeholder="아이디를 입력하세요"
+				<input type="text" class="form-control newmessage-receiver" placeholder="아이디를 입력하세요"
 					name="receiver" style="width: 80%; float: left;">
 				<button type="button" class="btn btn-success addNewReceiver"
 					style="float: left;">+</button>
@@ -386,41 +427,35 @@
 	
 	
 	
-	
-	
-	function uploadEvent(){
-		let formData = new FormData();
-		let inputFile = $("input[name='uploadFile']");
-	}
-	
-	function postMessage(){
-		let result;
-
+	function postMessage(sendData){
 		$.ajax({
-			url : "http://localhost:8081/message/" + uid + "/sent/" + startPoint,
-			method : "get",
-			dataType : "json",
+			url : "http://localhost:8081/message",
+			method : "post",
+			dataType : "text",
 			async : false,
-			success : function(data) {
-				result = data;
+			contentType : 'application/json',
+			data: JSON.stringify(sendData),
+			success : function() {
+				console.log("성공")
 			},
 			error : function() {
 				console.log("실패");
 			}
 		})
-
-		return result;
 	
 	}
 	
-	function postFile(file){
+	function postFile(formData){
 		let result;
 
 		$.ajax({
 			url : "http://localhost:8081/message/file",
 			method : "post",
-			dataType : "json",
+			data: formData,
+			dataType : "text",
 			async : false,
+            contentType: false,
+            processData: false,
 			success : function(data) {
 				result = data;
 			},
@@ -573,21 +608,23 @@ body {
 							<div style="color: black;">받는 이</div>
 							<div id="newmessage-receiver-id-list">
 								<div class="write-receiver-div" style="width: 100%">
-									<input type="text" class="form-control"
-										class="newmessage-receiver" placeholder="아이디를 입력하세요"
+									<input type="text" class="form-control newmessage-receiver" placeholder="아이디를 입력하세요"
 										name="receiver" style="width: 80%; float: left;">
 									<button type="button" class="btn btn-success addNewReceiver"
 										style="float: left;">+</button>
 									<button type="button" class="btn btn-danger removeNewReceiver">-</button>
 								</div>
 							</div>
+							<div style="color: black;">메세지 제목</div>
+							<input type="text" class="form-control newmessage-title"
+								placeholder="제목을 입력하세요" name="title">
 							<div style="color: black;">메세지 내용</div>
-							<textarea class="form-control" rows="15" id="written-content"
+							<textarea class="form-control newmessage-content" rows="15" id="written-content"
 								name="content"></textarea>
 							<div class="dragAndDropDiv"
 								style="background-color: DodgerBlue; width: 100%; height: 100px; text-align: center; display: flex; justify-content: center; align-content: center; flex-direction: column;">
 								파일 첨부</div>
-
+							<button id="messageSendBtn">보내기</button>
 						</div>
 
 					</div>
