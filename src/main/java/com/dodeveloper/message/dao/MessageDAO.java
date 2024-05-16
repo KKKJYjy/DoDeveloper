@@ -11,4 +11,5 @@ public interface MessageDAO {
 	MessageVO selectMessageByNo(int messageNo) throws Exception;
 	List<MessageVO> selectMessagesByUserId(String userId, int startPoint, int amountToShow) throws Exception;
 	int insertIntoMessage(MessageDTO messageDTO) throws Exception;
+	int selectMessageCntByUserID(String userId) throws Exception;
 }
