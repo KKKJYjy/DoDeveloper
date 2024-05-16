@@ -3,11 +3,12 @@ package com.dodeveloper.admin.dao;
 import java.util.List;
 
 import com.dodeveloper.admin.dto.SearchCriteriaDTO;
-import com.dodeveloper.admin.etc.PagingInfo;
+
 import com.dodeveloper.admin.vo.AdminArgBoardVO;
 import com.dodeveloper.admin.vo.AdminLectureVO;
 import com.dodeveloper.admin.vo.AdminReviewBoardVO;
 import com.dodeveloper.admin.vo.AdminVO;
+import com.dodeveloper.etc.PagingInfo;
 
 public interface AdminBoardDAO {
 	// 스터디게시판 조회 메서드

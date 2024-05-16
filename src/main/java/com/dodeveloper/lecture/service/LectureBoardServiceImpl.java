@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.lecture.dao.LectureBoardDAO;
-import com.dodeveloper.lecture.etc.PagingInfo;
 import com.dodeveloper.lecture.vodto.LectureBoardDTO;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
 import com.dodeveloper.lecture.vodto.LectureSearchDTO;
@@ -93,7 +93,11 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 
 	    // pageNo값
 	    this.pi.setPageNo(pageNo);
+	    
+	    this.pi.setViewPostCntPerPage(3);
+	    this.pi.setPageCntPerBlock(2);
 
+	    
 	    // 게시물의 데이터 갯수 구해 멤버 변수에 저장
 	    if (lsDTO.getSearchType() != null && lsDTO.getSearchValue() != null) {
 	        // 검색 조건이 있는 경우
@@ -141,6 +145,9 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 
 		// pageNo값
 		this.pi.setPageNo(pageNo);
+		
+		this.pi.setViewPostCntPerPage(3);
+	    this.pi.setPageCntPerBlock(2);
 
 		// 게시물의 데이터 갯수 구해 멤버 변수에 저장
 		this.pi.setTotalPostCnt(lDao.selectTotalLectureBoardCnt());

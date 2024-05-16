@@ -11,9 +11,10 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.lookup.dao.LookupDAO;
 import com.dodeveloper.study.dao.StudyDAO;
-import com.dodeveloper.study.etc.PagingInfo;
+
 import com.dodeveloper.study.vodto.StuStackVO;
 import com.dodeveloper.study.vodto.StudyBoardDTO;
 import com.dodeveloper.study.vodto.StudyBoardVO;
@@ -63,6 +64,9 @@ public class StudyServiceImpl implements StudyService {
 		// 지역변수 PageNo의 값을 pagingInfo클래스 멤버변수 pageNo에 세팅
 		this.pi.setPageNo(pageNo);
 
+		this.pi.setViewPostCntPerPage(11);
+		this.pi.setPageCntPerBlock(5);
+		
 		// 게시물 총 데이터 갯수를 구해 저장
 		System.out.println(sDao.selectTotalBoardCnt());
 		this.pi.setTotalPostCnt(sDao.selectTotalBoardCnt());
@@ -94,6 +98,10 @@ public class StudyServiceImpl implements StudyService {
 	private void makingPagingInfo(SearchStudyDTO sDTO, int pageNo) throws Exception {
 		// 지역변수 PageNo의 값을 pagingInfo클래스 멤버변수 pageNo에 세팅
 		this.pi.setPageNo(pageNo);
+		
+		this.pi.setViewPostCntPerPage(11);
+		this.pi.setPageCntPerBlock(5);
+		
 
 		// 게시물 총 데이터 갯수를 구해 저장
 		System.out.println(sDao.selectTotalBoardCntWithSdto(sDTO));

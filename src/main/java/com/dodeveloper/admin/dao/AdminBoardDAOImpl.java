@@ -10,11 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.dodeveloper.admin.dto.SearchCriteriaDTO;
-import com.dodeveloper.admin.etc.PagingInfo;
+
 import com.dodeveloper.admin.vo.AdminArgBoardVO;
 import com.dodeveloper.admin.vo.AdminLectureVO;
 import com.dodeveloper.admin.vo.AdminReviewBoardVO;
 import com.dodeveloper.admin.vo.AdminVO;
+import com.dodeveloper.etc.PagingInfo;
 
 @Repository
 public class AdminBoardDAOImpl implements AdminBoardDAO {

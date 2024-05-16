@@ -2,7 +2,7 @@ package com.dodeveloper.lecture.dao;
 
 import java.util.List;
 
-import com.dodeveloper.lecture.etc.PagingInfo;
+import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.lecture.vodto.LectureBoardDTO;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
 import com.dodeveloper.lecture.vodto.LectureSearchDTO;
