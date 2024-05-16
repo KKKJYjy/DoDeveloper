@@ -48,7 +48,7 @@ public class CompanyInfoDAOImpl implements CompanyInfoDAO {
 	 * @methodName : insertRevWrittenBoard
 	 * @author : kimso05
 	 * @date : 2024.05.14
-	 * @return : insert가 잘 되면 1을 반환한다 row갯수(=저장되는 리뷰 글의 갯수)
+	 * @return : insert가 잘 되면 1을 반환한다 row갯수(= 저장되는 리뷰 글의 갯수)
 	 * @description :  
 	 */
 	@Override

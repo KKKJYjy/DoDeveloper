@@ -120,7 +120,6 @@ public class CompanyController {
 		// 저장후에 되돌아갈 페이지 : 리뷰를 작성한 해당 기업(companyInfoNo)의 리뷰페이지로 되돌아가야된다.
 		String returnPage = "redirect:/companyInfo/revCompanyBoard?"; // 글 저장하면 기업 리뷰 목록으로 돌아가야함
 		
-		
 		try {
 			if(this.ciService.writeCompanyBoardService(newWrittenCompanyBoard) == 1) { // 리뷰 저장 성공하면
 				// /companyInfo/revCompanyBoard?companyInfoNo=4

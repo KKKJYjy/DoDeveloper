@@ -69,7 +69,7 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
 	 * @author : kimso05
 	 * @date : 2024.05.09
 	 * @param : WrittenCompanyBoardDTO newWrittenCompanyBoard - 저장될 기업 리뷰 게시글
-	 * @return :
+	 * @return : 
 	 * @description : newWrittenCompanyBoard가 DB에 저장(insert)될 수 있도록 DAO단 호출
 	 */
 	@Override
