@@ -345,23 +345,61 @@ i {
 						</div>
 					</div>
 
-					
+
 					<!-- 로그인한 유저와 작성자가 다를 때에만 참여신청 버튼이 보이도록 처리 -->
 					<!-- 북마크, 참여신청 버튼 -->
 					<c:if test="${loginMember.userId != studyList.stuWriter }">
-					<div class="row mt-4">
-						<div class="col-md-1">
-							<button type="button" class="btn btn-danger bookBtn"
-								style="width: 100%">
-								<i class="bi bi-bookmark bookMark"></i>
-							</button>
+						<div class="row mt-4">
+							<div class="col-md-1">
+								<button type="button" class="btn btn-danger bookBtn"
+									style="width: 100%">
+									<i class="bi bi-bookmark bookMark"></i>
+								</button>
+							</div>
+							<div class="col-md-11">
+								<input type="button" class="btn btn-secondary" value="참여신청"
+									style="width: 100%" data-bs-toggle="modal"
+									data-bs-target="#exampleModal" />
+							</div>
 						</div>
-						<div class="col-md-11">
-							<input type="button" class="btn btn-secondary" value="참여신청"
-								style="width: 100%" data-bs-toggle="modal" data-bs-target="#exampleModal" />
+					</c:if>
+					
+					<!-- 댓글 리스트 -->
+					<div class="mb-3 replyList"></div>
+					
+					<!-- 댓글 작성창 -->
+					<div class="form-floating mt-4">
+						<div class="d-flex">
+							<c:choose>
+								<c:when test="${loginMember != null }">
+									<div class="text-light" style="width:100px;">
+										<p>${loginMember.userId}</p>
+									</div>
+									<div class="flex-grow-1">
+											<textarea class="form-control replyContent"
+												placeholder="댓글을 작성하세요" id="floatingTextarea"></textarea>
+										</div>
+										<div class="">
+											<button type="button"
+												class="btn btn-secondary ms-3 p-3 saveReply">댓글 저장</button>
+										</div>
+								</c:when>
+								<c:otherwise>
+									<div class="text-light" style="width:100px;">
+										<p>비회원</p>
+									</div>
+										<div class="flex-grow-1">
+											<textarea class="form-control replyContent"
+												placeholder="로그인 후 댓글을 달 수 있습니다" id="floatingTextarea"></textarea>
+										</div>
+										<div class="">
+											<button type="button"
+												class="btn btn-secondary ms-3 p-3 saveReply">댓글 저장</button>
+										</div>
+								</c:otherwise>
+							</c:choose>
 						</div>
 					</div>
-					</c:if>
 
 
 					<!-- 참여신청 버튼 눌렀을 때 뜨는 모달창 -->
@@ -370,26 +408,33 @@ i {
 						<div class="modal-dialog  modal-dialog-centered">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h1 class="modal-title fs-5" id="exampleModalLabel">${studyList.stuWriter }님의 스터디에 참여 신청</h1>
+									<h1 class="modal-title fs-5" id="exampleModalLabel">${studyList.stuWriter }님의
+										스터디에 참여 신청</h1>
 									<button type="button" class="btn-close" data-bs-dismiss="modal"
 										aria-label="Close"></button>
 								</div>
 								<form action="/studyApply/insertApply" method="post">
 									<div class="modal-body">
-										<input type="text" id="applyId" name="applyId" value="${loginMember.userId }" hidden="true" />
-										<input type="text" id="stuNo" name="stuNo" value="${studyList.stuNo}" hidden="true" />
+										<input type="text" id="applyId" name="applyId"
+											value="${loginMember.userId }" hidden="true" /> <input
+											type="text" id="stuNo" name="stuNo"
+											value="${studyList.stuNo}" hidden="true" />
 										<div class="mb-3">
-											<label 
-											for="reason" class="col-form-label">참여 신청하는 이유를 간단하게 입력해주세요.</label>
-											<textarea class="form-control" id="reason" name="reason" placeholder="10자 이상 입력하세요"></textarea>
+											<label for="reason" class="col-form-label">참여 신청하는
+												이유를 간단하게 입력해주세요.</label>
+											<textarea class="form-control" id="reason" name="reason"
+												placeholder="10자 이상 입력하세요"></textarea>
 										</div>
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary"
 											data-bs-dismiss="modal">취소</button>
-										<input type="submit" class="btn btn-danger" onclick="return isVaild();" value="참여신청" />
+										<input type="submit" class="btn btn-danger"
+											onclick="return isVaild();" value="참여신청" />
 									</div>
 								</form>
+
+
 							</div>
 						</div>
 					</div>
