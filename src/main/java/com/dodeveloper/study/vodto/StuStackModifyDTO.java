@@ -1,6 +1,5 @@
 package com.dodeveloper.study.vodto;
 
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,8 +12,9 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class StuStackVO {
-	//db에 stuStack테이블에 새로 저장할때 사용하는 VO 
+public class StuStackModifyDTO {
+	//db에 저장된 stuStack을 수정할때 (삭제하고, 새로 인서트) 사용하는 DTO
+	private int[] stuStackNo;
 	private int stuBoardNo;
-	private int[] chooseStack;
+	private int[] chooseStack;	
 }

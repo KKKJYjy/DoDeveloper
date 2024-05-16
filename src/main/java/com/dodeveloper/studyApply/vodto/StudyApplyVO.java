@@ -1,5 +1,4 @@
-package com.dodeveloper.study.vodto;
-
+package com.dodeveloper.studyApply.vodto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -13,8 +12,9 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class StuStackVO {
-	//db에 stuStack테이블에 새로 저장할때 사용하는 VO 
-	private int stuBoardNo;
-	private int[] chooseStack;
+public class StudyApplyVO {
+	private int applyNo;
+	private String applyId;
+	private int stuNo;
+	private String reason;
 }

@@ -23,7 +23,7 @@ public class StudyBoardVO {
 	private double stuX;
 	private double stuY;
 	private String stuDate;
-	private String stuPers; //이거 디비에도 변경
+	private int stuPers; 
 	private String contactLink;
 	private String status;
 	private Timestamp endDate;
