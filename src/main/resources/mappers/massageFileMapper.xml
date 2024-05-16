@@ -10,4 +10,8 @@
 		originalName) values(#{messageNo}, #{uploadName}, #{ext},
 		#{originalName});
 	</insert>
+	
+	<select id="selectMessageFileByMessageNo" resultType="MessageFileDTO">
+		select * from messageFile where messageNo = #{messageNo};
+	</select>
 </mapper>

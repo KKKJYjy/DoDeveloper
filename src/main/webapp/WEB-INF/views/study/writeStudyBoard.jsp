@@ -160,8 +160,8 @@
 			// 지도 검색바에 선택한 장소명 출력
 			$("#searchMap").val(place.place_name);
 
-			mapY = place.y;
-			mapX = place.x;
+			mapY = place.x;
+			mapX = place.y;
 			mapName = place.place_name;
 
 			console.log(mapX, mapY, mapName);
@@ -169,12 +169,10 @@
 
 	}
 
-
 	//1) 카카오 map값을 같이 보내기 위해서 form이 아닌 ajax로 처리한다. (insertStudy)
 	//2) multiSelect만 form 값으로 보낸다. (insertStack)
 	function isVaild() {
 		let result = false;
-
 		//유효성 검사
 		if ($("#chooseStack").val() == '' || $("#chooseStack").val() == null) {
 			$("#chooseStack").focus();
@@ -205,56 +203,66 @@
 		} else if (mapX == 0 || mapX == null || mapY == 0 || mapY == null) {
 			$("#searchMap").focus();
 			alert('스터디 예정 장소를 클릭해주세요.');
-		}
-
-		//유효성 검사에 통과했을 때에만 아래 코드 실행
-		if ($("#chooseStack").val() != '' && $("#chooseStack").val() != null
-				&& $("#stuPers").val() != -1 && $("#endDate").val() != ''
-				&& $("#endDate").val() != null && $("#contactLink").val() != ''
-				&& $("#contactLink").val() != null && $("#stuDate").val() != -1
-				&& $("#stuTitle").val() != '' && $("#stuTitle").val() != null
-				&& $("#stuContent").val() != ''
-				&& $("#stuContent").val() != null
-				&& $("#searchMap").val() != '' && $("#searchMap").val() != null
-				&& mapX != 0 && mapX != null && mapY != 0 && mapY != null) {
-			//alert("유효성 검사 통과!");
-			insertStudy();
+		} else {
 			result = true;
-
+			//alert("유효성 검사 통과!");
 		}
 		return result;
 	}
 
 	function insertStudy() {
-		alert("유효성 검사 통과!");
+		let result = false;
 
-		let newStudyDTO = {
-			"stuWriter" : '${loginMember.userId }',
-			"stuTitle" : $("#stuTitle").val(),
-			"stuContent" : $("#stuContent").val(),
-			"stuLoc" : mapName,
-			"stuX" : mapX,
-			"stuY" : mapY,
-			"stuDate" : $("#stuDate").val(),
-			"stuPers" : $("#stuPers").val(),
-			"endDate" : $("#endDate").val(),
-			"contactLink" : $("#contactLink").val()
-		};
+		//유효성 검사
+			
+		/* $("#chooseStack").val() != '' && $("#chooseStack").val() != null
+		&& $("#stuPers").val() != -1 && $("#endDate").val() != ''
+		&& $("#endDate").val() != null && $("#contactLink").val() != ''
+		&& $("#contactLink").val() != null && $("#stuDate").val() != -1
+		&& $("#stuTitle").val() != '' && $("#stuTitle").val() != null
+		&& $("#stuContent").val() != ''
+		&& $("#stuContent").val() != null
+		&& $("#searchMap").val() != '' && $("#searchMap").val() != null
+		&& mapX != 0 && mapX != null && mapY != 0 && mapY != null */
+		
+		if (isVaild()) {
 
-		$.ajax({
-			url : '/study/insertStudy',
-			type : 'post',
-			data : JSON.stringify(newStudyDTO), //보내는 데이터
-			dataType : 'text',
-			async : 'false', //받아올 데이터가 있어야 파싱 가능.
-			headers : { //서버에 보내지는 데이터의 형식
-				"content-type" : "application/json"
-			},
-			success : function(data) {
-				console.log(data);
+			let newStudyDTO = {
+				"stuWriter" : '${loginMember.userId }',
+				"stuTitle" : $("#stuTitle").val(),
+				"stuContent" : $("#stuContent").val(),
+				"stuLoc" : mapName,
+				"stuX" : mapX,
+				"stuY" : mapY,
+				"stuDate" : $("#stuDate").val(),
+				"stuPers" : $("#stuPers").val(),
+				"endDate" : $("#endDate").val(),
+				"contactLink" : $("#contactLink").val()
+			};
 
-			}
-		});
+			$.ajax({
+				url : '/study/insertStudy',
+				type : 'post',
+				data : JSON.stringify(newStudyDTO), //보내는 데이터
+				dataType : 'text',
+				async : false, //받아올 데이터가 있어야 파싱 가능.
+				headers : { //서버에 보내지는 데이터의 형식
+					"content-type" : "application/json"
+				},
+				success : function(data) {
+					console.log(data);
+					result = true; //insertStudy 먼저 수행한뒤 insertStack 수행하도록
+
+				}
+			});
+
+			console.log("if문 끝나기전", result);
+		} else {
+
+		}
+
+		console.log("if문 끝난후", result);
+		return result;
 	}
 </script>
 </head>
@@ -274,7 +282,7 @@
 
 				<div class="container pt-5">
 
-					<form action="/study/insertStack" method="post">
+					<form action="/study/insertStackWithStack" method="post">
 
 						<!-- 스터디 언어 선택 -->
 						<div class="row mb-4">
@@ -284,16 +292,9 @@
 								</div>
 								<select class="studyLang form-control" multiple="multiple"
 									style="width: 100%" id="chooseStack" name="chooseStack">
-									<!-- ajax로 stack테이블에 있는 애들 대려오기 -->
-									<option value="1">React</option>
-									<option value="2">javascript</option>
-									<option value="3">Vue</option>
-									<option value="4">Nextjs</option>
-									<option value="5">Java</option>
-									<option value="6">Spring</option>
-									<option value="7">Kotlin</option>
-									<option value="8">Swift</option>
-									<option value="9">Flutter</option>
+									<c:forEach var="stack" items="${stackList }">
+										<option value="${stack.stackNo }">${stack.stackName }</option>
+									</c:forEach>
 								</select>
 							</div>
 						</div>
@@ -309,18 +310,17 @@
 									<b>모집 인원</b>
 								</div>
 								<select id="stuPers" class="form-select">
-									<option value="-1">인원 미정 ~ 10명 이상</option>
-									<option value="인원 미정">인원 미정</option>
-									<option value="1명">1명</option>
-									<option value="2명">2명</option>
-									<option value="3명">3명</option>
-									<option value="4명">4명</option>
-									<option value="5명">5명</option>
-									<option value="6명">6명</option>
-									<option value="7명">7명</option>
-									<option value="8명">8명</option>
-									<option value="9명">9명</option>
-									<option value="10명">10명</option>
+									<option value="-1">1명 ~ 10명 선택</option>
+									<option value="1">1명</option>
+									<option value="2">2명</option>
+									<option value="3">3명</option>
+									<option value="4">4명</option>
+									<option value="5">5명</option>
+									<option value="6">6명</option>
+									<option value="7">7명</option>
+									<option value="8">8명</option>
+									<option value="9">9명</option>
+									<option value="10">10명</option>
 								</select>
 							</div>
 
@@ -350,8 +350,7 @@
 									<b>진행 기간</b>
 								</div>
 								<select id="stuDate" class="form-select">
-									<option value="-1">기간 미정 ~ 6개월 이상</option>
-									<option value="기간 미정">기간 미정</option>
+									<option value="-1">1개월 ~ 6개월 선택</option>
 									<option value="1개월">1개월</option>
 									<option value="2개월">2개월</option>
 									<option value="3개월">3개월</option>
@@ -400,7 +399,7 @@
 							</div>
 							<div class="col-md-6">
 								<input type="submit" class="btn btn-secondary" value="글쓰기"
-									style="width: 100%" onclick="return isVaild();" />
+									style="width: 100%" onclick="return insertStudy();" />
 							</div>
 						</div>
 					</form>

@@ -12,6 +12,10 @@
 		select * from message where writer = #{userId} order by messageNo desc limit #{startPoint}, #{amountToShow};
 	</select>
 
+	<select id="selectMessageCntByUserId" resultType="int">
+		select count(*) from message where writer = #{userId} and isDeleted = "N";	
+	</select>
+
 	<insert id="insertIntoMessage" useGeneratedKeys="true" keyProperty="messageNo" parameterType="MessageDTO">
 		insert into message(writer, title, content) values(#{writer}, #{title}, #{content});
 	</insert>

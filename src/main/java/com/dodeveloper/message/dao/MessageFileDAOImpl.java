@@ -1,5 +1,7 @@
 package com.dodeveloper.message.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,6 +23,12 @@ public class MessageFileDAOImpl implements MessageFileDAO {
 	@Override
 	public int insertIntoMessageFile(MessageFileDTO uploadfile) throws Exception {
 		return template.insert(namespace + ".insertIntoMessageFile", uploadfile);
+	}
+
+
+	@Override
+	public List<MessageFileDTO> selectMessageFileByMessageNo(int messageNo) throws Exception {
+		return template.selectList(namespace + ".selectMessageFileByMessageNo", messageNo);
 	}
 
 }

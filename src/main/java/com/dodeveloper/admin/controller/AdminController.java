@@ -70,18 +70,7 @@ public class AdminController {
 		model.addAttribute("stuBoardList", stuBoardList);
 	}
 
-   @RequestMapping(value="/userList")
-   public void userList(Model model) throws Exception {
-	   logger.info("userList 페이지 호출");
-	   
-	   List<MemberVO> returnMap = null;
-	   
-	   returnMap = aService.getAllUser();
-	   
-	   
-	   
-	   
-   }
+
    
    
 

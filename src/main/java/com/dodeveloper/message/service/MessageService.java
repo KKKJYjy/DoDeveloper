@@ -5,6 +5,7 @@ import java.util.List;
 import com.dodeveloper.message.vodto.MessageBoxDTO;
 import com.dodeveloper.message.vodto.MessageBoxVO;
 import com.dodeveloper.message.vodto.MessageDTO;
+import com.dodeveloper.message.vodto.MessageFileDTO;
 import com.dodeveloper.message.vodto.MessageVO;
 import com.dodeveloper.message.vodto.SendMessageDTO;
 
@@ -13,4 +14,9 @@ public interface MessageService {
 	List<MessageVO> getReceivedMessages(String receiver, int startPoint, int amountToShow) throws Exception;
 	List<MessageVO> getSentMessages(String writer, int startPoint, int amountToShow) throws Exception;
 	void sendMessage(SendMessageDTO sendMessageDTO) throws Exception;
+	
+	int getReceivedMessageCnt(String receiver) throws Exception;
+	int getSentMessageCnt(String sender) throws Exception;
+	
+	List<MessageFileDTO> getMessageFilesByMessageNo(int messageNo) throws Exception;
 }

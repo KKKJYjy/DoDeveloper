@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.dodeveloper.algorithm.dao.AlgDAO;
 import com.dodeveloper.algorithm.vodto.AlgBoardDTO;
+import com.dodeveloper.algorithm.vodto.AlgClassificationDTO;
 import com.dodeveloper.algorithm.vodto.AlgDetailDTO;
 import com.dodeveloper.member.dto.LoginDTO;
 
@@ -43,9 +44,38 @@ public class AlgServiceImpl implements AlgService {
 
 
 	@Override
-	public void writeAlgBoard(AlgBoardDTO algBoardDTO) {
+	public void writeAlgBoard(AlgBoardDTO algBoardDTO) throws Exception {
 		System.out.println("글쓰기(서비스)"); 
 		int insert = aDao.insertAlgBoard(algBoardDTO);
+	}
+
+
+	@Override
+	public List<AlgClassificationDTO> getAlgClassification() throws Exception {
+		// algClassification 테이블 조회
+		List<AlgClassificationDTO> algClass = null;
+		//System.out.println("classifiaction서비스");
+		algClass = aDao.selectAlgClassification();
+		
+		
+		return algClass;
+	}
+
+
+	@Override
+	public void writeAlgClassification(String algClassification) throws Exception {
+		// algClassification 테이블 글쓰기
+		aDao.insertAlgClassification(algClassification);
+		
+	}
+
+
+	@Override
+	public void updateAlgBoard(AlgBoardDTO algBoardDTO) {
+		// algBoard 수정
+		
+		aDao.updateAlgBoard(algBoardDTO);
+		
 	}
 
 }
