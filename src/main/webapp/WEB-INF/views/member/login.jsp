@@ -60,7 +60,7 @@
 								<div class="mb-4">
 									<label for="userId" class="form-label">아이디</label>
 									<div class="input-group flex-nowrap">
-										<span class="input-group-text" id="addon-wrapping"><i class="bi bi-person-fill"></i></span> <input type="text" class="form-control" id="userId" name="userId" value="dooly" placeholder="아이디를 입력해주세요" />
+										<span class="input-group-text" id="addon-wrapping"><i class="bi bi-person-fill"></i></span> <input type="text" class="form-control" id="userId" name="userId" value="jiseong" placeholder="아이디를 입력해주세요" />
 									</div>
 								</div>
 								<div class="mb-2">
@@ -69,6 +69,8 @@
 										<span class="input-group-text" id="addon-wrapping"><i class="bi bi-key-fill"></i></span> <input type="password" class="form-control" id="userPwd" name="userPwd" value="1234" placeholder="비밀번호를 입력해주세요" />
 									</div>
 								</div>
+								
+								${sessionScope.loginDTO}
 
 
 								<div class="form-check d-flex justify-content-between mb-4">

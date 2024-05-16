@@ -4,10 +4,12 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.dodeveloper.member.dto.DropMemberDTO;
 import com.dodeveloper.member.dto.LoginDTO;
 import com.dodeveloper.member.dto.RegisterDTO;
 import com.dodeveloper.member.dto.SessionDTO;
 import com.dodeveloper.member.vo.MemberVO;
+import com.dodeveloper.mypage.dto.ChangeProfileDTO;
 import com.dodeveloper.mypage.dto.ChangePwdDTO;
 
 @Repository
@@ -26,6 +28,9 @@ public class MemberDAOImpl implements MemberDAO {
 	private static final String GET_MEMBER_INFO = NS + ".getMemberInfo";
 	private static final String CHECK_USER_PWD = NS + ".checkUserPwd";
 	private static final String CHANGE_PWD = NS + ".changePwd";
+	private static final String CHANGE_PROFILE = NS + ".changeProfile";
+	private static final String DROP_MEMBER = NS + ".dropMember";
+	private static final String CHANGE_DROP_STATUS = NS + ".changeDropStatus";
 	
 	@Override
 	public MemberVO loginMember(LoginDTO dto) throws Exception {
@@ -65,5 +70,20 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public int changeUserPwd(ChangePwdDTO changePwdDTO) throws Exception {
 		return sqlSession.update(CHANGE_PWD, changePwdDTO);
+	}
+
+	@Override
+	public int changeProfile(ChangeProfileDTO changeProfileDTO) throws Exception {
+		return sqlSession.update(CHANGE_PROFILE, changeProfileDTO);
+	}
+
+	@Override
+	public int dropMember(DropMemberDTO dropMemberDTO) throws Exception {
+		return sqlSession.insert(DROP_MEMBER, dropMemberDTO);
+	}
+	
+	@Override
+	public int changeDropStatus(DropMemberDTO dropMemberDTO) throws Exception {
+		return sqlSession.update(CHANGE_DROP_STATUS, dropMemberDTO);
 	}
 }
