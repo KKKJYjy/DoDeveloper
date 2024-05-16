@@ -2,7 +2,7 @@ package com.dodeveloper.lecture.dao;
 
 import java.util.List;
 
-
+import com.dodeveloper.lecture.etc.PagingInfo;
 import com.dodeveloper.lecture.vodto.LectureBoardDTO;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
 import com.dodeveloper.lecture.vodto.LectureSearchDTO;
@@ -10,7 +10,7 @@ import com.dodeveloper.lecture.vodto.LectureSearchDTO;
 public interface LectureBoardDAO {
 	
 	// 게시판의 글을 조회하는 메서드
-	List<LectureBoardVO> selectListAllLecBoard() throws Exception;
+	List<LectureBoardVO> selectListAllLecBoard(PagingInfo pi) throws Exception;
 
 	// ?번 글을 가져오는 메서드
 	LectureBoardVO selectBoardLecNo(int lecNo) throws Exception;
@@ -33,13 +33,19 @@ public interface LectureBoardDAO {
 	// lecNo번 게시글 삭제 처리하는 메서드
 	int deleteLectureBoard(int lecNo) throws Exception;
 	
+	// 검색어가 없을 경우 게시글 전체 글 갯수를 얻어오는 메서드
+	int selectTotalLectureBoardCnt() throws Exception;
+	
 	// 검색어가 있을 경우 검색된 글의 갯수를 가져오는 메서드 - 검색조건
 	int lectureBoardCntWithSc(LectureSearchDTO lsDTO) throws Exception;
 	
 	// 검색어가 있을 경우 검색된 글을 가져오는 메서드 - 검색조건
-	List<LectureBoardVO> lectureBoardListWithSc(LectureSearchDTO lsDTO) throws Exception;
+	List<LectureBoardVO> lectureBoardListWithSc(LectureSearchDTO lsDTO, PagingInfo pi) throws Exception;
+	
+	// 검색 필터(최신순 / 인기순 / 조회순)을 선택했을 때 글의 갯수를 가져오는 메서드 - 검색 필터
+	int lectureBoardCntFilter(LectureSearchDTO lsDTO) throws Exception;
 	
 	// 검색 필터(최신순 / 인기순 / 조회순)을 선택했을 때 글을 가져오는 메서드 - 검색 필터
-	List<LectureBoardVO> listAllBoardByFilter(List<LectureBoardVO> lectureBoardList, String filterType) throws Exception;
+	List<LectureBoardVO> listAllBoardByFilter(LectureSearchDTO lsDTO, PagingInfo pi) throws Exception;
 	
 }
