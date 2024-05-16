@@ -31,13 +31,15 @@ import com.dodeveloper.message.vodto.SendMessageDTO;
 import com.dodeveloper.message.vodto.MessageFileDTO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 @RestController
 @RequestMapping("/message")
 public class MessageController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MessageController.class);
-	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	private static final Gson gson = new GsonBuilder().create();
 
 	RestTemplate restTemplate = new RestTemplate();
 
@@ -66,13 +68,34 @@ public class MessageController {
 		return modelAndView;
 	}
 
+	@RequestMapping(value = "/{userId}/{messageNo}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public ResponseEntity<String> getMessage(@PathVariable("userId") String userId,
+			@PathVariable("messageNo") int messageNo) throws Exception {
+		
+		MessageVO message = messageService.getMessageByNo(messageNo);
+		List<MessageFileDTO> messageFiles = messageService.getMessageFilesByMessageNo(messageNo);
+
+		JsonObject jsonToSend = new JsonObject();
+		
+		jsonToSend.add("message", gson.toJsonTree(message));
+		jsonToSend.add("messageFiles", gson.toJsonTree(messageFiles));
+		
+		return ResponseEntity.ok(gson.toJson(jsonToSend));
+	}
 	
 	@RequestMapping(value = "/{receiver}/received/{startPoint}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public ResponseEntity<String> showReceivedMessages(@PathVariable("receiver") String receiver,
 			@PathVariable("startPoint") int startPoint) throws Exception {
 
 		List<MessageVO> receivedMessages = messageService.getReceivedMessages(receiver, startPoint, 30);
-		return ResponseEntity.ok(gson.toJson(receivedMessages));
+		int receivedMessageCnt = messageService.getReceivedMessageCnt(receiver);
+		
+		JsonObject jsonToSend = new JsonObject();
+		
+		jsonToSend.addProperty("messageCnt", receivedMessageCnt);
+		jsonToSend.add("messages", gson.toJsonTree(receivedMessages));
+		
+		return ResponseEntity.ok(gson.toJson(jsonToSend));
 	}
 
 	
@@ -81,7 +104,14 @@ public class MessageController {
 			@PathVariable("startPoint") int startPoint) throws Exception {
 
 		List<MessageVO> sentMessages = messageService.getSentMessages(writer, startPoint, 30);
-		return ResponseEntity.ok(gson.toJson(sentMessages));
+		int sentMessageCnt = messageService.getSentMessageCnt(writer);
+		
+		JsonObject jsonToSend = new JsonObject();
+		
+		jsonToSend.addProperty("messageCnt", sentMessageCnt);
+		jsonToSend.add("messages", gson.toJsonTree(sentMessages));
+		
+		return ResponseEntity.ok(gson.toJson(jsonToSend));
 	}
 
 	
@@ -94,7 +124,6 @@ public class MessageController {
 		try {
 			for (MessageFileDTO file : sendMessageDTO.getFileList()) {
 				String movedFileName = fileProcessing.saveTempFilePermanantly(file.getUploadName());
-				
 				uploadedFiles.add(new MessageFileDTO(-1, movedFileName, fileProcessing.getExtension(movedFileName), 
 						fileProcessing.getOriginalName(movedFileName)));
 			}
@@ -104,7 +133,7 @@ public class MessageController {
 		} catch (Exception e) {
 			return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
 		}
-		return new ResponseEntity<String>(HttpStatus.OK);
+		return new ResponseEntity<String>("success", HttpStatus.OK);
 	}
 
 	
@@ -117,9 +146,10 @@ public class MessageController {
 		if (file.getOriginalFilename().length() > 50) {
 			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		}
-
+		
 		try {
 			uploadName = fileProcessing.uploadFileTemporarily(file);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
@@ -128,7 +158,7 @@ public class MessageController {
 		if(uploadName == null) {
 			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);			
 		}
-		
+
 		return new ResponseEntity<String>(uploadName, HttpStatus.OK);
 	}
 }

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dodeveloper.mappers.lookupMapper">
+	<!-- 해당 유저가 ?게시판 ?번글을 언제 읽었는지 확인하는 메서드 (공통) -->
+	<select id="selectDiff" resultType="int">
+		select ifnull(a.diff, -1) as datediff from
+		(select datediff(now(), (select readWhen from readCount where readWho =
+		#{readWho} and boardNo = #{boardNo} and bType = #{bType} order by readNo desc limit 1))
+		as diff ) a;
+	</select>
+	
+	<!-- 해당 유저가 ?게시판 ?번 게시글을 조회했다는 이력을 insert 하는 메서드 (공통) -->
+	<insert id="insertLookup">
+		insert into readCount(readWho, bType, boardNo) values(#{readWho}, #{bType}, #{boardNo})
+	</insert>
+	
+	<!-- 스터디 게시판의 ?번글의 조회수를 올리는 메서드 (각자구현) -->
+	<update id="updateLookupStudyBoard">
+		update studyBoard set readCount = readCount + 1 where stuNo = #{stuNo}
+	</update>
+</mapper>

@@ -3,6 +3,7 @@ package com.dodeveloper.algorithm.service;
 import java.util.List;
 
 import com.dodeveloper.algorithm.vodto.AlgBoardDTO;
+import com.dodeveloper.algorithm.vodto.AlgClassificationDTO;
 import com.dodeveloper.algorithm.vodto.AlgDetailDTO;
 import com.dodeveloper.member.dto.LoginDTO;
 
@@ -13,7 +14,16 @@ public interface AlgService {
 	// alg상세게시판 조회
 	List<AlgDetailDTO> getListDetail(int boardNo) throws Exception;
 
-	void writeAlgBoard(AlgBoardDTO algBoardDTO);
+	// algBoard 글 쓰기
+	void writeAlgBoard(AlgBoardDTO algBoardDTO) throws Exception;
+
+	// algClassification 테이블 조회
+	List<AlgClassificationDTO> getAlgClassification() throws Exception;
+
+	// algClassification 글 쓰기
+	void writeAlgClassification(String algClassification) throws Exception;
+
+	void updateAlgBoard(AlgBoardDTO algBoardDTO);
 
 	
 }

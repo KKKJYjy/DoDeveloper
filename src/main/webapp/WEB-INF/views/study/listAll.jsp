@@ -79,15 +79,15 @@
 		let result = false;
 
 		let searchType = $("#searchType").val();
-		let searchContent = $("#searchContent").val();
+		let searchValue = $("#searchValue").val();
 
-		console.log(searchType, searchContent);
+		console.log(searchType, searchValue);
 
 		//검색어에 있어서는 안되는 쿼리문 키워드 배열로 정의
 		let keyWord = new Array("OR", "SELECT", "AND", "INSERT", "UPDATE",
 				"DELETE", "DROP", "EXEC", "TRUNCATE", "CREATE", "ALTER");
 
-		if (searchType != -1 && searchContent.length > 0) {
+		if (searchType != -1 && searchValue.length > 0) {
 			//검색 방법과 검색 내용이 있을 때 쿼리문 키워드가 존재하는지 검사
 
 			let regEx;
@@ -95,11 +95,11 @@
 				//keyWord 배열에 있는 문자열 패턴이 있는지 없는지 전역적으로 검사하는 객체 생성
 				regEx = new RegExp(keyWord[i], "gi");
 
-				if (regEx.test(searchContent)) {
+				if (regEx.test(searchValue)) {
 					//유저가 입력한 검색어에 키워드가 존재하는지 검사
 					alert('검색어가 올바르지 않습니다!');
-					$('#searchContent').val('');
-					$('#searchContent').focus();
+					$('#searchValue').val('');
+					$('#searchValue').focus();
 					return false;
 				}
 			}
@@ -141,15 +141,9 @@
 						<div class="col-md-2">
 							<select class="studyLang form-control" multiple="multiple"
 								style="width: 100%;">
-								<option>React</option>
-								<option>javascript</option>
-								<option>Vue</option>
-								<option>Nextjs</option>
-								<option>Java</option>
-								<option>Spring</option>
-								<option>Kotlin</option>
-								<option>Swift</option>
-								<option>Flutter</option>
+								<c:forEach var="stack" items="${stackList }">
+									<option value="${stack.stackNo }">${stack.stackName }</option>
+								</c:forEach>
 							</select>
 						</div>
 
@@ -176,11 +170,11 @@
 									</div>
 									<div class="col-md-6">
 										<input type="text" class="form-control mb-4"
-											id="searchContent" name="searchContent"
+											id="searchValue" name="searchValue"
 											placeholder="검색할 내용 입력" />
 									</div>
 									<div class="col-md-2">
-										<input type="button" class="btn btn-secondary" value="검색"
+										<input type="submit" class="btn btn-secondary" value="검색"
 											style="width: 100%" onclick="return isValid();" />
 									</div>
 								</div>
@@ -201,7 +195,8 @@
 						<div class="col">
 							<div class="card">
 								<div class="card-body p-4 text-center" style="height: 251px;">
-									<h5 style="line-height: 200px; cursor: pointer;"
+									<h5 class="text-danger"
+										style="line-height: 200px; cursor: pointer;"
 										onclick="location.href='/study/writeStudyBoard';">
 										<b>나도 스터디 만들기</b>
 									</h5>
@@ -216,7 +211,7 @@
 							<div class="col mb-4" style="cursor: pointer;"
 								onclick="location.href='/study/viewStudyBoard?stuNo=${study.stuNo}';">
 								<div class="card">
-									<div class="card-body p-4" style="width: 100%; height: 251px;">
+									<div class="card-body p-4" style="width: 100%;">
 										<div class="">
 											<p class="card-subtitle mb-2 text-body-secondary">📍${study.stuLoc }</p>
 										</div>
@@ -254,14 +249,51 @@
 												</p>
 											</div>
 										</div>
+
 									</div>
 								</div>
 							</div>
 
 						</c:forEach>
+
 					</div>
 
 				</div>
+
+				<!-- 페이징 -->
+				<%-- ${pagingInfo } --%>
+				<div class="row">
+					<div class="col">
+						<ul class="pagination justify-content-center">
+							<c:if test="${pagingInfo.pageNo > 1}">
+								<li class="page-item">
+									<a class="page-link text-light bg-danger" style="border: none"
+										href="/study/listAll?pageNo=${param.pageNo -1 }&searchType=${param.searchType }&searchValue=${param.searchValue }" aria-label="Previous">
+										<span aria-hidden="true"><i class="bi bi-arrow-left-short"></i></span>
+									</a>
+								</li>
+							</c:if>
+
+							<c:forEach var="i" begin="${pagingInfo.startNumOfCurrentPagingBlock }" end="${pagingInfo.endNumOfCurrentPagingBlock }" step="1" >								
+								<li class="page-item" id="${i }">
+									<a class="page-link text-black" style="border: none" href="/study/listAll?pageNo=${i }&searchType=${param.searchType }&searchValue=${param.searchValue }">${i }</a>
+								</li>
+							</c:forEach>
+
+							<c:if test="${pagingInfo.pageNo < pagingInfo.totalPageCnt}">
+								<li class="page-item">
+									<a class="page-link text-light bg-danger" style="border: none" 
+										href="/study/listAll?pageNo=${param.pageNo +1 }&searchType=${param.searchType }&searchValue=${param.searchValue }" aria-label="Previous">
+										<span aria-hidden="true"><i class="bi bi-arrow-right-short"></i></span>
+									</a>
+								</li>
+							</c:if>
+							
+						</ul>
+					</div>
+				</div>
+
+
 			</div>
 
 		</section>

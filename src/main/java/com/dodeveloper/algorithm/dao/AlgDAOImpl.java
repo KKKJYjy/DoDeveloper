@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.dodeveloper.algorithm.vodto.AlgBoardDTO;
+import com.dodeveloper.algorithm.vodto.AlgClassificationDTO;
 import com.dodeveloper.algorithm.vodto.AlgDetailDTO;
 import com.dodeveloper.member.dto.LoginDTO;
 
@@ -40,6 +41,26 @@ public class AlgDAOImpl implements AlgDAO {
 		
 		return ses.insert(ns+".insertAlgBoard", algBoardDTO);
 		
+	}
+
+	@Override
+	public List<AlgClassificationDTO> selectAlgClassification() throws Exception {
+		// TODO Auto-generated method stub
+		
+		return ses.selectList(ns+".selectAlgClassification");
+		
+	}
+
+	@Override
+	public int insertAlgClassification(String algClassification) throws Exception {
+		// TODO Auto-generated method stub
+		return ses.insert(ns+".insertAlgClassification", algClassification);
+	}
+
+	@Override
+	public int updateAlgBoard(AlgBoardDTO algBoardDTO) {
+		// TODO Auto-generated method stub
+		return ses.update(ns+".updateAlgBoard",algBoardDTO);
 	}
 
 }

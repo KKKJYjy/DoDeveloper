@@ -77,11 +77,13 @@
 
 						<button type="button" class="btn btn-info"
 							onclick="location.href='/algorithm/writePOST';">글쓰기</button>
-
+						<button type="button" class="btn btn-info"
+							onclick="location.href='/algorithm/modifyAlg';">글수정</button>
 					</div>
 				</div>
 
 				<div>${algBoardList}</div>
+				
 			</div>
 		</section>
 		<!-- End Basic Section -->

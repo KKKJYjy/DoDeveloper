@@ -15,10 +15,29 @@
 		select * from algDetail where algBoardNo = #{boardNo}
 	</select>
 	
+	<!--  알고리즘분류 테이블 조회 -->
+	<select id="selectAlgClassification" resultType="com.dodeveloper.algorithm.vodto.AlgClassificationDTO">
+		select * from algClassification
+	</select>
+	
 	<!-- algBoard 에 새 항목 insert  -->
 	<insert id="insertAlgBoard">
 		insert into algBoard (classificationCode, title, comment) values(#{classificationCode},#{title},#{comment})
 	</insert>
+	
+	
+	<!--  algClassification 에 새 항목 insert -->
+	<insert id="insertAlgClassification">
+		insert into algClassification(algClassification) values(#{algClassification})
+	</insert>
+	
+	
+	<!--  algBoard 수정 -->
+	<update id="updateAlgBoard">
+		update algBoard set comment = #{comment}, title = #{title}, classificationCode = #{classificationCode} where boardNo = #{boardNo}
+	</update>
+	
+	
 	
 	
 	

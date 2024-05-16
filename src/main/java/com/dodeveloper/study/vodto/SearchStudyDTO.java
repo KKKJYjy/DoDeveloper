@@ -14,5 +14,5 @@ import lombok.ToString;
 @ToString
 public class SearchStudyDTO {
 	private String searchType;
-	private String searchContent;
+	private String searchValue;
 }

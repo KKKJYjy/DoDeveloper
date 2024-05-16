@@ -56,8 +56,21 @@
 			<mapping path="/board/write" />
 			<!-- 스터디 게시판 글쓰기 버튼을 누르면 authInterceptor 객체가 동작 -->
 			<mapping path="/study/writeStudyBoard" />
+			
+			<!-- 기업 리뷰 작성하기 -->  
+			<mapping path="/companyInfo/writtenBoard" /> 
+
 			<beans:ref bean="authInterceptor" />
 		</interceptor>
+		
+		
+		<interceptor>
+			<!-- algDetail게시판 글 작성 시 로그인이 필요하므로 -->
+			<mapping path="/algorithm/modifyAlg" />
+			<beans:ref bean="authInterceptor" />
+		</interceptor>
+		
+		
 	</interceptors>
 
 	<context:component-scan
@@ -68,6 +81,8 @@
 		base-package="com.dodeveloper.mypage.controller" />
 	<context:component-scan
 		base-package="com.dodeveloper.study.controller" />
+	<context:component-scan
+		base-package="com.dodeveloper.studyApply.controller" />
 	<context:component-scan
 		base-package="com.dodeveloper.lecture.controller" />
 	<context:component-scan

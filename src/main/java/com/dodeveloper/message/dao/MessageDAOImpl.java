@@ -44,4 +44,10 @@ public class MessageDAOImpl implements MessageDAO{
 		return messageDTO.getMessageNo();
 	}
 
+
+	@Override
+	public int selectMessageCntByUserID(String userId) throws Exception {
+		return template.selectOne(namespace + ".selectMessageCntByUserId", userId);
+	}
+
 }
