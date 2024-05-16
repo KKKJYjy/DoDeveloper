@@ -143,104 +143,15 @@
 		<!-- ============================================================== -->
 		<!-- Left Sidebar - style you can find in sidebar.scss  -->
 		<!-- ============================================================== -->
-		<aside class="left-sidebar" data-sidebarbg="skin6">
-			<!-- Sidebar scroll-->
-			<div class="scroll-sidebar">
-				<!-- Sidebar navigation-->
-				<nav class="sidebar-nav">
-					<ul id="sidebarnav">
-						<!-- User Profile-->
-						<li class="sidebar-item"><a
-							class="sidebar-link waves-effect waves-dark sidebar-link"
-							href="/admin/dashboard" aria-expanded="false"><i
-								class="mdi me-2 mdi-gauge"></i><span class="hide-menu">Dashboard</span></a>
-						</li>
-						<li class="sidebar-item"><a
-							class="sidebar-link waves-effect waves-dark sidebar-link"
-							href="/admin/userList" aria-expanded="false"> <i
-								class="mdi me-2 mdi-account-check"></i><span class="hide-menu">회원
-									관리</span>
-						</a></li>
-						<li class="sidebar-item"><a
-							class="sidebar-link waves-effect waves-dark sidebar-link"
-							href="/admin/table" aria-expanded="false"><i
-								class="mdi me-2 mdi-table"></i><span class="hide-menu">게시물 관리</span></a>
-						</li>
-						<li class="sidebar-item"><a
-							class="sidebar-link waves-effect waves-dark sidebar-link"
-							href="icon-material.html" aria-expanded="false"><i
-								class="mdi me-2 mdi-emoticon"></i><span class="hide-menu">Icon</span></a>
-						</li>
-						<li class="sidebar-item"><a
-							class="sidebar-link waves-effect waves-dark sidebar-link"
-							href="map-google.html" aria-expanded="false"><i
-								class="mdi me-2 mdi-earth"></i><span class="hide-menu">Google
-									Map</span></a></li>
-						<li class="sidebar-item"><a
-							class="sidebar-link waves-effect waves-dark sidebar-link"
-							href="/admin/blank" aria-expanded="false"><i
-								class="mdi me-2 mdi-book-open-variant"></i><span
-								class="hide-menu">Blank</span></a></li>
-						<li class="sidebar-item"><a
-							class="sidebar-link waves-effect waves-dark sidebar-link"
-							href="/admin/inquiry" aria-expanded="false"><i
-								class="mdi me-2 mdi-help-circle"></i><span class="hide-menu">문의
-							</span></a></li>
-
-					</ul>
-				</nav>
-				<!-- End Sidebar navigation -->
-			</div>
-			<!-- End Sidebar scroll-->
-			<div class="sidebar-footer">
-				<div class="row">
-					<div class="col-4 link-wrap">
-						<!-- item-->
-						<a href="" class="link" data-toggle="tooltip" title=""
-							data-original-title="Settings"><i class="ti-settings"></i></a>
-					</div>
-					<div class="col-4 link-wrap">
-						<!-- item-->
-						<a href="" class="link" data-toggle="tooltip" title=""
-							data-original-title="Email"><i class="mdi mdi-gmail"></i></a>
-					</div>
-					<div class="col-4 link-wrap">
-						<!-- item-->
-						<a href="" class="link" data-toggle="tooltip" title=""
-							data-original-title="Logout"><i class="mdi mdi-power"></i></a>
-					</div>
-				</div>
-			</div>
-		</aside>
+		
 		<!-- ============================================================== -->
 		<!-- End Left Sidebar - style you can find in sidebar.scss  -->
 		<!-- ============================================================== -->
 		<!-- ============================================================== -->
 		<!-- Page wrapper  -->
 		<!-- ============================================================== -->
-		<div class="page-wrapper">
-			<!-- ============================================================== -->
-			<!-- Bread crumb and right sidebar toggle -->
-			<!-- ============================================================== -->
-			<div class="page-breadcrumb">
-				<div class="row align-items-center">
-					<div class="col-md-6 col-8 align-self-center">
-						<h3 class="page-title mb-0 p-0">Table</h3>
-						<div class="d-flex align-items-center">
-							<nav aria-label="breadcrumb">
-								<ol class="breadcrumb">
-									<li class="breadcrumb-item"><a href="#">Home</a></li>
-									<li class="breadcrumb-item active" aria-current="page">
-										Table</li>
-								</ol>
-							</nav>
-						</div>
-					</div>
-					
-				</div>
-			</div>
-		</div>
-	</div>
+	
+	
 	</div>
 	<!-- ============================================================== -->
 	<!-- End Topbar header -->
