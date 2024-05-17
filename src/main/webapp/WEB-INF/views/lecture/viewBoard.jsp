@@ -107,8 +107,10 @@ $(function() {
 			let replyer = preAuth(); // 댓글 작성자 가져오기
 			if (replyer !== '') {
 				let bNo = '${lecBoard.lecNo}'; // 게시글 번호 가져오기
+				let bType = 1;
 				let newReply = {
 					"bNo" : bNo + "", // 문자열로 변환
+					"bType" : bType,
 					"replyContent" : replyContent,
 					"replyer" : replyer
 				}; // 댓글 객체 생성

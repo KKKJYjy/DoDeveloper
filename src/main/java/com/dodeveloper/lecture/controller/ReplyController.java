@@ -68,16 +68,16 @@ public class ReplyController {
 	 */
 	@RequestMapping(value = "/{bType}/{bNo}", method = RequestMethod.POST, produces = "text/plain; charset=utf-8")
 	public ResponseEntity<String> insertReply(@PathVariable("bNo") int bNo, @PathVariable("bType") int bType, @RequestBody ReplyDTO rDTO) {
-		System.out.println(bNo + "번 게시글에 " + bType + "게시판에 " + rDTO.toString() + "댓글 작성 완료!");
+		logger.info(bNo + "번 게시글에 " + bType + "게시판에 " + rDTO.toString() + "댓글 작성 완료!");
 
 		ResponseEntity<String> result = null;
 
 		// rDTO 객체의 bNo 속성을 bNo 변수의 값으로 설정 후, rDTO 객체가 특정 게시글 번호를 가지도록
 		rDTO.setBNo(bNo);
 		// rDTO 객체의 bType 속성을 bType 변수의 값으로 설정 후, rDTO 객체가 특정 게시판을 구분하도록
-		// rDTO.setBType(bType);
+		rDTO.setBType(bType);
 
-		System.out.println(bNo + bType);
+		// System.out.println(bNo + bType);
 		
 		try {
 			if (rService.insertReply(rDTO) == 1) {
