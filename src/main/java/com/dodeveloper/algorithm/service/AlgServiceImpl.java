@@ -33,11 +33,16 @@ public class AlgServiceImpl implements AlgService {
 
 
 	@Override
-	public List<AlgDetailDTO> getListDetail(int boardNo) throws Exception {
+	public List<AlgDetailDTO> getListDetail(int boardNo) {
 		// boardNo 에 해당하는 algDetail 리스트 받아오기
 		List<AlgDetailDTO> algDetailList = null;
 		System.out.println(boardNo+"번의 알고리즘 조회");
-		algDetailList = aDao.selectAlgDetail(boardNo);
+		try {
+			algDetailList = aDao.selectAlgDetail(boardNo);
+		} catch (Exception e) {
+			// 
+			e.printStackTrace();
+		}
 		
 		return algDetailList;
 	}

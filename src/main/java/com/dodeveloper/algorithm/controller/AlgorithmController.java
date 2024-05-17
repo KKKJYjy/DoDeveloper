@@ -63,10 +63,19 @@ public class AlgorithmController {
 		model.addAttribute("algDetailList", returnMap);
 	}
 	
+	
+	////////////////////////
+	
 	@RequestMapping(value="/writePOST",method = RequestMethod.POST)
 	public String writeAlg(AlgBoardDTO algBoardDTO) throws Exception {
 		System.out.println("글 작성()");
 		System.out.println(algBoardDTO);
+		
+		if(algBoardDTO.getTitle() == "" || algBoardDTO.getClassificationCode() <= 0) {
+			System.out.println("유효성x");
+			return "redirect:listAll";
+		}
+		
 		aService.writeAlgBoard(algBoardDTO);
 		
 		return "redirect:listAll";
@@ -87,9 +96,11 @@ public class AlgorithmController {
 		return "/algorithm/writeBoard";
 	}
 	
+	////////////////////
+	
 	@RequestMapping(value = "/newClassification", method = RequestMethod.GET)
 	public String newClassification(@RequestParam("algClassification") String algClassification) {
-		//System.out.println("!!!!!!!!!!!!");
+		//algClassification 항목 작성
 		System.out.println(algClassification);
 		try {
 			aService.writeAlgClassification(algClassification);
@@ -100,6 +111,9 @@ public class AlgorithmController {
 		
 		return "redirect:writePOST";
 	}
+	
+	
+	///////////////////
 	
 	
 	@RequestMapping(value = "/modifyAlg", method = RequestMethod.GET)
@@ -117,7 +131,7 @@ public class AlgorithmController {
 		model.addAttribute("algBoardList",returnMap);
 		model.addAttribute("algClassification",returnMap2);
 		
-		//
+		
 		
 	}
 	
@@ -133,6 +147,9 @@ public class AlgorithmController {
 		return "redirect:listAll";
 	}
 	
+	
+	
+	////////////////////////////
 	
 	
 	@RequestMapping("/writeDetailPOST") // "/algorithm/writeDetail"가 get 방식으로 요청될 때... 호출
@@ -161,12 +178,7 @@ public class AlgorithmController {
 		
 		
 		
-		
-		
-		
-		
-		
-		
+			
 		return "/algorithm/writeDetail";
 	}
 	
@@ -174,7 +186,7 @@ public class AlgorithmController {
 	@RequestMapping(value = "/writeDetailPOST", method = RequestMethod.POST)
 	public String writeAlgDetail(AlgDetailDTO algDetailDTO) {
 		// jsp 에서 post로 받아온 정보를 algDetail 에 insert
-		System.out.println("$$$$$$$$$$$");
+		//System.out.println("$$$$$$$$$$$");
 		System.out.println(algDetailDTO);
 		
 		int boardNo = algDetailDTO.getAlgBoardNo();
@@ -184,6 +196,35 @@ public class AlgorithmController {
 		
 		return "redirect:algDetail?boardNo="+boardNo;
 		//return "/algorithm/algDetail?boardNo="+boardNo;
+		
+	}
+	
+	
+	
+	
+	
+	@RequestMapping("/modifyAlgDetail")
+	public String modifyAlgDetail(Model model, HttpSession ses) throws Exception {
+		// algDetail 을 수정하기 위해 버튼을 눌렀을 때 호출 (GET)
+		System.out.println("********");
+		
+		System.out.println("상세글수정");
+		
+		List<AlgDetailDTO> returnMap = null;
+		System.out.println(ses.getAttribute("boardNo"));
+		
+		int boardNo = Integer.parseInt((String) ses.getAttribute("boardNo")); // 수정할 AlgDetail의 AlgBoardNo(AlgBoard 에서 참조한 변수)
+		
+		
+		
+		returnMap = aService.getListDetail(boardNo);
+		
+		model.addAttribute("algDetail", returnMap);
+			
+			
+		return "/algorithm/modifyDetail";	
+		
+		
 		
 	}
 

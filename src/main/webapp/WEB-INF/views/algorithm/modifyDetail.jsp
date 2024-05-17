@@ -1,6 +1,3 @@
-<%@page import="org.apache.ibatis.reflection.SystemMetaObject"%>
-<%@page import="java.io.Console"%>
-<%@page import="com.dodeveloper.algorithm.vodto.AlgDetailDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -51,17 +48,49 @@
   ======================================================== -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+	function chageSelect() {
+		
+		// 셀렉트 태그로 AlgDetail 중 하나를 선택하면  항목에 해당하는 text 형태의 algDetail.toString 을 select란 변수로 받아옴.
+		// 이후 select 을 분리해서 각각의 값을 게시글 번호, 게시글 제목, 코드 내용, 코드 실행결과 등의 항목에 디폴트 값으로 넣고 
+		// 이 값들을 수정할 수 있도록 함 (처음부터 다시 써서 수정하는게 힘드니까)
+		
+		select = $("#selectAlgDetailTitle").val();
+		console.log(select);  // 셀렉트 태그에서 선택 시  
+		selectTitle = $("select[name=selectAlgDetailTitle] option:selected").text();
+		console.log($("select[name=selectAlgDetailTitle] option:selected").text()); //text값 가져오기 (algDetailTitle) 가져옴
+		
+		
+		
+		algDetailNo = select.split('algDetailNo=')[1].split(',')[0]
+		
+		algDetailContent = select.split('algDetailContent=')[1].split(', algDetailResult')[0]
+		
+		algDetailResult = select.split('algDetailResult=')[1].split(', algDetailTitle')[0]
+		
+		
+		$("#algDetailNo").val(algDetailNo);
+		$("#algDetailTitle").val(selectTitle);
+		$("#algDetailContent").val(algDetailContent);
+		$("#algDetailResult").val(algDetailResult);
+		
+	}
+	
+	$(function() {
+		
+		
+		
+		
+		
+		
+		
+	});
+</script>
 </head>
 
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
 	<%@ include file="../header.jsp"%>
 
-	<%
-	String boardNo = request.getParameter("boardNo");
-	session.setAttribute("boardNo", boardNo);
-	
-	%>
-	
 	<main id="main">
 		<!-- Basic Section - Algorithm Page -->
 		<section id="algorithm" class="basic">
@@ -72,30 +101,66 @@
 				<h1>alg</h1>
 
 
-				<div>${algDetailList}</div>
+				<div>${algDetail}</div>
+
+
+
+				<form action="modifyAlgDetail" method="post">
+
+					<label for="sel1" class="form-label">Select list (선택하면 제목과 게시글 번호 자동으로 입력 됨):
+					</label> <select class="form-select" id="selectAlgDetailTitle"		
+						name="selectAlgDetailTitle" onchange="chageSelect()">
+						<option value="0"  >알고리즘을 어디 수정할 지 선택</option>
+						<c:forEach items="${algDetail}" var="algDetail">
+							
+							<option value="${algDetail}" id="detailTitle">${algDetail.algDetailTitle }</option>
+
+						</c:forEach>
+					</select>
+					
+					
+					
+					
+					
+					<div class="mb-3 mt-3">
+						<label for="title" class="form-label">제목 : </label> <input
+							type="text" value="${algDetail[0].algDetailTitle }" onfocus="this.value='';"
+							class="form-control" id="algDetailTitle"
+							placeholder="글 제목을 입력하세요..." name="algDetailTitle" />
+					</div>
+					
+					<div class="mb-3 mt-3">
+						<label for="title" class="form-label">게시글 번호 : </label> <input
+							type="number" class="form-control" value="${algDetail[0].algDetailNo }" id="algDetailNo"
+							placeholder="입력하세요..." name="algDetailNo" />
+					</div>
+					
+					
+					<div class="mb-3 mt-3">
+						<c:if test=""></c:if>
+						<label for="title" class="form-label">게시글 내용 : </label> <input
+							type="text" class="form-control" value="${algDetail[0].algDetailContent }" id="algDetailContent"
+							placeholder="입력하세요..." name="algDetailContent" />
+					</div>
+					
+					<div class="mb-3 mt-3">
+						<c:if test=""></c:if>
+						<label for="title" class="form-label">실행결과 : </label> <input
+							type="text" class="form-control" value="${algDetail[0].algDetailResult }" id="algDetailResult"
+							placeholder="입력하세요..." name="algDetailResult" />
+					</div>
+					
+
+
+				</form>
 
 
 
 
-				<div>${algDetailList[0].algBoardNo}</div>
+
 
 			</div>
-
 		</section>
-
-
-			<form method="get" action="/algorithm/writeDetailPOST">
-
-		<div class="btns">
-
-			<button type="submit" class="btn btn-info">글쓰기</button>
-			<button type="button" class="btn btn-info"
-				onclick="location.href='/algorithm/modifyAlgDetail';">글수정</button>
-		</div>
-			</form>
-		<button type="button" class="btn btn-danger" onclick="location.href='/algorithm/listAll';">알고리즘목록</button>
-
-
 		<!-- End Basic Section -->
 	</main>
 

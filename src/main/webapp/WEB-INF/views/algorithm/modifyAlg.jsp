@@ -106,6 +106,8 @@
 					<button type="submit">수정</button>
 					<button type="reset">취소</button>
 				</form>
+				<button type="button" class="btn btn-danger" onclick="location.href='/algorithm/listAll';">Danger</button>
+				
 
 
 			</div>
