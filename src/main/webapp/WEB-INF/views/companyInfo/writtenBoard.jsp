@@ -63,7 +63,7 @@
 						<label for="revWriter" class="form-label">작성자: </label> <input
 							type="text" class="form-control" id="revWriter"
 							placeholder="입력하신 모든 정보는 익명으로 처리되니 걱정마세요!" name="revWriter"
-							value="${sessionScope.loginMember.userId }" />
+							value="${sessionScope.loginMember.userId}" />
 					</div>
 
 					<div class="mb-3 mt-3">
@@ -104,8 +104,6 @@
 						<input type="hidden" name="bType" value="3">
 					</div>
 					
-					
-
 					<input type="submit" class="btn btn-success" value="글 저장" /> <input
 						type="reset" class="btn btn-danger" value="취소"
 						onclick="location.href='/writtenBoard/revCompanyBoard';" />
