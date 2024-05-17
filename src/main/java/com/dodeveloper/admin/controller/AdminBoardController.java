@@ -99,12 +99,14 @@ public class AdminBoardController {
 	}
 	
 	@RequestMapping(value = "/noticeBoard", method = RequestMethod.GET)
-	public void noticeBoard(Model model) throws Exception {
+	public void noticeBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo) throws Exception {
 		logger.info("공지사항 조회");
 		
-		List<NoticeDTO> notcBoardList = bService.getlistNotcBoard();
+		Map<String, Object> returnMap = bService.getlistNotcBoard(pageNo);
 		
-		model.addAttribute("notcBoardList", notcBoardList);
+		model.addAttribute("notcBoardList", (List<NoticeDTO>)returnMap.get("notcBoardList"));
+		model.addAttribute("pagingInfo", (PagingInfo)returnMap.get("pagingInfo"));
+		
 	}
 	
 	
@@ -157,6 +159,18 @@ public class AdminBoardController {
 		}
 		
 		return "redirect:reviewBoard";
+	}
+	
+	@RequestMapping(value = "/notcDelete")
+	public String removeNotcBoard(HttpServletRequest request) throws Exception {
+		
+		String[] remNotcBoard = request.getParameterValues("valueArr");
+		int size = remNotcBoard.length;
+		for (int i = 0; i < size; i++) {
+			bService.notcdeleteBoard(remNotcBoard[i]);
+		}
+		
+		return "redirect:noticeBoard";
 	}
 	
 	

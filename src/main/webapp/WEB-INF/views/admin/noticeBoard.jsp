@@ -29,7 +29,7 @@
 	});
 
 	function checkCheckbox() {
-		let url = "delete";
+		let url = "notcDelete";
 		let valueArr = new Array();
 		let list = $("input[name='rowCheck']");
 		for (let i = 0; i < list.length; i++) {
@@ -112,7 +112,7 @@
 							<th>글번호</th>
 							<th>작성자</th>
 							<th>제목</th>
-							<th>날짜</th>
+							<th>작성일</th>
 
 						</tr>
 					</thead>
@@ -135,6 +135,24 @@
 					</tbody>
 				</table>
 
+				<ul class="pagination">
+					<c:if test="${param.pageNo > 1 }">
+						<li class="page-item"><a class="page-link"
+							href="/admin/noticeBoard?pageNo=${param.pageNo -1 }">Previous</a></li>
+
+					</c:if>
+					<c:forEach var="i"
+						begin="${pagingInfo.startNumOfCurrentPagingBlock }"
+						end="${pagingInfo.endNumOfCurrentPagingBlock }" step="1">
+						<li class="page-item" id="${i }"><a class="page-link"
+							href="/admin/noticeBoard?pageNo=${i }">${i }</a></li>
+					</c:forEach>
+
+					<c:if test="${param.pageNo < pagingInfo.totalPageCnt }">
+						<li class="page-item"><a class="page-link"
+							href="/admin/noticeBoard?pageNo=${param.pageNo +1 }">Next</a></li>
+					</c:if>
+				</ul>
 
 
 			</div>

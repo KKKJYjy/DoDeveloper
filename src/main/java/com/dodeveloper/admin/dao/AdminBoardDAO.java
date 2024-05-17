@@ -24,7 +24,7 @@ public interface AdminBoardDAO {
 	List<AdminReviewBoardVO> selectListRevBoard(PagingInfo pi) throws Exception;
 	
 	// 공지사항 조회 메서드
-	List<NoticeDTO> selectListNotcBoard() throws Exception;
+	List<NoticeDTO> selectListNotcBoard(PagingInfo pi) throws Exception;
 
 	// 게시글 전체 갯수 구할 수 있는 메서드
 	int selectTotalBoardCnt() throws Exception;
@@ -49,6 +49,9 @@ public interface AdminBoardDAO {
     
     // revNo번 게시글 삭제
     void deleteRev(String revNo) throws Exception;
+    
+    // 공지사항 게시글 삭제
+    void deleteNotc(String boardNo) throws Exception;
     
     // 공지사항 테이블에 insert하는 메서드
     int insertNoticeBoard(NoticeDTO newBoard) throws Exception;

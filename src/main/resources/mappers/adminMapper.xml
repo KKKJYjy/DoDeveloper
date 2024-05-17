@@ -35,7 +35,7 @@
 	
 	<!-- 공지사항 조회 -->
 	<select id="getNotcBoard" resultType="NoticeDTO">
-		select * from noticeBoard order by boardNo desc
+		select * from noticeBoard order by boardNo desc limit #{startRowIndex},#{viewPostCntPerPage}
 	</select>
 	
 	<!-- 검색어가 있을 경우 글의 갯수를 가져오는 쿼리문 -->
@@ -84,6 +84,11 @@
 	<!-- reviewBoard 게시글 삭제 -->
 	<delete id="deleteRevBoard">
 		delete from companyrevboard where revNo = #{revNo}
+	</delete>
+	
+	<!-- 공지사항 게시글 삭제 -->
+	<delete id="deleteNotcBoard">
+		delete from noticeBoard where boardNo = #{boardNo}
 	</delete>
 	
 	<!-- 공지사항 작성 -->

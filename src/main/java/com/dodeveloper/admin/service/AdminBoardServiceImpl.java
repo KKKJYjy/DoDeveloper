@@ -173,13 +173,20 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 
 	
 	@Override
-	public List<NoticeDTO> getlistNotcBoard() throws Exception {
+	public Map<String, Object> getlistNotcBoard(int pageNo) throws Exception {
 		
 		System.out.println("서비스단 : 공지사항 조회");
 		
-		List<NoticeDTO> notcBoardList = bDao.selectListNotcBoard();
+		makePagingInfo(pageNo);
 		
-		return notcBoardList;
+		List<NoticeDTO> notcBoardList = bDao.selectListNotcBoard(pi);
+		
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		returnMap.put("notcBoardList", notcBoardList);
+		returnMap.put("pagingInfo", this.pi);
+		
+		
+		return returnMap;
 	}
 	
 	
@@ -224,7 +231,15 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	}
 
 
-
+	@Override
+	public void notcdeleteBoard(String boardNo) throws Exception {
+		
+		bDao.deleteNotc(boardNo);
+	}
+	
+	
+	
+	
 	@Override
 	public boolean writeNoticeBoard(NoticeDTO newBoard) throws Exception {
 		
@@ -235,6 +250,10 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		
 		return result;
 	}
+
+
+
+	
 
 
 

@@ -70,9 +70,13 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 	
 	
 	@Override
-	public List<NoticeDTO> selectListNotcBoard() throws Exception {
+	public List<NoticeDTO> selectListNotcBoard(PagingInfo pi) throws Exception {
 		
-		return ses.selectList(ns + ".getNotcBoard");
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("startRowIndex", pi.getStartRowIndex());
+		params.put("viewPostCntPerPage", pi.getViewPostCntPerPage());
+		
+		return ses.selectList(ns + ".getNotcBoard", params);
 	}
 	
 	
@@ -128,12 +132,23 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 		
 		ses.delete(ns + ".deleteRevBoard", revNo);
 	}
+	
+	
+	@Override
+	public void deleteNotc(String boardNo) throws Exception {
+		
+		ses.delete(ns + ".deleteNotcBoard", boardNo);
+	}
+	
+	
 
 	@Override
 	public int insertNoticeBoard(NoticeDTO newBoard) throws Exception {
 		
 		return ses.insert(ns + ".insertNoticeBoard", newBoard);
 	}
+
+	
 
 	
 

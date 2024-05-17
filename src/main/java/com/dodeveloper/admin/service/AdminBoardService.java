@@ -25,7 +25,7 @@ public interface AdminBoardService {
 		Map<String, Object> getlistRevBoard(int pageNo) throws Exception;
 		
 	// 공지사항 조회하는 메서드
-		List<NoticeDTO> getlistNotcBoard() throws Exception;
+		Map<String, Object> getlistNotcBoard(int pageNo) throws Exception;
 		
 	// 스터디 게시물 삭체 처리하는 메서드
 	//	boolean studeleteBoard(int stuNo) throws Exception;
@@ -41,6 +41,9 @@ public interface AdminBoardService {
 		
 		// review게시물 삭제 처리하는 메서드
 		void revdeleteBoard(String revNo) throws Exception;
+		
+		// 공지사항 게시물 삭제 처리하는 메더스
+		void notcdeleteBoard(String boardNo) throws Exception;
 		
 		// 공지사항 작성
 		boolean writeNoticeBoard(NoticeDTO newBoard) throws Exception;
