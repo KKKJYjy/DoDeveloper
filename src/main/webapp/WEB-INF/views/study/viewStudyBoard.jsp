@@ -81,7 +81,13 @@
 
 <script>
 
+	let replies = "";
+	
 	$(function() {
+		
+		//댓글 리스트 가져오는 함수 호출
+		getAllReplies();
+		
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		mapOption = {
 			center : new kakao.maps.LatLng(${studyList.stuX }, ${studyList.stuY }), // 지도의 중심좌표
@@ -148,7 +154,7 @@
         });
         
         
-        //url 쿼리스트링 값 가져오기
+        //url 쿼리스트링 값 가져와서 신청완료했을때 알럿창 표시
         let url = new URL(window.location.href);
         let urlParams = url.searchParams;
         
@@ -160,6 +166,28 @@
         
         
 	});
+	
+	//모든 댓글 리스트를 가져오는 함수
+	function getAllReplies(){
+		//댓글을 조회할 게시글 번호
+		let stuNo = ${studyList.stuNo};
+		console.log(stuNo + "번째 게시글 댓글 조회");
+
+		//get방식이라 쿼리스트링 붙여서 보낼 수 있음.. boardNo는 변수로 들어간다
+		$.ajax({
+			//내부에서 작동하는거고 페이지이동 없어서(url 변경 안된다) interceptor에 걸리지 않는다. 로그인할때는 Form으로 보냈었음..
+			url : "/studyReply/replyAll/" + stuNo,
+			type : "get",
+			dataType : "json",
+			async : false, //받아올 데이터가 있어야 파싱 가능.
+			success : function(data) {
+				console.log(data);
+				//replies = data;
+				//showReplies(data);
+			},
+		});
+	}
+	
 	
 	//참여신청팝업창에서 참여신청버튼을 눌렀을 때 유효성검사
 	function isVaild(){
