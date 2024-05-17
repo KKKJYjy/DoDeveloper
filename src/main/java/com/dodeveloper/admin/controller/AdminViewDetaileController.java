@@ -13,8 +13,8 @@ public class AdminViewDetaileController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AdminViewDetaileController.class);
 	
-	@RequestMapping(value = "/viewStudyBoard", method = RequestMethod.GET)
-	public void viewStudyBoard() {
+	@RequestMapping(value = "/noticViewDetail", method = RequestMethod.GET)
+	public void noticViewDerail() {
 		logger.info("상세페이지 호출");
 	}
 	

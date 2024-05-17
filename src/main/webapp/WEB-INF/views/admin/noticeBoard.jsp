@@ -119,7 +119,7 @@
 					<tbody>
 						<c:forEach var="board" items="${notcBoardList }">
 
-							<tr id="table">
+							<tr id="table" onclick="location.href = '/adminView/noticViewDetail?boardNo=${board.boardNo}';">
 								<td><input type="checkbox" name="rowCheck"
 									class="deleteCheckbox" id="myCheckbox"
 									value="${board.boardNo }" /></td>
