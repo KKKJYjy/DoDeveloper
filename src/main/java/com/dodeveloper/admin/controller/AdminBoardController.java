@@ -11,13 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dodeveloper.admin.dto.SearchCriteriaDTO;
-
+import com.dodeveloper.admin.dto.NoticeDTO;
 import com.dodeveloper.admin.service.AdminBoardService;
 import com.dodeveloper.admin.vo.AdminArgBoardVO;
 import com.dodeveloper.admin.vo.AdminLectureVO;
@@ -97,6 +98,19 @@ public class AdminBoardController {
 		
 	}
 	
+	@RequestMapping(value = "/noticeBoard", method = RequestMethod.GET)
+	public void noticeBoard(Model model) throws Exception {
+		logger.info("공지사항 조회");
+		
+		List<NoticeDTO> notcBoardList = bService.getlistNotcBoard();
+		
+		model.addAttribute("notcBoardList", notcBoardList);
+	}
+	
+	
+	
+	
+	
 	@RequestMapping(value = "/delete")
 	public String removeStuBoard(HttpServletRequest request) throws Exception {
 		
@@ -145,6 +159,25 @@ public class AdminBoardController {
 		return "redirect:reviewBoard";
 	}
 	
+	
+	
+	
+	
+	@RequestMapping(value = "/noticePOST", method = RequestMethod.POST)
+	public String noticeBoard(NoticeDTO newBoard) throws Exception {
+		logger.info("controller : " + newBoard.toString() + "글 저장");
+
+		String returnPage = "/admin/noticeBoard";
+		
+		if(bService.writeNoticeBoard(newBoard)) {
+			returnPage = "redirect:" + returnPage + "?status=writeSuccess";
+		} else {
+			returnPage = "redirect:" + returnPage + "?status=writeFail";
+		}
+
+		return returnPage;
+	
+	}
 	
 
 }

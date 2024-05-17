@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.dodeveloper.admin.dao.AdminBoardDAO;
 import com.dodeveloper.admin.dto.SearchCriteriaDTO;
-
+import com.dodeveloper.admin.dto.NoticeDTO;
 import com.dodeveloper.admin.vo.AdminArgBoardVO;
 import com.dodeveloper.admin.vo.AdminLectureVO;
 import com.dodeveloper.admin.vo.AdminReviewBoardVO;
@@ -171,6 +171,19 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		return returnMap;
 	}
 
+	
+	@Override
+	public List<NoticeDTO> getlistNotcBoard() throws Exception {
+		
+		System.out.println("서비스단 : 공지사항 조회");
+		
+		List<NoticeDTO> notcBoardList = bDao.selectListNotcBoard();
+		
+		return notcBoardList;
+	}
+	
+	
+	
 //	@Override
 //	public boolean studeleteBoard(int stuNo) throws Exception {
 //		boolean result = false;
@@ -209,6 +222,23 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		bDao.deleteRev(revNo);
 		
 	}
+
+
+
+	@Override
+	public boolean writeNoticeBoard(NoticeDTO newBoard) throws Exception {
+		
+		boolean result = false;
+		
+		
+	    bDao.insertNoticeBoard(newBoard);
+		
+		return result;
+	}
+
+
+
+	
 	
 	
 }

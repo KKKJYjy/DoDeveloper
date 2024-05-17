@@ -33,6 +33,11 @@
 		select * from companyrevboard order by revNo desc limit #{startRowIndex},#{viewPostCntPerPage}
 	</select>
 	
+	<!-- 공지사항 조회 -->
+	<select id="getNotcBoard" resultType="NoticeDTO">
+		select * from noticeBoard order by boardNo desc
+	</select>
+	
 	<!-- 검색어가 있을 경우 글의 갯수를 가져오는 쿼리문 -->
 	<select id="getStuBoardCntWithSC" resultType="int">
 		select count(*) from studyBoard
@@ -80,6 +85,11 @@
 	<delete id="deleteRevBoard">
 		delete from companyrevboard where revNo = #{revNo}
 	</delete>
+	
+	<!-- 공지사항 작성 -->
+	<insert id="insertNoticeBoard">
+		insert into noticeBoard(writer, title, content) values(#{writer}, #{title}, #{content})
+	</insert>
 	
 	
 	

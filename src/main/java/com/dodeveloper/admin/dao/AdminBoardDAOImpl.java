@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.dodeveloper.admin.dto.SearchCriteriaDTO;
-
+import com.dodeveloper.admin.dto.NoticeDTO;
 import com.dodeveloper.admin.vo.AdminArgBoardVO;
 import com.dodeveloper.admin.vo.AdminLectureVO;
 import com.dodeveloper.admin.vo.AdminReviewBoardVO;
@@ -67,6 +67,15 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 		
 		return ses.selectList(ns + ".getRevBoard", params);
 	}
+	
+	
+	@Override
+	public List<NoticeDTO> selectListNotcBoard() throws Exception {
+		
+		return ses.selectList(ns + ".getNotcBoard");
+	}
+	
+	
 
 	@Override
 	public int selectTotalBoardCnt() throws Exception {
@@ -119,6 +128,14 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 		
 		ses.delete(ns + ".deleteRevBoard", revNo);
 	}
+
+	@Override
+	public int insertNoticeBoard(NoticeDTO newBoard) throws Exception {
+		
+		return ses.insert(ns + ".insertNoticeBoard", newBoard);
+	}
+
+	
 
 	//@Override
 //	public int stuBoardDelete(int stuNo) throws Exception {

@@ -8,9 +8,6 @@
 <title>Insert title here</title>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<style>
-}
-</style>
 <script>
 	$(function() {
 		var chkObj = document.getElementsByName("rowCheck");
@@ -32,7 +29,7 @@
 	});
 
 	function checkCheckbox() {
-		let url = "algDelete";
+		let url = "delete";
 		let valueArr = new Array();
 		let list = $("input[name='rowCheck']");
 		for (let i = 0; i < list.length; i++) {
@@ -45,7 +42,7 @@
 		} else {
 			let chk = confirm("정말 삭제하시겠습니까?");
 			if (!chk) {
-				location.replace("algorithmBoard")
+				location.replace("noticeBoard")
 			} else {
 				$.ajax({
 					url : url,
@@ -57,7 +54,7 @@
 					success : function(data) {
 						if (data = 1) {
 							alert("삭제 성공");
-							location.replace("algorithmBoard")
+							location.replace("noticeBoard")
 						} else {
 							alert("삭제 실패");
 						}
@@ -65,15 +62,14 @@
 
 				});
 			}
-		
+
 		}
 	}
 </script>
 </head>
 <body>
-
-
 	<c:import url="./adminHeader.jsp"></c:import>
+
 
 	<c:import url="./adminSidebar.jsp"></c:import>
 
@@ -84,7 +80,7 @@
 		<div class="container-fluid">
 
 			<div class="container mt-3">
-				<p class="text-center">알고리즘</p>
+				<p class="text-center">공지사항</p>
 				<ul class="nav nav-tabs nav-justified">
 					<li class="nav-item"><a class="nav-link"
 						href="/admin/selectBoard">스터디 모임</a></li>
@@ -94,82 +90,59 @@
 						href="/admin/algorithmBoard">알고리즘</a></li>
 					<li class="nav-item"><a class="nav-link"
 						href="/admin/reviewBoard">기업리뷰</a></li>
-						<li class="nav-item"><a class="nav-link"
+					<li class="nav-item"><a class="nav-link"
 						href="/admin/noticeBoard">공지사항</a></li>
 				</ul>
 			</div>
 
-
 			<div class="container">
-
 
 				<c:import url="./search.jsp"></c:import>
 
 				<button id="openModalBtn" onclick="checkCheckbox()">게시글삭제</button>
 
-				<div class="container mt-3">
-					<table class="table table-light table-hover">
+
+				<table class="table table-light table-hover">
 
 
 
-						<thead>
-							<tr>
-								<th><input id="allCheck" type="checkbox" name="allCheck" /></th>
-								<th>글번호</th>
-								<th>제목</th>
-								<th>내용</th>
+					<thead>
+						<tr>
+							<th><input id="allCheck" type="checkbox" name="allCheck" /></th>
+							<th>글번호</th>
+							<th>작성자</th>
+							<th>제목</th>
+							<th>날짜</th>
+
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="board" items="${notcBoardList }">
+
+							<tr id="table">
+								<td><input type="checkbox" name="rowCheck"
+									class="deleteCheckbox" id="myCheckbox"
+									value="${board.boardNo }" /></td>
+								<td>${board.boardNo }</td>
+								<td>${board.writer }</td>
+								<td>${board.title }</td>
+								<td>${board.postDate }</td>
+
 							</tr>
-						</thead>
-						<tbody>
-							<c:forEach var="board" items="${argBoardList }">
-								<tr
-									onclick="location.href = '/algorithm/algDetail?boardNo=${board.boardNo}';">
-									<td><input type="checkbox" name="rowCheck"
-										class="deleteCheckbox" id="myCheckbox"
-										value="${board.boardNo }" /></td>
-									<td>${board.boardNo }</td>
-									<td>${board.title }</td>
-									<td>${board.comment }</td>
-								</tr>
 
 
-							</c:forEach>
-						</tbody>
-					</table>
-				</div>
+						</c:forEach>
+					</tbody>
+				</table>
 
-				<ul class="pagination">
-					<c:if test="${param.pageNo > 1 }">
-						<li class="page-item"><a class="page-link"
-							href="/admin/algorithmBoard?pageNo=${param.pageNo -1 }">Previous</a></li>
 
-					</c:if>
-					<c:forEach var="i"
-						begin="${pagingInfo.startNumOfCurrentPagingBlock }"
-						end="${pagingInfo.endNumOfCurrentPagingBlock }" step="1">
-						<li class="page-item" id="${i }"><a class="page-link"
-							href="/admin/algorithmBoard?pageNo=${i }">${i }</a></li>
-					</c:forEach>
 
-					<c:if test="${param.pageNo < pagingInfo.totalPageCnt }">
-						<li class="page-item"><a class="page-link"
-							href="/admin/algorithmBoard?pageNo=${param.pageNo +1 }">Next</a></li>
-					</c:if>
-				</ul>
 			</div>
-		</div>
 
-		<div id="myModal" class="modal">
-			<div class="modal-content">
-				<span class="close">&times;</span>
-				<p>게시글을 삭제하시겠습니까?</p>
-				<button type="button" class="btn btn-secondary deBtn">삭제</button>
-			</div>
 		</div>
 
 
 		<c:import url="./adminFooter.jsp"></c:import>
 	</div>
-
 </body>
 </html>

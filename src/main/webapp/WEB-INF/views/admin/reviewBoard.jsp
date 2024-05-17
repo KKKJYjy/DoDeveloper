@@ -96,16 +96,18 @@
 		<div class="container-fluid">
 
 			<div class="container mt-3">
-				<p class="text-center">제직자리뷰게시판</p>
+				<p class="text-center">기업리뷰</p>
 				<ul class="nav nav-tabs nav-justified">
 					<li class="nav-item"><a class="nav-link"
-						href="/admin/selectBoard">스터디게시판</a></li>
+						href="/admin/selectBoard">스터디 모임</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="/admin/lectureBoard">강의추천게시판</a></li>
+						href="/admin/lectureBoard">강의추천</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="/admin/algorithmBoard">알고리즘게시판</a></li>
+						href="/admin/algorithmBoard">알고리즘</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="/admin/reviewBoard">제직자리뷰게시판</a></li>
+						href="/admin/reviewBoard">기업리뷰</a></li>
+						<li class="nav-item"><a class="nav-link"
+						href="/admin/noticeBoard">공지사항</a></li>
 				</ul>
 			</div>
 
