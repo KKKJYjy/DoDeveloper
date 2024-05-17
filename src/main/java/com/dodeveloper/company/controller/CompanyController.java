@@ -18,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.dodeveloper.company.service.CompanyInfoService;
 import com.dodeveloper.company.vodto.CompanyInfoVO;
-import com.dodeveloper.company.vodto.DeleteWrittenCompanyBoardDTO;
 import com.dodeveloper.company.vodto.RevCompanyBoardVO;
 import com.dodeveloper.company.vodto.WrittenCompanyBoardDTO;
 
@@ -93,7 +92,7 @@ public class CompanyController {
 	 * @methodName : writtenBoard
 	 * @author : kimso05
 	 * @date : 2024.05.09
-	 * @return : String
+	 * @return : void
 	 * @description : "/companyInfo/writtenBoard" (기업 리뷰 작성 페이지)로 포워딩 시키는 메서드
 	 */
 	@RequestMapping("/writtenBoard") // "/companyInfo/writtenBoard"가 GET방식으로 요청될 때 호출
@@ -139,17 +138,30 @@ public class CompanyController {
 	 * @methodName : deleteWrittenBoard
 	 * @author : kimso05
 	 * @date : 2024.05.13
-	 * @param : 
-	 * @return : void
-	 * @description : 글 저장 후 삭제 처리 하는 메서드
+	 * @param : int companyInfoNo, int revNo : 해당 기업리뷰번호와 기업리뷰 게시글 번호 삭제
+	 * @return : String
+	 * @throws Exception 
+	 * @description : 기업 리뷰 게시글 삭제 처리 하는 메서드
 	 */
-	@RequestMapping(value = "/deleteWrittenBoard", method = RequestMethod.POST)
-	public void deleteWrittenBoard(DeleteWrittenCompanyBoardDTO newDeleteWrittenCompanyBoardDTO) {
-		logger.info("리뷰 작성 저장 한 후 삭제 처리 기능");
+	@RequestMapping(value = "/deleteWrittenBoard", method = RequestMethod.GET)
+	public String deleteWrittenBoard(@RequestParam("companyInfoNo") int companyInfoNo,
+									@RequestParam("revNo") int revNo) {
+		logger.info(revNo + "삭제 기능");
+		// 삭제후에 되돌아갈 페이지 : 리뷰를 삭제한 해당 기업(companyInfoNo)의 리뷰페이지로 되돌아가야된다.
+		String returnPage = "redirect:/companyInfo/revCompanyBoard?";
 		
-		// 저장한 게시글을 삭제처리 하려고 할때....
+		try {
+			if (ciService.deleteWrittenBoard(revNo) == 1) { // 삭제 됐으면 1을 반환
+				// /companyInfo/deleteWrittenBoard?companyInfoNo=?
+				returnPage += "companyInfoNo=" + companyInfoNo;
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			returnPage += "status=deleteBoardFail";
+		}
 		
-		
+		return returnPage;
 	}
 
 }

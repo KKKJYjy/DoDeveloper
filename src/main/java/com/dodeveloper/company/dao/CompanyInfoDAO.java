@@ -15,5 +15,8 @@ public interface CompanyInfoDAO {
 	
 	// 기업 리뷰 글을 저장하는 메서드 (insert)
 	int insertRevWrittenBoard(WrittenCompanyBoardDTO newWrittenCompanyBoard) throws Exception;
+	
+	// 기업 리뷰 글을 삭제하는 메서드 (delete)
+	int deleteWrittenBoard(int revNo) throws Exception;
 }
 

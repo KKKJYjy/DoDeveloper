@@ -15,4 +15,7 @@ public interface CompanyInfoService {
 	
 	// 기업 리뷰 게시글을 저장하는 메서드
 	int writeCompanyBoardService(WrittenCompanyBoardDTO newWrittenCompanyBoard) throws Exception;
+	
+	// 기업 리뷰 게시글을 삭제하는 메서드
+	int deleteWrittenBoard(int revNo) throws Exception;
 }

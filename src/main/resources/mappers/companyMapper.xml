@@ -22,4 +22,9 @@
 		insert into companyrevboard(revWriter, revTitle, revProfession, revContent, revGood, revBed, companyInfoNo, bType)
 		values(#{revWriter}, #{revTitle}, #{revProfession}, #{revContent}, #{revGood}, #{revBed}, #{companyInfoNo}, #{bType})
 	</insert>
+	
+	<!-- 기업 리뷰글 삭제 (delete) -->
+	<delete id="deleteRevWrittenBoard">
+		delete from companyrevboard where revNo = #{revNo}
+	</delete>
 </mapper>    

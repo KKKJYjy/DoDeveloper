@@ -57,4 +57,12 @@ public class CompanyInfoDAOImpl implements CompanyInfoDAO {
 		return ses.insert(ns + ".insertRevWrittenBoard", newWrittenCompanyBoard); // 리뷰 저장 성공하면 1을 반환
 	}
 
+	
+	@Override
+	public int deleteWrittenBoard(int revNo) throws Exception {
+//		System.out.println("DAO단 삭제 글 호출");
+		
+		return ses.delete(ns + ".deleteRevWrittenBoard", revNo);
+	}
+
 }
