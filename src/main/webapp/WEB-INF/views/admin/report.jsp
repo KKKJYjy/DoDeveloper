@@ -23,6 +23,42 @@
 
 		<div class="container-fluid">
 		
+		<button id="openModalBtn" onclick="checkCheckbox()">게시글삭제</button>
+		
+		<table class="table table-light table-hover">
+
+
+
+					<thead>
+						<tr>
+							<th><input id="allCheck" type="checkbox" name="allCheck"/></th>
+							<th>회원 아이디</th>
+							<th>회원 이름</th>
+							<th>이메일</th>
+							<th>가입 일자</th>
+							<th>상태</th>
+							
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="board" items="${stuBoardList }">
+
+							<tr id="table">
+								<td><input type="checkbox" name="rowCheck"
+									class="deleteCheckbox" id="myCheckbox" value="${board.userId}" /></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								
+							</tr>
+
+
+						</c:forEach>
+					</tbody>
+				</table>
+		
 		
 		
 		</div>
