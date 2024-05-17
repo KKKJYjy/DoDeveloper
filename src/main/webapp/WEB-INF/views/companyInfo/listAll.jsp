@@ -81,18 +81,18 @@
 
 				<ul class="list-group">
 					<c:forEach var="ci" items="${ciList}">
-						<a href="/companyInfo/revCompanyBoard?companyInfoNo=${ci.companyInfoNo }"
+						<a href="/companyInfo/revCompanyBoard?companyInfoNo=${ci.companyInfoNo}"
 							class="list-group-item list-group-item-action companyCard">
 
 							<div style="width: 200px;" >
 								<img class="companyLogo" src="${ci.companyInfoImgLogo}"
-									alt="${ci.companyInfoName }"
+									alt="${ci.companyInfoName}"
 									style="width: 100px; height: 100px;">
 							</div>
 							<div class="companyDesc" >
-								<h4 class="card-title">${ci.companyInfoName }</h4>
+								<h4 class="card-title">${ci.companyInfoName}</h4>
 								<div class="card-text">${ci.companyInfoFields}</div>
-								<div class="card-text">${ci.companyInfoLocation }</div>
+								<div class="card-text">${ci.companyInfoLocation}</div>
 							</div>	
 						</a>
 					</c:forEach>
