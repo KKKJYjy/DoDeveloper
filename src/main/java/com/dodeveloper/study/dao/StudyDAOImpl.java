@@ -112,4 +112,9 @@ public class StudyDAOImpl implements StudyDAO {
 		return ses.selectOne(ns + ".selectTotalBoardCntWithSdto", param);
 	}
 
+	@Override
+	public List<StudyBoardVO> searchStudyByStack(List<String> studyStackList) throws Exception {
+		return ses.selectList(ns + ".searchStudyByStack", studyStackList);
+	}
+
 }

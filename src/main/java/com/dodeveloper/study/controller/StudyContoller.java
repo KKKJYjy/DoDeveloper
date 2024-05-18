@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.member.vo.MemberVO;
@@ -44,6 +46,8 @@ public class StudyContoller {
 
 	private StudyBoardDTO newStudy;
 
+	private List<String> searchStuStack;
+
 	@Autowired
 	StudyService stuService;
 
@@ -61,6 +65,7 @@ public class StudyContoller {
 
 		// 스터디 목록 + 페이징 객체 같이 가지고있는 result
 		result = stuService.selectAllList(sDTO, pageNo);
+
 		List<StudyBoardVO> studyList = (List<StudyBoardVO>) result.get("studyList");
 
 		// 스터디 No번째글 스터디 언어 목록
@@ -134,33 +139,33 @@ public class StudyContoller {
 	public String viewStudyBoard(@RequestParam("stuNo") int stuNo, Model model, HttpServletRequest req,
 			HttpServletResponse resp) throws Exception {
 
-		//유저 정보
-		String userId = null;	
-		MemberVO loginMember = (MemberVO)req.getSession().getAttribute("loginMember");
-		
+		// 유저 정보
+		String userId = null;
+		MemberVO loginMember = (MemberVO) req.getSession().getAttribute("loginMember");
+
 		// 로그인한 유저의 경우
-		if(loginMember != null) {
+		if (loginMember != null) {
 			userId = loginMember.getUserId();
-			//System.out.println("로그인된 유저아이디:" + userId);
-		}else if (haveCookie(req, "rses") == null) {
+			// System.out.println("로그인된 유저아이디:" + userId);
+		} else if (haveCookie(req, "rses") == null) {
 			// 비회원의 경우 쿠키가 저장되어있는지 검사
 			// rses라는 이름의 쿠키가 없다면
 			String sesId = req.getSession().getId(); // 세션아이디 저장
 			userId = sesId; // sesId를 userId에 저장
 			// sesId라는 이름의 쿠키 저장
-			saveCookie(resp, sesId);	
+			saveCookie(resp, sesId);
 		} else {
 			// rses라는 이름의 쿠키가 있다면, 있던 쿠키값 그대로 쓰기
 			userId = haveCookie(req, "rses");
 		}
-		
+
 		logger.info(userId + "가" + stuNo + "번 글을 조회한다");
-		
+
 		Map<String, Object> result = stuService.selectStudyByStuNo(stuNo, userId, 2);
 
-		model.addAttribute("studyList", (StudyBoardVO)result.get("studyList"));
-		model.addAttribute("stuStackList", (List<StuStackDTO>)result.get("stuStackList"));
-		
+		model.addAttribute("studyList", (StudyBoardVO) result.get("studyList"));
+		model.addAttribute("stuStackList", (List<StuStackDTO>) result.get("stuStackList"));
+
 		return "study/viewStudyBoard";
 
 	}
@@ -251,6 +256,34 @@ public class StudyContoller {
 		}
 
 		return "redirect:" + result;
+	}
+
+	// 스터디 언어로 게시글 가져오는 메서드
+	@ResponseBody // json으로 응답 해줄때 쓰는 어노테이션
+	@RequestMapping(value = "/searchStudyByStack", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
+	public ResponseEntity<Map<String, Object>> searchStudyByStack(@RequestBody List<String> studyStackList, Model model) {
+		//@RequestBody는 json으로 요청 받을때 쓰는 어노테이션
+		
+		logger.info(studyStackList.toString());
+		ResponseEntity<Map<String, Object>> result = null;
+		Map<String, Object> map = null;
+		try {
+			map = stuService.searchStudyByStack(studyStackList);
+			System.out.println("Controller 검색할 스터디 언어 갯수 :" +studyStackList.size());
+			
+			if (studyStackList.size() > 0) {
+				result = new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+			} else {
+				result = new ResponseEntity<Map<String, Object>>(HttpStatus.CONFLICT);
+			}
+			
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 
 	// sesId값을 저장한 쿠키 "rses"를 저장 (하루짜리)

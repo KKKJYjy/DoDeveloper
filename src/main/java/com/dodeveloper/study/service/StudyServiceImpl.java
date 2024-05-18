@@ -271,4 +271,38 @@ public class StudyServiceImpl implements StudyService {
 		return sDao.deleteStudyBoard(stuNo);
 	}
 
+	@Override
+	public Map<String, Object> searchStudyByStack(List<String> studyStackList) throws Exception {
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		 
+		List<StudyBoardVO> lst = sDao.searchStudyByStack(studyStackList);
+		
+		for(StudyBoardVO l :lst) {			
+			System.out.println("service단 게시글제목:" + l.getStuTitle());
+		}
+		System.out.println("service단 게시글갯수:" + lst.size());
+		
+		// 스터디 No번째글 스터디 언어 목록
+		List<StuStackDTO> stuStackList = new ArrayList<StuStackDTO>();
+
+		for (StudyBoardVO s : lst) {
+			// stuNo를 넘겨주어 공부할 언어 정보를 가져오자
+			stuStackList.addAll(sDao.selectAllStudyStack(s.getStuNo()));
+
+			// System.out.println(s.getStuNo());
+		}
+		// stack테이블의 모든 값들을 가져오자
+		List<StackVO> stackList = sDao.selectAllStack();
+
+		// System.out.println(stuStackList.toString());
+		
+		result.put("studyList", lst);
+		result.put("stuStackList", stuStackList);
+		result.put("stackList", stackList);
+		
+		return result ;
+		
+	}
+
 }
