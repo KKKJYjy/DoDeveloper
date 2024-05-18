@@ -74,12 +74,21 @@ public class LectureBoardController {
 		
 		String resultPage = null;
 		
+		// 페이지 번호가 1이상이 되도록 설정
 		if (pageNo <= 0) {
 			pageNo = 1;
 		}
 		
 		// 서비스단 호출(getListAllBoard() 메서드 호출)
 		resultMap = lService.getListAllBoard(pageNo, lsDTO);
+		
+	    // 게시글 목록 가져오기
+	    List<LectureBoardVO> lectureBoardList = (List<LectureBoardVO>) resultMap.get("lectureBoardList");
+	    
+	    // for 문을 사용하여 lectureBoardList를 순회
+//	    for (LectureBoardVO lecture : lectureBoardList) {
+//	        logger.info("제목: " + lecture.getLecTitle() + "조회수 : " + lecture.getLecReadCount());
+//	    }
 		
 	    // 바인딩
 		// 게시글 자체를 바인딩

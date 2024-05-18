@@ -52,8 +52,9 @@
 <script>
 	/* 검색 조건 */
 	function isValid() {
-		let searchType = $('#searchType').val();
-		let searchValue = $('#searchValue').val();
+		let searchType = $('#searchType').val(); // 검색 조건의 type
+		let searchValue = $('#searchValue').val(); // 검색 조건의 값
+		let filterType = $('#filterType').val(); // 검색 필터의 type
 
 		if (searchType === "-1") {
 			alert("검색 조건을 선택해주세요.");
@@ -62,6 +63,10 @@
 
 		if (searchValue.trim() === "") {
 			alert("검색어를 입력해주세요.");
+			return false;
+		}
+		
+		if (filterType === "-1") {
 			return false;
 		}
 
@@ -77,30 +82,14 @@
 
 		return true;
 	}
-	
-	// 이 부분도 한번 확인하기
-	function isFilterValid() {
-		let filterType = $('#filterType').val();
-		
-		if (filterType === "-1") {
-			alert("검색 필터를 선택해주세요.");
-			return false;
-		}
-		return true;
-	}
 
 	/* 페이징 */
 	$(function() {
 		let pageNo = '${param.pageNo}';
-
-		// 비어 있거나 정의되지 않은 경우에 기본값을 1로 설정
-		if (pageNo === '' || pageNo === undefined) {
-			pageNo = 1;
-		}
+		// alert(pageNo);
 
 		// id가 pageNo변수인 태그를 찾아 그 태그에 'active'라는 이름의 클래스 부여
 		$(`\${pageNo}`).addClass('active');
-		// alert(pageNo);
 	});
 </script>
 <style>
@@ -154,21 +143,22 @@ select option:hover {
 						</div>
 					</div>
 
+					<form action="/lecture/listAll" method="GET">
+						<div class="button-container">
+							<button type="button"
+								class="btn btn-dark dropdown-toggle filters"
+								data-bs-toggle="dropdown">검색 필터</button>
+							<ul class="dropdown-menu" id="filterType" name="filterType">
+								<li><a class="dropdown-item" href="?filterType=latest">최신순</a></li>
+								<li><a class="dropdown-item" href="?filterType=popular">인기순</a></li>
+								<li><a class="dropdown-item" href="?filterType=view">조회순</a></li>
+							</ul>
 
-					<div class="button-container">
-						<button type="button" class="btn btn-dark dropdown-toggle filters"
-							data-bs-toggle="dropdown">검색 필터</button>
-						<ul class="dropdown-menu" id="filterType" name="filterType">
-							<li><a class="dropdown-item" href="?filterType=latest">최신순</a></li>
-							<li><a class="dropdown-item" href="?filterType=popular">인기순</a></li>
-							<li><a class="dropdown-item" href="?filterType=view">조회순</a></li>
-						</ul>
-
-						<button type="button" class="btn btn-dark writeren"
-							id="applyFilterBtn"
-							onclick="location.href='/lecture/writeBoard';">글 작성</button>
-					</div>
-
+							<button type="button" class="btn btn-dark writeren"
+								id="applyFilterBtn"
+								onclick="location.href='/lecture/writeBoard';">글 작성</button>
+						</div>
+					</form>
 
 
 					<!-- board list area -->
