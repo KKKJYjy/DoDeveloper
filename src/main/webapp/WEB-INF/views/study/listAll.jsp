@@ -100,7 +100,21 @@
 			if ($('.studyLang').val().length > 0) {
 				searchStudy();
 			}
-		})
+		});
+		
+		//모집중만 보기 클릭했을 때
+		let status = 0;
+        $('.bookMark').on('click',function(){
+            if(book==0){
+                $(this).attr('class','bi-bookmark-fill');
+               	book++;
+            }else if(book==1){
+                $(this).attr('class','bi-bookmark');
+                book--;
+            }
+
+        });
+		
 
 	});
 	
@@ -232,9 +246,8 @@
 		return result;
 	}
 
-	function selectStack() {
-		alert("!");
-	}
+	
+	
 </script>
 
 </head>
@@ -272,8 +285,8 @@
 
 						<!-- 모집중 or 모집마감 -->
 						<div class="col-md-2">
-							<button class="btn btn-outline-secondary" style="width: 100%">모집중만
-								보기</button>
+							<button class="btn btn-outline-secondary" style="width: 100%">
+								모집중만 보기</button>
 						</div>
 
 						<div class="col-md-3"></div>
@@ -291,11 +304,11 @@
 											<option value="content">내용</option>
 										</select>
 									</div>
-									<div class="col-md-6">
+									<div class="col-md-5">
 										<input type="text" class="form-control mb-4" id="searchValue"
 											name="searchValue" placeholder="검색할 내용 입력" />
 									</div>
-									<div class="col-md-2">
+									<div class="col-md-3">
 										<input type="submit" class="btn btn-secondary" value="검색"
 											style="width: 100%" onclick="return isValid();" />
 									</div>
