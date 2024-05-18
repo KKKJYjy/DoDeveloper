@@ -81,35 +81,51 @@
 
 			//필터링할 스터디 1개 이상일때만 ajax호출
 			if ($('.studyLang').val().length > 0) {
-				$.ajax({
-					url : '/study/searchStudyByStack',
-					type : 'post',
-					data : JSON.stringify($('.studyLang').val()), //보내는 데이터를 제이슨 형식으로
-					headers : { // 서버에 보내지는 데이터 형식
-						"content-type" : "application/json"
-					},
-					dataType : "json",
-					contentType : false, //default true : 데이터를 쿼리스트링 형태로 보내는지 아닌지
-					async : false, //받아올 데이터가 있어야 파싱 가능.
-					success : function(data) { //HttpStatus code가 200인 경우 이 코드 실행
-						console.log(data);							
-						$(".studyList").empty();
-						$(".pagination").empty();
-						outputSearchStudy(data);
-					},
-					error : function(data){ //HttpStatus code가 200이 아닌경우 이 코드 실행
-						console.log(data);
-					}
-				});
+				searchStudy();
 			}
 
 		})
 
-		$(".select2-selection__choice__remove").on("click", function() {
-			alert("!");
+		//스터디 언어 삭제했을 때 필터링
+		$(".studyLang").on("select2:unselect", function() {
+			//alert("!");
+			//console.log($('.studyLang').val());
+			
+			if($('.studyLang').val().length == 0){
+				$(".studyList").css("display","block");
+				$(".paging").css("display","block");
+				$(".studyListBySearch").empty();
+				
+			}
+			if ($('.studyLang').val().length > 0) {
+				searchStudy();
+			}
 		})
 
 	});
+	
+	function searchStudy(){
+		$.ajax({
+			url : '/study/searchStudyByStack',
+			type : 'post',
+			data : JSON.stringify($('.studyLang').val()), //보내는 데이터를 제이슨 형식으로
+			headers : { // 서버에 보내지는 데이터 형식
+				"content-type" : "application/json"
+			},
+			dataType : "json",
+			contentType : false, //default true : 데이터를 쿼리스트링 형태로 보내는지 아닌지
+			async : false, //받아올 데이터가 있어야 파싱 가능.
+			success : function(data) { //HttpStatus code가 200인 경우 이 코드 실행
+				console.log(data);		
+				$(".studyList").css("display","none");
+				$(".paging").css("display","none");
+				outputSearchStudy(data);
+			},
+			error : function(data){ //HttpStatus code가 200이 아닌경우 이 코드 실행
+				console.log(data);
+			}
+		});
+	}
 
 	//ajax로 데이터를 가져왔으므로 js에서 데이터들을 출력한다.
 	function outputSearchStudy(data) {
@@ -138,10 +154,10 @@
 			//스터디 언어는 여러개이므로 함수를 이용해 값을 비교해서 가져온다
 			let stackName = [];
 			stackName = getStudyStack(e.stuNo, stuStackList);
-			console.log(stackName.length);
+			//console.log(stackName.length);
 			
 			for(let j=0; j < stackName.length; j++){
-				console.log(stackName[j])
+				//console.log(stackName[j])
 				output += `<span class="badge text-bg-secondary me-1">\${stackName[j]}</span>`;			
 			}
 					
@@ -370,7 +386,7 @@
 
 				<!-- 페이징 -->
 				<%-- ${pagingInfo } --%>
-				<div class="row mt-3">
+				<div class="row mt-3 paging">
 					<div class="col">
 						<ul class="pagination justify-content-center">
 							<c:if test="${pagingInfo.pageNo > 1}">
