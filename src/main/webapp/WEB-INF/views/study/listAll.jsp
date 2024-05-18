@@ -120,8 +120,8 @@
 		let output = `<div class="row row-cols-md-4 ">`;
 		output += `<div class="col mb-4">`;
 		output += `<div class="card">`;
-		output += `<div class="card-body p-4 text-center" style="height: 251px;">`;
-		output += `<h5 class="text-danger" style="line-height: 200px; cursor: pointer;"onclick="location.href='/study/writeStudyBoard';">`;
+		output += `<div class="card-body p-4 text-center" style="height: 225px;">`;
+		output += `<h5 class="text-danger" style="line-height: 180px; cursor: pointer;"onclick="location.href='/study/writeStudyBoard';">`;
 		output += `<b>나도 스터디 만들기</b></h5></div></div></div>`;
 	
 		$.each(studyList, function(i, e) {
@@ -129,9 +129,9 @@
 			output += `<div class="card">`;
 			output += `<div class="card-body p-4" style="width: 100%;">`;
 			output += `<div class="">`;
-			output += `<p class="card-subtitle mb-2 text-body-secondary">📍\${e.stuLoc }</p>`;
+			output += `<p class="card-subtitle mb-2 text-body-secondary text-truncate" style="max-width: 100%;">📍\${e.stuLoc }</p>`;
 			output += `</div>`;
-			output += `<div class="mt-4"><h5 class="card-title"><b>\${e.stuTitle }</b></h5></div>`;
+			output += `<div class="mt-4"><h5 class="card-title text-truncate" style="max-width: 100%;"><b>\${e.stuTitle }</b></h5></div>`;
 			output += `<div class="mt-4">`;
 			output += `<p class="card-text">`;
 			
@@ -301,11 +301,11 @@
 				${stuStackList } --%>
 					<div class="row row-cols-md-4 ">
 						<!-- 모임글 추가하기 -->
-						<div class="col">
+						<div class="col mb-4">
 							<div class="card">
-								<div class="card-body p-4 text-center" style="height: 251px;">
+								<div class="card-body p-4 text-center" style="height: 225px;">
 									<h5 class="text-danger"
-										style="line-height: 200px; cursor: pointer;"
+										style="line-height: 180px; cursor: pointer;"
 										onclick="location.href='/study/writeStudyBoard';">
 										<b>나도 스터디 만들기</b>
 									</h5>
@@ -320,12 +320,13 @@
 								<div class="card">
 									<div class="card-body p-4" style="width: 100%;">
 										<div class="">
-											<p class="card-subtitle mb-2 text-body-secondary">📍${study.stuLoc }</p>
+											<p class="card-subtitle mb-2 text-body-secondary text-truncate" style="max-width: 100%;">
+											📍${study.stuLoc }</p>
 										</div>
 
 										<!-- 제목 -->
 										<div class="mt-4">
-											<h5 class="card-title">
+											<h5 class="card-title text-truncate" style="max-width: 100%;">
 												<b>${study.stuTitle }</b>
 											</h5>
 										</div>
@@ -369,7 +370,7 @@
 
 				<!-- 페이징 -->
 				<%-- ${pagingInfo } --%>
-				<div class="row">
+				<div class="row mt-3">
 					<div class="col">
 						<ul class="pagination justify-content-center">
 							<c:if test="${pagingInfo.pageNo > 1}">
