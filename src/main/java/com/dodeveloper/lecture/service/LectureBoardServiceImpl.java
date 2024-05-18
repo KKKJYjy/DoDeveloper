@@ -7,8 +7,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.lecture.dao.LectureBoardDAO;
 import com.dodeveloper.lecture.vodto.LectureBoardDTO;
@@ -43,29 +41,31 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 
 	    // DAO단 호출 (selectListAllLecBoard() 메서드 호출)
 	    List<LectureBoardVO> lectureBoardList = null;
-
-	    // 페이징 처리
-	    makePagingInfo(pageNo, lsDTO);
-
 	    
 	    // 여기서 검색 필터부분에서 2페이지로 넘어갈 경우 filterType=view&searchType=&searchValue= 이렇게 나오니까
 	    // 이 부분 수정하기 if 문안에 또 if문 사용해서 searchType / searchValue 는 제외하기
+	    // 검색어가 있을 경우 부분 안에 if문 사용해서 filter타입 넣기
 	    
 	    // 검색 조건 처리
-	    if (lsDTO.getSearchType() != null && lsDTO.getSearchValue() != null) {
+	    // searchType이 null이 아니거나 / (!를 사용하여) searchValue가 비어있지 않은 경우를 isEmpty()를 사용해서 확인
+	    // !를 lsDTO.getSearchValue()앞에 붙여서 부정으로 만든 뒤에 
+	    // isEmpty() 메서드는 검색어가 비어있으면 true를 반환 비어있지 않으면 false를 반환하도록
+	    if (lsDTO.getSearchType() != null && !lsDTO.getSearchValue().isEmpty()) {
+	        // 검색어가 있을 경우
+	        makePagingInfo(pageNo, lsDTO);
 	        lectureBoardList = lDao.lectureBoardListWithSc(lsDTO, pi);
-//	        System.out.println("검색어가 있을 경우(검색조건)" + lDao.lectureBoardListWithSc(lsDTO, pi));
 	    } else {
 	        // 검색어가 없을 경우
 	        if (lsDTO.getFilterType() != null) {
 	            // 검색 필터가 있는 경우
+	            makePagingInfo(pageNo, lsDTO);
 	            lectureBoardList = lDao.listAllBoardByFilter(lsDTO, pi);
-//	            System.out.println("검색필터 있을 경우" + lDao.listAllBoardByFilter(lsDTO, pi));
 	        } else {
 	            // 검색 필터가 없는 경우
+	            makePagingInfo(pageNo);
 	            lectureBoardList = lDao.selectListAllLecBoard(pi);
-//	            System.out.println("검색필터 없을 경우" + lDao.selectListAllLecBoard(pi));
 	        }
+	        
 	    }
 
 	    Map<String, Object> returnMap = new HashMap<>();
@@ -94,10 +94,9 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	    // pageNo값
 	    this.pi.setPageNo(pageNo);
 	    
-	    this.pi.setViewPostCntPerPage(3);
-	    this.pi.setPageCntPerBlock(2);
+	    this.pi.setViewPostCntPerPage(5); // 한 페이지당 보여줄 게시글의 갯수
+	    this.pi.setPageCntPerBlock(4); // 1개의 블럭에 몇 페이지씩 보여줄 것인지
 
-	    
 	    // 게시물의 데이터 갯수 구해 멤버 변수에 저장
 	    if (lsDTO.getSearchType() != null && lsDTO.getSearchValue() != null) {
 	        // 검색 조건이 있는 경우
@@ -146,8 +145,8 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 		// pageNo값
 		this.pi.setPageNo(pageNo);
 		
-		this.pi.setViewPostCntPerPage(3);
-	    this.pi.setPageCntPerBlock(2);
+		this.pi.setViewPostCntPerPage(5); // 한 페이지당 보여줄 게시글의 갯수
+	    this.pi.setPageCntPerBlock(4); // 1개의 블럭에 몇 페이지씩 보여줄 것인지
 
 		// 게시물의 데이터 갯수 구해 멤버 변수에 저장
 		this.pi.setTotalPostCnt(lDao.selectTotalLectureBoardCnt());

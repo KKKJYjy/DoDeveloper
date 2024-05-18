@@ -1,11 +1,8 @@
 package com.dodeveloper.lecture.service;
 
-import java.util.List;
-
 import java.util.Map;
 
 import com.dodeveloper.lecture.vodto.LectureBoardDTO;
-import com.dodeveloper.lecture.vodto.LectureBoardVO;
 import com.dodeveloper.lecture.vodto.LectureSearchDTO;
 
 public interface LectureBoardService {
