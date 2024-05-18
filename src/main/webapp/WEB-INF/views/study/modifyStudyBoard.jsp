@@ -82,7 +82,6 @@
 
 	$(function() {
 		
-
 		//모집인원 셀렉트 디폴트값(전에 유저가 선택했던 값) 세팅
 		$("#stuPers").val('${studyList.stuPers }').prop("selected", true);
 		
@@ -149,7 +148,11 @@
 		infowindow.open(map, marker);
 		
 		//=======================================================================
-		//수정 페이지에서 수정할때 > 지도 검색 버튼을 클릭했을 때
+		//1. 수정 페이지에서 수정할때 > 지도에서 빈 곳을 클릭했을 때
+		// 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
+	
+		    		
+		//2. 수정 페이지에서 수정할때 > 지도 검색 버튼을 클릭했을 때
 		$("#searchMapBtn").click(function() {
 			// 지도 검색한 값 가져오기
 			let searchMap = $("#searchMap").val();
@@ -354,10 +357,9 @@
 						<!-- 스터디 언어 수정할때 시작 stuStackNo값 -->
 						<c:forEach var="stackNo" items="${stuStackNo }">
 							<input type="text" class="form-control" id="stuStackNo"
-								name="stuStackNo" value="${stackNo }"
-								hidden="true" />
+								name="stuStackNo" value="${stackNo }" hidden="true" />
 						</c:forEach>
-						
+
 						<input type="text" class="form-control" id="stuWriter"
 							value="${loginMember.userId }" hidden="true" />
 
