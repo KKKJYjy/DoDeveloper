@@ -226,7 +226,7 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("filterType", lsDTO.getFilterType());
 
-		return ses.selectOne(ns + ".lectureBoardCntFilter", params);
+		return ses.selectOne(ns + ".getTotalLectureBoard", params);
 	}
 
 	/**
