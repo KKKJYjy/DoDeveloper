@@ -16,11 +16,11 @@ import lombok.ToString;
 @ToString
 public class ReportVO {
 	private int reportNo;
-	private int category;
+	private String category;
 	private int boardNo;
 	private String writer;
 	private Timestamp reportDate;
 	private String reportReason;
-	private String repoter;
+	private String reporter;
 	private String isDelete;
 }

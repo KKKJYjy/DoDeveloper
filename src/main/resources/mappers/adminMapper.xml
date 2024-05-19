@@ -38,6 +38,7 @@
 		select * from noticeBoard order by boardNo desc limit #{startRowIndex},#{viewPostCntPerPage}
 	</select>
 	
+	
 	<!-- 검색어가 있을 경우 글의 갯수를 가져오는 쿼리문 -->
 	<select id="getStuBoardCntWithSC" resultType="int">
 		select count(*) from studyBoard
@@ -91,10 +92,27 @@
 		delete from noticeBoard where boardNo = #{boardNo}
 	</delete>
 	
+	<!-- 신고내역 삭제 -->
+	<delete id="deleteReportBoard">
+		delete from reportBoard where reportNo = #{reportNo}
+	</delete>
+	
+	
+	
 	<!-- 공지사항 작성 -->
 	<insert id="insertNoticeBoard">
 		insert into noticeBoard(writer, title, content) values(#{writer}, #{title}, #{content})
 	</insert>
+	
+	<!-- 신고내역 조회 -->
+	<select id="getReport" resultType="ReportVO">
+		select * from reportBoard order by reportNo desc
+	</select>
+	
+	<!-- 신고내역 ?번 글을 가져오는 쿼리문 -->
+	<select id="selectReportNo" resultType="ReportVO">
+		select * from reportBoard where reportNo = #{reportNo}
+	</select>
 	
 	
 	

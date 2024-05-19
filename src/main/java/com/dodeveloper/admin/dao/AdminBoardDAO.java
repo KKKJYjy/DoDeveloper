@@ -8,6 +8,7 @@ import com.dodeveloper.admin.vo.AdminArgBoardVO;
 import com.dodeveloper.admin.vo.AdminLectureVO;
 import com.dodeveloper.admin.vo.AdminReviewBoardVO;
 import com.dodeveloper.admin.vo.AdminVO;
+import com.dodeveloper.admin.vo.ReportVO;
 import com.dodeveloper.etc.PagingInfo;
 
 public interface AdminBoardDAO {
@@ -53,8 +54,17 @@ public interface AdminBoardDAO {
     // 공지사항 게시글 삭제
     void deleteNotc(String boardNo) throws Exception;
     
+    // 신고내역 삭제 
+    void deleteReport(String reportNo) throws Exception;
+    
     // 공지사항 테이블에 insert하는 메서드
     int insertNoticeBoard(NoticeDTO newBoard) throws Exception;
+    
+    // 신고내역 조회 메서드
+    List<ReportVO> selectReport() throws Exception;
+    
+    // ?번 글을 가져오는 메서드
+    ReportVO selectReportBoardNo(int reportNo) throws Exception;
     
     
 }

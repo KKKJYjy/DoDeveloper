@@ -8,6 +8,7 @@ import com.dodeveloper.admin.dto.NoticeDTO;
 import com.dodeveloper.admin.vo.AdminArgBoardVO;
 import com.dodeveloper.admin.vo.AdminLectureVO;
 import com.dodeveloper.admin.vo.AdminReviewBoardVO;
+import com.dodeveloper.admin.vo.ReportVO;
 
 
 public interface AdminBoardService {
@@ -45,7 +46,18 @@ public interface AdminBoardService {
 		// 공지사항 게시물 삭제 처리하는 메더스
 		void notcdeleteBoard(String boardNo) throws Exception;
 		
+		// 신고내역 삭제 처리하는 메서드
+		void reportDelete(String reportNo) throws Exception;
+		
 		// 공지사항 작성
 		boolean writeNoticeBoard(NoticeDTO newBoard) throws Exception;
+		
+	// 신고내역 조회하는 메서드
+		List<ReportVO> getReport() throws Exception;
+		
+	// 신고내역 상세조회
+		ReportVO getReportNO(int reportNo) throws Exception;
+
+		
 		
 }

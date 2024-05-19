@@ -15,6 +15,7 @@ import com.dodeveloper.admin.vo.AdminArgBoardVO;
 import com.dodeveloper.admin.vo.AdminLectureVO;
 import com.dodeveloper.admin.vo.AdminReviewBoardVO;
 import com.dodeveloper.admin.vo.AdminVO;
+import com.dodeveloper.admin.vo.ReportVO;
 import com.dodeveloper.etc.PagingInfo;
 
 @Repository
@@ -141,12 +142,32 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 	}
 	
 	
+	@Override
+	public void deleteReport(String reportNo) throws Exception {
+		
+		ses.delete(ns + ".deleteReportBoard", reportNo);
+	}
+	
 
 	@Override
 	public int insertNoticeBoard(NoticeDTO newBoard) throws Exception {
 		
 		return ses.insert(ns + ".insertNoticeBoard", newBoard);
 	}
+
+	@Override
+	public List<ReportVO> selectReport() throws Exception {
+		
+		return ses.selectList(ns + ".getReport");
+	}
+
+	@Override
+	public ReportVO selectReportBoardNo(int reportNo) throws Exception {
+		
+		return ses.selectOne(ns + ".selectReportNo", reportNo);
+	}
+
+	
 
 	
 

@@ -22,7 +22,7 @@
 
 			return false;
 		}
-		
+
 		else if (frm.Writer.value == "") {
 
 			frm.title.focus();
@@ -30,7 +30,7 @@
 
 			return false;
 		}
-		
+
 		else if (frm.content.value == "") {
 
 			frm.content.focus();
@@ -39,37 +39,70 @@
 			return false;
 		} else {
 			alert('저장되었습니다');
-			
+
 		}
-		
+
 	}
+
+	$(document).ready(function() {
+
+		mobileSize();
+
+		function mobileSize() {
+			var realSize = window.innerWidth;
+			$("noticeInput").css("width", realSize);
+			console.log("디바이스 실사이즈:" + realSize);
+			console.log("모바일 실사이즈:" + $("body").css("width"));
+		}
+
+	});
 </script>
 <style>
 #noticeInput {
+	width: 1200px;
 	height: 500px;
+	margin: 0 auto;
+	padding: 10px;
+	border: 0;
+
+	/* height: 500px;
 	width: 1300px;
 	position: relative;
+	margin: 0 auto;
 	top: 9%;
-	left: 9%;
+	left: 9%;  */
 }
 
 #notTitle {
-	width: 1300px;
+	width: 1200px;
+	margin: 0 auto;
+	padding: 10px;
+	border: 0;
+
+	/* width: 1300px;
 	position: relative;
 	top: 9%;
-	left: 9%;
+	left: 9%; */
 }
 
 #notWriter {
-	width: 1300px;
+	width: 1200px;
+	margin: 0 auto;
+	padding: 10px;
+	border: 0;
+
+	/* width: 1300px;
 	position: relative;
 	top: 9%;
-	left: 9%;
+	left: 9%;  */
 }
 
 .sendNotice {
 	position: relative;
-	left: 1358px;
+	left: 1137px;
+
+	/* position: relative;
+	left: 1358px;  */
 }
 </style>
 </head>

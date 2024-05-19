@@ -139,7 +139,7 @@
 						<tbody>
 							<c:forEach var="board" items="${revBoardList }">
 								<tr
-									onclick="location.href = '/adminView/reviewDetails?revNo=${board.revNo}';">
+									onclick="location.href = '/companyInfo/revCompanyBoard?revNo=${board.revNo}';">
 									<td><input type="checkbox" name="rowCheck"
 										class="deleteCheckbox" id="myCheckbox" value="${board.revNo }" /></td>
 									<td>${board.revNo }</td>

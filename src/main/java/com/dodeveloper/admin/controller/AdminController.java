@@ -68,10 +68,7 @@ public class AdminController {
 	}
 	
 	
-	@RequestMapping(value = "/report", method = RequestMethod.GET)
-	public void report() {
-		logger.info("report 호출");
-	}
+	
 	
 	
 //	@RequestMapping(value = "/selectBoard", method = RequestMethod.GET)

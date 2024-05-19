@@ -14,6 +14,7 @@ import com.dodeveloper.admin.vo.AdminArgBoardVO;
 import com.dodeveloper.admin.vo.AdminLectureVO;
 import com.dodeveloper.admin.vo.AdminReviewBoardVO;
 import com.dodeveloper.admin.vo.AdminVO;
+import com.dodeveloper.admin.vo.ReportVO;
 import com.dodeveloper.etc.PagingInfo;
 
 @Service
@@ -62,7 +63,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		this.pi.setViewPostCntPerPage(10);
 		this.pi.setPageCntPerBlock(3);
 		
-		this.pi.setTotalPostCnt(bDao.selectTotalBoardCnt());
+		this.pi.setTotalPostCnt(bDao.selectBoardSearchCritera(sc));
 		
 		// 총 페이지 수
 		this.pi.setTotalPageCnt();
@@ -238,6 +239,13 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	}
 	
 	
+	@Override
+	public void reportDelete(String reportNo) throws Exception {
+		
+		bDao.deleteReport(reportNo);
+	}
+	
+	
 	
 	
 	@Override
@@ -250,6 +258,32 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		
 		return result;
 	}
+
+
+
+	@Override
+	public List<ReportVO> getReport() throws Exception {
+		
+		System.out.println("서비스단 : 신고내역 조회");
+		
+		List<ReportVO> reportList = bDao.selectReport();
+		
+		return reportList;
+	}
+
+
+
+	@Override
+	public ReportVO getReportNO(int reportNo) throws Exception {
+		
+		ReportVO report = bDao.selectReportBoardNo(reportNo);
+		
+		return report;
+	}
+
+
+
+	
 
 
 

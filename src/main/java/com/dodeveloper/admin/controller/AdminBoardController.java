@@ -24,6 +24,7 @@ import com.dodeveloper.admin.vo.AdminArgBoardVO;
 import com.dodeveloper.admin.vo.AdminLectureVO;
 import com.dodeveloper.admin.vo.AdminReviewBoardVO;
 import com.dodeveloper.admin.vo.AdminVO;
+import com.dodeveloper.admin.vo.ReportVO;
 import com.dodeveloper.etc.PagingInfo;
 
 @Controller
@@ -174,6 +175,19 @@ public class AdminBoardController {
 	}
 	
 	
+	@RequestMapping(value = "/reportDelete")
+	public String removeReport(HttpServletRequest request) throws Exception {
+		
+		String[] remReport = request.getParameterValues("valueArr");
+		int size = remReport.length;
+		for (int i = 0; i < size; i++) {
+			bService.reportDelete(remReport[i]);
+		}
+		
+		return "redirect:report";
+	}
+	
+	
 	
 	
 	
@@ -193,5 +207,26 @@ public class AdminBoardController {
 	
 	}
 	
+	@RequestMapping(value = "/report", method = RequestMethod.GET)
+	public void report(Model model) throws Exception {
+		logger.info("신고내역 조회");
+		
+		
+		
+		 List<ReportVO> reportList = bService.getReport();
+		
+		model.addAttribute("reportList", reportList);
+		
+	}
+	
+	//@RequestMapping(value = "/viewReport", method = RequestMethod.GET)
+	//public void viewReport(Model model, @RequestParam("reportNo") int reportNo) throws Exception {
+		
+		
+	//	ReportVO report = bService.getReportNO(reportNo);
+		
+	//	model.addAttribute("report", report);
+		
+	//}
 
 }
