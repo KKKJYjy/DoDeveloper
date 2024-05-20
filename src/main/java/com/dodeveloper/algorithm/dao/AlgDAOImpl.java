@@ -56,6 +56,7 @@ public class AlgDAOImpl implements AlgDAO {
 		// TODO Auto-generated method stub
 		return ses.insert(ns+".insertAlgClassification", algClassification);
 	}
+	
 
 	@Override
 	public int updateAlgBoard(AlgBoardDTO algBoardDTO) {
@@ -68,6 +69,14 @@ public class AlgDAOImpl implements AlgDAO {
 		// TODO Auto-generated method stub
 		
 		return ses.insert(ns+".insertAlgDetail", algDetailDTO);
+		
+	}
+
+	@Override
+	public int updateAlgDetail(AlgDetailDTO algDetailDTO) {
+		// TODO Auto-generated method stub
+		
+		return ses.update(ns+".updateAlgDetail", algDetailDTO);
 		
 	}
 

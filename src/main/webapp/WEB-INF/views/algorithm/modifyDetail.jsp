@@ -68,11 +68,14 @@
 		
 		algDetailResult = select.split('algDetailResult=')[1].split(', algDetailTitle')[0]
 		
+		algDetailComment = select.split('algDetailComment=')[1].split(', boardType')[0]
+		
 		
 		$("#algDetailNo").val(algDetailNo);
 		$("#algDetailTitle").val(selectTitle);
 		$("#algDetailContent").val(algDetailContent);
 		$("#algDetailResult").val(algDetailResult);
+		$("#algDetailComment").val(algDetailComment);
 		
 	}
 	
@@ -137,20 +140,35 @@
 					
 					
 					<div class="mb-3 mt-3">
-						<c:if test=""></c:if>
+						
 						<label for="title" class="form-label">게시글 내용 : </label> <input
 							type="text" class="form-control" value="${algDetail[0].algDetailContent }" id="algDetailContent"
 							placeholder="입력하세요..." name="algDetailContent" />
 					</div>
 					
 					<div class="mb-3 mt-3">
-						<c:if test=""></c:if>
+						
 						<label for="title" class="form-label">실행결과 : </label> <input
 							type="text" class="form-control" value="${algDetail[0].algDetailResult }" id="algDetailResult"
 							placeholder="입력하세요..." name="algDetailResult" />
 					</div>
 					
-
+					<div class="mb-3 mt-3">
+						
+						<label for="title" class="form-label">comment : </label> <input
+							type="text" class="form-control" value="${algDetail[0].algDetailComment }" id="algDetailComment"
+							placeholder="입력하세요..." name="algDetailComment" />
+					</div>
+					
+					
+					<div class="mb-3 mt-3">
+						
+						<label for="title" class="form-label">comment : </label> <input
+							type="text" class="form-control" value="dooly" id="writer"
+							placeholder="입력하세요..." name="writer" />
+					</div>
+					
+					<button type="submit">수정</button>
 
 				</form>
 

@@ -227,6 +227,19 @@ public class AlgorithmController {
 		
 		
 	}
+	
+	@RequestMapping(value = "/modifyAlgDetail", method = RequestMethod.POST)
+	public String modifyAlgDetail(AlgDetailDTO algDetailDTO) {
+		System.out.println("*!*!*!*!");
+		System.out.println(algDetailDTO);
+		int algDetailNo = algDetailDTO.getAlgDetailNo();
+		
+		aService.updateAlgDetail(algDetailDTO, algDetailNo);
+		
+		
+		return "/algorithm/listAll";
+		
+	}
 
 
 }

@@ -92,4 +92,15 @@ public class AlgServiceImpl implements AlgService {
 		
 	}
 
+
+	@Override
+	public void updateAlgDetail(AlgDetailDTO algDetailDTO, int algDetailNo) {
+		// algDetail 항목 업데이트
+		
+		algDetailDTO.setAlgDetailNo(algDetailNo);
+		
+		aDao.updateAlgDetail(algDetailDTO);
+		
+	}
+
 }

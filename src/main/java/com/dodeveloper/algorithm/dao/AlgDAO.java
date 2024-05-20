@@ -27,4 +27,7 @@ public interface AlgDAO {
 
 	// algDetail 항목 작성
 	int insertAlgDetail(AlgDetailDTO algDetailDTO);
+
+	// algDetail 업데이트
+	int updateAlgDetail(AlgDetailDTO algDetailDTO);
 }
