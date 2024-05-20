@@ -148,17 +148,18 @@ public class StudyServiceImpl implements StudyService {
 		int result = 0;
 
 		try {
-			// StuStackVO의 stuBoardNo값 세팅
-			newStack.setStuBoardNo(sDao.selectNextStuNo() + 1);
-			System.out.println("insertStack: 추가할 스터디 스택 게시글 번호" + newStack.getStuBoardNo());
 
 			int[] chooseStacks = newStack.getChooseStack();
 
 			if (sDao.insertNewStudy(newStudy) == 1) {
 				System.out.println("스터디글추가성공");
 
-				System.out.println("insertStack: 새로 추가할 스터디 스택가져오자" + newStack.toString());
 				System.out.println("insertStack: 새로 추가할 스터디 스터디 모집글" + newStudy.toString());
+				
+				// StuStackVO의 stuBoardNo값 세팅
+				newStack.setStuBoardNo(sDao.selectNextStuNo());
+				System.out.println("insertStack: 추가할 스터디 스택 게시글 번호" + newStack.getStuBoardNo());
+				System.out.println("insertStack: 새로 추가할 스터디 스택가져오자" + newStack.toString());
 
 				for (int chooseStack : chooseStacks) {
 					if (sDao.insertNewStack(newStack.getStuBoardNo(), chooseStack) == 1) {
