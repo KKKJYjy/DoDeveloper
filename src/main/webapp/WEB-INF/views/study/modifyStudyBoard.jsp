@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -110,7 +111,7 @@
 		//전에 유저가 입력했던 지도 관련 정보들 가져오기
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		mapOption = {
-			center : new kakao.maps.LatLng(${studyList.stuX }, ${studyList.stuY }), // 지도의 중심좌표
+			center : new kakao.maps.LatLng(${studyList.stuY }, ${studyList.stuX }), // 지도의 중심좌표
 			level : 2 // 지도의 확대 레벨
 		};
 
@@ -118,7 +119,7 @@
 		map = new kakao.maps.Map(mapContainer, mapOption);
 
 		// 전에 유저가 선택했던 좌표 설정 (마커가 표시될 위치)  
-		var markerPosition = new kakao.maps.LatLng(${studyList.stuX }, ${studyList.stuY });
+		var markerPosition = new kakao.maps.LatLng(${studyList.stuY }, ${studyList.stuX });
 
 		// 전에 유저가 선택했던 마커를 생성
 		var marker = new kakao.maps.Marker({
@@ -135,7 +136,7 @@
 		iwContent += `<a href="https://map.kakao.com/link/to/${studyList.stuLoc},${studyList.stuX }, ${studyList.stuY }" target="_blank"><span class="badge text-bg-secondary">길찾기</span></a></p>`;
 		iwContent += `</div>`; 
 		
-		iwPosition = new kakao.maps.LatLng(${studyList.stuX }, ${studyList.stuY }); //인포윈도우 표시 위치입니다
+		iwPosition = new kakao.maps.LatLng(${studyList.stuY }, ${studyList.stuX }); //인포윈도우 표시 위치입니다
 
 		// 전에 유저가 선택했던 마커 위에 인포 메세지 출력하기 위한 객체 설정
 		var infowindow = new kakao.maps.InfoWindow({
@@ -148,18 +149,61 @@
 		infowindow.open(map, marker);
 		
 		//=======================================================================
-		//1. 수정 페이지에서 수정할때 > 지도에서 빈 곳을 클릭했을 때
-		// 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
-	
-		    		
-		//2. 수정 페이지에서 수정할때 > 지도 검색 버튼을 클릭했을 때
+	    		
+		//수정 페이지에서 수정할때 > 지도 검색 버튼을 클릭했을 때
 		$("#searchMapBtn").click(function() {
 			// 지도 검색한 값 가져오기
 			let searchMap = $("#searchMap").val();
 			console.log(searchMap);
 
-			// 검색한 값 키워드로 장소를 검색
+			// 1) 검색한 값 키워드로 장소를 검색
 			ps.keywordSearch(searchMap, placesSearchCB);
+			
+			// 2) 주소로 좌표를 검색
+			geocoder.addressSearch(searchMap, function(result, status) {
+
+				// 정상적으로 검색이 완료됐으면 
+				if (status === kakao.maps.services.Status.OK) {
+					
+					var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+					
+					// 결과값으로 받은 위치를 마커로 표시합니다
+					addrMarker = new kakao.maps.Marker({
+						map : map,
+						position : coords
+					});
+
+					mapY = result[0].y;
+					mapX = result[0].x;
+						
+					// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+					map.setCenter(coords);
+					
+					// 3) 좌표로 법정동 상세 주소 정보를 요청합니다
+					searchDetailAddrFromCoords(coords, function(result, status) {
+						
+				        if (status === kakao.maps.services.Status.OK) {
+				            var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
+				            detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
+				            
+				            mapName = result[0].address.address_name;
+				            console.log("주소검색시 Y: ", mapY, ", X: " , mapX , ", 주소 : ", mapName);
+				        }   
+				        
+						// 인포윈도우로 장소에 대한 설명을 표시합니다
+						infowindowByAddr = new kakao.maps.InfoWindow({
+							content : '<div style="padding:5px;font-size:12px; width:200px;">'
+							 + '<p class="mb-1"><b>' + mapName + '</b></p>'
+							 + '<span onclick="finalClick();" style="cursor:pointer" class="badge text-bg-danger">선택</span></div>'
+						}); 
+						
+						infowindowByAddr.open(map, addrMarker);
+				        
+				    });
+				
+				}
+				
+			});
 			
 			// 전에 선택했던 장소 마커와 윈포도우 제거 
 			infowindow.close(map, marker); 
@@ -172,11 +216,25 @@
 		
 		// 장소 검색 객체를 생성합니다
 		var ps = new kakao.maps.services.Places();
+		
+		// 주소 좌표 변환 객체를 생성합니다
+		geocoder = new kakao.maps.services.Geocoder();
 
 		//========================================================================
 			
 		
 	});
+	
+	function finalClick(){
+		// 지도 검색바에 선택한 장소명 출력
+		$("#searchMap").val(mapName);
+		console.log("최종 클릭 Y: ", mapY, ", X: " , mapX , ", 주소 : ", mapName);
+	}
+	
+	// 좌표로 법정동 상세 주소 정보를 요청합니다
+	function searchDetailAddrFromCoords(coords, callback) {
+	    geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+	}
 
 	// 키워드 검색 완료 시 호출되는 콜백함수 입니다
 	function placesSearchCB(data, status, pagination) {
@@ -209,18 +267,16 @@
 		// 마커에 클릭이벤트를 등록합니다
 		kakao.maps.event.addListener(marker, 'click', function() {
 			// 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
-			infowindowClick.setContent('<div style="padding:5px;font-size:12px;">'
-					+ place.place_name + '</div>');
+			infowindow.setContent('<div style="padding:5px; font-size:12px; width:200px;"><p class="mb-1"><b>' + place.place_name + '</b></p>'
+					 + '<p class="mb-1">' + place.address_name + '</p>'
+					 + '<p onclick="finalClick();" style="cursor:pointer" class="badge text-bg-danger mb-1">선택</p></div>')
+			
 			infowindowClick.open(map, marker);
-
-			// 지도 검색바에 선택한 장소명 출력
-			$("#searchMap").val(place.place_name);
 
 			mapY = place.y;
 			mapX = place.x;
 			mapName = place.place_name;
 
-			console.log(mapX, mapY, mapName);
 		});
 
 	}
