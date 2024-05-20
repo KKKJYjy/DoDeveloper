@@ -90,7 +90,7 @@
 		
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		mapOption = {
-			center : new kakao.maps.LatLng(${studyList.stuX }, ${studyList.stuY }), // 지도의 중심좌표
+			center : new kakao.maps.LatLng(${studyList.stuY }, ${studyList.stuX }), // 지도의 중심좌표
 			level : 3
 		// 지도의 확대 레벨
 		};
@@ -98,7 +98,7 @@
 		var map = new kakao.maps.Map(mapContainer, mapOption);
 
 		// 마커가 표시될 위치입니다 
-		var markerPosition = new kakao.maps.LatLng(${studyList.stuX }, ${studyList.stuY });
+		var markerPosition = new kakao.maps.LatLng(${studyList.stuY }, ${studyList.stuX });
 
 		// 마커를 생성합니다
 		var marker = new kakao.maps.Marker({
@@ -114,7 +114,7 @@
 		iwContent += `<a href="https://map.kakao.com/link/to/${studyList.stuLoc},${studyList.stuX }, ${studyList.stuY }" target="_blank"><span class="badge text-bg-secondary">길찾기</span></a></p>`;
 		iwContent += `</div>`; 
 		
-		iwPosition = new kakao.maps.LatLng(${studyList.stuX }, ${studyList.stuY }); //인포윈도우 표시 위치입니다
+		iwPosition = new kakao.maps.LatLng(${studyList.stuY }, ${studyList.stuX }); //인포윈도우 표시 위치입니다
 
 		// 인포윈도우를 생성합니다
 		var infowindow = new kakao.maps.InfoWindow({
@@ -131,7 +131,7 @@
 		var roadview = new kakao.maps.Roadview(roadviewContainer); //로드뷰 객체
 		var roadviewClient = new kakao.maps.RoadviewClient(); //좌표로부터 로드뷰 파노ID를 가져올 로드뷰 helper객체
 
-		var position = new kakao.maps.LatLng(${studyList.stuX }, ${studyList.stuY });
+		var position = new kakao.maps.LatLng(${studyList.stuY }, ${studyList.stuX });
 
 		// 특정 위치의 좌표와 가까운 로드뷰의 panoId를 추출하여 로드뷰를 띄운다.
 		roadviewClient.getNearestPanoId(position, 50, function(panoId) {
@@ -207,9 +207,7 @@
 	
 </script>
 <style>
-i {
-	cursor: pointer;
-}
+i { cursor: pointer; }
 </style>
 </head>
 

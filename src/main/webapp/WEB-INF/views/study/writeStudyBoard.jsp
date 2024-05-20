@@ -75,6 +75,9 @@
 
 <script>
 
+	//주소로 검색했을때의 마커정보를 담을 변수
+	let addrMarker = '';
+
 	let mapX = '';
 	let mapY = '';
 	let mapName = '';
@@ -122,19 +125,24 @@
 					var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 									
 					// 결과값으로 받은 위치를 마커로 표시합니다
-					var marker = new kakao.maps.Marker({
+					addrMarker = new kakao.maps.Marker({
 						map : map,
 						position : coords
 					});
 
-					mapY = result[0].x;
-					mapX = result[0].y;
+					mapY = result[0].y;
+					mapX = result[0].x;
 						
 					// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
 					map.setCenter(coords);
 					
 					// 3) 좌표로 법정동 상세 주소 정보를 요청합니다
 					searchDetailAddrFromCoords(coords, function(result, status) {
+						
+						//이전에 검색한 마커와 윈포도우가 있다면 없애자
+						if(addrMarker != null){
+							//map.setMap(null);
+						}
 						
 				        if (status === kakao.maps.services.Status.OK) {
 				            var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
@@ -151,7 +159,7 @@
 							 + '<span onclick="finalClick();" style="cursor:pointer" class="badge text-bg-danger">선택</span></div>'
 						}); 
 						
-						infowindowByAddr.open(map, marker);
+						infowindowByAddr.open(map, addrMarker);
 				        				        
 				    });
 									
@@ -177,6 +185,7 @@
 	
 
 	function finalClick(){
+		// 지도 검색바에 선택한 장소명 출력
 		$("#searchMap").val(mapName);
 		console.log("최종 클릭 Y: ", mapY, ", X: " , mapX , ", 주소 : ", mapName);
 	}
@@ -214,7 +223,6 @@
 			map : map,
 			position : new kakao.maps.LatLng(place.y, place.x)
 		});
-		
 
 		// 마커에 클릭이벤트를 등록합니다
 		kakao.maps.event.addListener(marker, 'click', function() {
@@ -224,14 +232,10 @@
 					 + '<p onclick="finalClick();" style="cursor:pointer" class="badge text-bg-danger mb-1">선택</p></div>')
 			infowindow.open(map, marker);
 
-			// 지도 검색바에 선택한 장소명 출력
-			//$("#searchMap").val(place.place_name);
-
-			mapY = place.x;
-			mapX = place.y;
+			mapY = place.y;
+			mapX = place.x;
 			mapName = place.place_name;
 
-			//console.log(mapX, mapY, mapName);
 		});
 
 	}
@@ -328,7 +332,7 @@
 	<main id="main">
 		<!-- Basic Section - Study Page -->
 		<section id="study" class="studyBasic">
-			<div class="container" style="width: 80%">
+			<div class="container" style="width: 70%">
 				<div class="container">
 					<h3 class="center text-center text-light">
 						<b>🔥 개발 스터디 만들기</b>

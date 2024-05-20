@@ -259,7 +259,7 @@
 		<!-- Basic Section - Study Page -->
 		<section id="study" class="studyBasic">
 
-			<div class="container" style="width: 80%">
+			<div class="container" style="width: 70%">
 				<div class="container">
 					<h3 class="center text-center text-light">
 						<b>🔥 개발 스터디 모집</b>
@@ -330,7 +330,7 @@
 				${stuStackList } --%>
 					<div class="row row-cols-md-4 ">
 						<!-- 모임글 추가하기 -->
-						<div class="col mb-4">
+						<div class="col-md mb-4">
 							<div class="card">
 								<div class="card-body p-4 text-center" style="height: 225px;">
 									<h5 class="text-danger"
@@ -344,7 +344,7 @@
 
 						<c:forEach var="study" items="${studyList }">
 							<!-- 모임글 1개 -->
-							<div class="col mb-4" style="cursor: pointer;"
+							<div class="col-md mb-4" style="cursor: pointer;"
 								onclick="location.href='/study/viewStudyBoard?stuNo=${study.stuNo}';">
 								<div class="card">
 									<div class="card-body p-4" style="width: 100%;">
