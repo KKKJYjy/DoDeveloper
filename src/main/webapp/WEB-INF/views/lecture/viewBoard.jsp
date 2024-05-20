@@ -86,6 +86,11 @@
 	width: 30px;
 	height: 30px;
 }
+
+<!--
+좋아요 버튼 -->.btn-group {
+	position: relative;
+}
 </style>
 <script>
 let replies = null;
@@ -370,6 +375,36 @@ function cancelWriteReply() {
 	});
 }
 
+//---------------------------------------------------------------------
+
+// 좋아요 버튼을 눌렀을 경우 insert
+function likePost() {
+    let lecNo = '${lecBoard.lecNo}'; // 게시글 번호
+    let user = preAuth(); // 로그인 한 유저만 좋아요 가능하도록
+
+    // 1) 게시글 번호, 좋아요 누를 유저를 likePost 객체에 담고
+    let likePost = {
+        "lecNo" : lecNo,
+        "user" : user
+    };
+
+    $.ajax({
+        url : '/lecture/like',
+        type : 'post',
+     	// 2) ajax를 이용해서 데이터(likePost)를 문자열로 변환하여 넘겨준다.
+        data : JSON.stringify(likePost),
+        headers : {
+            "content-type" : "application/json"
+        }, // 전송하는 데이터의 형식을 json으로 지정
+        success : function(data) {
+            console.log(data);
+        },
+        error : function(data) {
+            console.log(data);
+        }
+    });
+}
+
 
 </script>
 </head>
@@ -395,10 +430,10 @@ function cancelWriteReply() {
 					<!-- 별점은 이 글을 작성한 유저가 작성한 것이므로 다른 유저들이 누를 수 없다. -->
 					<!-- 또한 좋아요 & 스크랩 & 신고 로그인 한 유저만 가능하다. -->
 					<div class="lecBoard">
-						<div class="mb-3 mt-3">
+						<!-- <div class="mb-3 mt-3">
 							<label for="lecNo" class="form-label">글 번호</label>
 							<div class="content">${lecBoard.lecNo }</div>
-						</div>
+						</div> -->
 
 						<div class="mb-3 mt-3">
 							<label for="lecWriter" class="form-label">작성자Id</label>
@@ -440,33 +475,34 @@ function cancelWriteReply() {
 							<label for="lecScore" class="form-label">별점</label>
 							<div class="content">${lecBoard.lecScore }</div>
 						</div>
+					</div>
 
+
+					<!-- 좋아요 - likeInfo / 신고 - reportInfo -->
+					<div class="btn-group">
 						<div class="btns">
-
-							<button type="button" class="btn btn-dark"
-								onclick="location.href='/board/listAll';">좋아요</button>
-							<button type="button" class="btn btn-dark"
-								onclick="location.href='/board/listAll';">신고</button>
-
+							<!-- 하트 이미지 -->
+							<img id="heartIcon" src="/resources/images/lecture/pinkHeart.png"
+								alt="하트 이미지" style="width: 50px; height: 50px; cursor: pointer;"
+								onclick="likePost()">
 						</div>
+
+						<!-- <div class="reportInfo"></div> -->
 					</div>
 
 					<!-- 글 수정 & 글 삭제 로그인 한 유저만 가능 -->
-
 					<div class="btns">
-
 						<a href="/lecture/modifyLectureBoard?lecNo=${lecBoard.lecNo}"
 							class="btn">글수정</a> <a
 							href="/lecture/removeLectureBoard?lecNo=${lecBoard.lecNo}"
 							class="btn">글삭제</a>
-
 					</div>
+
 
 					<div class="btns">
-						<div class="btn-group">
-							<a href="/lecture/listAll" class="btn">목록으로</a>
-						</div>
+						<a href="/lecture/listAll" class="btn">목록으로</a>
 					</div>
+
 
 
 					<!-- 댓글 작성 로그인 한 유저만 가능 -->
