@@ -109,10 +109,10 @@
 		select * from reportBoard order by reportNo desc
 	</select>
 	
-	<!-- 신고내역 ?번 글을 가져오는 쿼리문 -->
+	<!-- 신고내역 ?번 글을 가져오는 쿼리문 
 	<select id="selectReportNo" resultType="ReportVO">
 		select * from reportBoard where reportNo = #{reportNo}
-	</select>
+	</select>  -->
 	
 	
 	

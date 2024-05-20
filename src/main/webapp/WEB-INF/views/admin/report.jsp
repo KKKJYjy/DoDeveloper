@@ -71,7 +71,7 @@
 	function modal() {
 		let modalText = document.getElementById("modalText");
 		$('#myModal').show();
-		let valueToPass = `${reportList }`; // 전달할 변수 값
+		let valueToPass = `${report.reportNo }`; // 전달할 변수 값
 		modalText.textContent = valueToPass; // 변수 값을 모달 텍스트로 설정
 		
 		
@@ -98,6 +98,7 @@
 	}); 
 	
 
+	
 	
 </script>
 <style>

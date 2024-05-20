@@ -161,11 +161,11 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 		return ses.selectList(ns + ".getReport");
 	}
 
-	@Override
-	public ReportVO selectReportBoardNo(int reportNo) throws Exception {
-		
-		return ses.selectOne(ns + ".selectReportNo", reportNo);
-	}
+//	@Override
+//	public ReportVO selectReportBoardNo(int reportNo) throws Exception {
+//		
+//		return ses.selectOne(ns + ".selectReportNo", reportNo);
+//	}
 
 	
 

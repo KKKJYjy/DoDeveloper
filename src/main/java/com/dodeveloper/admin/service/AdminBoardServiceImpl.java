@@ -26,6 +26,12 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	
 	@Autowired
 	private PagingInfo pi;
+	
+	
+
+	
+	
+	
 
 	
 	@Override
@@ -268,18 +274,19 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		
 		List<ReportVO> reportList = bDao.selectReport();
 		
+		
 		return reportList;
 	}
 
 
 
-	@Override
-	public ReportVO getReportNO(int reportNo) throws Exception {
-		
-		ReportVO report = bDao.selectReportBoardNo(reportNo);
-		
-		return report;
-	}
+//	@Override
+//	public ReportVO getReportNO(int reportNo) throws Exception {
+//		
+//		ReportVO report = bDao.selectReportBoardNo(reportNo);
+//		
+//		return report;
+//	}
 
 
 

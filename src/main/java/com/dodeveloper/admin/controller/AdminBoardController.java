@@ -199,22 +199,24 @@ public class AdminBoardController {
 	public void report(Model model) throws Exception {
 		logger.info("신고내역 조회");
 
-		List<ReportVO> reportList = bService.getReport();
-
-		model.addAttribute("reportList", reportList);
-
-	}
-
-	@RequestMapping(value = "/viewReport", method = RequestMethod.GET)
-	public void viewReport(Model model, @RequestParam("reportNo") int reportNo) throws Exception {
-
+		 List<ReportVO> reportList = bService.getReport();
 		
-		ReportVO report = bService.getReportNO(reportNo);
 
-		model.addAttribute("report", report);
-		
+		 model.addAttribute("reportList", reportList);
 		
 
 	}
+
+//	@RequestMapping(value = "/viewReport", method = RequestMethod.GET)
+//	public void viewReport(Model model, @RequestParam("reportNo") int reportNo) throws Exception {
+//
+//		
+//		ReportVO report = bService.getReportNO(reportNo);
+//
+//		model.addAttribute("report", report);
+//		
+//		
+//
+//	}
 
 }
