@@ -74,9 +74,10 @@
 	rel="stylesheet" />
 
 <script>
-	let infowindowByAddr = ""; //주소로 검색했을 때 인포 저장할 변수
-	let infowindow = "";	
 
+	let mapX = '';
+	let mapY = '';
+	let mapName = '';
 
 	$(function() {
 
@@ -111,30 +112,48 @@
 	
 			// 1) 키워드로 장소를 검색
 			ps.keywordSearch(searchMap, placesSearchCB);
-	
+			
 			// 2) 주소로 좌표를 검색
 			geocoder.addressSearch(searchMap, function(result, status) {
-						
+
 				// 정상적으로 검색이 완료됐으면 
 				if (status === kakao.maps.services.Status.OK) {
-	
+					
 					var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-	
+									
 					// 결과값으로 받은 위치를 마커로 표시합니다
 					var marker = new kakao.maps.Marker({
 						map : map,
 						position : coords
 					});
-	
-					// 인포윈도우로 장소에 대한 설명을 표시합니다
-					infowindowByAddr = new kakao.maps.InfoWindow({
-						content : '<div style="padding:5px;font-size:12px;">' + searchMap + '</div>'
-					});
-					
-					infowindowByAddr.open(map, marker);
-	
+
+					mapY = result[0].x;
+					mapX = result[0].y;
+						
 					// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
 					map.setCenter(coords);
+					
+					// 3) 좌표로 법정동 상세 주소 정보를 요청합니다
+					searchDetailAddrFromCoords(coords, function(result, status) {
+						
+				        if (status === kakao.maps.services.Status.OK) {
+				            var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
+				            detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
+				            
+				            mapName = result[0].address.address_name;
+				            console.log("주소검색시 Y: ", mapY, ", X: " , mapX , ", 주소 : ", mapName);
+				        }   
+				        
+						// 인포윈도우로 장소에 대한 설명을 표시합니다
+						infowindowByAddr = new kakao.maps.InfoWindow({
+							content : '<div style="padding:5px;font-size:12px; width:200px;">'
+							 + '<p class="mb-1"><b>' + mapName + '</b></p>'
+							 + '<span onclick="finalClick();" style="cursor:pointer" class="badge text-bg-danger">선택</span></div>'
+						}); 
+						
+						infowindowByAddr.open(map, marker);
+				        				        
+				    });
 									
 				}
 				
@@ -147,15 +166,25 @@
 			zIndex : 1
 		});
 
-
 		// 키워드 장소 검색 객체를 생성합니다
 		var ps = new kakao.maps.services.Places();
 		
-		// 주소-좌표 변환 객체를 생성합니다
-		var geocoder = new kakao.maps.services.Geocoder();
-
-	
+		// 주소 좌표 변환 객체를 생성합니다
+		geocoder = new kakao.maps.services.Geocoder();
+		
+		
 	});
+	
+
+	function finalClick(){
+		$("#searchMap").val(mapName);
+		console.log("최종 클릭 Y: ", mapY, ", X: " , mapX , ", 주소 : ", mapName);
+	}
+	
+	// 좌표로 법정동 상세 주소 정보를 요청합니다
+	function searchDetailAddrFromCoords(coords, callback) {
+	    geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+	}
 
 	// 키워드 검색 완료 시 호출되는 콜백함수 입니다
 	function placesSearchCB(data, status, pagination) {
@@ -177,10 +206,6 @@
 		}
 	}
 
-	let mapX = '';
-	let mapY = '';
-	let mapName = '';
-
 	// 지도에 마커를 표시하는 함수입니다
 	function displayMarker(place) {
 
@@ -194,18 +219,19 @@
 		// 마커에 클릭이벤트를 등록합니다
 		kakao.maps.event.addListener(marker, 'click', function() {
 			// 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
-			infowindow.setContent('<div style="padding:5px;font-size:12px;">'
-					+ place.place_name + '</div>');
+			infowindow.setContent('<div style="padding:5px; font-size:12px; width:200px;"><p class="mb-1"><b>' + place.place_name + '</b></p>'
+					 + '<p class="mb-1">' + place.address_name + '</p>'
+					 + '<p onclick="finalClick();" style="cursor:pointer" class="badge text-bg-danger mb-1">선택</p></div>')
 			infowindow.open(map, marker);
 
 			// 지도 검색바에 선택한 장소명 출력
-			$("#searchMap").val(place.place_name);
+			//$("#searchMap").val(place.place_name);
 
 			mapY = place.x;
 			mapX = place.y;
 			mapName = place.place_name;
 
-			console.log(mapX, mapY, mapName);
+			//console.log(mapX, mapY, mapName);
 		});
 
 	}
