@@ -48,4 +48,7 @@ public interface LectureBoardDAO {
 	// 검색 필터(최신순 / 인기순 / 조회순)을 선택했을 때 글을 가져오는 메서드 - 검색 필터
 	List<LectureBoardVO> listAllBoardByFilter(LectureSearchDTO lsDTO, PagingInfo pi) throws Exception;
 	
+	// 게시글에 좋아요 처리하는 메서드
+	int insertLikeBoard(int lecNo, String user) throws Exception;
+	
 }

@@ -250,4 +250,25 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 		return ses.selectList(ns + ".getLectureBoardListFilter", params);
 	}
 
+	/**
+	 * @methodName : likeBoard
+	 * @author : kde
+	 * @date : 2024.05.18
+	 * @param : int lecNo - 게시글 번호
+	 * @param : String user - 좋아요를 누르는 유저
+	 * @return : int
+	 * @description : 로그인 한 유저인 경우만 좋아요를 누를 수 있다.
+     * 유저가 하트를 눌렀을 때 좋아요 수가 1증가 -> ♥
+     * 유저가 하트를 한번 더 눌렀을 경우 1감소 -> ♡
+	 */
+	@Override
+	public int insertLikeBoard(int lecNo, String user) throws Exception {
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("lecNo", lecNo);
+		params.put("user", user);
+		
+		return ses.insert(ns + ".insertLikeBoard", params);
+	}
+
 }
