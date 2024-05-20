@@ -126,5 +126,11 @@
 		</choose>
 		 limit #{startRowIndex}, #{viewPostCntPerPage}
 	</select>
+	
+	<!-- 유저가 게시글에 하트를 눌렀을 경우 insert 되는 쿼리문 -->
+	<insert id="insertLikeBoard">
+		insert into lectureLikeInfo(lecNo, lecLikeUser) values(#{lecNo}, #{user})
+	</insert>
+	
 
 </mapper>
