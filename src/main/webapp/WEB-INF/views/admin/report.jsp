@@ -67,11 +67,14 @@
 		}
 	}
 
+	
 	function modal() {
 		let modalText = document.getElementById("modalText");
 		$('#myModal').show();
-		let valueToPass = `${reportList}`; // 전달할 변수 값
+		let valueToPass = `${reportList }`; // 전달할 변수 값
 		modalText.textContent = valueToPass; // 변수 값을 모달 텍스트로 설정
+		
+		
 	}
 
 	let modalText = document.getElementById("modalText");
@@ -92,7 +95,10 @@
 			}
 		});
 
-	});
+	}); 
+	
+
+	
 </script>
 <style>
 body {
@@ -178,6 +184,7 @@ to {
 						<th><input id="allCheck" type="checkbox" name="allCheck" /></th>
 						<th>신고 번호</th>
 						<th>게시판 구분</th>
+						<th>게시글 번호</th>
 						<th>작성자</th>
 						<th>신고 일자</th>
 						<th>신고자</th>
@@ -193,6 +200,7 @@ to {
 								value="${board.reportNo }" /></td>
 							<td>${board.reportNo }</td>
 							<td>${board.category }</td>
+							<td>${board.boardNo }</td>
 							<td>${board.writer }</td>
 							<td>${board.reportDate }</td>
 							<td>${board.reporter }</td>

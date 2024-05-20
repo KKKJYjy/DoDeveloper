@@ -99,7 +99,8 @@
 
 .sendNotice {
 	position: relative;
-	left: 1137px;
+	left: 83%;
+	/* left: 1137%;
 
 	/* position: relative;
 	left: 1358px;  */
