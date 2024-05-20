@@ -13,10 +13,14 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,9 +37,9 @@ import com.dodeveloper.member.vo.MemberVO;
 /**
  * @PackageName : com.dodeveloper.lecture.controller
  * @fileName : LectureBoardController.java
- * @author : 
+ * @author :
  * @date : 2024.05.13
- * @description : 
+ * @description :
  */
 @Controller // 아래의 클래스가 컨트롤러 객체임을 명시
 @RequestMapping("/lecture") // "/lecture"가 GET방식으로 요청될 때 아래의 클래스가 동작되도록 설정
@@ -45,19 +49,19 @@ public class LectureBoardController {
 
 	@Autowired
 	private LectureBoardService lService; // 스프링 컨테이너에서 LectureService 객체를 찾아 주입
-  
+
 	// 생성자를 이용하여 객체 주입
 	public LectureBoardController(LectureBoardService service) {
 		this.lService = service;
 	}
-	
+
 	/**
 	 * @methodName : listAllGet
 	 * @author : kde
 	 * @date : 2024.05.02
 	 * @param : Model model : View단(listAll)으로 바인딩하는 전용 객체
 	 * @param : @RequestParam(value = "lecNo", defaultValue = "1") int lecNo
-	 * 			int 매개변수 'lecNo'가 존재하지만 기본 유형으로 선언되기 때문에 null값으로 변환할 수 없어서 객체 래퍼로 선언한 것
+	 * int 매개변수 'lecNo'가 존재하지만 기본 유형으로 선언되기 때문에 null값으로 변환할 수 없어서 객체 래퍼로 선언한 것
 	 * @param : LectureSearchDTO lsDTO - 검색어 Type와 Value를 가져옴
 	 * @return : void
 	 * @throws Exception
@@ -69,32 +73,32 @@ public class LectureBoardController {
 			@RequestParam(value = "pageNo", defaultValue = "1") int pageNo) throws Exception {
 		logger.info(pageNo + "게시글 전체 글을 조회하자!");
 		logger.info("검색어 : " + lsDTO.toString());
-	    
+
 		Map<String, Object> resultMap = null;
-		
+
 		String resultPage = null;
-		
+
 		// 페이지 번호가 1이상이 되도록 설정
 		if (pageNo <= 0) {
 			pageNo = 1;
 		}
-		
+
 		// 서비스단 호출(getListAllBoard() 메서드 호출)
 		resultMap = lService.getListAllBoard(pageNo, lsDTO);
-		
-	    // 게시글 목록 가져오기
-	    List<LectureBoardVO> lectureBoardList = (List<LectureBoardVO>) resultMap.get("lectureBoardList");
-	    
-	    // for 문을 사용하여 lectureBoardList를 순회
+
+		// 게시글 목록 가져오기
+		List<LectureBoardVO> lectureBoardList = (List<LectureBoardVO>) resultMap.get("lectureBoardList");
+
+		// for 문을 사용하여 lectureBoardList를 순회
 //	    for (LectureBoardVO lecture : lectureBoardList) {
 //	        logger.info("제목: " + lecture.getLecTitle() + "조회수 : " + lecture.getLecReadCount());
 //	    }
-		
-	    // 바인딩
+
+		// 바인딩
 		// 게시글 자체를 바인딩
-	    model.addAttribute("lectureBoardList", (List<LectureBoardVO>)resultMap.get("lectureBoardList"));
-	    // 페이징 정보를 바인딩
-	    model.addAttribute("pagingInfo", (PagingInfo)resultMap.get("pagingInfo"));
+		model.addAttribute("lectureBoardList", (List<LectureBoardVO>) resultMap.get("lectureBoardList"));
+		// 페이징 정보를 바인딩
+		model.addAttribute("pagingInfo", (PagingInfo) resultMap.get("pagingInfo"));
 
 	}
 
@@ -110,9 +114,9 @@ public class LectureBoardController {
 	@GetMapping("/viewBoard") // 상세 게시글로 가도록 Mapping함
 	public ModelAndView viewBoard(@RequestParam("lecNo") int lecNo, HttpServletRequest req, HttpServletResponse resp,
 			ModelAndView mav, HttpSession ses) throws Exception {
-		
+
 		String user = null;
-		
+
 		if (ses.getAttribute("loginMember") != null) {
 			// 로그인 한 유저의 경우
 			user = ((MemberVO) ses.getAttribute("loginMember")).getUserId();
@@ -122,7 +126,7 @@ public class LectureBoardController {
 			String sesId = req.getSession().getId();
 			user = sesId;
 			saveCookie(resp, sesId);
-			
+
 			logger.info("로그인 안한 유저의 쿠키값" + user);
 		} else {
 			// 로그인을 하지않았는데 쿠키가 있다면
@@ -142,13 +146,13 @@ public class LectureBoardController {
 
 	/**
 	 * @methodName : saveCookie
-	 * @author : 
+	 * @author :
 	 * @date : 2024.05.14
 	 * @param : HttpServletResponse resp
 	 * @param : String sesId - sessionId 값
 	 * @return : void
-	 * @description : 세션 Id값을 쿠키에 '1일' 저장
-	 * 조회수를 올리기 위해 user가 로그인을 하지않아도 sessionId값을 이용해 기록이 남도록
+	 * @description : 세션 Id값을 쿠키에 '1일' 저장 조회수를 올리기 위해 user가 로그인을 하지않아도 sessionId값을
+	 *              이용해 기록이 남도록
 	 */
 	private void saveCookie(HttpServletResponse resp, String sesId) {
 		Cookie sessionCookie = new Cookie("rses", sesId);
@@ -158,18 +162,17 @@ public class LectureBoardController {
 
 	/**
 	 * @methodName : cookieExist
-	 * @author : 
+	 * @author :
 	 * @date : 2024.05.13
 	 * @param : HttpServletRequest req
 	 * @param : String cookieName - 찾을 쿠키 이름
 	 * @return : String
-	 * @description : 쿠키 이름을 가지고, 그 이름의 쿠키를 찾는 메서드
-	 * 조회수를 올리기 위해 user가 로그인을 하지않아도 sessionId값을 이용해 기록이 남도록해서
-	 * user 한명 당 게시글 한번에 조회수 한번만 올라갈 수 있도록 하기
+	 * @description : 쿠키 이름을 가지고, 그 이름의 쿠키를 찾는 메서드 조회수를 올리기 위해 user가 로그인을 하지않아도
+	 *              sessionId값을 이용해 기록이 남도록해서 user 한명 당 게시글 한번에 조회수 한번만 올라갈 수 있도록 하기
 	 */
 	private String cookieExist(HttpServletRequest req, String cookieName) {
 		String result = null;
-		
+
 		for (Cookie c : req.getCookies()) {
 			if (c.getName().equals(cookieName)) {
 				// 로그인을 하지 않았는데 쿠키가 있는 유저
@@ -273,16 +276,16 @@ public class LectureBoardController {
 	 * @date : 2024.05.05
 	 * @param : @RequestParam("lecNo") int lecNo - 게시글 삭제할 번호
 	 * @return : String
-	 * @throws Exception 
+	 * @throws Exception
 	 * @description : 게시글 삭제 시 delete 처리
 	 */
 	@GetMapping("/removeLectureBoard")
 	public String removeLectureBoard(@RequestParam("lecNo") int lecNo) throws Exception {
-	    logger.info("controller :" + lecNo + "번 게시글 삭제 delete");
-	    
-	    lService.deleteLectureBoard(lecNo);
-	    
-	    return "forward:/lecture/listAll"; // forward를 사용하여 다시 조회 페이지로 이동
+		logger.info("controller :" + lecNo + "번 게시글 삭제 delete");
+
+		lService.deleteLectureBoard(lecNo);
+
+		return "forward:/lecture/listAll"; // forward를 사용하여 다시 조회 페이지로 이동
 	}
 
 	/**
@@ -298,21 +301,57 @@ public class LectureBoardController {
 
 		return "success";
 	}
-	
-    /**
-     * @methodName : cancelModifyBoard
-     * @author : 
-     * @date : 2024.05.12
-     * @param : 
-     * @return : String
-     * @description : 게시글 수정하려다가 취소 버튼을 누른 경우 작동되는 메서드
-     */
-    @RequestMapping(value = "/cancelModify", method = RequestMethod.POST)
-    public @ResponseBody String cancelModifyBoard() {
-        System.out.println("게시글 수정 취소 요청");
 
-        return "success";
-    }
+	/**
+	 * @methodName : cancelModifyBoard
+	 * @author :
+	 * @date : 2024.05.12
+	 * @param :
+	 * @return : String
+	 * @description : 게시글 수정하려다가 취소 버튼을 누른 경우 작동되는 메서드
+	 */
+	@RequestMapping(value = "/cancelModify", method = RequestMethod.POST)
+	public @ResponseBody String cancelModifyBoard() {
+		System.out.println("게시글 수정 취소 요청");
+
+		return "success";
+	}
+
+	/**
+	 * @methodName : likeBoard
+	 * @author :
+	 * @date : 2024.05.18
+	 * @param : @RequestBody Map<String, String> likeRequest
+	 * json 데이터를 자바의 Map 형태로 매핑(lecNo가 int형이라 넘길수가 없기에 Map 형태로 String으로 만들어서 넘겼다.)
+	 * @return : ResponseEntity<String> - 문자열을 응답 본문으로 가지는 객체 / 그 중 Stirng 타입(문자열)으로 응답
+	 * @description : 로그인 한 유저인 경우만 좋아요를 누를 수 있다.
+	 * 유저가 하트를 눌렀을 때 좋아요 수가 1증가 -> ♥
+	 * 유저가 하트를 한번 더 눌렀을 경우 1감소 -> ♡
+	 */
+	@RequestMapping(value = "/like", method = RequestMethod.POST)
+	public ResponseEntity<String> likeBoard(@RequestBody Map<String, String> likeRequest) {
+		String lecNoStr = likeRequest.get("lecNo"); // 게시글 번호를 문자열로 가져오기
+		String user = likeRequest.get("user"); // 유저를 문자열로 가져오기
+
+		logger.info(user + "가 " + lecNoStr + "번 게시글에 좋아요를 눌렀습니다!");
+
+		ResponseEntity<String> result = null; // 객체 선언
+
+		try {
+			// 문자열로 변환한 게시글 번호를 다시 정수로 변환
+			int lecNo = Integer.parseInt(lecNoStr);
+			
+			if (lService.insertLikeBoard(lecNo, user) == 1) {
+				// 좋아요 버튼 누르기 성공한 경우
+				result = new ResponseEntity<String>("success", HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			// 좋아요 버튼 누르기 실패한 경우
+			e.printStackTrace();
+			result = new ResponseEntity<String>("fail", HttpStatus.CONFLICT);
+		}
+
+		return result;
+	}
 
 }
-
