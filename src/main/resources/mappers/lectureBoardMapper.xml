@@ -132,5 +132,10 @@
 		insert into lectureLikeInfo(lecNo, lecLikeUser) values(#{lecNo}, #{user})
 	</insert>
 	
+	<!-- 페이지에 좋아요 횟수 update -->
+	<update id="updateLikeCount">
+		update lectureBoard set lecLikeCount = lecLikeCount + 1 where lecNo = #{lecNo}
+	</update>
+	
 
 </mapper>
