@@ -200,21 +200,26 @@ public class AdminBoardController {
 		logger.info("신고내역 조회");
 
 		List<ReportVO> reportList = bService.getReport();
+		
 
 		model.addAttribute("reportList", reportList);
+	
 
 	}
 
 	@RequestMapping(value = "/viewReport", method = RequestMethod.GET)
 	public void viewReport(Model model, @RequestParam("reportNo") int reportNo) throws Exception {
 
+		logger.info(reportNo + "번글 조회");
+		// ReportVO report = bService.getReportNO(reportNo);
 		
 		ReportVO report = bService.getReportNO(reportNo);
 
 		model.addAttribute("report", report);
 		
 		
-
 	}
+	
+	
 
 }

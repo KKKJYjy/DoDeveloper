@@ -42,6 +42,7 @@
 			alert("선택된 게시글이 없습니다");
 		} else {
 			let chk = confirm("정말 삭제하시겠습니까?");
+			$('#myModal').show();
 			if (!chk) {
 				location.replace("report")
 			} else {
@@ -68,14 +69,18 @@
 	}
 
 	
-	function modal() {
-		let modalText = document.getElementById("modalText");
-		$('#myModal').show();
-		let valueToPass = `${reportList }`; // 전달할 변수 값
-		modalText.textContent = valueToPass; // 변수 값을 모달 텍스트로 설정
+//	function modal() {
+		//let modalText = document.getElementById("modalText");
+	//	$('#myModal').show();
+		//let valueToPass = `${report.reportNo }`; // 전달할 변수 값
+		//modalText.textContent = valueToPass; // 변수 값을 모달 텍스트로 설정
 		
 		
-	}
+//	}
+	
+
+		
+	
 
 	let modalText = document.getElementById("modalText");
 
@@ -184,7 +189,7 @@ to {
 						<th><input id="allCheck" type="checkbox" name="allCheck" /></th>
 						<th>신고 번호</th>
 						<th>게시판 구분</th>
-						<th>게시글 번호</th>
+						<th>글 번호</th>
 						<th>작성자</th>
 						<th>신고 일자</th>
 						<th>신고자</th>
@@ -194,7 +199,7 @@ to {
 
 					<c:forEach var="board" items="${reportList }">
 
-						<tr id="table" onclick="modal();">
+						<tr id="table" onclick="location.href='/admin/viewReport?reportNo=${board.reportNo}';">
 							<td><input type="checkbox" name="rowCheck"
 								class="deleteCheckbox" id="myCheckbox"
 								value="${board.reportNo }" /></td>
@@ -204,7 +209,6 @@ to {
 							<td>${board.writer }</td>
 							<td>${board.reportDate }</td>
 							<td>${board.reporter }</td>
-
 						</tr>
 
 

@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter
@@ -23,4 +25,6 @@ public class ReportVO {
 	private String reportReason;
 	private String reporter;
 	private String isDelete;
+	private int bTypeNo;
 }
+
