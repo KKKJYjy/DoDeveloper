@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.lecture.dao.LectureBoardDAO;
@@ -300,15 +302,31 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	 * @date : 2024.05.18
 	 * @param : int lecNo - 게시글 번호
 	 * @param : String user - 좋아요를 누르는 유저
-	 * @return : int
+	 * @return : boolean
+	 * @throws Exception 
 	 * @description : 로그인 한 유저인 경우만 좋아요를 누를 수 있다.
      * 유저가 하트를 눌렀을 때 좋아요 수가 1증가 -> ♥
      * 유저가 하트를 한번 더 눌렀을 경우 1감소 -> ♡
 	 */
 	@Override
-	public int insertLikeBoard(int lecNo, String user) throws Exception {
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+	public boolean likeBoard(int lecNo, String user) throws Exception {
 		
-		return lDao.insertLikeBoard(lecNo, user);
+		boolean result = false;
+		
+	        // 좋아요 버튼 누르기 성공한 경우
+	        if (lDao.insertLikeBoard(lecNo, user) == 1) {
+	            // 성공한 경우 좋아요 갯수 1개 up
+	            lDao.updateLikeCount(lecNo);
+	            
+	            System.out.println("좋아요 버튼 누르고 갯수 1개 up 성공");
+	            
+	            result = true;
+	        } else {
+	        	// 좋아요 버튼 누르기 실패한 경우
+	        	System.out.println("좋아요 버튼 누르기 실패!");
+	        }
+	    return result;
 	}
 
 }

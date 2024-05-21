@@ -25,7 +25,7 @@ public interface LectureBoardService {
 	// 게시글을 삭제 처리하는 메서드
 	boolean deleteLectureBoard(int lecNo) throws Exception;
 	
-	// 게시글에 좋아요 처리하는 메서드
-	int insertLikeBoard(int lecNo, String user) throws Exception;
+	// 게시글에 좋아요 버튼 눌렀을 경우 - 좋아요 갯수 1개 update (전체 게시글에 보여주기)
+	boolean likeBoard(int lecNo, String user) throws Exception;
 	
 }
