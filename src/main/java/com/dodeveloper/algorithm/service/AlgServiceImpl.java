@@ -37,6 +37,10 @@ public class AlgServiceImpl implements AlgService {
 		// boardNo 에 해당하는 algDetail 리스트 받아오기
 		List<AlgDetailDTO> algDetailList = null;
 		System.out.println(boardNo+"번의 알고리즘 조회");
+		
+//		LoginDTO loginDTO = null;
+//		System.out.println(loginDTO.getUserId());
+		
 		try {
 			algDetailList = aDao.selectAlgDetail(boardNo);
 		} catch (Exception e) {
@@ -98,6 +102,9 @@ public class AlgServiceImpl implements AlgService {
 		// algDetail 항목 업데이트
 		
 		algDetailDTO.setAlgDetailNo(algDetailNo);
+		
+		//LoginDTO loginDTO = null;
+		//System.out.println(loginDTO.getUserId());
 		
 		aDao.updateAlgDetail(algDetailDTO);
 		

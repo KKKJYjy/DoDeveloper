@@ -21,6 +21,7 @@ import com.dodeveloper.algorithm.service.AlgService;
 import com.dodeveloper.algorithm.vodto.AlgBoardDTO;
 import com.dodeveloper.algorithm.vodto.AlgClassificationDTO;
 import com.dodeveloper.algorithm.vodto.AlgDetailDTO;
+import com.dodeveloper.member.dto.LoginDTO;
 
 
 @Controller
@@ -56,11 +57,15 @@ public class AlgorithmController {
 		
 		List<AlgDetailDTO> returnMap = null;
 		
+		//LoginDTO loginDTO = null;
+		
+		
 		
 		returnMap = aService.getListDetail(boardNo);
 		
 		
 		model.addAttribute("algDetailList", returnMap);
+		//model.addAttribute("login", loginDTO);
 	}
 	
 	

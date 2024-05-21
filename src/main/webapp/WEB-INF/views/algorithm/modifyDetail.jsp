@@ -85,10 +85,18 @@
 		
 		
 		
-		
-		
 	});
+	
+
 </script>
+<style>
+	textarea {
+    width: 100%;
+    height: 16.25em;
+    border: none;
+    resize: none;
+  }
+</style>
 </head>
 
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
@@ -110,64 +118,70 @@
 
 				<form action="modifyAlgDetail" method="post">
 
-					<label for="sel1" class="form-label">Select list (선택하면 제목과 게시글 번호 자동으로 입력 됨):
-					</label> <select class="form-select" id="selectAlgDetailTitle"		
-						name="selectAlgDetailTitle" onchange="chageSelect()">
-						<option value="0"  >알고리즘을 어디 수정할 지 선택</option>
+					<label for="sel1" class="form-label">Select list (선택하면 제목과
+						게시글 번호 자동으로 입력 됨): </label> <select class="form-select"
+						id="selectAlgDetailTitle" name="selectAlgDetailTitle"
+						onchange="chageSelect()">
+						<option value="0">알고리즘을 어디 수정할 지 선택</option>
 						<c:forEach items="${algDetail}" var="algDetail">
-							
+
 							<option value="${algDetail}" id="detailTitle">${algDetail.algDetailTitle }</option>
 
 						</c:forEach>
 					</select>
-					
-					
-					
-					
-					
+
+
+
+
+
 					<div class="mb-3 mt-3">
 						<label for="title" class="form-label">제목 : </label> <input
-							type="text" value="${algDetail[0].algDetailTitle }" onfocus="this.value='';"
-							class="form-control" id="algDetailTitle"
+							type="text" value="${algDetail[0].algDetailTitle }"
+							onfocus="this.value='';" class="form-control" id="algDetailTitle"
 							placeholder="글 제목을 입력하세요..." name="algDetailTitle" />
 					</div>
-					
+
 					<div class="mb-3 mt-3">
 						<label for="title" class="form-label">게시글 번호 : </label> <input
-							type="number" class="form-control" value="${algDetail[0].algDetailNo }" id="algDetailNo"
+							type="number" class="form-control"
+							value="${algDetail[0].algDetailNo }" id="algDetailNo"
 							placeholder="입력하세요..." name="algDetailNo" />
 					</div>
-					
-					
+
+
 					<div class="mb-3 mt-3">
-						
-						<label for="title" class="form-label">게시글 내용 : </label> <input
-							type="text" class="form-control" value="${algDetail[0].algDetailContent }" id="algDetailContent"
-							placeholder="입력하세요..." name="algDetailContent" />
+
+						<label for="title" class="form-label">게시글 내용 : </label>
+						<textarea class="form-control"
+							value="${algDetail[0].algDetailContent }" id="algDetailContent"
+							placeholder="입력하세요..." name="algDetailContent"></</textarea>
 					</div>
+
 					
 					<div class="mb-3 mt-3">
-						
+
 						<label for="title" class="form-label">실행결과 : </label> <input
-							type="text" class="form-control" value="${algDetail[0].algDetailResult }" id="algDetailResult"
+							type="text" class="form-control"
+							value="${algDetail[0].algDetailResult }" id="algDetailResult"
 							placeholder="입력하세요..." name="algDetailResult" />
 					</div>
-					
+
 					<div class="mb-3 mt-3">
-						
+
 						<label for="title" class="form-label">comment : </label> <input
-							type="text" class="form-control" value="${algDetail[0].algDetailComment }" id="algDetailComment"
+							type="text" class="form-control"
+							value="${algDetail[0].algDetailComment }" id="algDetailComment"
 							placeholder="입력하세요..." name="algDetailComment" />
 					</div>
-					
-					
+
+
 					<div class="mb-3 mt-3">
-						
+
 						<label for="title" class="form-label">comment : </label> <input
 							type="text" class="form-control" value="dooly" id="writer"
 							placeholder="입력하세요..." name="writer" />
 					</div>
-					
+
 					<button type="submit">수정</button>
 
 				</form>

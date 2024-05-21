@@ -90,6 +90,7 @@
 		<interceptor>
 			<!-- algDetail게시판 글 작성 시 로그인이 필요하므로 -->
 			<mapping path="/algorithm/writeDetailPOST" />
+			<mapping path="/algorithm/modifyAlgDetail" />
 			<beans:ref bean="authInterceptor" />
 		</interceptor>
 		

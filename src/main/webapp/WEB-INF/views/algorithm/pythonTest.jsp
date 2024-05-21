@@ -1,6 +1,3 @@
-<%@page import="org.apache.ibatis.reflection.SystemMetaObject"%>
-<%@page import="java.io.Console"%>
-<%@page import="com.dodeveloper.algorithm.vodto.AlgDetailDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -51,83 +48,26 @@
   ======================================================== -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<!--  pyscript -->
 <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
 <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
 </head>
 
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
 	<%@ include file="../header.jsp"%>
-	<%
-	String boardNo = request.getParameter("boardNo");
-	session.setAttribute("boardNo", boardNo);
-	%>
 
 	<main id="main">
 		<!-- Basic Section - Algorithm Page -->
 		<section id="algorithm" class="basic">
 			<div class="container">
+
 				<h1>${algDetailList[0].algDetailTitle}</h1>
-				<h1>${algDetailList[0].algDetailContent}</h1>
-				<h1>${algDetailList[1].algDetailContent}</h1>
-
-
 
 				<h1>alg</h1>
-
-
-				<py-script> 
-					def bubbleSort(arr):
-						n = len(arr)
-					
-						for i in range(n-1):
-							swapped = False
-							for j in range(0,n-i-1):
-								if arr[j]>arr[j+1]:
-									swapped = True
-									arr[j], arr[j+1] = arr[j+1],arr[j]
-								
-							if not swapped:
-								return
-					
-					arr = [64,34,25,12,22,11,90]
-					bubbleSort(arr)
-					
-					print("Sorted array is:")
-					for i in range(len(arr)):
-						print("% d" % arr[i], end=" ")
-				</py-script>
-				<py-script>
-					${algDetailList[0].algDetailContent}
-				</py-script>
-				<py-script>
-					${algDetailList[1].algDetailContent}
-				</py-script>
-
-
-
-				<!--  
-           -->
-				${SessionNames.LOGIN_MEMBER}
-
-
+				
 
 				<div>${algDetailList}</div>
-
-				<div>${algDetailList[0].algBoardNo}</div>
 			</div>
 		</section>
-
-		<form method="get" action="/algorithm/writeDetailPOST">
-			<div class="btns">
-				<button type="submit" class="btn btn-info">글쓰기</button>
-				<button type="button" class="btn btn-info"
-					onclick="location.href='/algorithm/modifyAlgDetail';">글수정</button>
-			</div>
-		</form>
-		<button type="button" class="btn btn-danger"
-			onclick="location.href='/algorithm/listAll';">알고리즘목록</button>
-
 		<!-- End Basic Section -->
 	</main>
 
