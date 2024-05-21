@@ -94,6 +94,44 @@
 		$("#stuDate").val('${studyList.stuDate }').prop("selected", true);
 		console.log('${studyList.stuDate }');
 		
+		//스터디 언어 새로 선택했을 때 새로 인서트 처리 하겠다는 마킹 넘기기 
+		 $('.studyLang').on("select2:select", function(e) {
+			let newStuStack = e.params.data.id;
+			//console.log(newStuStack);
+			
+			$.ajax({
+				url : '/study/modifyNewMark',
+				data : {
+					"newStuStack" : newStuStack
+				}, 
+				type : 'post',
+				dataType : 'text',
+				success : function(data) { 
+					console.log(data);
+					
+				}
+			});
+		});
+		
+		//스터디 언어 삭제버튼을 눌렀을때 삭제처리 하겠다는 마킹 넘기기
+		$(".studyLang").on("select2:unselect", function(e) {
+			let remStuStack = e.params.data.id;
+			//console.log(remStuStack);
+
+			$.ajax({
+				url : '/study/modifyRemMark',
+				data : {
+					"remStuStack" : remStuStack
+				}, 
+				type : 'post',
+				dataType : 'text',
+				success : function(data) { 
+					console.log(data);
+					
+				}
+			});
+		});
+		
 		//스터디 언어 셀렉트 박스
 		$('.studyLang').select2({
 			maximumSelectionLength : 3,
@@ -139,14 +177,14 @@
 		iwPosition = new kakao.maps.LatLng(${studyList.stuY }, ${studyList.stuX }); //인포윈도우 표시 위치입니다
 
 		// 전에 유저가 선택했던 마커 위에 인포 메세지 출력하기 위한 객체 설정
-		var infowindow = new kakao.maps.InfoWindow({
+		var infowindowBefore = new kakao.maps.InfoWindow({
 			position : iwPosition,
 			content : iwContent
 		});
 
 		// 전에 유저가 선택했던 마커 위에 인포메세지 출력
 		// 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
-		infowindow.open(map, marker);
+		infowindowBefore.open(map, marker);
 		
 		//=======================================================================
 	    		
@@ -206,11 +244,11 @@
 			});
 			
 			// 전에 선택했던 장소 마커와 윈포도우 제거 
-			infowindow.close(map, marker); 
+			infowindowBefore.close(map, marker); 
 		})
 
 		// 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
-		infowindowClick = new kakao.maps.InfoWindow({
+		infowindow = new kakao.maps.InfoWindow({
 			zIndex : 1
 		});
 		
@@ -271,7 +309,7 @@
 					 + '<p class="mb-1">' + place.address_name + '</p>'
 					 + '<p onclick="finalClick();" style="cursor:pointer" class="badge text-bg-danger mb-1">선택</p></div>')
 			
-			infowindowClick.open(map, marker);
+			infowindow.open(map, marker);
 
 			mapY = place.y;
 			mapX = place.x;
@@ -371,6 +409,9 @@
 		return result;
 	}
 
+	function newMarking(stackNo){
+		alert(stackNo);
+	}
 	
 </script>
 </head>
@@ -390,7 +431,7 @@
 
 				<div class="container pt-5">
 
-					<form action="/study/modifyStack" method="post">
+					<form action="/study/modifyStudyWithStack" method="post">
 						<!-- 스터디 언어 선택 -->
 						<div class="row mb-4">
 							<div class="col-md-12">

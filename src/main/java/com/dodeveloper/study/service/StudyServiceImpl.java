@@ -225,47 +225,39 @@ public class StudyServiceImpl implements StudyService {
 		return sDao.selectAllStack();
 	}
 
+	
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-	public int modifyStudyWithStack(StudyBoardDTO newStudy, StuStackModifyDTO modifyStack) throws Exception {
+	public int modifyStudyWithStack(StudyBoardDTO newStudy, List<StuStackDTO> modifyStack) throws Exception {
 
 		int result = 0;
-
-		// StuStackVO의 stuBoardNo값 세팅
-		modifyStack.setStuBoardNo(newStudy.getStuNo());
 
 		System.out.println("modifyStack: 수정할 스터디 스택" + modifyStack.toString());
 		System.out.println("insertStack: 수정할 스터디 스터디 모집글" + newStudy.toString());
 
-		int[] chooseStacks = modifyStack.getChooseStack();
-		int[] deleteStackNo = modifyStack.getStuStackNo();
 
 		if (sDao.modifyStudy(newStudy) == 1) {
 			System.out.println("스터디글수정성공");
 
-			// 전에 있었던 스터디 언어 애들 지우기
-			for (int deleteNo : deleteStackNo) {
-				System.out.println("지울 스터디 스택번호" + deleteNo);
-
-				if (sDao.deleteStudyStack(deleteNo) == 1) {
-					System.out.println("스택 지우기 성공");
+			for(StuStackDTO s : modifyStack) {
+				if(s.isDelete()) {
+					sDao.deleteStudyStack(s.getStuStackNo());
+ 					System.out.println(s.getStuStackNo() + "번째 스터디언어 삭제 성공");
+ 					result = 1;
 				}
-
-			}
-
-			// 스터디 언어 새로 인서트하기
-			for (int chooseStack : chooseStacks) {
-				if (sDao.insertNewStack(modifyStack.getStuBoardNo(), chooseStack) == 1) {
-					System.out.println("스택수정성공");
+				if(s.isNew()) {
+					sDao.insertNewStack(s.getStuBoardNo(), s.getChooseStack());
+					System.out.println(s.getChooseStack() + "스터디언어 추가 성공");
 					result = 1;
 				}
-
+				
 			}
 
 		}
 
 		return result;
 	}
+
 
 	@Override
 	public int deleteStudyBoard(int stuNo) throws Exception {
@@ -277,7 +269,9 @@ public class StudyServiceImpl implements StudyService {
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		 
+					
 		List<StudyBoardVO> lst = sDao.searchStudyByStack(studyStackList);
+		
 		
 		for(StudyBoardVO l :lst) {			
 			System.out.println("service단 게시글제목:" + l.getStuTitle());

@@ -46,7 +46,9 @@ public class StudyContoller {
 
 	private StudyBoardDTO newStudy;
 
-	private List<String> searchStuStack;
+	// view단에서 보낸 스터디 언어들을 담고있는 ArrayList.
+	// 저장, 수정, 취소 등의 버튼을 누르기 전까지 스터디 언어들을 임시로 보관하는 곳
+	private List<StuStackDTO> stuStackList = new ArrayList<StuStackDTO>();
 
 	@Autowired
 	StudyService stuService;
@@ -121,7 +123,7 @@ public class StudyContoller {
 	}
 
 	// 2) 스터디 작성 버튼을 누르면, insertStudy 메서드가 먼저 수행된 뒤에 insertStudyWithStack가 실행된다
-	@PostMapping(value = "/insertStackWithStack")
+	@PostMapping(value = "/insertStudyWithStack")
 	public String insertStudyWithStack(StuStackVO newStack) throws Exception {
 		String result = null;
 
@@ -181,6 +183,9 @@ public class StudyContoller {
 		// 스터디 No번째글 스터디 언어 목록
 		List<StuStackDTO> stuStackListByNo = new ArrayList<StuStackDTO>();
 
+		this.stuStackList.clear(); // 비워주기
+		this.stuStackList = stuStackListByNo; // 스터디 언어 목록 멤버변수에 넣어주기
+
 		// stuNo를 넘겨주어 공부할 언어 정보를 가져오자
 		stuStackListByNo.addAll(stuService.selectAllStudyStack(studyList.getStuNo()));
 
@@ -224,20 +229,91 @@ public class StudyContoller {
 
 		return result;
 	}
-
-	// 2) 스터디 작성 버튼을 누르면, modifyStudy 메서드가 먼저 수행된 뒤에 modifyStudyWithStack가 실행된다
-	// 수정 페이지에서 수정 버튼을 눌렀을때 실제로 스터디 모임글의 스터디 언어 디비를 수정하는 메서드
-	@PostMapping(value = "/modifyStack")
-	public String modifyStudyWithStack(StuStackModifyDTO modifyStack) throws Exception {
+	
+	
+	@PostMapping(value = "/modifyStudyWithStack")
+	public String modifyStudyWithStack() throws Exception {
+		
 		String result = null;
 
-		logger.info("modifyStack: 수정할 스택" + modifyStack.toString());
-
 		// 수정에 성공했다면 수정한 상세 페이지로 이동
-		if (stuService.modifyStudyWithStack(newStudy, modifyStack) == 1) {
+		if (stuService.modifyStudyWithStack(newStudy, this.stuStackList) == 1) {
 			result = "redirect:/study/viewStudyBoard?stuNo=" + newStudy.getStuNo();
 			logger.info("스터디테이블, 스터디스택 업데이트 성공");
 			// newStudy = null;
+		}
+
+		return result;
+	}
+	
+	
+
+	// 게시글 수정시 스터디 언어 새로 추가했을때 인서트처리 하겠다는 마킹
+	@RequestMapping(value = "/modifyNewMark", method = RequestMethod.POST)
+	public ResponseEntity<String> modifyNewMark(@RequestParam("newStuStack") int newStuStack) {
+		ResponseEntity<String> result = null;
+		System.out.println(newStuStack + "스터디 언어에 new 처리 마킹하자");
+
+		boolean isFind = false;
+
+		
+		stuStackList.add(new StuStackDTO(0, stuStackList.get(0).getStuBoardNo(), newStuStack, null, false, false));
+		
+		
+		for (StuStackDTO stack : this.stuStackList) {
+			
+			if (stack.getChooseStack() == newStuStack) {
+				// stack의 언어 넘버와 view단에서 넘어온 추가할 스터디 언어 넘버가 같다면
+				stack.setNew(true); // 새로 인서트하겠다는 마킹 남기기
+				isFind = true;
+				break;
+				
+				
+			}
+		}
+		
+		System.out.println("===================== 수정시 스터디 언어 new 마킹 =======================");
+		for (StuStackDTO stack : this.stuStackList) {
+			System.out.println(stack.toString());
+		}
+		System.out.println("====================================================================");
+
+		if (!isFind) { // 언어를 못찾았다면
+			result = new ResponseEntity<String>("newMarkfail", HttpStatus.CONFLICT);
+		} else {
+			result = new ResponseEntity<String>("newMarkSuccess", HttpStatus.OK);
+		}
+
+		return result;
+	}
+
+	// 스터디 언어 삭제버튼을 눌렀을때 삭제처리 하겠다는 마킹
+	@RequestMapping(value = "/modifyRemMark", method = RequestMethod.POST)
+	public ResponseEntity<String> modifyRemMark(@RequestParam("remStuStack") int remStuStack) {
+		ResponseEntity<String> result = null;
+		System.out.println(remStuStack + "스터디 언어에 delete 처리 마킹하자");
+
+		boolean isFind = false;
+
+		for (StuStackDTO stack : this.stuStackList) {
+			if (stack.getChooseStack() == remStuStack) {
+				// stack의 언어 넘버와 view단에서 넘어온 삭제할 스터디 언어 넘버가 같다면
+				stack.setDelete(true); // 삭제하겠다는 마킹 남기기
+				isFind = true;
+				break;
+			}
+		}
+		
+		System.out.println("===================== 수정시 스터디 언어 delete 마킹 =======================");
+		for (StuStackDTO stack : this.stuStackList) {
+			System.out.println(stack.toString());
+		}
+		System.out.println("====================================================================");
+
+		if (!isFind) { // 언어를 못찾았다면
+			result = new ResponseEntity<String>("remMarkFail", HttpStatus.CONFLICT);
+		} else {
+			result = new ResponseEntity<String>("remMarkSuccess", HttpStatus.OK);
 		}
 
 		return result;
@@ -261,28 +337,28 @@ public class StudyContoller {
 	// 스터디 언어로 게시글 가져오는 메서드
 	@ResponseBody // json으로 응답 해줄때 쓰는 어노테이션
 	@RequestMapping(value = "/searchStudyByStack", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
-	public ResponseEntity<Map<String, Object>> searchStudyByStack(@RequestBody List<String> studyStackList, Model model) {
-		//@RequestBody는 json으로 요청 받을때 쓰는 어노테이션
-		
+	public ResponseEntity<Map<String, Object>> searchStudyByStack(@RequestBody List<String> studyStackList,
+			Model model) {
+		// @RequestBody는 json으로 요청 받을때 쓰는 어노테이션
+
 		logger.info(studyStackList.toString());
 		ResponseEntity<Map<String, Object>> result = null;
 		Map<String, Object> map = null;
 		try {
 			map = stuService.searchStudyByStack(studyStackList);
-			System.out.println("Controller 검색할 스터디 언어 갯수 :" +studyStackList.size());
-			
+			System.out.println("Controller 검색할 스터디 언어 갯수 :" + studyStackList.size());
+
 			if (studyStackList.size() > 0) {
 				result = new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 			} else {
 				result = new ResponseEntity<Map<String, Object>>(HttpStatus.CONFLICT);
 			}
-			
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return result;
 	}
 
