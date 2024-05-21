@@ -330,28 +330,24 @@ public class LectureBoardController {
 	 */
 	@RequestMapping(value = "/like", method = RequestMethod.POST)
 	public ResponseEntity<String> likeBoard(@RequestBody Map<String, String> likeRequest) {
-		String lecNoStr = likeRequest.get("lecNo"); // 게시글 번호를 문자열로 가져오기
-		String user = likeRequest.get("user"); // 유저를 문자열로 가져오기
+	    try {
+	    	// 게시글 번호와 유저 정보를 likeRequest 변수에 저장
+	        int lecNo = Integer.parseInt(likeRequest.get("lecNo")); // int타입으로 변환
+	        String user = likeRequest.get("user");
 
-		logger.info(user + "가 " + lecNoStr + "번 게시글에 좋아요를 눌렀습니다!");
-
-		ResponseEntity<String> result = null; // 객체 선언
-
-		try {
-			// 문자열로 변환한 게시글 번호를 다시 정수로 변환
-			int lecNo = Integer.parseInt(lecNoStr);
-			
-			if (lService.insertLikeBoard(lecNo, user) == 1) {
-				// 좋아요 버튼 누르기 성공한 경우
-				result = new ResponseEntity<String>("success", HttpStatus.OK);
-			}
-		} catch (Exception e) {
-			// 좋아요 버튼 누르기 실패한 경우
-			e.printStackTrace();
-			result = new ResponseEntity<String>("fail", HttpStatus.CONFLICT);
-		}
-
-		return result;
+	        // 서비스단 호출
+	        if (lService.likeBoard(lecNo, user)) {
+	        	// 좋아요 버튼 눌렀을 경우가 성공했을 경우
+	        	
+	            return ResponseEntity.ok("success");
+	        } else {
+	        	// 좋아요 버튼 눌렀을 경우가 실패한 경우
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("fail");
+	        }
+	        
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("error");
+	    }
 	}
 
 }
