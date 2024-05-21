@@ -113,32 +113,40 @@
 		</choose>
 	</select>
 
+	<!-- <select id="searchStudyByStack"
+		resultType="com.dodeveloper.study.vodto.StudyBoardVO">
+		select sb.* from studyBoard sb inner join stuStack st on sb.stuNo =
+		st.stuBoardNo
+		where chooseStack in
+		<foreach collection="list" item="item" open="(" close=")"
+			separator=","> #{item} </foreach>
+		order by wrritenDate desc
+	</select> -->
+
 	<select id="searchStudyByStack"
 		resultType="com.dodeveloper.study.vodto.StudyBoardVO">
 
-		select sb.* from studyBoard sb
-		inner join stuStack st
-		on sb.stuNo = st.stuBoardNo
-		where chooseStack in
-		
+		select distinct stuNo,
+		stuWriter, stuTitle, stuContent, stuLoc, stuX,
+		stuY, stuDate, stuPers,
+		contactLink, status, endDate, scrape,
+		readCount, wrritenDate, bType
+		from studyBoard
+		where stuNo in
+		(select
+		distinct stuBoardNo from stuStack where chooseStack in
+
 		<foreach collection="list" item="item" open="(" close=")"
 			separator=",">
 			#{item}
-		</foreach>
-		
+		</foreach>)
+
 		order by wrritenDate desc
 	</select>
 
-<!-- 	<select id="getListTest" resultType="members">
-		SELECT m.*,a.name FROM members AS m
-		JOIN authority AS a ON m.authority = a.authority
-		WHERE m.authority IN
-		<foreach collection="chkList" item="item" open="(" close=")"
-			separator=",">
-			#{item.authority}
-		</foreach>
-		ORDER BY m.authority;
-	</select>
- -->
+	<!-- <select id="getListTest" resultType="members"> SELECT m.*,a.name FROM 
+		members AS m JOIN authority AS a ON m.authority = a.authority WHERE m.authority 
+		IN <foreach collection="chkList" item="item" open="(" close=")" separator=","> 
+		#{item.authority} </foreach> ORDER BY m.authority; </select> -->
 
 </mapper>

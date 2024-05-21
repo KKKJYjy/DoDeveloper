@@ -77,7 +77,7 @@
 
 		//스터디 언어 선택했을 때 필터링 
 		$('.studyLang').on("select2:select", function() {
-			console.log($('.studyLang').val());
+			console.log("select", $('.studyLang').val());
 
 			//필터링할 스터디 1개 이상일때만 ajax호출
 			if ($('.studyLang').val().length > 0) {
@@ -89,14 +89,14 @@
 		//스터디 언어 삭제했을 때 필터링
 		$(".studyLang").on("select2:unselect", function() {
 			//alert("!");
-			//console.log($('.studyLang').val());
+			console.log("unselect" ,$('.studyLang').val());
 			
 			if($('.studyLang').val().length == 0){
 				$(".studyList").css("display","block");
 				$(".paging").css("display","block");
 				$(".studyListBySearch").empty();
-				
 			}
+			
 			if ($('.studyLang').val().length > 0) {
 				searchStudy();
 			}
@@ -119,6 +119,8 @@
 	});
 	
 	function searchStudy(){
+		console.log($('.studyLang').val());
+		
 		$.ajax({
 			url : '/study/searchStudyByStack',
 			type : 'post',
@@ -166,10 +168,10 @@
 			output += `<p class="card-text">`;
 			
 			//스터디 언어는 여러개이므로 함수를 이용해 값을 비교해서 가져온다
+			
 			let stackName = [];
 			stackName = getStudyStack(e.stuNo, stuStackList);
-			//console.log(stackName.length);
-			
+			console.log(stackName);
 			for(let j=0; j < stackName.length; j++){
 				//console.log(stackName[j])
 				output += `<span class="badge text-bg-secondary me-1">\${stackName[j]}</span>`;			
@@ -196,7 +198,7 @@
 	function getStudyStack(stuNo, stuStackList){
 		//console.log(stuNo, stuStackList);
 		let result = [];
-		
+		//console.log(result);
 		$.each(stuStackList, function(i, e){
 			if(e.stuBoardNo == stuNo){
 				//console.log(i, e);
