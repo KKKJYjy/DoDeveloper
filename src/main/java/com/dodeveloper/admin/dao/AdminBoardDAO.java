@@ -64,11 +64,9 @@ public interface AdminBoardDAO {
     List<ReportVO> selectReport() throws Exception;
 
 
-	
 
-    
-//    // ?번 글을 가져오는 메서드
-//    ReportVO selectReportBoardNo(int reportNo) throws Exception;
+    // ?번 글을 가져오는 메서드
+   ReportVO selectReportBoardNo(int btypeNo) throws Exception;
     
     
 }

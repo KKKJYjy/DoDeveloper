@@ -41,7 +41,7 @@
 		if (valueArr.length == 0) {
 			alert("선택된 게시글이 없습니다");
 		} else {
-			let chk = confirm("정말 삭제하시겠습니까?");
+			$('#myModal').show();
 			if (!chk) {
 				location.replace("report")
 			} else {
@@ -67,16 +67,20 @@
 		}
 	}
 
-	
-	function modal() {
-		let modalText = document.getElementById("modalText");
-		$('#myModal').show();
-		let valueToPass = `${report.reportNo }`; // 전달할 변수 값
-		modalText.textContent = valueToPass; // 변수 값을 모달 텍스트로 설정
-		
-		
-	}
+	//	function modal() {
+	//let modalText = document.getElementById("modalText");
+	//	$('#myModal').show();
+	//let valueToPass = `${report.reportNo }`; // 전달할 변수 값
+	//modalText.textContent = valueToPass; // 변수 값을 모달 텍스트로 설정
 
+	//	}
+
+	/* function modal() {
+
+		window.location.href = '/admin/viewReport';
+
+	}
+ */
 	let modalText = document.getElementById("modalText");
 
 	document.addEventListener("DOMContentLoaded", function() {
@@ -95,11 +99,7 @@
 			}
 		});
 
-	}); 
-	
-
-	
-	
+	});
 </script>
 <style>
 body {
@@ -157,6 +157,11 @@ to {
 #deleteButton {
 	position: relative;
 	width: 70px;
+	margin: 10px;
+}
+
+#reportInput {
+	height: 150px;
 }
 </style>
 
@@ -183,19 +188,20 @@ to {
 				<thead>
 					<tr>
 						<th><input id="allCheck" type="checkbox" name="allCheck" /></th>
-						<th>신고 번호</th>
+						<th>번호</th>
 						<th>게시판 구분</th>
-						<th>게시글 번호</th>
+						<th>글 번호</th>
 						<th>작성자</th>
 						<th>신고 일자</th>
 						<th>신고자</th>
+						<th>게시판 번호</th>
 					</tr>
 				</thead>
 				<tbody>
 
 					<c:forEach var="board" items="${reportList }">
 
-						<tr id="table" onclick="modal();">
+						<tr id="table" onclick="location.href='/admin/viewReport?btypeNo=${board.btypeNo}';">
 							<td><input type="checkbox" name="rowCheck"
 								class="deleteCheckbox" id="myCheckbox"
 								value="${board.reportNo }" /></td>
@@ -205,9 +211,8 @@ to {
 							<td>${board.writer }</td>
 							<td>${board.reportDate }</td>
 							<td>${board.reporter }</td>
-
+							<td>${board.btypeNo }</td>
 						</tr>
-
 
 
 					</c:forEach>
@@ -221,6 +226,7 @@ to {
 			<div class="modal-content">
 				<span class="close">&times;</span>
 				<p id="modalText"></p>
+				<textarea id="reportInput" placeholder="삭제 사유를 입력하세요."></textarea>
 				<button type="button" class="btn btn-secondary deBtn"
 					id="deleteButton">삭제</button>
 			</div>

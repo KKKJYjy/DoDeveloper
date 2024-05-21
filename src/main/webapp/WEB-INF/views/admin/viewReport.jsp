@@ -10,6 +10,8 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
-	${report.reportReason }
+	
+	
+	<c:import url="http://localhost:8081/lecture/listAll"></c:import>
 </body>
 </html>

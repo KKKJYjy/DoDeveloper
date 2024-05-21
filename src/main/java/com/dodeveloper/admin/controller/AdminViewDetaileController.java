@@ -18,18 +18,18 @@ public class AdminViewDetaileController {
 		logger.info("상세페이지 호출");
 	}
 	
-	@RequestMapping(value = "/viewBoard", method = RequestMethod.GET)
-	public void viewBoard() {
-		logger.info("강의추천 상세페이지 호출");
-	}
-	
-	@RequestMapping(value = "/algDetail", method = RequestMethod.GET)
-	public void algDetail() {
-		logger.info("알고리즘 상세페이지 호출");
-	}
-	
-	@RequestMapping(value = "/reviewDetails", method = RequestMethod.GET)
-	public void reviewDetails() {
-		logger.info("리뷰게시판 상세페이지 호출");
-	}
+//	@RequestMapping(value = "/viewBoard", method = RequestMethod.GET)
+//	public void viewBoard() {
+//		logger.info("강의추천 상세페이지 호출");
+//	}
+//	
+//	@RequestMapping(value = "/algDetail", method = RequestMethod.GET)
+//	public void algDetail() {
+//		logger.info("알고리즘 상세페이지 호출");
+//	}
+//	
+//	@RequestMapping(value = "/reviewDetails", method = RequestMethod.GET)
+//	public void reviewDetails() {
+//		logger.info("리뷰게시판 상세페이지 호출");
+//	}
 }

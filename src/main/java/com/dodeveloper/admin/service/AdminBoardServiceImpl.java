@@ -280,13 +280,16 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 
 
 
-//	@Override
-//	public ReportVO getReportNO(int reportNo) throws Exception {
-//		
-//		ReportVO report = bDao.selectReportBoardNo(reportNo);
-//		
-//		return report;
-//	}
+	@Override
+	public ReportVO getReportNO(int btypeNo) throws Exception {
+		
+		System.out.println("서비스단 : 신고게시글 상세조회");
+		
+		ReportVO report = bDao.selectReportBoardNo(btypeNo);
+		
+		
+		return report;
+	}
 
 
 
