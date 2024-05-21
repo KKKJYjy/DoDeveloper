@@ -271,4 +271,18 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 		return ses.insert(ns + ".insertLikeBoard", params);
 	}
 
+	/**
+	 * @methodName : updateLikeBoard
+	 * @author : kde
+	 * @date : 2024.05.20
+	 * @param : int lecNo - 게시글 번호
+	 * @return : int
+	 * @description : 게시글에 좋아요 버튼 눌렀을 경우 갯수 1개 update (전체 게시글에 보여주기)
+	 */
+	@Override
+	public int updateLikeCount(int lecNo) throws Exception {
+		
+		return ses.update(ns + ".updateLikeCount", lecNo);
+	}
+
 }
