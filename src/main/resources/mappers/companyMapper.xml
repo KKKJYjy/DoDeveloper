@@ -27,4 +27,9 @@
 	<delete id="deleteRevWrittenBoard">
 		delete from companyrevboard where revNo = #{revNo}
 	</delete>
+	
+	<!-- 수정 할 기업 리뷰 글 불러오기 (select) -->
+	<select id="getEditRevWrittenBoard" resultType="com.dodeveloper.company.vodto.RevCompanyBoardVO">
+		select * from companyrevboard where revNo = #{revNo}
+	</select>
 </mapper>    
