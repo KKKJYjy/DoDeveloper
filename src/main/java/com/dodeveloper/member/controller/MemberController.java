@@ -32,6 +32,7 @@ import com.dodeveloper.member.dto.RegisterDTO;
 import com.dodeveloper.member.dto.SessionDTO;
 import com.dodeveloper.member.service.MemberService;
 import com.dodeveloper.member.vo.MemberVO;
+import com.dodeveloper.message.service.MessageService;
 import com.dodeveloper.mypage.dto.ChangeProfileDTO;
 
 @Controller
@@ -42,6 +43,9 @@ public class MemberController {
 
 	@Autowired
 	private MemberService mService;
+	
+	@Autowired
+	private MessageService messageService;
 	
 	@GetMapping("/login")
 	public void loginGet() {
@@ -68,10 +72,11 @@ public class MemberController {
 				mService.keepLogin(new SessionDTO(sessionId, sessionLimit, loginMember.getUserId()));
 			}
 			model.addAttribute(SessionNames.LOGIN_MEMBER, loginMember);
-			
+			session.setAttribute(SessionNames.UNREAD_MESSAGE_CNT, messageService.countUnreadReceivedMessages(loginDTO.getUserId()));	
 			System.out.println("로그인 성공2");
 			
 			result = "/member/loginPost";
+
 		} else {
 			model.addAttribute("loginResult", "fail");
 			
