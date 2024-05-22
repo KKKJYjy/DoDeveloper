@@ -303,30 +303,49 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	 * @param : int lecNo - 게시글 번호
 	 * @param : String user - 좋아요를 누르는 유저
 	 * @return : boolean
-	 * @throws Exception 
 	 * @description : 로그인 한 유저인 경우만 좋아요를 누를 수 있다.
      * 유저가 하트를 눌렀을 때 좋아요 수가 1증가 -> ♥
+	 */
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+	public boolean likeUpBoard(int lecNo, String user) throws Exception {
+		
+		boolean result = false; // 초기값 설정
+		
+		// 좋아요를 눌렀는지 안눌렀는지 확인후 안눌렀을 경우
+		if (lDao.selectLikeBoard(lecNo, user) != 1) {
+			lDao.insertLikeBoard(lecNo, user); // 좋아요를 누른다.
+			lDao.updateLikeCount(lecNo); // 좋아요 수를 1 증가
+			System.out.println("서비스단 : " + lecNo + "번 글에 " + user + "가 좋아요를 눌렀습니다!");
+		}
+		
+		return result;
+	}
+
+	/**
+	 * @methodName : likeBoard
+	 * @author : kde
+	 * @date : 2024.05.21
+	 * @param : int lecNo - 게시글 번호
+	 * @param : String user - 좋아요를 취소하는 유저
+	 * @return : boolean
+	 * @description : 로그인 한 유저 + 좋아요를 눌렀던 유저일 경우만 좋아요를 취소할 수 있다.
      * 유저가 하트를 한번 더 눌렀을 경우 1감소 -> ♡
 	 */
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-	public boolean likeBoard(int lecNo, String user) throws Exception {
+	public boolean likeDownBoard(int lecNo, String user) throws Exception {
 		
-		boolean result = false;
+		boolean result = false; // 초기값 설정
 		
-	        // 좋아요 버튼 누르기 성공한 경우
-	        if (lDao.insertLikeBoard(lecNo, user) == 1) {
-	            // 성공한 경우 좋아요 갯수 1개 up
-	            lDao.updateLikeCount(lecNo);
-	            
-	            System.out.println("좋아요 버튼 누르고 갯수 1개 up 성공");
-	            
-	            result = true;
-	        } else {
-	        	// 좋아요 버튼 누르기 실패한 경우
-	        	System.out.println("좋아요 버튼 누르기 실패!");
-	        }
-	    return result;
+		// 좋아요를 눌렀는지 안눌렀는지 확인후 눌렀던 경우
+		if (lDao.selectLikeBoard(lecNo, user) == 1) {
+			lDao.deleteLikeBoard(lecNo, user); // 눌렀던 좋아요를 취소한다.
+			lDao.updateLikeDownCount(lecNo); // 좋아요 수를 1 감소
+			System.out.println("서비스단 : " + lecNo + "번 글에 " + user + "가 좋아요를 취소했습니다!");
+		}
+		
+		return result;
 	}
 
 }
