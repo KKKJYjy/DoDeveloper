@@ -39,8 +39,23 @@ public class MessageBoxDAOImpl implements MessageBoxDAO{
 	}
 
 	@Override
-	public int selectMessageBoxCntByReceiverId(String receiver) throws Exception {
+	public int selectReceivedMessageCnt(String receiver) throws Exception {
 		return template.selectOne(namespace + ".selectMessageBoxCntByReceiver", receiver);
+	}
+
+	@Override
+	public List<MessageBoxVO> selectMessageBoxByMessageNo(int messageNo) throws Exception {
+		return template.selectList(namespace + ".selectMessageBoxByMessageNo", messageNo);
+	}
+
+	@Override
+	public int countUnreadMessages(String receiver) throws Exception {
+		return template.selectOne(namespace + ".countUnreadMessages", receiver);
+	}
+
+	@Override
+	public int updateIsRead(String receiver) throws Exception {
+		return template.update(namespace + ".updateIsRead", receiver);
 	}
 
 }
