@@ -27,14 +27,53 @@ public interface AdminBoardDAO {
 	// 공지사항 조회 메서드
 	List<NoticeDTO> selectListNotcBoard(PagingInfo pi) throws Exception;
 
-	// 게시글 전체 갯수 구할 수 있는 메서드
+	// 스터디게시글 전체 갯수 구할 수 있는 메서드
 	int selectTotalBoardCnt() throws Exception;
+	
+	// 강의추천게시글 전체 갯수 구할 수 있는 메서드
+	int selectLecTotalBoardCnt() throws Exception;
+	
+	// 알고리즘 게시글 전체 갯수 구할 수 있는 메서드
+	int selectAlgTotalBoardCnt() throws Exception;
+	
+	// 기업리뷰 게시글 전체 갯수 구할 수 있는 메서드
+	int selectRevTotalBoardCnt() throws Exception;
+	
+	// 공지사항 게시글 전체 갯수 구할 수 있는 메서드
+	int selectNotcTotalBoardCnt() throws Exception;
 	
 	// 검색된 글의 갯수를 가져오는 메서드
 	int selectBoardSearchCritera(SearchCriteriaDTO sc) throws Exception;
 	
 	// 검색어가 있을 경우 검색된 글을 가져오는 메서드
 	List<AdminVO> selectBoardListSC(SearchCriteriaDTO sc, PagingInfo pi) throws Exception;
+	
+	// lec 검색된 글의 갯수를 가져오는 메서드
+	int selectLecBoardSearchCritera(SearchCriteriaDTO sc) throws Exception;
+	
+	// lec 검색어가 있을 경우 검색된 글을 가져오는 메서드
+	List<AdminLectureVO> selectLecBoardListSc(SearchCriteriaDTO sc, PagingInfo pi) throws Exception;
+	
+	// alg 검색된 글의 갯수를 가져오는 메서드
+	int selectAlgBoardSearchCritera(SearchCriteriaDTO sc) throws Exception;
+	
+	// alg 검색어가 있을 경우 검색된 글을 가져오는 메서드
+	List<AdminArgBoardVO> selectAlgBoardListSc(SearchCriteriaDTO sc, PagingInfo pi) throws Exception;
+	
+	// 기업리뷰 검색된 글의 갯수를 가져오는 메서드
+	int selectRevBoardSearchCritera(SearchCriteriaDTO sc) throws Exception;
+	
+	// 기업리뷰 검색된 글의 갯수를 가져오는 메서드
+	List<AdminReviewBoardVO> selectRevBoardListSc(SearchCriteriaDTO sc, PagingInfo pi) throws Exception;
+	
+	// 공지사항 검색된 글의 갯수를 가져오는 메서드
+	int selectNotcBoardSearchCritera(SearchCriteriaDTO sc) throws Exception;
+	
+	// 공지사항 검색된 글의 갯수를 가져오는 메서드
+	List<NoticeDTO> selectNotcBoardListSc(SearchCriteriaDTO sc, PagingInfo pi) throws Exception;
+	
+	
+	
 	
 	// stuNo번 글 삭제
 	// int stuBoardDelete(int stuNo) throws Exception;

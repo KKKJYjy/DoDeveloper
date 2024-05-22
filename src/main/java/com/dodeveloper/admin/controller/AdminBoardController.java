@@ -60,51 +60,91 @@ public class AdminBoardController {
 	}
 
 	@RequestMapping(value = "/lectureBoard", method = RequestMethod.GET)
-	public void lectureBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo)
-			throws Exception {
+	public void lectureBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+			SearchCriteriaDTO sc) throws Exception {
 		logger.info("lectureBoard 조회");
+		
+		Map<String, Object> returnMap = null;
+		
+		String resultPage = null;
 
 		// List<AdminLectureVO> lecBoardList = bService.getlistLectureBoard();
+		
+		if (pageNo <= 0) {
+			pageNo = 1;
+		}
 
-		Map<String, Object> returnMap = bService.getlistLectureBoard(pageNo);
+		returnMap = bService.getlistLectureBoard(pageNo, sc);
 		model.addAttribute("lecBoardList", (List<AdminLectureVO>) returnMap.get("lecBoardList"));
 		model.addAttribute("pagingInfo", (PagingInfo) returnMap.get("pagingInfo"));
+		
+		resultPage = "/admin/lectureBoard";
 
 	}
 
 	@RequestMapping(value = "/algorithmBoard", method = RequestMethod.GET)
-	public void algorithmBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo)
-			throws Exception {
+	public void algorithmBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+			SearchCriteriaDTO sc) throws Exception {
 		logger.info("algorithmBoard 조회");
+		
+		Map<String, Object> returnMap = null;
+		
+		String resultPage = null;
+		
+		if (pageNo <= 0) {
+			pageNo = 1;
+		}
 
-		Map<String, Object> returnMap = bService.getlistArgBoard(pageNo);
+		returnMap = bService.getlistArgBoard(pageNo, sc);
 		model.addAttribute("argBoardList", (List<AdminArgBoardVO>) returnMap.get("argBoardList"));
 		model.addAttribute("pagingInfo", (PagingInfo) returnMap.get("pagingInfo"));
+		
+		resultPage = "/admin/algorithmBoard";
 
 	}
 
 	@RequestMapping(value = "/reviewBoard", method = RequestMethod.GET)
-	public void reviewBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo)
-			throws Exception {
+	public void reviewBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+			SearchCriteriaDTO sc) throws Exception {
 		logger.info("reviewBoard 조회");
+		
+		Map<String, Object> returnMap = null;
+		
+		String resultPage = null;
+		
+		if (pageNo <= 0) {
+			pageNo = 1;
+		}
 
 		// Map<String, Object> returnMap = bService.getlistRevBoard(pageNo);
-		Map<String, Object> returnMap = bService.getlistRevBoard(pageNo);
+		returnMap = bService.getlistRevBoard(pageNo, sc);
 		model.addAttribute("revBoardList", (List<AdminReviewBoardVO>) returnMap.get("revBoardList"));
 		model.addAttribute("pagingInfo", (PagingInfo) returnMap.get("pagingInfo"));
 
+		resultPage = "/admin/reviewBoard";
+		
 	}
 
 	@RequestMapping(value = "/noticeBoard", method = RequestMethod.GET)
-	public void noticeBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo)
-			throws Exception {
+	public void noticeBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+			SearchCriteriaDTO sc) throws Exception {
 		logger.info("공지사항 조회");
+		
+		Map<String, Object> returnMap = null;
+		
+		String resultPage = null;
+		
+		if (pageNo <= 0) {
+			pageNo = 1;
+		}
+		
 
-		Map<String, Object> returnMap = bService.getlistNotcBoard(pageNo);
-
+		returnMap = bService.getlistNotcBoard(pageNo, sc);
 		model.addAttribute("notcBoardList", (List<NoticeDTO>) returnMap.get("notcBoardList"));
 		model.addAttribute("pagingInfo", (PagingInfo) returnMap.get("pagingInfo"));
 
+		resultPage = "/admin/noticeBoard";
+		
 	}
 
 	@RequestMapping(value = "/delete")

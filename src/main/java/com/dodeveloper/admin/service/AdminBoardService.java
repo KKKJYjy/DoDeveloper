@@ -17,16 +17,16 @@ public interface AdminBoardService {
 		Map<String, Object> getlistStudyBoard(int pageNo, SearchCriteriaDTO sc) throws Exception;
 	
 	// 강의추천게시판 조회하는 메서드
-		Map<String, Object> getlistLectureBoard(int pageNo) throws Exception;
+		Map<String, Object> getlistLectureBoard(int pageNo, SearchCriteriaDTO sc) throws Exception;
 		
 	// 알고리즘게시판 조회하는 메서드
-		Map<String, Object> getlistArgBoard(int pageNo) throws Exception;
+		Map<String, Object> getlistArgBoard(int pageNo, SearchCriteriaDTO sc) throws Exception;
 		
 	//  기업리뷰게시판 조회하는 메서드
-		Map<String, Object> getlistRevBoard(int pageNo) throws Exception;
+		Map<String, Object> getlistRevBoard(int pageNo, SearchCriteriaDTO sc) throws Exception;
 		
 	// 공지사항 조회하는 메서드
-		Map<String, Object> getlistNotcBoard(int pageNo) throws Exception;
+		Map<String, Object> getlistNotcBoard(int pageNo, SearchCriteriaDTO sc) throws Exception;
 		
 	// 스터디 게시물 삭체 처리하는 메서드
 	//	boolean studeleteBoard(int stuNo) throws Exception;
