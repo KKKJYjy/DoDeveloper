@@ -37,7 +37,6 @@ public class AlgServiceImpl implements AlgService {
 		// boardNo 에 해당하는 algDetail 리스트 받아오기
 		List<AlgDetailDTO> algDetailList = null;
 		System.out.println(boardNo+"번의 알고리즘 조회");
-		
 //		LoginDTO loginDTO = null;
 //		System.out.println(loginDTO.getUserId());
 		
@@ -47,6 +46,8 @@ public class AlgServiceImpl implements AlgService {
 			// 
 			e.printStackTrace();
 		}
+		System.out.println(algDetailList);
+		
 		
 		return algDetailList;
 	}

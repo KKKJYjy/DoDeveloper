@@ -50,52 +50,62 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
 	function chageSelect() {
-		
+
 		// 셀렉트 태그로 AlgDetail 중 하나를 선택하면  항목에 해당하는 text 형태의 algDetail.toString 을 select란 변수로 받아옴.
 		// 이후 select 을 분리해서 각각의 값을 게시글 번호, 게시글 제목, 코드 내용, 코드 실행결과 등의 항목에 디폴트 값으로 넣고 
 		// 이 값들을 수정할 수 있도록 함 (처음부터 다시 써서 수정하는게 힘드니까)
-		
+
 		select = $("#selectAlgDetailTitle").val();
-		console.log(select);  // 셀렉트 태그에서 선택 시  
-		selectTitle = $("select[name=selectAlgDetailTitle] option:selected").text();
-		console.log($("select[name=selectAlgDetailTitle] option:selected").text()); //text값 가져오기 (algDetailTitle) 가져옴
-		
-		
-		
+		console.log(select); // 셀렉트 태그에서 선택 시  
+		selectTitle = $("select[name=selectAlgDetailTitle] option:selected")
+				.text();
+		console.log($("select[name=selectAlgDetailTitle] option:selected")
+				.text()); //text값 가져오기 (algDetailTitle) 가져옴
+
 		algDetailNo = select.split('algDetailNo=')[1].split(',')[0]
-		
-		algDetailContent = select.split('algDetailContent=')[1].split(', algDetailResult')[0]
-		
-		algDetailResult = select.split('algDetailResult=')[1].split(', algDetailTitle')[0]
-		
-		algDetailComment = select.split('algDetailComment=')[1].split(', boardType')[0]
-		
-		
+
+		algDetailContent = select.split('algDetailContent=')[1]
+				.split(', algDetailResult')[0]
+
+		algDetailResult = select.split('algDetailResult=')[1]
+				.split(', algDetailTitle')[0]
+
+		algDetailComment = select.split('algDetailComment=')[1]
+				.split(', boardType')[0]
+
 		$("#algDetailNo").val(algDetailNo);
 		$("#algDetailTitle").val(selectTitle);
 		$("#algDetailContent").val(algDetailContent);
 		$("#algDetailResult").val(algDetailResult);
 		$("#algDetailComment").val(algDetailComment);
+
+		var text = document.querySelector('textarea');
+		var enter = text.value.replace(/(\n|\r\n)/g, '<br>');
+		var tab = text.value.replace(/(\t|\r\t)/g, '&emsp;');
+		console.log(enter);
+		console.log(tab);
 		
 	}
-	
+
+
+		
+		
 	$(function() {
 		
-		
-		
+		let a = 1;
+		let b = 2;
+		console.log(a+b);
 		
 		
 	});
-	
-
 </script>
 <style>
-	textarea {
-    width: 100%;
-    height: 16.25em;
-    border: none;
-    resize: none;
-  }
+textarea {
+	width: 100%;
+	height: 16.25em;
+	border: none;
+	resize: none;
+}
 </style>
 </head>
 
@@ -149,15 +159,19 @@
 					</div>
 
 
+							<!--  event.keyCode == 9 (tab 키를 누르면 텍스트 박스에서 tab 이 적욕되도록 함 -->
 					<div class="mb-3 mt-3">
 
 						<label for="title" class="form-label">게시글 내용 : </label>
-						<textarea class="form-control"
-							value="${algDetail[0].algDetailContent }" id="algDetailContent"
-							placeholder="입력하세요..." name="algDetailContent"></</textarea>
+						<textarea
+							onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}"
+							class="form-control" value="${algDetail[0].algDetailContent }"
+							id="algDetailContent" placeholder="입력하세요..."
+							name="algDetailContent"></</textarea>
 					</div>
-
 					
+					
+
 					<div class="mb-3 mt-3">
 
 						<label for="title" class="form-label">실행결과 : </label> <input

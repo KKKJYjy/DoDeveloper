@@ -62,7 +62,7 @@
 				<h1>알고리즘</h1>
 				<h1>alg</h1>
 
-				<py-script> print('Hello, World!') </py-script>
+				
 
 				<div class="container mt-3">
 					<h2>알고리즘 목록</h2>

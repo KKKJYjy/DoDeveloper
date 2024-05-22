@@ -54,7 +54,25 @@
 <!--  pyscript -->
 <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
 <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+<!--  리스트 길이 구하는 함수 포함 -->
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
+
+<script>
+	$(function () {
+		console.log("aaa");
+		let enter = ${algDetailList[0].algDetailContent}.value.replace(/(\n|\r\n)/g, '<br>');
+		console.log(enter)
+        $('#test').html();
+	});
+	
+	$(document).ready(function() {
+		$('#test').val('aaa');
+    });
+</script>
+
 </head>
+
 
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
 	<%@ include file="../header.jsp"%>
@@ -71,50 +89,57 @@
 				<h1>${algDetailList[0].algDetailContent}</h1>
 				<h1>${algDetailList[1].algDetailContent}</h1>
 
-
+				<h2>${fn:length(algDetailList)}</h2>
 
 				<h1>alg</h1>
+				
+				
 
 
-				<py-script> 
-					def bubbleSort(arr):
-						n = len(arr)
-					
-						for i in range(n-1):
-							swapped = False
-							for j in range(0,n-i-1):
-								if arr[j]>arr[j+1]:
-									swapped = True
-									arr[j], arr[j+1] = arr[j+1],arr[j]
-								
-							if not swapped:
-								return
-					
-					arr = [64,34,25,12,22,11,90]
-					bubbleSort(arr)
-					
-					print("Sorted array is:")
-					for i in range(len(arr)):
-						print("% d" % arr[i], end=" ")
-				</py-script>
-				<py-script>
-					${algDetailList[0].algDetailContent}
-				</py-script>
-				<py-script>
-					${algDetailList[1].algDetailContent}
-				</py-script>
+				<py-script> def bubbleSort(arr): n = len(arr) for i in
+				range(n-1): swapped = False for j in range(0,n-i-1): if
+				arr[j]>arr[j+1]: swapped = True arr[j], arr[j+1] = arr[j+1],arr[j]
+
+				if not swapped: return arr = [64,34,25,12,22,11,90] bubbleSort(arr)
+
+				print("Sorted array is:") for i in range(len(arr)): print("% d" %
+				arr[i], end=" ") </py-script>
+				<py-script> ${algDetailList[0].algDetailContent} </py-script>
+				<py-script> ${algDetailList[1].algDetailContent} </py-script>
 
 
 
-				<!--  
-           -->
-				${SessionNames.LOGIN_MEMBER}
 
 
+				<div id='test' type="text">???</div>
 
 				<div>${algDetailList}</div>
 
 				<div>${algDetailList[0].algBoardNo}</div>
+
+
+
+
+
+				<c:forEach var="algDetail" items="${algDetailList}" begin="0"
+					end="${fn:length(algDetailList)}">
+
+					<div class="container mt-3">
+						<h2>${algDetail.algDetailTitle}</h2>
+						<div>${algDetail.algDetailNo}</div>
+						<div class="mt-4 p-5 bg-primary text-white rounded">
+							<h1>code</h1>
+							<p>${algDetail.algDetailContent}</p>
+							<h1>result</h1>
+							<p><py-script> ${algDetail.algDetailContent} </py-script></p>
+						</div>
+					</div>
+					<div></div>
+				</c:forEach>
+
+
+
+
 			</div>
 		</section>
 

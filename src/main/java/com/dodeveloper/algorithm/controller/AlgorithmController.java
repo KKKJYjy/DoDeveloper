@@ -47,6 +47,7 @@ public class AlgorithmController {
 		returnMap = aService.getListAllBoard();
 		
 		
+		
 		model.addAttribute("algBoardList",returnMap);
 	}
 	
@@ -63,6 +64,7 @@ public class AlgorithmController {
 		
 		returnMap = aService.getListDetail(boardNo);
 		
+		//System.out.println(returnMap);
 		
 		model.addAttribute("algDetailList", returnMap);
 		//model.addAttribute("login", loginDTO);
