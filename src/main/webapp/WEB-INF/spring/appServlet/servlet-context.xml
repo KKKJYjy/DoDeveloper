@@ -70,6 +70,9 @@
 			<!-- 기업 리뷰 작성하기 -->  
 			<mapping path="/companyInfo/writtenBoard" /> 
 
+			<!-- 메세지 조회하기 -->
+			<mapping path="/message"/>
+
 			<beans:ref bean="authInterceptor" />
 		</interceptor>
 
