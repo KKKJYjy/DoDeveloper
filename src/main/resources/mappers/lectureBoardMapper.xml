@@ -127,6 +127,11 @@
 		 limit #{startRowIndex}, #{viewPostCntPerPage}
 	</select>
 	
+	<!-- 유저가 게시글에 하트를 눌렀는지 안눌렀는지 확인하는 쿼리문 -->
+	<select id="selectLikeBoard" resultType="int">
+		select count(*) from lectureLikeInfo where lecLikeUser = #{user} and lecNo = #{lecNo}
+	</select>
+	
 	<!-- 유저가 게시글에 하트를 눌렀을 경우 insert 되는 쿼리문 -->
 	<insert id="insertLikeBoard">
 		insert into lectureLikeInfo(lecNo, lecLikeUser) values(#{lecNo}, #{user})
@@ -137,5 +142,14 @@
 		update lectureBoard set lecLikeCount = lecLikeCount + 1 where lecNo = #{lecNo}
 	</update>
 	
+	<!-- 유저가 게시글에 하트를 한 번 더 눌렀을 경우 delete 되는 쿼리문 -->
+	<delete id="deleteLikeBoard">
+		delete from lectureLikeInfo where lecNo = #{lecNo} and lecLikeUser = #{user}
+	</delete>
+	
+	<!-- 유저가 게시글 하트를 한번 더 눌렀을 경우 좋아요 횟수 down하는 update -->
+	<update id="updateLikeDownCount">
+		update lectureBoard set lecLikeCount = lecLikeCount -1 where lecNo = #{lecNo}
+	</update>
 
 </mapper>
