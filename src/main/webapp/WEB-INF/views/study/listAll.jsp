@@ -104,13 +104,13 @@
 		
 		//모집중만 보기 클릭했을 때
 		let status = 0;
-        $('.bookMark').on('click',function(){
-            if(book==0){
-                $(this).attr('class','bi-bookmark-fill');
-               	book++;
-            }else if(book==1){
-                $(this).attr('class','bi-bookmark');
-                book--;
+        $('#studyStatus').on('click',function(){
+            if(status==0){
+                $(this).attr('class','text-light bg-secondary text-center border border-secondary rounded-2 p-2');
+               	status++;
+            }else if(status==1){
+                $(this).attr('class','text-secondary text-center border border-secondary rounded-2 p-2');
+                status--;
             }
 
         });
@@ -118,6 +118,7 @@
 
 	});
 	
+	//스터디 언어로 필터링 (복수 선택 가능)
 	function searchStudy(){
 		console.log($('.studyLang').val());
 		
@@ -253,6 +254,12 @@
 </script>
 
 </head>
+<style>
+#studyStatus{cursor:pointer;}
+.statusClose{
+	
+}
+</style>
 
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
 	<%@ include file="../header.jsp"%>
@@ -285,10 +292,13 @@
 							</select>
 						</div>
 
-						<!-- 모집중 or 모집마감 -->
+						<!-- 모집중 or 모집마감 bg-primary-subtle-->
 						<div class="col-md-2">
-							<button class="btn btn-outline-secondary" style="width: 100%">
-								모집중만 보기</button>
+							<div id="studyStatus" class="text-secondary text-center border border-secondary rounded-2 p-2">
+								모집중만 보기
+							</div>
+							<!-- <button id="studyStatus" class="btn btn-outline-secondary" style="width: 100%">
+								모집중만 보기</button> -->
 						</div>
 
 						<div class="col-md-3"></div>
@@ -346,52 +356,112 @@
 
 						<c:forEach var="study" items="${studyList }">
 							<!-- 모임글 1개 -->
-							<div class="col-md mb-4" style="cursor: pointer;"
-								onclick="location.href='/study/viewStudyBoard?stuNo=${study.stuNo}';">
-								<div class="card">
-									<div class="card-body p-4" style="width: 100%;">
-										<div class="">
-											<p class="card-subtitle mb-2 text-body-secondary text-truncate" style="max-width: 100%;">
-											📍${study.stuLoc }</p>
-										</div>
-
-										<!-- 제목 -->
-										<div class="mt-4">
-											<h5 class="card-title text-truncate" style="max-width: 100%;">
-												<b>${study.stuTitle }</b>
-											</h5>
-										</div>
-
-										<!-- 스터디 언어 stuStack테이블에서 가져올 예정 -->
-										<div class="mt-4">
-											<p class="card-text">
-												<c:forEach var="stack" items="${stuStackList }">
-													<c:if test="${study.stuNo == stack.stuBoardNo }">
-														<span class="badge text-bg-secondary">${stack.stackName }</span>
-													</c:if>
-												</c:forEach>
-											</p>
-										</div>
-
-										<div class="d-flex mt-4">
-											<div class="me-auto">
-												<p class="card-text">${study.stuWriter }</p>
+							<c:choose>
+								<c:when test="${study.status == '모집중' }">
+									<div class="col-md mb-4" style="cursor: pointer;"
+										onclick="location.href='/study/viewStudyBoard?stuNo=${study.stuNo}';">
+										<div class="card">
+											<div class="card-body p-4" style="width: 100%;">
+												<div class="">
+													<p class="card-subtitle mb-2 text-body-secondary text-truncate" style="max-width: 100%;">
+													📍${study.stuLoc }</p>
+												</div>
+		
+												<!-- 제목 -->
+												<div class="mt-4">
+													<h5 class="card-title text-truncate" style="max-width: 100%;">
+														<b>${study.stuTitle }</b>
+													</h5>
+												</div>
+		
+												<!-- 스터디 언어 stuStack테이블에서 가져올 예정 -->
+												<div class="mt-4">
+													<p class="card-text">
+														<c:forEach var="stack" items="${stuStackList }">
+															<c:if test="${study.stuNo == stack.stuBoardNo }">
+																<span class="badge text-bg-secondary">${stack.stackName }</span>
+															</c:if>
+														</c:forEach>
+													</p>
+												</div>
+		
+												<div class="d-flex mt-4">
+													<div class="me-auto">
+														<p class="card-text">${study.stuWriter }</p>
+													</div>
+													<div class="me-2">
+														<p class="card-text text-body-secondary">
+															<i class="bi bi-eye"></i> ${study.readCount }
+														</p>
+													</div>
+													<div class="">
+														<p class="card-text text-body-secondary">
+															<i class="bi bi-bookmark"></i> ${study.scrape }
+														</p>
+													</div>
+												</div>
+		
 											</div>
-											<div class="me-2">
-												<p class="card-text text-body-secondary">
-													<i class="bi bi-eye"></i> ${study.readCount }
-												</p>
-											</div>
-											<div class="">
-												<p class="card-text text-body-secondary">
-													<i class="bi bi-bookmark"></i> ${study.scrape }
-												</p>
-											</div>
 										</div>
-
 									</div>
-								</div>
-							</div>
+								</c:when>
+								<c:otherwise>
+									<div class="col-md mb-4 statusClose" style="cursor: pointer;"
+										onclick="location.href='/study/viewStudyBoard?stuNo=${study.stuNo}';">
+										<div class="card position-relative">
+											<span class="position-absolute top-50 start-50 translate-middle badge pill bg-black text-light"
+												style="width:100%; height:100%; opacity:75%;">
+											</span>
+											<span class="position-absolute top-50 start-50 translate-middle badge text-light"
+												style="font-size:17px;">
+											    모집 마감
+											</span>
+											<div class="card-body p-4" style="width: 100%;">
+												<div class="">
+													<p class="card-subtitle mb-2 text-body-secondary text-truncate" style="max-width: 100%;">
+													📍${study.stuLoc }</p>
+												</div>
+		
+												<!-- 제목 -->
+												<div class="mt-4">
+													<h5 class="card-title text-truncate" style="max-width: 100%;">
+														<b>${study.stuTitle }</b>
+													</h5>
+												</div>
+		
+												<!-- 스터디 언어 stuStack테이블에서 가져올 예정 -->
+												<div class="mt-4">
+													<p class="card-text">
+														<c:forEach var="stack" items="${stuStackList }">
+															<c:if test="${study.stuNo == stack.stuBoardNo }">
+																<span class="badge text-bg-secondary">${stack.stackName }</span>
+															</c:if>
+														</c:forEach>
+													</p>
+												</div>
+		
+												<div class="d-flex mt-4">
+													<div class="me-auto">
+														<p class="card-text">${study.stuWriter }</p>
+													</div>
+													<div class="me-2">
+														<p class="card-text text-body-secondary">
+															<i class="bi bi-eye"></i> ${study.readCount }
+														</p>
+													</div>
+													<div class="">
+														<p class="card-text text-body-secondary">
+															<i class="bi bi-bookmark"></i> ${study.scrape }
+														</p>
+													</div>
+												</div>
+		
+											</div>
+										</div>
+									</div>
+								</c:otherwise>
+							</c:choose>
+
 
 						</c:forEach>
 
