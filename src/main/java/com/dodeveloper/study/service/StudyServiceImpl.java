@@ -251,6 +251,7 @@ public class StudyServiceImpl implements StudyService {
 					result = 1;
 				}
 				
+				result =1;
 			}
 
 		}

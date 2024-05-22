@@ -110,8 +110,8 @@
 
 		// 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
 		var iwContent = `<div style="padding:10px; width:100%; "><p class="mb-1"><b>${studyList.stuLoc}</b></p>`;
-		iwContent += `<p class="pb-2"><a href="https://map.kakao.com/link/map/${studyList.stuLoc},${studyList.stuX }, ${studyList.stuY }" target="_blank"><span class="badge text-bg-secondary me-2">큰지도보기</span></a>`;
-		iwContent += `<a href="https://map.kakao.com/link/to/${studyList.stuLoc},${studyList.stuX }, ${studyList.stuY }" target="_blank"><span class="badge text-bg-secondary">길찾기</span></a></p>`;
+		iwContent += `<p class="pb-2"><a href="https://map.kakao.com/link/map/${studyList.stuLoc},${studyList.stuY }, ${studyList.stuX }" target="_blank"><span class="badge text-bg-secondary me-2">큰지도보기</span></a>`;
+		iwContent += `<a href="https://map.kakao.com/link/to/${studyList.stuLoc},${studyList.stuY }, ${studyList.stuX }" target="_blank"><span class="badge text-bg-secondary">길찾기</span></a></p>`;
 		iwContent += `</div>`; 
 		
 		iwPosition = new kakao.maps.LatLng(${studyList.stuY }, ${studyList.stuX }); //인포윈도우 표시 위치입니다
@@ -327,12 +327,18 @@ i { cursor: pointer; }
 
 							<!-- 스터디 언어 선택 -->
 							<div class="row">
-								<div class="col-md-12">
+								<div class="col-md-6">
 									<div class="">
 										<b>스터디 언어</b>
 										<c:forEach var="stack" items="${stuStackList }">
 											<span class="badge text-bg-secondary">${stack.stackName }</span>
 										</c:forEach>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="">
+										<b>모집 상태</b>
+										<span class="">${studyList.status }</span>										
 									</div>
 								</div>
 							</div>
@@ -382,6 +388,7 @@ i { cursor: pointer; }
 									<i class="bi bi-bookmark bookMark"></i>
 								</button>
 							</div>
+							
 							<div class="col-md-11">
 								<input type="button" class="btn btn-secondary" value="참여신청"
 									style="width: 100%" data-bs-toggle="modal"

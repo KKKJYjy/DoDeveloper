@@ -75,12 +75,9 @@
 	<update id="modifyStudy">
 		update studyBoard set
 		stuTitle = #{stuTitle},
-		stuContent = #{stuContent}, stuLoc = #{stuLoc}, stuX =
-		#{stuX}, stuY =
-		#{stuY},
-		stuDate = #{stuDate}, stuPers = #{stuPers}, contactLink =
-		#{contactLink},
-		endDate = #{endDate}
+		stuContent = #{stuContent}, stuLoc = #{stuLoc}, stuX = #{stuX}, stuY = #{stuY},
+		stuDate = #{stuDate}, stuPers = #{stuPers}, contactLink = #{contactLink},
+		status = #{status}, endDate = #{endDate}
 		where stuNo = #{stuNo}
 	</update>
 

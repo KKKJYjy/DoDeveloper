@@ -91,6 +91,9 @@
 	var infowindow = []; 
 
 	$(function() {
+
+		//모집 상태 셀렉트 디폴트값(전에 유저가 선택했던 값) 세팅
+		$("#studyStatus").val('${studyList.status }').prop("selected", true);
 		
 		//모집인원 셀렉트 디폴트값(전에 유저가 선택했던 값) 세팅
 		$("#stuPers").val('${studyList.stuPers }').prop("selected", true);
@@ -413,7 +416,8 @@
 				"stuDate" : $("#stuDate").val(),
 				"stuPers" : $("#stuPers").val(),
 				"endDate" : $("#endDate").val(),
-				"contactLink" : $("#contactLink").val()
+				"contactLink" : $("#contactLink").val(),
+				"status" : $("#studyStatus").val()
 			};
 
 			$.ajax({
@@ -466,9 +470,9 @@
 					<form action="/study/modifyStudyWithStack" method="post">
 						<!-- 스터디 언어 선택 -->
 						<div class="row mb-4">
-							<div class="col-md-12">
+							<div class="col-md-6">
 								<div class="mb-2 text-light">
-									<b>스터디 언어 ${stuStackNo }</b>
+									<b>스터디 언어</b>
 								</div>
 								<select class="studyLang form-control" multiple="multiple"
 									style="width: 100%" id="chooseStack" name="chooseStack">
@@ -479,6 +483,15 @@
 											</c:forEach>>
 											${stack.stackName }</option>
 									</c:forEach>
+								</select>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-2 text-light">
+									<b>모집 상태</b>
+								</div>
+								<select class="form-select" style="width: 100%" id="studyStatus">
+									<option value="모집중">모집중</option>
+									<option value="모집마감">모집마감</option>
 								</select>
 							</div>
 						</div>
