@@ -18,4 +18,8 @@ public interface CompanyInfoService {
 	
 	// 기업 리뷰 게시글을 삭제하는 메서드
 	int deleteWrittenBoard(int revNo) throws Exception;
+	
+	// 기업 리뷰 글을 얻어오는 메서드 (revNo, companyInfoNo)
+	RevCompanyBoardVO editWrittenBoard(int revNo) throws Exception;
+	
 }

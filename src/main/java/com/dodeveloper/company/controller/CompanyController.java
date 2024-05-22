@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -162,6 +163,33 @@ public class CompanyController {
 		}
 		
 		return returnPage;
+	}
+	
+	
+	/**
+	 * @methodName : editWrittenBoard
+	 * @author : kimso05
+	 * @date : 2024.05.20
+	 * @param : int revNo, int companyInfoNo : 해당 기업리뷰번호와 기업리뷰 게시글 번호 수정
+	 * @param : Model 
+	 * @return : String
+	 * @throws Exception 
+	 * @description : "/companyInfo/editWrittenBoard" 리뷰 수정 글 GET방식 요청될 때 호출
+	 */
+	@GetMapping(value = "/editWrittenBoard")
+	public String editWrittenBoard (@RequestParam("companyInfoNo") int companyInfoNo,
+								@RequestParam("revNo") int revNo, Model model) throws Exception {
+		logger.info("수정페이지 GET 요청!!!");
+		
+		RevCompanyBoardVO revBoard = ciService.editWrittenBoard(revNo);
+		
+		System.out.println(revBoard.toString());
+		
+		// revBoard를 바인딩 시켜서 editWrittenBoard.jsp로 넘겨야함
+		model.addAttribute("revBoard", revBoard);
+		
+		return "/companyInfo/editWrittenBoard";
+		
 	}
 
 }

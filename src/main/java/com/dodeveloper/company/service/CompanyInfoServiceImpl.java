@@ -98,4 +98,13 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
 
 	}
 
+
+	@Override
+	public RevCompanyBoardVO editWrittenBoard(int revNo) throws Exception {
+		System.out.println("서비스단 : 수정할 게시글");
+		
+		return ciDao.selectEditWrittenBoard(revNo);
+
+	}
+
 }

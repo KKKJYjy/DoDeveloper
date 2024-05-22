@@ -18,5 +18,8 @@ public interface CompanyInfoDAO {
 	
 	// 기업 리뷰 글을 삭제하는 메서드 (delete)
 	int deleteWrittenBoard(int revNo) throws Exception;
+	
+	// 기업 리뷰 글을 얻어오는 메서드 (select) : 기업리뷰게시글번호(revNo)의 리뷰글(RevCompanyBoardVO) 객체 하나 반환  
+	RevCompanyBoardVO selectEditWrittenBoard(int revNo) throws Exception;
 }
 
