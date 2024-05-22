@@ -55,7 +55,7 @@
 						</a></li>
 						<li class="sidebar-item"><a
 							class="sidebar-link waves-effect waves-dark sidebar-link"
-							href="/admin/table" aria-expanded="false"><i
+							href="/admin/selectBoard" aria-expanded="false"><i
 								class="mdi me-2 mdi-table"></i><span class="hide-menu">게시판 관리</span></a>
 						</li>
 						<li class="sidebar-item"><a

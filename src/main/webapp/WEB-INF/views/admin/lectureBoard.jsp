@@ -9,6 +9,9 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <style>
+#openModalBtn {
+	margin-bottom: 15px;
+}
 </style>
 <script>
 	$(function() {
@@ -115,7 +118,7 @@
 
 				<button id="openModalBtn" onclick="checkCheckbox()">게시글삭제</button>
 
-				<div class="container mt-3">
+				
 					<table class="table table-light table-hover">
 
 
@@ -149,7 +152,7 @@
 							</c:forEach>
 						</tbody>
 					</table>
-				</div>
+				
 
 				<ul class="pagination">
 					<c:if test="${param.pageNo > 1 }">

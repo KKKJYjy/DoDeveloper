@@ -163,6 +163,10 @@ to {
 #reportInput {
 	height: 150px;
 }
+
+#openModalBtn {
+	margin-bottom: 15px;
+}
 </style>
 
 <body>
