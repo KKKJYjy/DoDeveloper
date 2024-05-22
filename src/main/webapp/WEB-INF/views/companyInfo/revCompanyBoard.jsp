@@ -106,7 +106,6 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
 
 					<c:forEach var="rev" items="${revList}">
 						<table class="table table-striped">
-						
 							<tr>
 								<th>작성자</th>
 								<td>${rev.revWriter}</td>
@@ -132,8 +131,10 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
 								<td>${rev.revBed}</td>
 							</tr>
 						</table>
+						<input type="button" class="btn btn-info" value="글수정"
+								onclick="location.href='/companyInfo/editWrittenBoard?companyInfoNo=${param.companyInfoNo}&revNo=${rev.revNo}';" />	
 						<input type="button" class="btn btn-danger" value="글삭제"
-								onclick="location.href='/companyInfo/deleteWrittenBoard?companyInfoNo=${param.companyInfoNo}&revNo=${rev.revNo}';" />
+								onclick="location.href='/companyInfo/deleteWrittenBoard?companyInfoNo=${param.companyInfoNo}&revNo=${rev.revNo}';" />						
 					</c:forEach>
 				</ul>
 			</div>
