@@ -102,17 +102,21 @@
 			}
 		});
 		
-		//모집중만 보기 클릭했을 때
+		//모집중만 보기 클릭했을 때		
 		let status = 0;
         $('#studyStatus').on('click',function(){
+			 console.log(status);
             if(status==0){
+            	//모집중 글만 보기
                 $(this).attr('class','text-light bg-secondary text-center border border-secondary rounded-2 p-2');
                	status++;
+            	   	
             }else if(status==1){
+            	//모집중+모집마감 글 전체 보기
                 $(this).attr('class','text-secondary text-center border border-secondary rounded-2 p-2');
                 status--;
+                
             }
-
         });
 		
 
@@ -256,8 +260,9 @@
 </head>
 <style>
 #studyStatus{cursor:pointer;}
-.statusClose{
-	
+.study{ transition: transform 250ms;}
+.study:hover {
+	transform: translateY(-10px);
 }
 </style>
 
@@ -283,7 +288,7 @@
 
 					<!-- 스터디할 언어 선택해서 select -->
 					<div class="row">
-						<div class="col-md-2">
+						<div class="col-md-3">
 							<select class="studyLang form-control" multiple="multiple"
 								id="chooseStack" name="chooseStack" style="width: 100%;">
 								<c:forEach var="stack" items="${stackList }">
@@ -294,14 +299,18 @@
 
 						<!-- 모집중 or 모집마감 bg-primary-subtle-->
 						<div class="col-md-2">
-							<div id="studyStatus" class="text-secondary text-center border border-secondary rounded-2 p-2">
+						<!-- <form> -->
+							<!-- <div id="studyStatus" class="text-secondary text-center border border-secondary rounded-2 p-2">
 								모집중만 보기
-							</div>
+							</div> -->
+							<input id="studyStatus" type="submit" class="text-secondary text-center border border-secondary rounded-2 p-2" value="👀 모집중만 보기" />
+						<!-- </form> -->
+						
 							<!-- <button id="studyStatus" class="btn btn-outline-secondary" style="width: 100%">
 								모집중만 보기</button> -->
 						</div>
 
-						<div class="col-md-3"></div>
+						<div class="col-md-2"></div>
 
 						<!-- 검색바 -->
 
@@ -342,9 +351,9 @@
 				${stuStackList } --%>
 					<div class="row row-cols-md-4 ">
 						<!-- 모임글 추가하기 -->
-						<div class="col-md mb-4">
+						<div class="col-md mb-4 study">
 							<div class="card">
-								<div class="card-body p-4 text-center" style="height: 225px;">
+								<div class="card-body p-4 text-center " style="height: 225px;">
 									<h5 class="text-danger"
 										style="line-height: 180px; cursor: pointer;"
 										onclick="location.href='/study/writeStudyBoard';">
@@ -358,7 +367,7 @@
 							<!-- 모임글 1개 -->
 							<c:choose>
 								<c:when test="${study.status == '모집중' }">
-									<div class="col-md mb-4" style="cursor: pointer;"
+									<div class="col-md mb-4 study" style="cursor: pointer;"
 										onclick="location.href='/study/viewStudyBoard?stuNo=${study.stuNo}';">
 										<div class="card">
 											<div class="card-body p-4" style="width: 100%;">
@@ -406,7 +415,7 @@
 									</div>
 								</c:when>
 								<c:otherwise>
-									<div class="col-md mb-4 statusClose" style="cursor: pointer;"
+									<div class="col-md mb-4 study" style="cursor: pointer;"
 										onclick="location.href='/study/viewStudyBoard?stuNo=${study.stuNo}';">
 										<div class="card position-relative">
 											<span class="position-absolute top-50 start-50 translate-middle badge pill bg-black text-light"
