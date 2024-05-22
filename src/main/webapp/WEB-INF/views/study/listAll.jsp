@@ -155,14 +155,14 @@
 		let studyList = data.studyList;
 		
 		let output = `<div class="row row-cols-md-4 ">`;
-		output += `<div class="col mb-4">`;
+		output += `<div class="col mb-4 study">`;
 		output += `<div class="card">`;
 		output += `<div class="card-body p-4 text-center" style="height: 225px;">`;
 		output += `<h5 class="text-danger" style="line-height: 180px; cursor: pointer;"onclick="location.href='/study/writeStudyBoard';">`;
 		output += `<b>나도 스터디 만들기</b></h5></div></div></div>`;
 	
 		$.each(studyList, function(i, e) {
-			output += `<div class="col mb-4" style="cursor: pointer;" id="studyList" onclick="location.href='/study/viewStudyBoard?stuNo=\${e.stuNo}';">`;
+			output += `<div class="col mb-4 study" style="cursor: pointer;" id="studyList" onclick="location.href='/study/viewStudyBoard?stuNo=\${e.stuNo}';">`;
 			output += `<div class="card">`;
 			output += `<div class="card-body p-4" style="width: 100%;">`;
 			output += `<div class="">`;
