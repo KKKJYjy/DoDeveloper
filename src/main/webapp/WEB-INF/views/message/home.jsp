@@ -54,27 +54,45 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <script>
+
 	const messageType = {
 			RECEIVED_MESSAGE : "received",
 			SENT_MESSAGE : "sent"
 	}
+	
+	const searchType = {
+			TITLE : "title",
+			CONTENT : "content",
+			WRITER : "writer",
+			RECEIVER : "receiver",
+			NONE : "none"
+	}
 
 	let receivedMessageDisplayStartPoint = 0;
-	let receivedMessageDisplayAmount = 30;
+	let receivedMessageDisplayAmount = 10;
+	let receivedMessageSearchType = searchType.NONE;
+	let receivedMessageSearchWord = '';
 	
 	let sentMessageDisplayStartPoint = 0;
-	let sentMessageDisplayAmount = 30;
+	let sentMessageDisplayAmount = 10;
+	let sentMessageSearchType = searchType.NONE;
+	let sentMessageSearchWord = '';
 	
 	let fileCodeArray = new Array();
-		
-	let uid = "dooly";
+	
+	let uid = "${loginUser}";
 	
 	$(window).on(
 			'load',
 			function() {
+				
 				refreshMessage(messageType.RECEIVED_MESSAGE,
 						receivedMessageDisplayStartPoint,
 						receivedMessageDisplayAmount);
+				
+				refreshMessage(messageType.SENT_MESSAGE,
+						sentMessageDisplayStartPoint,
+						sentMessageDisplayAmount);
 				
 				switchWindow("#receivedMessage");
 				changeMessageOptionBtnColor("#receivedMessageBtn");
@@ -118,7 +136,6 @@
 					changeMessageOptionBtnColor(this);
 				});
 				
-				//DodgerBlue
 				$(".dragAndDropDiv").on("dragenter",function(e){
 					e.preventDefault();
 					e.stopPropagation();
@@ -145,13 +162,19 @@
 						formData.append('file',file);
 						uploadName = postFile(formData);
 						
+						if(uploadName == false){
+							alert("파일 명은 50글자 이내여야 합니다!");
+							break;
+						}
+						
 						let fileInfo = new Object();
 						fileInfo.uploadName = uploadName;
 
 						fileCodeArray.push(fileInfo);
+						output = `<div class="uploaded-file">\${fileInfo.uploadName}</div>`;
+						$("#uploaded-file-list").append(output);
 					}
 					
-					console.log(fileCodeArray);
 				});
 				
 				$("#messageSendBtn").click(function(){
@@ -180,15 +203,51 @@
 
 					console.log(JSON.stringify(sendMessage));
 					
-					postMessage(sendMessage);
+					if(postMessage(sendMessage)){
+						cleanInputTag();
+						refreshMessage(messageType.SENT_MESSAGE, sentMessageDisplayStartPoint, sentMessageDisplayAmount);
+					}
 				});
+				
+						
+				$("#sent-message-search-Btn").on("click",function(){
+					messageSearchAndDisplay(messageType.SENT_MESSAGE);
+				});
+				
+				$("#sent-message-search-word").keypress(function(e){
+					if(e.which == 13){
+						messageSearchAndDisplay(messageType.SENT_MESSAGE);
+					}
+				});
+
+				
+				$("#received-message-search-Btn").on("click",function(){
+					messageSearchAndDisplay(messageType.RECEIVED_MESSAGE);
+				});
+				
+				$("#received-message-search-word").keypress(function(e){
+					if(e.which == 13){
+						messageSearchAndDisplay(messageType.RECEIVED_MESSAGE);
+					}
+				});
+				
+				$("#received-message-display-amount-select").on("change", function(){
+					receivedMessageDisplayAmount = $(this).val();
+					refreshMessage(messageType.RECEIVED_MESSAGE, receivedMessageDisplayStartPoint, receivedMessageDisplayAmount);
+				});
+				
+				$("#sent-message-display-amount-select").on("change", function(){
+					sentMessageDisplayAmount = $(this).val();
+					refreshMessage(messageType.SENT_MESSAGE, sentMessageDisplayStartPoint, sentMessageDisplayAmount);
+				});
+				
 			});
 
-	function getReceivedMessage(startPoint) {
+	function getReceivedMessage(startPoint, amountToShow) {
 		let result;
 
 		$.ajax({
-			url : "http://localhost:8081/message/"+ uid +"/received/" + startPoint,
+			url : "http://localhost:8081/message/"+ uid +"/received/" + startPoint + "/" + amountToShow,
 			method : "get",
 			dataType : "json",
 			async : false,
@@ -203,11 +262,11 @@
 		return result;
 	}
 
-	function getSentMessage(startPoint) {
+	function getSentMessage(startPoint, amountToShow) {
 		let result;
 
 		$.ajax({
-			url : "http://localhost:8081/message/" + uid + "/sent/" + startPoint,
+			url : "http://localhost:8081/message/" + uid + "/sent/" + startPoint + "/" + amountToShow,
 			method : "get",
 			dataType : "json",
 			async : false,
@@ -243,34 +302,69 @@
 	
 	function refreshMessage(outputMessageType, startPoint, amountToShow) {
 		let data;
+		let msgSearchType = '';
+		let msgSearchWord = '';
 		
 		switch(outputMessageType){
-			case messageType.RECEIVED_MESSAGE:
-				data = getReceivedMessage(startPoint);
-				break;
-			case messageType.SENT_MESSAGE:
-				data = getSentMessage(startPoint);
-				break;
-			default:
-				console.log('error');
+		case messageType.RECEIVED_MESSAGE:
+			msgSearchType = receivedMessageSearchType;
+			msgSearchWord = receivedMessageSearchWord;
+			break;
+		case messageType.SENT_MESSAGE:
+			msgSearchType = sentMessageSearchType;
+			msgSearchWord = sentMessageSearchWord;
+			break;
+		default:
+			console.log('error');
 		}
+
+		data = getMessages(outputMessageType, startPoint, amountToShow, msgSearchType, msgSearchWord);
 		
 		let messageCnt = data.messageCnt;
 		let messages = data.messages;
 
-		let output = makeMessagesTable(messages, outputMessageType);
+		let tableOutput = makeMessagesTable(messages, outputMessageType);
+		let pagingOutput = makeMessagePaging(messageCnt, outputMessageType);
 		
 		switch(outputMessageType){
 			case messageType.RECEIVED_MESSAGE:
-				$("#receivedMessageTableBody").html(output);
+				$("#receivedMessageTableBody").html(tableOutput);
+				$("#received-message-pagination").html(pagingOutput);
 				break;
 			case messageType.SENT_MESSAGE:
-				$("#sentMessageTableBody").html(output);
+				$("#sentMessageTableBody").html(tableOutput);
+				$("#sent-message-pagination").html(pagingOutput);
 				break;
 		}
 		
-		
 		bindMessageRowClickEvent();
+		bindPagingClickEvent();
+	}
+	
+	function getMessages(outputMessageType, startPoint, amountToShow, messageSearchType, messageSearchWord){
+		let result;
+		let urlString = "http://localhost:8081/message/"+ uid +"/" + outputMessageType + "/" + startPoint + "/" + amountToShow;
+		
+		if(messageSearchType != searchType.NONE && messageSearchWord != ''){
+			urlString += "/" + messageSearchType + "/" + messageSearchWord;
+		}
+		
+		console.log(urlString);
+		
+		$.ajax({
+			url : urlString,
+			method : "get",
+			dataType : "json",
+			async : false,
+			success : function(data) {
+				result = data;
+			},
+			error : function() {
+				console.log("실패");
+			}
+		})
+
+		return result;
 	}
 	
 	function makeMessagesTable(messages, outputMessageType){
@@ -288,6 +382,60 @@
 		return output;
 	}
 	
+	function makeMessagePaging(messageCnt, outputMessageType){
+		let startPoint = 0;
+		let amountToShow = 0;
+		
+		switch(outputMessageType){
+			case messageType.RECEIVED_MESSAGE:
+				startPoint = receivedMessageDisplayStartPoint;
+				amountToShow = receivedMessageDisplayAmount;
+				break;
+			case messageType.SENT_MESSAGE:
+				startPoint = sentMessageDisplayStartPoint;
+				amountToShow = sentMessageDisplayAmount;
+				break;
+		}
+		
+		let passedMessageCnt = startPoint;
+		let aheadMessageCnt = messageCnt - startPoint;
+
+		let passedPageCnt = Math.ceil(passedMessageCnt / amountToShow);
+
+		let currentPageNumber = passedPageCnt + 1;
+		let minPageNumber = 1;
+		let maxPageNumber = Math.ceil(messageCnt/amountToShow);
+		if(maxPageNumber <= 0){
+			maxPageNumber = 1;
+		}
+		
+		let output = ``;
+		output += `<ul class="pagination">`;
+		output += `		<li class="page-item"><a class="page-link \${outputMessageType}page" data-movepoint="\${minPageNumber}">&lt&lt</a></li>`;
+		
+		for(let i = 2; i > 0; i--){
+			if(currentPageNumber - i < minPageNumber){
+				continue;
+			}
+			output += `<li class="page-item"><a class="page-link \${outputMessageType}page" data-movepoint="\${currentPageNumber - i}">\${currentPageNumber - i}</a></li>`;
+		}
+		
+		output += `<li class="page-item"><a class="page-link active \${outputMessageType}page" data-movepoint="\${currentPageNumber}">\${currentPageNumber}</a></li>`;
+		
+		for(let i = 1; i <= 2; i++){
+			if(currentPageNumber + i > maxPageNumber){
+				break;
+			}
+			output += `<li class="page-item"><a class="page-link \${outputMessageType}page" data-movepoint="\${currentPageNumber + i}">\${currentPageNumber + i}</a></li>`;
+		}
+				
+		
+		output += `		<li class="page-item"><a class="page-link \${outputMessageType}page" data-movepoint="\${maxPageNumber}">&gt&gt</a></li>`;
+		output += `</ul>`;
+		
+		return output;
+	}
+	
 	function bindMessageRowClickEvent(){
 		$(".messageRow").on("click",function(){
 			let clickedMessageType = $(this).attr('data-messageType');
@@ -298,10 +446,25 @@
 			let data = getMessage(messageNo);
 			let output = makeMessageDetailDiv(data);
 			
-			console.log(output);
 			let selectedDiv = getSelectedDiv(clickedMessageType);
 			$(selectedDiv).children(".detail").children(".detail-display").html(output);
+
+			$(".attatched-file").on("click", function(){
+				downloadFile($(this).html());
+			})
 		})
+	}
+	
+	function bindPagingClickEvent(){
+		$("." + messageType.RECEIVED_MESSAGE + "page").on("click", function(){
+			receivedMessageDisplayStartPoint = ($(this).attr('data-movepoint') - 1) * receivedMessageDisplayAmount;
+			refreshMessage(messageType.RECEIVED_MESSAGE, receivedMessageDisplayStartPoint, receivedMessageDisplayAmount);
+		});
+		
+		$("." + messageType.SENT_MESSAGE + "page").on("click", function(){
+			sentMessageDisplayStartPoint = ($(this).attr('data-movepoint') - 1) * sentMessageDisplayAmount;
+			refreshMessage(messageType.SENT_MESSAGE, sentMessageDisplayStartPoint, sentMessageDisplayAmount);
+		});
 	}
 	
 	function getSelectedDiv(clickedMessageType){
@@ -339,23 +502,35 @@
 		let output = "";
 		
 		output += `
-		<h1 style="color: black; height: 10%; width: 100%; word-break: break-all; overflow: auto; padding : 0px; margin: 0px;">\${data.message.title}</h1>
+			<h1 style="color: black; height: 10%; width: 100%; word-break: break-all; overflow: auto; padding : 0px; margin: 0px;">\${data.message.title}</h1>
+			
+			<div style="color: gray;">
+				<div style="height: 5%;">글쓴이 : \${data.message.writer}</div>
+				<div style="height: 5%;">작성일 : \${data.message.writeDate}</div>
+				<div style="height: 5%; width: 100%; overflow-x: auto;">수령인 : `;
+			
+		for(let receiver of data.receivers){
+			output +=`\${receiver}, `;
+		}
+		output = output.substr(0, output.lastIndexOf(','));
 		
-		<div style="color: gray;">
-			<div style="height: 5%;">글쓴이 : \${data.message.writer}</div>
-			<div style="height: 5%;">작성일 : \${data.message.writeDate}</div>
-		</div>
+		output += `
+				</div>
+			</div>`;
 		
-		<hr style="height: 3%; padding : 0px; margin: 0px;" />
 		
-		<div style="height: 55%; width: 100%; word-break: break-all; overflow: auto; font-size:20px">\${data.message.content}</div>
+		output += `
 		
-		<div style="height: 15%; width: 100%; word-break: break-all; overflow: auto; font-size:20px">
-			<div style="color: gray; font-size: 15px;">첨부파일:</div>`;
+			<hr style="height: 3%; padding : 0px; margin: 0px;" />
+			
+			<div style="height: 50%; width: 100%; word-break: break-all; overflow: auto; font-size:20px">\${data.message.content}</div>
+			
+			<div style="height: 15%; width: 100%; word-break: break-all; overflow: auto; font-size:20px">
+				<div style="color: gray; font-size: 15px;">첨부파일:</div>`;
 
 		for(let file of data.messageFiles){
 			output += `
-				<div>\${file.uploadName}</div>`;
+				<div class="attatched-file">\${file.uploadName}</div>`;
 		}
 				
 		output += `</div>`;
@@ -424,10 +599,33 @@
 		tagToRemove.remove();
 	}
 	
+	function messageSearchAndDisplay(messageTypeInput){
+
+		switch(messageTypeInput){
+			case messageType.RECEIVED_MESSAGE:
+				receivedMessageSearchType = $("#received-message-search-type").val();
+				receivedMessageSearchWord = $("#received-message-search-word").val();
+				receivedMessageDisplayStartPoint = 0;
+				refreshMessage(messageType.RECEIVED_MESSAGE, receivedMessageDisplayStartPoint, receivedMessageDisplayAmount);
+				break;
+			case messageType.SENT_MESSAGE:
+				sentMessageSearchType = $("#sent-message-search-type").val();
+				sentMessageSearchWord = $("#sent-message-search-word").val();
+				sentMessageDisplayStartPoint = 0;
+				refreshMessage(messageType.SENT_MESSAGE, sentMessageDisplayStartPoint, sentMessageDisplayAmount);
+				break;
+			default:
+				console.log("messageSearchAndDisplayError");		
+		}
+		
+	}
+	
+	
 	
 	
 	
 	function postMessage(sendData){
+		let result = false;
 		$.ajax({
 			url : "http://localhost:8081/message",
 			method : "post",
@@ -436,13 +634,22 @@
 			contentType : 'application/json',
 			data: JSON.stringify(sendData),
 			success : function() {
-				console.log("성공")
+				alert("성공적으로 메세지를 송신했습니다.");
+				result = true;
 			},
 			error : function() {
-				console.log("실패");
+				alert("메세지 전송이 실패했습니다.");
 			}
 		})
+		
+		return result;
+	}
 	
+	function cleanInputTag(){
+		$(".newmessage-receiver").val('');
+		$(".newmessage-title").val('');
+		$(".newmessage-content").val('');
+		$('#uploaded-file-list').empty();
 	}
 	
 	function postFile(formData){
@@ -461,6 +668,7 @@
 			},
 			error : function() {
 				console.log("실패");
+				result = false;
 			}
 		})
 
@@ -468,13 +676,19 @@
 	
 	}
 	
-	
+	function downloadFile(fileName){
+		window.location="http://localhost:8081/message/file/" + fileName;
+	}
 	
 	
 </script>
 <style type="text/css">
 body {
 	font-family: 'D2Coding'
+}
+
+.inpage-interact-window {
+	overflow: auto;
 }
 
 .message-menu {
@@ -487,6 +701,11 @@ body {
 	font-size: large;
 }
 
+.message-pagination {
+	display: flex;
+	justify-content: center;
+}
+
 .detail {
 	color: black;
 }
@@ -494,6 +713,18 @@ body {
 .list {
 	height: 100%;
 	overflow-y: auto;
+}
+
+.pagination {
+	cursor: pointer;
+}
+
+.uploaded-file {
+	color: black;
+}
+
+.attatched-file {
+	cursor: pointer;
 }
 </style>
 </head>
@@ -519,13 +750,20 @@ body {
 				</div>
 
 				<div style="height: 100%; overflow-y: auto; overflow-x: auto;">
-					<div
+					<div class="inpage-interact-window"
 						style="background-color: white; height: 100%; border-radius: 10px;">
 
 						<div id="receivedMessage"
 							style="height: 100%; width: 90%; margin: 0 auto;">
 
 							<div class="list">
+								<div id="received-display-amount-div">
+									<select id="received-message-display-amount-select">
+										<option value="10">10</option>
+										<option value="15">15</option>
+										<option value="20">20</option>
+									</select>
+								</div>
 								<table class="table">
 									<thead>
 										<tr>
@@ -539,13 +777,17 @@ body {
 									</tbody>
 								</table>
 
-								<ul class="pagination">
-									<li class="page-item"><a class="page-link" href="#">&lt&lt</a></li>
-									<li class="page-item"><a class="page-link" href="#">1</a></li>
-									<li class="page-item"><a class="page-link" href="#">2</a></li>
-									<li class="page-item"><a class="page-link" href="#">3</a></li>
-									<li class="page-item"><a class="page-link" href="#">&gt&gt</a></li>
-								</ul>
+								<div id="received-message-pagination" class="message-pagination">
+
+								</div>
+
+								<select id="received-message-search-type">
+									<option value="writer">작성자</option>
+									<option value="title">제목</option>
+									<option value="content">내용</option>
+								</select> <input id="received-message-search-word" type="text">
+								<button id="received-message-search-Btn">검색</button>
+
 							</div>
 
 							<div class="detail" style="height: 100%; width: 100%">
@@ -566,6 +808,13 @@ body {
 							style="height: 100%; width: 90%; margin: 0 auto;">
 
 							<div class="list">
+								<div id="sent-display-amount-div">
+									<select id="sent-message-display-amount-select">
+										<option value="10">10</option>
+										<option value="15">15</option>
+										<option value="20">20</option>
+									</select>
+								</div>
 								<table class="table">
 									<thead>
 										<tr>
@@ -574,18 +823,22 @@ body {
 											<th class="col-2">작성일</th>
 										</tr>
 									</thead>
-									<tbody id="sentMessageTableBody">
+									<tbody id="sentMessageTableBody" class="message-tbody">
 
 									</tbody>
 								</table>
 
-								<ul class="pagination">
-									<li class="page-item"><a class="page-link" href="#">&lt&lt</a></li>
-									<li class="page-item"><a class="page-link" href="#">1</a></li>
-									<li class="page-item"><a class="page-link" href="#">2</a></li>
-									<li class="page-item"><a class="page-link" href="#">3</a></li>
-									<li class="page-item"><a class="page-link" href="#">&gt&gt</a></li>
-								</ul>
+								<div id="sent-message-pagination" class="message-pagination">
+
+								</div>
+
+								<select id="sent-message-search-type">
+									<option value="receiver">수령인</option>
+									<option value="title">제목</option>
+									<option value="content">내용</option>
+								</select> <input id="sent-message-search-word" type="text">
+								<button id="sent-message-search-Btn">검색</button>
+
 							</div>
 
 							<div class="detail" style="height: 100%; width: 100%">
@@ -608,8 +861,9 @@ body {
 							<div style="color: black;">받는 이</div>
 							<div id="newmessage-receiver-id-list">
 								<div class="write-receiver-div" style="width: 100%">
-									<input type="text" class="form-control newmessage-receiver" placeholder="아이디를 입력하세요"
-										name="receiver" style="width: 80%; float: left;">
+									<input type="text" class="form-control newmessage-receiver"
+										placeholder="아이디를 입력하세요" name="receiver"
+										style="width: 80%; float: left;">
 									<button type="button" class="btn btn-success addNewReceiver"
 										style="float: left;">+</button>
 									<button type="button" class="btn btn-danger removeNewReceiver">-</button>
@@ -619,12 +873,14 @@ body {
 							<input type="text" class="form-control newmessage-title"
 								placeholder="제목을 입력하세요" name="title">
 							<div style="color: black;">메세지 내용</div>
-							<textarea class="form-control newmessage-content" rows="15" id="written-content"
-								name="content"></textarea>
+							<textarea class="form-control newmessage-content" rows="15"
+								id="written-content" name="content"></textarea>
 							<div class="dragAndDropDiv"
 								style="background-color: DodgerBlue; width: 100%; height: 100px; text-align: center; display: flex; justify-content: center; align-content: center; flex-direction: column;">
-								파일 첨부</div>
-							<button id="messageSendBtn">보내기</button>
+								첨부 파일 드래그드롭</div>
+							<div id="uploaded-file-list"></div>
+							<button id="messageSendBtn" class="btn btn-primary">보내기</button>
+
 						</div>
 
 					</div>
