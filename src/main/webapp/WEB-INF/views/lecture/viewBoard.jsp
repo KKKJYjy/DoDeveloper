@@ -377,34 +377,64 @@ function cancelWriteReply() {
 
 //---------------------------------------------------------------------
 
-// 좋아요 버튼을 눌렀을 경우 insert
-function likePost() {
+// 좋아요 버튼에 대한 설정
+
+// 좋아요 변수 초기값 설정
+let liked = false;
+
+// 하트 아이콘 클릭시 호출되는 함수(clickHeart)
+function clickHeart() {
     let lecNo = '${lecBoard.lecNo}'; // 게시글 번호
-    let user = preAuth(); // 로그인 한 유저만 좋아요 가능하도록
+    let user = preAuth(); // 로그인 한 유저만 좋아요 / 좋아요 취소 가능하도록
 
     // 1) 게시글 번호, 좋아요 누를 유저를 likePost 객체에 담고
     let likePost = {
         "lecNo" : lecNo,
         "user" : user
     };
+    console.log(likePost);
+
+    // 좋아요/좋아요취소 url을 변수로 설정하고
+    let url;
+
+    // 설정한 url변수에
+    if (!liked) {
+        url = '/lecture/like'; // 좋아요를 누른 경우
+    } else {
+        url = '/lecture/unLike'; // 누른 좋아요를 취소하는 경우
+    }
 
     $.ajax({
-        url : '/lecture/like',
+        url : url,
         type : 'post',
-     	// 2) ajax를 이용해서 데이터(likePost)를 문자열로 변환하여 넘겨준다.
+        // 2) ajax를 이용해서 데이터(likePost)를 문자열로 변환하여 넘겨준다.
         data : JSON.stringify(likePost),
-        headers : {
-            "content-type" : "application/json"
-        }, // 전송하는 데이터의 형식을 json으로 지정
-        success : function(data) {
-            console.log(data);
+        contentType: 'application/json', // 전송하는 데이터의 형식을 json으로 지정
+        success: function(data) {
+            console.log('success:', data);
+
+            // 빈하트(좋아요 누르기 전)와 꽉찬하트(좋아요누른후)의 id값을 가져와서 변수로 지정
+            let heartIcon = document.getElementById("heartIcon");
+            let fullHeartIcon = document.getElementById("fullHeartIcon");
+
+            if (!liked) {
+            	// 좋아요를 누르는 경우
+                heartIcon.style.display = "none"; // 빈하트 숨김
+                fullHeartIcon.style.display = "inline"; // 꽉하트 표시
+                console.log("좋아요 성공");
+            } else {
+            	// 좋아요를 눌렀던 경우 -> 좋아요 취소
+                heartIcon.style.display = "inline"; // 빈하트 표시
+                fullHeartIcon.style.display = "none"; // 꽉하트 숨김
+                console.log("좋아요 취소 성공");
+            }
+            liked = !liked; // 좋아요 상태 변경
         },
-        error : function(data) {
-            console.log(data);
+        error: function(data) {
+            console.log('error:', data);
         }
     });
 }
-
 
 </script>
 </head>
@@ -482,9 +512,14 @@ function likePost() {
 					<div class="btn-group">
 						<div class="btns">
 							<!-- 하트 이미지 -->
-							<img id="heartIcon" src="/resources/images/lecture/pinkHeart.png"
+							<img id="heartIcon" src="/resources/images/lecture/redHeart.png"
 								alt="하트 이미지" style="width: 50px; height: 50px; cursor: pointer;"
-								onclick="likePost()">
+								onclick="clickHeart()">
+								
+							<img id="fullHeartIcon"
+								src="/resources/images/lecture/redFullHeart.png" alt="하트 이미지"
+								style="width: 50px; height: 50px; cursor: pointer; display: none;"
+								onclick="clickHeart()">
 						</div>
 
 						<!-- <div class="reportInfo"></div> -->
