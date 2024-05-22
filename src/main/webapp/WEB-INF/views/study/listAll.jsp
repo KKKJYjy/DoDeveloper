@@ -162,37 +162,76 @@
 		output += `<b>나도 스터디 만들기</b></h5></div></div></div>`;
 	
 		$.each(studyList, function(i, e) {
-			output += `<div class="col mb-4 study" style="cursor: pointer;" id="studyList" onclick="location.href='/study/viewStudyBoard?stuNo=\${e.stuNo}';">`;
-			output += `<div class="card">`;
-			output += `<div class="card-body p-4" style="width: 100%;">`;
-			output += `<div class="">`;
-			output += `<p class="card-subtitle mb-2 text-body-secondary text-truncate" style="max-width: 100%;">📍\${e.stuLoc }</p>`;
-			output += `</div>`;
-			output += `<div class="mt-4"><h5 class="card-title text-truncate" style="max-width: 100%;"><b>\${e.stuTitle }</b></h5></div>`;
-			output += `<div class="mt-4">`;
-			output += `<p class="card-text">`;
 			
-			//스터디 언어는 여러개이므로 함수를 이용해 값을 비교해서 가져온다
-			
-			let stackName = [];
-			stackName = getStudyStack(e.stuNo, stuStackList);
-			console.log(stackName);
-			for(let j=0; j < stackName.length; j++){
-				//console.log(stackName[j])
-				output += `<span class="badge text-bg-secondary me-1">\${stackName[j]}</span>`;			
+			if(`\${e.status}` == '모집중'){
+				output += `<div class="col mb-4 study" style="cursor: pointer;" id="studyList" onclick="location.href='/study/viewStudyBoard?stuNo=\${e.stuNo}';">`;
+				output += `<div class="card">`;
+				output += `<div class="card-body p-4" style="width: 100%;">`;
+				output += `<div class="">`;
+				output += `<p class="card-subtitle mb-2 text-body-secondary text-truncate" style="max-width: 100%;">📍\${e.stuLoc }</p>`;
+				output += `</div>`;
+				output += `<div class="mt-4"><h5 class="card-title text-truncate" style="max-width: 100%;"><b>\${e.stuTitle }</b></h5></div>`;
+				output += `<div class="mt-4">`;
+				output += `<p class="card-text">`;
+				
+				//스터디 언어는 여러개이므로 함수를 이용해 값을 비교해서 가져온다
+				
+				let stackName = [];
+				stackName = getStudyStack(e.stuNo, stuStackList);
+				console.log(stackName);
+				for(let j=0; j < stackName.length; j++){
+					//console.log(stackName[j])
+					output += `<span class="badge text-bg-secondary me-1">\${stackName[j]}</span>`;			
+				}
+						
+				output += `</p>`;
+				output += `</div>`;
+				
+				output += `<div class="d-flex mt-4">`;
+				output += `<div class="me-auto"><p class="card-text">\${e.stuWriter }</p></div>`;
+				output += `<div class="me-2">`;
+				output += `<p class="card-text text-body-secondary">`;
+				output += `<i class="bi bi-eye"></i>\${e.readCount }`;
+				output += `</p></div>`;
+				output += `<div class=""><p class="card-text text-body-secondary"><i class="bi bi-bookmark"></i>\${e.scrape }</p>`;
+				output += `</div></div></div></div></div>`;
+				
+			}else if(`\${e.status}` == '모집마감'){
+				output += `<div class="col mb-4 study" style="cursor: pointer;" id="studyList" onclick="location.href='/study/viewStudyBoard?stuNo=\${e.stuNo}';">`;
+				output += `<div class="card position-relative">`;
+				output += `<span class="position-absolute top-50 start-50 translate-middle badge pill bg-black" style="width:100%; height:100%; opacity:75%;"></span>`;
+				output += `<span class="position-absolute top-50 start-50 translate-middle badge text-light" style="font-size:17px;">모집 마감</span>`;
+				output += `<div class="card-body p-4" style="width: 100%;">`;
+				output += `<div class="">`;
+				output += `<p class="card-subtitle mb-2 text-body-secondary text-truncate" style="max-width: 100%;">📍\${e.stuLoc }</p>`;
+				output += `</div>`;
+				output += `<div class="mt-4"><h5 class="card-title text-truncate" style="max-width: 100%;"><b>\${e.stuTitle }</b></h5></div>`;
+				output += `<div class="mt-4">`;
+				output += `<p class="card-text">`;
+				
+				//스터디 언어는 여러개이므로 함수를 이용해 값을 비교해서 가져온다
+				
+				let stackName = [];
+				stackName = getStudyStack(e.stuNo, stuStackList);
+				console.log(stackName);
+				for(let j=0; j < stackName.length; j++){
+					//console.log(stackName[j])
+					output += `<span class="badge text-bg-secondary me-1">\${stackName[j]}</span>`;			
+				}
+						
+				output += `</p>`;
+				output += `</div>`;
+				
+				output += `<div class="d-flex mt-4">`;
+				output += `<div class="me-auto"><p class="card-text">\${e.stuWriter }</p></div>`;
+				output += `<div class="me-2">`;
+				output += `<p class="card-text text-body-secondary">`;
+				output += `<i class="bi bi-eye"></i>\${e.readCount }`;
+				output += `</p></div>`;
+				output += `<div class=""><p class="card-text text-body-secondary"><i class="bi bi-bookmark"></i>\${e.scrape }</p>`;
+				output += `</div></div></div></div></div>`;
 			}
-					
-			output += `</p>`;
-			output += `</div>`;
 			
-			output += `<div class="d-flex mt-4">`;
-			output += `<div class="me-auto"><p class="card-text">\${e.stuWriter }</p></div>`;
-			output += `<div class="me-2">`;
-			output += `<p class="card-text text-body-secondary">`;
-			output += `<i class="bi bi-eye"></i>\${e.readCount }`;
-			output += `</p></div>`;
-			output += `<div class=""><p class="card-text text-body-secondary"><i class="bi bi-bookmark"></i>\${e.scrape }</p>`;
-			output += `</div></div></div></div></div>`;
 			
 		});
 		
