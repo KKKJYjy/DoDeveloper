@@ -80,6 +80,11 @@
 	let mapX = '${studyList.stuX }';
 	let mapY = '${studyList.stuY }';
 	let mapName = '${studyList.stuLoc}';
+	
+	//주소로 검색했을때의 마커정보를 담을 변수
+	let addrMarker = '';
+	//주소로 검색했을때의 인포 정보를 담을 변수 
+	let infowindowByAddr = '';
 
 	$(function() {
 		
@@ -188,6 +193,18 @@
 		
 		//=======================================================================
 	    		
+		// 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
+		infowindow = new kakao.maps.InfoWindow({
+			zIndex : 1
+		});
+		
+		// 장소 검색 객체를 생성합니다
+		var ps = new kakao.maps.services.Places();
+		
+		// 주소 좌표 변환 객체를 생성합니다
+		geocoder = new kakao.maps.services.Geocoder();	
+			
+			
 		//수정 페이지에서 수정할때 > 지도 검색 버튼을 클릭했을 때
 		$("#searchMapBtn").click(function() {
 			// 지도 검색한 값 가져오기
@@ -221,6 +238,7 @@
 					searchDetailAddrFromCoords(coords, function(result, status) {
 						
 				        if (status === kakao.maps.services.Status.OK) {
+				        	
 				            var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
 				            detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
 				            
@@ -244,19 +262,11 @@
 			});
 			
 			// 전에 선택했던 장소 마커와 윈포도우 제거 
+			marker.setMap(null);
 			infowindowBefore.close(map, marker); 
 		})
 
-		// 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
-		infowindow = new kakao.maps.InfoWindow({
-			zIndex : 1
-		});
 		
-		// 장소 검색 객체를 생성합니다
-		var ps = new kakao.maps.services.Places();
-		
-		// 주소 좌표 변환 객체를 생성합니다
-		geocoder = new kakao.maps.services.Geocoder();
 
 		//========================================================================
 			
@@ -279,6 +289,13 @@
 
 		if (status === kakao.maps.services.Status.OK) {
 
+			//주소로 검색했을때 나온 마커와 윈도를 닫는다
+			if(addrMarker != '' && infowindowByAddr != ''){
+				addrMarker.setMap(null);
+				infowindowByAddr.close();			
+			}
+			
+			
 			// 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
 			// LatLngBounds 객체에 좌표를 추가합니다
 			var bounds = new kakao.maps.LatLngBounds();

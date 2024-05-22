@@ -77,6 +77,11 @@
 
 	//주소로 검색했을때의 마커정보를 담을 변수
 	let addrMarker = '';
+	//주소로 검색했을때의 인포 정보를 담을 변수 
+	let infowindowByAddr = '';
+	
+/*  	let markerByPs = [];
+	let infowindowByPs = []; */
 
 	let mapX = '';
 	let mapY = '';
@@ -106,13 +111,26 @@
 		// 지도를 생성합니다    
 		map = new kakao.maps.Map(mapContainer, mapOption);
 		
+		// 키워드 검색시 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
+		infowindow = new kakao.maps.InfoWindow({
+			zIndex : 1
+		});
+
+		// 키워드 장소 검색 객체를 생성합니다
+		var ps = new kakao.maps.services.Places();
+		
+		// 주소 좌표 변환 객체를 생성합니다
+		geocoder = new kakao.maps.services.Geocoder();
+		
+		
 		//지도 검색 버튼을 클릭했을 때
 		$("#searchMapBtn").click(function() {
+			
 			
 			// 지도 검색한 값 가져오기
 			let searchMap = $("#searchMap").val();
 			console.log(searchMap);
-	
+			
 			// 1) 키워드로 장소를 검색
 			ps.keywordSearch(searchMap, placesSearchCB);
 			
@@ -123,7 +141,7 @@
 				if (status === kakao.maps.services.Status.OK) {
 					
 					var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-									
+					
 					// 결과값으로 받은 위치를 마커로 표시합니다
 					addrMarker = new kakao.maps.Marker({
 						map : map,
@@ -139,12 +157,15 @@
 					// 3) 좌표로 법정동 상세 주소 정보를 요청합니다
 					searchDetailAddrFromCoords(coords, function(result, status) {
 						
-						//이전에 검색한 마커와 윈포도우가 있다면 없애자
-						if(addrMarker != null){
-							//map.setMap(null);
-						}
-						
 				        if (status === kakao.maps.services.Status.OK) {
+				        	
+							//키워드로 검색했을 때 나온 마커와 윈포도우를 닫는다.
+							/* if(markerByPs != '' && infowindowByPs != ''){
+								console.log(markerByPs);
+								markerByPs.setMap(null);
+								infowindowByPs.close();			
+							}  */
+							
 				            var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
 				            detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
 				            
@@ -160,27 +181,15 @@
 						}); 
 						
 						infowindowByAddr.open(map, addrMarker);
-				        				        
+				        
 				    });
-									
+				
 				}
 				
 			});
 		
 		});
 
-		// 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
-		infowindow = new kakao.maps.InfoWindow({
-			zIndex : 1
-		});
-
-		// 키워드 장소 검색 객체를 생성합니다
-		var ps = new kakao.maps.services.Places();
-		
-		// 주소 좌표 변환 객체를 생성합니다
-		geocoder = new kakao.maps.services.Geocoder();
-		
-		
 	});
 	
 
@@ -200,6 +209,12 @@
 		
 		if (status === kakao.maps.services.Status.OK) {
 
+			//주소로 검색했을때 나온 마커와 윈도를 닫는다
+			if(addrMarker != '' && infowindowByAddr != ''){
+				addrMarker.setMap(null);
+				infowindowByAddr.close();			
+			}
+			
 			// 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
 			// LatLngBounds 객체에 좌표를 추가합니다
 			var bounds = new kakao.maps.LatLngBounds();
@@ -341,7 +356,7 @@
 
 				<div class="container pt-5">
 
-					<form action="/study/insertStackWithStack" method="post">
+					<form action="/study/insertStudyWithStack" method="post">
 
 						<!-- 스터디 언어 선택 -->
 						<div class="row mb-4">
