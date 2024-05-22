@@ -85,6 +85,10 @@
 	let addrMarker = '';
 	//주소로 검색했을때의 인포 정보를 담을 변수 
 	let infowindowByAddr = '';
+	
+	//키워드로 검색했을 때의 마커들 정보를 담을 배열
+	var markers = [];
+	var infowindow = []; 
 
 	$(function() {
 		
@@ -175,8 +179,8 @@
 		// 전에 유저가 선택했던 마커 위에 출력할 인포 메세지 설정
 		// 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
 		var iwContent = `<div style="padding:10px; width:100%; "><p class="mb-1"><b>${studyList.stuLoc}</b></p>`;
-		iwContent += `<p class="pb-2"><a href="https://map.kakao.com/link/map/${studyList.stuLoc},${studyList.stuX }, ${studyList.stuY }" target="_blank"><span class="badge text-bg-secondary me-2">큰지도보기</span></a>`;
-		iwContent += `<a href="https://map.kakao.com/link/to/${studyList.stuLoc},${studyList.stuX }, ${studyList.stuY }" target="_blank"><span class="badge text-bg-secondary">길찾기</span></a></p>`;
+		iwContent += `<p class="pb-2"><a href="https://map.kakao.com/link/map/${studyList.stuLoc},${studyList.stuY }, ${studyList.stuX }" target="_blank"><span class="badge text-bg-secondary me-2">큰지도보기</span></a>`;
+		iwContent += `<a href="https://map.kakao.com/link/to/${studyList.stuLoc},${studyList.stuY }, ${studyList.stuX }" target="_blank"><span class="badge text-bg-secondary">길찾기</span></a></p>`;
 		iwContent += `</div>`; 
 		
 		iwPosition = new kakao.maps.LatLng(${studyList.stuY }, ${studyList.stuX }); //인포윈도우 표시 위치입니다
@@ -238,6 +242,14 @@
 					searchDetailAddrFromCoords(coords, function(result, status) {
 						
 				        if (status === kakao.maps.services.Status.OK) {
+				        	
+				        	//키워드로 검색했을 때 나온 마커들과 윈포도우를 닫는다.
+							if(markers != [] && infowindow != []){
+								for (var i = 0; i < markers.length; i++) {
+							        markers[i].setMap(null);
+							    }  
+								infowindow.close();			
+							}
 				        	
 				            var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
 				            detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
@@ -318,6 +330,9 @@
 			map : map,
 			position : new kakao.maps.LatLng(place.y, place.x)
 		});
+		
+		//지도의 여러개의 마커들을 markers 배열에 담아준다
+		markers.push(marker);
 
 		// 마커에 클릭이벤트를 등록합니다
 		kakao.maps.event.addListener(marker, 'click', function() {

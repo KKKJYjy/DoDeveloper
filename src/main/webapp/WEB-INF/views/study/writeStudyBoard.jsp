@@ -80,8 +80,9 @@
 	//주소로 검색했을때의 인포 정보를 담을 변수 
 	let infowindowByAddr = '';
 	
-/*  	let markerByPs = [];
-	let infowindowByPs = []; */
+	//키워드로 검색했을 때의 마커들 정보를 담을 배열
+	var markers = [];
+	var infowindow = []; 
 
 	let mapX = '';
 	let mapY = '';
@@ -159,12 +160,13 @@
 						
 				        if (status === kakao.maps.services.Status.OK) {
 				        	
-							//키워드로 검색했을 때 나온 마커와 윈포도우를 닫는다.
-							/* if(markerByPs != '' && infowindowByPs != ''){
-								console.log(markerByPs);
-								markerByPs.setMap(null);
-								infowindowByPs.close();			
-							}  */
+							//키워드로 검색했을 때 나온 마커들과 윈포도우를 닫는다.
+							if(markers != [] && infowindow != []){
+								for (var i = 0; i < markers.length; i++) {
+							        markers[i].setMap(null);
+							    }  
+								infowindow.close();			
+							}
 							
 				            var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
 				            detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
@@ -238,6 +240,9 @@
 			map : map,
 			position : new kakao.maps.LatLng(place.y, place.x)
 		});
+		
+		//지도의 여러개의 마커들을 markers 배열에 담아준다
+		markers.push(marker);
 
 		// 마커에 클릭이벤트를 등록합니다
 		kakao.maps.event.addListener(marker, 'click', function() {
