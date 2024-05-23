@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,6 +34,12 @@
 	rel="stylesheet" />
 <!-- Custom CSS -->
 <link href="/resources/admin/css/style.min.css" rel="stylesheet" />
+<style>
+.logOut {
+	 
+     color: black;
+}
+</style>
 </head>
 <body>
 	<div class="preloader">
@@ -124,15 +131,16 @@
 						<!-- User profile and search -->
 						<!-- ============================================================== -->
 						<li class="nav-item dropdown"><a
-							class="nav-link dropdown-toggle text-muted waves-effect waves-dark"
-							href="#" id="navbarDropdown" role="button"
-							data-bs-toggle="dropdown" aria-expanded="false">
-								<img src="/resources/admin/assets/images/users/1.jpg" alt="user"
-								class="profile-pic me-2" />Markarn Doe
-						</a>
+							class="nav-link dropdown-toggle text-muted"
+							href="/mypage/myProfile" id="navbarDropdown" role="button"
+							 aria-expanded="false">
+								 ${sessionScope.loginMember.userName}님이 로그인중입니다.</a>
+								
+						
 							<ul class="dropdown-menu" aria-labelledby="navbarDropdown"></ul>
 						</li>
 					</ul>
+					<a href="/member/logout" class="logOut">로그아웃</a>
 				</div>
 			</nav>
 		</header>

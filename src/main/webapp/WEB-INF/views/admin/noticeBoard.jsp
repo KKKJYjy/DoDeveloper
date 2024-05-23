@@ -125,11 +125,11 @@
 						<c:forEach var="board" items="${notcBoardList }">
 
 							<tr id="table" onclick="location.href = '/adminView/noticViewDetail?boardNo=${board.boardNo}';">
-								<td><input type="checkbox" name="rowCheck"
+								<td onclick="event.cancelBubble=true"><input type="checkbox" name="rowCheck"
 									class="deleteCheckbox" id="myCheckbox"
 									value="${board.boardNo }" /></td>
 								<td>${board.boardNo }</td>
-								<td>${board.writer }</td>
+								<td>${board.writer}</td>
 								<td>${board.title }</td>
 								<td>${board.postDate }</td>
 

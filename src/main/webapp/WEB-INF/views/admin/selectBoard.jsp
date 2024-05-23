@@ -20,37 +20,30 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
-
-    
-
-
-
-	
-//	document.addEventListener("DOMContentLoaded", function() {
-//	    let modal = document.getElementById("myModal");
+	//	document.addEventListener("DOMContentLoaded", function() {
+	//	    let modal = document.getElementById("myModal");
 	//    let openModalBtn = document.getElementById("openModalBtn");
 	//    let closeModalSpan = document.querySelector(".close");
 
-	    // 모달 열기
+	// 모달 열기
 	//    openModalBtn.addEventListener("click", function() {
 	//        modal.style.display = "block";
 	//    });
 
-	    // 모달 닫기 (x 버튼 클릭 시)
+	// 모달 닫기 (x 버튼 클릭 시)
 	//    closeModalSpan.addEventListener("click", function() {
 	//        modal.style.display = "none";
-	 //   });
-	    
-	 // 모달 닫기 (모달 외부 클릭 시)
-	 //   window.addEventListener("click", function(event) {
-	 //       if (event.target == modal) {
-	  //          modal.style.display = "none";
-	   //     }
-	  //  });
+	//   });
 
-	 
+	// 모달 닫기 (모달 외부 클릭 시)
+	//   window.addEventListener("click", function(event) {
+	//       if (event.target == modal) {
+	//          modal.style.display = "none";
+	//     }
+	//  });
+
 	//});
-	
+
 	$(function() {
 
 		let pageNo = '${param.pageNo}';
@@ -61,66 +54,62 @@
 		$(`#\${pageNo}`).addClass('active')
 
 	})
-	
-	
-	$(function(){
-			var chkObj = document.getElementsByName("rowCheck");
-			var rowCnt = chkObj.length;
-			
-			$("input[name='allCheck']").click(function(){
-				var chk_listArr = $("input[name='rowCheck']");
-				for (var i=0; i<chk_listArr.length; i++){
-					chk_listArr[i].checked = this.checked;
-				}
-			});
-			$("input[name='rowCheck']").click(function(){
-				if($("input[name='rowCheck']:checked").length == rowCnt){
-					$("input[name='allCheck']")[0].checked = true;
-				}
-				else{
-					$("input[name='allCheck']")[0].checked = false;
-				}
-			});
+
+	$(function() {
+		var chkObj = document.getElementsByName("rowCheck");
+		var rowCnt = chkObj.length;
+
+		$("input[name='allCheck']").click(function() {
+			var chk_listArr = $("input[name='rowCheck']");
+			for (var i = 0; i < chk_listArr.length; i++) {
+				chk_listArr[i].checked = this.checked;
+			}
 		});
-	
+		$("input[name='rowCheck']").click(function() {
+			if ($("input[name='rowCheck']:checked").length == rowCnt) {
+				$("input[name='allCheck']")[0].checked = true;
+			} else {
+				$("input[name='allCheck']")[0].checked = false;
+			}
+		});
+	});
+
 	function checkCheckbox() {
-	   let url = "delete";
-	   let valueArr = new Array();
-	   let list= $("input[name='rowCheck']");
-	   for (let i = 0; i < list.length; i++) {
-		   if(list[i].checked) {
-			   valueArr.push(list[i].value);
-		   }
-	   }
-	   if (valueArr.length == 0) {
-		   alert("선택된 게시글이 없습니다");
-	   }
-	   else{
-		   let chk = confirm("정말 삭제하시겠습니까?");
-		   if (!chk) {
-			   location.replace("selectBoard")
-		   } else {
-			   $.ajax({
+		let url = "delete";
+		let valueArr = new Array();
+		let list = $("input[name='rowCheck']");
+		for (let i = 0; i < list.length; i++) {
+			if (list[i].checked) {
+				valueArr.push(list[i].value);
+			}
+		}
+		if (valueArr.length == 0) {
+			alert("선택된 게시글이 없습니다");
+		} else {
+			let chk = confirm("정말 삭제하시겠습니까?");
+			if (!chk) {
+				location.replace("selectBoard")
+			} else {
+				$.ajax({
 					url : url,
 					type : "post",
 					traditional : true,
 					data : {
 						valueArr : valueArr
-					},    
+					},
 					success : function(data) {
 						if (data = 1) {
 							alert("삭제 성공");
 							location.replace("selectBoard")
-						} 
-						else {
+						} else {
 							alert("삭제 실패");
 						}
-				}
-				
-			}); 
-		   }
-		 
-	   }
+					}
+
+				});
+			}
+
+		}
 	}
 </script>
 
@@ -130,12 +119,12 @@
 	<c:import url="./adminHeader.jsp"></c:import>
 
 
-<c:import url="./adminSidebar.jsp"></c:import>
+	<c:import url="./adminSidebar.jsp"></c:import>
 
 	<div class="page-wrapper">
-	
-	<c:import url="./adminMiniHeader.jsp"></c:import>
-	
+
+		<c:import url="./adminMiniHeader.jsp"></c:import>
+
 
 
 		<div class="container-fluid">
@@ -152,7 +141,7 @@
 						href="/admin/algorithmBoard">알고리즘</a></li>
 					<li class="nav-item"><a class="nav-link"
 						href="/admin/reviewBoard">기업리뷰</a></li>
-						<li class="nav-item"><a class="nav-link"
+					<li class="nav-item"><a class="nav-link"
 						href="/admin/noticeBoard">공지사항</a></li>
 				</ul>
 			</div>
@@ -175,7 +164,7 @@
 
 					<thead>
 						<tr>
-							<th><input id="allCheck" type="checkbox" name="allCheck"/></th>
+							<th><input id="allCheck" type="checkbox" name="allCheck" /></th>
 							<th>글번호</th>
 							<th>작성자</th>
 							<th>제목</th>
@@ -190,8 +179,9 @@
 
 							<tr id="table"
 								onclick="location.href = '/study/viewStudyBoard?stuNo=${board.stuNo}';">
-								<td><input type="checkbox" name="rowCheck"
-									class="deleteCheckbox" id="myCheckbox" value="${board.stuNo }" /></td>
+								<td onclick="event.cancelBubble=true"><input
+									type="checkbox" name="rowCheck" class="deleteCheckbox"
+									id="myCheckbox" value="${board.stuNo }" /></td>
 								<td>${board.stuNo }</td>
 								<td>${board.stuWriter }</td>
 								<td>${board.stuTitle }</td>

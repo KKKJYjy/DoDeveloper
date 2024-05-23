@@ -141,8 +141,8 @@
 						<tbody>
 							<c:forEach var="board" items="${revBoardList }">
 								<tr
-									onclick="location.href = '/companyInfo/revCompanyBoard?revNo=${board.revNo}';">
-									<td><input type="checkbox" name="rowCheck"
+									onclick="location.href = '/companyInfo/revCompanyBoard?companyInfoNo=${board.companyInfoNo}';">
+									<td onclick="event.cancelBubble=true"><input type="checkbox" name="rowCheck"
 										class="deleteCheckbox" id="myCheckbox" value="${board.revNo }" /></td>
 									<td>${board.revNo }</td>
 									<td>${board.revWriter }</td>

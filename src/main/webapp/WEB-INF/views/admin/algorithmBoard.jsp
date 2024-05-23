@@ -126,7 +126,7 @@
 							<c:forEach var="board" items="${argBoardList }">
 								<tr
 									onclick="location.href = '/algorithm/algDetail?boardNo=${board.boardNo}';">
-									<td><input type="checkbox" name="rowCheck"
+									<td onclick="event.cancelBubble=true"><input type="checkbox" name="rowCheck"
 										class="deleteCheckbox" id="myCheckbox"
 										value="${board.boardNo }" /></td>
 									<td>${board.boardNo }</td>

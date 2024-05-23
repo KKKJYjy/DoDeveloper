@@ -206,7 +206,7 @@ to {
 					<c:forEach var="board" items="${reportList }">
 
 						<tr id="table" onclick="location.href='/admin/viewReport?btypeNo=${board.btypeNo}';">
-							<td><input type="checkbox" name="rowCheck"
+							<td onclick="event.cancelBubble=true"><input type="checkbox" name="rowCheck"
 								class="deleteCheckbox" id="myCheckbox"
 								value="${board.reportNo }" /></td>
 							<td>${board.reportNo }</td>

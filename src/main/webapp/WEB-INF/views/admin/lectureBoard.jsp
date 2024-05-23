@@ -138,7 +138,7 @@
 							<c:forEach var="board" items="${lecBoardList }">
 								<tr
 									onclick="location.href = '/lecture/viewBoard?lecNo=${board.lecNo}';">
-									<td><input type="checkbox" name="rowCheck"
+									<td onclick="event.cancelBubble=true"><input type="checkbox" name="rowCheck"
 										class="deleteCheckbox" id="myCheckbox" value="${board.lecNo }" /></td>
 									<td>${board.lecNo }</td>
 									<td>${board.lecWriter }</td>
