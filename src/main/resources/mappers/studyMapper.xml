@@ -62,6 +62,31 @@
 		order by wrritenDate desc limit #{startRowIndex},
 		#{viewPostCntPerPage}
 	</select>
+	
+	<select id="selectAllListWithsDTOWithStatusFilter" resultType="com.dodeveloper.study.vodto.StudyBoardVO">
+		select * from studyBoard
+		<choose>
+			<when test="searchType == 'title'">
+				where stuTitle like #{searchValue}
+			</when>
+			<when test="searchType == 'writer'">
+				where stuWriter like #{searchValue}
+			</when>
+			<otherwise>
+				where stuContent like #{searchValue}
+			</otherwise>
+		</choose>
+		and status = #{status}
+		order by wrritenDate desc limit #{startRowIndex},
+		#{viewPostCntPerPage}
+	</select>
+	
+	<select id="selectAllListWithStatusFilter"
+		resultType="com.dodeveloper.study.vodto.StudyBoardVO">
+		SELECT * FROM studyBoard where status= #{status}
+		order by wrritenDate desc limit #{startRowIndex}, #{viewPostCntPerPage}
+	</select>
+	
 
 	<select id="selectAllStack"
 		resultType="com.dodeveloper.study.vodto.StackVO">
@@ -109,16 +134,28 @@
 			</otherwise>
 		</choose>
 	</select>
-
-	<!-- <select id="searchStudyByStack"
-		resultType="com.dodeveloper.study.vodto.StudyBoardVO">
-		select sb.* from studyBoard sb inner join stuStack st on sb.stuNo =
-		st.stuBoardNo
-		where chooseStack in
-		<foreach collection="list" item="item" open="(" close=")"
-			separator=","> #{item} </foreach>
-		order by wrritenDate desc
-	</select> -->
+	
+	
+	<select id="selectTotalBoardCntWithStatusFilter" resultType="int">
+		select count(*) FROM studyBoard where status= #{status} 
+	</select>
+	
+	<select id="selectTotalBoardCntWithSdtoWithStatusFilter" resultType="int">
+		select count(*) from studyBoard
+		<choose>
+			<when test="searchType == 'title'">
+				where stuTitle like #{searchValue}
+			</when>
+			<when test="searchType == 'writer'">
+				where stuWriter like #{searchValue}
+			</when>
+			<otherwise>
+				where stuContent like #{searchValue}
+			</otherwise>
+		</choose>
+		and status = #{status}
+	</select>
+	
 
 	<select id="searchStudyByStack"
 		resultType="com.dodeveloper.study.vodto.StudyBoardVO">
@@ -141,9 +178,6 @@
 		order by wrritenDate desc
 	</select>
 
-	<!-- <select id="getListTest" resultType="members"> SELECT m.*,a.name FROM 
-		members AS m JOIN authority AS a ON m.authority = a.authority WHERE m.authority 
-		IN <foreach collection="chkList" item="item" open="(" close=")" separator=","> 
-		#{item.authority} </foreach> ORDER BY m.authority; </select> -->
+	
 
 </mapper>

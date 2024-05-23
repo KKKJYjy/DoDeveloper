@@ -36,18 +36,27 @@ public class StudyServiceImpl implements StudyService {
 	private PagingInfo pi;
 
 	@Override
-	public Map<String, Object> selectAllList(SearchStudyDTO sDTO, int pageNo) throws Exception {
+	public Map<String, Object> selectAllList(SearchStudyDTO sDTO, int pageNo, String status) throws Exception {
 
 		Map<String, Object> result = new HashMap<String, Object>();
 		// 검색어가 있을 경우의 게시글 목록과 없는 경우의 게시글 목록이 다르다.
 		List<StudyBoardVO> lst = null;
+//		System.out.println("service단: "+ statusFilter);
 
-		if (sDTO.getSearchType() != null && sDTO.getSearchValue() != null) {
-			// 검색어가 있는 경우
+		if (sDTO.getSearchType() != null && sDTO.getSearchValue() != null && !(status.equals(""))) {
+			// 1) 검색어가 있고 + 필터가 있는 경우
+			makingPagingInfo(sDTO, pageNo, status);
+			lst = sDao.selectAllListWithsDTOWithStatusFilter(sDTO, pi, status);
+		} else if (sDTO.getSearchType() != null && sDTO.getSearchValue() != null) {
+			// 2) 검색어가 있고 + 필터가 없는 경우
 			makingPagingInfo(sDTO, pageNo);
 			lst = sDao.selectAllListWithsDTO(sDTO, pi);
+		} else if (!(status.equals(""))) {
+			// 3) 검색어가 없고 + 필터가 있는 경우
+			makingPagingInfo(pageNo, status);
+			lst = sDao.selectAllListWithStatusFilter(pi, status);
 		} else {
-			// 검색어가 없는 경우
+			// 4) 검색어가 없고 + 필터가 없는 경우
 			makingPagingInfo(pageNo);
 			lst = sDao.selectAllList(pi);
 		}
@@ -59,17 +68,92 @@ public class StudyServiceImpl implements StudyService {
 		return result;
 	}
 
-	// 검색어가 없는 경우 pi 객체 세팅
-	private void makingPagingInfo(int pageNo) throws Exception {
+	// 1) 검색어가 있고 필터가 있는 경우 pi 세팅
+	private void makingPagingInfo(SearchStudyDTO sDTO, int pageNo, String status) throws Exception {
 		// 지역변수 PageNo의 값을 pagingInfo클래스 멤버변수 pageNo에 세팅
 		this.pi.setPageNo(pageNo);
 
 		this.pi.setViewPostCntPerPage(11);
 		this.pi.setPageCntPerBlock(5);
-		
+
 		// 게시물 총 데이터 갯수를 구해 저장
-		System.out.println(sDao.selectTotalBoardCnt());
-		this.pi.setTotalPostCnt(sDao.selectTotalBoardCnt());
+		System.out.println(sDao.selectTotalBoardCntWithSdtoWithStatusFilter(sDTO, status));
+		this.pi.setTotalPostCnt(sDao.selectTotalBoardCntWithSdtoWithStatusFilter(sDTO, status));
+
+		// 총 페이지 수를 구해 저장.
+		this.pi.setTotalPageCnt();
+
+		// 보여주기 시작할 row index값 구해 저장하기
+		this.pi.setStartRowIndex();
+
+		// ================================================
+
+		// 전체 페이지 블럭 갯수 구해 저장
+		this.pi.setTotalPageBlockCnt();
+
+		// 현재 페이지가 속한 페이징 블럭 번호 구해 저장
+		this.pi.setPageBlockOfCurrentPage();
+
+		// 현재 페이징 블럭 시작 페이지 구해 저장
+		this.pi.setStartNumOfCurrentPagingBlock();
+
+		// 현재 페이징 블럭 끝 페이지 구해 저장
+		this.pi.setEndNumOfCurrentPagingBlock();
+
+		System.out.println(pi.toString());
+
+	}
+
+	// 3) 검색어가 없고 필터가 있는 경우 pi 세팅
+	private void makingPagingInfo(int pageNo, String status) throws Exception {
+		// 지역변수 PageNo의 값을 pagingInfo클래스 멤버변수 pageNo에 세팅
+		this.pi.setPageNo(pageNo);
+
+		this.pi.setViewPostCntPerPage(11);
+		this.pi.setPageCntPerBlock(5);
+
+		
+		System.out.println("service단 검색어가 없고 필터가 있는 경우: "+ status);
+		// 게시물 총 데이터 갯수를 구해 저장
+		System.out.println(sDao.selectTotalBoardCntWithStatusFilter(status));
+		this.pi.setTotalPostCnt(sDao.selectTotalBoardCntWithStatusFilter(status));
+
+		// 총 페이지 수를 구해 저장.
+		this.pi.setTotalPageCnt();
+		
+
+		// 보여주기 시작할 row index값 구해 저장하기
+		this.pi.setStartRowIndex();
+
+		// ================================================
+
+		// 전체 페이지 블럭 갯수 구해 저장
+		this.pi.setTotalPageBlockCnt();
+
+		// 현재 페이지가 속한 페이징 블럭 번호 구해 저장
+		this.pi.setPageBlockOfCurrentPage();
+
+		// 현재 페이징 블럭 시작 페이지 구해 저장
+		this.pi.setStartNumOfCurrentPagingBlock();
+
+		// 현재 페이징 블럭 끝 페이지 구해 저장
+		this.pi.setEndNumOfCurrentPagingBlock();
+
+		System.out.println(pi.toString());
+
+	}
+
+	// 2) 검색어가 있고 필터가 없는 경우 경우 pi 세팅
+	private void makingPagingInfo(SearchStudyDTO sDTO, int pageNo) throws Exception {
+		// 지역변수 PageNo의 값을 pagingInfo클래스 멤버변수 pageNo에 세팅
+		this.pi.setPageNo(pageNo);
+
+		this.pi.setViewPostCntPerPage(11);
+		this.pi.setPageCntPerBlock(5);
+
+		// 게시물 총 데이터 갯수를 구해 저장
+		System.out.println(sDao.selectTotalBoardCntWithSdto(sDTO));
+		this.pi.setTotalPostCnt(sDao.selectTotalBoardCntWithSdto(sDTO));
 
 		// 총 페이지 수를 구해 저장.
 		this.pi.setTotalPageCnt();
@@ -94,18 +178,17 @@ public class StudyServiceImpl implements StudyService {
 		System.out.println(pi.toString());
 	}
 
-	// 검색어가 있는 경우 pi 세팅
-	private void makingPagingInfo(SearchStudyDTO sDTO, int pageNo) throws Exception {
+	// 4) 검색어가 없고 필터가 없는 경우 경우 pi 객체 세팅
+	private void makingPagingInfo(int pageNo) throws Exception {
 		// 지역변수 PageNo의 값을 pagingInfo클래스 멤버변수 pageNo에 세팅
 		this.pi.setPageNo(pageNo);
-		
+
 		this.pi.setViewPostCntPerPage(11);
 		this.pi.setPageCntPerBlock(5);
-		
 
 		// 게시물 총 데이터 갯수를 구해 저장
-		System.out.println(sDao.selectTotalBoardCntWithSdto(sDTO));
-		this.pi.setTotalPostCnt(sDao.selectTotalBoardCntWithSdto(sDTO));
+		System.out.println(sDao.selectTotalBoardCnt());
+		this.pi.setTotalPostCnt(sDao.selectTotalBoardCnt());
 
 		// 총 페이지 수를 구해 저장.
 		this.pi.setTotalPageCnt();
@@ -155,7 +238,7 @@ public class StudyServiceImpl implements StudyService {
 				System.out.println("스터디글추가성공");
 
 				System.out.println("insertStack: 새로 추가할 스터디 스터디 모집글" + newStudy.toString());
-				
+
 				// StuStackVO의 stuBoardNo값 세팅
 				newStack.setStuBoardNo(sDao.selectNextStuNo());
 				System.out.println("insertStack: 추가할 스터디 스택 게시글 번호" + newStack.getStuBoardNo());
@@ -192,30 +275,30 @@ public class StudyServiceImpl implements StudyService {
 
 		Map<String, Object> result = new HashMap<String, Object>();
 
-		//System.out.println(stuNo + "번째 글을" + userId + "가 조회한다 - 서비스단");
+		// System.out.println(stuNo + "번째 글을" + userId + "가 조회한다 - 서비스단");
 		System.out.println(lDao.selectDiff(userId, stuNo, bType));
-		
+
 		// 하루이내에 같은 유저가 현재 글을 본적이 있는지 체크
 		if (lDao.selectDiff(userId, stuNo, bType) == -1) {
 			// 읽은적이 한번도 없다면
 			lDao.insertLookup(userId, stuNo, bType);
 			lDao.updateLookupStudyBoard(stuNo);
-		}else {
+		} else {
 			System.out.println("이미오늘조회했다");
 		}
 
 		// stuNo번째 스터디 글
 		StudyBoardVO studyList = sDao.selectStudyByStuNo(stuNo);
-		
+
 		// 스터디 stuNo번째글 스터디 언어 목록
 		List<StuStackDTO> stuStackList = new ArrayList<StuStackDTO>();
-		
+
 		// stuNo를 넘겨주어 공부할 언어 정보를 가져오자
 		stuStackList.addAll(sDao.selectAllStudyStack(studyList.getStuNo()));
 
 		result.put("studyList", studyList);
 		result.put("stuStackList", stuStackList);
-		
+
 		return result;
 
 	}
@@ -225,7 +308,6 @@ public class StudyServiceImpl implements StudyService {
 		return sDao.selectAllStack();
 	}
 
-	
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
 	public int modifyStudyWithStack(StudyBoardDTO newStudy, List<StuStackDTO> modifyStack) throws Exception {
@@ -235,30 +317,28 @@ public class StudyServiceImpl implements StudyService {
 		System.out.println("modifyStack: 수정할 스터디 스택" + modifyStack.toString());
 		System.out.println("insertStack: 수정할 스터디 스터디 모집글" + newStudy.toString());
 
-
 		if (sDao.modifyStudy(newStudy) == 1) {
 			System.out.println("스터디글수정성공");
 
-			for(StuStackDTO s : modifyStack) {
-				if(s.isDelete()) {
+			for (StuStackDTO s : modifyStack) {
+				if (s.isDelete()) {
 					sDao.deleteStudyStack(s.getStuStackNo());
- 					System.out.println(s.getStuStackNo() + "번째 스터디언어 삭제 성공");
- 					result = 1;
+					System.out.println(s.getStuStackNo() + "번째 스터디언어 삭제 성공");
+					result = 1;
 				}
-				if(s.isNew()) {
+				if (s.isNew()) {
 					sDao.insertNewStack(s.getStuBoardNo(), s.getChooseStack());
 					System.out.println(s.getChooseStack() + "스터디언어 추가 성공");
 					result = 1;
 				}
-				
-				result =1;
+
+				result = 1;
 			}
 
 		}
 
 		return result;
 	}
-
 
 	@Override
 	public int deleteStudyBoard(int stuNo) throws Exception {
@@ -267,18 +347,16 @@ public class StudyServiceImpl implements StudyService {
 
 	@Override
 	public Map<String, Object> searchStudyByStack(List<String> studyStackList) throws Exception {
-		
+
 		Map<String, Object> result = new HashMap<String, Object>();
-		 
-					
+
 		List<StudyBoardVO> lst = sDao.searchStudyByStack(studyStackList);
-		
-		
-		for(StudyBoardVO l :lst) {			
+
+		for (StudyBoardVO l : lst) {
 			System.out.println("service단 게시글제목:" + l.getStuTitle());
 		}
 		System.out.println("service단 게시글갯수:" + lst.size());
-		
+
 		// 스터디 No번째글 스터디 언어 목록
 		List<StuStackDTO> stuStackList = new ArrayList<StuStackDTO>();
 
@@ -292,13 +370,13 @@ public class StudyServiceImpl implements StudyService {
 		List<StackVO> stackList = sDao.selectAllStack();
 
 		// System.out.println(stuStackList.toString());
-		
+
 		result.put("studyList", lst);
 		result.put("stuStackList", stuStackList);
-		//result.put("stackList", stackList);
-		
-		return result ;
-		
+		// result.put("stackList", stackList);
+
+		return result;
+
 	}
 
 }

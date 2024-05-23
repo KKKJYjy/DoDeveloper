@@ -117,4 +117,39 @@ public class StudyDAOImpl implements StudyDAO {
 		return ses.selectList(ns + ".searchStudyByStack", studyStackList);
 	}
 
+	@Override
+	public List<StudyBoardVO> selectAllListWithStatusFilter(PagingInfo pi, String status) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("status", status);
+		param.put("startRowIndex", pi.getStartRowIndex());
+		param.put("viewPostCntPerPage", pi.getViewPostCntPerPage());
+		return ses.selectList(ns + ".selectAllListWithStatusFilter", param);
+	}
+
+	@Override
+	public int selectTotalBoardCntWithStatusFilter(String status) throws Exception {
+		return ses.selectOne(ns + ".selectTotalBoardCntWithStatusFilter", status);
+	}
+
+	@Override
+	public int selectTotalBoardCntWithSdtoWithStatusFilter(SearchStudyDTO sDTO, String status) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("status", status);
+		param.put("searchType", sDTO.getSearchType());
+		param.put("searchValue", "%" +sDTO.getSearchValue() + "%");
+		return ses.selectOne(ns + ".selectTotalBoardCntWithSdtoWithStatusFilter", param);
+	}
+
+	@Override
+	public List<StudyBoardVO> selectAllListWithsDTOWithStatusFilter(SearchStudyDTO sDTO, PagingInfo pi,
+			String status) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("status", status);
+		param.put("searchType", sDTO.getSearchType());
+		param.put("searchValue", "%" +sDTO.getSearchValue() + "%");
+		param.put("startRowIndex", pi.getStartRowIndex());
+		param.put("viewPostCntPerPage", pi.getViewPostCntPerPage());
+		return ses.selectList(ns + ".selectAllListWithsDTOWithStatusFilter", param);
+	}
+
 }

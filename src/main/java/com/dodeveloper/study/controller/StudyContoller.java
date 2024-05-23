@@ -53,11 +53,13 @@ public class StudyContoller {
 	@Autowired
 	StudyService stuService;
 
-	// 스터디 모든 목록을 불러오는 메서드 + 검색 기능 추가
+	// 스터디 모든 목록을 불러오는 메서드 + 검색 기능 추가 + 모집중 필터기능 추가
 	@GetMapping(value = "/listAll")
 	public void listAllGet(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+			@RequestParam(value = "statusFilter", defaultValue = "") String status,
 			SearchStudyDTO sDTO) throws Exception {
-		logger.info("listAll View.");
+		logger.info("listAll View");
+		logger.info("listAll : " + pageNo + "번째 글" + "statusFilter : " + status);
 
 		Map<String, Object> result = null;
 
@@ -66,7 +68,9 @@ public class StudyContoller {
 		}
 
 		// 스터디 목록 + 페이징 객체 같이 가지고있는 result
-		result = stuService.selectAllList(sDTO, pageNo);
+					
+		result = stuService.selectAllList(sDTO, pageNo, status);
+		
 
 		List<StudyBoardVO> studyList = (List<StudyBoardVO>) result.get("studyList");
 
