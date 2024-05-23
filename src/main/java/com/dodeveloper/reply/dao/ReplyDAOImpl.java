@@ -1,6 +1,8 @@
 package com.dodeveloper.reply.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +24,18 @@ public class ReplyDAOImpl implements ReplyDAO {
 	 * @author : kde
 	 * @date : 2024.05.07
 	 * @param : int bNo - 게시글 번호
+	 * @param : int bType - 게시판 구분
 	 * @return : List<ReplyVO>
 	 * @description : (Read) 부모글이 ?번 글에 대한 모든 댓글을 가져오는 메서드
 	 */
 	@Override
-	public List<ReplyVO> selectAllReply(int bNo) throws Exception {
-
-		return ses.selectList(ns + ".selectAllReply", bNo);
+	public List<ReplyVO> selectAllReply(int bNo, int bType) throws Exception {
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("bNo", bNo);
+		params.put("bType", bType);
+		
+		return ses.selectList(ns + ".selectAllReply", params);
 	}
 
 	/**

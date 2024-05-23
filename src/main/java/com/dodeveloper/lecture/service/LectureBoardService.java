@@ -1,11 +1,8 @@
 package com.dodeveloper.lecture.service;
 
-import java.util.List;
-
 import java.util.Map;
 
 import com.dodeveloper.lecture.vodto.LectureBoardDTO;
-import com.dodeveloper.lecture.vodto.LectureBoardVO;
 import com.dodeveloper.lecture.vodto.LectureSearchDTO;
 
 public interface LectureBoardService {
@@ -27,5 +24,11 @@ public interface LectureBoardService {
 
 	// 게시글을 삭제 처리하는 메서드
 	boolean deleteLectureBoard(int lecNo) throws Exception;
+	
+	// 게시글에 좋아요 버튼 눌렀을 경우 - 좋아요 갯수 1개 update (전체 게시글에 보여주기)
+	boolean likeUpBoard(int lecNo, String user) throws Exception;
+	
+	// 게시글에 좋아요 버튼 한번 더 눌렀을 경우 - 좋아요 갯수 1개(down) update (전체 게시글에 보여주기)
+	boolean likeDownBoard(int lecNo, String user) throws Exception;
 	
 }

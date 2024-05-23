@@ -9,7 +9,7 @@
 		resultType="com.dodeveloper.lecture.vodto.LectureBoardVO">
 		select lecNo, lecTitle, lecWriter, lecLikeCount,
 		lecReadCount, lecPostDate
-		from lectureBoard order by lecNo desc limit
+		from lectureBoard order by lecPostDate desc limit
 		#{startRowIndex},
 		#{viewPostCntPerPage};
 	</select>
@@ -69,6 +69,8 @@
 	</delete>
 
 	<!-- 검색어가 없을 경우 게시글 전체 글 갯수를 얻어오는 쿼리문 - 검색조건 -->
+	<!-- 검색 필터를 클릭했을 시에 조건에 맞는 글의 갯수를 가져오는 쿼리문 - 검색 필터 -->
+	<!-- 중복 코드여서 같이 사용 -->
 	<select id="getTotalLectureBoard" resultType="int">
 		select count(*) as
 		totalPostCnt from lectureBoard
@@ -108,17 +110,10 @@
 		order by lecNo desc limit #{startRowIndex}, #{viewPostCntPerPage}
 	</select>
 
-	<!-- 검색 필터를 클릭했을 시에 조건에 맞는 글의 갯수를 가져오는 쿼리문 - 검색 필터 -->
+	<!-- 검색 필터를 클릭했을 시에 조건에 맞는 글의 갯수를 가져오는 쿼리문 - 검색 필터
 	<select id="lectureBoardCntFilter" resultType="int">
 		select count(*) from lectureBoard
-		<choose>
-			<when test="filterType == 'latest'">where lecPostDate</when>
-			<when test="filterType 
-		== 'popular'">where lecLikeCount</when>
-			<when test="filterType == 'view'">where lecReadCount
-			</when>
-		</choose>
-	</select>
+	</select> -->
 
 	<!-- 검색 필터를 클릭했을 시에 조건에 맞는 글을 가져오는 쿼리문 + 페이징 - 검색 필터 -->
 	<select id="getLectureBoardListFilter"
@@ -126,13 +121,35 @@
 		select * from lectureBoard
 		<choose>
 			<when test="filterType == 'latest'">order by lecPostDate desc</when>
-			<when test="filterType 
-		== 'popular'">order by lecLikeCount desc</when>
-			<when test="filterType == 'view'">order by lecReadCount
-				desc
-			</when>
+			<when test="filterType == 'popular'">order by lecLikeCount desc</when>
+			<when test="filterType == 'view'">order by lecReadCount desc</when>
 		</choose>
-		limit #{startRowIndex}, #{viewPostCntPerPage}
+		 limit #{startRowIndex}, #{viewPostCntPerPage}
 	</select>
+	
+	<!-- 유저가 게시글에 하트를 눌렀는지 안눌렀는지 확인하는 쿼리문 -->
+	<select id="selectLikeBoard" resultType="int">
+		select count(*) from lectureLikeInfo where lecLikeUser = #{user} and lecNo = #{lecNo}
+	</select>
+	
+	<!-- 유저가 게시글에 하트를 눌렀을 경우 insert 되는 쿼리문 -->
+	<insert id="insertLikeBoard">
+		insert into lectureLikeInfo(lecNo, lecLikeUser) values(#{lecNo}, #{user})
+	</insert>
+	
+	<!-- 페이지에 좋아요 횟수 update -->
+	<update id="updateLikeCount">
+		update lectureBoard set lecLikeCount = lecLikeCount + 1 where lecNo = #{lecNo}
+	</update>
+	
+	<!-- 유저가 게시글에 하트를 한 번 더 눌렀을 경우 delete 되는 쿼리문 -->
+	<delete id="deleteLikeBoard">
+		delete from lectureLikeInfo where lecNo = #{lecNo} and lecLikeUser = #{user}
+	</delete>
+	
+	<!-- 유저가 게시글 하트를 한번 더 눌렀을 경우 좋아요 횟수 down하는 update -->
+	<update id="updateLikeDownCount">
+		update lectureBoard set lecLikeCount = lecLikeCount -1 where lecNo = #{lecNo}
+	</update>
 
 </mapper>

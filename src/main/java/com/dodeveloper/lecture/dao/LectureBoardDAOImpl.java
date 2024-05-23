@@ -226,7 +226,7 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("filterType", lsDTO.getFilterType());
 
-		return ses.selectOne(ns + ".lectureBoardCntFilter", params);
+		return ses.selectOne(ns + ".getTotalLectureBoard", params);
 	}
 
 	/**
@@ -248,6 +248,98 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 		params.put("viewPostCntPerPage", pi.getViewPostCntPerPage());
 		
 		return ses.selectList(ns + ".getLectureBoardListFilter", params);
+	}
+	
+	/**
+	 * @methodName : selectLikeBoard
+	 * @author : kde
+	 * @date : 2024.05.21
+	 * @param : int lecNo - 게시글 번호
+	 * @param : String user - 좋아요 눌렀는지 안눌렀는지 확인할 유저
+	 * @return : int
+	 * @description : 게시글에 유저가 좋아요를 눌렀는지 안눌렀는지 확인하는 메서드
+	 * selectLikeBoard 쿼리문에서 count(*)를 사용하여 갯수를 센 후에 좋아요를 눌렀을 경우 1반환
+	 * 좋아요를 안눌렀을 경우 0반환을 하기때문에 int를 사용함.
+	 * 유저가 하트를 눌렀을 때 좋아요 수가 1증가 -> ♥
+     * 유저가 하트를 한번 더 눌렀을 경우 1감소 -> ♡
+	 */
+	@Override
+	public int selectLikeBoard(int lecNo, String user) throws Exception {
+		
+	    Map<String, Object> params = new HashMap<String, Object>();
+	    params.put("lecNo", lecNo);
+	    params.put("user", user);
+	  
+	    return ses.selectOne(ns + ".selectLikeBoard", params);
+	}
+
+	/**
+	 * @methodName : likeBoard
+	 * @author : kde
+	 * @date : 2024.05.18
+	 * @param : int lecNo - 게시글 번호
+	 * @param : String user - 좋아요를 누르는 유저
+	 * @return : int
+	 * @description : 로그인 한 유저인 경우만 좋아요를 누를 수 있다.
+     * 유저가 하트를 눌렀을 때 좋아요 수가 1증가 -> ♥
+	 */
+	@Override
+	public int insertLikeBoard(int lecNo, String user) throws Exception {
+		System.out.println("다오단 : " + lecNo + "번 글에 " + user + "가 좋아요를 눌렀습니다!");
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("lecNo", lecNo);
+		params.put("user", user);
+		
+		return ses.insert(ns + ".insertLikeBoard", params);
+	}
+
+	/**
+	 * @methodName : updateLikeBoard
+	 * @author : kde
+	 * @date : 2024.05.20
+	 * @param : int lecNo - 게시글 번호
+	 * @return : int
+	 * @description : 게시글에 좋아요 버튼 눌렀을 경우 갯수 1개 update (전체 게시글에 보여주기)
+	 */
+	@Override
+	public int updateLikeCount(int lecNo) throws Exception {
+		
+		return ses.update(ns + ".updateLikeCount", lecNo);
+	}
+
+	/**
+	 * @methodName : deleteLikeBoard
+	 * @author : kde
+	 * @date : 2024.05.21
+	 * @param : int lecNo - 게시글 번호
+	 * @param : String user - 좋아요를 눌렀다가 취소하려는 회원
+	 * @param : int lecLikeNo - 좋아요 누른 순번
+	 * @return : int
+	 * @description : 게시글에 좋아요 한 번 더 눌렀을 경우 취소처리하는 메서드
+	 * 유저가 하트를 한번 더 눌렀을 경우 1감소 -> ♡
+	 */
+	@Override
+	public int deleteLikeBoard(int lecNo, String user) throws Exception {
+		System.out.println("다오단 : " + lecNo + "번 글에 " + user + "가 좋아요를 취소했습니다!");
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("lecNo", lecNo);
+		params.put("user", user);
+		
+		return ses.delete(ns + ".deleteLikeBoard", params);
+	}
+	
+	/**
+	 * @methodName : updateLikeBoard
+	 * @author : kde
+	 * @date : 2024.05.20
+	 * @param : int lecNo - 게시글 번호
+	 * @return : int
+	 * @description : 유저가 게시글 하트를 한번 더 눌렀을 경우 좋아요 횟수 down하는 update (전체 게시글에 보여주기)
+	 */
+	@Override
+	public int updateLikeDownCount(int lecNo) throws Exception {
+		
+		return ses.update(ns + ".updateLikeDownCount", lecNo);
 	}
 
 }
