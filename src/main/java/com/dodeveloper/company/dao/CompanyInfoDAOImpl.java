@@ -74,7 +74,7 @@ public class CompanyInfoDAOImpl implements CompanyInfoDAO {
 	}
 
 	@Override
-	public int updateEditWrittenBoard(WrittenCompanyBoardDTO newEditWrittenBoard) throws Exception {
+	public int updateEditWrittenBoard(RevCompanyBoardVO newEditWrittenBoard) throws Exception {
 		System.out.println("DAO단 게시글 수정함!!!!!");
 		
 		return ses.update(ns + ".updateEditWrittenBoard", newEditWrittenBoard);

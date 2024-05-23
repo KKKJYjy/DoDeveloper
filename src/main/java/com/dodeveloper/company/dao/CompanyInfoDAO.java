@@ -23,7 +23,7 @@ public interface CompanyInfoDAO {
 	RevCompanyBoardVO selectEditWrittenBoard(int revNo) throws Exception;
 	
 	// 기업 리뷰 글을 수정하는 메서드
-	int updateEditWrittenBoard(WrittenCompanyBoardDTO newEditWrittenBoard) throws Exception;
+	int updateEditWrittenBoard(RevCompanyBoardVO newEditWrittenBoard) throws Exception;
 	
 }
 
