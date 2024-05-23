@@ -48,66 +48,60 @@
   ======================================================== -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-<style>
-.companyCard {
-	display: flex;
-	justify-content: space-around;
-	align-item: center;
-	margin-bottom: 10px;
-	padding: 20px 10px;
-	overflow: auto;
-	padding: 20px 10px;
-}
-
-.companyDesc {
-	flex: 1;
-}
-</style>
 </head>
-
-
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
-	<c:import url="../header.jsp" />
-
+	<%@ include file="../header.jsp"%>
 	<main id="main">
 		<!-- Basic Section - CompanyInfo Page -->
 		<section id="companyInfo" class="basic">
-			<!-- <h1>기업리뷰</h1> -->
+			<div class="container">
 
-			<!-- 기업 전체 리스트 -->
-			<div class="container mt-3">
-				<p>IT/웹/통신</p>
+				<h4>기업 리뷰글 수정 페이지</h4>
 
-				<ul class="list-group">
-					<c:forEach var="ci" items="${ciList}">
-						<a href="/companyInfo/revCompanyBoard?companyInfoNo=${ci.companyInfoNo}"
-							class="list-group-item list-group-item-action companyCard">
+				<form action="/companyInfo/editWrittenBoardPOST" method="post">
+					<div class="mb-3 mt-3">
+						<div class="table table-striped">
+							<label for="revTitle" class="form-label">제목</label>
+							<input type="text" class="form-control" id="revTitle"
+									value="${revBoard.revTitle}" name="revTitle" />
+									
+							<label for="revProfession" class="form-label">파트</label>
+							<input type="text" class="form-control" id="revProfession"
+									value="${revBoard.revProfession}" name="revProfession" />
+							
+							<label for="revContent" class="form-label">내용</label>
+							<input type="text" class="form-control" id="revContent"
+									value="${revBoard.revContent}" name="revContent" />				
+							
+							<label for="revGood" class="form-label">장점</label>
+							<input type="text" class="form-control" id="revGood"
+									value="${revBoard.revGood}" name="revGood" />		
+							
+							<label for="revBed" class="form-label">단점</label>
+							<input type="text" class="form-control" id="revBed"
+									value="${revBoard.revBed}" name="revBed" />	
+						</div>
+					</div>
+					
+					<div>
+						<input type="hidden" name="companyInfoNo" value="${param.companyInfoNo}">
+					</div>
 
-							<div style="width: 200px;" >
-								<img class="companyLogo" src="${ci.companyInfoImgLogo}"
-									alt="${ci.companyInfoName}"
-									style="width: 100px; height: 100px;">
-							</div>
-							<div class="companyDesc" >
-								<h4 class="card-title">${ci.companyInfoName}</h4>
-								<div class="card-text">${ci.companyInfoFields}</div>
-								<div class="card-text">${ci.companyInfoLocation}</div>
-							</div>	
-						</a>
-					</c:forEach>
-				</ul>
-			</div>
+					<div>
+						<input type="hidden" name="bType" value="3">
+					</div>
+					<input type="submit" class="btn btn-success" value="수정완료"
+						onclick="location.href='/companyInfo/revCompanyBoard?companyInfoNo=${param.companyInfoNo}&revNo=${rev.revNo}';" /> 
+					<input type="reset" class="btn btn-danger" value="취소"
+						onclick="location.href='/companyInfo/revCompanyBoard?companyInfoNo=${param.companyInfoNo}&revNo=${rev.revNo}';" />
+					</form>
+				</div>
 		</section>
 		<!-- End Basic Section -->
 	</main>
 
-	<c:import url="../footer.jsp" />
+	<%@ include file="../footer.jsp"%>
 
-	<!-- Scroll Top Button -->
-	<a href="#" id="scroll-top"
-		class="scroll-top d-flex align-items-center justify-content-center"><i
-		class="bi bi-arrow-up-short"></i></a>
 
 	<!-- Preloader -->
 	<div id="preloader">

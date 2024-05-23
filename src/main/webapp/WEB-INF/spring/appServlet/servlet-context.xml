@@ -68,7 +68,9 @@
 			<mapping path="/study/writeStudyBoard" />
 			
 			<!-- 기업 리뷰 작성하기 -->  
-			<mapping path="/companyInfo/writtenBoard" /> 
+			<mapping path="/companyInfo/writtenBoard" />
+			<!-- 기업 리뷰 수정 버튼 클릭시 동작 --> 
+			<mapping path="/companyInfo/editWrittenBoard" />
 
 			<!-- 메세지 조회하기 -->
 			<mapping path="/message"/>
