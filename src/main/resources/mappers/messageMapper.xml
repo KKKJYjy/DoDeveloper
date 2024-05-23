@@ -5,15 +5,67 @@
 <mapper namespace="com.dodeveloper.mappers.messageMapper">
 
 	<select id="selectMessageByNo" resultType="MessageVO">
-		select * from message where messageNo = ${messageNo}
+		select * from message
+		where messageNo = ${messageNo}
 	</select>
 
-	<select id="selectMessagesByUserId" resultType="MessageVO">
-		select * from message where writer = #{userId} order by messageNo desc limit #{startPoint}, #{amountToShow};
+	<select id="selectMessagesByWriter" resultType="MessageVO">
+		select * from message where writer = #{writer}
+		<if test="title != null">
+			AND title like #{title}
+		</if>
+		<if test="content != null">
+			AND content like #{content}
+		</if>
+		and isDeleted = "N"
+		order by messageNo desc limit #{startPoint}, #{amountToShow};
 	</select>
 
-	<insert id="insertIntoMessage" useGeneratedKeys="true" keyProperty="messageNo" parameterType="MessageDTO">
-		insert into message(writer, title, content) values(#{writer}, #{title}, #{content});
+	<select id="selectMessageCntByWriter" resultType="Integer">
+		select count(*) from message where writer = #{writer}
+		<if test="title != null">
+			AND title like #{title}
+		</if>
+		<if test="content != null">
+			AND content like #{content}
+		</if>
+		 and isDeleted = "N";
+	</select>
+
+	<insert id="insertIntoMessage" useGeneratedKeys="true"
+		keyProperty="messageNo" parameterType="MessageDTO">
+		insert into message(writer,
+		title, content) values(#{writer}, #{title}, #{content});
 	</insert>
 
+	<select id="selectMessageByReceiverId" resultType="MessageVO">
+		select * from message where messageNo in
+		(select messageNo from messageBox where receiver = #{receiver})
+		<if test="title != null">
+			AND title like #{title}
+		</if>
+		<if test="writer != null">
+			AND writer like #{writer}
+		</if>
+		<if test="content != null">
+			AND content like #{content}
+		</if>
+		and isDeleted = "N"
+		order by messageNo desc limit #{startPoint}, #{amountToShow};
+	</select>
+	
+	<select id="selectMessageCntByReceiverId" resultType="Integer">
+		select count(*) from message where messageNo in
+		(select messageNo from messageBox where receiver = #{receiver})
+		<if test="title != null">
+			AND title like #{title}
+		</if>
+		<if test="writer != null">
+			AND writer like #{writer}
+		</if>
+		<if test="content != null">
+			AND content like #{content}
+		</if>
+		and isDeleted = "N";
+	</select>
 </mapper>

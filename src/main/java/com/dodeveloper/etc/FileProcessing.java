@@ -1,11 +1,13 @@
 package com.dodeveloper.etc;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,23 +16,37 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileProcessing {
 
 	private String realPath;
+	private String realPermaUploadPath;
+	private String realTempUploadPath;
 
 	@Autowired
 	public FileProcessing(ServletContext servletContext) {
 		realPath = servletContext.getRealPath("");
-		File realUploadPath = new File(realPath + File.separator + UploadPaths.realUploadPath);
-		File tempUploadPath = new File(realPath + File.separator + UploadPaths.tempUploadPath);
-		realUploadPath.mkdir();
-		tempUploadPath.mkdir();
+		realPermaUploadPath = realPath + UploadPaths.permanentUploadPath;
+		realTempUploadPath = realPath + UploadPaths.tempUploadPath;
+		
+		System.out.println(realPermaUploadPath);
+		File permaUploadDir = new File(realPermaUploadPath);
+		File tempUploadDir = new File(realTempUploadPath);
+		permaUploadDir.mkdir();
+		tempUploadDir.mkdir();
 	}
 
 	public String getRealPath() {
 		return realPath;
 	}
 	
+	public String getPermaUploadPath() {
+		return realPermaUploadPath;
+	}
+	
+	public String getTempUploadPath() {
+		return realTempUploadPath;
+	}
+	
 	public String saveTempFilePermanantly(String fileName) throws Exception {
 		return moveFile(fileName, realPath + File.separator + UploadPaths.tempUploadPath,
-				realPath + File.separator + UploadPaths.realUploadPath);
+				realPath + File.separator + UploadPaths.permanentUploadPath);
 	}
 
 	public String uploadFileTemporarily(MultipartFile file) throws Exception {
@@ -70,17 +86,28 @@ public class FileProcessing {
 	}
 
 	private String createUniqueName(String fileName, String filePath) throws Exception {
-		if ((new File(filePath + File.separator + fileName).exists()) == false) {
-			return fileName;
-		}
 
 		String ext = getExtension(fileName);
 		String nameWithoutExt = getNameWithoutExt(fileName);
 
+		File downloadDir = new File(filePath);
+		FileFilter fileFilter = new WildcardFileFilter(nameWithoutExt + ".*");
+		File[] sameNamedFiles = downloadDir.listFiles(fileFilter);
+		File sameNamedFileButHasNoExt = new File(filePath + File.separator + nameWithoutExt);
+		
+		if (sameNamedFiles.length <= 0 && !sameNamedFileButHasNoExt.exists()) {
+			return fileName;
+		}
+
 		for (int i = 0; i <= 999; i++) {
-			String newName = nameWithoutExt + "_" + i + "." + ext;
-			if ((new File(filePath + File.separator + newName)).exists() == false) {
-				return newName;
+			String newNameWithoutExt = nameWithoutExt + "_" + i;
+			
+			fileFilter = new WildcardFileFilter(newNameWithoutExt + ".*");
+			sameNamedFiles = downloadDir.listFiles(fileFilter);
+			sameNamedFileButHasNoExt = new File(filePath +  File.separator + newNameWithoutExt);
+			
+			if (sameNamedFiles.length <= 0 && !sameNamedFileButHasNoExt.exists()) {
+				return newNameWithoutExt + "." + ext;
 			}
 		}
 
@@ -88,10 +115,16 @@ public class FileProcessing {
 	}
 
 	public String getExtension(String fileName) {
+		if(fileName.lastIndexOf(".") == -1) {
+			return "";
+		}
 		return fileName.substring(fileName.lastIndexOf(".") + 1);
 	}
 
 	public String getNameWithoutExt(String fileName) {
+		if(fileName.lastIndexOf(".") == -1) {
+			return fileName;
+		}
 		return fileName.substring(0, fileName.lastIndexOf("."));
 	}
 	

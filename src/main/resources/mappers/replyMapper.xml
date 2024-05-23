@@ -24,4 +24,9 @@
 		update reply set replyContent = #{replyContent},
 		writtenDate = now() where replyNo = #{replyNo} and bType = 1
 	</update>
+	
+	<!-- ?번 댓글을 삭제하는 쿼리문 -->
+	<delete id="deleteReply">
+		delete from reply where replyNo = #{replyNo} and bType = 1
+	</delete>
 </mapper>

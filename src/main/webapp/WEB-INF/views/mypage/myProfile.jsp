@@ -59,6 +59,14 @@
     $("#newUserPwd").val("");
     $("#newUserPwdConfirm").val("");
   });
+  
+  var staticBackdrop = document.getElementById("sb_dropMember");
+  staticBackdrop.addEventListener("show.bs.modal", function (event) {
+    console.log("sb_dropMember open");
+
+    $("#etcReason").val("");
+    $('input[name="dropReason"]:checked').prop("checked", false);
+  });
 
   $("#fileUploader").change(handleImgInput);
 
@@ -361,6 +369,94 @@ function changePwd() {
 	}
 }
 
+function modifyProfile() {
+	$("#modifyProfileBtn").hide();
+	$("#updateProfileBtn").show();
+	
+	$('#email').attr("readonly", false);
+	
+	/* $("#careerRadio1").removeAttr("onclick");
+	$("#careerRadio2").removeAttr("onclick"); */
+	
+	$("input[name=careerRadio]").removeAttr("onclick");
+}
+
+function updateProfile() {
+	$("#modifyProfileBtn").show();
+	$("#updateProfileBtn").hide();
+	
+	$('#email').attr("readonly", true);
+	
+	/* $("#careerRadio1").attr("onclick", 'return false');
+	$("#careerRadio2").attr("onclick", 'return false'); */
+	
+	$("input[name=careerRadio]").attr("onclick", 'return false');
+	
+	console.log($("input[name=careerRadio]:checked").val());
+	
+	let userId = "${loginMember.userId}";
+	let data = {
+	  userId : userId,
+	  email : $("#email").val(),
+	  careers : $("input[name=careerRadio]:checked").val()
+	};
+	
+	$.ajax({
+	    url: "/mypage/changeProfile",
+	    type: "post",
+	    contentType: "application/json;charset=utf-8;",
+	    data: JSON.stringify(data),
+	    dataType: "json",
+	    success: function (data) {
+	      if (data.message == "Success") {
+	        console.log("개인정보 변경 성공");
+	        $("#staticBackdrop").hide();
+	        setTimeout(function() { 
+	        	alert('개인정보가 변경되었습니다.')
+	        }, 200);
+	      } else {
+	        console.log("개인정보 변경 실패");
+	      }
+	    },
+	});
+}
+
+function dropMember() {
+	var dropReason = "";
+	var radioId = $('input[name="dropReason"]:checked').attr("id");
+	if (radioId == "dropReason_7") {
+		dropReason = $("#etcReason").val();
+	} else {
+		dropReason = $('label[for="'+radioId+'"]').text();
+	}
+	console.log("dropReason", dropReason);
+	
+	let userId = "${loginMember.userId}";
+	let data = {
+	  userId : userId,
+	  dropReason : dropReason,
+	  status : "탈퇴회원"
+	};
+		
+	$.ajax({
+	    url: "/member/dropMember",
+	    type: "post",
+	    contentType: "application/json;charset=utf-8;",
+	    data: JSON.stringify(data),
+	    dataType: "json",
+	    success: function (data) {
+	      if (data.message == "Success") {
+	        console.log("회원탈퇴 성공");
+	        $("#sb_dropMember").hide();
+	        setTimeout(function() { 
+	        	alert('회원 탈퇴가 완료되었습니다.')
+	        }, 200);
+	      } else {
+	        console.log("회원탈퇴 실패");
+	      }
+	    },
+	});
+}
 </script>
 </head>
 
@@ -435,19 +531,24 @@ function changePwd() {
 													value="${loginMember.email }" readonly />
 											</div>
 										</div>
+										${loginMember.careers}
 										<div class="row gx-3 mt-3">
 											<div class="row">
-												<label class="small mb-1" for="phoneNumber">커리어</label>
+												<label class="small mb-1" for="career">커리어</label>
 												<div class="d-flex gap-3">
 													<div class="form-check">
-														<input class="form-check-input" type="radio"
-															name="flexRadioDefault" id="flexRadioDefault1"> <label
-															class="form-check-label" for="flexRadioDefault1">신입</label>
+														<input class="form-check-input" type="radio" value="신입"
+															name="careerRadio" id="careerRadio1"
+															${loginMember.careers == "신입" ? 'checked' : ''}
+															onclick="return false"> <label
+															class="form-check-label" for="careerRadio1">신입</label>
 													</div>
 													<div class="form-check">
-														<input class="form-check-input" type="radio"
-															name="flexRadioDefault" id="flexRadioDefault2" checked>
-														<label class="form-check-label" for="flexRadioDefault2">경력</label>
+														<input class="form-check-input" type="radio" value="경력"
+															name="careerRadio" id="careerRadio2"
+															${loginMember.careers == "경력" ? 'checked' : ''}
+															onclick="return false"> <label
+															class="form-check-label" for="careerRadio2">경력</label>
 													</div>
 												</div>
 											</div>
@@ -472,8 +573,12 @@ function changePwd() {
 					<div class="row justify-content-center mt-3">
 						<div class="col-xl-8">
 							<div class="card mb-4 mb-xl-0">
-								<div class="card-header">내가 작성한 스터디 모임글 리스트</div>
-								<div class="card-body"></div>
+								<div class="card-header">스터디 모임</div>
+								<div class="card-body">
+									<a href="#" class="stretched-link me-4">내가 작성한 스터디 모임글</a> 
+									<a href="#" class="stretched-link me-4">내가 신청한 스터디 모임글</a> 
+									<a href="#" class="stretched-link">내가 참여중인 스터디 모임글</a>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -541,8 +646,8 @@ function changePwd() {
 									<button class="btn btn-success" type="button"
 										onclick="location.href='/member/logout'">로그아웃</button>
 
-									<button id="#" class="btn btn-danger float-end" type="button"
-										onclick="#;">회원탈퇴</button>
+									<button class="btn btn-danger float-end" type="button"
+										data-bs-toggle="modal" data-bs-target="#sb_dropMember">회원탈퇴</button>
 								</div>
 							</div>
 						</div>
@@ -605,6 +710,84 @@ function changePwd() {
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">취소</button>
 					<button type="button" class="btn btn-danger" onclick="changePwd();">변경</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 회원탈퇴 Modal -->
+	<div class="modal fade" id="sb_dropMember" data-bs-backdrop="static"
+		data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="staticBackdropLabel">회원 탈퇴</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="form-header text-center mb-4">
+						<i class="bi bi-shield-lock"></i>
+						<div class="text-center mb-3">
+							<span class="fw-light fs-4 text-secondary">${loginMember.userName }
+								님, 회원 탈퇴 시 아래와 같이 처리됩니다.</span>
+						</div>
+						<div class="card mb-3">
+							<div class="card-body">회원 탈퇴일로부터 계정과 닉네임을 포함한 계정
+								정보(아이디/이름/이메일)는 개인정보 보호정책에 따라 60일간 보관(잠김)되며, 60일 경과된 후에는 모든 개인
+								정보는 완전히 삭제되며 더 이상 복구할 수 없게 됩니다. 작성된 게시물은 삭제되지 않으며, 익명처리 후 DDev로
+								소유권이 귀속됩니다. 게시물 삭제가 필요한 경우에는 관리자 메일로 문의해 주시기 바랍니다.</div>
+						</div>
+						<div class="text-start mb-3">
+							<div class="mb-3">계정을 삭제하시려는 이유를 말씀해주세요. 사이트 개선에 중요한 자료로
+								활용하겠습니다.</div>
+							<div class="vstack gap-1">
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="dropReason"
+										id="dropReason_1"> <label class="form-check-label"
+										for="dropReason_1">기록 삭제 목적</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="dropReason"
+										id="dropReason_2"> <label class="form-check-label"
+										for="dropReason_2">이용이 불편하고 장애가 많아서</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="dropReason"
+										id="dropReason_3"> <label class="form-check-label"
+										for="dropReason_3">다른 사이트가 더 좋아서</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="dropReason"
+										id="dropReason_4"> <label class="form-check-label"
+										for="dropReason_4">삭제하고 싶은 내용이 있어서</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="dropReason"
+										id="dropReason_5"> <label class="form-check-label"
+										for="dropReason_5">사용빈도가 낮아서</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="dropReason"
+										id="dropReason_6"> <label class="form-check-label"
+										for="dropReason_6">콘텐츠 불만</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="dropReason"
+										id="dropReason_7"> <label class="form-check-label"
+										for="dropReason_7">기타</label> <input class="form-control"
+										type="text" id="etcReason" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">취소</button>
+					<button type="button" class="btn btn-danger"
+						onclick="dropMember();">탈퇴</button>
 				</div>
 			</div>
 		</div>

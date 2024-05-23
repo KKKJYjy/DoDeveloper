@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%
+Date l = new Date(System.currentTimeMillis());
+SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -49,6 +55,14 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
+<script
+	src="/resources/assets/js/company/common.js?v=<%=sdf.format(l)%>"></script>
+<script>
+	if (getParameter('status') == 'reviewFail') {
+		alert('리뷰 작성에 실패하셨습니다!');
+	}
+</script>
+
 <style>
 .companyInfo {
 	display: flex;
@@ -83,16 +97,15 @@
 		<section id="companyInfo" class="basic">
 			<!-- <h1>기업리뷰 상세 페이지</h1> -->
 			<div class="container mt-3">
-			
-				<!-- 해당 기업 리뷰 클릭하면 기업후기 대신 기업명 표기 구현 예정
-					작성자는 익명 처리 할 예정 -->
+
+				<!-- 해당 기업 리뷰 클릭하면 기업후기 대신 기업명 표기 구현 예정 
+					 작성자는 익명 처리 할 예정 -->
 				<p>기업후기</p>
 
 				<ul class="list-group">
 
 					<c:forEach var="rev" items="${revList}">
 						<table class="table table-striped">
-							
 							<tr>
 								<th>작성자</th>
 								<td>${rev.revWriter}</td>
@@ -118,11 +131,16 @@
 								<td>${rev.revBed}</td>
 							</tr>
 						</table>
+						<input type="button" class="btn btn-info" value="글수정"
+								onclick="location.href='/companyInfo/editWrittenBoard?companyInfoNo=${param.companyInfoNo}&revNo=${rev.revNo}';" />	
+						<input type="button" class="btn btn-danger" value="글삭제"
+								onclick="location.href='/companyInfo/deleteWrittenBoard?companyInfoNo=${param.companyInfoNo}&revNo=${rev.revNo}';" />						
 					</c:forEach>
 				</ul>
 			</div>
-			<a href="/companyInfo/writtenBoard?companyInfoNo=${param.companyInfoNo}" 
+			<a href="/companyInfo/writtenBoard?companyInfoNo=${param.companyInfoNo}"
 				class="float"><i class="fa fa-plus my-float"></i></a>
+
 		</section>
 		<!-- End Basic Section -->
 	</main>
@@ -159,8 +177,7 @@
 
 	<!-- Template Main JS File -->
 	<script src="/resources/assets/js/main.js"></script>
-	<script src="https://kit.fontawesome.com/ffcac42df4.js" crossorigin="anonymous"></script>
+	<script src="https://kit.fontawesome.com/ffcac42df4.js"
+		crossorigin="anonymous"></script>
 </body>
 </html>
-
-

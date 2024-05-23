@@ -8,7 +8,23 @@
 		select * from messageBox where receiver = #{receiver} order by messageBoxNo desc limit #{startPoint}, #{amountToShow};
 	</select>
 
+	<select id="selectMessageBoxCntByReceiver" resultType="Integer">
+		select count(*) from messageBox where receiver = #{receiver} and isDeleted = "N";
+	</select>
+
 	<insert id="insertIntoMessageBox" parameterType="MessageBoxDTO">
 		insert into messageBox(messageNo, receiver) values(#{messageNo} , #{receiver});
 	</insert>
+	
+	<select id="selectMessageBoxByMessageNo" resultType="MessageBoxVO">
+		select * from messageBox where messageNo = #{messageNo};
+	</select>
+	
+	<update id="updateIsRead">
+		update messageBox set isRead = 'Y' where isRead = 'N' and receiver = #{receiver};
+	</update>
+	
+	<select id="countUnreadMessages" resultType="Integer">
+		select count(isRead) from messageBox where receiver = #{receiver} and isRead = "N";
+	</select>
 </mapper>

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dodeveloper.member.service.MemberService;
 import com.dodeveloper.member.vo.MemberVO;
+import com.dodeveloper.mypage.dto.ChangeProfileDTO;
 import com.dodeveloper.mypage.dto.ChangePwdDTO;
 import com.dodeveloper.mypage.dto.ProfileDTO;
 import com.dodeveloper.mypage.service.MyPageService;
@@ -67,7 +68,7 @@ public class MyPageController {
 		
 		HttpHeaders headers = new HttpHeaders();
 		Charset utf8 = Charset.forName("utf-8");
-		MediaType mediaType = new MediaType(MediaType.APPLICATION_JSON_UTF8, utf8);
+		MediaType mediaType = new MediaType(MediaType.APPLICATION_JSON, utf8);
 		headers.setContentType(mediaType);
 		
 		return ResponseEntity.ok().headers(headers).body(returnMap);
@@ -140,7 +141,7 @@ public class MyPageController {
 		
 		HttpHeaders headers = new HttpHeaders();
 		Charset utf8 = Charset.forName("utf-8");
-		MediaType mediaType = new MediaType(MediaType.APPLICATION_JSON_UTF8, utf8);
+		MediaType mediaType = new MediaType(MediaType.APPLICATION_JSON, utf8);
 		headers.setContentType(mediaType);
 		
 		return ResponseEntity.ok().headers(headers).body(returnMap);
@@ -168,7 +169,30 @@ public class MyPageController {
 		
 		HttpHeaders headers = new HttpHeaders();
 		Charset utf8 = Charset.forName("utf-8");
-		MediaType mediaType = new MediaType(MediaType.APPLICATION_JSON_UTF8, utf8);
+		MediaType mediaType = new MediaType(MediaType.APPLICATION_JSON, utf8);
+		headers.setContentType(mediaType);
+		
+		return ResponseEntity.ok().headers(headers).body(returnMap);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/changeProfile", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<Map<String, Object>> changePwd(@RequestBody ChangeProfileDTO changeProfileDTO) throws Exception {
+		System.out.println("changeProfileDTO : " + changeProfileDTO.toString());
+		
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		
+		if (mService.changeProfile(changeProfileDTO) > 0) {
+			returnMap.put("state", "T");
+			returnMap.put("message", "Success");
+		} else {
+			returnMap.put("state", "F");
+			returnMap.put("message", "Fail");
+		}
+		
+		HttpHeaders headers = new HttpHeaders();
+		Charset utf8 = Charset.forName("utf-8");
+		MediaType mediaType = new MediaType(MediaType.APPLICATION_JSON, utf8);
 		headers.setContentType(mediaType);
 		
 		return ResponseEntity.ok().headers(headers).body(returnMap);

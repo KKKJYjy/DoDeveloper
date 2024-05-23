@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.dodeveloper.reply.service.ReplyService;
 import com.dodeveloper.reply.vodto.ReplyDTO;
 import com.dodeveloper.reply.vodto.ReplyVO;
 
-@Controller
+@RestController
 @RequestMapping("/reply")
 public class ReplyController {
 
@@ -75,12 +77,12 @@ public class ReplyController {
 		try {
 			if (rService.insertReply(rDTO) == 1) {
 				// 댓글 작성에 성공했을 경우
-				result = new ResponseEntity<String>("댓글 작성 성공", HttpStatus.OK);
+				result = new ResponseEntity<String>("success", HttpStatus.OK);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			// 댓글 작성에 실패했을 경우
-			result = new ResponseEntity<String>("댓글 작성 실패", HttpStatus.CONFLICT);
+			result = new ResponseEntity<String>("fail", HttpStatus.CONFLICT);
 		}
 		return result;
 	}
@@ -94,23 +96,61 @@ public class ReplyController {
 	 * @return : ResponseEntity<String>
 	 * @description : 게시글에 유저가 작성한 댓글을 수정하는 메서드
 	 */
-	@RequestMapping(value = "/modify/{replyNo}", method = RequestMethod.PUT)
-	public ResponseEntity<String> updateReply(@PathVariable("replyNo") int replyNo, @RequestBody ReplyDTO rDTO) {
-		System.out.println(replyNo + "번 댓글에" + rDTO.toString() + "수정 완료 되었습니다!");
+	@RequestMapping(value = "/{replyNo}", method = RequestMethod.PUT)
+	public ResponseEntity<String> updateReply(@PathVariable("replyNo") int replyNo, @RequestBody ReplyDTO newReply) {
+		System.out.println(replyNo + "번 " + newReply.toString() + "댓글 수정이 완료 되었습니다!");
 		
 		ResponseEntity<String> result = null;
 		
 		try {
-			if (rService.updateReply(rDTO) == 1) {
-				result = new ResponseEntity<String>("댓글 수정 완료", HttpStatus.OK);
+			if (rService.updateReply(newReply) == 1) {
+				result = new ResponseEntity<String>("success", HttpStatus.OK);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			
-			result = new ResponseEntity<String>("댓글 수정 실패", HttpStatus.CONFLICT);
+			result = new ResponseEntity<String>("fail", HttpStatus.CONFLICT);
 		} 
 		
 		return result;
+	}
+	
+	/**
+	 * @methodName : removeReply
+	 * @author : 
+	 * @date : 2024.05.11
+	 * @param : @PathVariable("replyNo") int replyNo - 삭제할 댓글 번호
+	 * @param : 
+	 * @param : 
+	 * @return : ResponseEntity<String>
+	 * @description : 게시글에 유저가 작성한 댓글을 삭제하는 메서드
+	 */
+	@RequestMapping(value = "/{replyNo}")
+	public ResponseEntity<String> removeReply(@PathVariable("replyNo") int replyNo) {
+		System.out.println(replyNo + "번 댓글이 삭제되었습니다!");
+		
+		ResponseEntity<String> result = null;
+		
+		try {
+			if (rService.deleteReply(replyNo) == 1) {
+				// 댓글 삭제
+				result = new ResponseEntity<String>("success", HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			// 댓글 삭제 실패
+			e.printStackTrace();
+			
+			result = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+		}
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "/cancelReply", method = RequestMethod.POST)
+	public @ResponseBody String cancelReply() {
+		System.out.println("댓글 작성 안할래요!");
+		
+		return "success";
 	}
 
 }

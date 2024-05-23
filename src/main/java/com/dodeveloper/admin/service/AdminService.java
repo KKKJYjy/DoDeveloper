@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.dodeveloper.admin.dto.ConnectLogDTO;
 import com.dodeveloper.admin.vo.AdminVO;
+
 import com.dodeveloper.admin.vo.BadMemberBoardVO;
 import com.dodeveloper.admin.vo.ConnectLogVO;
 import com.dodeveloper.admin.vo.CountUriVO;
@@ -11,8 +12,9 @@ import com.dodeveloper.member.vo.MemberVO;
 
 public interface AdminService {
 	
-	List<AdminVO> getlistStudyBoard() throws Exception;
 	
+	
+	// 불량회원 조회 메서드
 	List<BadMemberBoardVO> getListBadMemberBoard() throws Exception;
 
 	// 전체 유저를 조회하는 메서드

@@ -19,10 +19,27 @@
 			type="com.dodeveloper.message.vodto.MessageBoxDTO" />
 		<typeAlias alias="AdminVO"
 			type="com.dodeveloper.admin.vo.AdminVO" />
-			
+
 		<typeAlias alias="BadMemberBoardVO"
 			type="com.dodeveloper.admin.vo.BadMemberBoardVO" />
-		
+
+		<typeAlias alias="AdminLectureVO"
+			type="com.dodeveloper.admin.vo.AdminLectureVO" />
+
+		<typeAlias alias="AdminArgBoardVO"
+			type="com.dodeveloper.admin.vo.AdminArgBoardVO" />
+
+		<typeAlias alias="AdminReviewBoardVO"
+			type="com.dodeveloper.admin.vo.AdminReviewBoardVO" />
+
+		<typeAlias alias="NoticeDTO"
+			type="com.dodeveloper.admin.dto.NoticeDTO" />
+
+		<typeAlias alias="ReportVO"
+			type="com.dodeveloper.admin.vo.ReportVO" />
+
+
+
 		<typeAlias alias="MessageFileDTO"
 			type="com.dodeveloper.message.vodto.MessageFileDTO" />
 

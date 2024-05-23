@@ -30,7 +30,7 @@
 <link href="/resources/admin/assets/plugins/c3-master/c3.min.css" rel="stylesheet" />
 <!-- Custom CSS -->
 
-<link href="../resources/css/style.min.css" rel="stylesheet" />
+<link href="/resources/admin/css/style.min.css" rel="stylesheet" />
 <style>
 #chat-channel-button {
 	position: fixed;

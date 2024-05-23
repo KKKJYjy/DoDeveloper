@@ -70,9 +70,9 @@
 	<aop:aspectj-autoproxy />
 
 	<aop:config></aop:config>
-	
-	<task:scheduler id="jobScheduler" pool-size="10"/>
-	<task:annotation-driven scheduler="jobScheduler"/>
+
+	<task:scheduler id="jobScheduler" pool-size="10" />
+	<task:annotation-driven scheduler="jobScheduler" />
 
 	<!-- 아래의 패키지를 조사(scan)하여 객체를 스프링 컨테이너에 관리하도록 설정 -->
 	<context:component-scan
@@ -94,10 +94,13 @@
 	<context:component-scan
 		base-package="com.dodeveloper.etc"></context:component-scan>
 
+	<!-- Lecture 관련 패키지 -->
 	<context:component-scan
 		base-package="com.dodeveloper.lecture.service"></context:component-scan>
 	<context:component-scan
 		base-package="com.dodeveloper.lecture.dao"></context:component-scan>
+	<context:component-scan
+		base-package="com.dodeveloper.lecture.etc"></context:component-scan>
 	<!-- 댓글 패키지 -->
 	<context:component-scan
 		base-package="com.dodeveloper.reply.dao"></context:component-scan>
@@ -116,6 +119,16 @@
 		base-package="com.dodeveloper.study.service"></context:component-scan>
 	<context:component-scan
 		base-package="com.dodeveloper.study.dao"></context:component-scan>
+	<context:component-scan
+		base-package="com.dodeveloper.study.etc"></context:component-scan>
+	<context:component-scan
+		base-package="com.dodeveloper.studyApply.service"></context:component-scan>
+	<context:component-scan
+		base-package="com.dodeveloper.studyApply.dao"></context:component-scan>	
+		
+	<!-- 조회수 관련 패키지 -->
+	<context:component-scan
+		base-package="com.dodeveloper.lookup.dao"></context:component-scan>
 
 	<context:component-scan
 		base-package="com.dodeveloper.algorithm.service"></context:component-scan>
@@ -129,5 +142,7 @@
 		base-package="com.dodeveloper.admin.service"></context:component-scan>
 	<context:component-scan
 		base-package="com.dodeveloper.admin.dao"></context:component-scan>
+	<context:component-scan
+		base-package="com.dodeveloper.admin.etc"></context:component-scan>
 
 </beans>

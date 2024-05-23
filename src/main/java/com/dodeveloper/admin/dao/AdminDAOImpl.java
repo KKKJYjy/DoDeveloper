@@ -26,11 +26,7 @@ public class AdminDAOImpl implements AdminDAO {
 
 	private static String ns = "com.dodeveloper.mappers.adminMapper";
 	
-	@Override
-	public List<AdminVO> selectlistStuBoard() throws Exception {
-		
-		return ses.selectList(ns + ".getBoard");
-	}
+	
 
 	@Override
 	public List<BadMemberBoardVO> selectListBadMemberBoard() throws Exception {

@@ -74,13 +74,27 @@
 	rel="stylesheet" />
 
 <script>
+
+	//주소로 검색했을때의 마커정보를 담을 변수
+	let addrMarker = '';
+	//주소로 검색했을때의 인포 정보를 담을 변수 
+	let infowindowByAddr = '';
+	
+	//키워드로 검색했을 때의 마커들 정보를 담을 배열
+	var markers = [];
+	var infowindow = []; 
+
+	let mapX = '';
+	let mapY = '';
+	let mapName = '';
+
 	$(function() {
 
 		$('.studyLang').select2({
 			maximumSelectionLength : 3,
 			placeholder : '언어 선택 (최대 3개)'
 		});
-
+		
 		$('.summernote').summernote({
 			placeholder : '스터디 목표와 모임 주기, 스터디 방식 등 자유롭게 스터디에 대해 소개해주세요.',
 			tabsize : 3,
@@ -88,22 +102,7 @@
 
 		});
 
-		//지도 검색 버튼을 클릭했을 때
-		$("#searchMapBtn").click(function() {
-			// 지도 검색한 값 가져오기
-			let searchMap = $("#searchMap").val();
-			console.log(searchMap);
-
-			// 검색한 값 키워드로 장소를 검색
-			ps.keywordSearch(searchMap, placesSearchCB);
-		})
-
-		// 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
-		infowindow = new kakao.maps.InfoWindow({
-			zIndex : 1
-		});
-
-		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		mapOption = {
 			center : new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
 			level : 2
@@ -112,17 +111,112 @@
 
 		// 지도를 생성합니다    
 		map = new kakao.maps.Map(mapContainer, mapOption);
+		
+		// 키워드 검색시 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
+		infowindow = new kakao.maps.InfoWindow({
+			zIndex : 1
+		});
 
-		// 장소 검색 객체를 생성합니다
+		// 키워드 장소 검색 객체를 생성합니다
 		var ps = new kakao.maps.services.Places();
+		
+		// 주소 좌표 변환 객체를 생성합니다
+		geocoder = new kakao.maps.services.Geocoder();
+		
+		
+		//지도 검색 버튼을 클릭했을 때
+		$("#searchMapBtn").click(function() {
+			
+			
+			// 지도 검색한 값 가져오기
+			let searchMap = $("#searchMap").val();
+			console.log(searchMap);
+			
+			// 1) 키워드로 장소를 검색
+			ps.keywordSearch(searchMap, placesSearchCB);
+			
+			// 2) 주소로 좌표를 검색
+			geocoder.addressSearch(searchMap, function(result, status) {
+
+				// 정상적으로 검색이 완료됐으면 
+				if (status === kakao.maps.services.Status.OK) {
+					
+					var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+					
+					// 결과값으로 받은 위치를 마커로 표시합니다
+					addrMarker = new kakao.maps.Marker({
+						map : map,
+						position : coords
+					});
+
+					mapY = result[0].y;
+					mapX = result[0].x;
+						
+					// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+					map.setCenter(coords);
+					
+					// 3) 좌표로 법정동 상세 주소 정보를 요청합니다
+					searchDetailAddrFromCoords(coords, function(result, status) {
+						
+				        if (status === kakao.maps.services.Status.OK) {
+				        	
+							//키워드로 검색했을 때 나온 마커들과 윈포도우를 닫는다.
+							if(markers != [] && infowindow != []){
+								for (var i = 0; i < markers.length; i++) {
+							        markers[i].setMap(null);
+							    }  
+								infowindow.close();			
+							}
+							
+				            var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
+				            detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
+				            
+				            mapName = result[0].address.address_name;
+				            console.log("주소검색시 Y: ", mapY, ", X: " , mapX , ", 주소 : ", mapName);
+				        }   
+				        
+						// 인포윈도우로 장소에 대한 설명을 표시합니다
+						infowindowByAddr = new kakao.maps.InfoWindow({
+							content : '<div style="padding:5px;font-size:12px; width:200px;">'
+							 + '<p class="mb-1"><b>' + mapName + '</b></p>'
+							 + '<span onclick="finalClick();" style="cursor:pointer" class="badge text-bg-danger">선택</span></div>'
+						}); 
+						
+						infowindowByAddr.open(map, addrMarker);
+				        
+				    });
+				
+				}
+				
+			});
+		
+		});
 
 	});
+	
+
+	function finalClick(){
+		// 지도 검색바에 선택한 장소명 출력
+		$("#searchMap").val(mapName);
+		console.log("최종 클릭 Y: ", mapY, ", X: " , mapX , ", 주소 : ", mapName);
+	}
+	
+	// 좌표로 법정동 상세 주소 정보를 요청합니다
+	function searchDetailAddrFromCoords(coords, callback) {
+	    geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+	}
 
 	// 키워드 검색 완료 시 호출되는 콜백함수 입니다
 	function placesSearchCB(data, status, pagination) {
-
+		
 		if (status === kakao.maps.services.Status.OK) {
 
+			//주소로 검색했을때 나온 마커와 윈도를 닫는다
+			if(addrMarker != '' && infowindowByAddr != ''){
+				addrMarker.setMap(null);
+				infowindowByAddr.close();			
+			}
+			
 			// 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
 			// LatLngBounds 객체에 좌표를 추가합니다
 			var bounds = new kakao.maps.LatLngBounds();
@@ -134,12 +228,9 @@
 
 			// 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
 			map.setBounds(bounds);
+		
 		}
 	}
-
-	let mapX = '';
-	let mapY = '';
-	let mapName = '';
 
 	// 지도에 마커를 표시하는 함수입니다
 	function displayMarker(place) {
@@ -149,32 +240,30 @@
 			map : map,
 			position : new kakao.maps.LatLng(place.y, place.x)
 		});
+		
+		//지도의 여러개의 마커들을 markers 배열에 담아준다
+		markers.push(marker);
 
 		// 마커에 클릭이벤트를 등록합니다
 		kakao.maps.event.addListener(marker, 'click', function() {
 			// 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
-			infowindow.setContent('<div style="padding:5px;font-size:12px;">'
-					+ place.place_name + '</div>');
+			infowindow.setContent('<div style="padding:5px; font-size:12px; width:200px;"><p class="mb-1"><b>' + place.place_name + '</b></p>'
+					 + '<p class="mb-1">' + place.address_name + '</p>'
+					 + '<p onclick="finalClick();" style="cursor:pointer" class="badge text-bg-danger mb-1">선택</p></div>')
 			infowindow.open(map, marker);
-
-			// 지도 검색바에 선택한 장소명 출력
-			$("#searchMap").val(place.place_name);
 
 			mapY = place.y;
 			mapX = place.x;
 			mapName = place.place_name;
 
-			console.log(mapX, mapY, mapName);
 		});
 
 	}
-
 
 	//1) 카카오 map값을 같이 보내기 위해서 form이 아닌 ajax로 처리한다. (insertStudy)
 	//2) multiSelect만 form 값으로 보낸다. (insertStack)
 	function isVaild() {
 		let result = false;
-
 		//유효성 검사
 		if ($("#chooseStack").val() == '' || $("#chooseStack").val() == null) {
 			$("#chooseStack").focus();
@@ -205,56 +294,54 @@
 		} else if (mapX == 0 || mapX == null || mapY == 0 || mapY == null) {
 			$("#searchMap").focus();
 			alert('스터디 예정 장소를 클릭해주세요.');
-		}
-
-		//유효성 검사에 통과했을 때에만 아래 코드 실행
-		if ($("#chooseStack").val() != '' && $("#chooseStack").val() != null
-				&& $("#stuPers").val() != -1 && $("#endDate").val() != ''
-				&& $("#endDate").val() != null && $("#contactLink").val() != ''
-				&& $("#contactLink").val() != null && $("#stuDate").val() != -1
-				&& $("#stuTitle").val() != '' && $("#stuTitle").val() != null
-				&& $("#stuContent").val() != ''
-				&& $("#stuContent").val() != null
-				&& $("#searchMap").val() != '' && $("#searchMap").val() != null
-				&& mapX != 0 && mapX != null && mapY != 0 && mapY != null) {
-			//alert("유효성 검사 통과!");
-			insertStudy();
+		} else {
 			result = true;
-
+			//alert("유효성 검사 통과!");
 		}
 		return result;
 	}
 
 	function insertStudy() {
-		alert("유효성 검사 통과!");
+		let result = false;
 
-		let newStudyDTO = {
-			"stuWriter" : '${loginMember.userId }',
-			"stuTitle" : $("#stuTitle").val(),
-			"stuContent" : $("#stuContent").val(),
-			"stuLoc" : mapName,
-			"stuX" : mapX,
-			"stuY" : mapY,
-			"stuDate" : $("#stuDate").val(),
-			"stuPers" : $("#stuPers").val(),
-			"endDate" : $("#endDate").val(),
-			"contactLink" : $("#contactLink").val()
-		};
+		if (isVaild()) {
 
-		$.ajax({
-			url : '/study/insertStudy',
-			type : 'post',
-			data : JSON.stringify(newStudyDTO), //보내는 데이터
-			dataType : 'text',
-			async : 'false', //받아올 데이터가 있어야 파싱 가능.
-			headers : { //서버에 보내지는 데이터의 형식
-				"content-type" : "application/json"
-			},
-			success : function(data) {
-				console.log(data);
+			let newStudyDTO = {
+				"stuWriter" : '${loginMember.userId }',
+				"stuTitle" : $("#stuTitle").val(),
+				"stuContent" : $("#stuContent").val(),
+				"stuLoc" : mapName,
+				"stuX" : mapX,
+				"stuY" : mapY,
+				"stuDate" : $("#stuDate").val(),
+				"stuPers" : $("#stuPers").val(),
+				"endDate" : $("#endDate").val(),
+				"contactLink" : $("#contactLink").val()
+			};
 
-			}
-		});
+			$.ajax({
+				url : '/study/insertStudy',
+				type : 'post',
+				data : JSON.stringify(newStudyDTO), //보내는 데이터
+				dataType : 'text',
+				async : false, //받아올 데이터가 있어야 파싱 가능.
+				headers : { //서버에 보내지는 데이터의 형식
+					"content-type" : "application/json"
+				},
+				success : function(data) {
+					console.log(data);
+					result = true; //insertStudy 먼저 수행한뒤 insertStack 수행하도록
+
+				}
+			});
+
+			console.log("if문 끝나기전", result);
+		} else {
+
+		}
+
+		console.log("if문 끝난후", result);
+		return result;
 	}
 </script>
 </head>
@@ -265,7 +352,7 @@
 	<main id="main">
 		<!-- Basic Section - Study Page -->
 		<section id="study" class="studyBasic">
-			<div class="container" style="width: 80%">
+			<div class="container" style="width: 70%">
 				<div class="container">
 					<h3 class="center text-center text-light">
 						<b>🔥 개발 스터디 만들기</b>
@@ -274,7 +361,7 @@
 
 				<div class="container pt-5">
 
-					<form action="/study/insertStack" method="post">
+					<form action="/study/insertStudyWithStack" method="post">
 
 						<!-- 스터디 언어 선택 -->
 						<div class="row mb-4">
@@ -284,16 +371,9 @@
 								</div>
 								<select class="studyLang form-control" multiple="multiple"
 									style="width: 100%" id="chooseStack" name="chooseStack">
-									<!-- ajax로 stack테이블에 있는 애들 대려오기 -->
-									<option value="1">React</option>
-									<option value="2">javascript</option>
-									<option value="3">Vue</option>
-									<option value="4">Nextjs</option>
-									<option value="5">Java</option>
-									<option value="6">Spring</option>
-									<option value="7">Kotlin</option>
-									<option value="8">Swift</option>
-									<option value="9">Flutter</option>
+									<c:forEach var="stack" items="${stackList }">
+										<option value="${stack.stackNo }">${stack.stackName }</option>
+									</c:forEach>
 								</select>
 							</div>
 						</div>
@@ -309,18 +389,17 @@
 									<b>모집 인원</b>
 								</div>
 								<select id="stuPers" class="form-select">
-									<option value="-1">인원 미정 ~ 10명 이상</option>
-									<option value="인원 미정">인원 미정</option>
-									<option value="1명">1명</option>
-									<option value="2명">2명</option>
-									<option value="3명">3명</option>
-									<option value="4명">4명</option>
-									<option value="5명">5명</option>
-									<option value="6명">6명</option>
-									<option value="7명">7명</option>
-									<option value="8명">8명</option>
-									<option value="9명">9명</option>
-									<option value="10명">10명</option>
+									<option value="-1">1명 ~ 10명 선택</option>
+									<option value="1">1명</option>
+									<option value="2">2명</option>
+									<option value="3">3명</option>
+									<option value="4">4명</option>
+									<option value="5">5명</option>
+									<option value="6">6명</option>
+									<option value="7">7명</option>
+									<option value="8">8명</option>
+									<option value="9">9명</option>
+									<option value="10">10명</option>
 								</select>
 							</div>
 
@@ -350,8 +429,7 @@
 									<b>진행 기간</b>
 								</div>
 								<select id="stuDate" class="form-select">
-									<option value="-1">기간 미정 ~ 6개월 이상</option>
-									<option value="기간 미정">기간 미정</option>
+									<option value="-1">1개월 ~ 6개월 선택</option>
 									<option value="1개월">1개월</option>
 									<option value="2개월">2개월</option>
 									<option value="3개월">3개월</option>
@@ -400,7 +478,7 @@
 							</div>
 							<div class="col-md-6">
 								<input type="submit" class="btn btn-secondary" value="글쓰기"
-									style="width: 100%" onclick="return isVaild();" />
+									style="width: 100%" onclick="return insertStudy();" />
 							</div>
 						</div>
 					</form>

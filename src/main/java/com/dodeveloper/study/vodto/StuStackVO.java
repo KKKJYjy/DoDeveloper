@@ -14,6 +14,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class StuStackVO {
+	//db에 stuStack테이블에 새로 저장할때 사용하는 VO 
 	private int stuBoardNo;
 	private int[] chooseStack;
 }

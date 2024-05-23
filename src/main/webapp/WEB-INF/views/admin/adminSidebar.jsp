@@ -55,19 +55,20 @@
 						</a></li>
 						<li class="sidebar-item"><a
 							class="sidebar-link waves-effect waves-dark sidebar-link"
-							href="/admin/table" aria-expanded="false"><i
-								class="mdi me-2 mdi-table"></i><span class="hide-menu">Table</span></a>
+							href="/admin/selectBoard" aria-expanded="false"><i
+								class="mdi me-2 mdi-table"></i><span class="hide-menu">게시판 관리</span></a>
 						</li>
 						<li class="sidebar-item"><a
 							class="sidebar-link waves-effect waves-dark sidebar-link"
-							href="icon-material.html" aria-expanded="false"><i
-								class="mdi me-2 mdi-emoticon"></i><span class="hide-menu">Icon</span></a>
+							href="/admin/notice" aria-expanded="false"><i
+								class="mdi me-2 mdi-emoticon"></i><span class="hide-menu">공지사항</span></a>
 						</li>
 						<li class="sidebar-item"><a
 							class="sidebar-link waves-effect waves-dark sidebar-link"
-							href="/admin/totalLog" aria-expanded="false"><i
-								class="mdi me-2 mdi-earth"></i><span class="hide-menu">접속통계
-								</span></a></li>
+							href="/admin/report" aria-expanded="false"><i
+								class="mdi me-2 mdi-earth"></i><span class="hide-menu">신고내역 조회
+									</span></a></li>
+
 						<li class="sidebar-item"><a
 							class="sidebar-link waves-effect waves-dark sidebar-link"
 							href="/admin/blank" aria-expanded="false"><i
