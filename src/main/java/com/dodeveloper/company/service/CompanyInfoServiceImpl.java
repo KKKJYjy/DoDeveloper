@@ -69,42 +69,48 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
 	 * @author : kimso05
 	 * @date : 2024.05.09
 	 * @param : WrittenCompanyBoardDTO newWrittenCompanyBoard - 저장될 기업 리뷰 게시글
-	 * @return : 
+	 * @return :
 	 * @description : newWrittenCompanyBoard가 DB에 저장(insert)될 수 있도록 DAO단 호출
 	 */
 	@Override
 	public int writeCompanyBoardService(WrittenCompanyBoardDTO newWrittenCompanyBoard) throws Exception {
 		System.out.println("작성 호출 확인!!!!!!!");
 		int resultWriteBoard = ciDao.insertRevWrittenBoard(newWrittenCompanyBoard);
-		
+
 		return resultWriteBoard; // 리뷰 저장 성공하면 1을 반환
 	}
 
-	
 	/**
 	 * @methodName : deleteWrittenBoard
 	 * @author : kimso05
 	 * @date : 2024.05.17
 	 * @param : int revNo : 유저가 클릭한 해당 기업 리뷰 게시글번호 삭제
-	 * @return : 
+	 * @return :
 	 * @description : revNo가 DB에 삭제(delete) 될 수 있도록 DAO단 호출
 	 */
-	@Override
+	@Override 
 	public int deleteWrittenBoard(int revNo) throws Exception {
 		System.out.println("서비스단 : 게시글 삭제");
 		int deleteRevBoard = ciDao.deleteWrittenBoard(revNo);
-		
-		return deleteRevBoard; 
+
+		return deleteRevBoard;
 
 	}
-
 
 	@Override
 	public RevCompanyBoardVO editWrittenBoard(int revNo) throws Exception {
 		System.out.println("서비스단 : 수정할 게시글");
-		
+
 		return ciDao.selectEditWrittenBoard(revNo);
 
+	}
+
+	@Override
+	public int RevEditWrittenBoard(WrittenCompanyBoardDTO newEditWrittenBoard) throws Exception {
+		System.out.println("서비스단 : 수정 글 완료");
+		int updateRevBoard = ciDao.updateEditWrittenBoard(newEditWrittenBoard);
+
+		return updateRevBoard;
 	}
 
 }

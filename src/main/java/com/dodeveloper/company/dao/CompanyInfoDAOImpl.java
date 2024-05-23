@@ -69,9 +69,17 @@ public class CompanyInfoDAOImpl implements CompanyInfoDAO {
 	public RevCompanyBoardVO selectEditWrittenBoard(int revNo) throws Exception {
 		System.out.println("DAO단 수정 게시글 조회!");
 		
-		return ses.selectOne(ns + ".getEditRevWrittenBoard", revNo);
-		
+		return ses.selectOne(ns + ".getEditRevWrittenBoard", revNo);	
 		
 	}
 
+	@Override
+	public int updateEditWrittenBoard(WrittenCompanyBoardDTO newEditWrittenBoard) throws Exception {
+		System.out.println("DAO단 게시글 수정함!!!!!");
+		
+		return ses.update(ns + ".updateEditWrittenBoard", newEditWrittenBoard);
+		
+	}
+
+	
 }

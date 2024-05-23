@@ -57,52 +57,45 @@
 			<div class="container">
 
 				<h4>기업 리뷰글 수정 페이지</h4>
-				<div>${revBoard}</div>
 
-				<form action="/companyInfo/editWrittenBoard" method="post">
+				<form action="/companyInfo/editWrittenBoardPOST" method="post">
 					<div class="mb-3 mt-3">
-						<table class="table table-striped">
-							<tr>
-								<th>작성자</th>
-								<td>${rev.revWriter}</td>
-							</tr>
-							<tr>
-								<th>제목</th>
-								<td>${rev.revTitle}</td>
-							</tr>
-							<tr>
-								<th>파트</th>
-								<td>${rev.revProfession}</td>
-							</tr>
-							<tr>
-								<th>내용</th>
-								<td>${rev.revContent}</td>
-							</tr>
-							<tr>
-								<th>장점</th>
-								<td>${rev.revGood}</td>
-							</tr>
-							<tr>
-								<th>단점</th>
-								<td>${rev.revBed}</td>
-							</tr>
-						</table>
+						<div class="table table-striped">
+							<label for="revTitle" class="form-label">제목</label>
+							<input type="text" class="form-control" id="revTitle"
+									value="${revBoard.revTitle}" name="revTitle" />
+									
+							<label for="revProfession" class="form-label">파트</label>
+							<input type="text" class="form-control" id="revProfession"
+									value="${revBoard.revProfession}" name="revProfession" />
+							
+							<label for="revContent" class="form-label">내용</label>
+							<input type="text" class="form-control" id="revContent"
+									value="${revBoard.revContent}" name="revContent" />				
+							
+							<label for="revGood" class="form-label">장점</label>
+							<input type="text" class="form-control" id="revGood"
+									value="${revBoard.revGood}" name="revGood" />		
+							
+							<label for="revBed" class="form-label">단점</label>
+							<input type="text" class="form-control" id="revBed"
+									value="${revBoard.revBed}" name="revBed" />	
+						</div>
 					</div>
-
+					
 					<div>
-						<input type="hidden" name="companyInfoNo"
-							value="${param.companyInfoNo}">
+						<input type="hidden" name="companyInfoNo" value="${param.companyInfoNo}">
 					</div>
 
 					<div>
 						<input type="hidden" name="bType" value="3">
 					</div>
-
-					<input type="submit" class="btn btn-success" value="수정완료" /> <input
-						type="reset" class="btn btn-danger" value="취소"
-						onclick="location.href='/writtenBoard/revCompanyBoard';" />
-				</form>
-			</div>
+					<input type="submit" class="btn btn-success" value="수정완료"
+						onclick="location.href='/companyInfo/revCompanyBoard?companyInfoNo=${param.companyInfoNo}&revNo=${rev.revNo}';" /> 
+					<input type="reset" class="btn btn-danger" value="취소"
+						onclick="location.href='/companyInfo/revCompanyBoard?companyInfoNo=${param.companyInfoNo}&revNo=${rev.revNo}';" />
+					</form>
+				</div>
 		</section>
 		<!-- End Basic Section -->
 	</main>
