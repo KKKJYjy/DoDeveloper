@@ -41,6 +41,10 @@
 	<beans:bean id="authInterceptor"
 		class="com.dodeveloper.commons.interceptor.AuthInterceptor">
 	</beans:bean>
+	
+	<beans:bean id="connectUserInterceptor"
+		class="com.dodeveloper.commons.interceptor.ConnectUserInterceptor">
+	</beans:bean>
 
 	<!-- 인터셉터가 동작하는 매핑 설정 -->
 	<interceptors>
@@ -58,7 +62,42 @@
 			<mapping path="/study/writeStudyBoard" />
 			<beans:ref bean="authInterceptor" />
 		</interceptor>
+		
+		
+		<interceptor>
+			<!-- /algorithm/listAll 매핑 주소가 들어오면 connectUserInterceptor 객체가 동작하도록 -->
+			<mapping path="/algorithm/listAll" />
+			<beans:ref bean="connectUserInterceptor" />
+		</interceptor>
+		
+		<interceptor>
+			<!-- /companyInfo/listAll 매핑 주소가 들어오면 connectUserInterceptor 객체가 동작하도록 -->
+			<mapping path="/companyInfo/entire" />
+			<beans:ref bean="connectUserInterceptor" />
+		</interceptor>
+		
+		<interceptor>
+			<!-- /lecture/listAll 매핑 주소가 들어오면 connectUserInterceptor 객체가 동작하도록 -->
+			<mapping path="/lecture/listAll" />
+			<beans:ref bean="connectUserInterceptor" />
+		</interceptor>
+		
+		<interceptor>
+			<!-- /study/listAll 매핑 주소가 들어오면 connectUserInterceptor 객체가 동작하도록 -->
+			<mapping path="/study/listAll" />
+			<beans:ref bean="connectUserInterceptor" />
+		</interceptor>
+		
+		<interceptor>
+			<!-- /index 매핑 주소가 들어오면 connectUserInterceptor 객체가 동작하도록 -->
+			<mapping path="/" />
+			<beans:ref bean="connectUserInterceptor" />
+		</interceptor>
+		
+		
 	</interceptors>
+	
+	
 
 	<context:component-scan
 		base-package="com.dodeveloper.commons.controller" />
