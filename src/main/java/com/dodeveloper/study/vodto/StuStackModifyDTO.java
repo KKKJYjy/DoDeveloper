@@ -13,8 +13,9 @@ import lombok.ToString;
 @Setter
 @ToString
 public class StuStackModifyDTO {
-	//db에 저장된 stuStack을 수정할때 (삭제하고, 새로 인서트) 사용하는 DTO
+	// db에 저장된 stuStack을 수정할때 (삭제하고, 새로 인서트) 사용하는 DTO
 	private int[] stuStackNo;
 	private int stuBoardNo;
-	private int[] chooseStack;	
+	private int[] chooseStack;
+	
 }

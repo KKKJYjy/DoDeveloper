@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -79,10 +80,21 @@
 	let mapX = '${studyList.stuX }';
 	let mapY = '${studyList.stuY }';
 	let mapName = '${studyList.stuLoc}';
+	
+	//주소로 검색했을때의 마커정보를 담을 변수
+	let addrMarker = '';
+	//주소로 검색했을때의 인포 정보를 담을 변수 
+	let infowindowByAddr = '';
+	
+	//키워드로 검색했을 때의 마커들 정보를 담을 배열
+	var markers = [];
+	var infowindow = []; 
 
 	$(function() {
-		
 
+		//모집 상태 셀렉트 디폴트값(전에 유저가 선택했던 값) 세팅
+		$("#studyStatus").val('${studyList.status }').prop("selected", true);
+		
 		//모집인원 셀렉트 디폴트값(전에 유저가 선택했던 값) 세팅
 		$("#stuPers").val('${studyList.stuPers }').prop("selected", true);
 		
@@ -93,6 +105,44 @@
 		//진행기간 셀렉트 디폴트값(전에 유저가 선택했던 값) 세팅
 		$("#stuDate").val('${studyList.stuDate }').prop("selected", true);
 		console.log('${studyList.stuDate }');
+		
+		//스터디 언어 새로 선택했을 때 새로 인서트 처리 하겠다는 마킹 넘기기 
+		 $('.studyLang').on("select2:select", function(e) {
+			let newStuStack = e.params.data.id;
+			//console.log(newStuStack);
+			
+			$.ajax({
+				url : '/study/modifyNewMark',
+				data : {
+					"newStuStack" : newStuStack
+				}, 
+				type : 'post',
+				dataType : 'text',
+				success : function(data) { 
+					console.log(data);
+					
+				}
+			});
+		});
+		
+		//스터디 언어 삭제버튼을 눌렀을때 삭제처리 하겠다는 마킹 넘기기
+		$(".studyLang").on("select2:unselect", function(e) {
+			let remStuStack = e.params.data.id;
+			//console.log(remStuStack);
+
+			$.ajax({
+				url : '/study/modifyRemMark',
+				data : {
+					"remStuStack" : remStuStack
+				}, 
+				type : 'post',
+				dataType : 'text',
+				success : function(data) { 
+					console.log(data);
+					
+				}
+			});
+		});
 		
 		//스터디 언어 셀렉트 박스
 		$('.studyLang').select2({
@@ -111,7 +161,7 @@
 		//전에 유저가 입력했던 지도 관련 정보들 가져오기
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		mapOption = {
-			center : new kakao.maps.LatLng(${studyList.stuX }, ${studyList.stuY }), // 지도의 중심좌표
+			center : new kakao.maps.LatLng(${studyList.stuY }, ${studyList.stuX }), // 지도의 중심좌표
 			level : 2 // 지도의 확대 레벨
 		};
 
@@ -119,7 +169,7 @@
 		map = new kakao.maps.Map(mapContainer, mapOption);
 
 		// 전에 유저가 선택했던 좌표 설정 (마커가 표시될 위치)  
-		var markerPosition = new kakao.maps.LatLng(${studyList.stuX }, ${studyList.stuY });
+		var markerPosition = new kakao.maps.LatLng(${studyList.stuY }, ${studyList.stuX });
 
 		// 전에 유저가 선택했던 마커를 생성
 		var marker = new kakao.maps.Marker({
@@ -132,54 +182,135 @@
 		// 전에 유저가 선택했던 마커 위에 출력할 인포 메세지 설정
 		// 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
 		var iwContent = `<div style="padding:10px; width:100%; "><p class="mb-1"><b>${studyList.stuLoc}</b></p>`;
-		iwContent += `<p class="pb-2"><a href="https://map.kakao.com/link/map/${studyList.stuLoc},${studyList.stuX }, ${studyList.stuY }" target="_blank"><span class="badge text-bg-secondary me-2">큰지도보기</span></a>`;
-		iwContent += `<a href="https://map.kakao.com/link/to/${studyList.stuLoc},${studyList.stuX }, ${studyList.stuY }" target="_blank"><span class="badge text-bg-secondary">길찾기</span></a></p>`;
+		iwContent += `<p class="pb-2"><a href="https://map.kakao.com/link/map/${studyList.stuLoc},${studyList.stuY }, ${studyList.stuX }" target="_blank"><span class="badge text-bg-secondary me-2">큰지도보기</span></a>`;
+		iwContent += `<a href="https://map.kakao.com/link/to/${studyList.stuLoc},${studyList.stuY }, ${studyList.stuX }" target="_blank"><span class="badge text-bg-secondary">길찾기</span></a></p>`;
 		iwContent += `</div>`; 
 		
-		iwPosition = new kakao.maps.LatLng(${studyList.stuX }, ${studyList.stuY }); //인포윈도우 표시 위치입니다
+		iwPosition = new kakao.maps.LatLng(${studyList.stuY }, ${studyList.stuX }); //인포윈도우 표시 위치입니다
 
 		// 전에 유저가 선택했던 마커 위에 인포 메세지 출력하기 위한 객체 설정
-		var infowindow = new kakao.maps.InfoWindow({
+		var infowindowBefore = new kakao.maps.InfoWindow({
 			position : iwPosition,
 			content : iwContent
 		});
 
 		// 전에 유저가 선택했던 마커 위에 인포메세지 출력
 		// 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
-		infowindow.open(map, marker);
+		infowindowBefore.open(map, marker);
 		
 		//=======================================================================
+	    		
+		// 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
+		infowindow = new kakao.maps.InfoWindow({
+			zIndex : 1
+		});
+		
+		// 장소 검색 객체를 생성합니다
+		var ps = new kakao.maps.services.Places();
+		
+		// 주소 좌표 변환 객체를 생성합니다
+		geocoder = new kakao.maps.services.Geocoder();	
+			
+			
 		//수정 페이지에서 수정할때 > 지도 검색 버튼을 클릭했을 때
 		$("#searchMapBtn").click(function() {
 			// 지도 검색한 값 가져오기
 			let searchMap = $("#searchMap").val();
 			console.log(searchMap);
 
-			// 검색한 값 키워드로 장소를 검색
+			// 1) 검색한 값 키워드로 장소를 검색
 			ps.keywordSearch(searchMap, placesSearchCB);
 			
+			// 2) 주소로 좌표를 검색
+			geocoder.addressSearch(searchMap, function(result, status) {
+
+				// 정상적으로 검색이 완료됐으면 
+				if (status === kakao.maps.services.Status.OK) {
+					
+					var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+					
+					// 결과값으로 받은 위치를 마커로 표시합니다
+					addrMarker = new kakao.maps.Marker({
+						map : map,
+						position : coords
+					});
+
+					mapY = result[0].y;
+					mapX = result[0].x;
+						
+					// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+					map.setCenter(coords);
+					
+					// 3) 좌표로 법정동 상세 주소 정보를 요청합니다
+					searchDetailAddrFromCoords(coords, function(result, status) {
+						
+				        if (status === kakao.maps.services.Status.OK) {
+				        	
+				        	//키워드로 검색했을 때 나온 마커들과 윈포도우를 닫는다.
+							if(markers != [] && infowindow != []){
+								for (var i = 0; i < markers.length; i++) {
+							        markers[i].setMap(null);
+							    }  
+								infowindow.close();			
+							}
+				        	
+				            var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
+				            detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
+				            
+				            mapName = result[0].address.address_name;
+				            console.log("주소검색시 Y: ", mapY, ", X: " , mapX , ", 주소 : ", mapName);
+				        }   
+				        
+						// 인포윈도우로 장소에 대한 설명을 표시합니다
+						infowindowByAddr = new kakao.maps.InfoWindow({
+							content : '<div style="padding:5px;font-size:12px; width:200px;">'
+							 + '<p class="mb-1"><b>' + mapName + '</b></p>'
+							 + '<span onclick="finalClick();" style="cursor:pointer" class="badge text-bg-danger">선택</span></div>'
+						}); 
+						
+						infowindowByAddr.open(map, addrMarker);
+				        
+				    });
+				
+				}
+				
+			});
+			
 			// 전에 선택했던 장소 마커와 윈포도우 제거 
-			infowindow.close(map, marker); 
+			marker.setMap(null);
+			infowindowBefore.close(map, marker); 
 		})
 
-		// 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
-		infowindowClick = new kakao.maps.InfoWindow({
-			zIndex : 1
-		});
 		
-		// 장소 검색 객체를 생성합니다
-		var ps = new kakao.maps.services.Places();
 
 		//========================================================================
 			
 		
 	});
+	
+	function finalClick(){
+		// 지도 검색바에 선택한 장소명 출력
+		$("#searchMap").val(mapName);
+		console.log("최종 클릭 Y: ", mapY, ", X: " , mapX , ", 주소 : ", mapName);
+	}
+	
+	// 좌표로 법정동 상세 주소 정보를 요청합니다
+	function searchDetailAddrFromCoords(coords, callback) {
+	    geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+	}
 
 	// 키워드 검색 완료 시 호출되는 콜백함수 입니다
 	function placesSearchCB(data, status, pagination) {
 
 		if (status === kakao.maps.services.Status.OK) {
 
+			//주소로 검색했을때 나온 마커와 윈도를 닫는다
+			if(addrMarker != '' && infowindowByAddr != ''){
+				addrMarker.setMap(null);
+				infowindowByAddr.close();			
+			}
+			
+			
 			// 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
 			// LatLngBounds 객체에 좌표를 추가합니다
 			var bounds = new kakao.maps.LatLngBounds();
@@ -202,22 +333,23 @@
 			map : map,
 			position : new kakao.maps.LatLng(place.y, place.x)
 		});
+		
+		//지도의 여러개의 마커들을 markers 배열에 담아준다
+		markers.push(marker);
 
 		// 마커에 클릭이벤트를 등록합니다
 		kakao.maps.event.addListener(marker, 'click', function() {
 			// 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
-			infowindowClick.setContent('<div style="padding:5px;font-size:12px;">'
-					+ place.place_name + '</div>');
-			infowindowClick.open(map, marker);
-
-			// 지도 검색바에 선택한 장소명 출력
-			$("#searchMap").val(place.place_name);
+			infowindow.setContent('<div style="padding:5px; font-size:12px; width:200px;"><p class="mb-1"><b>' + place.place_name + '</b></p>'
+					 + '<p class="mb-1">' + place.address_name + '</p>'
+					 + '<p onclick="finalClick();" style="cursor:pointer" class="badge text-bg-danger mb-1">선택</p></div>')
+			
+			infowindow.open(map, marker);
 
 			mapY = place.y;
 			mapX = place.x;
 			mapName = place.place_name;
 
-			console.log(mapX, mapY, mapName);
 		});
 
 	}
@@ -284,7 +416,8 @@
 				"stuDate" : $("#stuDate").val(),
 				"stuPers" : $("#stuPers").val(),
 				"endDate" : $("#endDate").val(),
-				"contactLink" : $("#contactLink").val()
+				"contactLink" : $("#contactLink").val(),
+				"status" : $("#studyStatus").val()
 			};
 
 			$.ajax({
@@ -312,6 +445,9 @@
 		return result;
 	}
 
+	function newMarking(stackNo){
+		alert(stackNo);
+	}
 	
 </script>
 </head>
@@ -331,12 +467,12 @@
 
 				<div class="container pt-5">
 
-					<form action="/study/modifyStack" method="post">
+					<form action="/study/modifyStudyWithStack" method="post">
 						<!-- 스터디 언어 선택 -->
 						<div class="row mb-4">
-							<div class="col-md-12">
+							<div class="col-md-6">
 								<div class="mb-2 text-light">
-									<b>스터디 언어 ${stuStackNo }</b>
+									<b>스터디 언어</b>
 								</div>
 								<select class="studyLang form-control" multiple="multiple"
 									style="width: 100%" id="chooseStack" name="chooseStack">
@@ -349,15 +485,23 @@
 									</c:forEach>
 								</select>
 							</div>
+							<div class="col-md-6">
+								<div class="mb-2 text-light">
+									<b>모집 상태</b>
+								</div>
+								<select class="form-select" style="width: 100%" id="studyStatus">
+									<option value="모집중">모집중</option>
+									<option value="모집마감">모집마감</option>
+								</select>
+							</div>
 						</div>
 
 						<!-- 스터디 언어 수정할때 시작 stuStackNo값 -->
 						<c:forEach var="stackNo" items="${stuStackNo }">
 							<input type="text" class="form-control" id="stuStackNo"
-								name="stuStackNo" value="${stackNo }"
-								hidden="true" />
+								name="stuStackNo" value="${stackNo }" hidden="true" />
 						</c:forEach>
-						
+
 						<input type="text" class="form-control" id="stuWriter"
 							value="${loginMember.userId }" hidden="true" />
 

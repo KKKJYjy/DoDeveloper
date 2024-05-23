@@ -38,6 +38,9 @@ public interface StudyService {
 	int deleteStudyBoard(int stuNo) throws Exception;
 
 	//stuNo번째 글과 스택 테이블을 수정하는 메서드
-	int modifyStudyWithStack(StudyBoardDTO newStudy, StuStackModifyDTO modifyStack) throws Exception;
+	int modifyStudyWithStack(StudyBoardDTO newStudy, List<StuStackDTO> modifyStack) throws Exception;
+
+	//studyStackList로 필터링했을 때 나오는 스터디 모임글 반환하는 메서드
+	Map<String, Object> searchStudyByStack(List<String> studyStackList) throws Exception;
 	
 }

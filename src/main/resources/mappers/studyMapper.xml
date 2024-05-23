@@ -7,36 +7,46 @@
 	<select id="selectAllList"
 		resultType="com.dodeveloper.study.vodto.StudyBoardVO">
 		SELECT * FROM studyBoard order by wrritenDate desc
-		limit #{startRowIndex}, #{viewPostCntPerPage}
+		limit
+		#{startRowIndex}, #{viewPostCntPerPage}
 	</select>
 
 	<select id="selectAllstudyStack"
 		resultType="com.dodeveloper.study.vodto.StuStackDTO">
 		select * from stack s
 		inner join stuStack t
-		on s.stackNo = t.chooseStack
+		on s.stackNo =
+		t.chooseStack
 		where t.stuBoardNo = #{stuBoardNo}
 	</select>
-	
+
 	<select id="selectNextStuNo" resultType="int">
-		select stuNo from studyBoard
+		select stuNo from
+		studyBoard
 		order by wrritenDate desc limit 0, 1
 	</select>
-	
+
 	<insert id="insertNewStack">
-		insert into stuStack(stuBoardNo, chooseStack) values(#{stuBoardNo}, #{chooseStack})
+		insert into stuStack(stuBoardNo, chooseStack)
+		values(#{stuBoardNo}, #{chooseStack})
 	</insert>
-	
+
 	<insert id="insertNewStudy">
-		insert into studyBoard(stuWriter, stuTitle, stuContent, stuLoc, stuX, stuY, stuDate, stuPers, contactLink, endDate) 
-		values(#{stuWriter}, #{stuTitle}, #{stuContent}, #{stuLoc}, #{stuX}, #{stuY}, #{stuDate}, #{stuPers}, #{contactLink}, #{endDate})
+		insert into studyBoard(stuWriter, stuTitle,
+		stuContent, stuLoc, stuX, stuY, stuDate, stuPers, contactLink,
+		endDate)
+		values(#{stuWriter}, #{stuTitle}, #{stuContent}, #{stuLoc},
+		#{stuX}, #{stuY}, #{stuDate},
+		#{stuPers}, #{contactLink}, #{endDate})
 	</insert>
-	
-	<select id="selectStudyByStuNo" resultType="com.dodeveloper.study.vodto.StudyBoardVO">
+
+	<select id="selectStudyByStuNo"
+		resultType="com.dodeveloper.study.vodto.StudyBoardVO">
 		SELECT * FROM studyBoard where stuNo = #{stuNo}
 	</select>
-	
-	<select id="selectAllListWithsDTO" resultType="com.dodeveloper.study.vodto.StudyBoardVO">
+
+	<select id="selectAllListWithsDTO"
+		resultType="com.dodeveloper.study.vodto.StudyBoardVO">
 		select * from studyBoard
 		<choose>
 			<when test="searchType == 'title'">
@@ -49,36 +59,42 @@
 				where stuContent like #{searchValue}
 			</otherwise>
 		</choose>
-		order by wrritenDate desc limit #{startRowIndex}, #{viewPostCntPerPage}
+		order by wrritenDate desc limit #{startRowIndex},
+		#{viewPostCntPerPage}
 	</select>
-	
-	<select id="selectAllStack" resultType="com.dodeveloper.study.vodto.StackVO">
+
+	<select id="selectAllStack"
+		resultType="com.dodeveloper.study.vodto.StackVO">
 		SELECT * FROM stack
 	</select>
-	
+
 	<delete id="deleteStudyBoard">
 		delete from studyBoard where stuNo = #{stuNo}
 	</delete>
-	
+
 	<update id="modifyStudy">
-		update studyBoard set 
-		stuTitle = #{stuTitle}, stuContent = #{stuContent}, stuLoc = #{stuLoc}, stuX = #{stuX}, stuY = #{stuY}, 
-		stuDate = #{stuDate}, stuPers = #{stuPers}, contactLink = #{contactLink}, endDate = #{endDate} 
+		update studyBoard set
+		stuTitle = #{stuTitle},
+		stuContent = #{stuContent}, stuLoc = #{stuLoc}, stuX = #{stuX}, stuY = #{stuY},
+		stuDate = #{stuDate}, stuPers = #{stuPers}, contactLink = #{contactLink},
+		status = #{status}, endDate = #{endDate}
 		where stuNo = #{stuNo}
 	</update>
-	
+
 	<update id="modifyStack">
-		update stuStack set chooseStack = #{chooseStack} where stuStackNo = #{stuStackNo}
+		update stuStack set chooseStack = #{chooseStack}
+		where stuStackNo = #{stuStackNo}
 	</update>
-	
+
 	<delete id="deleteStudyStack">
 		delete from stuStack where stuStackNo = #{stuStackNo}
 	</delete>
-	
+
 	<select id="selectTotalBoardCnt" resultType="int">
-		select count(*) from studyBoard
+		select count(*) from
+		studyBoard
 	</select>
-	
+
 	<select id="selectTotalBoardCntWithSdto" resultType="int">
 		select count(*) from studyBoard
 		<choose>
@@ -93,7 +109,41 @@
 			</otherwise>
 		</choose>
 	</select>
-	
-	
+
+	<!-- <select id="searchStudyByStack"
+		resultType="com.dodeveloper.study.vodto.StudyBoardVO">
+		select sb.* from studyBoard sb inner join stuStack st on sb.stuNo =
+		st.stuBoardNo
+		where chooseStack in
+		<foreach collection="list" item="item" open="(" close=")"
+			separator=","> #{item} </foreach>
+		order by wrritenDate desc
+	</select> -->
+
+	<select id="searchStudyByStack"
+		resultType="com.dodeveloper.study.vodto.StudyBoardVO">
+
+		select distinct stuNo,
+		stuWriter, stuTitle, stuContent, stuLoc, stuX,
+		stuY, stuDate, stuPers,
+		contactLink, status, endDate, scrape,
+		readCount, wrritenDate, bType
+		from studyBoard
+		where stuNo in
+		(select
+		distinct stuBoardNo from stuStack where chooseStack in
+
+		<foreach collection="list" item="item" open="(" close=")"
+			separator=",">
+			#{item}
+		</foreach>)
+
+		order by wrritenDate desc
+	</select>
+
+	<!-- <select id="getListTest" resultType="members"> SELECT m.*,a.name FROM 
+		members AS m JOIN authority AS a ON m.authority = a.authority WHERE m.authority 
+		IN <foreach collection="chkList" item="item" open="(" close=")" separator=","> 
+		#{item.authority} </foreach> ORDER BY m.authority; </select> -->
 
 </mapper>

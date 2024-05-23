@@ -148,17 +148,18 @@ public class StudyServiceImpl implements StudyService {
 		int result = 0;
 
 		try {
-			// StuStackVO의 stuBoardNo값 세팅
-			newStack.setStuBoardNo(sDao.selectNextStuNo() + 1);
-			System.out.println("insertStack: 추가할 스터디 스택 게시글 번호" + newStack.getStuBoardNo());
 
 			int[] chooseStacks = newStack.getChooseStack();
 
 			if (sDao.insertNewStudy(newStudy) == 1) {
 				System.out.println("스터디글추가성공");
 
-				System.out.println("insertStack: 새로 추가할 스터디 스택가져오자" + newStack.toString());
 				System.out.println("insertStack: 새로 추가할 스터디 스터디 모집글" + newStudy.toString());
+				
+				// StuStackVO의 stuBoardNo값 세팅
+				newStack.setStuBoardNo(sDao.selectNextStuNo());
+				System.out.println("insertStack: 추가할 스터디 스택 게시글 번호" + newStack.getStuBoardNo());
+				System.out.println("insertStack: 새로 추가할 스터디 스택가져오자" + newStack.toString());
 
 				for (int chooseStack : chooseStacks) {
 					if (sDao.insertNewStack(newStack.getStuBoardNo(), chooseStack) == 1) {
@@ -224,41 +225,33 @@ public class StudyServiceImpl implements StudyService {
 		return sDao.selectAllStack();
 	}
 
+	
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-	public int modifyStudyWithStack(StudyBoardDTO newStudy, StuStackModifyDTO modifyStack) throws Exception {
+	public int modifyStudyWithStack(StudyBoardDTO newStudy, List<StuStackDTO> modifyStack) throws Exception {
 
 		int result = 0;
-
-		// StuStackVO의 stuBoardNo값 세팅
-		modifyStack.setStuBoardNo(newStudy.getStuNo());
 
 		System.out.println("modifyStack: 수정할 스터디 스택" + modifyStack.toString());
 		System.out.println("insertStack: 수정할 스터디 스터디 모집글" + newStudy.toString());
 
-		int[] chooseStacks = modifyStack.getChooseStack();
-		int[] deleteStackNo = modifyStack.getStuStackNo();
 
 		if (sDao.modifyStudy(newStudy) == 1) {
 			System.out.println("스터디글수정성공");
 
-			// 전에 있었던 스터디 언어 애들 지우기
-			for (int deleteNo : deleteStackNo) {
-				System.out.println("지울 스터디 스택번호" + deleteNo);
-
-				if (sDao.deleteStudyStack(deleteNo) == 1) {
-					System.out.println("스택 지우기 성공");
+			for(StuStackDTO s : modifyStack) {
+				if(s.isDelete()) {
+					sDao.deleteStudyStack(s.getStuStackNo());
+ 					System.out.println(s.getStuStackNo() + "번째 스터디언어 삭제 성공");
+ 					result = 1;
 				}
-
-			}
-
-			// 스터디 언어 새로 인서트하기
-			for (int chooseStack : chooseStacks) {
-				if (sDao.insertNewStack(modifyStack.getStuBoardNo(), chooseStack) == 1) {
-					System.out.println("스택수정성공");
+				if(s.isNew()) {
+					sDao.insertNewStack(s.getStuBoardNo(), s.getChooseStack());
+					System.out.println(s.getChooseStack() + "스터디언어 추가 성공");
 					result = 1;
 				}
-
+				
+				result =1;
 			}
 
 		}
@@ -266,9 +259,46 @@ public class StudyServiceImpl implements StudyService {
 		return result;
 	}
 
+
 	@Override
 	public int deleteStudyBoard(int stuNo) throws Exception {
 		return sDao.deleteStudyBoard(stuNo);
+	}
+
+	@Override
+	public Map<String, Object> searchStudyByStack(List<String> studyStackList) throws Exception {
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		 
+					
+		List<StudyBoardVO> lst = sDao.searchStudyByStack(studyStackList);
+		
+		
+		for(StudyBoardVO l :lst) {			
+			System.out.println("service단 게시글제목:" + l.getStuTitle());
+		}
+		System.out.println("service단 게시글갯수:" + lst.size());
+		
+		// 스터디 No번째글 스터디 언어 목록
+		List<StuStackDTO> stuStackList = new ArrayList<StuStackDTO>();
+
+		for (StudyBoardVO s : lst) {
+			// stuNo를 넘겨주어 공부할 언어 정보를 가져오자
+			stuStackList.addAll(sDao.selectAllStudyStack(s.getStuNo()));
+
+			// System.out.println(s.getStuNo());
+		}
+		// stack테이블의 모든 값들을 가져오자
+		List<StackVO> stackList = sDao.selectAllStack();
+
+		// System.out.println(stuStackList.toString());
+		
+		result.put("studyList", lst);
+		result.put("stuStackList", stuStackList);
+		//result.put("stackList", stackList);
+		
+		return result ;
+		
 	}
 
 }

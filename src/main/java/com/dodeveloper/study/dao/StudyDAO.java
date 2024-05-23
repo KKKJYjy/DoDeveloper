@@ -55,6 +55,9 @@ public interface StudyDAO {
 	//전체 게시글 갯수롤 가져오는 메서드 + 검색어가 있을때	
 	int selectTotalBoardCntWithSdto(SearchStudyDTO sDTO) throws Exception;
 
+	//studyStackList로 필터링했을 때 나오는 스터디 모임글 반환하는 메서드
+	List<StudyBoardVO> searchStudyByStack(List<String> studyStackList) throws Exception;
+
 
 
 
