@@ -60,15 +60,28 @@
 
 <script>
 	$(function () {
-		console.log("aaa");
-		let enter = ${algDetailList[0].algDetailContent}.value.replace(/(\n|\r\n)/g, '<br>');
-		console.log(enter)
-        $('#test').html();
+		
+		
+		$.ajax({
+			url : "",
+			data : {
+				
+				"": ,
+			},
+			type : "post",
+			dataType : "text", // 수신받을 데이터의 타입
+			success : function(data) {
+			console.log(data);
+			
+			
+			},
+		});
+		
+		
+		
 	});
 	
-	$(document).ready(function() {
-		$('#test').val('aaa');
-    });
+	
 </script>
 
 </head>
