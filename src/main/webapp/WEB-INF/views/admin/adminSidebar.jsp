@@ -65,9 +65,9 @@
 						</li>
 						<li class="sidebar-item"><a
 							class="sidebar-link waves-effect waves-dark sidebar-link"
-							href="map-google.html" aria-expanded="false"><i
-								class="mdi me-2 mdi-earth"></i><span class="hide-menu">Google
-									Map</span></a></li>
+							href="/admin/totalLog" aria-expanded="false"><i
+								class="mdi me-2 mdi-earth"></i><span class="hide-menu">접속통계
+								</span></a></li>
 						<li class="sidebar-item"><a
 							class="sidebar-link waves-effect waves-dark sidebar-link"
 							href="/admin/blank" aria-expanded="false"><i
