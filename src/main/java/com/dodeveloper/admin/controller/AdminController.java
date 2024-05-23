@@ -54,12 +54,6 @@ public class AdminController {
 
 	}
 
-	@RequestMapping(value = "/table", method = RequestMethod.GET)
-	public void table(Model model)  {
-		logger.info("table 호출");
-
-		
-	}
 	
 	@RequestMapping(value = "/selectBoard", method = RequestMethod.GET)
 	public void selectBoard(Model model) throws Exception {

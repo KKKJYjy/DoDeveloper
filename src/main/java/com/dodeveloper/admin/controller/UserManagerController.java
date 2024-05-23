@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.dodeveloper.admin.dto.UserStatusDTO;
 import com.dodeveloper.admin.service.AdminService;
 import com.dodeveloper.member.vo.MemberVO;
 
@@ -42,8 +43,17 @@ public class UserManagerController {
 	   }
 	   
 	   @PostMapping("/status")
-	   public void userStatus(@RequestParam("newStatus") String newStatus) {
-		   logger.info("status 변경");
+	   public void userStatus(@RequestParam("newStatus") String newStatus, @RequestParam("userId") String userId) {
+		   System.out.println(userId + "의 status를" + newStatus + "으로 변경하자");
+		   
+		   try {
+			aService.modifyUserStatus(newStatus, userId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		   
+		  
 	   }
 	   
 }
