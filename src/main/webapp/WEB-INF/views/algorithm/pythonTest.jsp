@@ -48,6 +48,8 @@
   ======================================================== -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+<script defer src="https://pyscript.net/alpha/pyscript.js"></script>
 </head>
 
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
@@ -58,60 +60,12 @@
 		<section id="algorithm" class="basic">
 			<div class="container">
 
+				<h1>${algDetailList[0].algDetailTitle}</h1>
 
-				<h1>${algBoardList}</h1>
-
-				<form action="/algorithm/modifyAlg" method="post">
-
-					<select class="form-select" id="boardNo" name="boardNo">
-						<option value="">수정할 게시판 제목을 선택하세요</option>
-						<c:forEach items="${algBoardList }" var="algBoardList">
-							<option value="${algBoardList.boardNo}">${algBoardList.title }</option>
-
-						</c:forEach>
-					</select>
-
-
-					<div class="mb-3 mt-3">
-						<label for="title" class="form-label">제목 : </label> <input
-							type="text" class="form-control" id="title"
-							placeholder="글 제목을 입력하세요..." name="title" />
-					</div>
-
-					<div class="mb-3 mt-3">
-						<label for="title" class="form-label">설명 : </label> <input
-							type="text" class="form-control" id="comment"
-							placeholder="글 제목을 입력하세요..." name="comment" />
-					</div>
-
-
-					
-
-					<h2>Select Menu</h2>
-					<p>To style a select menu in Bootstrap 5, add the .form-select
-						class to the select element:</p>
-					<label for="sel1" class="form-label">Select list (select
-						one):</label> <select class="form-select" id="classificationCode" name="classificationCode"
-						onchange="selectCode(this.value);">
-						<option value="0">생성할 알고리즘을 어디에 분류할지 선택</option>
-						<c:forEach items="${algClassification}" var="classification">
-
-							<option value="${classification.code }">${classification.code }
-								${classification.algClassification}</option>
-
-						</c:forEach>
-					</select>
-
-
-
-
-					<button type="submit">수정</button>
-					<button type="reset">취소</button>
-				</form>
-				<button type="button" class="btn btn-danger" onclick="location.href='/algorithm/listAll';">Danger</button>
+				<h1>alg</h1>
 				
 
-
+				<div>${algDetailList}</div>
 			</div>
 		</section>
 		<!-- End Basic Section -->

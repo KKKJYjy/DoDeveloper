@@ -160,7 +160,7 @@
 
 
 					<input type="submit" class="btn btn-success" value="글 저장" /> <input
-						type="button" class="btn btn-danger" value="취소" onclick="" />
+						type="button" class="btn btn-danger" value="취소" onclick="location.href='/algorithm/listAll'" />
 				</form>
 
 

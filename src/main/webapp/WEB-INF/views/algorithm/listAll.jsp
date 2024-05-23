@@ -48,6 +48,7 @@
   ======================================================== -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 </head>
 
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
@@ -59,6 +60,8 @@
 			<div class="container">
 				<h1>알고리즘</h1>
 				<h1>alg</h1>
+
+				
 
 				<div class="container mt-3">
 					<h2>알고리즘 목록</h2>
@@ -83,7 +86,7 @@
 				</div>
 
 				<div>${algBoardList}</div>
-				
+
 			</div>
 		</section>
 		<!-- End Basic Section -->

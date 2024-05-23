@@ -33,11 +33,21 @@ public class AlgServiceImpl implements AlgService {
 
 
 	@Override
-	public List<AlgDetailDTO> getListDetail(int boardNo) throws Exception {
+	public List<AlgDetailDTO> getListDetail(int boardNo) {
 		// boardNo 에 해당하는 algDetail 리스트 받아오기
 		List<AlgDetailDTO> algDetailList = null;
 		System.out.println(boardNo+"번의 알고리즘 조회");
-		algDetailList = aDao.selectAlgDetail(boardNo);
+//		LoginDTO loginDTO = null;
+//		System.out.println(loginDTO.getUserId());
+		
+		try {
+			algDetailList = aDao.selectAlgDetail(boardNo);
+		} catch (Exception e) {
+			// 
+			e.printStackTrace();
+		}
+		System.out.println(algDetailList);
+		
 		
 		return algDetailList;
 	}
@@ -75,6 +85,29 @@ public class AlgServiceImpl implements AlgService {
 		// algBoard 수정
 		
 		aDao.updateAlgBoard(algBoardDTO);
+		
+	}
+
+
+	@Override
+	public void writeAlgDetail(AlgDetailDTO algDetailDTO) {
+		// algDetail 글 작성
+		
+		aDao.insertAlgDetail(algDetailDTO);
+		
+	}
+
+
+	@Override
+	public void updateAlgDetail(AlgDetailDTO algDetailDTO, int algDetailNo) {
+		// algDetail 항목 업데이트
+		
+		algDetailDTO.setAlgDetailNo(algDetailNo);
+		
+		//LoginDTO loginDTO = null;
+		//System.out.println(loginDTO.getUserId());
+		
+		aDao.updateAlgDetail(algDetailDTO);
 		
 	}
 
