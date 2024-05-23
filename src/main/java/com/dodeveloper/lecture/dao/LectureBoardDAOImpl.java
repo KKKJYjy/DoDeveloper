@@ -285,7 +285,7 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 */
 	@Override
 	public int insertLikeBoard(int lecNo, String user) throws Exception {
-		System.out.println("다오단 : " + lecNo + "번 글에 " + user + "가 좋아요를 눌렀습니다!");
+		
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("lecNo", lecNo);
 		params.put("user", user);
@@ -313,14 +313,13 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 * @date : 2024.05.21
 	 * @param : int lecNo - 게시글 번호
 	 * @param : String user - 좋아요를 눌렀다가 취소하려는 회원
-	 * @param : int lecLikeNo - 좋아요 누른 순번
 	 * @return : int
 	 * @description : 게시글에 좋아요 한 번 더 눌렀을 경우 취소처리하는 메서드
 	 * 유저가 하트를 한번 더 눌렀을 경우 1감소 -> ♡
 	 */
 	@Override
 	public int deleteLikeBoard(int lecNo, String user) throws Exception {
-		System.out.println("다오단 : " + lecNo + "번 글에 " + user + "가 좋아요를 취소했습니다!");
+		
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("lecNo", lecNo);
 		params.put("user", user);
