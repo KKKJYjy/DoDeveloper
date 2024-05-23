@@ -70,7 +70,7 @@
 <script>
 	$(function() {
 		$('.studyLang').select2({
-			placeholder : '스터디 언어'
+			placeholder : '스터디 언어로 검색'
 		});
 
 		let studyStackList = new Array();
@@ -331,19 +331,18 @@
 							<select class="studyLang form-control" multiple="multiple"
 								id="chooseStack" name="chooseStack" style="width: 100%;">
 								<c:forEach var="stack" items="${stackList }">
-									<option value="${stack.stackNo }" onclick='selectStack();'>${stack.stackName }</option>
+									<option value="${stack.stackNo }">${stack.stackName }</option>
 								</c:forEach>
 							</select>
 						</div>
 
 						<!-- 모집중 or 모집마감 bg-primary-subtle-->
 						<div class="col-md-2">
-						<!-- <form> -->
+						
 							<!-- <div id="studyStatus" class="text-secondary text-center border border-secondary rounded-2 p-2">
 								모집중만 보기
 							</div> -->
 							<input id="studyStatus" type="submit" class="text-secondary text-center border border-secondary rounded-2 p-2" value="👀 모집중만 보기" />
-						<!-- </form> -->
 						
 							<!-- <button id="studyStatus" class="btn btn-outline-secondary" style="width: 100%">
 								모집중만 보기</button> -->

@@ -295,7 +295,7 @@ public class StudyServiceImpl implements StudyService {
 		
 		result.put("studyList", lst);
 		result.put("stuStackList", stuStackList);
-		result.put("stackList", stackList);
+		//result.put("stackList", stackList);
 		
 		return result ;
 		
