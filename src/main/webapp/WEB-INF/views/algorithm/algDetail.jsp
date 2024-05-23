@@ -51,49 +51,120 @@
   ======================================================== -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<!--  pyscript -->
+<link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+<script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+<!--  리스트 길이 구하는 함수 포함 -->
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
+
+<script>
+	$(function () {
+		
+		
+		$.ajax({
+			url : "",
+			data : {
+				
+				"": ,
+			},
+			type : "post",
+			dataType : "text", // 수신받을 데이터의 타입
+			success : function(data) {
+			console.log(data);
+			
+			
+			},
+		});
+		
+		
+		
+	});
+	
+	
+</script>
+
 </head>
+
 
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
 	<%@ include file="../header.jsp"%>
-
 	<%
 	String boardNo = request.getParameter("boardNo");
 	session.setAttribute("boardNo", boardNo);
-	
 	%>
-	
+
 	<main id="main">
 		<!-- Basic Section - Algorithm Page -->
 		<section id="algorithm" class="basic">
 			<div class="container">
-
 				<h1>${algDetailList[0].algDetailTitle}</h1>
+				<h1>${algDetailList[0].algDetailContent}</h1>
+				<h1>${algDetailList[1].algDetailContent}</h1>
+
+				<h2>${fn:length(algDetailList)}</h2>
 
 				<h1>alg</h1>
+				
+				
 
+
+				<py-script> def bubbleSort(arr): n = len(arr) for i in
+				range(n-1): swapped = False for j in range(0,n-i-1): if
+				arr[j]>arr[j+1]: swapped = True arr[j], arr[j+1] = arr[j+1],arr[j]
+
+				if not swapped: return arr = [64,34,25,12,22,11,90] bubbleSort(arr)
+
+				print("Sorted array is:") for i in range(len(arr)): print("% d" %
+				arr[i], end=" ") </py-script>
+				<py-script> ${algDetailList[0].algDetailContent} </py-script>
+				<py-script> ${algDetailList[1].algDetailContent} </py-script>
+
+
+
+
+
+				<div id='test' type="text">???</div>
 
 				<div>${algDetailList}</div>
 
-
-
-
 				<div>${algDetailList[0].algBoardNo}</div>
 
-			</div>
 
+
+
+
+				<c:forEach var="algDetail" items="${algDetailList}" begin="0"
+					end="${fn:length(algDetailList)}">
+
+					<div class="container mt-3">
+						<h2>${algDetail.algDetailTitle}</h2>
+						<div>${algDetail.algDetailNo}</div>
+						<div class="mt-4 p-5 bg-primary text-white rounded">
+							<h1>code</h1>
+							<p>${algDetail.algDetailContent}</p>
+							<h1>result</h1>
+							<p><py-script> ${algDetail.algDetailContent} </py-script></p>
+						</div>
+					</div>
+					<div></div>
+				</c:forEach>
+
+
+
+
+			</div>
 		</section>
 
-
-			<form method="get" action="/algorithm/writeDetailPOST">
-
-		<div class="btns">
-
-			<button type="submit" class="btn btn-info">글쓰기</button>
-			<button type="button" class="btn btn-info"
-				onclick="location.href='/algorithm/modifyAlg';">글수정</button>
-		</div>
-			</form>
-
+		<form method="get" action="/algorithm/writeDetailPOST">
+			<div class="btns">
+				<button type="submit" class="btn btn-info">글쓰기</button>
+				<button type="button" class="btn btn-info"
+					onclick="location.href='/algorithm/modifyAlgDetail';">글수정</button>
+			</div>
+		</form>
+		<button type="button" class="btn btn-danger"
+			onclick="location.href='/algorithm/listAll';">알고리즘목록</button>
 
 		<!-- End Basic Section -->
 	</main>

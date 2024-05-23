@@ -26,4 +26,13 @@ public interface AlgService {
 	void updateAlgBoard(AlgBoardDTO algBoardDTO);
 
 	
+	// algDetail 글 쓰기
+	void writeAlgDetail(AlgDetailDTO algDetailDTO);
+
+	// algDetail 항목 업데이트
+	void updateAlgDetail(AlgDetailDTO algDetailDTO, int algDetailNo);
+	
+	
+
+	
 }
