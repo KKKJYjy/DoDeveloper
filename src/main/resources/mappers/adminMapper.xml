@@ -40,10 +40,7 @@
 		totalPostCnt from noticeBoard
 	</select>
 
-	<select id="getBoard" resultType="AdminVO">
-		select * from studyBoard order
-		by stuNo desc
-	</select>
+
 
 
 	<!-- 불량 회원 조회 -->
