@@ -198,11 +198,11 @@ public class CompanyController {
 	 * @throws Exception
 	 * @description :
 	 */
-	@PostMapping("/editWrittenBoardPOST")
-	public String RevEditWrittenBoard(WrittenCompanyBoardDTO newEditWrittenBoard) {
+	@PostMapping("/revCompanyBoard")
+	public String RevEditWrittenBoard(@RequestParam("revNo") int revNo, RevCompanyBoardVO newEditWrittenBoard) {
 		String returnPage = "redirect:/companyInfo/revCompanyBoard?";
 		System.out.println(newEditWrittenBoard.toString() + "수정하자");
-
+		
 		try {
 			if (ciService.RevEditWrittenBoard(newEditWrittenBoard) == 1) {
 				// 수정완료 버튼 누르면 되돌아갈 페이지
