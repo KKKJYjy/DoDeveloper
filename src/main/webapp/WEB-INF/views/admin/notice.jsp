@@ -16,7 +16,14 @@
 <script>
 	function checkCheck() {
 
-		if (frm.title.value == "") {
+		if (frm.writer.value == "") {
+			
+			alert('로그인 후 이용해주세요');
+			
+			return false;
+		}
+		
+		else if (frm.title.value == "") {
 
 			frm.title.focus();
 			alert('제목을 입력해주세요');
