@@ -68,6 +68,7 @@
 							href="/admin/report" aria-expanded="false"><i
 								class="mdi me-2 mdi-earth"></i><span class="hide-menu">신고내역 조회
 									</span></a></li>
+
 						<li class="sidebar-item"><a
 							class="sidebar-link waves-effect waves-dark sidebar-link"
 							href="/admin/blank" aria-expanded="false"><i
