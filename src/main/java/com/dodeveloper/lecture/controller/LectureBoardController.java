@@ -316,6 +316,34 @@ public class LectureBoardController {
 
 		return "success";
 	}
+	
+	/**
+	 * @methodName : getLikeStatus
+	 * @author : 
+	 * @date : 2024.05.23
+	 * @param : int lecNo - 좋아요 눌렸는지 확인할 게시글 번호
+	 * @param : String user - 좋아요를 누가 누른건지 확인할 유저
+	 * @return : @ResponseBody String - 게시글 번호, 유저 정보를 받아서 문자열(success/fail)로 지정해서 반환
+	 * @description : 게시글에 좋아요(눌려있는지/안눌려있는지) 체크하는 메서드
+	 */
+	@GetMapping("/likeStatus")
+	public @ResponseBody String getLikeStatus(int lecNo, String user) {
+		
+		try {
+			if (lService.checkLikeStatus(lecNo, user)) {
+				// 유저가 좋아요를 누른 게시글일 경우 "success" 반환
+				System.out.println(user + "가 " + lecNo + "번 게시글에 좋아요를 눌렀었다.");
+			    return "success";
+			} else {
+				// 유저가 좋아요를 누르지 않은 게시글일 경우 "fail" 반환
+				System.out.println(user + "가 " + lecNo + "번 게시글에 좋아요를 취소&안눌렀다.");
+			    return "fail";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
 
 	/**
 	 * @methodName : likeBoard
