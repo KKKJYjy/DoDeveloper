@@ -295,6 +295,27 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 
 		return result;
 	}
+	
+	/**
+	 * @methodName : checkLikeStaus
+	 * @author : kde
+	 * @date : 2024.05.23
+	 * @param : int lecNo - 좋아요 눌렀는지 안눌렀는지 확인하려는 게시글 번호
+	 * @param : String user - 좋아요 누른 유저
+	 * @return : boolean
+	 * @description : 게시글에 좋아요(눌려있는지/안눌려있는지) 체크하는 메서드
+	 */
+	@Override
+	public boolean checkLikeStatus(int lecNo, String user) throws Exception {
+		
+		boolean result = false;
+		
+		if (lDao.selectLikeBoard(lecNo, user) == 1) {
+			result = true;
+		}
+		
+		return result;
+	}
 
 	/**
 	 * @methodName : likeBoard
