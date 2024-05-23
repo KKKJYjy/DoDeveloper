@@ -32,6 +32,13 @@
 		<typeAlias alias="AdminReviewBoardVO"
 			type="com.dodeveloper.admin.vo.AdminReviewBoardVO" />
 
+		<typeAlias alias="NoticeDTO"
+			type="com.dodeveloper.admin.dto.NoticeDTO" />
+
+		<typeAlias alias="ReportVO"
+			type="com.dodeveloper.admin.vo.ReportVO" />
+
+
 
 		<typeAlias alias="MessageFileDTO"
 			type="com.dodeveloper.message.vodto.MessageFileDTO" />

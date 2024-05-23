@@ -19,48 +19,54 @@
 <body>
 	<c:import url="./adminHeader.jsp"></c:import>
 
+	<c:import url="./adminSidebar.jsp"></c:import>
+
+	<div class="page-wrapper">
+
+		<c:import url="./adminMiniHeader.jsp"></c:import>
+
+
+		<div class="container-fluid">
+
+			<div class="container mt-3">
+				<p class="text-center">게시판 조회</p>
+				<ul class="nav nav-tabs nav-justified">
+					<li class="nav-item"><a class="nav-link"
+						href="/admin/selectBoard">스터디 모임</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="/admin/lectureBoard">강의추천</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="/admin/algorithmBoard">알고리즘</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="/admin/reviewBoard">기업리뷰</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="/admin/noticeBoard">공지사항</a></li>
+				</ul>
+			</div>
+
+		</div>
+
+
+
+
+
+		<!-- column -->
 
 
 
 
 
 
-	<div class="container mt-3">
-		<p class="text-center">게시판 조회</p>
-		<ul class="nav nav-tabs nav-justified">
-			<li class="nav-item"><a class="nav-link"
-				href="/admin/selectBoard">스터디게시판</a></li>
-			<li class="nav-item"><a class="nav-link"
-				href="/admin/lectureBoard">강의추천게시판</a></li>
-			<li class="nav-item"><a class="nav-link"
-				href="/admin/algorithmBoard">알고리즘게시판</a></li>
-			<li class="nav-item"><a class="nav-link"
-				href="/admin/reviewBoard">제직자리뷰게시판</a></li>
-		</ul>
+
+
+
+
+
+
+
+
+
+		<c:import url="./adminFooter.jsp"></c:import>
 	</div>
-
-
-
-
-
-
-
-	<!-- column -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	<c:import url="./adminFooter.jsp"></c:import>
 </body>
 </html>

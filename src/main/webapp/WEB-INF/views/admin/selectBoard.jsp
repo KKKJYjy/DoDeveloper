@@ -13,27 +13,15 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <style>
-.butt {
-	margin: 10px;
+#openModalBtn {
+	margin-bottom: 15px;
 }
 </style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
 
-    // 삭제 버튼을 클릭했을 때 체크된 항목만 삭제
-    document.addEventListener("DOMContentLoaded", function() {
-    let deleteButton = document.getElementById("deleteButton");
-
-    deleteButton.addEventListener("click", function() {
-        let checkboxes = document.querySelectorAll(".deleteCheckbox:checked");
-
-    checkboxes.forEach(checkbox => {
-        let item = checkbox.parentElement;
-        item.remove();
-        });
-    }); 
-});
+    
 
 
 
@@ -75,6 +63,26 @@
 	})
 	
 	
+	$(function(){
+			var chkObj = document.getElementsByName("rowCheck");
+			var rowCnt = chkObj.length;
+			
+			$("input[name='allCheck']").click(function(){
+				var chk_listArr = $("input[name='rowCheck']");
+				for (var i=0; i<chk_listArr.length; i++){
+					chk_listArr[i].checked = this.checked;
+				}
+			});
+			$("input[name='rowCheck']").click(function(){
+				if($("input[name='rowCheck']:checked").length == rowCnt){
+					$("input[name='allCheck']")[0].checked = true;
+				}
+				else{
+					$("input[name='allCheck']")[0].checked = false;
+				}
+			});
+		});
+	
 	function checkCheckbox() {
 	   let url = "delete";
 	   let valueArr = new Array();
@@ -89,24 +97,29 @@
 	   }
 	   else{
 		   let chk = confirm("정말 삭제하시겠습니까?");
-		   $.ajax({
-				url : url,
-				type : "post",
-				traditional : true,
-				data : {
-					valueArr : valueArr
-				},    
-				success : function(data) {
-					if (data == 1) {
-						alert("삭제 성공");
-						location.replace("selectBoard")
-					} 
-					else {
-						alert("삭제 실패");
-					}
-			}
-			
-		}); 
+		   if (!chk) {
+			   location.replace("selectBoard")
+		   } else {
+			   $.ajax({
+					url : url,
+					type : "post",
+					traditional : true,
+					data : {
+						valueArr : valueArr
+					},    
+					success : function(data) {
+						if (data = 1) {
+							alert("삭제 성공");
+							location.replace("selectBoard")
+						} 
+						else {
+							alert("삭제 실패");
+						}
+				}
+				
+			}); 
+		   }
+		 
 	   }
 	}
 </script>
@@ -117,25 +130,30 @@
 	<c:import url="./adminHeader.jsp"></c:import>
 
 
-
+<c:import url="./adminSidebar.jsp"></c:import>
 
 	<div class="page-wrapper">
+	
+	<c:import url="./adminMiniHeader.jsp"></c:import>
+	
 
 
 		<div class="container-fluid">
 
 
 			<div class="container mt-3">
-				<p class="text-center">스터디게시판</p>
+				<p class="text-center">스터디 모임</p>
 				<ul class="nav nav-tabs nav-justified">
 					<li class="nav-item"><a class="nav-link"
-						href="/admin/selectBoard">스터디게시판</a></li>
+						href="/admin/selectBoard">스터디 모임</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="/admin/lectureBoard">강의추천게시판</a></li>
+						href="/admin/lectureBoard">강의추천</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="/admin/algorithmBoard">알고리즘게시판</a></li>
+						href="/admin/algorithmBoard">알고리즘</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="/admin/reviewBoard">제직자리뷰게시판</a></li>
+						href="/admin/reviewBoard">기업리뷰</a></li>
+						<li class="nav-item"><a class="nav-link"
+						href="/admin/noticeBoard">공지사항</a></li>
 				</ul>
 			</div>
 
@@ -157,7 +175,7 @@
 
 					<thead>
 						<tr>
-							<th></th>
+							<th><input id="allCheck" type="checkbox" name="allCheck"/></th>
 							<th>글번호</th>
 							<th>작성자</th>
 							<th>제목</th>
@@ -193,19 +211,19 @@
 				<ul class="pagination">
 					<c:if test="${param.pageNo > 1 }">
 						<li class="page-item"><a class="page-link"
-							href="/admin/selectBoard?pageNo=${param.pageNo -1 }">Previous</a></li>
+							href="/admin/selectBoard?pageNo=${param.pageNo -1 }&searchType=${param.searchType}&searchValue=${param.searchValue}">Previous</a></li>
 
 					</c:if>
 					<c:forEach var="i"
 						begin="${pagingInfo.startNumOfCurrentPagingBlock }"
 						end="${pagingInfo.endNumOfCurrentPagingBlock }" step="1">
 						<li class="page-item" id="${i }"><a class="page-link"
-							href="/admin/selectBoard?pageNo=${i }">${i }</a></li>
+							href="/admin/selectBoard?pageNo=${i }&searchType=${param.searchType}&searchValue=${param.searchValue}">${i }</a></li>
 					</c:forEach>
 
 					<c:if test="${param.pageNo < pagingInfo.totalPageCnt }">
 						<li class="page-item"><a class="page-link"
-							href="/admin/selectBoard?pageNo=${param.pageNo +1 }">Next</a></li>
+							href="/admin/selectBoard?pageNo=${param.pageNo +1 }&searchType=${param.searchType}&searchValue=${param.searchValue}">Next</a></li>
 					</c:if>
 				</ul>
 			</div>

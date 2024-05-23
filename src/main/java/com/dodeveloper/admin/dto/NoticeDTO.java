@@ -1,4 +1,4 @@
-package com.dodeveloper.admin.vo;
+package com.dodeveloper.admin.dto;
 
 import java.sql.Timestamp;
 
@@ -9,22 +9,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-
-
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter
 @Setter
 @ToString
-public class ReportVO {
-	private int reportNo;
-	private String category;
+public class NoticeDTO {
 	private int boardNo;
 	private String writer;
-	private Timestamp reportDate;
-	private String reportReason;
-	private String reporter;
-	private String isDelete;
-	private int btypeNo;
+	private Timestamp postDate;
+	private String title;
+	private String content;
+	private int readCount;
 }
-

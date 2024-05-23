@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.dodeveloper.admin.service.AdminService;
@@ -60,6 +61,15 @@ public class AdminController {
 
 		
 	}
+	
+	@RequestMapping(value = "/notice", method = RequestMethod.GET)
+	public void notice() {
+		logger.info("notice 호출");
+	}
+	
+	
+	
+	
 	
 //	@RequestMapping(value = "/selectBoard", method = RequestMethod.GET)
 //	public void selectBoard(Model model) throws Exception {

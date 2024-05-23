@@ -6,12 +6,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
-	<h1>상세보기 페이지</h1>
-
-
 	
-
+	
+	<c:import url="http://localhost:8081/lecture/listAll"></c:import>
 </body>
 </html>

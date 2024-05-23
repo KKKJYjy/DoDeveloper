@@ -6,65 +6,268 @@
 
 	<!-- study게시글 조회 -->
 	<select id="getBoard" resultType="AdminVO">
-		select * from studyBoard order by stuNo desc limit #{startRowIndex},#{viewPostCntPerPage}
+		select * from studyBoard order
+		by stuNo desc limit #{startRowIndex},#{viewPostCntPerPage}
 	</select>
-	
+
+	<!-- 스터디게시글 전체 갯수 -->
 	<select id="getTotalBoardCnt" resultType="int">
-		select count(*) as totalPostCnt from studyBoard
+		select count(*) as
+		totalPostCnt from studyBoard
+	</select>
+
+	<!-- 강의추천게시글 전체 갯수 -->
+	<select id="getLecTotalBoardCnt" resultType="int">
+		select count(*) as
+		totalPostCnt from lectureBoard
+	</select>
+
+	<!-- 알고리즘 게시글 전체 갯수 -->
+	<select id="getAlgTotalBoardCnt" resultType="int">
+		select count(*) as
+		totalPostCnt from algBoard
+	</select>
+
+	<!-- 기업리뷰 게시글 전체 갯수 -->
+	<select id="getRevTotalBoardCnt" resultType="int">
+		select count(*) as
+		totalPostCnt from companyrevboard
+	</select>
+
+	<!-- 공지사항 게시글 전체 갯수 -->
+	<select id="getNotcTotalBoardCnt" resultType="int">
+		select count(*) as
+		totalPostCnt from noticeBoard
 	</select>
 
 	<!-- 불량 회원 조회 -->
 	<select id="getBadMemberBoard" resultType="BadMemberBoardVO">
-		select * from reportBoard order by reportNo desc
+		select * from
+		reportBoard order by reportNo desc
 	</select>
-	
+
 	<!-- 강의추천게시판 조회 -->
 	<select id="getLecBoard" resultType="AdminLectureVO">
-	 	select * from lectureBoard order by lecNo desc limit #{startRowIndex},#{viewPostCntPerPage}
+		select * from lectureBoard
+		order by lecNo desc limit
+		#{startRowIndex},#{viewPostCntPerPage}
 	</select>
-	
+
 	<!-- 알고리즘게시판 조회 -->
 	<select id="getArgBoard" resultType="AdminArgBoardVO">
-		select * from algBoard order by boardNo desc limit #{startRowIndex},#{viewPostCntPerPage}
+		select * from algBoard order
+		by boardNo desc limit #{startRowIndex},#{viewPostCntPerPage}
 	</select>
-	
+
 	<!-- 리뷰게시판 조회 -->
 	<select id="getRevBoard" resultType="AdminReviewBoardVO">
-		select * from companyrevboard order by revNo desc limit #{startRowIndex},#{viewPostCntPerPage}
+		select * from
+		companyrevboard order by revNo desc limit
+		#{startRowIndex},#{viewPostCntPerPage}
 	</select>
-	
+
+	<!-- 공지사항 조회 -->
+	<select id="getNotcBoard" resultType="NoticeDTO">
+		select * from noticeBoard
+		order by boardNo desc limit #{startRowIndex},#{viewPostCntPerPage}
+	</select>
+
+
 	<!-- 검색어가 있을 경우 글의 갯수를 가져오는 쿼리문 -->
 	<select id="getStuBoardCntWithSC" resultType="int">
 		select count(*) from studyBoard
 		<choose>
-			<when test="searchType == 'stuTitle'">
+			<when test="searchType == 'title'">
 				where stuTitle like #{searchValue}
 			</when>
-			<when test="searchType == 'stuWriter'">
+			<when test="searchType == 'writer'">
 				where stuWriter like #{searchValue}
 			</when>
 		</choose>
 	</select>
-	
+
 	<!-- 검색어가 있을 경우 검색된 글을 가져오는 쿼리문 -->
 	<select id="getStuBoardListWithSC" resultType="AdminVO">
 		select * from studyBoard
 		<choose>
-			<when test="searchType == 'stuTitle'">
+			<when test="searchType == 'title'">
 				where stuTitle like #{searchValue}
 			</when>
-			<when test="searchType == 'stuWriter'">
+			<when test="searchType == 'writer'">
 				where stuWriter like #{searchValue}
 			</when>
 		</choose>
-		
-			order by stuNo desc limit #{startRowIndex}, #{viewPostCntPerPage}
+
+		order by stuNo desc limit #{startRowIndex}, #{viewPostCntPerPage}
+	</select>
+
+	<!-- 강의추천 검색어가 있을 경우 글의 갯수를 가져오는 쿼리문 -->
+	<select id="getLecBoardCntWithSC" resultType="int">
+		select count(*) from lectureBoard
+		<choose>
+			<when test="searchType == 'title'">
+				where lecTitle like #{searchValue}
+			</when>
+			<when test="searchType == 'writer'">
+				where lecWriter like #{searchValue}
+			</when>
+		</choose>
+	</select>
+
+	<!-- 강의추천 검색어가 있을 경우 검색된 글을 가져오는 쿼리문 -->
+	<select id="getLecBoardListWithSC" resultType="AdminLectureVO">
+		select * from lectureBoard
+		<choose>
+			<when test="searchType == 'title'">
+				where lecTitle like #{searchValue}
+			</when>
+			<when test="searchType == 'writer'">
+				where lecWriter like #{searchValue}
+			</when>
+		</choose>
+
+		order by lecNo desc limit #{startRowIndex}, #{viewPostCntPerPage}
+	</select>
+
+	<!-- 알고리즘 검색어가 있을 경우 글의 갯수를 가져오는 쿼리문 -->
+	<select id="getAlgBoardCntWithSC" resultType="int">
+		select count(*) from algBoard
+		<choose>
+			<when test="searchType == 'title'">
+				where title like #{searchValue}
+			</when>
+
+		</choose>
+	</select>
+
+
+	<!-- 알고리즘 검색어가 있을 경우 검색된 글을 가져오는 쿼리문 -->
+	<select id="getAlgBoardListWithSC" resultType="AdminArgBoardVO">
+		select * from algBoard
+		<choose>
+			<when test="searchType == 'title'">
+				where title like #{searchValue}
+			</when>
+
+		</choose>
+
+		order by boardNo desc limit #{startRowIndex}, #{viewPostCntPerPage}
+	</select>
+
+
+	<!-- 기업리뷰 검색어가 있을 경우 글의 갯수를 가져오는 쿼리문 -->
+	<select id="getRevBoardCntWithSC" resultType="int">
+		select count(*) from companyrevboard
+		<choose>
+			<when test="searchType == 'title'">
+				where revTitle like #{searchValue}
+			</when>
+			<when test="searchType == 'writer'">
+				where revWriter like #{searchValue}
+			</when>
+		</choose>
+	</select>
+
+	<!-- 기업리뷰 검색어가 있을 경우 검색된 글을 가져오는 쿼리문 -->
+	<select id="getRevBoardListWithSC"
+		resultType="AdminReviewBoardVO">
+		select * from companyrevboard
+		<choose>
+			<when test="searchType == 'title'">
+				where revTitle like #{searchValue}
+			</when>
+			<when test="searchType == 'writer'">
+				where revWriter like #{searchValue}
+			</when>
+		</choose>
+
+		order by revNo desc limit #{startRowIndex}, #{viewPostCntPerPage}
 	</select>
 	
+	<!-- 공지사항 검색어가 있을경우 글의 갯수를 가져오는 쿼리문 -->
+	<select id="getNotcBoardCntWithSC" resultType="int">
+		select count(*) from noticeBoard
+		<choose>
+			<when test="searchType == 'title'">
+				where title like #{searchValue}
+			</when>
+			<when test="searchType == 'writer'">
+				where writer like #{searchValue}
+			</when>
+		</choose>
+	</select>
+
+
+	<!-- 공지사항 검색어가 있을 경우 검색된 글을 가져오는 쿼리문 -->
+	<select id="getNotcBoardListWithSC" resultType="NoticeDTO">
+		select * from noticeBoard
+		<choose>
+			<when test="searchType == 'title'">
+				where title like #{searchValue}
+			</when>
+			<when test="searchType == 'writer'">
+				where writer like #{searchValue}
+			</when>
+		</choose>
+
+		order by boardNo desc limit #{startRowIndex}, #{viewPostCntPerPage}
+	</select>
+	
+	
+
+
 	<!-- stuBoard게시글 삭제 -->
 	<delete id="deleteStuBoard">
 		delete from studyBoard where stuNo = #{stuNo}
 	</delete>
+
+	<!-- 강의추천 게시글 삭제 -->
+	<delete id="deleteLecBoard">
+		delete from lectureBoard where lecNo = #{lecNo}
+	</delete>
+
+	<!-- 알고리즘 게시글 삭제 -->
+	<delete id="deleteAlgBoard">
+		delete from algBoard where boardNo = #{boardNo}
+	</delete>
+
+	<!-- reviewBoard 게시글 삭제 -->
+	<delete id="deleteRevBoard">
+		delete from companyrevboard where revNo = #{revNo}
+	</delete>
+
+	<!-- 공지사항 게시글 삭제 -->
+	<delete id="deleteNotcBoard">
+		delete from noticeBoard where boardNo = #{boardNo}
+	</delete>
+
+	<!-- 신고내역 삭제 -->
+	<delete id="deleteReportBoard">
+		delete from reportBoard where reportNo = #{reportNo}
+	</delete>
+
+
+
+	<!-- 공지사항 작성 -->
+	<insert id="insertNoticeBoard">
+		insert into noticeBoard(writer, title, content)
+		values(#{writer}, #{title}, #{content})
+	</insert>
+
+	<!-- 신고내역 조회 -->
+	<select id="getReport" resultType="ReportVO">
+		select * from reportBoard
+		order by reportNo desc
+	</select>
+
+	<!-- 신고내역 ?번 글을 가져오는 쿼리문 -->
+	<select id="selectReportNo" resultType="ReportVO">
+		select * from reportBoard
+		where btypeNo = #{btypeNo}
+	</select>
+
+
+
 
 
 	<!-- 유저 전체 조회 -->

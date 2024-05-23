@@ -46,9 +46,9 @@ function isValid() {
 </script>
 </head>
 <body>
-	<form class="searchBar" style="margin-top: 15px; text-align: center;">
+	<form class="searchBar" style="margin: 15px; text-align: center;">
 			<select id="searchType" name="searchType">
-				<option value="-1">--- 검색 조건을 입력하세요 ---</option>
+				<option value="-1">--- 검색 조건을 선택하세요 ---</option>
 				<option value="title">제목</option>
 				<option value="writer">작성자</option>
 			</select> <input type="text" id="searchValue" name="searchValue"
