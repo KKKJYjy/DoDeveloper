@@ -88,7 +88,7 @@
 }
 
 <!--
-좋아요 버튼 -->.btn-group {
+좋아요 버튼 --> .btn-group {
 	position: relative;
 }
 </style>
@@ -376,11 +376,53 @@ function cancelWriteReply() {
 }
 
 //---------------------------------------------------------------------
+//---------------------------------------------------------------------
 
 // 좋아요 버튼에 대한 설정
 
 // 좋아요 변수 초기값 설정
 let liked = false;
+
+// 좋아요 상태를 확인하기위해 아래의 함수(getLikeStatus)를 호출
+$(function() {
+    getLikeStatus();
+});
+
+// 좋아요 상태를 확인하는 함수
+function getLikeStatus() {
+    let lecNo = '${lecBoard.lecNo}'; // 게시글 번호
+    let user = '${sessionScope.loginMember.userId}' // 로그인 한 유저의 정보
+
+    $.ajax({
+        url: '/lecture/likeStatus', // 요청을 보낼 URL
+        type: 'get', // HTTP 요청 메서드 (GET)
+        data: {
+            lecNo: lecNo, // 게시글 번호
+            user: user // 유저 정보
+        },
+        success: function(data) {
+            // 빈하트(좋아요 누르기 전)와 꽉찬하트(좋아요 누른 후)의 HTML 요소를 가져옴
+            let heartIcon = document.getElementById("heartIcon");
+            let fullHeartIcon = document.getElementById("fullHeartIcon");
+
+            // 받아온 데이터가 "success"이면 꽉찬하트를 표시, 아니면 빈하트를 표시
+            if (data === "success") {
+                heartIcon.style.display = "none"; // 빈하트 숨김
+                fullHeartIcon.style.display = "inline"; // 꽉찬하트 표시
+                liked = true; // 좋아요를 누른 상태
+            } else {
+                heartIcon.style.display = "inline"; // 빈하트 표시
+                fullHeartIcon.style.display = "none"; // 꽉찬하트 숨김
+                liked = false; // 좋아요를 누르지 않은 상태
+            }
+        },
+        error: function() {
+            console.log('좋아요 상태를 불러오는데 실패했습니다.');
+        }
+    });
+}
+
+//---------------------------------------------------------------------
 
 // 하트 아이콘 클릭시 호출되는 함수(clickHeart)
 function clickHeart() {
@@ -428,7 +470,7 @@ function clickHeart() {
                 fullHeartIcon.style.display = "none"; // 꽉하트 숨김
                 console.log("좋아요 취소 성공");
             }
-            liked = !liked; // 좋아요 상태 변경
+            liked = !liked; // 좋아요 상태(좋아요 <=> 좋아요 취소) 변경
         },
         error: function(data) {
             console.log('error:', data);
@@ -513,12 +555,10 @@ function clickHeart() {
 						<div class="btns">
 							<!-- 하트 이미지 -->
 							<img id="heartIcon" src="/resources/images/lecture/redHeart.png"
-								alt="하트 이미지" style="width: 50px; height: 50px; cursor: pointer;"
-								onclick="clickHeart()">
-								
-							<img id="fullHeartIcon"
+								alt="하트 이미지" style="width: 50px; height: 50px;"
+								onclick="clickHeart()"> <img id="fullHeartIcon"
 								src="/resources/images/lecture/redFullHeart.png" alt="하트 이미지"
-								style="width: 50px; height: 50px; cursor: pointer; display: none;"
+								style="width: 50px; height: 50px; display: none;"
 								onclick="clickHeart()">
 						</div>
 
