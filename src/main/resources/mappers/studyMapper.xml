@@ -4,6 +4,7 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dodeveloper.mappers.studyMapper">
 
+	<!-- 모든 스터디 리스트 select -->
 	<select id="selectAllList"
 		resultType="com.dodeveloper.study.vodto.StudyBoardVO">
 		SELECT * FROM studyBoard order by wrritenDate desc
@@ -11,6 +12,7 @@
 		#{startRowIndex}, #{viewPostCntPerPage}
 	</select>
 
+	<!-- stuBoardNo번째 스터디 언어를(스택) select -->
 	<select id="selectAllstudyStack"
 		resultType="com.dodeveloper.study.vodto.StuStackDTO">
 		select * from stack s
@@ -20,17 +22,20 @@
 		where t.stuBoardNo = #{stuBoardNo}
 	</select>
 
+	<!-- 가장 최근에 insert된 스터디 언어의 stuNo값을 select  -->
 	<select id="selectNextStuNo" resultType="int">
 		select stuNo from
 		studyBoard
 		order by wrritenDate desc limit 0, 1
 	</select>
 
+	<!-- 새로운 스터디 언어를 insert -->
 	<insert id="insertNewStack">
 		insert into stuStack(stuBoardNo, chooseStack)
 		values(#{stuBoardNo}, #{chooseStack})
 	</insert>
 
+	<!-- 새로운 스터디 모임글을 insert -->
 	<insert id="insertNewStudy">
 		insert into studyBoard(stuWriter, stuTitle,
 		stuContent, stuLoc, stuX, stuY, stuDate, stuPers, contactLink,
@@ -40,11 +45,13 @@
 		#{stuPers}, #{contactLink}, #{endDate})
 	</insert>
 
+	<!-- stuNo번째 스터디 모임글 select -->
 	<select id="selectStudyByStuNo"
 		resultType="com.dodeveloper.study.vodto.StudyBoardVO">
 		SELECT * FROM studyBoard where stuNo = #{stuNo}
 	</select>
 
+	<!-- 검색 내용에 해당하는 스터디 모임글 select -->
 	<select id="selectAllListWithsDTO"
 		resultType="com.dodeveloper.study.vodto.StudyBoardVO">
 		select * from studyBoard
@@ -62,7 +69,8 @@
 		order by wrritenDate desc limit #{startRowIndex},
 		#{viewPostCntPerPage}
 	</select>
-	
+
+	<!-- 검색 + 필터 내용에 해당하는 스터디 모임글 select -->	
 	<select id="selectAllListWithsDTOWithStatusFilter" resultType="com.dodeveloper.study.vodto.StudyBoardVO">
 		select * from studyBoard
 		<choose>
@@ -81,22 +89,25 @@
 		#{viewPostCntPerPage}
 	</select>
 	
+	<!-- 필터 내용에 해당하는 스터디 모임글 select -->
 	<select id="selectAllListWithStatusFilter"
 		resultType="com.dodeveloper.study.vodto.StudyBoardVO">
 		SELECT * FROM studyBoard where status= #{status}
 		order by wrritenDate desc limit #{startRowIndex}, #{viewPostCntPerPage}
 	</select>
 	
-
+	<!-- stack 테이블에서 모든 스터디 언어(stack)를 select -->
 	<select id="selectAllStack"
 		resultType="com.dodeveloper.study.vodto.StackVO">
 		SELECT * FROM stack
 	</select>
 
+	<!-- stuNo번째 스터디 모임글 delete -->
 	<delete id="deleteStudyBoard">
 		delete from studyBoard where stuNo = #{stuNo}
 	</delete>
 
+	<!-- stuNo번째 스터디 모임글 update -->
 	<update id="modifyStudy">
 		update studyBoard set
 		stuTitle = #{stuTitle},
@@ -106,20 +117,24 @@
 		where stuNo = #{stuNo}
 	</update>
 
+	<!-- stuStackNo 번째 chooseStack를 update -->
 	<update id="modifyStack">
 		update stuStack set chooseStack = #{chooseStack}
 		where stuStackNo = #{stuStackNo}
 	</update>
 
+	<!-- stuStackNo 번째 chooseStack를 delete -->
 	<delete id="deleteStudyStack">
 		delete from stuStack where stuStackNo = #{stuStackNo}
 	</delete>
 
+	<!-- 모든 스터디 모임글의 갯수 select -->
 	<select id="selectTotalBoardCnt" resultType="int">
 		select count(*) from
 		studyBoard
 	</select>
 
+	<!-- 검색 내용에 해당하는 스터디 모임글 갯수 select -->
 	<select id="selectTotalBoardCntWithSdto" resultType="int">
 		select count(*) from studyBoard
 		<choose>
@@ -135,11 +150,12 @@
 		</choose>
 	</select>
 	
-	
+	<!-- 필터링 후 해당되는 스터디 모임글 갯수 select -->
 	<select id="selectTotalBoardCntWithStatusFilter" resultType="int">
 		select count(*) FROM studyBoard where status= #{status} 
 	</select>
 	
+	<!-- 검색+필터링 후 해당되는 스터디 모임글 갯수 select -->
 	<select id="selectTotalBoardCntWithSdtoWithStatusFilter" resultType="int">
 		select count(*) from studyBoard
 		<choose>
@@ -156,7 +172,7 @@
 		and status = #{status}
 	</select>
 	
-
+	<!-- 유저가 찾고자하는 스터디 언어를 공부하는 스터디 모임글 select -->
 	<select id="searchStudyByStack"
 		resultType="com.dodeveloper.study.vodto.StudyBoardVO">
 
@@ -178,6 +194,5 @@
 		order by wrritenDate desc
 	</select>
 
-	
 
 </mapper>

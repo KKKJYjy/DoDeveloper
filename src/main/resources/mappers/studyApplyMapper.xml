@@ -4,6 +4,7 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dodeveloper.mappers.studyApplyMapper">
 
+	<!-- stuNo번째 모임글에 참여 신청 insert -->
 	<insert id="insertApply">
 		insert into studyApply(applyId, stuNo, reason) values(#{applyId}, #{stuNo}, #{reason})
 	</insert>	
