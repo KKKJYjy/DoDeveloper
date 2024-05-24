@@ -19,6 +19,13 @@ public class StudyApplyController {
 	@Autowired
 	StudyApplyService saService;
 	
+	/**
+		* @author : yeonju
+		* @date : 2024. 5. 24.
+		* @param : StudyApplyVO newApply - 신청 내용을 담을 객체
+		* @return : String - 신청 성공하면 해당 모임글 상세페이지로 success 파라메터 달고 이동
+		* @description : 해당 스터디 모임글에 신청 내용을 insert 한다.
+	 */
 	@RequestMapping(value = "/insertApply", method = RequestMethod.POST)
 	public String insertApply(StudyApplyVO newApply) {
 		String result = "";
