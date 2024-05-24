@@ -218,7 +218,7 @@ i { cursor: pointer; }
 		<%-- ${studyList } --%>
 		<!-- Basic Section - Study Page -->
 		<section id="study" class="studyBasic">
-			<div class="container" style="width: 80%">
+			<div class="container" style="width: 70%">
 				<div class="container">
 
 					<div class="d-flex">
