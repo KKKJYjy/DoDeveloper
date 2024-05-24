@@ -68,149 +68,82 @@ public class StudyServiceImpl implements StudyService {
 		return result;
 	}
 
-	// 1) 검색어가 있고 필터가 있는 경우 pi 세팅
-	private void makingPagingInfo(SearchStudyDTO sDTO, int pageNo, String status) throws Exception {
+	// 1~4번의 경우에서 공통적으로 처리해야할 부분
+	private void makingPagingInfoCommons(int pageNo) {
 		// 지역변수 PageNo의 값을 pagingInfo클래스 멤버변수 pageNo에 세팅
 		this.pi.setPageNo(pageNo);
 
 		this.pi.setViewPostCntPerPage(11);
 		this.pi.setPageCntPerBlock(5);
+
+		// 총 페이지 수를 구해 저장.
+		this.pi.setTotalPageCnt();
+
+		// 보여주기 시작할 row index값 구해 저장하기
+		this.pi.setStartRowIndex();
+
+		// ================================================
+
+		// 전체 페이지 블럭 갯수 구해 저장
+		this.pi.setTotalPageBlockCnt();
+
+		// 현재 페이지가 속한 페이징 블럭 번호 구해 저장
+		this.pi.setPageBlockOfCurrentPage();
+
+		// 현재 페이징 블럭 시작 페이지 구해 저장
+		this.pi.setStartNumOfCurrentPagingBlock();
+
+		// 현재 페이징 블럭 끝 페이지 구해 저장
+		this.pi.setEndNumOfCurrentPagingBlock();
+
+		System.out.println(pi.toString());
+	}
+
+	// 1) 검색어가 있고 필터가 있는 경우 pi 세팅
+	private void makingPagingInfo(SearchStudyDTO sDTO, int pageNo, String status) throws Exception {
+		
+		makingPagingInfoCommons(pageNo);
+		
 
 		// 게시물 총 데이터 갯수를 구해 저장
 		System.out.println(sDao.selectTotalBoardCntWithSdtoWithStatusFilter(sDTO, status));
 		this.pi.setTotalPostCnt(sDao.selectTotalBoardCntWithSdtoWithStatusFilter(sDTO, status));
 
-		// 총 페이지 수를 구해 저장.
-		this.pi.setTotalPageCnt();
-
-		// 보여주기 시작할 row index값 구해 저장하기
-		this.pi.setStartRowIndex();
-
-		// ================================================
-
-		// 전체 페이지 블럭 갯수 구해 저장
-		this.pi.setTotalPageBlockCnt();
-
-		// 현재 페이지가 속한 페이징 블럭 번호 구해 저장
-		this.pi.setPageBlockOfCurrentPage();
-
-		// 현재 페이징 블럭 시작 페이지 구해 저장
-		this.pi.setStartNumOfCurrentPagingBlock();
-
-		// 현재 페이징 블럭 끝 페이지 구해 저장
-		this.pi.setEndNumOfCurrentPagingBlock();
-
-		System.out.println(pi.toString());
-
-	}
-
-	// 3) 검색어가 없고 필터가 있는 경우 pi 세팅
-	private void makingPagingInfo(int pageNo, String status) throws Exception {
-		// 지역변수 PageNo의 값을 pagingInfo클래스 멤버변수 pageNo에 세팅
-		this.pi.setPageNo(pageNo);
-
-		this.pi.setViewPostCntPerPage(11);
-		this.pi.setPageCntPerBlock(5);
-
-		
-		System.out.println("service단 검색어가 없고 필터가 있는 경우: "+ status);
-		// 게시물 총 데이터 갯수를 구해 저장
-		System.out.println(sDao.selectTotalBoardCntWithStatusFilter(status));
-		this.pi.setTotalPostCnt(sDao.selectTotalBoardCntWithStatusFilter(status));
-
-		// 총 페이지 수를 구해 저장.
-		this.pi.setTotalPageCnt();
-		
-
-		// 보여주기 시작할 row index값 구해 저장하기
-		this.pi.setStartRowIndex();
-
-		// ================================================
-
-		// 전체 페이지 블럭 갯수 구해 저장
-		this.pi.setTotalPageBlockCnt();
-
-		// 현재 페이지가 속한 페이징 블럭 번호 구해 저장
-		this.pi.setPageBlockOfCurrentPage();
-
-		// 현재 페이징 블럭 시작 페이지 구해 저장
-		this.pi.setStartNumOfCurrentPagingBlock();
-
-		// 현재 페이징 블럭 끝 페이지 구해 저장
-		this.pi.setEndNumOfCurrentPagingBlock();
-
-		System.out.println(pi.toString());
-
 	}
 
 	// 2) 검색어가 있고 필터가 없는 경우 경우 pi 세팅
 	private void makingPagingInfo(SearchStudyDTO sDTO, int pageNo) throws Exception {
-		// 지역변수 PageNo의 값을 pagingInfo클래스 멤버변수 pageNo에 세팅
-		this.pi.setPageNo(pageNo);
-
-		this.pi.setViewPostCntPerPage(11);
-		this.pi.setPageCntPerBlock(5);
-
+		
+		makingPagingInfoCommons(pageNo);
+		
 		// 게시물 총 데이터 갯수를 구해 저장
 		System.out.println(sDao.selectTotalBoardCntWithSdto(sDTO));
 		this.pi.setTotalPostCnt(sDao.selectTotalBoardCntWithSdto(sDTO));
-
-		// 총 페이지 수를 구해 저장.
-		this.pi.setTotalPageCnt();
-
-		// 보여주기 시작할 row index값 구해 저장하기
-		this.pi.setStartRowIndex();
-
-		// ================================================
-
-		// 전체 페이지 블럭 갯수 구해 저장
-		this.pi.setTotalPageBlockCnt();
-
-		// 현재 페이지가 속한 페이징 블럭 번호 구해 저장
-		this.pi.setPageBlockOfCurrentPage();
-
-		// 현재 페이징 블럭 시작 페이지 구해 저장
-		this.pi.setStartNumOfCurrentPagingBlock();
-
-		// 현재 페이징 블럭 끝 페이지 구해 저장
-		this.pi.setEndNumOfCurrentPagingBlock();
-
-		System.out.println(pi.toString());
+		
 	}
+	
+	// 3) 검색어가 없고 필터가 있는 경우 pi 세팅
+	private void makingPagingInfo(int pageNo, String status) throws Exception {
+		
+		makingPagingInfoCommons(pageNo);
+
+		System.out.println("service단 검색어가 없고 필터가 있는 경우: " + status);
+		// 게시물 총 데이터 갯수를 구해 저장
+		System.out.println(sDao.selectTotalBoardCntWithStatusFilter(status));
+		this.pi.setTotalPostCnt(sDao.selectTotalBoardCntWithStatusFilter(status));
+
+	}
+
 
 	// 4) 검색어가 없고 필터가 없는 경우 경우 pi 객체 세팅
 	private void makingPagingInfo(int pageNo) throws Exception {
-		// 지역변수 PageNo의 값을 pagingInfo클래스 멤버변수 pageNo에 세팅
-		this.pi.setPageNo(pageNo);
-
-		this.pi.setViewPostCntPerPage(11);
-		this.pi.setPageCntPerBlock(5);
+		
+		makingPagingInfoCommons(pageNo);
 
 		// 게시물 총 데이터 갯수를 구해 저장
 		System.out.println(sDao.selectTotalBoardCnt());
 		this.pi.setTotalPostCnt(sDao.selectTotalBoardCnt());
 
-		// 총 페이지 수를 구해 저장.
-		this.pi.setTotalPageCnt();
-
-		// 보여주기 시작할 row index값 구해 저장하기
-		this.pi.setStartRowIndex();
-
-		// ================================================
-
-		// 전체 페이지 블럭 갯수 구해 저장
-		this.pi.setTotalPageBlockCnt();
-
-		// 현재 페이지가 속한 페이징 블럭 번호 구해 저장
-		this.pi.setPageBlockOfCurrentPage();
-
-		// 현재 페이징 블럭 시작 페이지 구해 저장
-		this.pi.setStartNumOfCurrentPagingBlock();
-
-		// 현재 페이징 블럭 끝 페이지 구해 저장
-		this.pi.setEndNumOfCurrentPagingBlock();
-
-		System.out.println(pi.toString());
 	}
 
 	@Override
