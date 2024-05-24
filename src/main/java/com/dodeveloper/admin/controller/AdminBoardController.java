@@ -26,6 +26,9 @@ import com.dodeveloper.admin.vo.AdminReviewBoardVO;
 import com.dodeveloper.admin.vo.AdminVO;
 import com.dodeveloper.admin.vo.ReportVO;
 import com.dodeveloper.etc.PagingInfo;
+import com.fasterxml.jackson.annotation.JacksonInject.Value;
+
+import lombok.val;
 
 @Controller
 @RequestMapping("/admin")
@@ -259,6 +262,14 @@ public class AdminBoardController {
 		
 		
 	}
+	
+	@RequestMapping(value = "/updateNotice", method = RequestMethod.GET)
+	public void updateNotice() {
+		
+		logger.info("공지사항 수정페이지");
+		
+	}
+	
 	
 	
 

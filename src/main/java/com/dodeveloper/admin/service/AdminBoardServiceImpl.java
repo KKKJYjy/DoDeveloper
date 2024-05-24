@@ -453,6 +453,18 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 
 
 
+	@Override
+	public NoticeDTO getNotcBoardNo(int boardNo) throws Exception {
+		
+		System.out.println("서비스단 : 공지사항 상세페이지");
+		
+		NoticeDTO notice = bDao.selectNoticeBoardNo(boardNo);
+		
+		return notice;
+	}
+
+
+
 	
 	
 }

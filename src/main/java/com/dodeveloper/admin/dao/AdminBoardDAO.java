@@ -106,6 +106,10 @@ public interface AdminBoardDAO {
 
     // ?번 글을 가져오는 메서드
    ReportVO selectReportBoardNo(int btypeNo) throws Exception;
+   
+   
+   // 공지사항 ?번 글 조회
+   NoticeDTO selectNoticeBoardNo(int boardNo) throws Exception;
     
     
 }

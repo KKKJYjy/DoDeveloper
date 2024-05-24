@@ -55,11 +55,13 @@ public interface AdminBoardService {
 	// 신고내역 조회하는 메서드
 		List<ReportVO> getReport() throws Exception;
 
-		
-		
+
 	// 신고내역 상세조회
 		ReportVO getReportNO(int btypeNo) throws Exception;
 
+		
+		// 공지사항 상세페이지
+	    NoticeDTO getNotcBoardNo(int boardNo) throws Exception;
 
 		
 		

@@ -295,6 +295,12 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 		return ses.selectOne(ns + ".selectReportNo", btypeNo);
 	}
 
+	@Override
+	public NoticeDTO selectNoticeBoardNo(int boardNo) throws Exception {
+		
+		return ses.selectOne(ns + ".selectNoticeBoardNo", boardNo);
+	}
+
 	
 
 
