@@ -14,6 +14,14 @@ import com.dodeveloper.reply.vodto.ReplyVO;
 @RequestMapping("/studyReply")
 public class StudyReplyController {
 
+
+	/**
+		* @author : yeonju
+		* @date : 2024. 5. 24.
+		* @param : int stuNo 
+		* @return : ResponseEntity<List<ReplyVO>>
+		* @description : stuNo번째 게시글의 모든 댓글 리스트 반환
+	 */
 	@GetMapping("/replyAll")
 	public ResponseEntity<List<ReplyVO>> replyAll(@PathVariable("stuNo") int stuNo) {
 		// ResponseEntity: <List<ReplyVO>를 json으로 만들어서 반환할 수 있는 애

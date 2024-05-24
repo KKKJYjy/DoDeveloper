@@ -35,6 +35,19 @@ public class StudyServiceImpl implements StudyService {
 	@Autowired
 	private PagingInfo pi;
 
+	/**
+	 * @author : yeonju
+	 * @date : 2024. 5. 24.
+	 * @param : SearchStudyDTO sDTO - 스터디 모임글 검색 내용 담는 DTO
+	 * @param : int pageNo - 페이지 번호
+	 * @param : String status - 스터디 모집상태 (모집중, 모집마감)
+	 * @return : Map<String, Object> - 스터디 리스트 객체와 페이징 객체가 담긴 Map
+	 * @description : 
+	 * 1) 검색어가 있고 + 필터가 있는 경우 
+	 * 2) 검색어가 있고 + 필터가 없는 경우 
+	 * 3) 검색어가 없고 + 필터가 있는 경우 
+	 * 4) 검색어가 없고 + 필터가 없는 경우 스터디 리스트 불러오기
+	 */
 	@Override
 	public Map<String, Object> selectAllList(SearchStudyDTO sDTO, int pageNo, String status) throws Exception {
 
@@ -68,95 +81,37 @@ public class StudyServiceImpl implements StudyService {
 		return result;
 	}
 
-	// 1~4번의 경우에서 공통적으로 처리해야할 부분
-	private void makingPagingInfoCommons(int pageNo) {
-		// 지역변수 PageNo의 값을 pagingInfo클래스 멤버변수 pageNo에 세팅
-		this.pi.setPageNo(pageNo);
-
-		this.pi.setViewPostCntPerPage(11);
-		this.pi.setPageCntPerBlock(5);
-
-		// 총 페이지 수를 구해 저장.
-		this.pi.setTotalPageCnt();
-
-		// 보여주기 시작할 row index값 구해 저장하기
-		this.pi.setStartRowIndex();
-
-		// ================================================
-
-		// 전체 페이지 블럭 갯수 구해 저장
-		this.pi.setTotalPageBlockCnt();
-
-		// 현재 페이지가 속한 페이징 블럭 번호 구해 저장
-		this.pi.setPageBlockOfCurrentPage();
-
-		// 현재 페이징 블럭 시작 페이지 구해 저장
-		this.pi.setStartNumOfCurrentPagingBlock();
-
-		// 현재 페이징 블럭 끝 페이지 구해 저장
-		this.pi.setEndNumOfCurrentPagingBlock();
-
-		System.out.println(pi.toString());
-	}
-
-	// 1) 검색어가 있고 필터가 있는 경우 pi 세팅
-	private void makingPagingInfo(SearchStudyDTO sDTO, int pageNo, String status) throws Exception {
-		
-		makingPagingInfoCommons(pageNo);
-		
-
-		// 게시물 총 데이터 갯수를 구해 저장
-		System.out.println(sDao.selectTotalBoardCntWithSdtoWithStatusFilter(sDTO, status));
-		this.pi.setTotalPostCnt(sDao.selectTotalBoardCntWithSdtoWithStatusFilter(sDTO, status));
-
-	}
-
-	// 2) 검색어가 있고 필터가 없는 경우 경우 pi 세팅
-	private void makingPagingInfo(SearchStudyDTO sDTO, int pageNo) throws Exception {
-		
-		makingPagingInfoCommons(pageNo);
-		
-		// 게시물 총 데이터 갯수를 구해 저장
-		System.out.println(sDao.selectTotalBoardCntWithSdto(sDTO));
-		this.pi.setTotalPostCnt(sDao.selectTotalBoardCntWithSdto(sDTO));
-		
-	}
-	
-	// 3) 검색어가 없고 필터가 있는 경우 pi 세팅
-	private void makingPagingInfo(int pageNo, String status) throws Exception {
-		
-		makingPagingInfoCommons(pageNo);
-
-		System.out.println("service단 검색어가 없고 필터가 있는 경우: " + status);
-		// 게시물 총 데이터 갯수를 구해 저장
-		System.out.println(sDao.selectTotalBoardCntWithStatusFilter(status));
-		this.pi.setTotalPostCnt(sDao.selectTotalBoardCntWithStatusFilter(status));
-
-	}
-
-
-	// 4) 검색어가 없고 필터가 없는 경우 경우 pi 객체 세팅
-	private void makingPagingInfo(int pageNo) throws Exception {
-		
-		makingPagingInfoCommons(pageNo);
-
-		// 게시물 총 데이터 갯수를 구해 저장
-		System.out.println(sDao.selectTotalBoardCnt());
-		this.pi.setTotalPostCnt(sDao.selectTotalBoardCnt());
-
-	}
-
+	/**
+	 * @author : yeonju
+	 * @date : 2024. 5. 24.
+	 * @param : int stuNo
+	 * @return : List<StuStackDTO> - 스터디 언어(스택) 정보를 담고있는 객체
+	 * @description : stuNo번째 스터디 언어 정보를 불러온다
+	 */
 	@Override
 	public List<StuStackDTO> selectAllStudyStack(int stuNo) throws Exception {
-		// System.out.println("서비스단" + sDao.selectAllStudyStack(stuNo).toString());
 		return sDao.selectAllStudyStack(stuNo);
 	}
 
+	/**
+	 * @author : yeonju
+	 * @date : 2024. 5. 24.
+	 * @return : int - 다음 스터디 모임글 번호
+	 * @description : 다음 스터디 모임글의 번호가 몇번인지 select
+	 */
 	@Override
 	public int selectNextStuNo() throws Exception {
 		return sDao.selectNextStuNo();
 	}
 
+	/**
+		* @author : yeonju
+		* @date : 2024. 5. 24.
+		* @param : StudyBoardDTO newStudy - 새로 추가할 스터디 모임글
+		* @param : StuStackVO newStack - 새로 추가할 스터디 모임글의 스터디 언어(스택)
+		* @return : int - 작업 성공했으면 1, 실패했으면 0 반환
+		* @description : 스터디 모임글을 먼저 insert 성공하면 스터디 언어를 insert 한다.
+	 */
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
 	public int insertStudyWithStack(StudyBoardDTO newStudy, StuStackVO newStack) {
@@ -195,13 +150,29 @@ public class StudyServiceImpl implements StudyService {
 
 	}
 
+	/**
+		* @author : yeonju
+		* @date : 2024. 5. 24.
+		* @param : int stuNo
+		* @return : StudyBoardVO - 스터디 모임글 정보를 담고있는 객체
+		* @description : stuNo번째 상세페이지로 이동하기 위해 스터디 모임글 정보를 select
+	 */
 	@Override
 	public StudyBoardVO selectStudyByStuNo(int stuNo) throws Exception {
-
 		return sDao.selectStudyByStuNo(stuNo);
-
 	}
 
+	/**
+		* @author : yeonju
+		* @date : 2024. 5. 24.
+		* @param : int stuNo
+		* @param : String userId
+		* @param : int bType
+		* @return : Map<String, Object> - 스터디 모임글 리스트와 스터디 언어 리스트를 담고있는 Map 
+		* @description : 1) bType 게시판의 stuNo번째 스터디 모임글을 userId가 조회한적이 있는지 체크후
+		* 2) 읽은적이 한번도 없다면 조회 기록 테이블에 조회 기록 insert
+		* 3) 그 다음 studyBoard 테이블에 조회수 update 
+	 */
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
 	public Map<String, Object> selectStudyByStuNo(int stuNo, String userId, int bType) throws Exception {
@@ -236,11 +207,27 @@ public class StudyServiceImpl implements StudyService {
 
 	}
 
+	/**
+		* @author : yeonju
+		* @date : 2024. 5. 24.
+		* @return : List<StackVO>
+		* @description : DB 스터디 언어 테이블의 정보를 담고있는 객체를 반환한다.
+	 */
 	@Override
 	public List<StackVO> selectAllStack() throws Exception {
 		return sDao.selectAllStack();
 	}
 
+	/**
+		* @author : yeonju
+		* @date : 2024. 5. 24.
+		* @param : StudyBoardDTO newStudy - 수정할 스터디 언어 모임글
+		* @param : List<StuStackDTO> modifyStack - 수정할 스터디 언어들
+		* @return : int - 성공하면 1, 실패하면 0 반환
+		* @description : 1) 스터디글 update 
+		* 2) 스터디 언어 플래그 변수 체크해서 삭제할것이 있다면 delete
+		* 3) 스터디 언어 플래그 변수 체크해서 새로 추가 할것이 있다면 insert
+	 */
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
 	public int modifyStudyWithStack(StudyBoardDTO newStudy, List<StuStackDTO> modifyStack) throws Exception {
@@ -273,11 +260,26 @@ public class StudyServiceImpl implements StudyService {
 		return result;
 	}
 
+	/**
+		* @author : yeonju
+		* @date : 2024. 5. 24.
+		* @param : int stuNo
+		* @return : int - 성공하면 1, 실패하면 0 반환
+		* @description : stuNo번째 스터디 모임글을 삭제한다.
+	 */
 	@Override
 	public int deleteStudyBoard(int stuNo) throws Exception {
 		return sDao.deleteStudyBoard(stuNo);
 	}
 
+	/**
+		* @author : yeonju
+		* @date : 2024. 5. 24.
+		* @param : List<String> studyStackList - 필터링할 스터디 언어 List
+		* @return : Map<String, Object> - 스터디 모임글 리스트와 해당 모임글의 스터디 언어 리스트가 담긴 Map
+		* @description : 유저가 필터링할 스터디 언어를 여러개 선택하면, 
+		* 해당하는 스터디 모임글 리스트와 해당 모임글의 스터디 언어 리스트를 반환해준다.
+	 */
 	@Override
 	public Map<String, Object> searchStudyByStack(List<String> studyStackList) throws Exception {
 
@@ -309,6 +311,117 @@ public class StudyServiceImpl implements StudyService {
 		// result.put("stackList", stackList);
 
 		return result;
+
+	}
+
+	/**
+		* @author : yeonju
+		* @date : 2024. 5. 24.
+		* @param : int pageNo
+		* @return : void
+		* @description : 1~4번의 경우에서 공통적으로 처리해야할 부분 처리
+	 */
+	private void makingPagingInfoCommons(int pageNo) {
+		// 지역변수 PageNo의 값을 pagingInfo클래스 멤버변수 pageNo에 세팅
+		this.pi.setPageNo(pageNo);
+
+		this.pi.setViewPostCntPerPage(11);
+		this.pi.setPageCntPerBlock(5);
+
+		// 총 페이지 수를 구해 저장.
+		this.pi.setTotalPageCnt();
+
+		// 보여주기 시작할 row index값 구해 저장하기
+		this.pi.setStartRowIndex();
+
+		// ================================================
+
+		// 전체 페이지 블럭 갯수 구해 저장
+		this.pi.setTotalPageBlockCnt();
+
+		// 현재 페이지가 속한 페이징 블럭 번호 구해 저장
+		this.pi.setPageBlockOfCurrentPage();
+
+		// 현재 페이징 블럭 시작 페이지 구해 저장
+		this.pi.setStartNumOfCurrentPagingBlock();
+
+		// 현재 페이징 블럭 끝 페이지 구해 저장
+		this.pi.setEndNumOfCurrentPagingBlock();
+
+		System.out.println(pi.toString());
+	}
+
+ 
+	/**
+		* @author : yeonju
+		* @date : 2024. 5. 24.
+		* @param : SearchStudyDTO sDTO
+		* @param : int pageNo
+		* @param : String status
+		* @return : void
+		* @description : 검색어가 있고 필터가 있는 경우 pi 세팅
+	 */
+	private void makingPagingInfo(SearchStudyDTO sDTO, int pageNo, String status) throws Exception {
+
+		makingPagingInfoCommons(pageNo);
+
+		// 게시물 총 데이터 갯수를 구해 저장
+		System.out.println(sDao.selectTotalBoardCntWithSdtoWithStatusFilter(sDTO, status));
+		this.pi.setTotalPostCnt(sDao.selectTotalBoardCntWithSdtoWithStatusFilter(sDTO, status));
+
+	}
+
+	/**
+		* @author : yeonju
+		* @date : 2024. 5. 24.
+		* @param : SearchStudyDTO sDTO
+		* @param : int pageNo
+		* @return : void
+		* @description : 검색어가 있고 필터가 없는 경우 경우 pi 세팅
+	 */
+	private void makingPagingInfo(SearchStudyDTO sDTO, int pageNo) throws Exception {
+
+		makingPagingInfoCommons(pageNo);
+
+		// 게시물 총 데이터 갯수를 구해 저장
+		System.out.println(sDao.selectTotalBoardCntWithSdto(sDTO));
+		this.pi.setTotalPostCnt(sDao.selectTotalBoardCntWithSdto(sDTO));
+
+	}
+
+	/**
+		* @author : yeonju
+		* @date : 2024. 5. 24.
+		* @param : int pageNo
+		* @param : String status
+		* @return : void
+		* @description : 검색어가 없고 필터가 있는 경우 pi 세팅
+	 */
+	private void makingPagingInfo(int pageNo, String status) throws Exception {
+
+		makingPagingInfoCommons(pageNo);
+
+		System.out.println("service단 검색어가 없고 필터가 있는 경우: " + status);
+		// 게시물 총 데이터 갯수를 구해 저장
+		System.out.println(sDao.selectTotalBoardCntWithStatusFilter(status));
+		this.pi.setTotalPostCnt(sDao.selectTotalBoardCntWithStatusFilter(status));
+
+	}
+
+	/**
+		* @author : yeonju
+		* @date : 2024. 5. 24.
+		* @param : int pageNo 
+		* @return : void
+		* @description : 검색어가 없고 필터가 없는 경우 경우 pi 객체 세팅
+	 */
+	private void makingPagingInfo(int pageNo) throws Exception {
+
+		makingPagingInfoCommons(pageNo);
+
+		// 게시물 총 데이터 갯수를 구해 저장
+		System.out.println(sDao.selectTotalBoardCnt());
+		this.pi.setTotalPostCnt(sDao.selectTotalBoardCnt());
 
 	}
 
