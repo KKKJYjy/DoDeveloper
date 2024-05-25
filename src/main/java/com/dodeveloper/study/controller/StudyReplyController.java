@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -75,7 +76,31 @@ public class StudyReplyController {
 		
 		try {
 			if(rs.insertReply(newReply) ==1) {
-				result = new ResponseEntity<String>("success", HttpStatus.OK);
+				result = new ResponseEntity<String>("insertSuccess", HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			result = new ResponseEntity<String>(HttpStatus.CONFLICT);
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	/**
+		* @author : yeonju
+		* @date : 2024. 5. 25.
+		* @param : int replyNo - 삭제할 댓글 번호 pk값
+		* @return : ResponseEntity<String> - 성공시 HttpStatus.OK, 실패시 HttpStatus.CONFLICT 반환
+		* @description : repyNo번째 댓글을 삭제 처리한다.
+	 */
+	@DeleteMapping("/deleteReply/{replyNo}")
+	public ResponseEntity<String> deleteReply(@PathVariable("replyNo") int replyNo){
+		ResponseEntity<String> result = null;
+		logger.info(replyNo + "번 댓글을 삭제하자");
+		
+		try {
+			if(rs.deleteReply(replyNo) ==1) {
+				result = new ResponseEntity<String>("deleteSuccess", HttpStatus.OK);
 			}
 		} catch (Exception e) {
 			result = new ResponseEntity<String>(HttpStatus.CONFLICT);

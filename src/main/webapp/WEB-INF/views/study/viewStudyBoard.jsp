@@ -126,7 +126,7 @@
 						dataType : "text",
 						success : function(data) {
 							console.log(data);
-							if(data == 'success'){
+							if(data == 'insertSuccess'){
 								$(".replyList").empty();
 								$(".replyContent").val('');
 								getAllReplies();
@@ -220,6 +220,7 @@
         
 	});
 	
+	// ====== 댓글 관련 시작 =====
 	//DB에서 모든 댓글 리스트를 가져오는 함수
 	function getAllReplies(){
 		//댓글을 조회할 게시글 번호
@@ -236,9 +237,9 @@
 			success : function(data) {
 				console.log(data);
 				//replies = data;
-				if(data.lenght > 0){					
+				if(data.length > 0){					
 					showReplies(data);
-				}else{
+				}else if(data.length == 0){
 					showReplieEmpty();
 				}
 			},
@@ -287,6 +288,29 @@
 		$(".replyList").html(output); 
 	}
 	
+	//댓글 삭제 버튼 눌렀을 때 호출되는 함수
+	function removeReplyAlert(replyNo){
+		if(window.confirm("댓글을 삭제하시겠습니까?")){
+			//예 - true값이 넘어오면 db에서 삭제하자
+			$.ajax({
+				url : "/studyReply/deleteReply/" + replyNo,
+				type : "delete",
+				header : {
+					//PUT, DELETE, PATCH등의 HTTP method가 동작하지 않는 과거의 웹 브라우저라면 post방식으로 작동되도록 한다 
+					"X-HTTP-Method-Override" : "POST"
+				},
+				dataType : "text",
+				async : 'false', //받아올 데이터가 있어야 파싱 가능.
+				success : function(data) {
+					console.log(data);
+					if(data == 'deleteSuccess'){
+						getAllReplies();
+					}
+				},
+			});
+		}	
+	}
+	
 	//댓글 쓴지 얼마나 지났는지 계산하는 함수
 	function dateSum(date){
 		let postDate = new Date(date); 
@@ -326,6 +350,8 @@
 		
 		return writer; //로그인을 했다면 writer 반환해준다
 	}
+	
+	// ====== 댓글 관련 끝 =====
 	
 	
 	//참여신청팝업창에서 참여신청버튼을 눌렀을 때 유효성검사
@@ -396,7 +422,7 @@ i {
 				</div>
 
 
-				<!-- 삭제 확인용 모달창 -->
+				<!-- 모집글 삭제 확인용 모달창 -->
 				<div class="modal fade" id="deleteModal">
 					<div class="modal-dialog">
 						<div class="modal-content">
