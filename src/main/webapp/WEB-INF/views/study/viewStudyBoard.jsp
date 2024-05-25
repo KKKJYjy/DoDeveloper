@@ -85,8 +85,62 @@
 	
 	$(function() {
 		
+		// ====== 댓글 관련 시작 =====
 		//댓글 리스트 가져오는 함수 호출
 		getAllReplies();
+		
+		//댓글 작성 버튼 눌렀을 때
+		$(".saveReply").on('click',function(){
+			
+			let replyContent = $(".replyContent").val();
+			console.log(replyContent);
+						
+			
+			if(replyContent == ''){
+				
+				alert('댓글을 남겨주세요');
+				$(".replyContent").focus();
+				
+			}else{
+				
+				let replyer = preAuth(); //댓글 작성자
+				
+				if(replyer != ''){
+				//댓글 내용이 있다면, 로그인한 유저인지 먼저 체크해준다.					
+				let bNo = ${studyList.stuNo}; //게시글 번호를 저장
+					
+				let newReply = {
+					"bNo" : bNo + "",
+					"replyer" : replyer,
+					"replyContent" : replyContent,
+				}; //새로 추가할 댓글을 객체로 선언
+				
+					$.ajax({
+						url : "/studyReply/saveReply/" + bNo,
+						type : "post",
+						async : false, //받아올 데이터가 있어야 파싱 가능.
+						data : JSON.stringify(newReply), // 서버에 넘겨주는 데이터
+						headers : { // 서버에 보내지는 데이터 형식
+							"content-type" : "application/json"
+						},
+						dataType : "text",
+						success : function(data) {
+							console.log(data);
+							if(data == 'success'){
+								$(".replyList").empty();
+								$(".replyContent").val('');
+								getAllReplies();
+							}
+						},
+					});
+				}
+				
+			}
+			
+		});
+		
+		// ====== 댓글 관련 끝 =====
+		// ====== kakao map 관련 시작 =====
 		
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		mapOption = {
@@ -125,8 +179,7 @@
 		// 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
 		infowindow.open(map, marker);
 		
-		// ============= 로드뷰 이미지 =============		
-		
+		// 로드뷰 이미지				
 		var roadviewContainer = document.getElementById('roadview'); //로드뷰를 표시할 div
 		var roadview = new kakao.maps.Roadview(roadviewContainer); //로드뷰 객체
 		var roadviewClient = new kakao.maps.RoadviewClient(); //좌표로부터 로드뷰 파노ID를 가져올 로드뷰 helper객체
@@ -138,7 +191,7 @@
 		    roadview.setPanoId(panoId, position); //panoId와 중심좌표를 통해 로드뷰 실행
 		});
 		
-		// =====================================
+		// ====== kakao map 관련 끝 =====
 		
 		//북마크 버튼을 눌렀을 때
 		let book = 0;
@@ -154,7 +207,7 @@
         });
         
         
-        //url 쿼리스트링 값 가져와서 신청완료했을때 알럿창 표시
+        //url 쿼리스트링 값 가져와서 스터디 신청완료했을때 알럿창 표시
         let url = new URL(window.location.href);
         let urlParams = url.searchParams;
         
@@ -167,7 +220,7 @@
         
 	});
 	
-	//모든 댓글 리스트를 가져오는 함수
+	//DB에서 모든 댓글 리스트를 가져오는 함수
 	function getAllReplies(){
 		//댓글을 조회할 게시글 번호
 		let stuNo = ${studyList.stuNo};
@@ -183,12 +236,26 @@
 			success : function(data) {
 				console.log(data);
 				//replies = data;
-				showReplies(data);
+				if(data.lenght > 0){					
+					showReplies(data);
+				}else{
+					showReplieEmpty();
+				}
 			},
 		});
 	}
 	
-	//모든 댓글 리스트 호출하는 함수
+	//댓글이 하나도 없을때 호출하는 함수
+	function showReplieEmpty(){
+		let output = `<ul class="list-group mt-4">`;
+		output += `<li class="list-group-item">`;
+		output += `아직 댓글이 없습니다.`;
+		output += `</li>`;
+		output += `</ul>`;
+		$(".replyList").html(output);
+	}
+	
+	//댓글이 하나라도 있다면, 모든 댓글 리스트 호출하는 함수
 	function showReplies(data){
 	
 		let output = `<ul class="list-group mt-4">`;
@@ -197,12 +264,12 @@
 			
 			output += `<li class="list-group-item">`;
 			output += `<div class="row" id="reply_\${e.replyNo}">`;
-			output += `<div class="col-1"><b>\${e.replyer}</b></div>`;
-			output += `<div class="col-8">\${e.replyContent}</div>`;
+			output += `<div class="col-md-1"><b>\${e.replyer}</b></div>`;
+			output += `<div class="col-md-8">\${e.replyContent}</div>`;
 			
 			//게시글 작성일 계산하는 함수 호출해서 변수에 넣기
 			let diff = dateSum(e.writtenDate);
-			output += `<div class="col-3" style="text-align:right">\${diff}`;
+			output += `<div class="col-md-3" style="text-align:right">\${diff}`;
 						
 			//댓글 단 사람과 로그인한 사람이 같을 경우에만 수정 삭제 버튼이 보이도록 한다
 			if(e.replyer == `${loginMember.userId}`){				
@@ -246,6 +313,20 @@
 		return "방금전";
 	}
 	
+	//로그인한 유저인지 아닌지 체크해주는 함수
+	function preAuth(){
+		//ajax는 내부에서 작동하는거고, 페이지 이동이 없어서 url 변경이 안된다.
+		//즉, 인터셉터가 동작하지 않는다는 뜻이다. 그래서 로그인 했는지 안했는지 검사는 자바스크립트에서 검사해야한다.
+		let writer = '${sessionScope.loginMember.userId}';
+		
+		if(writer == ''){ //로그인 안했다면
+			location.href='/member/login?redirectUrl=viewStudyBoard&stuNo=${studyList.stuNo}';
+			writer = '${sessionScope.loginMember.userId}';
+		}
+		
+		return writer; //로그인을 했다면 writer 반환해준다
+	}
+	
 	
 	//참여신청팝업창에서 참여신청버튼을 눌렀을 때 유효성검사
 	function isVaild(){
@@ -265,7 +346,9 @@
 	
 </script>
 <style>
-i { cursor: pointer; }
+i {
+	cursor: pointer;
+}
 </style>
 </head>
 
@@ -395,8 +478,7 @@ i { cursor: pointer; }
 								</div>
 								<div class="col-md-6">
 									<div class="">
-										<b>모집 상태</b>
-										<span class="">${studyList.status }</span>										
+										<b>모집 상태</b> <span class="">${studyList.status }</span>
 									</div>
 								</div>
 							</div>
@@ -446,7 +528,7 @@ i { cursor: pointer; }
 									<i class="bi bi-bookmark bookMark"></i>
 								</button>
 							</div>
-							
+
 							<div class="col-md-11">
 								<input type="button" class="btn btn-secondary" value="참여신청"
 									style="width: 100%" data-bs-toggle="modal"
@@ -454,39 +536,39 @@ i { cursor: pointer; }
 							</div>
 						</div>
 					</c:if>
-					
+
 					<!-- 댓글 리스트 -->
 					<div class="mb-3 replyList"></div>
-					
+
 					<!-- 댓글 작성창 -->
 					<div class="form-floating mt-4">
 						<div class="d-flex">
 							<c:choose>
 								<c:when test="${loginMember != null }">
-									<div class="text-light" style="width:100px;">
+									<div class="text-light" style="width: 100px;">
 										<p>${loginMember.userId}</p>
 									</div>
 									<div class="flex-grow-1">
-											<textarea class="form-control replyContent"
-												placeholder="댓글을 작성하세요" id="floatingTextarea"></textarea>
-										</div>
-										<div class="">
-											<button type="button"
-												class="btn btn-secondary ms-3 p-3 saveReply">댓글 저장</button>
-										</div>
+										<textarea class="form-control replyContent"
+											placeholder="댓글을 작성하세요" id="floatingTextarea"></textarea>
+									</div>
+									<div class="">
+										<button type="button"
+											class="btn btn-secondary ms-3 p-3 saveReply">댓글 저장</button>
+									</div>
 								</c:when>
 								<c:otherwise>
-									<div class="text-light" style="width:100px;">
+									<div class="text-light" style="width: 100px;">
 										<p>비회원</p>
 									</div>
-										<div class="flex-grow-1">
-											<textarea class="form-control replyContent"
-												placeholder="로그인 후 댓글을 달 수 있습니다" id="floatingTextarea"></textarea>
-										</div>
-										<div class="">
-											<button type="button"
-												class="btn btn-secondary ms-3 p-3 saveReply">댓글 저장</button>
-										</div>
+									<div class="flex-grow-1">
+										<textarea class="form-control replyContent"
+											placeholder="로그인 후 댓글을 달 수 있습니다" id="floatingTextarea"></textarea>
+									</div>
+									<div class="">
+										<button type="button"
+											class="btn btn-secondary ms-3 p-3 saveReply">댓글 저장</button>
+									</div>
 								</c:otherwise>
 							</c:choose>
 						</div>

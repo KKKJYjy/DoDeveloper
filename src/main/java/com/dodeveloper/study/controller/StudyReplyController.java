@@ -10,10 +10,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dodeveloper.reply.service.ReplyService;
+import com.dodeveloper.reply.vodto.ReplyDTO;
 import com.dodeveloper.reply.vodto.ReplyVO;
 
 @RestController
@@ -50,4 +53,29 @@ public class StudyReplyController {
 		
 		return result;
 	}
+	
+	@PostMapping("/saveReply/{bNo}")
+	public ResponseEntity<String> saveReply(@PathVariable("bNo") int bNo, @RequestBody ReplyDTO newReply){
+		// @RequestBody : 알아서 ReplyDTO 의 매개변수 수집
+		ResponseEntity<String> result = null;
+		
+		//몇번 게시글에 댓글을 작성할건지 세팅
+		newReply.setBNo(bNo);
+		//몇번 게시판에 댓글을 작성할건지 세팅
+		newReply.setBType(2);
+		logger.info(bNo + "번 게시글에" + newReply.toString() + "댓글을 추가하자");
+		
+		try {
+			if(rs.insertReply(newReply) ==1) {
+				result = new ResponseEntity<String>("success", HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			result = new ResponseEntity<String>(HttpStatus.CONFLICT);
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	
 }
