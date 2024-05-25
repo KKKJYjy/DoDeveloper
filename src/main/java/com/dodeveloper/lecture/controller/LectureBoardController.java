@@ -201,8 +201,6 @@ public class LectureBoardController {
 	 * @author :
 	 * @date : 2024.05.04
 	 * @param : LectureBoardDTO newLecBoard - 유저가 작성한 글 객체
-	 * @param :
-	 * @param :
 	 * @return : String
 	 * @throws Exception
 	 * @description : 유저가 작성한 글을 실제 DB(lectureBoard)에 insert 시키기 위한 controller 메서드
@@ -306,7 +304,6 @@ public class LectureBoardController {
 	 * @methodName : cancelModifyBoard
 	 * @author :
 	 * @date : 2024.05.12
-	 * @param :
 	 * @return : String
 	 * @description : 게시글 수정하려다가 취소 버튼을 누른 경우 작동되는 메서드
 	 */
