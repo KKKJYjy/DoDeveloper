@@ -53,7 +53,6 @@ public class StudyContoller {
 	@Autowired
 	StudyService stuService;
 
-	// 
 	/**
 		* @author : yeonju
 		* @date : 2024. 5. 24.

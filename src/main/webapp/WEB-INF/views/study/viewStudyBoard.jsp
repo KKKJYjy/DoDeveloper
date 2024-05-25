@@ -183,9 +183,67 @@
 			success : function(data) {
 				console.log(data);
 				//replies = data;
-				//showReplies(data);
+				showReplies(data);
 			},
 		});
+	}
+	
+	//모든 댓글 리스트 호출하는 함수
+	function showReplies(data){
+	
+		let output = `<ul class="list-group mt-4">`;
+		
+		$.each(data, function(i, e) {
+			
+			output += `<li class="list-group-item">`;
+			output += `<div class="row" id="reply_\${e.replyNo}">`;
+			output += `<div class="col-1"><b>\${e.replyer}</b></div>`;
+			output += `<div class="col-8">\${e.replyContent}</div>`;
+			
+			//게시글 작성일 계산하는 함수 호출해서 변수에 넣기
+			let diff = dateSum(e.writtenDate);
+			output += `<div class="col-3" style="text-align:right">\${diff}`;
+						
+			//댓글 단 사람과 로그인한 사람이 같을 경우에만 수정 삭제 버튼이 보이도록 한다
+			if(e.replyer == `${loginMember.userId}`){				
+				output += `<span style="cursor:pointer" class="badge text-bg-secondary ms-2" onclick="modifyReplyArea(\${e.replyNo})";>수정</span>`;
+				output += `<span style="cursor:pointer" class="badge text-bg-secondary ms-2" onclick="removeReplyAlert(\${e.replyNo});">삭제</span></div>`;					
+			}
+			
+			output += `</div>`;
+			output += `</li>`;
+			
+		});
+		
+		output += `</ul>`;
+		
+		$(".replyList").html(output); 
+	}
+	
+	//댓글 쓴지 얼마나 지났는지 계산하는 함수
+	function dateSum(date){
+		let postDate = new Date(date); 
+		let now = new Date();
+		
+		let dateDiff = (now - postDate) / 1000; // 시간차 초단위
+		
+		let times = [
+			{name: "일", time: 60 * 60 * 24},
+			{name: "시간", time: 60 * 60},
+			{name: "분", time: 60}
+		];
+		
+		for(let val of times){
+			let betweenTime = Math.floor(dateDiff / val.time);
+			//console.log(dateDiff, betweenTime);
+			
+			//일, 시간, 분 단위로 하나씩 나눠봐서 0보다 큰 숫자가 나올때, 그 값을 return
+			if(betweenTime >0){
+				return betweenTime + val.name + "전"; //시간
+			}
+		}
+		
+		return "방금전";
 	}
 	
 	
