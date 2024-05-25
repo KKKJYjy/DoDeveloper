@@ -54,6 +54,14 @@ public class StudyReplyController {
 		return result;
 	}
 	
+	/**
+		* @author : yeonju
+		* @date : 2024. 5. 25.
+		* @param : int bNo - 스터디 게시판 번호
+		* @param : ReplyDTO newReply - 새로 추가될 댓글 정보를 담고있는 객체
+		* @return : ResponseEntity<String> - 성공시 HttpStatus.OK, 실패시 HttpStatus.CONFLICT 반환
+		* @description : 스터디 게시판의 bNo번째 게시물에 새로운 댓글을 작성할 때 호출되는 메서드
+	 */
 	@PostMapping("/saveReply/{bNo}")
 	public ResponseEntity<String> saveReply(@PathVariable("bNo") int bNo, @RequestBody ReplyDTO newReply){
 		// @RequestBody : 알아서 ReplyDTO 의 매개변수 수집
