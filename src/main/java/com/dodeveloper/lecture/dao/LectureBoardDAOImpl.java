@@ -275,7 +275,7 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 */
 	@Override
 	public List<LectureBoardVO> lectureBoardSearchAndFilter(LectureSearchDTO lsDTO, PagingInfo pi) throws Exception {
-		System.out.println(lsDTO + " 검색필터랑 검색조건 둘 다 되는 중 " + pi + " 페이징까지");
+		// System.out.println(lsDTO + " 검색필터랑 검색조건 둘 다 되는 중 " + pi + " 페이징까지");
 		
 	    Map<String, Object> params = new HashMap<>();
 	    params.put("searchType", lsDTO.getSearchType());

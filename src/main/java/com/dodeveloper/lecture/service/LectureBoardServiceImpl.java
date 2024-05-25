@@ -55,29 +55,33 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	        // 검색 조건과 검색어를 입력하고, 검색 필터를 선택한 경우
 	        makePagingInfo(pageNo, lsDTO);
 	        lectureBoardList = lDao.lectureBoardSearchAndFilter(lsDTO, pi);
-	        System.out.println("검색조건 검색필터 둘 다 O" + lectureBoardList.toString());
+	        
+	        // System.out.println("검색조건 검색필터 둘 다 O" + lectureBoardList.toString());
 	    } else if (searchType && searchValue) {
 	        // 검색 조건과 검색어를 입력하고, 검색 필터를 선택 안 한 경우
 	        makePagingInfo(pageNo, lsDTO);
 	        lectureBoardList = lDao.lectureBoardListWithSc(lsDTO, pi);
-	        System.out.println("검색조건만" + lectureBoardList.toString());
+	        
+	        // System.out.println("검색 조건만" + lectureBoardList.toString());
 	    } else if (filterType) {
 	        // 검색 조건과 검색어를 입력 안하고, 검색 필터만 선택한 경우
 	        makePagingInfo(pageNo, lsDTO);
 	        lectureBoardList = lDao.listAllBoardByFilter(lsDTO, pi);
-	        System.out.println("검색 필터만" + lectureBoardList.toString());
+	        
+	        // System.out.println("검색 필터만" + lectureBoardList.toString());
 	    } else {
 	        // 검색 조건과 검색어를 입력 안하고, 검색 필터를 선택 안 한 경우
 	        makePagingInfo(pageNo, lsDTO);
 	        lectureBoardList = lDao.selectListAllLecBoard(pi);
-	        System.out.println("검색조건 검색필터 둘 다 X" + lectureBoardList.toString());
+	        
+	        // System.out.println("검색조건 검색필터 둘 다 X" + lectureBoardList.toString());
 	    }
 
 	    Map<String, Object> returnMap = new HashMap<>();
 	    returnMap.put("lectureBoardList", lectureBoardList);
 	    returnMap.put("pagingInfo", this.pi);
 
-	    System.out.println(pi);
+	    // System.out.println(pi);
 
 	    return returnMap;
 	}
