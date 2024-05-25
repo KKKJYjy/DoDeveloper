@@ -28,52 +28,53 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	 * @methodName : getListAllBoard
 	 * @author : kde
 	 * @date : 2024.05.02
-	 * @param : int lecNo - 게시글 번호
+	 * @param : int lecNo - 게시글 번호(처음에 사용하고 페이지 번호로 수정)
 	 * @param : int pageNo - 페이지 번호
 	 * @param : LectureSearchDTO lsDTO - 검색할 때 가져올 Type, Value(검색조건)
-	 * @return : List<LectureBoardVO>
+	 * @return : List<LectureBoardVO> -> Map<String, Object> 으로 수정
 	 * @description : 1) 게시판 전체 조회에 대한 서비스 메서드
-	 * 2) 검색 조건을 선택하고 검색어를 입력했을 때 글을 가져오는 메서드 - 검색 조건
-	 * 3) 검색 필터(최신순 / 인기순 / 조회순)을 선택했을 때 글을 가져오는 메서드 - 검색 필터
+	 * 2) 검색 조건을 선택하고 검색어를 입력했을 때 글을 가져옴 - 검색 조건
+	 * 3) 검색 필터(최신순 / 인기순 / 조회순)을 선택했을 때 글을 가져옴 - 검색 필터
+	 * 4) 검색 조건을 선택하고 검색어 입력 후 검색 필터(최신순 / 인기순 / 조회순)를 선택했을 때 글을 가져옴
 	 */
 	@Override
 	@Transactional(readOnly = true)
 	public Map<String, Object> getListAllBoard(int pageNo, LectureSearchDTO lsDTO) throws Exception {
 	    System.out.println("서비스단 : " + pageNo + "페이지 전체 게시글 조회!" + lsDTO);
 
-	    // DAO단 호출 (selectListAllLecBoard() 메서드 호출)
 	    List<LectureBoardVO> lectureBoardList = null;
-	    
-	    // 여기서 검색 필터부분에서 2페이지로 넘어갈 경우 filterType=view&searchType=&searchValue= 이렇게 나오니까
-	    // 이 부분 수정하기 if 문안에 또 if문 사용해서 searchType / searchValue 는 제외하기
-	    // 검색어가 있을 경우 부분 안에 if문 사용해서 filter타입 넣기
-	    
-	    // 검색 조건 처리
-	    // searchType이 null이 아니거나 / (!를 사용하여) searchValue가 비어있지 않은 경우를 isEmpty()를 사용해서 확인
-	    // !를 lsDTO.getSearchValue()앞에 붙여서 부정으로 만든 뒤에 
-	    // isEmpty() 메서드는 검색어가 비어있으면 true를 반환 비어있지 않으면 false를 반환하도록
-	    if (lsDTO.getSearchType() != null && !lsDTO.getSearchValue().isEmpty()) {
-	        // 검색어가 있을 경우
+
+	    // 1) 검색 조건과 검색 필터 처리를 다 null과 빈값("")이 아니도록 처리를 해놓고
+	    // 즉, searchType이 선택되었고, searchValue가 있고, filterType이 선택되었다.
+	    boolean searchType = lsDTO.getSearchType() != null && !lsDTO.getSearchType().isEmpty();
+	    boolean searchValue = lsDTO.getSearchValue() != null && !lsDTO.getSearchValue().isEmpty();
+	    boolean filterType = lsDTO.getFilterType() != null && !lsDTO.getFilterType().isEmpty();
+
+	    // 2) 경우의 수가 있는 경우만 ()안에 넣어둔다.
+	    if (searchType && searchValue && filterType) {
+	        // 검색 조건과 검색어를 입력하고, 검색 필터를 선택한 경우
+	        makePagingInfo(pageNo, lsDTO);
+	        lectureBoardList = lDao.lectureBoardSearchAndFilter(lsDTO, pi);
+	        System.out.println("검색조건 검색필터 둘 다 O" + lectureBoardList.toString());
+	    } else if (searchType && searchValue) {
+	        // 검색 조건과 검색어를 입력하고, 검색 필터를 선택 안 한 경우
 	        makePagingInfo(pageNo, lsDTO);
 	        lectureBoardList = lDao.lectureBoardListWithSc(lsDTO, pi);
+	        System.out.println("검색조건만" + lectureBoardList.toString());
+	    } else if (filterType) {
+	        // 검색 조건과 검색어를 입력 안하고, 검색 필터만 선택한 경우
+	        makePagingInfo(pageNo, lsDTO);
+	        lectureBoardList = lDao.listAllBoardByFilter(lsDTO, pi);
+	        System.out.println("검색 필터만" + lectureBoardList.toString());
 	    } else {
-	        // 검색어가 없을 경우
-	        if (lsDTO.getFilterType() != null) {
-	            // 검색 필터가 있는 경우
-	            makePagingInfo(pageNo, lsDTO);
-	            lectureBoardList = lDao.listAllBoardByFilter(lsDTO, pi);
-	        } else {
-	            // 검색 필터가 없는 경우
-	            makePagingInfo(pageNo);
-	            lectureBoardList = lDao.selectListAllLecBoard(pi);
-	        }
-	        
+	        // 검색 조건과 검색어를 입력 안하고, 검색 필터를 선택 안 한 경우
+	        makePagingInfo(pageNo, lsDTO);
+	        lectureBoardList = lDao.selectListAllLecBoard(pi);
+	        System.out.println("검색조건 검색필터 둘 다 X" + lectureBoardList.toString());
 	    }
 
 	    Map<String, Object> returnMap = new HashMap<>();
-	    // 페이징 된 게시글 바인딩
 	    returnMap.put("lectureBoardList", lectureBoardList);
-	    // 페이징 정보를 바인딩
 	    returnMap.put("pagingInfo", this.pi);
 
 	    System.out.println(pi);
@@ -180,7 +181,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	 * @methodName : getBoardByBoardNo
 	 * @author : kde
 	 * @date : 2024.05.03
-	 * @param : int boardNo - 조회할 글 번호
+	 * @param : int lecNo - 조회할 글 번호
 	 * @param : String user - 조회하는 유저
 	 * @return : Map<String, Object>
 	 * @description : 1) user가 조회하는 글을 하루 이내에 읽은 적이 있는지 없는지 검사
