@@ -63,8 +63,8 @@
 	border-bottom: 1px solid #ccc;
 }
 
-<!--
-수정 & 삭제 버튼 -->.replyBtns {
+/* 수정 & 삭제 버튼 */
+.replyBtns {
 	margin-left: inherit;
 	margin-bottom: auto;
 	float: right;
@@ -87,9 +87,32 @@
 	height: 30px;
 }
 
-<!--
-좋아요 버튼 --> .btn-group {
+/* 좋아요 버튼 */
+.btn-group {
 	position: relative;
+}
+
+/* 링크(북마크) 스타일 */
+.bookmark-list {
+	list-style: none; /* ul의 · 제거 */
+	padding: 0; /* 앞에 공간 제거 */
+}
+
+.bookmark-list li {
+	margin: 5px 0; /* 북마크 위아래 공백 추가 */
+}
+
+.bookmark-list a {
+	text-decoration: none; /* 텍스트에 밑줄을 제거 */
+	color: white; /* 링크 색상을 설정합니다. */
+	border: 1px solid #666; /* 링크 테두리를 색과 함께 설정 */
+	border-radius: 4px; /* 링크 모서리를 둥글게 */
+	padding: 5px 10px; /* 북마크 안의 여백을 지정 */
+}
+
+.bookmark-list a:hover {
+	background-color: #666; /* 배경색을 변경합니다. */
+	color: black; /* 글자색을 변경합니다. */
 }
 </style>
 <script>
@@ -478,6 +501,42 @@ function clickHeart() {
     });
 }
 
+//---------------------------------------------------------------------
+
+// 링크에 대한 함수
+function linkBookmarks() {
+    // 1) 강의 링크를 가져와서 linkText 변수로 만들고
+    let linkText = '${lecBoard.lecLink}';
+    
+    // 2) 링크 목록을 표시할 ul id 가져와서 bookmarkList 변수로 만들고
+    let bookmarkList = document.getElementById('bookmarkList');
+
+ 	// 3) 주어진 링크에 대한 줄바꿈을 기준으로 분리(여러개의 링크가 있을 경우를 대비)
+    linkText.split('\n').forEach(link => {
+        // 4) ul태그 안에 li를 만든다.
+        let listItem = document.createElement('li');
+        
+     	// 4-1) 위 li태그를 2번에서 만든 변수 bookmarkList 안에 appendChild를 사용하여 위 listItem변수에서 만든 것을 넣어준다.
+        bookmarkList.appendChild(listItem);
+
+     	// 5) 4번에서 만든 listItem변수에 appendChild를 사용해서 a태그를 만들어준다.(하이퍼링크를 설정하기 위해서)
+        listItem.appendChild(document.createElement('a'));
+                
+        // 6) 5번에서 만든 a태그에 하이퍼링크 설정을 해줌으로 url을 불러온다.
+        // lastChild : 마지막 자식 요소 / href : 하이퍼링크의 주소(url)을 의미
+        listItem.lastChild.href = link.trim(); // 즉, trim()함수를 사용해서 마지막 자식요소인 하이퍼링크 url을 변경(앞뒤공백제거)
+        // target : 하이퍼링크가 열릴 경로를 지정 / '_blank' : 새 창(새 탭)에서 열리도록 설정 / '_self' : 현재 창에서 열리도록 설정
+        listItem.lastChild.target = '_blank'; // 링크를 새 탭에서 열도록 설정합니다.
+        // textContent : 모든 자식을 주어진 문자열로 이루어진 하나의 텍스트 노드로 대치(즉, 나누어진 a태그들을 하나로)
+        listItem.lastChild.textContent = link.trim(); // 마지막 자식 요소인 하이퍼링크 텍스트를 하나의 텍스트로 변경, 앞뒤 공백을 제거
+    });
+}
+
+// 링크 함수 호출
+$(function() {
+	linkBookmarks();
+});
+
 </script>
 </head>
 
@@ -533,9 +592,8 @@ function clickHeart() {
 						</div>
 
 						<div class="mb-3 mt-3">
-							<label for="lecLink" class="form-label">강의 북마크(링크)</label> <input
-								type="text" class="form-control" id="title"
-								value="${lecBoard.lecLink }" readonly="readonly" />
+							<label for="lecLink" class="form-label">강의 링크</label>
+							<ul id="bookmarkList" class="bookmark-list"></ul>
 						</div>
 
 						<div class="mb-3 mt-3">
