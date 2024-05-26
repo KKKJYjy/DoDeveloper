@@ -465,6 +465,42 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 
 
 
+	@Override
+	public boolean modifyNotcBoard(NoticeDTO mdBoard) throws Exception {
+		
+		System.out.println("서비스단 : 공지사항 수정");
+		
+		boolean result = false;
+		
+		if (bDao.updateNoticeBoard(mdBoard) == 1) {
+			result = true;
+		}
+		
+		return result;
+	}
+
+
+
+	@Override
+	public Map<String, Object> getNotcByBoardNo(int boardNo) throws Exception {
+		
+		System.out.println("수정할 글번호");
+		
+		NoticeDTO notcBoard =  bDao.selectNoticeBoardNo(boardNo);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		result.put("notcBoard", notcBoard);
+		
+		return result;
+	}
+
+
+
+	
+
+
+
 	
 	
 }

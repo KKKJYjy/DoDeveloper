@@ -300,6 +300,13 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 		
 		return ses.selectOne(ns + ".selectNoticeBoardNo", boardNo);
 	}
+	
+
+	@Override
+	public int updateNoticeBoard(NoticeDTO mdBoard) throws Exception {
+		System.out.println("dao단");
+		return ses.update(ns + ".updateNotcBoard", mdBoard);
+	}
 
 	
 

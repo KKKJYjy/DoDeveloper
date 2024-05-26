@@ -62,7 +62,12 @@ public interface AdminBoardService {
 		
 		// 공지사항 상세페이지
 	    NoticeDTO getNotcBoardNo(int boardNo) throws Exception;
+	    
+	    // 공지사항 게시물 얻어오는 메서드
+	    Map<String, Object> getNotcByBoardNo (int boardNo) throws Exception;
+	    
 
-		
+		// 공지사항 게시글 수정
+	    boolean modifyNotcBoard(NoticeDTO mdBoard) throws Exception;
 		
 }

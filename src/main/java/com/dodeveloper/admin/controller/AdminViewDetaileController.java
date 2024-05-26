@@ -35,7 +35,7 @@ public class AdminViewDetaileController {
 //	@RequestMapping(value = "/viewBoard", method = RequestMethod.GET)
 //	public void viewBoard() {
 //		logger.info("강의추천 상세페이지 호출");
-//	}
+//	}	
 //	
 //	@RequestMapping(value = "/algDetail", method = RequestMethod.GET)
 //	public void algDetail() {

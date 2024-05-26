@@ -10,7 +10,7 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
 	function checkCheck() {
-		window.location.href = "/admin/updateNotice"
+		window.location.href = "/admin/updateNotice?boardNo=${notice.boardNo}"
 	}
 </script>
 </head>
@@ -28,11 +28,17 @@
 		<div class="container-fluid">
 
 			<div class="noticeBoard">
-				<form action="/admin/noticePOST" method="post" name="frm">
+				
 					<div class="mb-3 mt-3">
 						<label>작성자</label>
 						<textarea class="form-control" id="notWriter" name="Writer"
 							readonly="readonly">${notice.writer}</textarea>
+					</div>
+					
+					<div class="mb-3 mt-3">
+						<label>작성 일자</label>
+						<textarea class="form-control" id="notpostDate" name="postDate"
+							readonly="readonly">${notice.postDate}</textarea>
 					</div>
 
 					<div class="mb-3 mt-3">
@@ -52,7 +58,6 @@
 							onclick="return checkCheck()" value="글 수정">
 					</div>
 
-				</form>
 
 			</div>
 

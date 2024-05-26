@@ -111,5 +111,7 @@ public interface AdminBoardDAO {
    // 공지사항 ?번 글 조회
    NoticeDTO selectNoticeBoardNo(int boardNo) throws Exception;
     
+   // 공지사항 수정
+   int updateNoticeBoard(NoticeDTO mdBoard) throws Exception;
     
 }

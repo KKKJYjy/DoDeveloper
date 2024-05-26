@@ -272,8 +272,15 @@
 
 	<!-- 공지사항 ?번 글 조회 -->
 	<select id="selectNoticeBoardNo" resultType="NoticeDTO">
-		select * from noticeBoard where boardNo = #{boardNo}
+		select * from
+		noticeBoard where boardNo = #{boardNo}
 	</select>
+
+	<!-- 공지사항 게시글 수정 -->
+	<update id="updateNotcBoard">
+		update noticeBoard set title = #{title}, postDate = now(), content = #{content}
+		where boardNo = #{boardNo}
+	</update>
 
 
 
