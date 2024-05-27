@@ -6,7 +6,7 @@
 
 	<!-- 로그인 시도 -->
 	<select id="loginMember" resultType="MemberVO">
-		select * from member where userId = #{userId} and userPwd = sha1(md5(#{userPwd}))
+		select * from member where userId = #{userId} and userPwd = sha1(md5(#{userPwd})) and status = "정상회원";
 	</select>
 	
 	<!-- 자동 로그인 유저에게 세션을 남기는 -->
@@ -48,11 +48,16 @@
 	
 	<!-- 회원 탈퇴 insert -->
 	<insert id="dropMember">
-		insert into dropMember(dropUserId, dropReason) values(#{userId}, #{dropReason})
+		insert into dropMember(userId, dropReason) values(#{userId}, #{dropReason})
 	</insert>
 	
 	<!-- 회원탈퇴 status 변경 -->
 	<update id="changeDropStatus">
 		update member set status = #{status} where userId = #{userId}
 	</update>
+	
+	<delete id="deleteAllDroppedMembers">
+		delete from member where userId in (select userId from dropMember where ADDDATE(dropApplyDate, 60) <![CDATA[<]]> now())
+	</delete>
+	
 </mapper>

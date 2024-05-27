@@ -38,4 +38,7 @@ public interface MemberService {
 
 	// 회원 탈퇴
 	boolean dropMember(DropMemberDTO dropMemberDTO) throws Exception;
+	
+	// 회원 삭제
+	int deleteAllDroppedMember() throws Exception;
 }

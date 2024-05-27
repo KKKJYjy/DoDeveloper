@@ -31,6 +31,7 @@ public class MemberDAOImpl implements MemberDAO {
 	private static final String CHANGE_PROFILE = NS + ".changeProfile";
 	private static final String DROP_MEMBER = NS + ".dropMember";
 	private static final String CHANGE_DROP_STATUS = NS + ".changeDropStatus";
+	private static final String DELETE_DROPPED_MEMBER = NS + ".deleteAllDroppedMembers";
 	
 	@Override
 	public MemberVO loginMember(LoginDTO dto) throws Exception {
@@ -85,5 +86,10 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public int changeDropStatus(DropMemberDTO dropMemberDTO) throws Exception {
 		return sqlSession.update(CHANGE_DROP_STATUS, dropMemberDTO);
+	}
+
+	@Override
+	public int deleteAllDroppedMembers() throws Exception {
+		return sqlSession.delete(DELETE_DROPPED_MEMBER);
 	}
 }

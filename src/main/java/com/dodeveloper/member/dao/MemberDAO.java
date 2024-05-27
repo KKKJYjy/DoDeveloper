@@ -39,6 +39,9 @@ public interface MemberDAO {
 	// 회원탈퇴
 	int dropMember(DropMemberDTO dropMemberDTO) throws Exception;
 	
+	// 회원삭제
+	int deleteAllDroppedMembers() throws Exception;
+	
 	// 회원탈퇴 status 변경
 	int changeDropStatus(DropMemberDTO dropMemberDTO) throws Exception;
 }

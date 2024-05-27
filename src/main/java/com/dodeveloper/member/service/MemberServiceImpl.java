@@ -82,4 +82,10 @@ public class MemberServiceImpl implements MemberService {
 		}
 		return result;
 	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+	public int deleteAllDroppedMember() throws Exception {
+		return mDao.deleteAllDroppedMembers();
+	}
 }
