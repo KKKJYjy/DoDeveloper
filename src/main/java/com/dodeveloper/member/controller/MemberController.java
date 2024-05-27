@@ -38,53 +38,52 @@ import com.dodeveloper.mypage.dto.ChangeProfileDTO;
 @Controller
 @RequestMapping("/member")
 public class MemberController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
 	@Autowired
 	private MemberService mService;
-	
+
 	@Autowired
 	private MessageService messageService;
-	
+
 	@GetMapping("/login")
 	public void loginGet() {
 		logger.info("Login View.");
 	}
-	
+
 	@RequestMapping(value = "/loginPost", method = RequestMethod.POST)
 	public String loginPost(LoginDTO loginDTO, Model model, HttpSession session) throws Exception {
 		logger.info("login...LoginDTO={}", loginDTO);
-		
-		String result = "";
-		
+
 		MemberVO loginMember = mService.login(loginDTO);
 		System.out.println("loginMember : " + loginMember);
-		if (loginMember != null) {
-			
-			System.out.println("로그인 성공1");
-			
-			if (loginDTO.isRemember()) {
-				String sessionId = session.getId();
-				System.out.println("sessionId : " + sessionId);
-				Timestamp sessionLimit = new Timestamp(System.currentTimeMillis() + (1000 * SessionNames.EXPIRE));
 
-				mService.keepLogin(new SessionDTO(sessionId, sessionLimit, loginMember.getUserId()));
-			}
-			model.addAttribute(SessionNames.LOGIN_MEMBER, loginMember);
-			session.setAttribute(SessionNames.UNREAD_MESSAGE_CNT, messageService.countUnreadReceivedMessages(loginDTO.getUserId()));	
-			System.out.println("로그인 성공2");
-			
-			result = "/member/loginPost";
+		if (loginMember == null) {
 
-		} else {
 			model.addAttribute("loginResult", "fail");
-			
+
 			System.out.println("로그인 실패");
-			
-			result = "redirect:/member/login";			
+
+			return "redirect:/member/login";
+
 		}
-		return result;
+
+		if (loginDTO.isRemember()) {
+			String sessionId = session.getId();
+			System.out.println("sessionId : " + sessionId);
+			Timestamp sessionLimit = new Timestamp(System.currentTimeMillis() + (1000 * SessionNames.EXPIRE));
+
+			mService.keepLogin(new SessionDTO(sessionId, sessionLimit, loginMember.getUserId()));
+		}
+		
+		model.addAttribute(SessionNames.LOGIN_MEMBER, loginMember);
+		session.setAttribute(SessionNames.UNREAD_MESSAGE_CNT,
+				messageService.countUnreadReceivedMessages(loginDTO.getUserId()));
+		System.out.println("로그인 성공2");
+
+		return "/member/loginPost";
+		 
 	}
 
 	@GetMapping("/logout")
@@ -144,14 +143,14 @@ public class MemberController {
 
 		return resultMap;
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/dropMember", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<Map<String, Object>> dropMember(@RequestBody DropMemberDTO dropMemberDTO) throws Exception {
 		System.out.println("dropMemberDTO : " + dropMemberDTO.toString());
-		
+
 		Map<String, Object> returnMap = new HashMap<String, Object>();
-		
+
 		if (mService.dropMember(dropMemberDTO)) {
 			returnMap.put("state", "T");
 			returnMap.put("message", "Success");
@@ -159,13 +158,13 @@ public class MemberController {
 			returnMap.put("state", "F");
 			returnMap.put("message", "Fail");
 		}
-		
+
 		HttpHeaders headers = new HttpHeaders();
 		Charset utf8 = Charset.forName("utf-8");
 		MediaType mediaType = new MediaType(MediaType.APPLICATION_JSON_UTF8, utf8);
 		headers.setContentType(mediaType);
-		
+
 		return ResponseEntity.ok().headers(headers).body(returnMap);
 	}
-	
+
 }
