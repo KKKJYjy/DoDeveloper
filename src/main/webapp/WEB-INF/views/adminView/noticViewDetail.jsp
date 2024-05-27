@@ -52,11 +52,13 @@
 						<textarea class="form-control" id="noticeInput" name="content" readonly="readonly">${notice.content }</textarea>
 					</div>
 
+					<c:if test="${sessionScope.loginMember.isAdmin == 'Y' }">
 					<div class="btns">
 
 						<input type="button" class="btn btn-primary sendNotice"
 							onclick="return checkCheck()" value="글 수정">
 					</div>
+					</c:if>
 
 
 			</div>

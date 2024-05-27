@@ -8,6 +8,34 @@
 <title>Insert title here</title>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+	function resetBtn() {
+		window.location.href = "/admin/noticeBoard";
+	}
+	
+	function sendBtn() {
+		
+		if (upd.title.value == "") {
+
+			upd.title.focus();
+			alert('제목을 입력해주세요');
+
+			return false;
+		}
+
+		else if (upd.content.value == "") {
+
+			upd.content.focus();
+			alert('내용을 입력해주세요');
+
+			return false;
+		} else {
+			alert('글이 수정되었습니다');
+
+		}
+		
+	}
+</script>
 
 </head>
 <body>
@@ -20,9 +48,9 @@
 		<c:import url="./adminMiniHeader.jsp"></c:import>
 
 		<div class="container-fluid">
-			<form action="/admin/updatePost" method="post">
-			<input type="hidden" name="boardNo"
-								value="${result.notcBoard.boardNo }">
+			<form action="/admin/updatePost" method="post" name="upd">
+				<input type="hidden" name="boardNo"
+					value="${result.notcBoard.boardNo }">
 				<div class="noticeBoard">
 
 					<div class="mb-3 mt-3">
@@ -49,8 +77,10 @@
 
 					<div class="btns">
 
-						<button type="submit" class="btn btn-primary sendNotice">글
+						<button type="submit" class="btn btn-primary sendNotice" onclick="return sendBtn()">글
 							저장</button>
+						<button type="reset" class="btn btn-primary resetBtn" onclick="resetBtn()">취소</button>
+
 
 					</div>
 

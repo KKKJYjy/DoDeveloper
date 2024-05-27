@@ -153,7 +153,9 @@
 
 				<c:import url="./search.jsp"></c:import>
 
-				<button id="openModalBtn" onclick="checkCheckbox()">게시글삭제</button>
+				<c:if test="${sessionScope.loginMember.isAdmin == 'Y' }">
+					<button id="openModalBtn" onclick="checkCheckbox()">게시글삭제</button>
+				</c:if>
 
 
 

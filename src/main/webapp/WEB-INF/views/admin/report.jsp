@@ -183,7 +183,10 @@ to {
 
 		<div class="container-fluid">
 
+			<c:if test="${sessionScope.loginMember.isAdmin == 'Y' }">
 			<button id="openModalBtn" onclick="checkCheckbox()">게시글삭제</button>
+			</c:if>
+			
 
 			<table class="table table-light table-hover">
 
@@ -217,8 +220,7 @@ to {
 							<td>${board.reporter }</td>
 							<td>${board.btypeNo }</td>
 						</tr>
-
-
+							
 					</c:forEach>
 			</table>
 

@@ -137,11 +137,14 @@
 							placeholder="내용을 입력하세요"></textarea>
 					</div>
 
+					<c:if test="${sessionScope.loginMember.isAdmin == 'Y' }">
 					<div class="btns">
 
+						
 						<input type="submit" class="btn btn-primary sendNotice"
 							onclick="return checkCheck()" value="글 저장">
 					</div>
+					</c:if>
 
 				</form>
 
