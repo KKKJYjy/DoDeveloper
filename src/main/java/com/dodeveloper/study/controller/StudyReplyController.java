@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dodeveloper.reply.service.ReplyService;
@@ -101,6 +103,36 @@ public class StudyReplyController {
 		try {
 			if(rs.deleteReply(replyNo) ==1) {
 				result = new ResponseEntity<String>("deleteSuccess", HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			result = new ResponseEntity<String>(HttpStatus.CONFLICT);
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	/**
+		* @author : yeonju
+		* @date : 2024. 5. 27.
+		* @param : int replyNo - 수정할 댓글 번호 pk값
+		* @param : ReplyDTO modifyReply - 수정할 댓글의 내용을 담은 객체
+		* @return : ResponseEntity<String> - 성공시 HttpStatus.OK, 실패시 HttpStatus.CONFLICT 반환
+		* @description : repyNo번째 댓글을 수정한다.
+	 */
+	@RequestMapping(value = "/modifyReply/{replyNo}/{bNo}", method = RequestMethod.PUT)
+	public ResponseEntity<String> modifyReply(@PathVariable("replyNo") int replyNo, @PathVariable("bNo") int bNo,
+			@RequestBody ReplyDTO modifyReply){
+		
+		ResponseEntity<String> result = null;
+		
+		modifyReply.setBNo(bNo);
+		modifyReply.setBType(2);
+		logger.info(modifyReply.toString() + "댓글을 수정하자");
+		
+		try {
+			if(rs.updateReply(modifyReply) ==1) {
+				result = new ResponseEntity<String>("updateSuccess", HttpStatus.OK);
 			}
 		} catch (Exception e) {
 			result = new ResponseEntity<String>(HttpStatus.CONFLICT);

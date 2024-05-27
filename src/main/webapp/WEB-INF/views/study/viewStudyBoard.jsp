@@ -82,6 +82,7 @@
 <script>
 
 	let replies = "";
+	let modifyReplyTag = ""; // 댓글 수정창 클릭할 때, 수정 전에 입력했던 댓글 태그 저장하는 전역변수
 	
 	$(function() {
 		
@@ -273,9 +274,9 @@
 			output += `<div class="col-md-3" style="text-align:right">\${diff}`;
 						
 			//댓글 단 사람과 로그인한 사람이 같을 경우에만 수정 삭제 버튼이 보이도록 한다
-			if(e.replyer == `${loginMember.userId}`){				
-				output += `<span style="cursor:pointer" class="badge text-bg-secondary ms-2" onclick="modifyReplyArea(\${e.replyNo})";>수정</span>`;
-				output += `<span style="cursor:pointer" class="badge text-bg-secondary ms-2" onclick="removeReplyAlert(\${e.replyNo});">삭제</span></div>`;					
+			if(e.replyer == `${loginMember.userId}`){
+				output += `<span style="cursor:pointer" class="badge text-bg-secondary ms-2 modifyReplyArea" onclick="modifyReplyArea(\${e.replyNo}, '\${e.replyContent}');">수정</span>`;
+				output += `<span style="cursor:pointer" class="badge text-bg-secondary ms-2 removeReplyAlert" onclick="removeReplyAlert(\${e.replyNo});">삭제</span></div>`;					
 			}
 			
 			output += `</div>`;
@@ -286,6 +287,61 @@
 		output += `</ul>`;
 		
 		$(".replyList").html(output); 
+	}
+	
+	//댓글 수정 버튼 눌렀을 때 호출되는 함수
+	function modifyReplyArea(replyNo, replyContent){
+		
+		//댓글 수정 창이 보이게 한다. <b>${loginMember.userId}</b>
+		let modifyReply = `<div class="row" id="cancle_\${replyNo}">`;
+		modifyReply += `<div class="col-md-1"></div>`;
+		modifyReply += `<div class="col-md-8"><input class="modiftReplyContent" type="text" value="\${replyContent}" style="width:100%;" /></div>`;
+		modifyReply += `<div class="col-md-3" style="text-align:left">`;
+		modifyReply += `<span style="cursor:pointer" class="badge text-bg-secondary me-2" onclick="modifyReply(\${replyNo})">수정</span>`;
+		modifyReply += `<span style="cursor:pointer" class="badge text-bg-secondary" onclick="cancleModifyReply(\${replyNo});">취소</span></div>`;
+		modifyReply += `</div>`;
+		
+		$(modifyReply).insertAfter($(`#reply_\${replyNo}`));
+		
+	}
+	
+	//댓글 수정 창에서 수정버튼을 눌렀을 떄 호출되는 함수
+	function modifyReply(replyNo){
+		
+		//수정할 댓글 내용과 댓글 번호를 ajax로 보내자
+		let replyContent = $(".modiftReplyContent").val();
+		console.log(replyContent);
+		let bNo = `${studyList.stuNo}`;
+		
+		let modifyReply = {
+			"bNo" : bNo,
+			"replyNo" : replyNo,
+			"replyer" : `${loginMember.userId}`,
+			"replyContent" : replyContent,
+		}; //수정할 댓글 객체로 선언
+		
+		console.log(JSON.stringify(modifyReply));
+		
+		$.ajax({
+			url : "/studyReply/modifyReply/" + replyNo + "/" + bNo,
+			type : "put",
+			data : JSON.stringify(modifyReply),
+			contentType : 'application/json; charset=utf-8',
+			dataType : "text",
+			async : false, //받아올 데이터가 있어야 파싱 가능.
+			success : function(data) {
+				console.log(data);
+				if(data == 'updateSuccess'){
+					$(`#cancle_\${replyNo}`).remove();
+					getAllReplies();
+				}
+			},
+		});
+	}
+	
+	//댓글 수정 창에서 취소 버튼을 눌렀을 때 호출되는 함수
+	function cancleModifyReply(replyNo){
+		$(`#cancle_\${replyNo}`).empty();
 	}
 	
 	//댓글 삭제 버튼 눌렀을 때 호출되는 함수
