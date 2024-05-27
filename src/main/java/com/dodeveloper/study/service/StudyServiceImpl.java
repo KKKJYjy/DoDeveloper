@@ -54,7 +54,7 @@ public class StudyServiceImpl implements StudyService {
 		Map<String, Object> result = new HashMap<String, Object>();
 		// 검색어가 있을 경우의 게시글 목록과 없는 경우의 게시글 목록이 다르다.
 		List<StudyBoardVO> lst = null;
-//		System.out.println("service단: "+ statusFilter);
+		System.out.println("service단: "+ status + pageNo + sDTO.toString());
 
 		if (sDTO.getSearchType() != null && sDTO.getSearchValue() != null && !(status.equals(""))) {
 			// 1) 검색어가 있고 + 필터가 있는 경우

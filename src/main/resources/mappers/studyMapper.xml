@@ -85,6 +85,7 @@
 			</otherwise>
 		</choose>
 		and status = #{status}
+		
 		order by wrritenDate desc limit #{startRowIndex},
 		#{viewPostCntPerPage}
 	</select>

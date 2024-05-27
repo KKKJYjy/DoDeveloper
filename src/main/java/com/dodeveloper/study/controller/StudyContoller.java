@@ -68,36 +68,37 @@ public class StudyContoller {
 			SearchStudyDTO sDTO) throws Exception {
 		
 		logger.info("listAll View");
-		logger.info("listAll : " + pageNo + "번째 글" + "statusFilter : " + status);
+		logger.info("listAll : " + pageNo + "번째 글" + "statusFilter : " + status + "검색 내용 :" + sDTO.toString());
 
 		Map<String, Object> result = null;
 
 		if (pageNo <= 0) {
 			pageNo = 1;
 		}
-
 		// 스터디 목록 + 페이징 객체 같이 가지고있는 result	
-		result = stuService.selectAllList(sDTO, pageNo, status);
-
-		List<StudyBoardVO> studyList = (List<StudyBoardVO>) result.get("studyList");
-
-		// 스터디 No번째글 스터디 언어 목록
-		List<StuStackDTO> stuStackList = new ArrayList<StuStackDTO>();
-
-		for (StudyBoardVO s : studyList) {
-			// stuNo를 넘겨주어 공부할 언어 정보를 가져오자
-			stuStackList.addAll(stuService.selectAllStudyStack(s.getStuNo()));
-			// System.out.println(s.getStuNo());
+		if(!(status.equals("전체글"))) {			
+			result = stuService.selectAllList(sDTO, pageNo, status);
+			List<StudyBoardVO> studyList = (List<StudyBoardVO>) result.get("studyList");
+			
+			// 스터디 No번째글 스터디 언어 목록
+			List<StuStackDTO> stuStackList = new ArrayList<StuStackDTO>();
+			
+			for (StudyBoardVO s : studyList) {
+				// stuNo를 넘겨주어 공부할 언어 정보를 가져오자
+				stuStackList.addAll(stuService.selectAllStudyStack(s.getStuNo()));
+				// System.out.println(s.getStuNo());
+			}
+			
+			// stack테이블의 모든 값들을 가져오자
+			List<StackVO> stackList = stuService.selectAllStack();
+			
+			// System.out.println(stuStackList.toString());
+			model.addAttribute("studyList", studyList);
+			model.addAttribute("stuStackList", stuStackList);
+			model.addAttribute("stackList", stackList);
+			model.addAttribute("pagingInfo", (PagingInfo) result.get("pagingInfo"));
 		}
-		
-		// stack테이블의 모든 값들을 가져오자
-		List<StackVO> stackList = stuService.selectAllStack();
 
-		// System.out.println(stuStackList.toString());
-		model.addAttribute("studyList", studyList);
-		model.addAttribute("stuStackList", stuStackList);
-		model.addAttribute("stackList", stackList);
-		model.addAttribute("pagingInfo", (PagingInfo) result.get("pagingInfo"));
 	}
 
 

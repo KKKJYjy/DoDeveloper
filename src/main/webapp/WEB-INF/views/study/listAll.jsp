@@ -103,20 +103,20 @@
 			}
 		});
 
-		//url 쿼리스트링 값 가져와서 신청완료했을때 알럿창 표시
+		//url 쿼리스트링 값 가져와서 
 		let url = new URL(window.location.href);
 		let urlParams = url.searchParams;
 
 		console.log(urlParams);
 
 		if (urlParams.get('statusFilter') == '모집중') {
-			$("#all").attr('class', 'btn btn-secondary');
-			$("#open").attr('class', 'btn btn-secondary active');
-			$("#close").attr('class', 'btn btn-secondary');
+			$(".all").attr('class', 'btn btn-secondary all');
+			$(".open").attr('class', 'btn btn-secondary open active');
+			$(".close").attr('class', 'btn btn-secondary close');
 		} else if (urlParams.get('statusFilter') == '모집마감') {
-			$("#all").attr('class', 'btn btn-secondary');
-			$("#open").attr('class', 'btn btn-secondary');
-			$("#close").attr('class', 'btn btn-secondary active');
+			$(".all").attr('class', 'btn btn-secondary all');
+			$(".open").attr('class', 'btn btn-secondary open');
+			$(".close").attr('class', 'btn btn-secondary close active');
 		}
 
 	});
@@ -311,7 +311,7 @@
 		<section id="study" class="studyBasic">
 
 			<div class="container" style="width: 70%">
-			
+
 				<div class="container">
 					<h3 class="center text-center text-light">
 						<b>🔥 개발 스터디 모집</b>
@@ -322,60 +322,60 @@
 				<!-- <div class="container mt-3">공지사항</div> -->
 
 				<!-- 모집중 or 모집마감 : 처음 상태는 모집중+모집마감 전체 보기-->
-				<div class="container pt-5 pb-3">
-					<div class="d-flex justify-content-center">
-						<div class="btn-group " style="width: 300px;">
-							<a href="/study/listAll" class="btn btn-secondary active" id="all">전체글</a> 
-							<a href="/study/listAll?statusFilter=모집중" class="btn btn-secondary" id="open">모집중</a> 
-							<a href="/study/listAll?statusFilter=모집마감" class="btn btn-secondary" id="close">모집마감</a>
+				<form action="/study/listAll">
+					<div class="container pt-5 pb-3">
+						<div class="d-flex justify-content-center">
+							<div class="btn-group " style="width: 300px;">
+								<input type="submit" class="btn btn-secondary active all" value="전체글" /> 
+								<input type="submit" id="statusFilter"
+									class="btn btn-secondary open" name="statusFilter" value="모집중" />
+								<input type="submit" id="statusFilter"
+									class="btn btn-secondary close" name="statusFilter" value="모집마감" />
+							</div>
 						</div>
 					</div>
-				</div>
 
-				<!-- 상단 필터 & 검색부분 -->
-				<div class="container mt-2">
-					<div class="row">
+					<!-- 상단 필터 & 검색부분 -->
+					<div class="container mt-2">
+						<div class="row">
+							<!-- 스터디할 언어 선택해서 select name="chooseStack"-->
+							<div class="col-md-3">
+								<select class="studyLang form-control" multiple="multiple"
+									id="chooseStack">
+									<c:forEach var="stack" items="${stackList }">
+										<option value="${stack.stackNo }">${stack.stackName }</option>
+									</c:forEach>
+								</select>
+							</div>
 
-						<!-- 스터디할 언어 선택해서 select -->
-						<div class="col-md-3">
-							<select class="studyLang form-control" multiple="multiple"
-								id="chooseStack" name="chooseStack">
-								<c:forEach var="stack" items="${stackList }">
-									<option value="${stack.stackNo }">${stack.stackName }</option>
-								</c:forEach>
-							</select>
-						</div>
-						
-						<div class="col-md-4"></div>  
-
-						<!-- 검색바 -->
-						<div class="col-md-5">
-							<form>
+							<div class="col-md-4"></div>
+							
+							<!-- 검색바 -->
+							<div class="col-md-5">
 								<div class="d-flex justify-content-md-end">
 									<div class="me-1">
-										<select class="form-select form-select-sm" id="searchType" name="searchType">
+										<select class="form-select form-select-sm" id="searchType"
+											name="searchType">
 											<option value="-1">검색방법</option>
-											<option value="title">제목</option>
-											<option value="writer">작성자</option>
-											<option value="content">내용</option>
+											<option value="title" <c:out value="${param.searchType == 'title' ? 'selected' : ''}" />>제목</option>
+											<option value="writer" <c:out value="${param.searchType == 'writer' ? 'selected' : ''}" />>작성자</option>
+											<option value="content" <c:out value="${param.searchType == 'content' ? 'selected' : ''}" />>내용</option>
 										</select>
 									</div>
 									<div class="">
 										<div class="input-group input-group-sm">
-											<input type="text" class="form-control"
-												placeholder="검색할 내용 입력" aria-label="Recipient's username"
-												aria-describedby="button-addon2" id="searchValue"
-												name="searchValue" style="width:150px">
-											<button class="btn btn-secondary" type="submit"
-												id="button-addon2" onclick="return isValid();">검색</button>
+											<input type="text" class="form-control" placeholder="검색할 내용 입력" 
+												id="searchValue" name="searchValue" style="width: 150px" value=""> 
+											<input type="submit" class="btn btn-secondary" onclick="return isValid();"
+												value="검색" />
 										</div>
 									</div>
 								</div>
-							</form>
+							</div>
+							
 						</div>
 					</div>
-
-				</div>
+				</form>
 				<!-- 스터디 언어로 검색시 나오는 리스트 -->
 				<div class="container mt-3 studyListBySearch"></div>
 				<!-- 첫 화면 : 스터디 모임글 리스트 -->
@@ -522,7 +522,7 @@
 							<c:if test="${pagingInfo.pageNo > 1}">
 								<li class="page-item"><a
 									class="page-link text-light bg-danger" style="border: none"
-									href="/study/listAll?pageNo=${param.pageNo -1 }&searchType=${param.searchType }&searchValue=${param.searchValue }"
+									href="/study/listAll?pageNo=${param.pageNo -1 }&statusFilter=${param.statusFilter }&searchType=${param.searchType }&searchValue=${param.searchValue }"
 									aria-label="Previous"> <span aria-hidden="true"><i
 											class="bi bi-arrow-left-short"></i></span>
 								</a></li>
@@ -533,14 +533,14 @@
 								end="${pagingInfo.endNumOfCurrentPagingBlock }" step="1">
 								<li class="page-item" id="${i }"><a
 									class="page-link text-black" style="border: none"
-									href="/study/listAll?pageNo=${i }&searchType=${param.searchType }&searchValue=${param.searchValue }">${i }</a>
+									href="/study/listAll?pageNo=${i }&statusFilter=${param.statusFilter }&searchType=${param.searchType }&searchValue=${param.searchValue }">${i }</a>
 								</li>
 							</c:forEach>
 
 							<c:if test="${pagingInfo.pageNo < pagingInfo.totalPageCnt}">
 								<li class="page-item"><a
 									class="page-link text-light bg-danger" style="border: none"
-									href="/study/listAll?pageNo=${param.pageNo +1 }&searchType=${param.searchType }&searchValue=${param.searchValue }"
+									href="/study/listAll?pageNo=${param.pageNo +1 }&statusFilter=${param.statusFilter }&searchType=${param.searchType }&searchValue=${param.searchValue }"
 									aria-label="Previous"> <span aria-hidden="true"><i
 											class="bi bi-arrow-right-short"></i></span>
 								</a></li>
