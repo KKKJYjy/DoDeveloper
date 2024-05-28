@@ -246,6 +246,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	 * @description : newLecBoard가 DB에 저장 (insert)
 	 */
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
 	public boolean writeBoardService(LectureBoardDTO newLecBoard) throws Exception {
 
 		boolean result = false;
