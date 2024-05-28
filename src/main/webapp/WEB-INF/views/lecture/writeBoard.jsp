@@ -123,7 +123,7 @@ function cancelWriteBoard() {
 function setStarRating() {
 	$(document).ready(function() {
 		// 별점을 클릭할 때 실행되는 함수
-		$('.star_rating .star').click(function() {
+		$('.starRating .star').click(function() {
 			// 모든 별에서 'on' 클래스를 삭제(클릭된 별 제외)
 			// siblings() 함수를 사용함으로 인해서 star에서 on이 추가 된 별은 삭제한다.
 			$(this).siblings().removeClass('on');
@@ -145,7 +145,7 @@ setStarRating();
 //유저가 누른 별점을 불러오는 함수
 (function () {
 	// 별점을 표시하는 함수 starSc
-    let starSc = document.querySelectorAll('.star_rating .star');
+    let starSc = document.querySelectorAll('.starRating .star');
 	// 유저가 누른 별점을 저장하는 함수score
     let score = 0;
 
@@ -173,7 +173,7 @@ setStarRating();
 </script>
 <style>
 /* 별점 */
-.star_rating .star {
+.starRating .star {
 	width: 25px;
 	height: 25px;
 	margin-right: 10px;
@@ -183,7 +183,7 @@ setStarRating();
 	background-size: 100%;
 }
 
-.star_rating .star.on {
+.starRating .star.on {
 	width: 25px;
 	height: 25px;
 	margin-right: 10px;
@@ -255,7 +255,7 @@ setStarRating();
 
 							<!-- 강의 후기 별점 -->
 							<!-- input type="hidden"을 사용해서 유저가 안보이도록 정보를 보낸다. -->
-							<div class="star_rating">
+							<div class="starRating">
 								<label for="lecScore" class="form-label">별점</label>
 								<label class="star"><input type="hidden" value="1"></label>
 								<label class="star"><input type="hidden" value="2"></label>

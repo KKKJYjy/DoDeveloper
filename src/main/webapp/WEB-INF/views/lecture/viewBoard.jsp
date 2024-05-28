@@ -114,6 +114,22 @@
 	background-color: #666; /* 배경색을 변경합니다. */
 	color: black; /* 글자색을 변경합니다. */
 }
+
+/* 별점 */
+.starRating .star {
+	width: 25px;
+	height: 25px;
+	margin-right: 10px;
+	display: inline-block;
+	/* 별점 이미지의 경로 */
+	background-image: url('/resources/images/lecture/star.png');
+	background-size: 100%;
+}
+
+.starRating .star.on {
+	/* 채워진 별점 이미지의 경로 */
+	background-image: url('/resources/images/lecture/fullStar.png');
+}
 </style>
 <script>
 let replies = null;
@@ -537,6 +553,33 @@ $(function() {
 	linkBookmarks();
 });
 
+//---------------------------------------------------------------------
+
+// 유저가 글쓰기할 때 누른 별점 불러오기
+document.addEventListener('DOMContentLoaded', function() {
+	// lecScore 를 가져와서 starScore 변수에 넣기
+	let starScore = ${lecBoard.lecScore};
+	
+	// alert(starScore);
+	
+	// 글쓴 유저가 누른 별점 보여주는 함수 showStarRating
+	function showStarRating(starScore) {
+		// 별점 요소들을 선택해서 stars 변수에 넣어준다.
+		let stars = document.querySelectorAll('.starRating .star');
+		stars.forEach(function (star ,i) {
+			// index(i)가 star보다 작으면 'on' 클래스를 추가
+			// 그렇지 않으면 삭제
+			if (i < starScore) {
+				star.classList.add('on');
+			} else {
+				star.classList.remove('on');
+			}
+		});
+	}
+	// 별점 표시를 하기위해서 위 함수 호출
+    showStarRating(starScore);
+});
+
 </script>
 </head>
 
@@ -567,28 +610,28 @@ $(function() {
 						</div> -->
 
 						<div class="mb-3 mt-3">
-							<label for="lecWriter" class="form-label">작성자Id</label>
-							<div class="content">${lecBoard.lecWriter }</div>
+							<label for="lecWriter" class="form-label">작성자
+								${lecBoard.lecWriter }</label>
 						</div>
 
 						<div class="mb-3 mt-3">
-							<label for="lecPostDate" class="form-label">작성일자</label>
-							<div class="content">${lecBoard.lecPostDate }</div>
+							<label for="lecPostDate" class="form-label">작성일자
+								${lecBoard.lecPostDate }</label>
 						</div>
 
 						<div class="mb-3 mt-3">
-							<label for="lecReadCount" class="form-label">조회수</label>
-							<div class="content">${lecBoard.lecReadCount }</div>
+							<label for="lecReadCount" class="form-label">조회수
+								${lecBoard.lecReadCount }</label>
 						</div>
 
 						<div class="mb-3 mt-3">
-							<label for="scrap" class="form-label">스크랩</label>
-							<div class="content">${lecBoard.scrap }</div>
+							<label for="scrap" class="form-label">스크랩수
+								${lecBoard.scrap }</label>
 						</div>
 
 						<div class="mb-3 mt-3">
-							<label for="lecTitle" class="form-label">제목</label>
-							<div class="content">${lecBoard.lecTitle }</div>
+							<label for="lecTitle" class="form-label">제목 :
+								${lecBoard.lecTitle }</label>
 						</div>
 
 						<div class="mb-3 mt-3">
@@ -601,10 +644,19 @@ $(function() {
 							<div class="content">${lecBoard.lecReview }</div>
 						</div>
 
-						<div class="mb-3 mt-3">
+						<!-- 강의 후기 별점 -->
+						<!-- input type="hidden"을 사용해서 유저가 안보이도록 정보를 보낸다. -->
+						<div class="starRating">
 							<label for="lecScore" class="form-label">별점</label>
-							<div class="content">${lecBoard.lecScore }</div>
+							<label class="star"><input type="hidden" value="1"></label>
+							<label class="star"><input type="hidden" value="2"></label>
+							<label class="star"><input type="hidden" value="3"></label>
+							<label class="star"><input type="hidden" value="4"></label>
+							<label class="star"><input type="hidden" value="5"></label>
 						</div>
+
+						<!-- 별점 값을 숨기는 input type -->
+						<input type="hidden" id="lecScore" name="lecScore" value="${lecBoard.lecScore}">
 					</div>
 
 
@@ -614,9 +666,9 @@ $(function() {
 							<!-- 하트 이미지 -->
 							<img id="heartIcon" src="/resources/images/lecture/redHeart.png"
 								alt="하트 이미지" style="width: 50px; height: 50px;"
-								onclick="clickHeart()"> <img id="fullHeartIcon"
-								src="/resources/images/lecture/redFullHeart.png" alt="하트 이미지"
-								style="width: 50px; height: 50px; display: none;"
+								onclick="clickHeart()">
+							<img id="fullHeartIcon" src="/resources/images/lecture/redFullHeart.png"
+								alt="하트 이미지" style="width: 50px; height: 50px; display: none;"
 								onclick="clickHeart()">
 						</div>
 
