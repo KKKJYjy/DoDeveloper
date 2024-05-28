@@ -91,7 +91,7 @@ function showInput() {
 	let selectBox = document.getElementById("lecReviewSelect");
 	let inputField = document.getElementById("lecReviewInput");
 
-	if (selectBox.value === "option4") {
+	if (selectBox.value === "") {
 		inputField.style.display = "block";
 	} else {
 		inputField.style.display = "none";
@@ -240,12 +240,12 @@ setStarRating();
 							<div class="mb-3 mt-3">
 								<label for="lecReview" class="form-label">강의 후기</label> <select
 									id="lecReviewSelect" name="lecReview" onchange="showInput()">
-									<option value="">-- 강의 후기 선택 --</option>
+									<option value="-1">-- 강의 후기 선택 --</option>
 									<option value="초보자가 듣기 너무 좋아요.">초보자가 듣기 너무 좋아요.</option>
 									<option value="기초가 있으신 분들이 들으셔야 할 것 같아요.">기초가 있으신 분들이
 										들으셔야 할 것 같아요.</option>
 									<option value="등등 생각 좀 해볼게요...">등등 생각 좀 해볼게요...</option>
-									<option value="option4">강의 후기 직접 작성할게요.</option>
+									<option value="">강의 후기 직접 작성할게요.</option>
 								</select>
 								<textarea class="form-control" id="lecReviewInput"
 									name="lecReview" placeholder="강의 후기 직접 작성해주세요..."
