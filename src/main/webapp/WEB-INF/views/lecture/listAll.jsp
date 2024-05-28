@@ -132,8 +132,6 @@ select option:hover {
 												<c:out value="${param.searchType == 'lecTitle'?'selected':''}"/>>제목</option>
 											<option value="lecWriter"
 												<c:out value="${param.searchType == 'lecWriter'?'selected':''}"/>>작성자</option>
-											<option value="lecReview"
-												<c:out value="${param.searchType == 'lecReview'?'selected':''}"/>>본문</option>
 										</select>
 									</div>
 									<div class="input-group mt-3 mb-3">
@@ -157,6 +155,8 @@ select option:hover {
 									href="?pageNo=${param.pageNo }&filterType=popular&searchType=${param.searchType}&searchValue=${param.searchValue}">인기순</a></li>
 								<li><a class="dropdown-item"
 									href="?pageNo=${param.pageNo }&filterType=view&searchType=${param.searchType}&searchValue=${param.searchValue}">조회순</a></li>
+								<li><a class="dropdown-item"
+									href="?pageNo=${param.pageNo }&filterType=starScore&searchType=${param.searchType}&searchValue=${param.searchValue}">별점순</a></li>
 							</ul>
 
 							<button type="button" class="btn btn-dark writeren"
@@ -176,6 +176,7 @@ select option:hover {
 										<th>제목</th>
 										<th>작성자</th>
 										<th>작성 날짜</th>
+										<th>별점</th>
 										<th>조회수</th>
 										<th>좋아요수</th>
 									</tr>
@@ -189,6 +190,7 @@ select option:hover {
 											<td>${lectureBoard.lecTitle }</td>
 											<td>${lectureBoard.lecWriter }</td>
 											<td>${lectureBoard.lecPostDate }</td>
+											<td>${lectureBoard.lecScore }</td>
 											<td>${lectureBoard.lecReadCount }</td>
 											<td>${lectureBoard.lecLikeCount }</td>
 										</tr>
