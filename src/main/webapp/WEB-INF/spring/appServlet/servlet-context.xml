@@ -75,6 +75,8 @@
 			<mapping path="/companyInfo/writtenBoard" />
 			<!-- 기업 리뷰 수정 버튼 클릭시 동작 --> 
 			<mapping path="/companyInfo/editWrittenBoard" />
+			<!-- 기업 리뷰 삭제 버튼 클릭시 동작 -->
+			<mapping path="/companyInfo/deleteWrittenBoard" />
 
 			<!-- 메세지 조회하기 -->
 			<mapping path="/message"/>
