@@ -15,6 +15,7 @@ import com.dodeveloper.admin.vo.AdminArgBoardVO;
 import com.dodeveloper.admin.vo.AdminLectureVO;
 import com.dodeveloper.admin.vo.AdminReviewBoardVO;
 import com.dodeveloper.admin.vo.AdminVO;
+import com.dodeveloper.admin.vo.QnaBoardVO;
 import com.dodeveloper.admin.vo.ReportVO;
 import com.dodeveloper.etc.PagingInfo;
 
@@ -276,6 +277,13 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 		ses.delete(ns + ".deleteReportBoard", reportNo);
 	}
 	
+	
+	@Override
+	public void deleteQna(String no) throws Exception {
+		
+		ses.delete(ns + ".deleteQnaBoard", no);
+	}
+	
 
 	@Override
 	public int insertNoticeBoard(NoticeDTO newBoard) throws Exception {
@@ -308,10 +316,21 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 		return ses.update(ns + ".updateNotcBoard", mdBoard);
 	}
 
+	@Override
+	public List<QnaBoardVO> selectQnaBoard() throws Exception {
+		
+		return ses.selectList(ns + ".selectQna");
+	}
+
+	@Override
+	public QnaBoardVO selectQnaBoardNo(int no) throws Exception {
+		
+		return ses.selectOne(ns + ".selectQnaBoardNo", no);
+	}
+
 	
 
-
-
+	
 	//@Override
 //	public int stuBoardDelete(int stuNo) throws Exception {
 //		

@@ -8,6 +8,7 @@ import com.dodeveloper.admin.vo.AdminArgBoardVO;
 import com.dodeveloper.admin.vo.AdminLectureVO;
 import com.dodeveloper.admin.vo.AdminReviewBoardVO;
 import com.dodeveloper.admin.vo.AdminVO;
+import com.dodeveloper.admin.vo.QnaBoardVO;
 import com.dodeveloper.admin.vo.ReportVO;
 import com.dodeveloper.etc.PagingInfo;
 
@@ -96,6 +97,9 @@ public interface AdminBoardDAO {
     // 신고내역 삭제 
     void deleteReport(String reportNo) throws Exception;
     
+    // 문의 게시글 삭제
+    void deleteQna(String no) throws Exception;
+    
     // 공지사항 테이블에 insert하는 메서드
     int insertNoticeBoard(NoticeDTO newBoard) throws Exception;
     
@@ -113,5 +117,11 @@ public interface AdminBoardDAO {
     
    // 공지사항 수정
    int updateNoticeBoard(NoticeDTO mdBoard) throws Exception;
+   
+   // 문의 게시판 조회 메서드
+   List<QnaBoardVO> selectQnaBoard() throws Exception;
+   
+   // 문의 ?번 글을 가져오는 메서드
+   QnaBoardVO selectQnaBoardNo(int no) throws Exception;
     
 }

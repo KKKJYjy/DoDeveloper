@@ -50,6 +50,10 @@
 							</c:if>
 						</a>
 					</li>
+					<li><a href="/qna/listAll">문의</a></li>
+					<c:if test="${sessionScope.loginMember.isAdmin == 'Y' }">
+					<li><a href="/admin/dashboard">관리자</a></li>
+					</c:if>
 					<li><a href="/member/login">로그인</a></li>
 					<li><a href="/member/register">회원가입</a></li>
 				</ul>

@@ -39,15 +39,15 @@ public class AdminController {
 
 	}
 
-	@RequestMapping(value = "/inquiry", method = RequestMethod.GET)
-	public void inquiry(Model model) throws Exception {
-		logger.info("불량 회원 게시글 페이지 호출");
-		
-		List<BadMemberBoardVO> bedMemberBoardList = aService.getListBadMemberBoard();
-		
-		model.addAttribute("bedMemberBoardList", bedMemberBoardList);
-
-	}
+//	@RequestMapping(value = "/inquiry", method = RequestMethod.GET)
+//	public void inquiry(Model model) throws Exception {
+//		logger.info("불량 회원 게시글 페이지 호출");
+//		
+//		List<BadMemberBoardVO> bedMemberBoardList = aService.getListBadMemberBoard();
+//		
+//		model.addAttribute("bedMemberBoardList", bedMemberBoardList);
+//
+//	}
 
 	@RequestMapping(value = "/blank", method = RequestMethod.GET)
 	public void blank() {

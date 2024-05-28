@@ -14,6 +14,7 @@ import com.dodeveloper.admin.vo.AdminArgBoardVO;
 import com.dodeveloper.admin.vo.AdminLectureVO;
 import com.dodeveloper.admin.vo.AdminReviewBoardVO;
 import com.dodeveloper.admin.vo.AdminVO;
+import com.dodeveloper.admin.vo.QnaBoardVO;
 import com.dodeveloper.admin.vo.ReportVO;
 import com.dodeveloper.etc.PagingInfo;
 
@@ -412,6 +413,13 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	}
 	
 	
+	@Override
+	public void qnaDelete(String no) throws Exception {
+		
+		bDao.deleteQna(no);
+	}
+	
+	
 	
 	
 	@Override
@@ -497,10 +505,32 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 
 
 
-	
+	@Override
+	public List<QnaBoardVO> getQnaBoard() throws Exception {
+		
+		System.out.println("서비스단 : 문의게시글 조회");
+		
+		List<QnaBoardVO> qnaList = bDao.selectQnaBoard();
+		
+		return qnaList;
+	}
 
 
 
-	
+	@Override
+	public QnaBoardVO getQnaBoardNo(int no) throws Exception {
+		
+		System.out.println("서비스단 : 문의 상세페이지");
+		
+		QnaBoardVO qnaViewBoard = bDao.selectQnaBoardNo(no);
+		
+		return qnaViewBoard;
+	}
+
+
+
+
+
+
 	
 }

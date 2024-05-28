@@ -1,5 +1,7 @@
 package com.dodeveloper.admin.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
+
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +27,7 @@ import com.dodeveloper.admin.vo.AdminArgBoardVO;
 import com.dodeveloper.admin.vo.AdminLectureVO;
 import com.dodeveloper.admin.vo.AdminReviewBoardVO;
 import com.dodeveloper.admin.vo.AdminVO;
+import com.dodeveloper.admin.vo.QnaBoardVO;
 import com.dodeveloper.admin.vo.ReportVO;
 import com.dodeveloper.etc.PagingInfo;
 import com.fasterxml.jackson.annotation.JacksonInject.Value;
@@ -221,6 +224,20 @@ public class AdminBoardController {
 
 		return "redirect:report";
 	}
+	
+	@RequestMapping(value = "/qnaDelete")
+	public String removeQna(HttpServletRequest request) throws Exception {
+		
+		String[] remQna = request.getParameterValues("valueArr");
+		int size = remQna.length;
+		for (int i = 0; i < size; i++) {
+			bService.qnaDelete(remQna[i]);
+		}
+		
+		return "redirect:inquiry";
+		
+	}
+	
 
 	@RequestMapping(value = "/noticePOST", method = RequestMethod.POST)
 	public String noticeBoard(NoticeDTO newBoard) throws Exception {
@@ -285,5 +302,18 @@ public class AdminBoardController {
 
 		return "redirect:/admin/noticeBoard";
 	}
+	
+	
+	@RequestMapping(value = "/inquiry", method = RequestMethod.GET)
+	public void qnaBoard(Model model) throws Exception {
+		
+		List<QnaBoardVO> qnaList = bService.getQnaBoard();
+		
+		model.addAttribute("qnaList", qnaList);
+		
+	}
+	
+	
+	
 
 }

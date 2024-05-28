@@ -249,6 +249,11 @@
 	<delete id="deleteReportBoard">
 		delete from reportBoard where reportNo = #{reportNo}
 	</delete>
+	
+	<!-- 문의 게시글 삭제 -->
+	<delete id="deleteQnaBoard">
+		delete from qnaBoard where no = #{no}
+	</delete>
 
 
 
@@ -278,9 +283,21 @@
 
 	<!-- 공지사항 게시글 수정 -->
 	<update id="updateNotcBoard">
-		update noticeBoard set title = #{title}, postDate = now(), content = #{content}
+		update noticeBoard set title = #{title}, postDate =
+		now(), content = #{content}
 		where boardNo = #{boardNo}
 	</update>
+
+	<!-- 문의 게시글 조회 -->
+	<select id="selectQna" resultType="QnaBoardVO">
+		select * from qnaBoard order
+		by no desc
+	</select>
+	
+	<!-- 문의 ?번 글 가져오는 쿼리문 -->
+	<select id="selectQnaBoardNo" resultType="QnaBoardVO">
+		select * from qnaBoard where no = #{no}
+	</select>
 
 
 
