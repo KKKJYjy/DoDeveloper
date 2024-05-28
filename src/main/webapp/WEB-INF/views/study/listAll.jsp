@@ -290,6 +290,22 @@
 
 		return result;
 	}
+	
+	function sortStudy(sortName) {
+		//let result = false;
+		if(sortName == 'open'){
+			location.href=`/study/listAll?pageNo=${param.pageNo}&statusFilter=모집중&searchType=${param.searchType }&searchValue=${param.searchValue }`;
+			//result = true;
+		}else if(sortName == 'close'){
+			location.href=`/study/listAll?pageNo=${param.pageNo}&statusFilter=모집마감&searchType=${param.searchType }&searchValue=${param.searchValue }`;
+			//result = true;
+		}
+		
+		else{
+			location.href=`/study/listAll?&searchType=${param.searchType }&searchValue=${param.searchValue }`;
+		}
+		//return result;
+	}
 </script>
 
 </head>
@@ -326,11 +342,30 @@
 					<div class="container pt-5 pb-3">
 						<div class="d-flex justify-content-center">
 							<div class="btn-group " style="width: 300px;">
-								<input type="submit" class="btn btn-secondary active all" value="전체글" /> 
-								<input type="submit" id="statusFilter"
-									class="btn btn-secondary open" name="statusFilter" value="모집중" />
-								<input type="submit" id="statusFilter"
-									class="btn btn-secondary close" name="statusFilter" value="모집마감" />
+								<a href="#" class="btn btn-secondary all active" onclick="sortStudy();">전체글</a> 
+								<a href="#" class="btn btn-secondary open" onclick="sortStudy('open');">
+									모집중
+									<!--
+										모집중 필터를 누른 후, 검색조건을 입력하고 검색버튼을 눌렀을 경우, 
+										form태그 submit에 이 값을 전달한다.  
+									-->
+									<c:if test="${param.statusFilter == '모집중' }">
+										<input type="hidden" id="statusFilter"
+										class="btn btn-secondary open" name="statusFilter" value="모집중" />
+									</c:if>
+								</a> 
+								<a href="#" class="btn btn-secondary close" onclick="sortStudy('close');">
+									모집마감
+									<!--
+										모집마감을 필터를 누른 후, 검색조건을 입력하고 검색버튼을 눌렀을 경우, 
+										form태그 submit에 이 값을 전달한다. 
+									-->
+									<c:if test="${param.statusFilter == '모집마감' }">
+										<input type="hidden" id="statusFilter"
+										class="btn btn-secondary close" name="statusFilter" value="모집마감"/>
+									</c:if>
+									
+								</a>
 							</div>
 						</div>
 					</div>
@@ -365,7 +400,8 @@
 									<div class="">
 										<div class="input-group input-group-sm">
 											<input type="text" class="form-control" placeholder="검색할 내용 입력" 
-												id="searchValue" name="searchValue" style="width: 150px" value=""> 
+												id="searchValue" name="searchValue" style="width: 150px" value="">
+											 
 											<input type="submit" class="btn btn-secondary" onclick="return isValid();"
 												value="검색" />
 										</div>
