@@ -41,15 +41,261 @@
 <link href="/resources/assets/css/lecture/listAll.css" rel="stylesheet" />
 
 <title>Insert title here</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<style>
+.content {
+	padding: 15px;
+	border: 1px solid #595959;
+}
+
+.reply {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+
+.replyer {
+	margin-right: 10px;
+}
+
+.replies {
+	font-size: 12px;
+	color: #595959;
+}
+</style>
+<script>
+let replies = null;
+
+$(function() {
+	getAllReplies();
+	
+	// 댓글 저장 버튼을 누르면
+	$(".saveReply").click(function() {
+		let replyContent = $('#replyContent').val();
+		if (replyContent == '') {
+			alert('댓글을 남겨주세요');
+			$('#replyContent').focus();
+		} else {
+			let replyer = preAuth();	
+			if (replyer != '') {
+				let bNo = ${qnaView.no};
+				let newReply = {
+					"bNo" : bNo,
+					"replyContent" : replyContent,
+					"replyer" : replyer
+				};  // 댓글을 객체로 만듦
+				
+				console.log(JSON.stringify(newReply));
+				
+					 $.ajax({
+						url : '/qnaReply/' + bNo,
+						type : "post",
+						data : JSON.stringify(newReply),    // 서버에 넘겨주는 데이터
+						headers : {  // 서버에 보내지는 데이터의 형식이 json임을 알림
+							"content-type" : "application/json"
+						},
+						dataType : "text", // 수신받을 데이터의 타입
+						async : 'false',
+						success : function(data) {
+							console.log(data);
+							if (data == 'success') {
+								$('.replies').empty();
+								$('#replyContent').val('');
+								
+								getAllReplies();
+							}
+					},
+					error : function (data) {  // HttpStatus Code가 200이 아닐때
+						console.log(data);
+					}
+				}); 
+			}
+		}
+	})
+	
+});
+
+// 댓글 처리 전 로그인 인증
+function preAuth() {
+	let writer = '${sessionScope.loginMember.userId}';
+	if (writer == '') {  // 로그인 하지 않았다
+		location.href='/member/login?redirectUrl=qnaReply&no=${qnaView.no}';
+		// 로그인 하고 댓글 저장 할 수 있도록 다시 여기로 오게 해야 함.
+		writer = '${sessionScope.loginMember.userId}';
+	} 
+	return writer;
+}
+
+function getAllReplies() {
+	let boardNo = ${qnaView.no};
+	
+	$.ajax({
+		url : "/qnaReply/all/" + no,
+		type : "get",
+		dataType : "json", // 수신받을 데이터의 타입
+		async : 'false',
+		success : function(data) {
+			console.log(data);
+			replies = data;
+			outputReplies(data);
+			
+		},
+	});
+}
+
+function outputReplies(data) {
+	let output = `<div class="list-group replies">`;
+	$.each(data, function(i, reply) {
+		output += `<ul class="list-group-item list-group-item-action">`;
+		output += `<div class='reply' id='reply_\${reply.replyNo}'>`;
+		
+		output += `<div style='flex:1'>\${reply.replyContent}</div>`;
+		output += `<div class='replyer'>\${reply.replyer}</div>`;
+		
+		// 댓글 작성 날짜 시간 처리
+		let diff = processPostDate(reply.writtenDate);
+		output += `<div>\${diff}</div>`;
+		
+		output += `<div class='replyBtns'><img src='/resources/images/gear.png' onclick='showModifyReply(\${reply.replyNo});'/>`;
+		output += `<img src='/resources/images/trach.png' onclick='showRemoveReply(\${reply.replyNo});' /></div>`;
+		
+		output += `</div>`;
+		output += `</ul>`;
+	});
+	
+	$(".replies").html(output);
+}
+
+function showRemoveReply(replyNo) {
+	let user = preAuth();  // 로그인한 유저
+	let writer = null;
+	$.each(replies, function(i, r) {
+		if (replyNo == r.replyNo) {
+			writer = r.replyer;  // 댓글 작성자
+		}
+	});
+	
+	
+	 if (user == writer) { 
+		if(window.confirm(replyNo + '번 글을 삭제 할까요?')) {
+			 $.ajax({
+					url : "/qnaReply/" + replyNo,
+					type : "delete",
+					headers : {
+						"Content-Type" : "application/json",
+						
+						// PUT, DELETE, PATCH 등의 REST에서 사용되는 HTTP method가 동작하지 않는 과거의 웹 브라우저에서
+						// POST 방식으로 동작되도록 한다.
+						"X-HTTP-Method-Override" : "POST"
+					},
+					dataType : "text", // 수신받을 데이터의 타입
+					async : 'false',
+					success : function(data) {
+						console.log(data);
+			
+						if (data == 'success') {
+							getAllReplies();
+						}
+					},
+				}); 
+		}
+	 }
+}
+
+function showModifyReply(replyNo) {
+	let user = preAuth();  // 로그인한 유저
+	let writer = null;
+	$.each(replies, function(i, r) {
+		if (replyNo == r.replyNo) {
+			writer = r.replyer;  // 댓글 작성자
+		}
+	});
+	
+	
+	 if (user == writer) { 
+	let output = `<div class="modifyReply"><div class="mb-3 mt-3"><label for="modifyReplyContent" class="form-label">댓글 내용: </label>`;
+	output += `<textarea cols="600" rows="5" id="modifyReplyContent" class="form-control"></textarea>`;
+	// 백틱 이용 방법
+	output += `<button type="button" class="btn btn-primary" onclick='modifyReply(\${replyNo});'>댓글수정</button></div></div>`;
+	// ""이용방법
+  // output += "<button type='button' class='btn btn-primary modifyReplyBtn' onclick='modifyReply(" + replyNo + ");'>댓글수정</button></div></div>";
+	
+	$(output).insertAfter($(`#reply_\${replyNo}`));
+	 } else {
+		 alert('본인 댓글만 수정 할 수 있습니다');
+	 }
+}
+
+function modifyReply(replyNo) {
+	let replyContent = $('#modifyReplyContent').val();
+	
+	let modifyReply = {
+			"replyNo" : replyNo,
+			"replyContent" : replyContent
+	};
+	
+		  $.ajax({
+				url : "/qnaReply/" + replyNo,
+				type : "put",
+				data : JSON.stringify(modifyReply),
+				headers : {
+					"Content-Type" : "application/json",
+					
+					// PUT, DELETE, PATCH 등의 REST에서 사용되는 HTTP method가 동작하지 않는 과거의 웹 브라우저에서
+					// POST 방식으로 동작되도록 한다.
+					"X-HTTP-Method-Override" : "POST"
+				},
+				dataType : "text", // 수신받을 데이터의 타입
+				async : 'false',
+				success : function(data) {
+					console.log(data);
+		
+					if (data == 'success') {
+						$('.modifyReply').remove();
+						getAllReplies();
+					}
+				},
+			}); 
+	
+}
+
+
+function processPostDate(writtenDate) {
+	let postDate = new Date(writtenDate);  // 댓글 작성일시
+	let now = new Date();  // 현재 날짜시간
+	
+	let diff = (now - postDate) / 1000;   // 시간 차 (초 단위)
+	
+	let times = [
+		{name: "일", time: 60 * 60 * 24},
+		{name: "시간", time: 60 * 60},
+		{name: "분", time: 60}
+	];
+	
+	for (let val of times) {
+		// 시간차를 기준시간(val.time)으로 나눠보자
+		let betweenTime = Math.floor(diff / val.time);
+		console.log(diff, betweenTime);
+		
+		if (betweenTime > 0) {
+			return betweenTime + val.name + "전";
+		}
+	}
+	
+	return "방금전";
+	
+}
+</script>
 </head>
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
 	<%@ include file="../header.jsp"%>
 
 	<main id="main">
-		<section id="algorithm" class="basic">
+		<section id="qna" class="basic">
 			<div class="container">
 
-				<div class="noticeBoard">
+				<div class="qnaBoard">
 
 					<div class="mb-3 mt-3">
 						<label>작성자</label>
@@ -88,6 +334,25 @@
 				</div>
 
 
+
+
+				<div class="btns">
+
+					<button type="button" class="btn btn-warning"
+						onclick="location.href='/qna/listAll';">목록으로</button>
+				</div>
+
+				<div class="writeReply">
+					<div class="mb-3 mt-3">
+						<label for="replyContent" class="form-label">댓글 내용: </label>
+						<textarea rows="cols=" 600" rows="5" id="replyContent"
+							class="form-control"></textarea>
+						<button type="button" class="btn btn-primary saveReply">댓글
+							저장</button>
+					</div>
+				</div>
+
+				<div class="replies"></div>
 			</div>
 		</section>
 	</main>

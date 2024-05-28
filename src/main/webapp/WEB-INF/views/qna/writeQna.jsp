@@ -39,66 +39,62 @@
 <!-- Template Main CSS File -->
 <link href="/resources/assets/css/main.css" rel="stylesheet" />
 <link href="/resources/assets/css/lecture/listAll.css" rel="stylesheet" />
+
 <title>Insert title here</title>
-<script>
-	function writeBtn() {
-		let user = '${sessionScope.loginMember.userId}'
-		if (user === ''){
-			alert('로그인 후 이용해주세요');
-			window.location.href = '/member/login';
-		} else {
-			window.location.href = '/qna/writeQna';
-		}
+<style>
+	#qnaiceInput {
+		height: 300px;
 	}
-</script>
+</style>
 </head>
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
 	<%@ include file="../header.jsp"%>
-
 	<main id="main">
 		<section id="qna" class="basic">
 			<div class="container">
+			
+			<div class="qnaBoard">
+				<form action="/qna/qnaPOST" method="post" name="frm">
+					<div class="mb-3 mt-3">
+					<label>작성자</label>
+						<textarea class="form-control" id="qnaWriter"
+							name="qnaWriter" readonly="readonly"
+							 >${sessionScope.loginMember.userId}</textarea>
+					</div>
 
-				<table class="table table-dark table-hover">
-
-
-
-					<thead>
-						<tr>
-							<th>글번호</th>
-							<th>작성자</th>
-							<th>제목</th>
-							<th>작성 일자</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach var="board" items="${qnaBoardList }">
-
-							<tr id="table" onclick="location.href = '/qna/viewBoard?no=${board.no}';">
-								<td>${board.no }</td>
-								<td>${board.qnaWriter }</td>
-								<td>${board.qnaTitle }</td>
-								<td>${board.postDate}</td>
-							</tr>
+					<div class="mb-3 mt-3">
+					<label>제목</label>
+						<input type="text" class="form-control" id="qnaTitle" name="qnaTitle"
+							placeholder="제목을 입력하세요." />
+					</div>
 
 
-						</c:forEach>
-					</tbody>
-				</table>
+					<div class="mb-3 mt-3">
+					<label>내용</label>
+						<textarea class="form-control" id="qnaiceInput" name="qnaContent"
+							placeholder="내용을 입력하세요"></textarea>
+					</div>
 
-				<button type="button" id="openModalBtn" onclick="writeBtn();">글 쓰기</button>
+					
+					<div class="btns">
 
+						
+						<input type="submit" class="btn btn-primary sendNotice"
+							onclick="return sendBtn()" value="글 저장">
+							
+						<input type="reset" class="btn btn-primary sendNotice"
+							onclick="location.href='/qna/listAll';" value="취소">
+					</div>
+					
 
+				</form>
+
+			</div>
+			
+			
 			</div>
 		</section>
 	</main>
-
-
-
-
-
-
-
 
 
 

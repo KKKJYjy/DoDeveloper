@@ -7,10 +7,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.dodeveloper.admin.dto.NoticeDTO;
 import com.dodeveloper.admin.service.AdminBoardService;
 import com.dodeveloper.admin.vo.QnaBoardVO;
 
@@ -45,5 +47,31 @@ public class QnaBoardController {
 		model.addAttribute("qnaView", qnaView);
 		
 	}
+	
+	@RequestMapping(value = "/writeQna", method = RequestMethod.GET)
+	public void writeQna() {
+		
+		logger.info("문의 글쓰기 페이지");
+		
+	}
+	
+	
+	@RequestMapping(value = "/qnaPOST", method = RequestMethod.POST)
+	public String qnaWrite(QnaBoardVO newBoard) throws Exception {
+		logger.info("controller : " + newBoard.toString() + "글 저장");
+
+		String returnPage = "/qna/listAll";
+		
+		if (bService.writeQndBoard(newBoard)) {
+			returnPage = "redirect:" + returnPage + "?status=writeSuccess";
+		} else {
+			returnPage = "redirect:" + returnPage + "?status=writeFail";
+		}
+
+		return returnPage;
+
+	}
+	
+	
 
 }

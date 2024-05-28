@@ -41,6 +41,9 @@
 		<typeAlias alias="QnaBoardVO"
 			type="com.dodeveloper.admin.vo.QnaBoardVO" />
 
+		<typeAlias alias="QnaReplyVO"
+			type="com.dodeveloper.admin.vo.QnaReplyVO" />
+
 
 
 		<typeAlias alias="MessageFileDTO"

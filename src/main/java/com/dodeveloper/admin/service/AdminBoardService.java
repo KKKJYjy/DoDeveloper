@@ -9,6 +9,7 @@ import com.dodeveloper.admin.vo.AdminArgBoardVO;
 import com.dodeveloper.admin.vo.AdminLectureVO;
 import com.dodeveloper.admin.vo.AdminReviewBoardVO;
 import com.dodeveloper.admin.vo.QnaBoardVO;
+import com.dodeveloper.admin.vo.QnaReplyVO;
 import com.dodeveloper.admin.vo.ReportVO;
 
 
@@ -79,5 +80,20 @@ public interface AdminBoardService {
 	    
 	    // 문의 게시판 상세페이지
 	    QnaBoardVO getQnaBoardNo(int no) throws Exception;
+	    
+	    // 문의사항 작성
+	    boolean writeQndBoard(QnaBoardVO newBoard) throws Exception;
+	    
+	 // 부모글 ?번 글에 대한 모든 댓글을 가져온다.
+		List<QnaReplyVO> selectReply(int bNo) throws Exception;
+
+		// 부모글 ?번 글에 대해 신규 댓글을 작성한다.
+		int insertReply(QnaReplyVO reply) throws Exception;
+
+		// 댓글 번호가 ?번 글에 대해 댓글 수정한다
+		int updateReply(QnaReplyVO updateReply) throws Exception;
+
+		// 댓글 번호가 ?번 글에 대해 댓글을 삭제한다
+		int deleteReply(int replyNo) throws Exception;
 		
 }
