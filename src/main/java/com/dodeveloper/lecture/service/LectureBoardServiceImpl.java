@@ -193,6 +193,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	 * 3) 하루 이내에 읽은 적이 있다 -> 게시글만 가져옴(유저가 글을 조회하도록)
 	 */
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
 	public Map<String, Object> getBoardByBoardNo(int lecNo, String user) throws Exception {
 		System.out.println(user + "가" + lecNo + "번 글을 조회한다.");
 
@@ -272,6 +273,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	 * @description : 게시글 수정 시 update 처리
 	 */
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
 	public boolean modifyBoard(LectureBoardDTO modifyBoard) throws Exception {
 		boolean result = false;
 
