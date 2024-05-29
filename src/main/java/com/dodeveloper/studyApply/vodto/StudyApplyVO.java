@@ -13,8 +13,8 @@ import lombok.ToString;
 @Setter
 @ToString
 public class StudyApplyVO {
-	private int applyNo;
-	private String applyId;
-	private int stuNo;
-	private String reason;
+    private int applyNo;
+    private String applyId;
+    private int stuNo;
+    private String reason;
 }

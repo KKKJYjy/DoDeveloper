@@ -13,6 +13,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class ProfileVO {
-	private String prefix;
-	private byte[] profileImage;
+    private String prefix;
+    private byte[] profileImage;
 }

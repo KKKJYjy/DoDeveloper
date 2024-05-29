@@ -13,6 +13,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class MessageBoxDTO {
-	private int messageNo;
-	private String receiver;
+    private int messageNo;
+    private String receiver;
 }

@@ -15,10 +15,10 @@ import lombok.ToString;
 @Setter
 @ToString
 public class ReplyVO {
-	private int bNo; // 게시글 번호
-	private int replyNo; // 댓글 번호
-	private String replyer; // 댓글 작성자
-	private Timestamp writtenDate; // 댓글 작성한 날짜
-	private String replyContent; // 댓글 내용
-	private int bType; // 게시판 구분
+    private int bNo; // 게시글 번호
+    private int replyNo; // 댓글 번호
+    private String replyer; // 댓글 작성자
+    private Timestamp writtenDate; // 댓글 작성한 날짜
+    private String replyContent; // 댓글 내용
+    private int bType; // 게시판 구분
 }

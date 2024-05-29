@@ -13,6 +13,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class SearchCriteriaDTO {
-	private String searchType;
-	private String searchValue;
+    private String searchType;
+    private String searchValue;
 }

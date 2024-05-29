@@ -13,11 +13,11 @@ import lombok.ToString;
 @Getter
 @ToString
 public class MessageVO {
-	private int messageNo;
-	private String writer;
-	private String title;
-	private String content;
-	private Timestamp writeDate;
-	private String isDeleted;
-	
+    private int messageNo;
+    private String writer;
+    private String title;
+    private String content;
+    private Timestamp writeDate;
+    private String isDeleted;
+
 }

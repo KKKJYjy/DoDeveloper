@@ -15,7 +15,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class SessionDTO {
-	private String sessionVal;
-	private Timestamp sessionLimit;
-	private String userId;
+    private String sessionVal;
+    private Timestamp sessionLimit;
+    private String userId;
 }

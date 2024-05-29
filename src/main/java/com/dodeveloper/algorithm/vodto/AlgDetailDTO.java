@@ -15,13 +15,13 @@ import lombok.ToString;
 @Setter
 @ToString
 public class AlgDetailDTO {
-	private int algDetailNo;
-	private int algBoardNo;
-	private Timestamp algDetailPostDate;
-	private String writer;
-	private String algDetailContent;
-	private String algDetailResult;
-	private String algDetailTitle;
-	private String algDetailComment;
-	private int boardType;
+    private int algDetailNo;
+    private int algBoardNo;
+    private Timestamp algDetailPostDate;
+    private String writer;
+    private String algDetailContent;
+    private String algDetailResult;
+    private String algDetailTitle;
+    private String algDetailComment;
+    private int boardType;
 }

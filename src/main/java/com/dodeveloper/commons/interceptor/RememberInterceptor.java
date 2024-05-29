@@ -15,28 +15,28 @@ import com.dodeveloper.member.service.MemberService;
 import com.dodeveloper.member.vo.MemberVO;
 
 public class RememberInterceptor extends HandlerInterceptorAdapter implements SessionNames {
-	private static final Logger logger = LoggerFactory.getLogger(RememberInterceptor.class);
+    private static final Logger logger = LoggerFactory.getLogger(RememberInterceptor.class);
 
-	@Autowired
-	private MemberService mService;
+    @Autowired
+    private MemberService mService;
 
-	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-			throws Exception {
-		
-		logger.info("RememberInterceptor.pre>> 모든 주소");
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+	    throws Exception {
 
-		HttpSession session = request.getSession();
-		
-		Cookie loginCookie = WebUtils.getCookie(request, LOGIN_COOKIE);
-		logger.info("loginCookie : " + loginCookie);
-		if (loginCookie != null) {
-			logger.info("loginCookie.getValue() : " + loginCookie.getValue());
-			MemberVO loginedUser = mService.checkLoginBefore(loginCookie.getValue());
-			logger.info("loginedUser : " + loginedUser);
-			if (loginedUser != null)
-				session.setAttribute(LOGIN_MEMBER, loginedUser);
-		}
-		return true;
+	logger.info("RememberInterceptor.pre>> 모든 주소");
+
+	HttpSession session = request.getSession();
+
+	Cookie loginCookie = WebUtils.getCookie(request, LOGIN_COOKIE);
+	logger.info("loginCookie : " + loginCookie);
+	if (loginCookie != null) {
+	    logger.info("loginCookie.getValue() : " + loginCookie.getValue());
+	    MemberVO loginedUser = mService.checkLoginBefore(loginCookie.getValue());
+	    logger.info("loginedUser : " + loginedUser);
+	    if (loginedUser != null)
+		session.setAttribute(LOGIN_MEMBER, loginedUser);
 	}
+	return true;
+    }
 }

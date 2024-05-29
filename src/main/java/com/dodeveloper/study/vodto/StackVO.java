@@ -13,6 +13,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class StackVO {
-	private int stackNo;
-	private String stackName;
+    private int stackNo;
+    private String stackName;
 }

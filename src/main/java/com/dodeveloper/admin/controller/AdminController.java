@@ -18,53 +18,47 @@ import com.dodeveloper.admin.vo.AdminVO;
 import com.dodeveloper.admin.vo.BadMemberBoardVO;
 import com.dodeveloper.member.vo.MemberVO;
 
-
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 
-	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
+    private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
-	@Autowired
-	private AdminService aService;
+    @Autowired
+    private AdminService aService;
 
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
-	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-	public String index() {
-		logger.info("dashboard 페이지 호출");
+    /**
+     * Simply selects the home view to render by returning its name.
+     */
+    @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+    public String index() {
+	logger.info("dashboard 페이지 호출");
 
-		return "/admin/dashboard";
+	return "/admin/dashboard";
 
-	}
+    }
 
-	@RequestMapping(value = "/inquiry", method = RequestMethod.GET)
-	public void inquiry(Model model) throws Exception {
-		logger.info("불량 회원 게시글 페이지 호출");
-		
-		List<BadMemberBoardVO> bedMemberBoardList = aService.getListBadMemberBoard();
-		
-		model.addAttribute("bedMemberBoardList", bedMemberBoardList);
+    @RequestMapping(value = "/inquiry", method = RequestMethod.GET)
+    public void inquiry(Model model) throws Exception {
+	logger.info("불량 회원 게시글 페이지 호출");
 
-	}
+	List<BadMemberBoardVO> bedMemberBoardList = aService.getListBadMemberBoard();
 
-	@RequestMapping(value = "/blank", method = RequestMethod.GET)
-	public void blank() {
-		logger.info("blank 페이지 호출");
+	model.addAttribute("bedMemberBoardList", bedMemberBoardList);
 
-	}
+    }
 
-	
-	@RequestMapping(value = "/notice", method = RequestMethod.GET)
-	public void notice() {
-		logger.info("notice 호출");
-	}
-	
-	
-	
-	
-	
+    @RequestMapping(value = "/blank", method = RequestMethod.GET)
+    public void blank() {
+	logger.info("blank 페이지 호출");
+
+    }
+
+    @RequestMapping(value = "/notice", method = RequestMethod.GET)
+    public void notice() {
+	logger.info("notice 호출");
+    }
+
 //	@RequestMapping(value = "/selectBoard", method = RequestMethod.GET)
 //	public void selectBoard(Model model) throws Exception {
 //		logger.info("게시판 조회 페이지");
@@ -73,9 +67,5 @@ public class AdminController {
 //
 //		model.addAttribute("stuBoardList", stuBoardList);
 //	}
-
-
-   
-   
 
 }

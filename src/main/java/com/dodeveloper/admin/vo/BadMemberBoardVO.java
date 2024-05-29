@@ -15,12 +15,12 @@ import lombok.ToString;
 @Setter
 @ToString
 public class BadMemberBoardVO {
-	private int no;
-	private String userId;
-	private int boardNo;
-	private int penaltyCnt;
-	private String suspendReason;
-	private Timestamp registerDate;
-	private Timestamp releaseDate;
-	private String status;
+    private int no;
+    private String userId;
+    private int boardNo;
+    private int penaltyCnt;
+    private String suspendReason;
+    private Timestamp registerDate;
+    private Timestamp releaseDate;
+    private String status;
 }

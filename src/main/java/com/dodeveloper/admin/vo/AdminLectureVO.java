@@ -1,7 +1,5 @@
 package com.dodeveloper.admin.vo;
 
-
-
 import java.sql.Timestamp;
 
 import lombok.AccessLevel;
@@ -17,11 +15,11 @@ import lombok.ToString;
 @Setter
 @ToString
 public class AdminLectureVO {
-	private int lecNo;
-	private String lecTitle;
-	private String lecWriter;
-	private Timestamp lecPostDate;
-	private int lecReadCount;
-	private int lecLikeCount;
-	
+    private int lecNo;
+    private String lecTitle;
+    private String lecWriter;
+    private Timestamp lecPostDate;
+    private int lecReadCount;
+    private int lecLikeCount;
+
 }

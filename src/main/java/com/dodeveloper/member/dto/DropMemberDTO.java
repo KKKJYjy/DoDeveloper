@@ -13,7 +13,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class DropMemberDTO {
-	private String userId;
-	private String dropReason;
-	private String status;
+    private String userId;
+    private String dropReason;
+    private String status;
 }

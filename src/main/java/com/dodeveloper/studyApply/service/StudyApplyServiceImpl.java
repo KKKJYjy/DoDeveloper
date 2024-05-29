@@ -9,12 +9,12 @@ import com.dodeveloper.studyApply.vodto.StudyApplyVO;
 @Service
 public class StudyApplyServiceImpl implements StudyApplyService {
 
-	@Autowired
-	StudyApplyDAO saDao;
-	
-	@Override
-	public int insertApply(StudyApplyVO newApply) throws Exception {
-		return saDao.insertApply(newApply);
-	}
+    @Autowired
+    StudyApplyDAO saDao;
+
+    @Override
+    public int insertApply(StudyApplyVO newApply) throws Exception {
+	return saDao.insertApply(newApply);
+    }
 
 }

@@ -15,14 +15,14 @@ import lombok.ToString;
 @Setter
 @ToString
 public class AdminReviewBoardVO {
-	private int revNo;
-	private String revWriter;
-	private Timestamp revPostDate;
-	private String revTitle;
-	private String revProfession;
-	private String revContent;
-	private String revGood;
-	private String revBed;
-	private int companyInfoNo;
-	private int btype;
+    private int revNo;
+    private String revWriter;
+    private Timestamp revPostDate;
+    private String revTitle;
+    private String revProfession;
+    private String revContent;
+    private String revGood;
+    private String revBed;
+    private int companyInfoNo;
+    private int btype;
 }

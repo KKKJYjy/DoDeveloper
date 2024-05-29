@@ -15,7 +15,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class ConnectLogDTO {
-	private String sessionId;
-	private String uri;
-	private String accessDate;
+    private String sessionId;
+    private String uri;
+    private String accessDate;
 }

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.dodeveloper.admin.service.AdminService;
 import com.dodeveloper.study.vodto.StudyBoardVO;
 
-
 public class BoardCheckController {
 
 }

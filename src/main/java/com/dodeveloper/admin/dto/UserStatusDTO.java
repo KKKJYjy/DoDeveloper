@@ -13,6 +13,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class UserStatusDTO {
-	private String userId;
-	private String newStatus;
+    private String userId;
+    private String newStatus;
 }

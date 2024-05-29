@@ -13,9 +13,9 @@ import lombok.ToString;
 @Setter
 @ToString
 public class MessageBoxVO {
-	private int messageBoxNo;
-	private int messageNo;
-	private String receiver;
-	private String isRead;
-	private String isDeleted;
+    private int messageBoxNo;
+    private int messageNo;
+    private String receiver;
+    private String isRead;
+    private String isDeleted;
 }

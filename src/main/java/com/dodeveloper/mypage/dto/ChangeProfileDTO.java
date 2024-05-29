@@ -13,7 +13,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class ChangeProfileDTO {
-	private String userId;
-	private String email;
-	private String careers;
+    private String userId;
+    private String email;
+    private String careers;
 }

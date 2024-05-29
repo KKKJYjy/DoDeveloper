@@ -12,50 +12,50 @@ import com.dodeveloper.message.vodto.MessageBoxDTO;
 import com.dodeveloper.message.vodto.MessageBoxVO;
 
 @Repository
-public class MessageBoxDAOImpl implements MessageBoxDAO{
+public class MessageBoxDAOImpl implements MessageBoxDAO {
 
-	private String namespace = "com.dodeveloper.mappers.messageBoxMapper";
-	
-	private SqlSessionTemplate template;
-	
-	@Autowired
-	public MessageBoxDAOImpl(SqlSessionTemplate template) {
-		this.template = template;
-	}
-	
-	@Override
-	public List<MessageBoxVO> selectByReceiver(String receiver, int startPoint, int amountToShow) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("receiver", receiver);
-		map.put("startPoint", Integer.valueOf(startPoint));
-		map.put("amountToShow", Integer.valueOf(amountToShow));
-		
-		return template.selectList(namespace + ".selectMessageBoxByReceiver", map);
-	}
+    private String namespace = "com.dodeveloper.mappers.messageBoxMapper";
 
-	@Override
-	public boolean insert(MessageBoxDTO messageBoxDTO) throws Exception {
-		return template.insert(namespace + ".insertIntoMessageBox", messageBoxDTO) == 1;
-	}
+    private SqlSessionTemplate template;
 
-	@Override
-	public int selectReceivedMessageCnt(String receiver) throws Exception {
-		return template.selectOne(namespace + ".selectMessageBoxCntByReceiver", receiver);
-	}
+    @Autowired
+    public MessageBoxDAOImpl(SqlSessionTemplate template) {
+	this.template = template;
+    }
 
-	@Override
-	public List<MessageBoxVO> selectMessageBoxByMessageNo(int messageNo) throws Exception {
-		return template.selectList(namespace + ".selectMessageBoxByMessageNo", messageNo);
-	}
+    @Override
+    public List<MessageBoxVO> selectByReceiver(String receiver, int startPoint, int amountToShow) throws Exception {
+	Map<String, Object> map = new HashMap<String, Object>();
+	map.put("receiver", receiver);
+	map.put("startPoint", Integer.valueOf(startPoint));
+	map.put("amountToShow", Integer.valueOf(amountToShow));
 
-	@Override
-	public int countUnreadMessages(String receiver) throws Exception {
-		return template.selectOne(namespace + ".countUnreadMessages", receiver);
-	}
+	return template.selectList(namespace + ".selectMessageBoxByReceiver", map);
+    }
 
-	@Override
-	public int updateIsRead(String receiver) throws Exception {
-		return template.update(namespace + ".updateIsRead", receiver);
-	}
+    @Override
+    public boolean insert(MessageBoxDTO messageBoxDTO) throws Exception {
+	return template.insert(namespace + ".insertIntoMessageBox", messageBoxDTO) == 1;
+    }
+
+    @Override
+    public int selectReceivedMessageCnt(String receiver) throws Exception {
+	return template.selectOne(namespace + ".selectMessageBoxCntByReceiver", receiver);
+    }
+
+    @Override
+    public List<MessageBoxVO> selectMessageBoxByMessageNo(int messageNo) throws Exception {
+	return template.selectList(namespace + ".selectMessageBoxByMessageNo", messageNo);
+    }
+
+    @Override
+    public int countUnreadMessages(String receiver) throws Exception {
+	return template.selectOne(namespace + ".countUnreadMessages", receiver);
+    }
+
+    @Override
+    public int updateIsRead(String receiver) throws Exception {
+	return template.update(namespace + ".updateIsRead", receiver);
+    }
 
 }

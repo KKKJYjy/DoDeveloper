@@ -14,13 +14,13 @@ import lombok.ToString;
 @Setter
 @ToString
 public class AdminVO {
-	private int stuNo;
-	private String stuWriter;
-	private String stuTitle;
-	private String stuContent;
-	private String stuLoc;
-	private String stuDate;
-	private String status;
-	private Timestamp endDate;
+    private int stuNo;
+    private String stuWriter;
+    private String stuTitle;
+    private String stuContent;
+    private String stuLoc;
+    private String stuDate;
+    private String status;
+    private Timestamp endDate;
 
 }

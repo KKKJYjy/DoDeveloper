@@ -15,8 +15,8 @@ import lombok.ToString;
 @Setter
 @ToString
 public class MessageFileDTO {
-	private int messageNo;
-	private String uploadName;
-	private String ext;
-	private String originalName;
+    private int messageNo;
+    private String uploadName;
+    private String ext;
+    private String originalName;
 }

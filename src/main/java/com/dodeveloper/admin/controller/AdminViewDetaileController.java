@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping("/adminView")
 public class AdminViewDetaileController {
-	
-	private static final Logger logger = LoggerFactory.getLogger(AdminViewDetaileController.class);
-	
-	@RequestMapping(value = "/noticViewDetail", method = RequestMethod.GET)
-	public void noticViewDerail() {
-		logger.info("상세페이지 호출");
-	}
-	
+
+    private static final Logger logger = LoggerFactory.getLogger(AdminViewDetaileController.class);
+
+    @RequestMapping(value = "/noticViewDetail", method = RequestMethod.GET)
+    public void noticViewDerail() {
+	logger.info("상세페이지 호출");
+    }
+
 //	@RequestMapping(value = "/viewBoard", method = RequestMethod.GET)
 //	public void viewBoard() {
 //		logger.info("강의추천 상세페이지 호출");

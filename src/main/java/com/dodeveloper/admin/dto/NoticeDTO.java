@@ -15,10 +15,10 @@ import lombok.ToString;
 @Setter
 @ToString
 public class NoticeDTO {
-	private int boardNo;
-	private String writer;
-	private Timestamp postDate;
-	private String title;
-	private String content;
-	private int readCount;
+    private int boardNo;
+    private String writer;
+    private Timestamp postDate;
+    private String title;
+    private String content;
+    private int readCount;
 }

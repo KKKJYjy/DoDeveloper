@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class HomeController {
-	
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
-	@RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
-		logger.info("dodeveloper.com의 index가 호출.", locale);
+    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
-		return "index"; // index.jsp 호출
-	}
-	
+    @RequestMapping(value = { "/", "/index" }, method = RequestMethod.GET)
+    public String home(Locale locale, Model model) {
+	logger.info("dodeveloper.com의 index가 호출.", locale);
+
+	return "index"; // index.jsp 호출
+    }
+
 }

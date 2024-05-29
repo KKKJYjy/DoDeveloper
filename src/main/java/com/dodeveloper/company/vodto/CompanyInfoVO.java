@@ -13,9 +13,9 @@ import lombok.ToString;
 @Setter
 @ToString
 public class CompanyInfoVO {
-	private int companyInfoNo;
-	private String companyInfoName;
-	private String companyInfoImgLogo;
-	private String companyInfoLocation;
-	private String companyInfoFields;
+    private int companyInfoNo;
+    private String companyInfoName;
+    private String companyInfoImgLogo;
+    private String companyInfoLocation;
+    private String companyInfoFields;
 }

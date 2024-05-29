@@ -13,6 +13,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class UriVO {
-	private String uri;
-	private String uriName;
+    private String uri;
+    private String uriName;
 }

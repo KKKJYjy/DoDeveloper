@@ -14,17 +14,15 @@ import com.dodeveloper.reply.vodto.ReplyVO;
 @RequestMapping("/studyReply")
 public class StudyReplyController {
 
-	@GetMapping("/replyAll")
-	public ResponseEntity<List<ReplyVO>> replyAll(@PathVariable("stuNo") int stuNo) {
-		// ResponseEntity: <List<ReplyVO>를 json으로 만들어서 반환할 수 있는 애
-		// @PathVariable: 메서드 매개변수가 URI 템플릿 변수에 바인딩되어야 함을 나타내는 어노테이션
-		
-		System.out.println(stuNo + "번 게시글의 댓글 가져오기");
+    @GetMapping("/replyAll")
+    public ResponseEntity<List<ReplyVO>> replyAll(@PathVariable("stuNo") int stuNo) {
+	// ResponseEntity: <List<ReplyVO>를 json으로 만들어서 반환할 수 있는 애
+	// @PathVariable: 메서드 매개변수가 URI 템플릿 변수에 바인딩되어야 함을 나타내는 어노테이션
 
-		ResponseEntity<List<ReplyVO>> result = null;
-		
-		
+	System.out.println(stuNo + "번 게시글의 댓글 가져오기");
 
-		return result;
-	}
+	ResponseEntity<List<ReplyVO>> result = null;
+
+	return result;
+    }
 }

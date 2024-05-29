@@ -13,14 +13,14 @@ import lombok.ToString;
 @Setter
 @ToString
 public class WrittenCompanyBoardDTO {
-	private int revNo;
-	private String revWriter;
-	private String revTitle;
-	private String revProfession;
-	private String revContent;
-	private String revGood;
-	private String revBed;
-	private int companyInfoNo;
-	private int bType;
+    private int revNo;
+    private String revWriter;
+    private String revTitle;
+    private String revProfession;
+    private String revContent;
+    private String revGood;
+    private String revBed;
+    private int companyInfoNo;
+    private int bType;
 
 }

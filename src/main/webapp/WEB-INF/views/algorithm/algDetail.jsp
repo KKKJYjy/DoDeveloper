@@ -59,29 +59,35 @@
 
 
 <script>
-	$(function () {
+	$(function() {
 		
-		
-		$.ajax({
-			url : "",
-			data : {
-				
-				"": ,
-			},
-			type : "post",
-			dataType : "text", // 수신받을 데이터의 타입
-			success : function(data) {
-			console.log(data);
-			
-			
-			},
+		$('.py').hide();
+
+		$('.code').css({
+			"font-size" : "30px"
 		});
+
+		for (i = 0; i < ${fn:length(algDetailList)}; i++) {
+			let text = document.querySelectorAll('.content')[i].textContent;
+			console.log(text);
+			var enter = text.replace(/(\n|\r\n)/g, '<br>');
+			console.log(enter);
+			var tab = enter.replaceAll('    ', '&emsp;');
+			console.log(tab);
+
+			const html = document.getElementsByClassName('content')[i];
+			html.innerHTML = tab;
+
+		}
 		
-		
-		
+
 	});
-	
-	
+	function button1_click(no) {
+		console.log("버튼을 누르셨습니다.");
+		console.log(no);
+		
+		$('.py').show();
+	}
 </script>
 
 </head>
@@ -104,9 +110,12 @@
 
 				<h2>${fn:length(algDetailList)}</h2>
 
+
+
+
 				<h1>alg</h1>
-				
-				
+
+
 
 
 				<py-script> def bubbleSort(arr): n = len(arr) for i in
@@ -120,17 +129,16 @@
 				<py-script> ${algDetailList[0].algDetailContent} </py-script>
 				<py-script> ${algDetailList[1].algDetailContent} </py-script>
 
+				
 
-
-
-
-				<div id='test' type="text">???</div>
+				<div>
+				</div>
 
 				<div>${algDetailList}</div>
 
 				<div>${algDetailList[0].algBoardNo}</div>
 
-
+					
 
 
 
@@ -141,14 +149,18 @@
 						<h2>${algDetail.algDetailTitle}</h2>
 						<div>${algDetail.algDetailNo}</div>
 						<div class="mt-4 p-5 bg-primary text-white rounded">
-							<h1>code</h1>
-							<p>${algDetail.algDetailContent}</p>
-							<h1>result</h1>
-							<p><py-script> ${algDetail.algDetailContent} </py-script></p>
+							<h1 class='code'>code</h1>
+							<div class='content' id='content'>${algDetail.algDetailContent}</div>
+							<h1 class='code'>result</h1>
+							<p>
+								<py-script class="py ${algDetail.algDetailNo }"> ${algDetail.algDetailContent} </py-script>
+							</p>
+							<input type="button" id="button${algDetail.algDetailNo }" onclick="button1_click(${algDetail.algDetailNo });" value="RUN" />
 						</div>
 					</div>
 					<div></div>
 				</c:forEach>
+
 
 
 

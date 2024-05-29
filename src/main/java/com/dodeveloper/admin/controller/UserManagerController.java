@@ -19,41 +19,39 @@ import com.dodeveloper.member.vo.MemberVO;
 @Controller
 @RequestMapping("/admin")
 public class UserManagerController {
-	
-	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
-	
-	@Autowired
-	private AdminService aService;
-	
-		// 회원 전체 조회하는 메서드
-	   @RequestMapping("/userList")
-	   public void userList(Model model) throws Exception {
-		   logger.info("userList 페이지 호출");
-		   
-		   List<MemberVO> returnMap = null;
-		   
-		   String resultPage = null;
-		   
-		   returnMap = aService.getAllUser();
-		   model.addAttribute("userList", returnMap);
-		   
-		   resultPage = "redirect:/adminUserlist/userList";
-		   
-		   
-	   }
-	   
-	   @PostMapping("/status")
-	   public void userStatus(@RequestParam("newStatus") String newStatus, @RequestParam("userId") String userId) {
-		   System.out.println(userId + "의 status를" + newStatus + "으로 변경하자");
-		   
-		   try {
-			aService.modifyUserStatus(newStatus, userId);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		   
-		  
-	   }
-	   
+
+    private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
+
+    @Autowired
+    private AdminService aService;
+
+    // 회원 전체 조회하는 메서드
+    @RequestMapping("/userList")
+    public void userList(Model model) throws Exception {
+	logger.info("userList 페이지 호출");
+
+	List<MemberVO> returnMap = null;
+
+	String resultPage = null;
+
+	returnMap = aService.getAllUser();
+	model.addAttribute("userList", returnMap);
+
+	resultPage = "redirect:/adminUserlist/userList";
+
+    }
+
+    @PostMapping("/status")
+    public void userStatus(@RequestParam("newStatus") String newStatus, @RequestParam("userId") String userId) {
+	System.out.println(userId + "의 status를" + newStatus + "으로 변경하자");
+
+	try {
+	    aService.modifyUserStatus(newStatus, userId);
+	} catch (Exception e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+
+    }
+
 }

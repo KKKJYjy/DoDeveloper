@@ -50,7 +50,12 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 </head>
-
+<script>
+function button1_click() {
+	console.log("버튼1을 누르셨습니다.");
+	alert("aaaa");
+}
+</script>
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
 	<%@ include file="../header.jsp"%>
 
@@ -58,9 +63,11 @@
 		<!-- Basic Section - Algorithm Page -->
 		<section id="algorithm" class="basic">
 			<div class="container">
+				
 				<h1>알고리즘</h1>
 				<h1>alg</h1>
 
+				<input type="button" id="button1" onclick="button1_click();" value="버튼1" />
 				
 
 				<div class="container mt-3">

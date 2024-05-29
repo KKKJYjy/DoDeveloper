@@ -14,50 +14,45 @@ import com.dodeveloper.admin.dto.ConnectLogDTO;
 import com.dodeveloper.admin.service.AdminService;
 
 public class ConnectUserInterceptor extends HandlerInterceptorAdapter {
-	
-	
-	@Autowired
-	private AdminService aService;
-	
-	
-	private ConnectLogDTO connectLog = new ConnectLogDTO(null, null, null);
 
-	// 각 페이지접속 세션아이디와 url, 접속 시간 받아오는 interceptor
-	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-			throws Exception {
-		
-		
+    @Autowired
+    private AdminService aService;
 
-		System.out.println("prehandle이 호출됨!!!!!!!!");
+    private ConnectLogDTO connectLog = new ConnectLogDTO(null, null, null);
 
-		HttpSession session = request.getSession();
+    // 각 페이지접속 세션아이디와 url, 접속 시간 받아오는 interceptor
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+	    throws Exception {
 
-		// 세션아이디 가져옴
-		String sessionId = session.getId();
+	System.out.println("prehandle이 호출됨!!!!!!!!");
 
-		// 접속한 uri를 가져옴
-		String uri = request.getRequestURI().toString();
+	HttpSession session = request.getSession();
 
-		// 접속한 시간을 가져옴
-		LocalDateTime accessTime = LocalDateTime.now();
-		
-		
-		// 날짜를 보기 편하게 변환
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		
-		String accessDate = accessTime.format(formatter);
+	// 세션아이디 가져옴
+	String sessionId = session.getId();
 
-		System.out.println("Session ID: " + sessionId + "접속중인 uri : " + uri + "접속시간 : " + accessDate);
-		
-		connectLog.setSessionId(sessionId);
-		connectLog.setUri(uri);
-		connectLog.setAccessDate(accessDate);
-		
-		aService.getConnectLog(connectLog);
+	// 접속한 uri를 가져옴
+	String uri = request.getRequestURI().toString();
 
-		// 반환값 타입이 true이면 원래의 컨트롤러 단으로 제어를 돌려줌
-		// 반환값 타입이 false이면 원래의 컨트롤러 단으로 제어를 안돌려줌
-		return true;
-	}
+	// 접속한 시간을 가져옴
+	LocalDateTime accessTime = LocalDateTime.now();
+
+	// 날짜를 보기 편하게 변환
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+	String accessDate = accessTime.format(formatter);
+
+	System.out.println("Session ID: " + sessionId + "접속중인 uri : " + uri + "접속시간 : " + accessDate);
+
+	connectLog.setSessionId(sessionId);
+	connectLog.setUri(uri);
+	connectLog.setAccessDate(accessDate);
+
+	aService.getConnectLog(connectLog);
+
+	// 반환값 타입이 true이면 원래의 컨트롤러 단으로 제어를 돌려줌
+	// 반환값 타입이 false이면 원래의 컨트롤러 단으로 제어를 안돌려줌
+	return true;
+    }
 }

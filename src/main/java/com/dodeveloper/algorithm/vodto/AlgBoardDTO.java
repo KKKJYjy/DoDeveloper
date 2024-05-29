@@ -13,9 +13,9 @@ import lombok.ToString;
 @Setter
 @ToString
 public class AlgBoardDTO {
-	private int boardNo;
-	private int classificationCode;
-	private String title;
-	private String comment;
-	
+    private int boardNo;
+    private int classificationCode;
+    private String title;
+    private String comment;
+
 }

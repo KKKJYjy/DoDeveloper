@@ -50,352 +50,351 @@ import javax.annotation.*;
 @RequestMapping("/message")
 public class MessageController {
 
-	private static final Logger logger = LoggerFactory.getLogger(MessageController.class);
-	private static final Gson gson = new GsonBuilder().create();
+    private static final Logger logger = LoggerFactory.getLogger(MessageController.class);
+    private static final Gson gson = new GsonBuilder().create();
 
-	RestTemplate restTemplate = new RestTemplate();
+    RestTemplate restTemplate = new RestTemplate();
 
-	private MessageService messageService;
-	private FileProcessing fileProcessing;
-	private HttpSession session;
+    private MessageService messageService;
+    private FileProcessing fileProcessing;
+    private HttpSession session;
 
-	@Autowired
-	public MessageController(MessageService messageService, FileProcessing fileProcessing, HttpSession session) {
-		this.messageService = messageService;
-		this.fileProcessing = fileProcessing;
-		this.session = session;
-		
-	}
-	
-	@RequestMapping(value = "", method = RequestMethod.GET)
-	public ModelAndView home() throws Exception {
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("message/home");
-		
-		MemberVO loginMember = (MemberVO) session.getAttribute(SessionNames.LOGIN_MEMBER);
-		if(loginMember != null) {
-			modelAndView.addObject("loginUser", loginMember.getUserId());
-		}
-		
-		session.setAttribute(SessionNames.UNREAD_MESSAGE_CNT, 0);
-		
-		return modelAndView;
+    @Autowired
+    public MessageController(MessageService messageService, FileProcessing fileProcessing, HttpSession session) {
+	this.messageService = messageService;
+	this.fileProcessing = fileProcessing;
+	this.session = session;
+
+    }
+
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public ModelAndView home() throws Exception {
+	ModelAndView modelAndView = new ModelAndView();
+	modelAndView.setViewName("message/home");
+
+	MemberVO loginMember = (MemberVO) session.getAttribute(SessionNames.LOGIN_MEMBER);
+	if (loginMember != null) {
+	    modelAndView.addObject("loginUser", loginMember.getUserId());
 	}
 
-	@RequestMapping(value = "/{userId}/{messageNo}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	public ResponseEntity<String> getMessage(@PathVariable("userId") String userId,
-			@PathVariable("messageNo") int messageNo) throws Exception {
-		
-		if(authorityCheck(userId)== false) {
-			return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
-		}
-		
-		MessageVO message = messageService.getMessageByNo(messageNo);
-		List<MessageFileDTO> messageFiles = messageService.getMessageFilesByMessageNo(messageNo);
-		List<MessageBoxVO> messageBoxs = messageService.getReceivedLogsOfMessage(messageNo);
-		List<String> receivers = new LinkedList<String>();
+	session.setAttribute(SessionNames.UNREAD_MESSAGE_CNT, 0);
 
-		System.out.println(messageBoxs);
-		for (MessageBoxVO messageBox : messageBoxs) {
-			receivers.add(messageBox.getReceiver());
-		}
+	return modelAndView;
+    }
 
-		JsonObject jsonToSend = new JsonObject();
+    @RequestMapping(value = "/{userId}/{messageNo}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<String> getMessage(@PathVariable("userId") String userId,
+	    @PathVariable("messageNo") int messageNo) throws Exception {
 
-		jsonToSend.add("message", gson.toJsonTree(message));
-		jsonToSend.add("messageFiles", gson.toJsonTree(messageFiles));
-		jsonToSend.add("receivers", gson.toJsonTree(receivers));
-
-		return ResponseEntity.ok(gson.toJson(jsonToSend));
+	if (authorityCheck(userId) == false) {
+	    return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
 	}
 
-	@RequestMapping(value = "/{receiver}/received/{startPoint}/{amountToShow}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	public ResponseEntity<String> showReceivedMessages(@PathVariable("receiver") String receiver,
-			@PathVariable("startPoint") int startPoint, @PathVariable(required = false) Optional<Integer> amountToShow)
-			throws Exception {
-		
-		if(authorityCheck(receiver)== false) {
-			return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
-		}
-		
-		List<MessageVO> receivedMessages = messageService.getReceivedMessages(receiver, startPoint,
-				amountToShow.orElse(30));
-		int receivedMessageCnt = messageService.getReceivedMessageCnt(receiver);
+	MessageVO message = messageService.getMessageByNo(messageNo);
+	List<MessageFileDTO> messageFiles = messageService.getMessageFilesByMessageNo(messageNo);
+	List<MessageBoxVO> messageBoxs = messageService.getReceivedLogsOfMessage(messageNo);
+	List<String> receivers = new LinkedList<String>();
 
-		JsonObject jsonToSend = new JsonObject();
-
-		jsonToSend.addProperty("messageCnt", receivedMessageCnt);
-		jsonToSend.add("messages", gson.toJsonTree(receivedMessages));
-
-		return ResponseEntity.ok(gson.toJson(jsonToSend));
+	System.out.println(messageBoxs);
+	for (MessageBoxVO messageBox : messageBoxs) {
+	    receivers.add(messageBox.getReceiver());
 	}
 
-	@RequestMapping(value = "/{receiver}/received/{startPoint}/{amountToShow}/title/{title}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	public ResponseEntity<String> searchReceivedMessagesByTitle(@PathVariable("receiver") String receiver,
-			@PathVariable("startPoint") int startPoint, @PathVariable(required = false) Optional<Integer> amountToShow,
-			@PathVariable("title") String title) throws Exception {
+	JsonObject jsonToSend = new JsonObject();
 
-		if(authorityCheck(receiver)== false) {
-			return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
-		}
-		
-		if (title == null) {
-			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-		}
+	jsonToSend.add("message", gson.toJsonTree(message));
+	jsonToSend.add("messageFiles", gson.toJsonTree(messageFiles));
+	jsonToSend.add("receivers", gson.toJsonTree(receivers));
 
-		List<MessageVO> receivedMessages = messageService.searchReceivedMessagesByTitle(receiver, title, startPoint,
-				amountToShow.orElse(30));
-		int receivedMessageCnt = messageService.getReceivedMessagesCntByTitle(receiver, title);
+	return ResponseEntity.ok(gson.toJson(jsonToSend));
+    }
 
-		JsonObject jsonToSend = new JsonObject();
+    @RequestMapping(value = "/{receiver}/received/{startPoint}/{amountToShow}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<String> showReceivedMessages(@PathVariable("receiver") String receiver,
+	    @PathVariable("startPoint") int startPoint, @PathVariable(required = false) Optional<Integer> amountToShow)
+	    throws Exception {
 
-		jsonToSend.addProperty("messageCnt", receivedMessageCnt);
-		jsonToSend.add("messages", gson.toJsonTree(receivedMessages));
-
-		return ResponseEntity.ok(gson.toJson(jsonToSend));
+	if (authorityCheck(receiver) == false) {
+	    return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
 	}
 
-	@RequestMapping(value = "/{receiver}/received/{startPoint}/{amountToShow}/content/{content}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	public ResponseEntity<String> searchReceivedMessagesByContent(@PathVariable("receiver") String receiver,
-			@PathVariable("startPoint") int startPoint, @PathVariable(required = false) Optional<Integer> amountToShow,
-			@PathVariable("content") String content) throws Exception {
+	List<MessageVO> receivedMessages = messageService.getReceivedMessages(receiver, startPoint,
+		amountToShow.orElse(30));
+	int receivedMessageCnt = messageService.getReceivedMessageCnt(receiver);
 
-		if(authorityCheck(receiver)== false) {
-			return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
-		}
-		
-		if (content == null) {
-			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-		}
+	JsonObject jsonToSend = new JsonObject();
 
-		List<MessageVO> receivedMessages = messageService.searchReceivedMessagesByContent(receiver, content, startPoint,
-				amountToShow.orElse(30));
-		int receivedMessageCnt = messageService.getReceivedMessagesCntByContent(receiver, content);
+	jsonToSend.addProperty("messageCnt", receivedMessageCnt);
+	jsonToSend.add("messages", gson.toJsonTree(receivedMessages));
 
-		JsonObject jsonToSend = new JsonObject();
+	return ResponseEntity.ok(gson.toJson(jsonToSend));
+    }
 
-		jsonToSend.addProperty("messageCnt", receivedMessageCnt);
-		jsonToSend.add("messages", gson.toJsonTree(receivedMessages));
+    @RequestMapping(value = "/{receiver}/received/{startPoint}/{amountToShow}/title/{title}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<String> searchReceivedMessagesByTitle(@PathVariable("receiver") String receiver,
+	    @PathVariable("startPoint") int startPoint, @PathVariable(required = false) Optional<Integer> amountToShow,
+	    @PathVariable("title") String title) throws Exception {
 
-		return ResponseEntity.ok(gson.toJson(jsonToSend));
+	if (authorityCheck(receiver) == false) {
+	    return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
 	}
 
-	@RequestMapping(value = "/{receiver}/received/{startPoint}/{amountToShow}/writer/{writer}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	public ResponseEntity<String> searchReceivedMessagesByWriter(@PathVariable("receiver") String receiver,
-			@PathVariable("startPoint") int startPoint, @PathVariable(required = false) Optional<Integer> amountToShow,
-			@PathVariable("writer") String writer) throws Exception {
-
-		if(authorityCheck(receiver)== false) {
-			return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
-		}
-
-		
-		if (writer == null) {
-			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-		}
-
-		List<MessageVO> receivedMessages = messageService.searchReceivedMessagesByWriter(receiver, writer, startPoint,
-				amountToShow.orElse(30));
-		int receivedMessageCnt = messageService.getReceivedMessagesCntByWriter(receiver, writer);
-
-		JsonObject jsonToSend = new JsonObject();
-
-		jsonToSend.addProperty("messageCnt", receivedMessageCnt);
-		jsonToSend.add("messages", gson.toJsonTree(receivedMessages));
-
-		return ResponseEntity.ok(gson.toJson(jsonToSend));
+	if (title == null) {
+	    return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 	}
 
-	@RequestMapping(value = "/{writer}/sent/{startPoint}/{amountToShow}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	public ResponseEntity<String> showSentMessages(@PathVariable("writer") String writer,
-			@PathVariable("startPoint") int startPoint, @PathVariable(required = false) Optional<Integer> amountToShow)
-			throws Exception {
+	List<MessageVO> receivedMessages = messageService.searchReceivedMessagesByTitle(receiver, title, startPoint,
+		amountToShow.orElse(30));
+	int receivedMessageCnt = messageService.getReceivedMessagesCntByTitle(receiver, title);
 
-		if(authorityCheck(writer)== false) {
-			return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
-		}
-		
-		List<MessageVO> sentMessages = messageService.getSentMessages(writer, startPoint, amountToShow.orElse(30));
-		int sentMessageCnt = messageService.getSentMessageCnt(writer);
+	JsonObject jsonToSend = new JsonObject();
 
-		JsonObject jsonToSend = new JsonObject();
+	jsonToSend.addProperty("messageCnt", receivedMessageCnt);
+	jsonToSend.add("messages", gson.toJsonTree(receivedMessages));
 
-		jsonToSend.addProperty("messageCnt", sentMessageCnt);
-		jsonToSend.add("messages", gson.toJsonTree(sentMessages));
+	return ResponseEntity.ok(gson.toJson(jsonToSend));
+    }
 
-		return ResponseEntity.ok(gson.toJson(jsonToSend));
+    @RequestMapping(value = "/{receiver}/received/{startPoint}/{amountToShow}/content/{content}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<String> searchReceivedMessagesByContent(@PathVariable("receiver") String receiver,
+	    @PathVariable("startPoint") int startPoint, @PathVariable(required = false) Optional<Integer> amountToShow,
+	    @PathVariable("content") String content) throws Exception {
+
+	if (authorityCheck(receiver) == false) {
+	    return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
 	}
 
-	@RequestMapping(value = "/{writer}/sent/{startPoint}/{amountToShow}/title/{title}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	public ResponseEntity<String> searchSentMessagesByTitle(@PathVariable("writer") String writer,
-			@PathVariable("startPoint") int startPoint, @PathVariable(required = false) Optional<Integer> amountToShow,
-			@PathVariable("title") String title) throws Exception {
-
-		if(authorityCheck(writer)== false) {
-			return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
-		}
-		
-		if (title == null) {
-			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-		}
-
-		List<MessageVO> sentMessages = messageService.searchWrittenMessagesByTitle(writer, title, startPoint,
-				amountToShow.orElse(30));
-		
-		int sentMessageCnt = messageService.getSentMessagesCntByTitle(writer, title);
-		
-		JsonObject jsonToSend = new JsonObject();
-
-		jsonToSend.addProperty("messageCnt", sentMessageCnt);
-		jsonToSend.add("messages", gson.toJsonTree(sentMessages));
-
-		return ResponseEntity.ok(gson.toJson(jsonToSend));
+	if (content == null) {
+	    return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 	}
 
-	@RequestMapping(value = "/{writer}/sent/{startPoint}/{amountToShow}/content/{content}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	public ResponseEntity<String> searchSentMessagesByContent(@PathVariable("writer") String writer,
-			@PathVariable("startPoint") int startPoint, @PathVariable(required = false) Optional<Integer> amountToShow,
-			@PathVariable("content") String content) throws Exception {
+	List<MessageVO> receivedMessages = messageService.searchReceivedMessagesByContent(receiver, content, startPoint,
+		amountToShow.orElse(30));
+	int receivedMessageCnt = messageService.getReceivedMessagesCntByContent(receiver, content);
 
-		if(authorityCheck(writer)== false) {
-			return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
-		}
+	JsonObject jsonToSend = new JsonObject();
 
-		if (content == null) {
-			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-		}
+	jsonToSend.addProperty("messageCnt", receivedMessageCnt);
+	jsonToSend.add("messages", gson.toJsonTree(receivedMessages));
 
-		List<MessageVO> sentMessages = messageService.searchWrittenMessagesByContent(writer, content, startPoint,
-				amountToShow.orElse(30));
-		int sentMessageCnt = messageService.getSentMessagesCntByContent(writer, content);
+	return ResponseEntity.ok(gson.toJson(jsonToSend));
+    }
 
-		JsonObject jsonToSend = new JsonObject();
+    @RequestMapping(value = "/{receiver}/received/{startPoint}/{amountToShow}/writer/{writer}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<String> searchReceivedMessagesByWriter(@PathVariable("receiver") String receiver,
+	    @PathVariable("startPoint") int startPoint, @PathVariable(required = false) Optional<Integer> amountToShow,
+	    @PathVariable("writer") String writer) throws Exception {
 
-		jsonToSend.addProperty("messageCnt", sentMessageCnt);
-		jsonToSend.add("messages", gson.toJsonTree(sentMessages));
-
-		return ResponseEntity.ok(gson.toJson(jsonToSend));
+	if (authorityCheck(receiver) == false) {
+	    return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
 	}
 
-	@RequestMapping(value = "/{writer}/sent/{startPoint}/{amountToShow}/receiver/{receiver}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	public ResponseEntity<String> searchSentMessagesByReceiver(@PathVariable("writer") String writer,
-			@PathVariable("startPoint") int startPoint, @PathVariable(required = false) Optional<Integer> amountToShow,
-			@PathVariable("receiver") String receiver) throws Exception {
-
-		if(authorityCheck(writer)== false) {
-			return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
-		}
-
-		if (receiver == null) {
-			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-		}
-
-		List<MessageVO> receivedMessages = messageService.searchReceivedMessagesByWriter(receiver, writer, startPoint,
-				amountToShow.orElse(30));
-		int receivedMessageCnt = messageService.getReceivedMessagesCntByWriter(receiver, writer);
-		
-		JsonObject jsonToSend = new JsonObject();
-
-		jsonToSend.addProperty("messageCnt", receivedMessageCnt);
-		jsonToSend.add("messages", gson.toJsonTree(receivedMessages));
-
-		return ResponseEntity.ok(gson.toJson(jsonToSend));
+	if (writer == null) {
+	    return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
-	public ResponseEntity<String> sendMessage(@RequestBody SendMessageDTO sendMessageDTO) throws Exception {
-		String writer = sendMessageDTO.getMessage().getWriter();
-		if(authorityCheck(writer) == false) {
-			return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
-		}
+	List<MessageVO> receivedMessages = messageService.searchReceivedMessagesByWriter(receiver, writer, startPoint,
+		amountToShow.orElse(30));
+	int receivedMessageCnt = messageService.getReceivedMessagesCntByWriter(receiver, writer);
 
-		LinkedList<MessageFileDTO> uploadedFiles = new LinkedList<MessageFileDTO>();
+	JsonObject jsonToSend = new JsonObject();
 
-		try {
-			for (MessageFileDTO file : sendMessageDTO.getFileList()) {
-				String movedFileName = fileProcessing.saveTempFilePermanantly(file.getUploadName());
-				uploadedFiles.add(new MessageFileDTO(-1, movedFileName, fileProcessing.getExtension(movedFileName),
-						fileProcessing.getOriginalName(movedFileName)));
-			}
+	jsonToSend.addProperty("messageCnt", receivedMessageCnt);
+	jsonToSend.add("messages", gson.toJsonTree(receivedMessages));
 
-			sendMessageDTO.setFileList(uploadedFiles);
-			messageService.sendMessage(sendMessageDTO);
-		} catch (Exception e) {
-			return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
-		}
-		return new ResponseEntity<String>("success", HttpStatus.OK);
+	return ResponseEntity.ok(gson.toJson(jsonToSend));
+    }
+
+    @RequestMapping(value = "/{writer}/sent/{startPoint}/{amountToShow}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<String> showSentMessages(@PathVariable("writer") String writer,
+	    @PathVariable("startPoint") int startPoint, @PathVariable(required = false) Optional<Integer> amountToShow)
+	    throws Exception {
+
+	if (authorityCheck(writer) == false) {
+	    return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
 	}
 
-	@RequestMapping(value = "/file", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	public ResponseEntity<String> uploadFile(@RequestBody MultipartFile file) {
+	List<MessageVO> sentMessages = messageService.getSentMessages(writer, startPoint, amountToShow.orElse(30));
+	int sentMessageCnt = messageService.getSentMessageCnt(writer);
 
-		logger.info("file upload start : " + file.getOriginalFilename());
-		String uploadName = null;
+	JsonObject jsonToSend = new JsonObject();
 
-		if (file.getOriginalFilename().length() > 50) {
-			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-		}
+	jsonToSend.addProperty("messageCnt", sentMessageCnt);
+	jsonToSend.add("messages", gson.toJsonTree(sentMessages));
 
-		try {
-			uploadName = fileProcessing.uploadFileTemporarily(file);
+	return ResponseEntity.ok(gson.toJson(jsonToSend));
+    }
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-		}
+    @RequestMapping(value = "/{writer}/sent/{startPoint}/{amountToShow}/title/{title}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<String> searchSentMessagesByTitle(@PathVariable("writer") String writer,
+	    @PathVariable("startPoint") int startPoint, @PathVariable(required = false) Optional<Integer> amountToShow,
+	    @PathVariable("title") String title) throws Exception {
 
-		if (uploadName == null) {
-			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-		}
-
-		return new ResponseEntity<String>(uploadName, HttpStatus.OK);
+	if (authorityCheck(writer) == false) {
+	    return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
 	}
 
-	@RequestMapping(value = "/file/{fileName}", method = RequestMethod.GET)
-	public ResponseEntity<byte[]> downloadFile(@PathVariable("fileName") String fileName) {
-
-		logger.info("file download start: " + fileProcessing.getPermaUploadPath() + File.separator + fileName);
-
-		File downloadDir = new File(fileProcessing.getPermaUploadPath());
-		FileFilter fileFilter = new WildcardFileFilter(fileName + ".*");
-		File[] sameNamedFiles = downloadDir.listFiles(fileFilter);
-		File sameNamedFileButHasNoExt = new File(fileProcessing.getPermaUploadPath() + File.separator + fileName);
-
-		if (sameNamedFiles.length <= 0 && !sameNamedFileButHasNoExt.exists()) {
-			logger.info("file to download is not found!1");
-			return new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
-		}
-
-		File downloadFile = sameNamedFileButHasNoExt;
-		if (!downloadFile.exists()) {
-			downloadFile = sameNamedFiles[0];
-			if (!downloadFile.exists()) {
-				logger.info("file to download is not found!2");
-				return new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
-			}
-		}
-
-		try {
-			String contentType = new Tika().detect(downloadFile);
-			byte[] fileByteArray = Files.readAllBytes(downloadFile.toPath());
-
-			HttpHeaders header = new HttpHeaders();
-			header.setContentType(MediaType.valueOf(contentType));
-			header.add("Content-Disposition", "attachment; filename=" + downloadFile.getName());
-
-			return new ResponseEntity<byte[]>(fileByteArray, header, HttpStatus.OK);
-
-		} catch (IOException e) {
-			e.printStackTrace();
-			return new ResponseEntity<byte[]>(HttpStatus.CONFLICT);
-		}
+	if (title == null) {
+	    return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 	}
 
-	private boolean authorityCheck(String userId) {
-		System.out.println("세션 아이디: " + session.getId());
-		MemberVO loginMember = (MemberVO) session.getAttribute(SessionNames.LOGIN_MEMBER);
-		
-		return loginMember != null && userId.equals(loginMember.getUserId());
+	List<MessageVO> sentMessages = messageService.searchWrittenMessagesByTitle(writer, title, startPoint,
+		amountToShow.orElse(30));
+
+	int sentMessageCnt = messageService.getSentMessagesCntByTitle(writer, title);
+
+	JsonObject jsonToSend = new JsonObject();
+
+	jsonToSend.addProperty("messageCnt", sentMessageCnt);
+	jsonToSend.add("messages", gson.toJsonTree(sentMessages));
+
+	return ResponseEntity.ok(gson.toJson(jsonToSend));
+    }
+
+    @RequestMapping(value = "/{writer}/sent/{startPoint}/{amountToShow}/content/{content}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<String> searchSentMessagesByContent(@PathVariable("writer") String writer,
+	    @PathVariable("startPoint") int startPoint, @PathVariable(required = false) Optional<Integer> amountToShow,
+	    @PathVariable("content") String content) throws Exception {
+
+	if (authorityCheck(writer) == false) {
+	    return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
 	}
-	
+
+	if (content == null) {
+	    return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+	}
+
+	List<MessageVO> sentMessages = messageService.searchWrittenMessagesByContent(writer, content, startPoint,
+		amountToShow.orElse(30));
+	int sentMessageCnt = messageService.getSentMessagesCntByContent(writer, content);
+
+	JsonObject jsonToSend = new JsonObject();
+
+	jsonToSend.addProperty("messageCnt", sentMessageCnt);
+	jsonToSend.add("messages", gson.toJsonTree(sentMessages));
+
+	return ResponseEntity.ok(gson.toJson(jsonToSend));
+    }
+
+    @RequestMapping(value = "/{writer}/sent/{startPoint}/{amountToShow}/receiver/{receiver}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<String> searchSentMessagesByReceiver(@PathVariable("writer") String writer,
+	    @PathVariable("startPoint") int startPoint, @PathVariable(required = false) Optional<Integer> amountToShow,
+	    @PathVariable("receiver") String receiver) throws Exception {
+
+	if (authorityCheck(writer) == false) {
+	    return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
+	}
+
+	if (receiver == null) {
+	    return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+	}
+
+	List<MessageVO> receivedMessages = messageService.searchReceivedMessagesByWriter(receiver, writer, startPoint,
+		amountToShow.orElse(30));
+	int receivedMessageCnt = messageService.getReceivedMessagesCntByWriter(receiver, writer);
+
+	JsonObject jsonToSend = new JsonObject();
+
+	jsonToSend.addProperty("messageCnt", receivedMessageCnt);
+	jsonToSend.add("messages", gson.toJsonTree(receivedMessages));
+
+	return ResponseEntity.ok(gson.toJson(jsonToSend));
+    }
+
+    @RequestMapping(value = "", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+    public ResponseEntity<String> sendMessage(@RequestBody SendMessageDTO sendMessageDTO) throws Exception {
+	String writer = sendMessageDTO.getMessage().getWriter();
+	if (authorityCheck(writer) == false) {
+	    return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
+	}
+
+	LinkedList<MessageFileDTO> uploadedFiles = new LinkedList<MessageFileDTO>();
+
+	try {
+	    for (MessageFileDTO file : sendMessageDTO.getFileList()) {
+		String movedFileName = fileProcessing.saveTempFilePermanantly(file.getUploadName());
+		uploadedFiles.add(new MessageFileDTO(-1, movedFileName, fileProcessing.getExtension(movedFileName),
+			fileProcessing.getOriginalName(movedFileName)));
+	    }
+
+	    sendMessageDTO.setFileList(uploadedFiles);
+	    messageService.sendMessage(sendMessageDTO);
+	} catch (Exception e) {
+	    return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
+	}
+	return new ResponseEntity<String>("success", HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/file", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<String> uploadFile(@RequestBody MultipartFile file) {
+
+	logger.info("file upload start : " + file.getOriginalFilename());
+	String uploadName = null;
+
+	if (file.getOriginalFilename().length() > 50) {
+	    return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+	}
+
+	try {
+	    uploadName = fileProcessing.uploadFileTemporarily(file);
+
+	} catch (Exception e) {
+	    e.printStackTrace();
+	    return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+	}
+
+	if (uploadName == null) {
+	    return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+	}
+
+	return new ResponseEntity<String>(uploadName, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/file/{fileName}", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> downloadFile(@PathVariable("fileName") String fileName) {
+
+	logger.info("file download start: " + fileProcessing.getPermaUploadPath() + File.separator + fileName);
+
+	File downloadDir = new File(fileProcessing.getPermaUploadPath());
+	FileFilter fileFilter = new WildcardFileFilter(fileName + ".*");
+	File[] sameNamedFiles = downloadDir.listFiles(fileFilter);
+	File sameNamedFileButHasNoExt = new File(fileProcessing.getPermaUploadPath() + File.separator + fileName);
+
+	if (sameNamedFiles.length <= 0 && !sameNamedFileButHasNoExt.exists()) {
+	    logger.info("file to download is not found!1");
+	    return new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
+	}
+
+	File downloadFile = sameNamedFileButHasNoExt;
+	if (!downloadFile.exists()) {
+	    downloadFile = sameNamedFiles[0];
+	    if (!downloadFile.exists()) {
+		logger.info("file to download is not found!2");
+		return new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
+	    }
+	}
+
+	try {
+	    String contentType = new Tika().detect(downloadFile);
+	    byte[] fileByteArray = Files.readAllBytes(downloadFile.toPath());
+
+	    HttpHeaders header = new HttpHeaders();
+	    header.setContentType(MediaType.valueOf(contentType));
+	    header.add("Content-Disposition", "attachment; filename=" + downloadFile.getName());
+
+	    return new ResponseEntity<byte[]>(fileByteArray, header, HttpStatus.OK);
+
+	} catch (IOException e) {
+	    e.printStackTrace();
+	    return new ResponseEntity<byte[]>(HttpStatus.CONFLICT);
+	}
+    }
+
+    private boolean authorityCheck(String userId) {
+	System.out.println("세션 아이디: " + session.getId());
+	MemberVO loginMember = (MemberVO) session.getAttribute(SessionNames.LOGIN_MEMBER);
+
+	return loginMember != null && userId.equals(loginMember.getUserId());
+    }
+
 }

@@ -15,18 +15,18 @@ import lombok.ToString;
 @Setter
 @ToString
 public class StudyBoardVO {
-	private int stuNo;
-	private String stuWriter;
-	private String stuTitle;
-	private String stuContent;
-	private String stuLoc;
-	private double stuX;
-	private double stuY;
-	private String stuDate;
-	private int stuPers; 
-	private String contactLink;
-	private String status;
-	private Timestamp endDate;
-	private int readCount;
-	private int scrape;
+    private int stuNo;
+    private String stuWriter;
+    private String stuTitle;
+    private String stuContent;
+    private String stuLoc;
+    private double stuX;
+    private double stuY;
+    private String stuDate;
+    private int stuPers;
+    private String contactLink;
+    private String status;
+    private Timestamp endDate;
+    private int readCount;
+    private int scrape;
 }

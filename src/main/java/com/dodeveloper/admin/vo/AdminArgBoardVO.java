@@ -1,6 +1,5 @@
 package com.dodeveloper.admin.vo;
 
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +13,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class AdminArgBoardVO {
-	private int boardNo;
-	private String title;
-	private String comment;
+    private int boardNo;
+    private String title;
+    private String comment;
 }

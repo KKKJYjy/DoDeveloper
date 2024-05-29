@@ -13,7 +13,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class ChangePwdDTO {
-	private String userId;
-	private String currentUserPwd;
-	private String newUserPwd;
+    private String userId;
+    private String currentUserPwd;
+    private String newUserPwd;
 }

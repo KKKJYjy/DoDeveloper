@@ -13,6 +13,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class AlgClassificationDTO {
-	private int code;
-	private String algClassification;
+    private int code;
+    private String algClassification;
 }

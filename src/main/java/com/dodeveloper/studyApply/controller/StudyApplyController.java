@@ -13,27 +13,27 @@ import com.dodeveloper.studyApply.vodto.StudyApplyVO;
 @Controller
 @RequestMapping("/studyApply")
 public class StudyApplyController {
-	
-	private static final Logger logger = LoggerFactory.getLogger(StudyApplyController.class);
-	
-	@Autowired
-	StudyApplyService saService;
-	
-	@RequestMapping(value = "/insertApply", method = RequestMethod.POST)
-	public String insertApply(StudyApplyVO newApply) {
-		String result = "";
-		
-		logger.info(newApply.toString() + "을 신청하자");
-		try {
-			
-			if(saService.insertApply(newApply) == 1) {
-				result = "redirect:/study/viewStudyBoard?stuNo=" + newApply.getStuNo() + "&status=success";
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return result;
+
+    private static final Logger logger = LoggerFactory.getLogger(StudyApplyController.class);
+
+    @Autowired
+    StudyApplyService saService;
+
+    @RequestMapping(value = "/insertApply", method = RequestMethod.POST)
+    public String insertApply(StudyApplyVO newApply) {
+	String result = "";
+
+	logger.info(newApply.toString() + "을 신청하자");
+	try {
+
+	    if (saService.insertApply(newApply) == 1) {
+		result = "redirect:/study/viewStudyBoard?stuNo=" + newApply.getStuNo() + "&status=success";
+	    }
+
+	} catch (Exception e) {
+	    e.printStackTrace();
 	}
+
+	return result;
+    }
 }

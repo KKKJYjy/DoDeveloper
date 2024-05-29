@@ -14,76 +14,76 @@ import com.dodeveloper.mypage.dto.ChangePwdDTO;
 
 @Repository
 public class MemberDAOImpl implements MemberDAO {
-	
-	@Autowired
-	private SqlSession sqlSession;
-	
-	private static final String NS = "com.dodeveloper.mappers.memberMapper";
-	private static final String LOGIN_MEMBER = NS + ".loginMember";
-	private static final String KEEP_LOGIN = NS + ".keepLogin";
-	private static final String CHECK_LOGIN_BEFORE = NS + ".checkLoginBefore";
-	
-	private static final String DUPLICATE_USER_ID = NS + ".duplicateUserId";
-	private static final String REGISTER_MEMBER = NS + ".registerMember";
-	private static final String GET_MEMBER_INFO = NS + ".getMemberInfo";
-	private static final String CHECK_USER_PWD = NS + ".checkUserPwd";
-	private static final String CHANGE_PWD = NS + ".changePwd";
-	private static final String CHANGE_PROFILE = NS + ".changeProfile";
-	private static final String DROP_MEMBER = NS + ".dropMember";
-	private static final String CHANGE_DROP_STATUS = NS + ".changeDropStatus";
-	
-	@Override
-	public MemberVO loginMember(LoginDTO dto) throws Exception {
-		return sqlSession.selectOne(LOGIN_MEMBER, dto);
-	}
-	
-	@Override
-	public void keepLogin(SessionDTO sessionDTO) throws Exception {
-		sqlSession.update(KEEP_LOGIN, sessionDTO);
-	}
-	
-	@Override
-	public MemberVO checkLoginBefore(String loginCookie) {
-		return sqlSession.selectOne(CHECK_LOGIN_BEFORE, loginCookie);
-	}
-	
-	@Override
-	public int duplicateUserId(String userId) throws Exception {
-		return sqlSession.selectOne(DUPLICATE_USER_ID, userId);
-	}
 
-	@Override
-	public int registerMember(RegisterDTO registerDTO) throws Exception {
-		return sqlSession.update(REGISTER_MEMBER, registerDTO);
-	}
+    @Autowired
+    private SqlSession sqlSession;
 
-	@Override
-	public MemberVO getMemberInfo(String userId) throws Exception {
-		return sqlSession.selectOne(GET_MEMBER_INFO, userId);
-	}
+    private static final String NS = "com.dodeveloper.mappers.memberMapper";
+    private static final String LOGIN_MEMBER = NS + ".loginMember";
+    private static final String KEEP_LOGIN = NS + ".keepLogin";
+    private static final String CHECK_LOGIN_BEFORE = NS + ".checkLoginBefore";
 
-	@Override
-	public int checkUserPwd(ChangePwdDTO changePwdDTO) throws Exception {
-		return sqlSession.selectOne(CHECK_USER_PWD, changePwdDTO);
-	}
+    private static final String DUPLICATE_USER_ID = NS + ".duplicateUserId";
+    private static final String REGISTER_MEMBER = NS + ".registerMember";
+    private static final String GET_MEMBER_INFO = NS + ".getMemberInfo";
+    private static final String CHECK_USER_PWD = NS + ".checkUserPwd";
+    private static final String CHANGE_PWD = NS + ".changePwd";
+    private static final String CHANGE_PROFILE = NS + ".changeProfile";
+    private static final String DROP_MEMBER = NS + ".dropMember";
+    private static final String CHANGE_DROP_STATUS = NS + ".changeDropStatus";
 
-	@Override
-	public int changeUserPwd(ChangePwdDTO changePwdDTO) throws Exception {
-		return sqlSession.update(CHANGE_PWD, changePwdDTO);
-	}
+    @Override
+    public MemberVO loginMember(LoginDTO dto) throws Exception {
+	return sqlSession.selectOne(LOGIN_MEMBER, dto);
+    }
 
-	@Override
-	public int changeProfile(ChangeProfileDTO changeProfileDTO) throws Exception {
-		return sqlSession.update(CHANGE_PROFILE, changeProfileDTO);
-	}
+    @Override
+    public void keepLogin(SessionDTO sessionDTO) throws Exception {
+	sqlSession.update(KEEP_LOGIN, sessionDTO);
+    }
 
-	@Override
-	public int dropMember(DropMemberDTO dropMemberDTO) throws Exception {
-		return sqlSession.insert(DROP_MEMBER, dropMemberDTO);
-	}
-	
-	@Override
-	public int changeDropStatus(DropMemberDTO dropMemberDTO) throws Exception {
-		return sqlSession.update(CHANGE_DROP_STATUS, dropMemberDTO);
-	}
+    @Override
+    public MemberVO checkLoginBefore(String loginCookie) {
+	return sqlSession.selectOne(CHECK_LOGIN_BEFORE, loginCookie);
+    }
+
+    @Override
+    public int duplicateUserId(String userId) throws Exception {
+	return sqlSession.selectOne(DUPLICATE_USER_ID, userId);
+    }
+
+    @Override
+    public int registerMember(RegisterDTO registerDTO) throws Exception {
+	return sqlSession.update(REGISTER_MEMBER, registerDTO);
+    }
+
+    @Override
+    public MemberVO getMemberInfo(String userId) throws Exception {
+	return sqlSession.selectOne(GET_MEMBER_INFO, userId);
+    }
+
+    @Override
+    public int checkUserPwd(ChangePwdDTO changePwdDTO) throws Exception {
+	return sqlSession.selectOne(CHECK_USER_PWD, changePwdDTO);
+    }
+
+    @Override
+    public int changeUserPwd(ChangePwdDTO changePwdDTO) throws Exception {
+	return sqlSession.update(CHANGE_PWD, changePwdDTO);
+    }
+
+    @Override
+    public int changeProfile(ChangeProfileDTO changeProfileDTO) throws Exception {
+	return sqlSession.update(CHANGE_PROFILE, changeProfileDTO);
+    }
+
+    @Override
+    public int dropMember(DropMemberDTO dropMemberDTO) throws Exception {
+	return sqlSession.insert(DROP_MEMBER, dropMemberDTO);
+    }
+
+    @Override
+    public int changeDropStatus(DropMemberDTO dropMemberDTO) throws Exception {
+	return sqlSession.update(CHANGE_DROP_STATUS, dropMemberDTO);
+    }
 }

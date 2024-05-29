@@ -13,7 +13,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class ProfileDTO {
-	private String userId;
-	private String prefix;
-	private byte[] profileImage;
+    private String userId;
+    private String prefix;
+    private byte[] profileImage;
 }

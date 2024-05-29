@@ -8,31 +8,27 @@ import com.dodeveloper.algorithm.vodto.AlgDetailDTO;
 import com.dodeveloper.member.dto.LoginDTO;
 
 public interface AlgService {
-	// 게시판 전체 조회
-	List<AlgBoardDTO> getListAllBoard() throws Exception;
-	
-	// alg상세게시판 조회
-	List<AlgDetailDTO> getListDetail(int boardNo) throws Exception;
+    // 게시판 전체 조회
+    List<AlgBoardDTO> getListAllBoard() throws Exception;
 
-	// algBoard 글 쓰기
-	void writeAlgBoard(AlgBoardDTO algBoardDTO) throws Exception;
+    // alg상세게시판 조회
+    List<AlgDetailDTO> getListDetail(int boardNo) throws Exception;
 
-	// algClassification 테이블 조회
-	List<AlgClassificationDTO> getAlgClassification() throws Exception;
+    // algBoard 글 쓰기
+    void writeAlgBoard(AlgBoardDTO algBoardDTO) throws Exception;
 
-	// algClassification 글 쓰기
-	void writeAlgClassification(String algClassification) throws Exception;
+    // algClassification 테이블 조회
+    List<AlgClassificationDTO> getAlgClassification() throws Exception;
 
-	void updateAlgBoard(AlgBoardDTO algBoardDTO);
+    // algClassification 글 쓰기
+    void writeAlgClassification(String algClassification) throws Exception;
 
-	
-	// algDetail 글 쓰기
-	void writeAlgDetail(AlgDetailDTO algDetailDTO);
+    void updateAlgBoard(AlgBoardDTO algBoardDTO);
 
-	// algDetail 항목 업데이트
-	void updateAlgDetail(AlgDetailDTO algDetailDTO, int algDetailNo);
-	
-	
+    // algDetail 글 쓰기
+    void writeAlgDetail(AlgDetailDTO algDetailDTO);
 
-	
+    // algDetail 항목 업데이트
+    void updateAlgDetail(AlgDetailDTO algDetailDTO, int algDetailNo);
+
 }

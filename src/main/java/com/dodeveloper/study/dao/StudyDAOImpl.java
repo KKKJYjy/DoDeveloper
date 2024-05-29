@@ -19,102 +19,102 @@ import com.dodeveloper.study.vodto.StuStackDTO;
 @Repository
 public class StudyDAOImpl implements StudyDAO {
 
-	@Autowired
-	private SqlSession ses;
-	
-	private static String ns = "com.dodeveloper.mappers.studyMapper";
-	
-	@Override
-	public List<StudyBoardVO> selectAllList(PagingInfo pi) throws Exception {
-		return ses.selectList(ns + ".selectAllList", pi);
-	}
+    @Autowired
+    private SqlSession ses;
 
-	@Override
-	public List<StuStackDTO> selectAllStudyStack(int stuBoardNo) {
-		return ses.selectList(ns + ".selectAllstudyStack", stuBoardNo);
-	}
+    private static String ns = "com.dodeveloper.mappers.studyMapper";
 
-	@Override
-	public int selectNextStuNo() throws Exception {
-		return ses.selectOne(ns + ".selectNextStuNo");
-	}
+    @Override
+    public List<StudyBoardVO> selectAllList(PagingInfo pi) throws Exception {
+	return ses.selectList(ns + ".selectAllList", pi);
+    }
 
-	@Override
-	public int insertNewStack(int stuBoardNo, int chooseStack) throws Exception {
-		Map<String, Integer> param = new HashMap<String, Integer>();
-		param.put("stuBoardNo", stuBoardNo);
-		param.put("chooseStack", chooseStack);
-		
-		return ses.insert(ns + ".insertNewStack", param);
-	}
+    @Override
+    public List<StuStackDTO> selectAllStudyStack(int stuBoardNo) {
+	return ses.selectList(ns + ".selectAllstudyStack", stuBoardNo);
+    }
 
-	@Override
-	public int insertNewStudy(StudyBoardDTO newStudyDTO) throws Exception {
-		return ses.insert(ns + ".insertNewStudy", newStudyDTO);
-	}
+    @Override
+    public int selectNextStuNo() throws Exception {
+	return ses.selectOne(ns + ".selectNextStuNo");
+    }
 
-	@Override
-	public StudyBoardVO selectStudyByStuNo(int stuNo) throws Exception {
-		return ses.selectOne(ns + ".selectStudyByStuNo", stuNo);
-	}
+    @Override
+    public int insertNewStack(int stuBoardNo, int chooseStack) throws Exception {
+	Map<String, Integer> param = new HashMap<String, Integer>();
+	param.put("stuBoardNo", stuBoardNo);
+	param.put("chooseStack", chooseStack);
 
-	@Override
-	public List<StudyBoardVO> selectAllListWithsDTO(SearchStudyDTO sDTO, PagingInfo pi) throws Exception {
-		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("searchType", sDTO.getSearchType());
-		param.put("searchValue", "%" +sDTO.getSearchValue() + "%");
-		param.put("startRowIndex", pi.getStartRowIndex());
-		param.put("viewPostCntPerPage", pi.getViewPostCntPerPage());
-		
-		return ses.selectList(ns + ".selectAllListWithsDTO", param);
-	}
+	return ses.insert(ns + ".insertNewStack", param);
+    }
 
-	@Override
-	public List<StackVO> selectAllStack() throws Exception {
-		return ses.selectList(ns + ".selectAllStack");
-	}
+    @Override
+    public int insertNewStudy(StudyBoardDTO newStudyDTO) throws Exception {
+	return ses.insert(ns + ".insertNewStudy", newStudyDTO);
+    }
 
-	@Override
-	public int deleteStudyBoard(int stuNo) throws Exception {
-		return ses.delete(ns + ".deleteStudyBoard", stuNo);
-	}
+    @Override
+    public StudyBoardVO selectStudyByStuNo(int stuNo) throws Exception {
+	return ses.selectOne(ns + ".selectStudyByStuNo", stuNo);
+    }
 
-	@Override
-	public int modifyStudy(StudyBoardDTO modifyStudy) throws Exception {
-		return ses.update(ns + ".modifyStudy", modifyStudy);
-	}
+    @Override
+    public List<StudyBoardVO> selectAllListWithsDTO(SearchStudyDTO sDTO, PagingInfo pi) throws Exception {
+	Map<String, Object> param = new HashMap<String, Object>();
+	param.put("searchType", sDTO.getSearchType());
+	param.put("searchValue", "%" + sDTO.getSearchValue() + "%");
+	param.put("startRowIndex", pi.getStartRowIndex());
+	param.put("viewPostCntPerPage", pi.getViewPostCntPerPage());
 
-	@Override
-	public int modifyStack(int stuStackNo, int chooseStack) throws Exception {
-		Map<String, Integer> param = new HashMap<String, Integer>();
-		param.put("stuStackNo", stuStackNo);
-		param.put("chooseStack", chooseStack);
-			
-		return ses.update(ns + ".modifyStack", param);
-	}
+	return ses.selectList(ns + ".selectAllListWithsDTO", param);
+    }
 
-	@Override
-	public int deleteStudyStack(int stuStackNo) throws Exception {
-		
-		return ses.delete(ns + ".deleteStudyStack", stuStackNo);
-	}
+    @Override
+    public List<StackVO> selectAllStack() throws Exception {
+	return ses.selectList(ns + ".selectAllStack");
+    }
 
-	@Override
-	public int selectTotalBoardCnt() throws Exception {
-		return ses.selectOne(ns + ".selectTotalBoardCnt");
-	}
+    @Override
+    public int deleteStudyBoard(int stuNo) throws Exception {
+	return ses.delete(ns + ".deleteStudyBoard", stuNo);
+    }
 
-	@Override
-	public int selectTotalBoardCntWithSdto(SearchStudyDTO sDTO) throws Exception {
-		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("searchType", sDTO.getSearchType());
-		param.put("searchValue", "%" +sDTO.getSearchValue() + "%");
-		return ses.selectOne(ns + ".selectTotalBoardCntWithSdto", param);
-	}
+    @Override
+    public int modifyStudy(StudyBoardDTO modifyStudy) throws Exception {
+	return ses.update(ns + ".modifyStudy", modifyStudy);
+    }
 
-	@Override
-	public List<StudyBoardVO> searchStudyByStack(List<String> studyStackList) throws Exception {
-		return ses.selectList(ns + ".searchStudyByStack", studyStackList);
-	}
+    @Override
+    public int modifyStack(int stuStackNo, int chooseStack) throws Exception {
+	Map<String, Integer> param = new HashMap<String, Integer>();
+	param.put("stuStackNo", stuStackNo);
+	param.put("chooseStack", chooseStack);
+
+	return ses.update(ns + ".modifyStack", param);
+    }
+
+    @Override
+    public int deleteStudyStack(int stuStackNo) throws Exception {
+
+	return ses.delete(ns + ".deleteStudyStack", stuStackNo);
+    }
+
+    @Override
+    public int selectTotalBoardCnt() throws Exception {
+	return ses.selectOne(ns + ".selectTotalBoardCnt");
+    }
+
+    @Override
+    public int selectTotalBoardCntWithSdto(SearchStudyDTO sDTO) throws Exception {
+	Map<String, Object> param = new HashMap<String, Object>();
+	param.put("searchType", sDTO.getSearchType());
+	param.put("searchValue", "%" + sDTO.getSearchValue() + "%");
+	return ses.selectOne(ns + ".selectTotalBoardCntWithSdto", param);
+    }
+
+    @Override
+    public List<StudyBoardVO> searchStudyByStack(List<String> studyStackList) throws Exception {
+	return ses.selectList(ns + ".searchStudyByStack", studyStackList);
+    }
 
 }

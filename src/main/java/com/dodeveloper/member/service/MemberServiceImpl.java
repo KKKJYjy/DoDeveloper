@@ -19,67 +19,67 @@ import com.dodeveloper.mypage.dto.ChangePwdDTO;
 
 @Service
 public class MemberServiceImpl implements MemberService {
-	
-	private static final Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
 
-	@Autowired
-	private MemberDAO mDao;
-	
-	@Override
-	public MemberVO login(LoginDTO loginDTO) throws Exception {
-		return mDao.loginMember(loginDTO);
-	}
+    private static final Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
 
-	@Override
-	public void keepLogin(SessionDTO sessionDTO) throws Exception {
-		System.out.println("keepLogin sessionDTO : " + sessionDTO.toString());
-		mDao.keepLogin(sessionDTO);
-	}
+    @Autowired
+    private MemberDAO mDao;
 
-	@Override
-	public MemberVO checkLoginBefore(String loginCookie) throws Exception {
-		return mDao.checkLoginBefore(loginCookie);
-	}
+    @Override
+    public MemberVO login(LoginDTO loginDTO) throws Exception {
+	return mDao.loginMember(loginDTO);
+    }
 
-	@Override
-	public int duplicateUserId(String userId) throws Exception {
-		return mDao.duplicateUserId(userId);
-	}
+    @Override
+    public void keepLogin(SessionDTO sessionDTO) throws Exception {
+	System.out.println("keepLogin sessionDTO : " + sessionDTO.toString());
+	mDao.keepLogin(sessionDTO);
+    }
 
-	@Override
-	public int registerMember(RegisterDTO registerDTO) throws Exception {
-		return mDao.registerMember(registerDTO);
-	}
+    @Override
+    public MemberVO checkLoginBefore(String loginCookie) throws Exception {
+	return mDao.checkLoginBefore(loginCookie);
+    }
 
-	@Override
-	public MemberVO getMemberInfo(String userId) throws Exception {
-		return mDao.getMemberInfo(userId);
-	}
+    @Override
+    public int duplicateUserId(String userId) throws Exception {
+	return mDao.duplicateUserId(userId);
+    }
 
-	@Override
-	public int checkUserPwd(ChangePwdDTO changePwdDTO) throws Exception {
-		return mDao.checkUserPwd(changePwdDTO);
-	}
+    @Override
+    public int registerMember(RegisterDTO registerDTO) throws Exception {
+	return mDao.registerMember(registerDTO);
+    }
 
-	@Override
-	public int changeUserPwd(ChangePwdDTO changePwdDTO) throws Exception {
-		return mDao.changeUserPwd(changePwdDTO);
-	}
+    @Override
+    public MemberVO getMemberInfo(String userId) throws Exception {
+	return mDao.getMemberInfo(userId);
+    }
 
-	@Override
-	public int changeProfile(ChangeProfileDTO changeProfileDTO) throws Exception {
-		return mDao.changeProfile(changeProfileDTO);
-	}
+    @Override
+    public int checkUserPwd(ChangePwdDTO changePwdDTO) throws Exception {
+	return mDao.checkUserPwd(changePwdDTO);
+    }
 
-	@Override
-	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-	public boolean dropMember(DropMemberDTO dropMemberDTO) throws Exception {
-		boolean result = false;
-		if (mDao.dropMember(dropMemberDTO) > 0) {
-			if (mDao.changeDropStatus(dropMemberDTO) > 0) {
-				result = true;
-			}
-		}
-		return result;
+    @Override
+    public int changeUserPwd(ChangePwdDTO changePwdDTO) throws Exception {
+	return mDao.changeUserPwd(changePwdDTO);
+    }
+
+    @Override
+    public int changeProfile(ChangeProfileDTO changeProfileDTO) throws Exception {
+	return mDao.changeProfile(changeProfileDTO);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    public boolean dropMember(DropMemberDTO dropMemberDTO) throws Exception {
+	boolean result = false;
+	if (mDao.dropMember(dropMemberDTO) > 0) {
+	    if (mDao.changeDropStatus(dropMemberDTO) > 0) {
+		result = true;
+	    }
 	}
+	return result;
+    }
 }
