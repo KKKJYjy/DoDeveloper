@@ -84,18 +84,18 @@ $(function() {
 					"bNo" : bNo,
 					"replyContent" : replyContent,
 					"replyer" : replyer
-				};  // 댓글을 객체로 만듦
+				};  
 				
 				console.log(JSON.stringify(newReply));
 				
 					 $.ajax({
-						url : '/qnaReply/' + bNo,
+						url : 'replyPost',
 						type : "post",
-						data : JSON.stringify(newReply),    // 서버에 넘겨주는 데이터
-						headers : {  // 서버에 보내지는 데이터의 형식이 json임을 알림
+						data : JSON.stringify(newReply),    
+						headers : {  
 							"content-type" : "application/json"
 						},
-						dataType : "text", // 수신받을 데이터의 타입
+						dataType : "text", 
 						async : 'false',
 						success : function(data) {
 							console.log(data);
@@ -106,7 +106,7 @@ $(function() {
 								getAllReplies();
 							}
 					},
-					error : function (data) {  // HttpStatus Code가 200이 아닐때
+					error : function (data) {  
 						console.log(data);
 					}
 				}); 
@@ -131,9 +131,9 @@ function getAllReplies() {
 	let boardNo = ${qnaView.no};
 	
 	$.ajax({
-		url : "/qnaReply/all/" + no,
+		url : "/qnaAll",
 		type : "get",
-		dataType : "json", // 수신받을 데이터의 타입
+		dataType : "json", 
 		async : 'false',
 		success : function(data) {
 			console.log(data);
@@ -180,7 +180,7 @@ function showRemoveReply(replyNo) {
 	 if (user == writer) { 
 		if(window.confirm(replyNo + '번 글을 삭제 할까요?')) {
 			 $.ajax({
-					url : "/qnaReply/" + replyNo,
+					url : "/qnaDelete",
 					type : "delete",
 					headers : {
 						"Content-Type" : "application/json",
@@ -236,7 +236,7 @@ function modifyReply(replyNo) {
 	};
 	
 		  $.ajax({
-				url : "/qnaReply/" + replyNo,
+				url : "/qnaModifyReply",
 				type : "put",
 				data : JSON.stringify(modifyReply),
 				headers : {

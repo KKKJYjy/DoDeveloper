@@ -21,12 +21,12 @@ import com.dodeveloper.admin.vo.QnaReplyVO;
 @RequestMapping("/qnaReply")
 public class QnaReplyController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(AdminBoardController.class);
+	private static final Logger logger = LoggerFactory.getLogger(QnaReplyController.class);
 
 	@Autowired
 	private AdminBoardService bService;
 	
-	@RequestMapping(value="/all/{no}", method = RequestMethod.GET)
+	@RequestMapping(value="/qnaAll", method = RequestMethod.GET)
 	public ResponseEntity<List<QnaReplyVO>> getAllReplies(@PathVariable("no") int no) {
 
 		System.out.println(no + "번 글의 댓글을 가져오자");
@@ -48,7 +48,7 @@ public class QnaReplyController {
 
 	}
 	
-	@RequestMapping(value="/{bNo}", method = RequestMethod.POST)
+	@RequestMapping(value="/replyPost", method = RequestMethod.POST)
 	public ResponseEntity<String> saveReply(@PathVariable("bNo") int bNo, @RequestBody QnaReplyVO replyVo) {
 		System.out.println(replyVo.toString() + "댓글을 저장하자" + ", " + bNo);
 		
@@ -71,7 +71,7 @@ public class QnaReplyController {
 	}
 	
 	
-	@RequestMapping(value = "/{replyNo}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/qnaModifyReply", method = RequestMethod.PUT)
 	public ResponseEntity<String> updateReply(@PathVariable("replyNo") int replyNo, @RequestBody QnaReplyVO newReply) {
 		System.out.println(newReply.toString() + "로 댓글을 수정하자, " + replyNo);
 		
@@ -92,7 +92,7 @@ public class QnaReplyController {
 	}
 	
 
-	@RequestMapping(value = "/{replyNo}")
+	@RequestMapping(value = "/qnaDelete")
 	public ResponseEntity<String> deleteReply(@PathVariable("replyNo") int replyNo) {
 		System.out.println(replyNo + "번 댓글을 삭제하자");
 		
