@@ -236,33 +236,33 @@
 	//스터디 언어로 필터링시 페이징 구현
 	function studyListBySearchPaging(data){
 		
-		let pagingInfos = data.pagingInfo;
+		let paging = data.pagingInfo;
 		
 		let pagingOutput = `<div class="row mt-4 paging">`;
 		pagingOutput += `<div class="col">`;
 		pagingOutput += `<ul class="pagination justify-content-center">`;
 		
-		$.each(pagingInfos, function(i, e) {
-			if(e.pageNo >1 ){
-				pagingOutput += `<li class="page-item">`;
-				pagingOutput += `<a class="page-link text-light bg-danger" style="border: none"`;
-				pagingOutput +=	`href="/study/listAll?pageNo=${param.pageNo -1 }&statusFilter=${param.statusFilter }&searchType=${param.searchType }&searchValue=${param.searchValue }"`;
-				pagingOutput += `aria-label="Previous">`;
-				pagingOutput += `<span aria-hidden="true"><i class="bi bi-arrow-left-short"></i></span>`;
-				pagingOutput += `</a></li>`;
-			}
-			pagingOutput += `<li class="page-item" id="\${i }">`;
-			pagingOutput += `<a class="page-link text-black" style="border: none" href="/study/listAll?pageNo=\${i }&statusFilter=${param.statusFilter }&searchType=${param.searchType }&searchValue=${param.searchValue }">\${i }</a>`;
+		if(paging.pageNo >1 ){
+			pagingOutput += `<li class="page-item">`;
+			pagingOutput += `<a class="page-link text-light bg-danger" style="border: none" href="/study/listAll?pageNo=${param.pageNo -1 }&statusFilter=${param.statusFilter }&searchType=${param.searchType }&searchValue=${param.searchValue }" aria-label="Previous">`;
+			pagingOutput += `<span aria-hidden="true"><i class="bi bi-arrow-left-short"></i></span>`;
+			pagingOutput += `</a></li>`;
+		}
+		
+		for(let i=1; i <= paging.totalPageCnt; i++){
+			//전체 페이지 수 만큼 페이지를 만들어준다
+			pagingOutput += `<li class="page-item" id="i">`;
+			pagingOutput += `<a class="page-link text-black" style="border: none" href="/study/listAll?pageNo=\${i}&statusFilter=${param.statusFilter }&searchType=${param.searchType }&searchValue=${param.searchValue }">\${i }</a>`;
 			pagingOutput += `</li>`;
-			if(e.pageNo < e.totalPageCnt){
-				pagingOutput += `<li class="page-item">`;
-				pagingOutput += `<a class="page-link text-light bg-danger" style="border: none"`;
-				pagingOutput +=	`href="/study/listAll?pageNo=${param.pageNo +1 }&statusFilter=${param.statusFilter }&searchType=${param.searchType }&searchValue=${param.searchValue }"`;
-				pagingOutput += `aria-label="Previous">`;
-				pagingOutput += `<span aria-hidden="true"><i class="bi bi-arrow-right-short"></i></span>`;
-				pagingOutput += `</a></li>`;
-			}
-		});
+		}
+		
+		if(paging.pageNo < paging.totalPageCnt){
+			pagingOutput += `<li class="page-item">`;
+			pagingOutput += `<a class="page-link text-light bg-danger" style="border: none" href="/study/listAll?pageNo=${param.pageNo +1 }&statusFilter=${param.statusFilter }&searchType=${param.searchType }&searchValue=${param.searchValue }" aria-label="Previous">`;
+			pagingOutput += `<span aria-hidden="true"><i class="bi bi-arrow-right-short"></i></span>`;
+			pagingOutput += `</a></li>`;
+		}
+
 		
 		pagingOutput += `</ul>`;
 		pagingOutput += `</div>`;
@@ -329,9 +329,9 @@
 	//모집상태 필터 클릭시 호출되는 함수
 	function sortStudy(sortName) {
 		if(sortName == 'open'){
-			location.href=`/study/listAll?pageNo=${param.pageNo}&statusFilter=모집중&searchType=${param.searchType }&searchValue=${param.searchValue }`;
+			location.href=`/study/listAll?pageNo=&statusFilter=모집중&searchType=${param.searchType }&searchValue=${param.searchValue }`;
 		}else if(sortName == 'close'){
-			location.href=`/study/listAll?pageNo=${param.pageNo}&statusFilter=모집마감&searchType=${param.searchType }&searchValue=${param.searchValue }`;
+			location.href=`/study/listAll?pageNo=&statusFilter=모집마감&searchType=${param.searchType }&searchValue=${param.searchValue }`;
 		}else{
 			location.href=`/study/listAll?&searchType=${param.searchType }&searchValue=${param.searchValue }`;
 		}	
