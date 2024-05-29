@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dodeveloper.admin.service.AdminBoardService;
 import com.dodeveloper.admin.vo.QnaReplyVO;
+import com.dodeveloper.reply.service.ReplyService;
+import com.dodeveloper.reply.vodto.ReplyDTO;
+import com.dodeveloper.reply.vodto.ReplyVO;
 
 
 @RestController 
@@ -24,23 +27,23 @@ public class QnaReplyController {
 	private static final Logger logger = LoggerFactory.getLogger(QnaReplyController.class);
 
 	@Autowired
-	private AdminBoardService bService;
+	private ReplyService rService;
 	
-	@RequestMapping(value="/qnaAll", method = RequestMethod.GET)
-	public ResponseEntity<List<QnaReplyVO>> getAllReplies(@PathVariable("no") int no) {
+	@RequestMapping(value="/all/{boardNo}", method = RequestMethod.GET)
+	public ResponseEntity<List<ReplyVO>> getAllReplies(@PathVariable("bNo") int bNo, @PathVariable("bType") int bType) {
 
-		System.out.println(no + "번 글의 댓글을 가져오자");
+		System.out.println(bNo + "번 글의 댓글을 가져오자");
 
-		ResponseEntity<List<QnaReplyVO>> result = null;
+		ResponseEntity<List<ReplyVO>> result = null;
 
 		try {
-			List<QnaReplyVO> lst = bService.selectReply(no);
+			List<ReplyVO> lst = rService.selectAllReply(bNo, bType);
 
-			result = new ResponseEntity<List<QnaReplyVO>>(lst, HttpStatus.OK);
+			result = new ResponseEntity<List<ReplyVO>>(lst, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 
-			result = new ResponseEntity<List<QnaReplyVO>>(HttpStatus.CONFLICT);
+			result = new ResponseEntity<List<ReplyVO>>(HttpStatus.CONFLICT);
 		}
 
 		return result;
@@ -48,16 +51,16 @@ public class QnaReplyController {
 
 	}
 	
-	@RequestMapping(value="/replyPost", method = RequestMethod.POST)
-	public ResponseEntity<String> saveReply(@PathVariable("bNo") int bNo, @RequestBody QnaReplyVO replyVo) {
-		System.out.println(replyVo.toString() + "댓글을 저장하자" + ", " + bNo);
+	@RequestMapping(value="/{bNo}", method = RequestMethod.POST)
+	public ResponseEntity<String> saveReply(@PathVariable("bNo") int bNo, @PathVariable("bType") int bType, @RequestBody ReplyDTO replydto) {
+		System.out.println(replydto.toString() + "댓글을 저장하자" + ", " + bNo);
 		
 		ResponseEntity<String> result = null;
 		
-		replyVo.setBNo(bNo);
+		replydto.setBNo(bNo);
 		
 		try {
-			if(bService.insertReply(replyVo) == 1) {
+			if(rService.insertReply(replydto) == 1) {
 				result = new ResponseEntity<String>("success", HttpStatus.OK);
 			}
 			
@@ -71,14 +74,14 @@ public class QnaReplyController {
 	}
 	
 	
-	@RequestMapping(value = "/qnaModifyReply", method = RequestMethod.PUT)
-	public ResponseEntity<String> updateReply(@PathVariable("replyNo") int replyNo, @RequestBody QnaReplyVO newReply) {
+	@RequestMapping(value = "/{replyNo}", method = RequestMethod.PUT)
+	public ResponseEntity<String> updateReply(@PathVariable("replyNo") int replyNo, @RequestBody ReplyDTO newReply) {
 		System.out.println(newReply.toString() + "로 댓글을 수정하자, " + replyNo);
 		
 		ResponseEntity<String> result = null;
 		
 		try {
-			if (bService.updateReply(newReply) == 1) {
+			if (rService.updateReply(newReply) == 1) {
 				result = new ResponseEntity<String>("success", HttpStatus.OK);
 			}
 		} catch (Exception e) {
@@ -92,14 +95,14 @@ public class QnaReplyController {
 	}
 	
 
-	@RequestMapping(value = "/qnaDelete")
+	@RequestMapping(value = "/{replyNo}")
 	public ResponseEntity<String> deleteReply(@PathVariable("replyNo") int replyNo) {
 		System.out.println(replyNo + "번 댓글을 삭제하자");
 		
         ResponseEntity<String> result = null;
 		
 		try {
-			if (bService.deleteReply(replyNo) == 1) {
+			if (rService.deleteReply(replyNo) == 1) {
 				result = new ResponseEntity<String>("success", HttpStatus.OK);
 			}
 		} catch (Exception e) {

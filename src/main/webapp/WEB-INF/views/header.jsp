@@ -51,6 +51,7 @@
 						</a>
 					</li>
 					<li><a href="/qna/listAll">문의</a></li>
+					<li><a href="/notice/listAll">공지사항</a></li>
 					<c:if test="${sessionScope.loginMember.isAdmin == 'Y' }">
 					<li><a href="/admin/dashboard">관리자</a></li>
 					</c:if>

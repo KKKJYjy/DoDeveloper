@@ -18,6 +18,7 @@ import com.dodeveloper.admin.vo.QnaBoardVO;
 import com.dodeveloper.admin.vo.QnaReplyVO;
 import com.dodeveloper.admin.vo.ReportVO;
 import com.dodeveloper.etc.PagingInfo;
+import com.dodeveloper.reply.vodto.ReplyVO;
 
 @Service
 public class AdminBoardServiceImpl implements AdminBoardService {
@@ -466,28 +467,6 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 
 	}
 
-	@Override
-	public List<QnaReplyVO> selectReply(int bNo) throws Exception {
-		
-		return bDao.selectReply(bNo);
-	}
 
-	@Override
-	public int insertReply(QnaReplyVO reply) throws Exception {
-		
-		return bDao.insertReply(reply);
-	}
-
-	@Override
-	public int updateReply(QnaReplyVO updateReply) throws Exception {
-		
-		return bDao.updateReply(updateReply);
-	}
-
-	@Override
-	public int deleteReply(int replyNo) throws Exception {
-		
-		return bDao.deleteReply(replyNo);
-	}
 
 }

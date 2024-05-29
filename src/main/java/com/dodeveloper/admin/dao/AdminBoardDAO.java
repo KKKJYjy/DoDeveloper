@@ -12,6 +12,7 @@ import com.dodeveloper.admin.vo.QnaBoardVO;
 import com.dodeveloper.admin.vo.QnaReplyVO;
 import com.dodeveloper.admin.vo.ReportVO;
 import com.dodeveloper.etc.PagingInfo;
+import com.dodeveloper.reply.vodto.ReplyVO;
 
 public interface AdminBoardDAO {
 	// 스터디게시판 조회 메서드
@@ -128,17 +129,6 @@ public interface AdminBoardDAO {
    // 문의사항 테이블 insert
    int insertQnaBoard(QnaBoardVO newBoard) throws Exception;
    
-// 부모글이 ?번 글에 대한 모든 댓글을 가져온다.
-	List<QnaReplyVO> selectReply(int bNo) throws Exception;
-
-	// 부모글이 ?번 글에 대해 신규 댓글을 작성한다.
-	int insertReply(QnaReplyVO reply) throws Exception;
-
-	// 댓글 번호가 ?번 글에 대해 댓글 수정한다
-	int updateReply(QnaReplyVO updateReply) throws Exception;
-
-	// 댓글 번호가 ?번 글에 대해 댓글을 삭제한다
-	int deleteReply(int replyNo) throws Exception;
 
     
 }

@@ -19,6 +19,7 @@ import com.dodeveloper.admin.vo.QnaBoardVO;
 import com.dodeveloper.admin.vo.QnaReplyVO;
 import com.dodeveloper.admin.vo.ReportVO;
 import com.dodeveloper.etc.PagingInfo;
+import com.dodeveloper.reply.vodto.ReplyVO;
 
 @Repository
 public class AdminBoardDAOImpl implements AdminBoardDAO {
@@ -335,29 +336,6 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 		return ses.insert(ns + ".insertQna", newBoard);
 	}
 
-	@Override
-	public List<QnaReplyVO> selectReply(int bNo) throws Exception {
-		
-		return ses.selectList(ns + ".getReply", ns);
-	}
-
-	@Override
-	public int insertReply(QnaReplyVO reply) throws Exception {
-		
-		return ses.insert(ns + ".insertReply", reply);
-	}
-
-	@Override
-	public int updateReply(QnaReplyVO updateReply) throws Exception {
-		
-		return ses.update(ns + ".updateReply", updateReply);
-	}
-
-	@Override
-	public int deleteReply(int replyNo) throws Exception {
-		
-		return ses.delete(ns + ".deleteReply", replyNo);
-	}
 
 	
 

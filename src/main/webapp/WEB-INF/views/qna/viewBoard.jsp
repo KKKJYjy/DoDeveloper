@@ -89,7 +89,7 @@ $(function() {
 				console.log(JSON.stringify(newReply));
 				
 					 $.ajax({
-						url : 'replyPost',
+						url : '/qnaReply/' + bNo,
 						type : "post",
 						data : JSON.stringify(newReply),    
 						headers : {  
@@ -131,7 +131,7 @@ function getAllReplies() {
 	let boardNo = ${qnaView.no};
 	
 	$.ajax({
-		url : "/qnaAll",
+		url : "/qnaReply/all/" + boardNo,
 		type : "get",
 		dataType : "json", 
 		async : 'false',
@@ -180,7 +180,7 @@ function showRemoveReply(replyNo) {
 	 if (user == writer) { 
 		if(window.confirm(replyNo + '번 글을 삭제 할까요?')) {
 			 $.ajax({
-					url : "/qnaDelete",
+					url : "/qnaReply/" + replyNo,
 					type : "delete",
 					headers : {
 						"Content-Type" : "application/json",
@@ -236,7 +236,7 @@ function modifyReply(replyNo) {
 	};
 	
 		  $.ajax({
-				url : "/qnaModifyReply",
+				url : "/qnaReply/" + replyNo,
 				type : "put",
 				data : JSON.stringify(modifyReply),
 				headers : {

@@ -20,4 +20,5 @@ public class QnaBoardVO {
 	private String qnaTitle;
 	private String qnaContent;
 	private Timestamp postDate;
+	private int bType;
 }
