@@ -305,7 +305,6 @@
 		values(#{qnaWriter}, #{qnaTitle}, #{qnaContent})
 	</insert>
 	
-	
 
 
 

@@ -129,6 +129,5 @@ public interface AdminBoardDAO {
    // 문의사항 테이블 insert
    int insertQnaBoard(QnaBoardVO newBoard) throws Exception;
    
-
     
 }

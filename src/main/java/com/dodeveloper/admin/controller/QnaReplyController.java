@@ -29,7 +29,7 @@ public class QnaReplyController {
 	@Autowired
 	private ReplyService rService;
 	
-	@RequestMapping(value="/all/{boardNo}", method = RequestMethod.GET)
+	@RequestMapping(value="/qnaAll/{bNo}/{bType}", method = RequestMethod.GET)
 	public ResponseEntity<List<ReplyVO>> getAllReplies(@PathVariable("bNo") int bNo, @PathVariable("bType") int bType) {
 
 		System.out.println(bNo + "번 글의 댓글을 가져오자");
@@ -51,13 +51,15 @@ public class QnaReplyController {
 
 	}
 	
-	@RequestMapping(value="/{bNo}", method = RequestMethod.POST)
+	@RequestMapping(value="/{bNo}/{bType}", method = RequestMethod.POST)
 	public ResponseEntity<String> saveReply(@PathVariable("bNo") int bNo, @PathVariable("bType") int bType, @RequestBody ReplyDTO replydto) {
 		System.out.println(replydto.toString() + "댓글을 저장하자" + ", " + bNo);
 		
 		ResponseEntity<String> result = null;
 		
 		replydto.setBNo(bNo);
+		replydto.setBType(bType);
+		
 		
 		try {
 			if(rService.insertReply(replydto) == 1) {
@@ -74,25 +76,6 @@ public class QnaReplyController {
 	}
 	
 	
-	@RequestMapping(value = "/{replyNo}", method = RequestMethod.PUT)
-	public ResponseEntity<String> updateReply(@PathVariable("replyNo") int replyNo, @RequestBody ReplyDTO newReply) {
-		System.out.println(newReply.toString() + "로 댓글을 수정하자, " + replyNo);
-		
-		ResponseEntity<String> result = null;
-		
-		try {
-			if (rService.updateReply(newReply) == 1) {
-				result = new ResponseEntity<String>("success", HttpStatus.OK);
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			
-			result = new ResponseEntity<String>("fail", HttpStatus.FORBIDDEN);
-		}
-		
-		return result;
-	}
 	
 
 	@RequestMapping(value = "/{replyNo}")

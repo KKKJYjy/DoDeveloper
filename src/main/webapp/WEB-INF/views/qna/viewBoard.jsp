@@ -63,6 +63,17 @@
 	font-size: 12px;
 	color: #595959;
 }
+
+
+.deleteBtns img {
+	width: 25px;
+	margin-right: 5px;
+	left: 88%;
+}
+
+.saveReply {
+	margin-top: 10px;
+}
 </style>
 <script>
 let replies = null;
@@ -73,15 +84,21 @@ $(function() {
 	// 댓글 저장 버튼을 누르면
 	$(".saveReply").click(function() {
 		let replyContent = $('#replyContent').val();
+		let admin = '${sessionScope.loginMember.isAdmin}'
 		if (replyContent == '') {
 			alert('댓글을 남겨주세요');
 			$('#replyContent').focus();
-		} else {
+		} if (admin == 'N') {
+			alert('작성 권한이 없습니다');
+		}
+		else {
 			let replyer = preAuth();	
 			if (replyer != '') {
-				let bNo = ${qnaView.no};
+				let bNo = '${qnaView.no}';
+				let bType = 5;
 				let newReply = {
-					"bNo" : bNo,
+					"bNo" : bNo + "",
+					"bType" : bType,
 					"replyContent" : replyContent,
 					"replyer" : replyer
 				};  
@@ -89,7 +106,7 @@ $(function() {
 				console.log(JSON.stringify(newReply));
 				
 					 $.ajax({
-						url : '/qnaReply/' + bNo,
+						url : '/qnaReply/' + bNo + "/" + bType,
 						type : "post",
 						data : JSON.stringify(newReply),    
 						headers : {  
@@ -120,18 +137,20 @@ $(function() {
 function preAuth() {
 	let writer = '${sessionScope.loginMember.userId}';
 	if (writer == '') {  // 로그인 하지 않았다
-		location.href='/member/login?redirectUrl=qnaReply&no=${qnaView.no}';
+		location.href='/member/login?redirectUrl=viewBoard&no=${qnaView.no}';
 		// 로그인 하고 댓글 저장 할 수 있도록 다시 여기로 오게 해야 함.
 		writer = '${sessionScope.loginMember.userId}';
+		
 	} 
 	return writer;
 }
 
 function getAllReplies() {
-	let boardNo = ${qnaView.no};
+	let bNo = '${qnaView.no}';
+	let bType = 5;
 	
 	$.ajax({
-		url : "/qnaReply/all/" + boardNo,
+		url : "/qnaReply/qnaAll/" + bNo + "/" + bType,
 		type : "get",
 		dataType : "json", 
 		async : 'false',
@@ -157,8 +176,8 @@ function outputReplies(data) {
 		let diff = processPostDate(reply.writtenDate);
 		output += `<div>\${diff}</div>`;
 		
-		output += `<div class='replyBtns'><img src='/resources/images/gear.png' onclick='showModifyReply(\${reply.replyNo});'/>`;
-		output += `<img src='/resources/images/trach.png' onclick='showRemoveReply(\${reply.replyNo});' /></div>`;
+		
+		output += `<div class='deleteBtns'><img src='/resources/admin/images/delete.png' onclick='showRemoveReply(\${reply.replyNo});' /></div>`;
 		
 		output += `</div>`;
 		output += `</ul>`;
@@ -169,7 +188,11 @@ function outputReplies(data) {
 
 function showRemoveReply(replyNo) {
 	let user = preAuth();  // 로그인한 유저
+	let admin = '${sessionScope.loginMember.isAdmin}'
 	let writer = null;
+	if (admin == 'N'){
+		alert('삭제 권한이 없습니다');
+	}
 	$.each(replies, function(i, r) {
 		if (replyNo == r.replyNo) {
 			writer = r.replyer;  // 댓글 작성자
@@ -189,7 +212,7 @@ function showRemoveReply(replyNo) {
 						// POST 방식으로 동작되도록 한다.
 						"X-HTTP-Method-Override" : "POST"
 					},
-					dataType : "text", // 수신받을 데이터의 타입
+					dataType : "text", 
 					async : 'false',
 					success : function(data) {
 						console.log(data);
@@ -203,62 +226,6 @@ function showRemoveReply(replyNo) {
 	 }
 }
 
-function showModifyReply(replyNo) {
-	let user = preAuth();  // 로그인한 유저
-	let writer = null;
-	$.each(replies, function(i, r) {
-		if (replyNo == r.replyNo) {
-			writer = r.replyer;  // 댓글 작성자
-		}
-	});
-	
-	
-	 if (user == writer) { 
-	let output = `<div class="modifyReply"><div class="mb-3 mt-3"><label for="modifyReplyContent" class="form-label">댓글 내용: </label>`;
-	output += `<textarea cols="600" rows="5" id="modifyReplyContent" class="form-control"></textarea>`;
-	// 백틱 이용 방법
-	output += `<button type="button" class="btn btn-primary" onclick='modifyReply(\${replyNo});'>댓글수정</button></div></div>`;
-	// ""이용방법
-  // output += "<button type='button' class='btn btn-primary modifyReplyBtn' onclick='modifyReply(" + replyNo + ");'>댓글수정</button></div></div>";
-	
-	$(output).insertAfter($(`#reply_\${replyNo}`));
-	 } else {
-		 alert('본인 댓글만 수정 할 수 있습니다');
-	 }
-}
-
-function modifyReply(replyNo) {
-	let replyContent = $('#modifyReplyContent').val();
-	
-	let modifyReply = {
-			"replyNo" : replyNo,
-			"replyContent" : replyContent
-	};
-	
-		  $.ajax({
-				url : "/qnaReply/" + replyNo,
-				type : "put",
-				data : JSON.stringify(modifyReply),
-				headers : {
-					"Content-Type" : "application/json",
-					
-					// PUT, DELETE, PATCH 등의 REST에서 사용되는 HTTP method가 동작하지 않는 과거의 웹 브라우저에서
-					// POST 방식으로 동작되도록 한다.
-					"X-HTTP-Method-Override" : "POST"
-				},
-				dataType : "text", // 수신받을 데이터의 타입
-				async : 'false',
-				success : function(data) {
-					console.log(data);
-		
-					if (data == 'success') {
-						$('.modifyReply').remove();
-						getAllReplies();
-					}
-				},
-			}); 
-	
-}
 
 
 function processPostDate(writtenDate) {
@@ -328,17 +295,13 @@ function processPostDate(writtenDate) {
 
 				</div>
 
-				<div class="btns">
-
-					<button type="button" id="openModalBtn" onclick="checkCheckbox()">댓글</button>
-				</div>
-
+				
 
 
 
 				<div class="btns">
-
-					<button type="button" class="btn btn-warning"
+			
+					<button type="button"
 						onclick="location.href='/qna/listAll';">목록으로</button>
 				</div>
 
@@ -347,7 +310,7 @@ function processPostDate(writtenDate) {
 						<label for="replyContent" class="form-label">댓글 내용: </label>
 						<textarea rows="cols=" 600" rows="5" id="replyContent"
 							class="form-control"></textarea>
-						<button type="button" class="btn btn-primary saveReply">댓글
+						<button type="button" class="saveReply">댓글
 							저장</button>
 					</div>
 				</div>

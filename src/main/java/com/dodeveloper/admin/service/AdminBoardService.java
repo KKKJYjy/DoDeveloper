@@ -52,7 +52,7 @@ public interface AdminBoardService {
 		// 신고내역 삭제 처리하는 메서드
 		void reportDelete(String reportNo) throws Exception;
 		
-		// 문의게시물 삭제 처리한는 메서드
+		// 관리자 페이지에서 문의게시물 삭제 처리한는 메서드
 		void qnaDelete(String no) throws Exception;
 		
 		// 공지사항 작성
@@ -84,6 +84,8 @@ public interface AdminBoardService {
 	    
 	    // 문의사항 작성
 	    boolean writeQndBoard(QnaBoardVO newBoard) throws Exception;
+	    
+	    
 	    
 	
 }
