@@ -276,6 +276,18 @@ public class StudyDAOImpl implements StudyDAO {
 	}
 
 	/**
+		* @author : yeonju
+		* @date : 2024. 5. 28.
+		* @param : List<String> studyStackList - 필터링할 스터디 언어
+		* @return : int
+		* @description : 스터디 언어로 필터링했을 때 스터디 모임글 갯수 select
+	 */
+	@Override
+	public int selectTotalBoardCntWithSdtoWithStuStack(List<String> studyStackList) {
+		return ses.selectOne(ns + ".selectTotalBoardCntWithSdtoWithStuStack", studyStackList);
+	}
+	
+	/**
 	 * @author : yeonju
 	 * @date : 2024. 5. 24.
 	 * @param : List<String> studyStackList - 필터링할 스터디 언어 List
@@ -283,9 +295,14 @@ public class StudyDAOImpl implements StudyDAO {
 	 * @description : 필터링할 스터디 언어를 공부하는 스터디 모임글을 select
 	 */
 	@Override
-	public List<StudyBoardVO> searchStudyByStack(List<String> studyStackList) throws Exception {
-		return ses.selectList(ns + ".searchStudyByStack", studyStackList);
+	public List<StudyBoardVO> searchStudyByStack(List<String> studyStackList, PagingInfo pi) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("studyStackList", studyStackList);
+		param.put("startRowIndex", pi.getStartRowIndex());
+		param.put("viewPostCntPerPage", pi.getViewPostCntPerPage());
+		return ses.selectList(ns + ".searchStudyByStack", param);
 	}
+
 
 	
 

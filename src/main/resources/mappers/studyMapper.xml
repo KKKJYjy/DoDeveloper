@@ -173,10 +173,23 @@
 		and status = #{status}
 	</select>
 	
+	
+	<!-- 스터디 언어로 필터링했을 때 스터디 모임글 갯수 select -->
+	<select id="selectTotalBoardCntWithSdtoWithStuStack" resultType="int">
+		select count(distinct stuNo)
+		from studyBoard
+		where stuNo in
+		(select distinct stuBoardNo from stuStack where chooseStack in
+
+		<foreach collection="list" item="item" open="(" close=")"
+			separator=",">
+			#{item}
+		</foreach>)
+	</select>
+	
 	<!-- 유저가 찾고자하는 스터디 언어를 공부하는 스터디 모임글 select -->
 	<select id="searchStudyByStack"
 		resultType="com.dodeveloper.study.vodto.StudyBoardVO">
-
 		select distinct stuNo,
 		stuWriter, stuTitle, stuContent, stuLoc, stuX,
 		stuY, stuDate, stuPers,
@@ -187,12 +200,15 @@
 		(select
 		distinct stuBoardNo from stuStack where chooseStack in
 
-		<foreach collection="list" item="item" open="(" close=")"
+		<foreach collection="studyStackList" item="item" open="(" close=")"
 			separator=",">
 			#{item}
 		</foreach>)
-
+		
 		order by wrritenDate desc
+		
+		limit
+		#{startRowIndex}, #{viewPostCntPerPage}
 	</select>
 
 

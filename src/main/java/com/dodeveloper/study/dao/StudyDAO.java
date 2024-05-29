@@ -37,6 +37,9 @@ public interface StudyDAO {
 	//검색어가 있고 필터가 있을 때 전체 게시글 갯수
 	int selectTotalBoardCntWithSdtoWithStatusFilter(SearchStudyDTO sDTO, String status) throws Exception;
 	
+	//스터디 언어로 필터링했을때의 전체 게시글 갯수
+	int selectTotalBoardCntWithSdtoWithStuStack(List<String> studyStackList);
+	
 	
 	//stuNo번째 스터디 언어를 가져오는 메서드
 	List<StuStackDTO> selectAllStudyStack(int stuNo);
@@ -71,11 +74,7 @@ public interface StudyDAO {
 
 	
 	//studyStackList로 필터링했을 때 나오는 스터디 모임글 반환하는 메서드
-	List<StudyBoardVO> searchStudyByStack(List<String> studyStackList) throws Exception;
-	
-
-
-
+	List<StudyBoardVO> searchStudyByStack(List<String> studyStackList, PagingInfo pi) throws Exception;
 
 
 

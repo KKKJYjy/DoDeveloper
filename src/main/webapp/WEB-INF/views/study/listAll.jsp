@@ -74,8 +74,6 @@
 			placeholder : '스터디 언어로 검색'
 		});
 
-		let studyStackList = new Array();
-
 		//스터디 언어 선택했을 때 필터링 
 		$('.studyLang').on("select2:select", function() {
 			console.log("select", $('.studyLang').val());
@@ -84,7 +82,6 @@
 			if ($('.studyLang').val().length > 0) {
 				searchStudy();
 			}
-
 		})
 
 		//스터디 언어 삭제했을 때 필터링
@@ -103,11 +100,10 @@
 			}
 		});
 
-		//url 쿼리스트링 값 가져와서 
+		//url 쿼리스트링 값 가져와서 모집중, 모집마감 일때 class 설정
 		let url = new URL(window.location.href);
 		let urlParams = url.searchParams;
-
-		console.log(urlParams);
+		//console.log(urlParams);
 
 		if (urlParams.get('statusFilter') == '모집중') {
 			$(".all").attr('class', 'btn btn-secondary all');
@@ -138,8 +134,9 @@
 			success : function(data) { //HttpStatus code가 200인 경우 이 코드 실행
 				console.log(data);
 				$(".studyList").css("display", "none");
-				$(".paging").css("display", "none");
+				
 				outputSearchStudy(data);
+				studyListBySearchPaging(data);
 			},
 			error : function(data) { //HttpStatus code가 200이 아닌경우 이 코드 실행
 				console.log(data);
@@ -147,7 +144,7 @@
 		});
 	}
 
-	//ajax로 데이터를 가져왔으므로 js에서 데이터들을 출력한다.
+	//스터디 언어로 필터링시 ajax로 데이터를 가져왔으므로 js에서 데이터들을 출력한다.
 	function outputSearchStudy(data) {
 
 		let stuStackList = data.stuStackList;
@@ -160,82 +157,119 @@
 		output += `<h5 class="text-danger" style="line-height: 180px; cursor: pointer;"onclick="location.href='/study/writeStudyBoard';">`;
 		output += `<b>나도 스터디 만들기</b></h5></div></div></div>`;
 
-		$
-				.each(
-						studyList,
-						function(i, e) {
-							if (`\${e.status}` == '모집중') {
-								output += `<div class="col mb-4 study" style="cursor: pointer;" id="studyList" onclick="location.href='/study/viewStudyBoard?stuNo=\${e.stuNo}';">`;
-								output += `<div class="card">`;
-								output += `<div class="card-body p-4" style="width: 100%;">`;
-								output += `<div class="">`;
-								output += `<p class="card-subtitle mb-2 text-body-secondary text-truncate" style="max-width: 100%;">📍\${e.stuLoc }</p>`;
-								output += `</div>`;
-								output += `<div class="mt-4"><h5 class="card-title text-truncate" style="max-width: 100%;"><b>\${e.stuTitle }</b></h5></div>`;
-								output += `<div class="mt-4">`;
-								output += `<p class="card-text">`;
+		$.each(studyList, function(i, e) {
+			if (`\${e.status}` == '모집중') {
+				output += `<div class="col mb-4 study" style="cursor: pointer;" id="studyList" onclick="location.href='/study/viewStudyBoard?stuNo=\${e.stuNo}';">`;
+				output += `<div class="card">`;
+				output += `<div class="card-body p-4" style="width: 100%;">`;
+				output += `<div class="">`;
+				output += `<p class="card-subtitle mb-2 text-body-secondary text-truncate" style="max-width: 100%;">📍\${e.stuLoc }</p>`;
+				output += `</div>`;
+				output += `<div class="mt-4"><h5 class="card-title text-truncate" style="max-width: 100%;"><b>\${e.stuTitle }</b></h5></div>`;
+				output += `<div class="mt-4">`;
+				output += `<p class="card-text">`;
 
-								//스터디 언어는 여러개이므로 함수를 이용해 값을 비교해서 가져온다
+				//스터디 언어는 여러개이므로 함수를 이용해 값을 비교해서 가져온다
 
-								let stackName = [];
-								stackName = getStudyStack(e.stuNo, stuStackList);
-								console.log(stackName);
-								for (let j = 0; j < stackName.length; j++) {
-									//console.log(stackName[j])
-									output += `<span class="badge text-bg-secondary me-1">\${stackName[j]}</span>`;
-								}
+				let stackName = [];
+				stackName = getStudyStack(e.stuNo, stuStackList);
+				console.log(stackName);
+				for (let j = 0; j < stackName.length; j++) {
+					//console.log(stackName[j])
+					output += `<span class="badge text-bg-secondary me-1">\${stackName[j]}</span>`;
+				}
 
-								output += `</p>`;
-								output += `</div>`;
+				output += `</p>`;
+				output += `</div>`;
 
-								output += `<div class="d-flex mt-4">`;
-								output += `<div class="me-auto"><p class="card-text">\${e.stuWriter }</p></div>`;
-								output += `<div class="me-2">`;
-								output += `<p class="card-text text-body-secondary">`;
-								output += `<i class="bi bi-eye"></i>\${e.readCount }`;
-								output += `</p></div>`;
-								output += `<div class=""><p class="card-text text-body-secondary"><i class="bi bi-bookmark"></i>\${e.scrape }</p>`;
-								output += `</div></div></div></div></div>`;
+				output += `<div class="d-flex mt-4">`;
+				output += `<div class="me-auto"><p class="card-text">\${e.stuWriter }</p></div>`;
+				output += `<div class="me-2">`;
+				output += `<p class="card-text text-body-secondary">`;
+				output += `<i class="bi bi-eye"></i>\${e.readCount }`;
+				output += `</p></div>`;
+				output += `<div class=""><p class="card-text text-body-secondary"><i class="bi bi-bookmark"></i>\${e.scrape }</p>`;
+				output += `</div></div></div></div></div>`;
 
-							} else if (`\${e.status}` == '모집마감') {
-								output += `<div class="col mb-4 study" style="cursor: pointer;" id="studyList" onclick="location.href='/study/viewStudyBoard?stuNo=\${e.stuNo}';">`;
-								output += `<div class="card position-relative">`;
-								output += `<span class="position-absolute top-50 start-50 translate-middle badge pill bg-black" style="width:100%; height:100%; opacity:75%;"></span>`;
-								output += `<span class="position-absolute top-50 start-50 translate-middle badge text-light" style="font-size:17px;">모집 마감</span>`;
-								output += `<div class="card-body p-4" style="width: 100%;">`;
-								output += `<div class="">`;
-								output += `<p class="card-subtitle mb-2 text-body-secondary text-truncate" style="max-width: 100%;">📍\${e.stuLoc }</p>`;
-								output += `</div>`;
-								output += `<div class="mt-4"><h5 class="card-title text-truncate" style="max-width: 100%;"><b>\${e.stuTitle }</b></h5></div>`;
-								output += `<div class="mt-4">`;
-								output += `<p class="card-text">`;
+			} else if (`\${e.status}` == '모집마감') {
+			output += `<div class="col mb-4 study" style="cursor: pointer;" id="studyList" onclick="location.href='/study/viewStudyBoard?stuNo=\${e.stuNo}';">`;
+			output += `<div class="card position-relative">`;
+			output += `<span class="position-absolute top-50 start-50 translate-middle badge pill bg-black" style="width:100%; height:100%; opacity:75%;"></span>`;
+			output += `<span class="position-absolute top-50 start-50 translate-middle badge text-light" style="font-size:17px;">모집 마감</span>`;
+			output += `<div class="card-body p-4" style="width: 100%;">`;
+			output += `<div class="">`;
+			output += `<p class="card-subtitle mb-2 text-body-secondary text-truncate" style="max-width: 100%;">📍\${e.stuLoc }</p>`;
+			output += `</div>`;
+			output += `<div class="mt-4"><h5 class="card-title text-truncate" style="max-width: 100%;"><b>\${e.stuTitle }</b></h5></div>`;
+			output += `<div class="mt-4">`;
+			output += `<p class="card-text">`;
+			
+			//스터디 언어는 여러개이므로 함수를 이용해 값을 비교해서 가져온다
 
-								//스터디 언어는 여러개이므로 함수를 이용해 값을 비교해서 가져온다
+			let stackName = [];
+			stackName = getStudyStack(e.stuNo, stuStackList);
+			console.log(stackName);
+			for (let j = 0; j < stackName.length; j++) {
+			//console.log(stackName[j])
+			output += `<span class="badge text-bg-secondary me-1">\${stackName[j]}</span>`;
+			}
+								
+			output += `</p>`;								
+			output += `</div>`;
 
-								let stackName = [];
-								stackName = getStudyStack(e.stuNo, stuStackList);
-								console.log(stackName);
-								for (let j = 0; j < stackName.length; j++) {
-									//console.log(stackName[j])
-									output += `<span class="badge text-bg-secondary me-1">\${stackName[j]}</span>`;
-								}
+			output += `<div class="d-flex mt-4">`;
+			output += `<div class="me-auto"><p class="card-text">\${e.stuWriter }</p></div>`;
+			output += `<div class="me-2">`;
+			output += `<p class="card-text text-body-secondary">`;
+			output += `<i class="bi bi-eye"></i>\${e.readCount }`;
+			output += `</p></div>`;
+			output += `<div class=""><p class="card-text text-body-secondary"><i class="bi bi-bookmark"></i>\${e.scrape }</p>`;
+			output += `</div></div></div></div></div>`;
+			}
 
-								output += `</p>`;
-								output += `</div>`;
-
-								output += `<div class="d-flex mt-4">`;
-								output += `<div class="me-auto"><p class="card-text">\${e.stuWriter }</p></div>`;
-								output += `<div class="me-2">`;
-								output += `<p class="card-text text-body-secondary">`;
-								output += `<i class="bi bi-eye"></i>\${e.readCount }`;
-								output += `</p></div>`;
-								output += `<div class=""><p class="card-text text-body-secondary"><i class="bi bi-bookmark"></i>\${e.scrape }</p>`;
-								output += `</div></div></div></div></div>`;
-							}
-
-						});
-
+		});
+		$(".paging").css("display", "none");
 		$(".studyListBySearch").html(output);
+		
+	}
+	
+	//스터디 언어로 필터링시 페이징 구현
+	function studyListBySearchPaging(data){
+		
+		let pagingInfos = data.pagingInfo;
+		
+		let pagingOutput = `<div class="row mt-4 paging">`;
+		pagingOutput += `<div class="col">`;
+		pagingOutput += `<ul class="pagination justify-content-center">`;
+		
+		$.each(pagingInfos, function(i, e) {
+			if(e.pageNo >1 ){
+				pagingOutput += `<li class="page-item">`;
+				pagingOutput += `<a class="page-link text-light bg-danger" style="border: none"`;
+				pagingOutput +=	`href="/study/listAll?pageNo=${param.pageNo -1 }&statusFilter=${param.statusFilter }&searchType=${param.searchType }&searchValue=${param.searchValue }"`;
+				pagingOutput += `aria-label="Previous">`;
+				pagingOutput += `<span aria-hidden="true"><i class="bi bi-arrow-left-short"></i></span>`;
+				pagingOutput += `</a></li>`;
+			}
+			pagingOutput += `<li class="page-item" id="\${i }">`;
+			pagingOutput += `<a class="page-link text-black" style="border: none" href="/study/listAll?pageNo=\${i }&statusFilter=${param.statusFilter }&searchType=${param.searchType }&searchValue=${param.searchValue }">\${i }</a>`;
+			pagingOutput += `</li>`;
+			if(e.pageNo < e.totalPageCnt){
+				pagingOutput += `<li class="page-item">`;
+				pagingOutput += `<a class="page-link text-light bg-danger" style="border: none"`;
+				pagingOutput +=	`href="/study/listAll?pageNo=${param.pageNo +1 }&statusFilter=${param.statusFilter }&searchType=${param.searchType }&searchValue=${param.searchValue }"`;
+				pagingOutput += `aria-label="Previous">`;
+				pagingOutput += `<span aria-hidden="true"><i class="bi bi-arrow-right-short"></i></span>`;
+				pagingOutput += `</a></li>`;
+			}
+		});
+		
+		pagingOutput += `</ul>`;
+		pagingOutput += `</div>`;
+		pagingOutput += `</div>`;
+		
+		$(".studyListBySearchPaging").html(pagingOutput);
+		
 	}
 
 	function getStudyStack(stuNo, stuStackList) {
@@ -291,20 +325,16 @@
 		return result;
 	}
 	
+	
+	//모집상태 필터 클릭시 호출되는 함수
 	function sortStudy(sortName) {
-		//let result = false;
 		if(sortName == 'open'){
 			location.href=`/study/listAll?pageNo=${param.pageNo}&statusFilter=모집중&searchType=${param.searchType }&searchValue=${param.searchValue }`;
-			//result = true;
 		}else if(sortName == 'close'){
 			location.href=`/study/listAll?pageNo=${param.pageNo}&statusFilter=모집마감&searchType=${param.searchType }&searchValue=${param.searchValue }`;
-			//result = true;
-		}
-		
-		else{
+		}else{
 			location.href=`/study/listAll?&searchType=${param.searchType }&searchValue=${param.searchValue }`;
-		}
-		//return result;
+		}	
 	}
 </script>
 
@@ -400,7 +430,7 @@
 									<div class="">
 										<div class="input-group input-group-sm">
 											<input type="text" class="form-control" placeholder="검색할 내용 입력" 
-												id="searchValue" name="searchValue" style="width: 150px" value="">
+												id="searchValue" name="searchValue" style="width: 150px" value="${param.searchValue }">
 											 
 											<input type="submit" class="btn btn-secondary" onclick="return isValid();"
 												value="검색" />
@@ -412,13 +442,13 @@
 						</div>
 					</div>
 				</form>
+				
 				<!-- 스터디 언어로 검색시 나오는 리스트 -->
 				<div class="container mt-3 studyListBySearch"></div>
+				
 				<!-- 첫 화면 : 스터디 모임글 리스트 -->
 				<div class="container mt-3 studyList">
 
-					<%-- 	${studyList }
-				${stuStackList } --%>
 					<div class="row row-cols-md-4 ">
 						<!-- 모임글 추가하기 -->
 						<div class="col-md mb-4 study">
@@ -585,6 +615,9 @@
 						</ul>
 					</div>
 				</div>
+				
+				<!-- 스터디 언어로 검색시 나오는 페이징 -->
+				<div class="container mt-4 studyListBySearchPaging"></div>
 
 			</div>
 
