@@ -93,6 +93,7 @@
 				$(".studyList").css("display", "block");
 				$(".paging").css("display", "block");
 				$(".studyListBySearch").empty();
+				$(".studyListBySearchPaging").empty();
 			}
 
 			if ($('.studyLang').val().length > 0) {
