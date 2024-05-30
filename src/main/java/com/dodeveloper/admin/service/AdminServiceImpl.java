@@ -73,13 +73,18 @@ public class AdminServiceImpl implements AdminService {
 		
 		List<CountUriVO> result = aDao.selectPageLog();
 		
+		
 		return result;
 	}
 
 	@Override
-	public List<ConnectLogVO> getDateLog() throws Exception {
+	public List<ConnectLogVO> getDateLog(int month) throws Exception {
 		
-		List<ConnectLogVO> result = aDao.connectDateLog();
+		List<ConnectLogVO> result = aDao.connectDateLog(month);
+		
+		for(ConnectLogVO c : result) {
+			System.out.println(c.toString());
+		}
 		
 		return result;
 	}

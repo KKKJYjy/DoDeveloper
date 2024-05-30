@@ -30,6 +30,6 @@ public interface AdminService {
 	List<CountUriVO> getPageLogCount() throws Exception;
 	
 	// 날짜별 접속자 수 조회하는 메서드
-	List<ConnectLogVO> getDateLog() throws Exception;
+	List<ConnectLogVO> getDateLog(int month) throws Exception;
 
  }
