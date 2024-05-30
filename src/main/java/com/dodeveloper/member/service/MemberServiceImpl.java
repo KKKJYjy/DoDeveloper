@@ -88,4 +88,9 @@ public class MemberServiceImpl implements MemberService {
 	public int deleteAllDroppedMember() throws Exception {
 		return mDao.deleteAllDroppedMembers();
 	}
+
+	@Override
+	public MemberVO getMemberByEmail(String email) throws Exception {
+		return mDao.getMemberByEmail(email);
+	}
 }

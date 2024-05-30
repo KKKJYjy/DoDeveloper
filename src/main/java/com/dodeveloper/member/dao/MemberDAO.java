@@ -27,6 +27,9 @@ public interface MemberDAO {
 	// 회원 정보 가져오는 메서드
 	MemberVO getMemberInfo(String userId) throws Exception;
 
+	// 이메일로 회원정보 가져오는 메서드
+	MemberVO getMemberByEmail(String email) throws Exception;
+	
 	// 비밀번호 확인하는 메서드
 	int checkUserPwd(ChangePwdDTO changePwdDTO) throws Exception;
 	

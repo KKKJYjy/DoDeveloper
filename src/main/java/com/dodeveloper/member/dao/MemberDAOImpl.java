@@ -26,6 +26,7 @@ public class MemberDAOImpl implements MemberDAO {
 	private static final String DUPLICATE_USER_ID = NS + ".duplicateUserId";
 	private static final String REGISTER_MEMBER = NS + ".registerMember";
 	private static final String GET_MEMBER_INFO = NS + ".getMemberInfo";
+	private static final String GET_MEMBER_BY_EMAIL = NS + ".getMemberInfoByEmail";
 	private static final String CHECK_USER_PWD = NS + ".checkUserPwd";
 	private static final String CHANGE_PWD = NS + ".changePwd";
 	private static final String CHANGE_PROFILE = NS + ".changeProfile";
@@ -91,5 +92,10 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public int deleteAllDroppedMembers() throws Exception {
 		return sqlSession.delete(DELETE_DROPPED_MEMBER);
+	}
+
+	@Override
+	public MemberVO getMemberByEmail(String email) throws Exception {
+		return sqlSession.selectOne(GET_MEMBER_BY_EMAIL, email);
 	}
 }
