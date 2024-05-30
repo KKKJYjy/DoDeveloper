@@ -319,9 +319,14 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 	}
 
 	@Override
-	public List<QnaBoardVO> selectQnaBoard() throws Exception {
+	public List<QnaBoardVO> selectQnaBoard(PagingInfo pi) throws Exception {
 		
-		return ses.selectList(ns + ".selectQna");
+		Map<String, Object> params = new HashMap<String, Object>();
+	
+		params.put("startRowIndex", pi.getStartRowIndex());
+		params.put("viewPostCntPerPage", pi.getViewPostCntPerPage());
+		
+		return ses.selectList(ns + ".selectQna", params);
 	}
 
 	@Override
@@ -334,6 +339,12 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 	public int insertQnaBoard(QnaBoardVO newBoard) throws Exception {
 		
 		return ses.insert(ns + ".insertQna", newBoard);
+	}
+
+	@Override
+	public int selectQnaTotalBoardCnt() throws Exception {
+		
+		return ses.selectOne(ns + ".getQnaTotalBoardCnt");
 	}
 
 

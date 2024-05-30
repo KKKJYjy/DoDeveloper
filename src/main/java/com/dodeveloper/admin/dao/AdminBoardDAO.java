@@ -45,6 +45,9 @@ public interface AdminBoardDAO {
 	// 공지사항 게시글 전체 갯수 구할 수 있는 메서드
 	int selectNotcTotalBoardCnt() throws Exception;
 	
+	// 문의사항 게시글 전체 갯수 구할 수 있는 메서드
+	int selectQnaTotalBoardCnt() throws Exception;
+	
 	// 검색된 글의 갯수를 가져오는 메서드
 	int selectBoardSearchCritera(SearchCriteriaDTO sc) throws Exception;
 	
@@ -121,7 +124,7 @@ public interface AdminBoardDAO {
    int updateNoticeBoard(NoticeDTO mdBoard) throws Exception;
    
    // 문의 게시판 조회 메서드
-   List<QnaBoardVO> selectQnaBoard() throws Exception;
+   List<QnaBoardVO> selectQnaBoard(PagingInfo pi) throws Exception;
    
    // 문의 ?번 글을 가져오는 메서드
    QnaBoardVO selectQnaBoardNo(int no) throws Exception;

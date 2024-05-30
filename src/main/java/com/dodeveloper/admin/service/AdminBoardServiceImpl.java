@@ -220,6 +220,38 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		// 현재 페이징 블럭 끝 페이지 번호
 		this.pi.setEndNumOfCurrentPagingBlock();
 	}
+	
+	
+	private void makeQnaPagingInfo(int pageNo) throws Exception {
+		this.pi.setPageNo(pageNo);
+
+		this.pi.setViewPostCntPerPage(10);
+		this.pi.setPageCntPerBlock(3);
+
+		// 게시물 데이터 갯수
+		this.pi.setTotalPostCnt(bDao.selectQnaTotalBoardCnt());
+
+		// 총 페이지 수
+		this.pi.setTotalPageCnt();
+
+		// 보여주기 시작할 글 번호
+		this.pi.setStartRowIndex();
+
+		// 전체 페이지 블럭 갯수
+		this.pi.setTotalPageBlockCnt();
+
+		// 현재 페이지가 속한 페이징 블럭 번호
+		this.pi.setPageBlockOfCurrentPage();
+
+		// 현재 페이징 블럭 시작 페이지 번호
+		this.pi.setStartNumOfCurrentPagingBlock();
+
+		// 현재 페이징 블럭 끝 페이지 번호
+		this.pi.setEndNumOfCurrentPagingBlock();
+	}
+
+	
+	
 
 	@Override
 	public Map<String, Object> getlistLectureBoard(int pageNo, SearchCriteriaDTO sc) throws Exception {
@@ -437,13 +469,20 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	}
 
 	@Override
-	public List<QnaBoardVO> getQnaBoard() throws Exception {
+	public Map<String, Object> getQnaBoard(int pageNo) throws Exception {
 
 		System.out.println("서비스단 : 문의게시글 조회");
-
-		List<QnaBoardVO> qnaList = bDao.selectQnaBoard();
-
-		return qnaList;
+		
+		List<QnaBoardVO> qnaList = null;
+		
+		makeQnaPagingInfo(pageNo);
+		qnaList = bDao.selectQnaBoard(pi);
+		
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		returnMap.put("qnaList", qnaList);
+		returnMap.put("pagingInfo", this.pi);
+		
+		return returnMap;
 	}
 
 	@Override

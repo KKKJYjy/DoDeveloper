@@ -43,7 +43,7 @@
 <script>
 	function writeBtn() {
 		let user = '${sessionScope.loginMember.userId}'
-		if (user === ''){
+		if (user === '') {
 			alert('로그인 후 이용해주세요');
 			window.location.href = '/member/login';
 		} else {
@@ -59,6 +59,8 @@
 		<section id="qna" class="basic">
 			<div class="container">
 
+
+
 				<table class="table table-dark table-hover">
 
 
@@ -72,9 +74,10 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="board" items="${qnaBoardList }">
+						<c:forEach var="board" items="${qnaList }">
 
-							<tr id="table" onclick="location.href = '/qna/viewBoard?no=${board.no}';">
+							<tr id="table"
+								onclick="location.href = '/qna/viewBoard?no=${board.no}';">
 								<td>${board.no }</td>
 								<td>${board.qnaWriter }</td>
 								<td>${board.qnaTitle }</td>
@@ -86,7 +89,29 @@
 					</tbody>
 				</table>
 
-				<button type="button" id="openModalBtn" onclick="writeBtn();">글 쓰기</button>
+				<ul class="pagination">
+					<c:if test="${param.pageNo > 1 }">
+						<li class="page-item"><a class="page-link"
+							href="/qna/listAll?pageNo=${param.pageNo -1 }&searchType=${param.searchType}&searchValue=${param.searchValue}">Previous</a></li>
+
+					</c:if>
+					<c:forEach var="i"
+						begin="${pagingInfo.startNumOfCurrentPagingBlock }"
+						end="${pagingInfo.endNumOfCurrentPagingBlock }" step="1">
+						<li class="page-item" id="${i }"><a class="page-link"
+							href="/qna/listAll?pageNo=${i }&searchType=${param.searchType}&searchValue=${param.searchValue}">${i }</a></li>
+					</c:forEach>
+
+					<c:if test="${param.pageNo < pagingInfo.totalPageCnt }">
+						<li class="page-item"><a class="page-link"
+							href="/qna/listAll?pageNo=${param.pageNo +1 }&searchType=${param.searchType}&searchValue=${param.searchValue}">Next</a></li>
+					</c:if>
+				</ul>
+
+
+
+				<button type="button" id="openModalBtn" onclick="writeBtn();">글
+					쓰기</button>
 
 
 			</div>

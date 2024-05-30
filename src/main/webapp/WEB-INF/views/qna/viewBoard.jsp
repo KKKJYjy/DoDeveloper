@@ -64,7 +64,6 @@
 	color: #595959;
 }
 
-
 .deleteBtns img {
 	width: 25px;
 	margin-right: 5px;
@@ -253,6 +252,15 @@ function processPostDate(writtenDate) {
 	return "방금전";
 	
 }
+
+
+function remBtn() {
+	 if(confirm("정말 삭제하시겠습니까?")){
+		alert("정상적으로 삭제되었습니다.");
+	} 
+}
+
+
 </script>
 </head>
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
@@ -295,14 +303,14 @@ function processPostDate(writtenDate) {
 
 				</div>
 
-				
+
 
 
 
 				<div class="btns">
-			
-					<button type="button"
-						onclick="location.href='/qna/listAll';">목록으로</button>
+
+					<button type="button" onclick="remBtn();">삭제</button>
+					<button type="button" onclick="location.href='/qna/listAll';">목록으로</button>
 				</div>
 
 				<div class="writeReply">
@@ -310,8 +318,7 @@ function processPostDate(writtenDate) {
 						<label for="replyContent" class="form-label">댓글 내용: </label>
 						<textarea rows="cols=" 600" rows="5" id="replyContent"
 							class="form-control"></textarea>
-						<button type="button" class="saveReply">댓글
-							저장</button>
+						<button type="button" class="saveReply">댓글 저장</button>
 					</div>
 				</div>
 

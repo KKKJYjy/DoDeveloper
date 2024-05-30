@@ -305,11 +305,22 @@ public class AdminBoardController {
 	
 	
 	@RequestMapping(value = "/inquiry", method = RequestMethod.GET)
-	public void qnaBoard(Model model) throws Exception {
+	public void qnaBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo) throws Exception {
 		
-		List<QnaBoardVO> qnaList = bService.getQnaBoard();
+		Map<String, Object> returnMap = null;
+
+		String resultPage = null;
+
+		if (pageNo <= 0) {
+			pageNo = 1;
+		}
 		
-		model.addAttribute("qnaList", qnaList);
+		returnMap = bService.getQnaBoard(pageNo);
+		
+		model.addAttribute("qnaList", (List<QnaBoardVO>) returnMap.get("qnaList"));
+		model.addAttribute("pagingInfo", (PagingInfo) returnMap.get("pagingInfo"));
+
+		resultPage = "/admin/inquiry";
 		
 	}
 	

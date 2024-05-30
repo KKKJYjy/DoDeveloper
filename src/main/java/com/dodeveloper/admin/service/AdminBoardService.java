@@ -77,7 +77,7 @@ public interface AdminBoardService {
 	    boolean modifyNotcBoard(NoticeDTO mdBoard) throws Exception;
 	    
 	    // 문의 게시판 조회
-	    List<QnaBoardVO> getQnaBoard() throws Exception;
+	    Map<String, Object> getQnaBoard(int pageNo) throws Exception;
 	    
 	    // 문의 게시판 상세페이지
 	    QnaBoardVO getQnaBoardNo(int no) throws Exception;
