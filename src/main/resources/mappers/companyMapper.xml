@@ -38,4 +38,10 @@
 		update companyrevboard set revTitle = #{revTitle}, revProfession = #{revProfession}, revContent = #{revContent}, revGood = #{revGood}, revBed = #{revBed}
 		where revNo = #{revNo}
 	</update>
+	
+	<!-- 유저가 어떤 게시판의 몇번 글을 스크랩 하는 쿼리문 (insert) -->
+	<insert id="getInsertScrap">
+		insert into scrap (scrapBoard, scrapId, bType) 
+		values (#{scrapBoard}, #{scrapId}, #{bType})
+	</insert>
 </mapper>    
