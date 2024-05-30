@@ -65,7 +65,7 @@
 			alert("검색어를 입력해주세요.");
 			return false;
 		}
-		
+
 		if (filterType === "-1") {
 			return false;
 		}
@@ -117,41 +117,46 @@ select option:hover {
 					</div>
 
 					<!-- board seach area -->
-					<div id="board-search">
-						<div class="container">
+					<form action="/lecture/listAll" method="GET">
+						<div id="board-search" class="container">
 							<div class="search-window">
-								<form action="/lecture/listAll" method="GET">
-									<div class="search-wrap searchbar">
-										<!-- 검색 기능 -->
-										<div class="input-group mt-3 mb-3">
-											<select id="searchType" name="searchType">
-												<option value="-1">---- 검색 조건을 입력하세요 ----</option>
-												<option value="lecTitle">제목</option>
-												<option value="lecWriter">작성자</option>
-												<option value="lecReview">본문</option>
-											</select>
-										</div>
-										<div class="input-group mt-3 mb-3">
-											<input id="searchValue" type="text" name="searchValue"
-												placeholder="검색어를 입력해주세요.">
-											<button type="submit" class="btn btn-dark"
-												onclick="return isValid();">검색</button>
-										</div>
+
+								<div class="search-wrap searchbar">
+									<!-- 검색 기능 -->
+									<div class="input-group mt-3 mb-3">
+										<select id="searchType" name="searchType">
+											<option value="-1">---- 검색 조건을 입력하세요 ----</option>
+											<!-- "${param.searchType == 'lecTitle'?'selected':''}"을 사용해서 선택을 했을 때 값이 유지되도록 -->
+											<!-- param에서 searchType을 가져와서 select를 했을 경우 -->
+											<option value="lecTitle"
+												<c:out value="${param.searchType == 'lecTitle'?'selected':''}"/>>제목</option>
+											<option value="lecWriter"
+												<c:out value="${param.searchType == 'lecWriter'?'selected':''}"/>>작성자</option>
+										</select>
 									</div>
-								</form>
+									<div class="input-group mt-3 mb-3">
+										<input id="searchValue" type="text" name="searchValue"
+											placeholder="검색어를 입력해주세요.">
+										<button type="submit" class="btn btn-dark"
+											onclick="return isValid();">검색</button>
+									</div>
+								</div>
 							</div>
 						</div>
-					</div>
 
-					<form action="/lecture/listAll" method="GET">
 						<div class="button-container">
 							<button type="button"
 								class="btn btn-dark dropdown-toggle filters"
 								data-bs-toggle="dropdown">검색 필터</button>
 							<ul class="dropdown-menu" id="filterType" name="filterType">
-								<li><a class="dropdown-item" href="?filterType=latest">최신순</a></li>
-								<li><a class="dropdown-item" href="?filterType=popular">인기순</a></li>
-								<li><a class="dropdown-item" href="?filterType=view">조회순</a></li>
+								<li><a class="dropdown-item"
+									href="?pageNo=${param.pageNo }&filterType=latest&searchType=${param.searchType}&searchValue=${param.searchValue}">최신순</a></li>
+								<li><a class="dropdown-item"
+									href="?pageNo=${param.pageNo }&filterType=popular&searchType=${param.searchType}&searchValue=${param.searchValue}">인기순</a></li>
+								<li><a class="dropdown-item"
+									href="?pageNo=${param.pageNo }&filterType=view&searchType=${param.searchType}&searchValue=${param.searchValue}">조회순</a></li>
+								<li><a class="dropdown-item"
+									href="?pageNo=${param.pageNo }&filterType=starScore&searchType=${param.searchType}&searchValue=${param.searchValue}">별점순</a></li>
 							</ul>
 
 							<button type="button" class="btn btn-dark writeren"
@@ -171,6 +176,7 @@ select option:hover {
 										<th>제목</th>
 										<th>작성자</th>
 										<th>작성 날짜</th>
+										<th>별점</th>
 										<th>조회수</th>
 										<th>좋아요수</th>
 									</tr>
@@ -184,6 +190,7 @@ select option:hover {
 											<td>${lectureBoard.lecTitle }</td>
 											<td>${lectureBoard.lecWriter }</td>
 											<td>${lectureBoard.lecPostDate }</td>
+											<td>${lectureBoard.lecScore }</td>
 											<td>${lectureBoard.lecReadCount }</td>
 											<td>${lectureBoard.lecLikeCount }</td>
 										</tr>
