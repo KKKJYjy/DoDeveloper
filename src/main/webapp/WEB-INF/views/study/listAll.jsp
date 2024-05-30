@@ -76,7 +76,7 @@
 
 		//스터디 언어 선택했을 때 필터링 
 		$('.studyLang').on("select2:select", function() {
-			console.log("select", $('.studyLang').val());
+			//console.log("select", $('.studyLang').val());
 
 			//필터링할 스터디 1개 이상일때만 ajax호출
 			if ($('.studyLang').val().length > 0) {
@@ -87,7 +87,7 @@
 		//스터디 언어 삭제했을 때 필터링
 		$(".studyLang").on("select2:unselect", function() {
 			//alert("!");
-			console.log("unselect", $('.studyLang').val());
+			//console.log("unselect", $('.studyLang').val());
 
 			if ($('.studyLang').val().length == 0) {
 				$(".studyList").css("display", "block");
@@ -119,11 +119,12 @@
 	});
 
 	//스터디 언어로 필터링 (복수 선택 가능)
-	function searchStudy() {
-		console.log($('.studyLang').val());
-
+	function searchStudy(pageNo) {
+		//console.log($('.studyLang').val());
+		
+//////////////////////////////여기작업
 		$.ajax({
-			url : '/study/searchStudyByStack',
+			url : '/study/searchStudyByStack/',
 			type : 'post',
 			data : JSON.stringify($('.studyLang').val()), //보내는 데이터를 제이슨 형식으로
 			headers : { // 서버에 보내지는 데이터 형식
@@ -174,7 +175,7 @@
 
 				let stackName = [];
 				stackName = getStudyStack(e.stuNo, stuStackList);
-				console.log(stackName);
+				//console.log(stackName);
 				for (let j = 0; j < stackName.length; j++) {
 					//console.log(stackName[j])
 					output += `<span class="badge text-bg-secondary me-1">\${stackName[j]}</span>`;
@@ -245,7 +246,7 @@
 		
 		if(paging.pageNo >1 ){
 			pagingOutput += `<li class="page-item">`;
-			pagingOutput += `<a class="page-link text-light bg-danger" style="border: none" href="/study/listAll?pageNo=${param.pageNo -1 }&statusFilter=${param.statusFilter }&searchType=${param.searchType }&searchValue=${param.searchValue }" aria-label="Previous">`;
+			pagingOutput += `<a class="page-link text-light bg-danger" style="border: none" href="/study/listAll?pageNo=${param.pageNo -1 }" aria-label="Previous">`;
 			pagingOutput += `<span aria-hidden="true"><i class="bi bi-arrow-left-short"></i></span>`;
 			pagingOutput += `</a></li>`;
 		}
@@ -253,13 +254,13 @@
 		for(let i=1; i <= paging.totalPageCnt; i++){
 			//전체 페이지 수 만큼 페이지를 만들어준다
 			pagingOutput += `<li class="page-item" id="i">`;
-			pagingOutput += `<a class="page-link text-black" style="border: none" href="/study/listAll?pageNo=\${i}&statusFilter=${param.statusFilter }&searchType=${param.searchType }&searchValue=${param.searchValue }">\${i }</a>`;
+			pagingOutput += `<a class="page-link text-black" style="border: none" onclick="searchStudy(\${i});">\${i }</a>`;
 			pagingOutput += `</li>`;
 		}
 		
 		if(paging.pageNo < paging.totalPageCnt){
 			pagingOutput += `<li class="page-item">`;
-			pagingOutput += `<a class="page-link text-light bg-danger" style="border: none" href="/study/listAll?pageNo=${param.pageNo +1 }&statusFilter=${param.statusFilter }&searchType=${param.searchType }&searchValue=${param.searchValue }" aria-label="Previous">`;
+			pagingOutput += `<a class="page-link text-light bg-danger" style="border: none" href="/study/listAll?pageNo=${param.pageNo +1 }" aria-label="Previous">`;
 			pagingOutput += `<span aria-hidden="true"><i class="bi bi-arrow-right-short"></i></span>`;
 			pagingOutput += `</a></li>`;
 		}
@@ -413,6 +414,7 @@
 									</c:forEach>
 								</select>
 							</div>
+							
 
 							<div class="col-md-4"></div>
 							

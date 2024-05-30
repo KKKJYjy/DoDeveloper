@@ -421,8 +421,7 @@ public class StudyContoller {
 	 * @date : 2024. 5. 24.
 	 * @param : List<String> studyStackList
 	 * @param : Model model
-	 * @return : ResponseEntity<Map<String, Object>> - 스터디 모임글 리스트와 스터디 언어 리스트를 담고있는
-	 *         Map
+	 * @return : ResponseEntity<Map<String, Object>> - 스터디 모임글 리스트와 스터디 언어 리스트를 담고있는 Map
 	 * @description : 스터디 언어로 필터링한 뒤 게시글 가져오는 메서드
 	 */
 	@ResponseBody // json으로 응답 해줄때 쓰는 어노테이션
@@ -432,6 +431,8 @@ public class StudyContoller {
 			Model model) {
 		// @RequestBody는 json으로 요청 받을때 쓰는 어노테이션
 
+		logger.info(pageNo + "쪽을 보여주자");
+		
 		if (pageNo <= 0) {
 			pageNo = 1;
 		}
