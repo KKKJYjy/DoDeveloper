@@ -113,4 +113,15 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
 		return updateRevBoard;
 	}
 
+	@Override
+	public int insertScrap(int scrapBoard, int companyInfoNo, String scrapId) throws Exception {
+		System.out.println("서비스단 : insert 스크랩!");
+		
+		return ciDao.insertScrap(companyInfoNo, scrapBoard, scrapId);
+		
+		
+		
+		
+	}
+
 }

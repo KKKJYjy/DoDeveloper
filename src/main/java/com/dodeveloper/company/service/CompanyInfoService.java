@@ -24,5 +24,8 @@ public interface CompanyInfoService {
 	
 	// 기업 리뷰 글을 수정하는 메서드
 	int RevEditWrittenBoard(RevCompanyBoardVO newEditWrittenBoard) throws Exception;
-	
+
+	// 유저가 어떤 게시판의 몇번 글을 스크랩 하는 메서드 (insert)
+	int insertScrap(int scrapBoard, int companyInfoNo, String scrapId) throws Exception;
+
 }
