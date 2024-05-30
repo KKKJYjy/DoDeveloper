@@ -68,7 +68,6 @@
 
 					<thead>
 						<tr>
-							<th><input id="allCheck" type="checkbox" name="allCheck" /></th>
 							<th>글번호</th>
 							<th>작성자</th>
 							<th>제목</th>
@@ -81,9 +80,6 @@
 
 							<tr id="table"
 								onclick="location.href = '/adminView/noticViewDetail?boardNo=${board.boardNo}';">
-								<td onclick="event.cancelBubble=true"><input
-									type="checkbox" name="rowCheck" class="deleteCheckbox"
-									id="myCheckbox" value="${board.boardNo }" /></td>
 								<td>${board.boardNo }</td>
 								<td>${board.writer}</td>
 								<td>${board.title }</td>
