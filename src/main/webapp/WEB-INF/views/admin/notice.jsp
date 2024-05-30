@@ -15,15 +15,15 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
 	function checkCheck() {
-		if (frm.Writer.value == "") {
 
-			frm.Writer.focus();
-			alert('작성자를 입력해주세요');
-
+		if (frm.writer.value == "") {
+			
+			alert('로그인 후 이용해주세요');
+			
 			return false;
 		}
-
-		else if (frm.Writer.value == "") {
+		
+		else if (frm.title.value == "") {
 
 			frm.title.focus();
 			alert('제목을 입력해주세요');
@@ -121,8 +121,9 @@
 			<div class="noticeBoard">
 				<form action="/admin/noticePOST" method="post" name="frm">
 					<div class="mb-3 mt-3">
-						<input type="text" class="form-control" id="notWriter"
-							name="Writer" placeholder="작성자" />
+						<textarea class="form-control" id="notWriter"
+							name="writer" readonly="readonly"
+							 >${sessionScope.loginMember.userId}</textarea>
 					</div>
 
 					<div class="mb-3 mt-3">
@@ -136,11 +137,14 @@
 							placeholder="내용을 입력하세요"></textarea>
 					</div>
 
+					<c:if test="${sessionScope.loginMember.isAdmin == 'Y' }">
 					<div class="btns">
 
+						
 						<input type="submit" class="btn btn-primary sendNotice"
 							onclick="return checkCheck()" value="글 저장">
 					</div>
+					</c:if>
 
 				</form>
 

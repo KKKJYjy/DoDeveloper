@@ -120,7 +120,9 @@
 
 				<c:import url="./search.jsp"></c:import>
 
-				<button id="openModalBtn" onclick="checkCheckbox()">게시글삭제</button>
+				<c:if test="${sessionScope.loginMember.isAdmin == 'Y' }">
+					<button id="openModalBtn" onclick="checkCheckbox()">게시글삭제</button>
+				</c:if>
 
 
 				
@@ -141,8 +143,8 @@
 						<tbody>
 							<c:forEach var="board" items="${revBoardList }">
 								<tr
-									onclick="location.href = '/companyInfo/revCompanyBoard?revNo=${board.revNo}';">
-									<td><input type="checkbox" name="rowCheck"
+									onclick="location.href = '/companyInfo/revCompanyBoard?companyInfoNo=${board.companyInfoNo}';">
+									<td onclick="event.cancelBubble=true"><input type="checkbox" name="rowCheck"
 										class="deleteCheckbox" id="myCheckbox" value="${board.revNo }" /></td>
 									<td>${board.revNo }</td>
 									<td>${board.revWriter }</td>

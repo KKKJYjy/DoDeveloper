@@ -365,11 +365,11 @@ public class LectureBoardController {
         try {
             // 좋아요를 안눌렀었는지 확인 후 누르기
             lService.likeUpBoard(lecNo, user);
-            result = new ResponseEntity<>("success", HttpStatus.OK);
+            result = new ResponseEntity<String>("success", HttpStatus.OK);
         } catch (Exception e) {
             // 예외 발생 시 예외 처리
             e.printStackTrace();
-            result = new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST);
+            result = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
         }
 
         return result;
@@ -398,11 +398,11 @@ public class LectureBoardController {
         try {
         	// 좋아요를 눌렀었는지 확인 후 취소하기
             lService.likeDownBoard(lecNo, user);
-            result = new ResponseEntity<>("success", HttpStatus.OK);
+            result = new ResponseEntity<String>("success", HttpStatus.OK);
         } catch (Exception e) {
             // 예외 발생 시 예외 처리
             e.printStackTrace();
-            result = new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST);
+            result = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
         }
 
         return result;

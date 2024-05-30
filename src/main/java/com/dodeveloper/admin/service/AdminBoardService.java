@@ -8,7 +8,10 @@ import com.dodeveloper.admin.dto.NoticeDTO;
 import com.dodeveloper.admin.vo.AdminArgBoardVO;
 import com.dodeveloper.admin.vo.AdminLectureVO;
 import com.dodeveloper.admin.vo.AdminReviewBoardVO;
+import com.dodeveloper.admin.vo.QnaBoardVO;
+import com.dodeveloper.admin.vo.QnaReplyVO;
 import com.dodeveloper.admin.vo.ReportVO;
+import com.dodeveloper.reply.vodto.ReplyVO;
 
 
 public interface AdminBoardService {
@@ -49,18 +52,40 @@ public interface AdminBoardService {
 		// 신고내역 삭제 처리하는 메서드
 		void reportDelete(String reportNo) throws Exception;
 		
+		// 관리자 페이지에서 문의게시물 삭제 처리한는 메서드
+		void qnaDelete(String no) throws Exception;
+		
 		// 공지사항 작성
 		boolean writeNoticeBoard(NoticeDTO newBoard) throws Exception;
 		
 	// 신고내역 조회하는 메서드
 		List<ReportVO> getReport() throws Exception;
 
-		
-		
+
 	// 신고내역 상세조회
 		ReportVO getReportNO(int btypeNo) throws Exception;
 
+		
+		// 공지사항 상세페이지
+	    NoticeDTO getNotcBoardNo(int boardNo) throws Exception;
+	    
+	    // 공지사항 게시물 얻어오는 메서드
+	    Map<String, Object> getNotcByBoardNo (int boardNo) throws Exception;
+	    
 
-		
-		
+		// 공지사항 게시글 수정
+	    boolean modifyNotcBoard(NoticeDTO mdBoard) throws Exception;
+	    
+	    // 문의 게시판 조회
+	    List<QnaBoardVO> getQnaBoard() throws Exception;
+	    
+	    // 문의 게시판 상세페이지
+	    QnaBoardVO getQnaBoardNo(int no) throws Exception;
+	    
+	    // 문의사항 작성
+	    boolean writeQndBoard(QnaBoardVO newBoard) throws Exception;
+	    
+	    
+	    
+	
 }

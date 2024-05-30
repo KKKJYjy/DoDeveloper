@@ -38,6 +38,12 @@
 		<typeAlias alias="ReportVO"
 			type="com.dodeveloper.admin.vo.ReportVO" />
 
+		<typeAlias alias="QnaBoardVO"
+			type="com.dodeveloper.admin.vo.QnaBoardVO" />
+
+		<typeAlias alias="QnaReplyVO"
+			type="com.dodeveloper.admin.vo.QnaReplyVO" />
+
 
 
 		<typeAlias alias="MessageFileDTO"

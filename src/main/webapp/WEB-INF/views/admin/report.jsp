@@ -183,7 +183,10 @@ to {
 
 		<div class="container-fluid">
 
+			<c:if test="${sessionScope.loginMember.isAdmin == 'Y' }">
 			<button id="openModalBtn" onclick="checkCheckbox()">게시글삭제</button>
+			</c:if>
+			
 
 			<table class="table table-light table-hover">
 
@@ -206,7 +209,7 @@ to {
 					<c:forEach var="board" items="${reportList }">
 
 						<tr id="table" onclick="location.href='/admin/viewReport?btypeNo=${board.btypeNo}';">
-							<td><input type="checkbox" name="rowCheck"
+							<td onclick="event.cancelBubble=true"><input type="checkbox" name="rowCheck"
 								class="deleteCheckbox" id="myCheckbox"
 								value="${board.reportNo }" /></td>
 							<td>${board.reportNo }</td>
@@ -217,8 +220,7 @@ to {
 							<td>${board.reporter }</td>
 							<td>${board.btypeNo }</td>
 						</tr>
-
-
+							
 					</c:forEach>
 			</table>
 

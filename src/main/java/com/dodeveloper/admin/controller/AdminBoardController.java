@@ -1,5 +1,7 @@
 package com.dodeveloper.admin.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
+
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,8 +27,12 @@ import com.dodeveloper.admin.vo.AdminArgBoardVO;
 import com.dodeveloper.admin.vo.AdminLectureVO;
 import com.dodeveloper.admin.vo.AdminReviewBoardVO;
 import com.dodeveloper.admin.vo.AdminVO;
+import com.dodeveloper.admin.vo.QnaBoardVO;
 import com.dodeveloper.admin.vo.ReportVO;
 import com.dodeveloper.etc.PagingInfo;
+import com.fasterxml.jackson.annotation.JacksonInject.Value;
+
+import lombok.val;
 
 @Controller
 @RequestMapping("/admin")
@@ -63,13 +70,13 @@ public class AdminBoardController {
 	public void lectureBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
 			SearchCriteriaDTO sc) throws Exception {
 		logger.info("lectureBoard 조회");
-		
+
 		Map<String, Object> returnMap = null;
-		
+
 		String resultPage = null;
 
 		// List<AdminLectureVO> lecBoardList = bService.getlistLectureBoard();
-		
+
 		if (pageNo <= 0) {
 			pageNo = 1;
 		}
@@ -77,7 +84,7 @@ public class AdminBoardController {
 		returnMap = bService.getlistLectureBoard(pageNo, sc);
 		model.addAttribute("lecBoardList", (List<AdminLectureVO>) returnMap.get("lecBoardList"));
 		model.addAttribute("pagingInfo", (PagingInfo) returnMap.get("pagingInfo"));
-		
+
 		resultPage = "/admin/lectureBoard";
 
 	}
@@ -86,11 +93,11 @@ public class AdminBoardController {
 	public void algorithmBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
 			SearchCriteriaDTO sc) throws Exception {
 		logger.info("algorithmBoard 조회");
-		
+
 		Map<String, Object> returnMap = null;
-		
+
 		String resultPage = null;
-		
+
 		if (pageNo <= 0) {
 			pageNo = 1;
 		}
@@ -98,7 +105,7 @@ public class AdminBoardController {
 		returnMap = bService.getlistArgBoard(pageNo, sc);
 		model.addAttribute("argBoardList", (List<AdminArgBoardVO>) returnMap.get("argBoardList"));
 		model.addAttribute("pagingInfo", (PagingInfo) returnMap.get("pagingInfo"));
-		
+
 		resultPage = "/admin/algorithmBoard";
 
 	}
@@ -107,11 +114,11 @@ public class AdminBoardController {
 	public void reviewBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
 			SearchCriteriaDTO sc) throws Exception {
 		logger.info("reviewBoard 조회");
-		
+
 		Map<String, Object> returnMap = null;
-		
+
 		String resultPage = null;
-		
+
 		if (pageNo <= 0) {
 			pageNo = 1;
 		}
@@ -122,29 +129,28 @@ public class AdminBoardController {
 		model.addAttribute("pagingInfo", (PagingInfo) returnMap.get("pagingInfo"));
 
 		resultPage = "/admin/reviewBoard";
-		
+
 	}
 
 	@RequestMapping(value = "/noticeBoard", method = RequestMethod.GET)
 	public void noticeBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
 			SearchCriteriaDTO sc) throws Exception {
 		logger.info("공지사항 조회");
-		
+
 		Map<String, Object> returnMap = null;
-		
+
 		String resultPage = null;
-		
+
 		if (pageNo <= 0) {
 			pageNo = 1;
 		}
-		
 
 		returnMap = bService.getlistNotcBoard(pageNo, sc);
 		model.addAttribute("notcBoardList", (List<NoticeDTO>) returnMap.get("notcBoardList"));
 		model.addAttribute("pagingInfo", (PagingInfo) returnMap.get("pagingInfo"));
 
 		resultPage = "/admin/noticeBoard";
-		
+
 	}
 
 	@RequestMapping(value = "/delete")
@@ -218,6 +224,20 @@ public class AdminBoardController {
 
 		return "redirect:report";
 	}
+	
+	@RequestMapping(value = "/qnaDelete")
+	public String removeQna(HttpServletRequest request) throws Exception {
+		
+		String[] remQna = request.getParameterValues("valueArr");
+		int size = remQna.length;
+		for (int i = 0; i < size; i++) {
+			bService.qnaDelete(remQna[i]);
+		}
+		
+		return "redirect:inquiry";
+		
+	}
+	
 
 	@RequestMapping(value = "/noticePOST", method = RequestMethod.POST)
 	public String noticeBoard(NoticeDTO newBoard) throws Exception {
@@ -240,10 +260,8 @@ public class AdminBoardController {
 		logger.info("신고내역 조회");
 
 		List<ReportVO> reportList = bService.getReport();
-		
 
 		model.addAttribute("reportList", reportList);
-	
 
 	}
 
@@ -252,13 +270,49 @@ public class AdminBoardController {
 
 		logger.info(btypeNo + "번글 조회");
 		// ReportVO report = bService.getReportNO(reportNo);
-		
+
 		ReportVO report = bService.getReportNO(btypeNo);
 
 		model.addAttribute("report", report);
+
+	}
+
+	@RequestMapping(value = "/updateNotice", method = RequestMethod.GET)
+	public String modifyNotcBoard(Model model, @RequestParam("boardNo") int boardNo)
+			throws Exception {
 		
+		logger.info("공지사항 수정페이지 호출");
+
+		Map<String, Object> map = bService.getNotcByBoardNo(boardNo);
+
+		model.addAttribute("result", map);
+
+//		if (bService.modifyNotcBoard(mdBoard)) {
+//			returnPath = "redirect:/adminView/noticeViewDetail?boardNo=" + mdBoard.getBoardNo();
+//		}
+
+		return "/admin/updateNotice";
+
+	}
+
+	@RequestMapping(value = "/updatePost", method = RequestMethod.POST)
+	public String mdBoardPOST(NoticeDTO mdBoard) throws Exception {
+		System.out.println(mdBoard.toString() + "을 수정");
+		bService.modifyNotcBoard(mdBoard);
+
+		return "redirect:/admin/noticeBoard";
+	}
+	
+	
+	@RequestMapping(value = "/inquiry", method = RequestMethod.GET)
+	public void qnaBoard(Model model) throws Exception {
+		
+		List<QnaBoardVO> qnaList = bService.getQnaBoard();
+		
+		model.addAttribute("qnaList", qnaList);
 		
 	}
+	
 	
 	
 

@@ -107,7 +107,9 @@
 
 				<c:import url="./search.jsp"></c:import>
 
-				<button id="openModalBtn" onclick="checkCheckbox()">게시글삭제</button>
+				<c:if test="${sessionScope.loginMember.isAdmin == 'Y' }">
+					<button id="openModalBtn" onclick="checkCheckbox()">게시글삭제</button>
+				</c:if>
 
 				
 					<table class="table table-light table-hover">
@@ -126,7 +128,7 @@
 							<c:forEach var="board" items="${argBoardList }">
 								<tr
 									onclick="location.href = '/algorithm/algDetail?boardNo=${board.boardNo}';">
-									<td><input type="checkbox" name="rowCheck"
+									<td onclick="event.cancelBubble=true"><input type="checkbox" name="rowCheck"
 										class="deleteCheckbox" id="myCheckbox"
 										value="${board.boardNo }" /></td>
 									<td>${board.boardNo }</td>

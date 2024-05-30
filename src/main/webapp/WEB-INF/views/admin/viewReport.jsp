@@ -12,6 +12,6 @@
 <body>
 	
 	
-	<c:import url="http://localhost:8081/lecture/listAll"></c:import>
+	<c:import url="http://localhost:8081/index"></c:import>
 </body>
 </html>
