@@ -13,7 +13,7 @@ import com.dodeveloper.study.vodto.StuStackDTO;
 import com.dodeveloper.study.vodto.StuStackModifyDTO;
 
 public interface StudyService {
-	//전체 게시글을 조회하는 메서드 + 검색 기능 추가
+	//전체 게시글을 조회하는 메서드 + 검색 기능 추가 + 모집중 필터 기능
 	Map<String, Object> selectAllList(SearchStudyDTO sDTO, int pageNo) throws Exception;
 
 	//stuNo번째 스터디 언어를 가져오는 메서드
@@ -41,6 +41,6 @@ public interface StudyService {
 	int modifyStudyWithStack(StudyBoardDTO newStudy, List<StuStackDTO> modifyStack) throws Exception;
 
 	//studyStackList로 필터링했을 때 나오는 스터디 모임글 반환하는 메서드
-	Map<String, Object> searchStudyByStack(List<String> studyStackList) throws Exception;
+	Map<String, Object> searchStudyByStack(List<String> studyStackList, int pageNo) throws Exception;
 	
 }
