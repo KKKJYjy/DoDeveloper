@@ -82,7 +82,6 @@
 <script>
 
 	let replies = "";
-	let modifyReplyTag = ""; // 댓글 수정창 클릭할 때, 수정 전에 입력했던 댓글 태그 저장하는 전역변수
 	
 	$(function() {
 		

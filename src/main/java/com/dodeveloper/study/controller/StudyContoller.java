@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.member.vo.MemberVO;
@@ -37,7 +35,6 @@ import javax.servlet.http.Cookie;
 import com.dodeveloper.study.vodto.SearchStudyDTO;
 import com.dodeveloper.study.vodto.StackVO;
 import com.dodeveloper.study.vodto.StuStackDTO;
-import com.dodeveloper.study.vodto.StuStackModifyDTO;
 
 @Controller
 @RequestMapping("/study")
@@ -501,7 +498,6 @@ public class StudyContoller {
 
 		return result;
 	}
-	
 	
 
 	/**
