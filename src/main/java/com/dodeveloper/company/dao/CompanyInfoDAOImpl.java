@@ -81,5 +81,14 @@ public class CompanyInfoDAOImpl implements CompanyInfoDAO {
 		
 	}
 
+	@Override
+	public int insertScrap(int companyInfoNo, int scrapBoard, String scrapId) throws Exception {
+		System.out.println("DAO단 스크랩 insert!!");
+		return scrapBoard;
+		
+		
+		
+	}
+
 	
 }
