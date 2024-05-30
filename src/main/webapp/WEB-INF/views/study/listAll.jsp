@@ -121,29 +121,50 @@
 	//스터디 언어로 필터링 (복수 선택 가능)
 	function searchStudy(pageNo) {
 		//console.log($('.studyLang').val());
-		
-//////////////////////////////여기작업
-		$.ajax({
-			url : '/study/searchStudyByStack/',
-			type : 'post',
-			data : JSON.stringify($('.studyLang').val()), //보내는 데이터를 제이슨 형식으로
-			headers : { // 서버에 보내지는 데이터 형식
-				"content-type" : "application/json"
-			},
-			dataType : "json",
-			contentType : false, //default true : 데이터를 쿼리스트링 형태로 보내는지 아닌지
-			async : false, //받아올 데이터가 있어야 파싱 가능.
-			success : function(data) { //HttpStatus code가 200인 경우 이 코드 실행
-				console.log(data);
-				$(".studyList").css("display", "none");
-				
-				outputSearchStudy(data);
-				studyListBySearchPaging(data);
-			},
-			error : function(data) { //HttpStatus code가 200이 아닌경우 이 코드 실행
-				console.log(data);
-			}
-		});
+		//console.log("페이지 번호 : ", pageNo);
+		if(pageNo == null){	// 필터링 한 직후
+			$.ajax({
+				url : '/study/searchStudyByStack/',
+				type : 'post',
+				data : JSON.stringify($('.studyLang').val()), //보내는 데이터를 제이슨 형식으로
+				headers : { // 서버에 보내지는 데이터 형식
+					"content-type" : "application/json"
+				},
+				dataType : "json",
+				contentType : false, //default true : 데이터를 쿼리스트링 형태로 보내는지 아닌지
+				async : false, //받아올 데이터가 있어야 파싱 가능.
+				success : function(data) { //HttpStatus code가 200인 경우 이 코드 실행
+					console.log(data);
+					$(".studyList").css("display", "none");
+					outputSearchStudy(data); // 스터디 리스트 데이터
+					studyListBySearchPaging(data); // 스터디 페이징 데이터
+				},
+				error : function(data) { //HttpStatus code가 200이 아닌경우 이 코드 실행
+					console.log(data);
+				}
+			});
+		}else{ //필터링후 페이지 쪽수 눌렀을 때 pageNo값 보내기
+			$.ajax({
+				url : '/study/searchStudyByStack/' + pageNo,
+				type : 'post',
+				data : JSON.stringify($('.studyLang').val()), //보내는 데이터를 제이슨 형식으로
+				headers : { // 서버에 보내지는 데이터 형식
+					"content-type" : "application/json"
+				},
+				dataType : "json",
+				contentType : false, //default true : 데이터를 쿼리스트링 형태로 보내는지 아닌지
+				async : false, //받아올 데이터가 있어야 파싱 가능.
+				success : function(data) { //HttpStatus code가 200인 경우 이 코드 실행
+					console.log(data);
+					$(".studyList").css("display", "none");
+					outputSearchStudy(data); // 스터디 리스트 데이터
+					studyListBySearchPaging(data); // 스터디 페이징 데이터
+				},
+				error : function(data) { //HttpStatus code가 200이 아닌경우 이 코드 실행
+					console.log(data);
+				}
+			});
+		}
 	}
 
 	//스터디 언어로 필터링시 ajax로 데이터를 가져왔으므로 js에서 데이터들을 출력한다.
@@ -265,7 +286,6 @@
 			pagingOutput += `</a></li>`;
 		}
 
-		
 		pagingOutput += `</ul>`;
 		pagingOutput += `</div>`;
 		pagingOutput += `</div>`;
