@@ -245,10 +245,6 @@
 			<version>2.11.0</version>
 		</dependency>
 
-
-
-
-
 		<!-- 메일 인증용 라이브러리 -->
 		<!-- https://mvnrepository.com/artifact/com.sun.mail/javax.mail -->
 		<dependency>
@@ -257,6 +253,12 @@
 			<version>1.6.0</version>
 		</dependency>
 
+		<!-- 웹소켓용 라이브러리 -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-websocket</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
 
 	</dependencies>
 	<build>
