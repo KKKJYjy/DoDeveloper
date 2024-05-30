@@ -187,7 +187,7 @@
 
 		order by revNo desc limit #{startRowIndex}, #{viewPostCntPerPage}
 	</select>
-	
+
 	<!-- 공지사항 검색어가 있을경우 글의 갯수를 가져오는 쿼리문 -->
 	<select id="getNotcBoardCntWithSC" resultType="int">
 		select count(*) from noticeBoard
@@ -216,8 +216,8 @@
 
 		order by boardNo desc limit #{startRowIndex}, #{viewPostCntPerPage}
 	</select>
-	
-	
+
+
 
 
 	<!-- stuBoard게시글 삭제 -->
@@ -308,23 +308,24 @@
 	<!-- 페이지 접속 횟수 조회 -->
 	<select id="selectLog"
 		resultType="com.dodeveloper.admin.vo.CountUriVO">
-		select a.sessionId, u.uriName,
-		a.accessDate, count(*)
-		from
-		accessLog a, uri u
-		where a.uri = #{uri}
-		and
+		SELECT u.uriName, COUNT(*) as accessCount
+		FROM accessLog a, uri u
+		WHERE
 		a.uri = u.uri
+		GROUP BY
+		u.uriName
 	</select>
 
 	<!-- 날짜별 접속자 수 조회 -->
-	<select id="selectDatelog" resultType="com.dodeveloper.admin.vo.ConnectLogVO">
+	<select id="selectDatelog"
+		resultType="com.dodeveloper.admin.vo.ConnectLogVO">
 		SELECT
-		DATE_FORMAT(`accessDate`, '%m-%d') as `date`,
+		DATE_FORMAT(`accessDate`, '%d') as `date`,
 		COUNT(*) as `count`
 		FROM `accessLog`
-		GROUP BY date(`accessDate`), month(`accessDate`)
-		ORDER BY `date` DESC;
+		WHERE MONTH(`accessDate`) =
+		#{date}
+		GROUP BY date(`accessDate`)
 	</select>
 
 
