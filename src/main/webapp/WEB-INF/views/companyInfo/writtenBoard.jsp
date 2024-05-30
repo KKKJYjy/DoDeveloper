@@ -104,9 +104,10 @@
 						<input type="hidden" name="bType" value="3">
 					</div>
 					
-					<input type="submit" class="btn btn-success" value="글 저장" /> <input
-						type="reset" class="btn btn-danger" value="취소"
-						onclick="location.href='/writtenBoard/revCompanyBoard';" />
+					<input type="submit" class="btn btn-success" value="글 저장"
+						onclick="location.href='/companyInfo/writtenBoard';" /> 
+					<input type="reset" class="btn btn-danger" value="취소"
+						onclick="location.href='/companyInfo/entire';" />
 				</form>
 			</div>
 		</section>

@@ -106,11 +106,22 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
 	}
 
 	@Override
-	public int RevEditWrittenBoard(WrittenCompanyBoardDTO newEditWrittenBoard) throws Exception {
+	public int RevEditWrittenBoard(RevCompanyBoardVO newEditWrittenBoard) throws Exception {
 		System.out.println("서비스단 : 수정 글 완료");
 		int updateRevBoard = ciDao.updateEditWrittenBoard(newEditWrittenBoard);
 
 		return updateRevBoard;
+	}
+
+	@Override
+	public int insertScrap(int scrapBoard, int companyInfoNo, String scrapId) throws Exception {
+		System.out.println("서비스단 : insert 스크랩!");
+		
+		return ciDao.insertScrap(companyInfoNo, scrapBoard, scrapId);
+		
+		
+		
+		
 	}
 
 }

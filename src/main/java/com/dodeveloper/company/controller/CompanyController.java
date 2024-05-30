@@ -3,6 +3,7 @@ package com.dodeveloper.company.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,10 +18,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.dodeveloper.commons.interceptor.SessionNames;
 import com.dodeveloper.company.service.CompanyInfoService;
 import com.dodeveloper.company.vodto.CompanyInfoVO;
 import com.dodeveloper.company.vodto.RevCompanyBoardVO;
+import com.dodeveloper.company.vodto.ScrapVO;
 import com.dodeveloper.company.vodto.WrittenCompanyBoardDTO;
+import com.dodeveloper.member.vo.MemberVO;
 
 /**
  * @packageName : com.dodeveloper.company.controller
@@ -189,17 +193,17 @@ public class CompanyController {
 	}
 
 	/**
-	 * @methodName : RevEditWrittenBoard
+	 * @methodName : revEditWrittenBoard
 	 * @author : kimso05
 	 * @date : 2024.05.22
-	 * @param : WrittenCompanyBoardDTO newEditWrittenBoard
-	 * 			(새롭게 수정되어야 할 기업 리뷰 게시글 그 자체)
+	 * @param : WrittenCompanyBoardDTO newEditWrittenBoard (새롭게 수정되어야 할 기업 리뷰 게시글 그
+	 *          자체)
 	 * @return : String
 	 * @throws Exception
 	 * @description :
 	 */
-	@PostMapping("/editWrittenBoardPOST")
-	public String RevEditWrittenBoard(WrittenCompanyBoardDTO newEditWrittenBoard) {
+	@PostMapping("/revCompanyBoard")
+	public String revEditWrittenBoard(@RequestParam("revNo") int revNo, RevCompanyBoardVO newEditWrittenBoard) {
 		String returnPage = "redirect:/companyInfo/revCompanyBoard?";
 		System.out.println(newEditWrittenBoard.toString() + "수정하자");
 
@@ -215,6 +219,28 @@ public class CompanyController {
 		}
 
 		return returnPage;
+	}
+
+	/**
+	 * @methodName : insertScrap
+	 * @author : kimso05
+	 * @date : 2024.05.29
+	 * @param : int scrapBoard, int companyInfoNo
+	 * @param :
+	 * @param :
+	 * @return : void
+	 * @throws Exception 
+	 * @description :
+	 */
+	@RequestMapping(value = "/insertScrap", method = RequestMethod.GET)
+	public void insertScrap(@RequestParam("scrapBoard") int scrapBoard,
+			@RequestParam("companyInfoNo") int companyInfoNo, HttpSession session) throws Exception {
+		System.out.println(scrapBoard + "revNo게시글 번호" + companyInfoNo + "scrapBoard 기업리뷰번호");
+		// 로그인한 유저의 아이디를 얻어와 scrapId 변수에 저장하고
+		MemberVO loginMember = (MemberVO) session.getAttribute(SessionNames.LOGIN_MEMBER);
+		System.out.println(loginMember.getUserId());
+		// scrapId, scrapBoard, companyInfoNo를 서비스단 메서드에 보내면서 호출
+		ciService.insertScrap(scrapBoard, companyInfoNo, loginMember.getUserId());
 	}
 
 }
