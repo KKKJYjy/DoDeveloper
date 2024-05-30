@@ -9,15 +9,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.dodeveloper.member.dao.MemberDAO;
+import com.dodeveloper.member.service.MemberService;
+
 @Component
 public class Scheduler {
 
 	private FileProcessing fileProcessing;
+	private MemberService memberService;
 	private static final Logger logger = LoggerFactory.getLogger(Scheduler.class);
 	
 	@Autowired
-	public Scheduler(FileProcessing fileProcessing) {
+	public Scheduler(FileProcessing fileProcessing, MemberService memberService) {
 		this.fileProcessing = fileProcessing;
+		this.memberService = memberService;
 	}
 	
 	@Scheduled(cron = "0 0 3 * * *")
@@ -32,6 +37,16 @@ public class Scheduler {
 				logger.info("Temp file : " + file.getName() + " is deleted");
 				file.delete();
 			}
+		}
+	}
+	
+	@Scheduled(cron = "0 10 3 * * *")
+	public void executeDeleteMember() {
+		try {
+			System.out.println("now it is " + System.currentTimeMillis());
+			memberService.deleteAllDroppedMember();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }

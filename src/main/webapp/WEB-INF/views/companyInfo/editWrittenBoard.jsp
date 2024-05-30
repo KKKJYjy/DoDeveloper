@@ -58,7 +58,7 @@
 
 				<h4>기업 리뷰글 수정 페이지</h4>
 
-				<form action="/companyInfo/editWrittenBoardPOST" method="post">
+				<form action="/companyInfo/revCompanyBoard" method="post">
 					<div class="mb-3 mt-3">
 						<div class="table table-striped">
 							<label for="revTitle" class="form-label">제목</label>
@@ -86,16 +86,21 @@
 					<div>
 						<input type="hidden" name="companyInfoNo" value="${param.companyInfoNo}">
 					</div>
-
+					<div>
+						<input type="hidden" name="revNo" value="${param.revNo}">
+					</div>
 					<div>
 						<input type="hidden" name="bType" value="3">
 					</div>
-					<input type="submit" class="btn btn-success" value="수정완료"
-						onclick="location.href='/companyInfo/revCompanyBoard?companyInfoNo=${param.companyInfoNo}&revNo=${rev.revNo}';" /> 
-					<input type="reset" class="btn btn-danger" value="취소"
-						onclick="location.href='/companyInfo/revCompanyBoard?companyInfoNo=${param.companyInfoNo}&revNo=${rev.revNo}';" />
-					</form>
-				</div>
+					
+					<button type="submit" class="btn btn-secondary"
+							onclick="location.href='/companyInfo/revCompanyBoard';">수정</button>
+					<button type="button" class="btn btn-danger"
+					onclick="location.href='/companyInfo/revCompanyBoard?companyInfoNo=${param.companyInfoNo}';">취소</button>
+					
+				</form>
+			</div>
+			
 		</section>
 		<!-- End Basic Section -->
 	</main>

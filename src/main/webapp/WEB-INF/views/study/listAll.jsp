@@ -69,65 +69,62 @@
 
 <script>
 	$(function() {
+
 		$('.studyLang').select2({
 			placeholder : '스터디 언어로 검색'
 		});
 
-		let studyStackList = new Array();
-
 		//스터디 언어 선택했을 때 필터링 
 		$('.studyLang').on("select2:select", function() {
-			console.log("select", $('.studyLang').val());
+			//console.log("select", $('.studyLang').val());
 
 			//필터링할 스터디 1개 이상일때만 ajax호출
 			if ($('.studyLang').val().length > 0) {
 				searchStudy();
 			}
-
 		})
 
 		//스터디 언어 삭제했을 때 필터링
 		$(".studyLang").on("select2:unselect", function() {
 			//alert("!");
-			console.log("unselect" ,$('.studyLang').val());
-			
-			if($('.studyLang').val().length == 0){
-				$(".studyList").css("display","block");
-				$(".paging").css("display","block");
+			//console.log("unselect", $('.studyLang').val());
+
+			if ($('.studyLang').val().length == 0) {
+				$(".studyList").css("display", "block");
+				$(".paging").css("display", "block");
 				$(".studyListBySearch").empty();
+				$(".studyListBySearchPaging").empty();
 			}
-			
+
 			if ($('.studyLang').val().length > 0) {
 				searchStudy();
 			}
 		});
-		
-		//모집중만 보기 클릭했을 때		
-		let status = 0;
-        $('#studyStatus').on('click',function(){
-			 console.log(status);
-            if(status==0){
-            	//모집중 글만 보기
-                $(this).attr('class','text-light bg-secondary text-center border border-secondary rounded-2 p-2');
-               	status++;
-            	   	
-            }else if(status==1){
-            	//모집중+모집마감 글 전체 보기
-                $(this).attr('class','text-secondary text-center border border-secondary rounded-2 p-2');
-                status--;
-                
-            }
-        });
-		
+
+		//url 쿼리스트링 값 가져와서 모집중, 모집마감 일때 class 설정
+		let url = new URL(window.location.href);
+		let urlParams = url.searchParams;
+		//console.log(urlParams);
+
+		if (urlParams.get('statusFilter') == '모집중') {
+			$(".all").attr('class', 'btn btn-secondary all');
+			$(".open").attr('class', 'btn btn-secondary open active');
+			$(".close").attr('class', 'btn btn-secondary close');
+		} else if (urlParams.get('statusFilter') == '모집마감') {
+			$(".all").attr('class', 'btn btn-secondary all');
+			$(".open").attr('class', 'btn btn-secondary open');
+			$(".close").attr('class', 'btn btn-secondary close active');
+		}
 
 	});
-	
+
 	//스터디 언어로 필터링 (복수 선택 가능)
-	function searchStudy(){
-		console.log($('.studyLang').val());
+	function searchStudy(pageNo) {
+		//console.log($('.studyLang').val());
 		
+//////////////////////////////여기작업
 		$.ajax({
-			url : '/study/searchStudyByStack',
+			url : '/study/searchStudyByStack/',
 			type : 'post',
 			data : JSON.stringify($('.studyLang').val()), //보내는 데이터를 제이슨 형식으로
 			headers : { // 서버에 보내지는 데이터 형식
@@ -137,33 +134,33 @@
 			contentType : false, //default true : 데이터를 쿼리스트링 형태로 보내는지 아닌지
 			async : false, //받아올 데이터가 있어야 파싱 가능.
 			success : function(data) { //HttpStatus code가 200인 경우 이 코드 실행
-				console.log(data);		
-				$(".studyList").css("display","none");
-				$(".paging").css("display","none");
+				console.log(data);
+				$(".studyList").css("display", "none");
+				
 				outputSearchStudy(data);
+				studyListBySearchPaging(data);
 			},
-			error : function(data){ //HttpStatus code가 200이 아닌경우 이 코드 실행
+			error : function(data) { //HttpStatus code가 200이 아닌경우 이 코드 실행
 				console.log(data);
 			}
 		});
 	}
 
-	//ajax로 데이터를 가져왔으므로 js에서 데이터들을 출력한다.
+	//스터디 언어로 필터링시 ajax로 데이터를 가져왔으므로 js에서 데이터들을 출력한다.
 	function outputSearchStudy(data) {
-		
+
 		let stuStackList = data.stuStackList;
 		let studyList = data.studyList;
-		
+
 		let output = `<div class="row row-cols-md-4 ">`;
 		output += `<div class="col mb-4 study">`;
 		output += `<div class="card">`;
 		output += `<div class="card-body p-4 text-center" style="height: 225px;">`;
 		output += `<h5 class="text-danger" style="line-height: 180px; cursor: pointer;"onclick="location.href='/study/writeStudyBoard';">`;
 		output += `<b>나도 스터디 만들기</b></h5></div></div></div>`;
-	
+
 		$.each(studyList, function(i, e) {
-			
-			if(`\${e.status}` == '모집중'){
+			if (`\${e.status}` == '모집중') {
 				output += `<div class="col mb-4 study" style="cursor: pointer;" id="studyList" onclick="location.href='/study/viewStudyBoard?stuNo=\${e.stuNo}';">`;
 				output += `<div class="card">`;
 				output += `<div class="card-body p-4" style="width: 100%;">`;
@@ -173,20 +170,20 @@
 				output += `<div class="mt-4"><h5 class="card-title text-truncate" style="max-width: 100%;"><b>\${e.stuTitle }</b></h5></div>`;
 				output += `<div class="mt-4">`;
 				output += `<p class="card-text">`;
-				
+
 				//스터디 언어는 여러개이므로 함수를 이용해 값을 비교해서 가져온다
-				
+
 				let stackName = [];
 				stackName = getStudyStack(e.stuNo, stuStackList);
-				console.log(stackName);
-				for(let j=0; j < stackName.length; j++){
+				//console.log(stackName);
+				for (let j = 0; j < stackName.length; j++) {
 					//console.log(stackName[j])
-					output += `<span class="badge text-bg-secondary me-1">\${stackName[j]}</span>`;			
+					output += `<span class="badge text-bg-secondary me-1">\${stackName[j]}</span>`;
 				}
-						
+
 				output += `</p>`;
 				output += `</div>`;
-				
+
 				output += `<div class="d-flex mt-4">`;
 				output += `<div class="me-auto"><p class="card-text">\${e.stuWriter }</p></div>`;
 				output += `<div class="me-2">`;
@@ -195,61 +192,99 @@
 				output += `</p></div>`;
 				output += `<div class=""><p class="card-text text-body-secondary"><i class="bi bi-bookmark"></i>\${e.scrape }</p>`;
 				output += `</div></div></div></div></div>`;
-				
-			}else if(`\${e.status}` == '모집마감'){
-				output += `<div class="col mb-4 study" style="cursor: pointer;" id="studyList" onclick="location.href='/study/viewStudyBoard?stuNo=\${e.stuNo}';">`;
-				output += `<div class="card position-relative">`;
-				output += `<span class="position-absolute top-50 start-50 translate-middle badge pill bg-black" style="width:100%; height:100%; opacity:75%;"></span>`;
-				output += `<span class="position-absolute top-50 start-50 translate-middle badge text-light" style="font-size:17px;">모집 마감</span>`;
-				output += `<div class="card-body p-4" style="width: 100%;">`;
-				output += `<div class="">`;
-				output += `<p class="card-subtitle mb-2 text-body-secondary text-truncate" style="max-width: 100%;">📍\${e.stuLoc }</p>`;
-				output += `</div>`;
-				output += `<div class="mt-4"><h5 class="card-title text-truncate" style="max-width: 100%;"><b>\${e.stuTitle }</b></h5></div>`;
-				output += `<div class="mt-4">`;
-				output += `<p class="card-text">`;
-				
-				//스터디 언어는 여러개이므로 함수를 이용해 값을 비교해서 가져온다
-				
-				let stackName = [];
-				stackName = getStudyStack(e.stuNo, stuStackList);
-				console.log(stackName);
-				for(let j=0; j < stackName.length; j++){
-					//console.log(stackName[j])
-					output += `<span class="badge text-bg-secondary me-1">\${stackName[j]}</span>`;			
-				}
-						
-				output += `</p>`;
-				output += `</div>`;
-				
-				output += `<div class="d-flex mt-4">`;
-				output += `<div class="me-auto"><p class="card-text">\${e.stuWriter }</p></div>`;
-				output += `<div class="me-2">`;
-				output += `<p class="card-text text-body-secondary">`;
-				output += `<i class="bi bi-eye"></i>\${e.readCount }`;
-				output += `</p></div>`;
-				output += `<div class=""><p class="card-text text-body-secondary"><i class="bi bi-bookmark"></i>\${e.scrape }</p>`;
-				output += `</div></div></div></div></div>`;
+
+			} else if (`\${e.status}` == '모집마감') {
+			output += `<div class="col mb-4 study" style="cursor: pointer;" id="studyList" onclick="location.href='/study/viewStudyBoard?stuNo=\${e.stuNo}';">`;
+			output += `<div class="card position-relative">`;
+			output += `<span class="position-absolute top-50 start-50 translate-middle badge pill bg-black" style="width:100%; height:100%; opacity:75%;"></span>`;
+			output += `<span class="position-absolute top-50 start-50 translate-middle badge text-light" style="font-size:17px;">모집 마감</span>`;
+			output += `<div class="card-body p-4" style="width: 100%;">`;
+			output += `<div class="">`;
+			output += `<p class="card-subtitle mb-2 text-body-secondary text-truncate" style="max-width: 100%;">📍\${e.stuLoc }</p>`;
+			output += `</div>`;
+			output += `<div class="mt-4"><h5 class="card-title text-truncate" style="max-width: 100%;"><b>\${e.stuTitle }</b></h5></div>`;
+			output += `<div class="mt-4">`;
+			output += `<p class="card-text">`;
+			
+			//스터디 언어는 여러개이므로 함수를 이용해 값을 비교해서 가져온다
+
+			let stackName = [];
+			stackName = getStudyStack(e.stuNo, stuStackList);
+			console.log(stackName);
+			for (let j = 0; j < stackName.length; j++) {
+			//console.log(stackName[j])
+			output += `<span class="badge text-bg-secondary me-1">\${stackName[j]}</span>`;
 			}
-			
-			
+								
+			output += `</p>`;								
+			output += `</div>`;
+
+			output += `<div class="d-flex mt-4">`;
+			output += `<div class="me-auto"><p class="card-text">\${e.stuWriter }</p></div>`;
+			output += `<div class="me-2">`;
+			output += `<p class="card-text text-body-secondary">`;
+			output += `<i class="bi bi-eye"></i>\${e.readCount }`;
+			output += `</p></div>`;
+			output += `<div class=""><p class="card-text text-body-secondary"><i class="bi bi-bookmark"></i>\${e.scrape }</p>`;
+			output += `</div></div></div></div></div>`;
+			}
+
 		});
-		
-		
+		$(".paging").css("display", "none");
 		$(".studyListBySearch").html(output);
+		
 	}
 	
-	function getStudyStack(stuNo, stuStackList){
+	//스터디 언어로 필터링시 페이징 구현
+	function studyListBySearchPaging(data){
+		
+		let paging = data.pagingInfo;
+		
+		let pagingOutput = `<div class="row mt-4 paging">`;
+		pagingOutput += `<div class="col">`;
+		pagingOutput += `<ul class="pagination justify-content-center">`;
+		
+		if(paging.pageNo >1 ){
+			pagingOutput += `<li class="page-item">`;
+			pagingOutput += `<a class="page-link text-light bg-danger" style="border: none" href="/study/listAll?pageNo=${param.pageNo -1 }" aria-label="Previous">`;
+			pagingOutput += `<span aria-hidden="true"><i class="bi bi-arrow-left-short"></i></span>`;
+			pagingOutput += `</a></li>`;
+		}
+		
+		for(let i=1; i <= paging.totalPageCnt; i++){
+			//전체 페이지 수 만큼 페이지를 만들어준다
+			pagingOutput += `<li class="page-item" id="i">`;
+			pagingOutput += `<a class="page-link text-black" style="border: none" onclick="searchStudy(\${i});">\${i }</a>`;
+			pagingOutput += `</li>`;
+		}
+		
+		if(paging.pageNo < paging.totalPageCnt){
+			pagingOutput += `<li class="page-item">`;
+			pagingOutput += `<a class="page-link text-light bg-danger" style="border: none" href="/study/listAll?pageNo=${param.pageNo +1 }" aria-label="Previous">`;
+			pagingOutput += `<span aria-hidden="true"><i class="bi bi-arrow-right-short"></i></span>`;
+			pagingOutput += `</a></li>`;
+		}
+
+		
+		pagingOutput += `</ul>`;
+		pagingOutput += `</div>`;
+		pagingOutput += `</div>`;
+		
+		$(".studyListBySearchPaging").html(pagingOutput);
+		
+	}
+
+	function getStudyStack(stuNo, stuStackList) {
 		//console.log(stuNo, stuStackList);
 		let result = [];
 		//console.log(result);
-		$.each(stuStackList, function(i, e){
-			if(e.stuBoardNo == stuNo){
+		$.each(stuStackList, function(i, e) {
+			if (e.stuBoardNo == stuNo) {
 				//console.log(i, e);
 				result.push(e.stackName);
 			}
 		});
-		
+
 		return result;
 	}
 
@@ -291,15 +326,26 @@
 
 		return result;
 	}
-
 	
 	
+	//모집상태 필터 클릭시 호출되는 함수
+	function sortStudy(sortName) {
+		if(sortName == 'open'){
+			location.href=`/study/listAll?pageNo=&statusFilter=모집중&searchType=${param.searchType }&searchValue=${param.searchValue }`;
+		}else if(sortName == 'close'){
+			location.href=`/study/listAll?pageNo=&statusFilter=모집마감&searchType=${param.searchType }&searchValue=${param.searchValue }`;
+		}else{
+			location.href=`/study/listAll?&searchType=${param.searchType }&searchValue=${param.searchValue }`;
+		}	
+	}
 </script>
 
 </head>
 <style>
-#studyStatus{cursor:pointer;}
-.study{ transition: transform 250ms;}
+.study {
+	transition: transform 250ms;
+}
+
 .study:hover {
 	transform: translateY(-10px);
 }
@@ -313,6 +359,7 @@
 		<section id="study" class="studyBasic">
 
 			<div class="container" style="width: 70%">
+
 				<div class="container">
 					<h3 class="center text-center text-light">
 						<b>🔥 개발 스터디 모집</b>
@@ -320,73 +367,91 @@
 				</div>
 
 				<!-- 공지사항 넣을 부분 -->
-				<div class="container mt-3">공지사항</div>
+				<!-- <div class="container mt-3">공지사항</div> -->
 
-				<!-- 상단 필터 & 검색부분 -->
-				<div class="container mt-3">
-
-					<!-- 스터디할 언어 선택해서 select -->
-					<div class="row">
-						<div class="col-md-3">
-							<select class="studyLang form-control" multiple="multiple"
-								id="chooseStack" name="chooseStack" style="width: 100%;">
-								<c:forEach var="stack" items="${stackList }">
-									<option value="${stack.stackNo }">${stack.stackName }</option>
-								</c:forEach>
-							</select>
+				<!-- 모집중 or 모집마감 : 처음 상태는 모집중+모집마감 전체 보기-->
+				<form action="/study/listAll">
+					<div class="container pt-5 pb-3">
+						<div class="d-flex justify-content-center">
+							<div class="btn-group " style="width: 300px;">
+								<a href="#" class="btn btn-secondary all active" onclick="sortStudy();">전체글</a> 
+								<a href="#" class="btn btn-secondary open" onclick="sortStudy('open');">
+									모집중
+									<!--
+										모집중 필터를 누른 후, 검색조건을 입력하고 검색버튼을 눌렀을 경우, 
+										form태그 submit에 이 값을 전달한다.  
+									-->
+									<c:if test="${param.statusFilter == '모집중' }">
+										<input type="hidden" id="statusFilter"
+										class="btn btn-secondary open" name="statusFilter" value="모집중" />
+									</c:if>
+								</a> 
+								<a href="#" class="btn btn-secondary close" onclick="sortStudy('close');">
+									모집마감
+									<!--
+										모집마감을 필터를 누른 후, 검색조건을 입력하고 검색버튼을 눌렀을 경우, 
+										form태그 submit에 이 값을 전달한다. 
+									-->
+									<c:if test="${param.statusFilter == '모집마감' }">
+										<input type="hidden" id="statusFilter"
+										class="btn btn-secondary close" name="statusFilter" value="모집마감"/>
+									</c:if>
+									
+								</a>
+							</div>
 						</div>
+					</div>
 
-						<!-- 모집중 or 모집마감 bg-primary-subtle-->
-						<div class="col-md-2">
-						
-							<!-- <div id="studyStatus" class="text-secondary text-center border border-secondary rounded-2 p-2">
-								모집중만 보기
-							</div> -->
-							<input id="studyStatus" type="submit" class="text-secondary text-center border border-secondary rounded-2 p-2" value="👀 모집중만 보기" />
-						
-							<!-- <button id="studyStatus" class="btn btn-outline-secondary" style="width: 100%">
-								모집중만 보기</button> -->
-						</div>
+					<!-- 상단 필터 & 검색부분 -->
+					<div class="container mt-2">
+						<div class="row">
+							<!-- 스터디할 언어 선택해서 select name="chooseStack"-->
+							<div class="col-md-3">
+								<select class="studyLang form-control" multiple="multiple"
+									id="chooseStack">
+									<c:forEach var="stack" items="${stackList }">
+										<option value="${stack.stackNo }">${stack.stackName }</option>
+									</c:forEach>
+								</select>
+							</div>
+							
 
-						<div class="col-md-2"></div>
-
-						<!-- 검색바 -->
-
-						<div class="col-md-5">
-							<form>
-								<div class="row">
-									<div class="col-md-4">
-										<select class="form-select" id="searchType" name="searchType">
-											<option value="-1">검색 방법</option>
-											<option value="title">제목</option>
-											<option value="writer">작성자</option>
-											<option value="content">내용</option>
+							<div class="col-md-4"></div>
+							
+							<!-- 검색바 -->
+							<div class="col-md-5">
+								<div class="d-flex justify-content-md-end">
+									<div class="me-1">
+										<select class="form-select form-select-sm" id="searchType"
+											name="searchType">
+											<option value="-1">검색방법</option>
+											<option value="title" <c:out value="${param.searchType == 'title' ? 'selected' : ''}" />>제목</option>
+											<option value="writer" <c:out value="${param.searchType == 'writer' ? 'selected' : ''}" />>작성자</option>
+											<option value="content" <c:out value="${param.searchType == 'content' ? 'selected' : ''}" />>내용</option>
 										</select>
 									</div>
-									<div class="col-md-5">
-										<input type="text" class="form-control mb-4" id="searchValue"
-											name="searchValue" placeholder="검색할 내용 입력" />
-									</div>
-									<div class="col-md-3">
-										<input type="submit" class="btn btn-secondary" value="검색"
-											style="width: 100%" onclick="return isValid();" />
+									<div class="">
+										<div class="input-group input-group-sm">
+											<input type="text" class="form-control" placeholder="검색할 내용 입력" 
+												id="searchValue" name="searchValue" style="width: 150px" value="${param.searchValue }">
+											 
+											<input type="submit" class="btn btn-secondary" onclick="return isValid();"
+												value="검색" />
+										</div>
 									</div>
 								</div>
-							</form>
+							</div>
+							
 						</div>
-
-
 					</div>
-				</div>
+				</form>
+				
 				<!-- 스터디 언어로 검색시 나오는 리스트 -->
-				<div class="container mt-3 studyListBySearch">
-
-				</div>
+				<div class="container mt-3 studyListBySearch"></div>
+				
 				<!-- 첫 화면 : 스터디 모임글 리스트 -->
 				<div class="container mt-3 studyList">
 
-					<%-- 	${studyList }
-				${stuStackList } --%>
 					<div class="row row-cols-md-4 ">
 						<!-- 모임글 추가하기 -->
 						<div class="col-md mb-4 study">
@@ -410,17 +475,19 @@
 										<div class="card">
 											<div class="card-body p-4" style="width: 100%;">
 												<div class="">
-													<p class="card-subtitle mb-2 text-body-secondary text-truncate" style="max-width: 100%;">
-													📍${study.stuLoc }</p>
+													<p
+														class="card-subtitle mb-2 text-body-secondary text-truncate"
+														style="max-width: 100%;">📍${study.stuLoc }</p>
 												</div>
-		
+
 												<!-- 제목 -->
 												<div class="mt-4">
-													<h5 class="card-title text-truncate" style="max-width: 100%;">
+													<h5 class="card-title text-truncate"
+														style="max-width: 100%;">
 														<b>${study.stuTitle }</b>
 													</h5>
 												</div>
-		
+
 												<!-- 스터디 언어 stuStack테이블에서 가져올 예정 -->
 												<div class="mt-4">
 													<p class="card-text">
@@ -431,7 +498,7 @@
 														</c:forEach>
 													</p>
 												</div>
-		
+
 												<div class="d-flex mt-4">
 													<div class="me-auto">
 														<p class="card-text">${study.stuWriter }</p>
@@ -447,7 +514,7 @@
 														</p>
 													</div>
 												</div>
-		
+
 											</div>
 										</div>
 									</div>
@@ -456,26 +523,26 @@
 									<div class="col-md mb-4 study" style="cursor: pointer;"
 										onclick="location.href='/study/viewStudyBoard?stuNo=${study.stuNo}';">
 										<div class="card position-relative">
-											<span class="position-absolute top-50 start-50 translate-middle badge pill bg-black text-light"
-												style="width:100%; height:100%; opacity:75%;">
-											</span>
-											<span class="position-absolute top-50 start-50 translate-middle badge text-light"
-												style="font-size:17px;">
-											    모집 마감
-											</span>
+											<span
+												class="position-absolute top-50 start-50 translate-middle badge pill bg-black text-light"
+												style="width: 100%; height: 100%; opacity: 75%;"> </span> <span
+												class="position-absolute top-50 start-50 translate-middle badge text-light"
+												style="font-size: 17px;"> 모집 마감 </span>
 											<div class="card-body p-4" style="width: 100%;">
 												<div class="">
-													<p class="card-subtitle mb-2 text-body-secondary text-truncate" style="max-width: 100%;">
-													📍${study.stuLoc }</p>
+													<p
+														class="card-subtitle mb-2 text-body-secondary text-truncate"
+														style="max-width: 100%;">📍${study.stuLoc }</p>
 												</div>
-		
+
 												<!-- 제목 -->
 												<div class="mt-4">
-													<h5 class="card-title text-truncate" style="max-width: 100%;">
+													<h5 class="card-title text-truncate"
+														style="max-width: 100%;">
 														<b>${study.stuTitle }</b>
 													</h5>
 												</div>
-		
+
 												<!-- 스터디 언어 stuStack테이블에서 가져올 예정 -->
 												<div class="mt-4">
 													<p class="card-text">
@@ -486,7 +553,7 @@
 														</c:forEach>
 													</p>
 												</div>
-		
+
 												<div class="d-flex mt-4">
 													<div class="me-auto">
 														<p class="card-text">${study.stuWriter }</p>
@@ -502,7 +569,7 @@
 														</p>
 													</div>
 												</div>
-		
+
 											</div>
 										</div>
 									</div>
@@ -518,13 +585,13 @@
 
 				<!-- 페이징 -->
 				<%-- ${pagingInfo } --%>
-				<div class="row mt-3 paging">
+				<div class="row mt-4 paging">
 					<div class="col">
 						<ul class="pagination justify-content-center">
 							<c:if test="${pagingInfo.pageNo > 1}">
 								<li class="page-item"><a
 									class="page-link text-light bg-danger" style="border: none"
-									href="/study/listAll?pageNo=${param.pageNo -1 }&searchType=${param.searchType }&searchValue=${param.searchValue }"
+									href="/study/listAll?pageNo=${param.pageNo -1 }&statusFilter=${param.statusFilter }&searchType=${param.searchType }&searchValue=${param.searchValue }"
 									aria-label="Previous"> <span aria-hidden="true"><i
 											class="bi bi-arrow-left-short"></i></span>
 								</a></li>
@@ -535,14 +602,14 @@
 								end="${pagingInfo.endNumOfCurrentPagingBlock }" step="1">
 								<li class="page-item" id="${i }"><a
 									class="page-link text-black" style="border: none"
-									href="/study/listAll?pageNo=${i }&searchType=${param.searchType }&searchValue=${param.searchValue }">${i }</a>
+									href="/study/listAll?pageNo=${i }&statusFilter=${param.statusFilter }&searchType=${param.searchType }&searchValue=${param.searchValue }">${i }</a>
 								</li>
 							</c:forEach>
 
 							<c:if test="${pagingInfo.pageNo < pagingInfo.totalPageCnt}">
 								<li class="page-item"><a
 									class="page-link text-light bg-danger" style="border: none"
-									href="/study/listAll?pageNo=${param.pageNo +1 }&searchType=${param.searchType }&searchValue=${param.searchValue }"
+									href="/study/listAll?pageNo=${param.pageNo +1 }&statusFilter=${param.statusFilter }&searchType=${param.searchType }&searchValue=${param.searchValue }"
 									aria-label="Previous"> <span aria-hidden="true"><i
 											class="bi bi-arrow-right-short"></i></span>
 								</a></li>
@@ -551,7 +618,9 @@
 						</ul>
 					</div>
 				</div>
-
+				
+				<!-- 스터디 언어로 검색시 나오는 페이징 -->
+				<div class="container mt-4 studyListBySearchPaging"></div>
 
 			</div>
 

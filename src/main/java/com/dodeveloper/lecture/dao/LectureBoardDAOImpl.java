@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.dodeveloper.etc.PagingInfo;
@@ -62,7 +61,7 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 * @author : kde
 	 * @date : 2024.05.03
 	 * @param : String user - 글을 조회한 유저
-	 * @param : int lecNo - 게시글
+	 * @param : int lecNo - 게시글 번호
 	 * @return : int
 	 * @description : 유저가 ?번 글을 언제 읽었는지 select하는 메서드
 	 */
@@ -80,7 +79,7 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 * @methodName : updateReadCount
 	 * @author : kde
 	 * @date : 2024.05.03
-	 * @param : int lecNo - 게시글
+	 * @param : int lecNo - 게시글 번호
 	 * @return : int
 	 * @description : ?번 글의 조회수를 증가하는 메서드
 	 */
@@ -95,7 +94,7 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 * @author : kde
 	 * @date : 2024.05.03
 	 * @param : String user - 글을 조회한 유저
-	 * @param : int lecNo - 게시글
+	 * @param : int lecNo - 게시글 번호
 	 * @return : int
 	 * @description : ?번 글을 ?유저가 조회했다는 이력을 기록하는 메서드
 	 */
@@ -136,7 +135,7 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 * @methodName : updateLectureBoard
 	 * @author : kde
 	 * @date : 2024.05.04
-	 * @param : LectureBoardDTO modifyBoard
+	 * @param : LectureBoardDTO modifyBoard - 유저가 수정할 글
 	 * @return : int
 	 * @description : 실제 게시글을 수정하는 메서드
 	 */
@@ -197,6 +196,7 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 * @author : kde
 	 * @date : 2024.05.05
 	 * @param : LectureSearchDTO lsDTO - 검색조건의 Type와 value
+	 * @param : PagingInfo pi - 전체 게시글 페이징
 	 * @return : List<LectureBoardVO>
 	 * @description : 검색어가 있을 경우 검색된 글을 가져오는 메서드 - 검색조건
 	 */
@@ -233,8 +233,8 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 * @methodName : listAllBoardByFilter
 	 * @author : kde
 	 * @date : 2024.05.06
-	 * @param : List<LectureBoardVO> lectureBoardList - 게시글 목록
 	 * @param : String filterType - 필터 타입(최신순 / 인기순 / 조회순)
+	 * @param : PagingInfo pi - 전체 게시글 페이징
 	 * @return : List<LectureBoardVO>
 	 * @description : 검색 필터(최신순 / 인기순 / 조회순)을 선택했을 때 글을 가져오는 메서드 - 검색 필터
 	 */
@@ -248,6 +248,44 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 		params.put("viewPostCntPerPage", pi.getViewPostCntPerPage());
 		
 		return ses.selectList(ns + ".getLectureBoardListFilter", params);
+	}
+	
+	/**
+	 * @methodName : lectureBoardSearchAndFilterCnt
+	 * @author : kde
+	 * @date : 2024.05.25
+	 * @param : LectureSearchDTO lsDTO - 검색 조건 / 검색어 / 검색 필터 포함된 DTO
+	 * @return : int
+	 * @description : 검색 필터 + 검색 조건 + 페이징까지 글의 갯수를 가져오는 메서드
+	 */
+	@Override
+	public int lectureBoardSearchAndFilterCnt(LectureSearchDTO lsDTO) throws Exception {
+		
+	    return ses.selectOne(ns + ".getLectureBoardSearchAndFilterCnt", lsDTO);
+	}
+
+	/**
+	 * @methodName : lectureBoardSearchAndFilter
+	 * @author : kde
+	 * @date : 2024.05.25
+	 * @param : LectureSearchDTO lsDTO - 검색 조건 / 검색어 / 검색 필터 포함된 DTO
+	 * @param : PagingInfo pi - 전체 게시글 페이징
+	 * @return : 
+	 * @description : 검색 필터 + 검색 조건 + 페이징까지 글을 가져오는 메서드
+	 */
+	@Override
+	public List<LectureBoardVO> lectureBoardSearchAndFilter(LectureSearchDTO lsDTO, PagingInfo pi) throws Exception {
+		// System.out.println(lsDTO + " 검색필터랑 검색조건 둘 다 되는 중 " + pi + " 페이징까지");
+		
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("searchType", lsDTO.getSearchType());
+		params.put("searchValue", "%" + lsDTO.getSearchValue() + "%");
+		params.put("filterType", lsDTO.getFilterType());
+	    
+		params.put("startRowIndex", pi.getStartRowIndex());
+		params.put("viewPostCntPerPage", pi.getViewPostCntPerPage());
+		
+	    return ses.selectList(ns + ".getLectureBoardSearchAndFilter", params);
 	}
 	
 	/**
@@ -285,7 +323,7 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 */
 	@Override
 	public int insertLikeBoard(int lecNo, String user) throws Exception {
-		System.out.println("다오단 : " + lecNo + "번 글에 " + user + "가 좋아요를 눌렀습니다!");
+		
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("lecNo", lecNo);
 		params.put("user", user);
@@ -313,14 +351,13 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 * @date : 2024.05.21
 	 * @param : int lecNo - 게시글 번호
 	 * @param : String user - 좋아요를 눌렀다가 취소하려는 회원
-	 * @param : int lecLikeNo - 좋아요 누른 순번
 	 * @return : int
 	 * @description : 게시글에 좋아요 한 번 더 눌렀을 경우 취소처리하는 메서드
 	 * 유저가 하트를 한번 더 눌렀을 경우 1감소 -> ♡
 	 */
 	@Override
 	public int deleteLikeBoard(int lecNo, String user) throws Exception {
-		System.out.println("다오단 : " + lecNo + "번 글에 " + user + "가 좋아요를 취소했습니다!");
+		
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("lecNo", lecNo);
 		params.put("user", user);

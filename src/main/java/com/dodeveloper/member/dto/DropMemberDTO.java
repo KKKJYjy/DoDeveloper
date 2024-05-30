@@ -1,5 +1,7 @@
 package com.dodeveloper.member.dto;
 
+import java.sql.Timestamp;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,6 +16,7 @@ import lombok.ToString;
 @ToString
 public class DropMemberDTO {
 	private String userId;
+	private Timestamp dropApplyDate;
 	private String dropReason;
 	private String status;
 }

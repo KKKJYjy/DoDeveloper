@@ -30,7 +30,7 @@ public interface AdminDAO {
 	List<CountUriVO> selectPageLog() throws Exception;
 	
 	// 날짜별 접속자 수 조회하는 메서드
-	List<ConnectLogVO> connectDateLog() throws Exception;
+	List<ConnectLogVO> connectDateLog(int month) throws Exception;
   
 
 }

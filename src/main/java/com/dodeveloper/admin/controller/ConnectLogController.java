@@ -10,9 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dodeveloper.admin.service.AdminService;
 import com.dodeveloper.admin.vo.ConnectLogVO;
@@ -21,38 +22,53 @@ import com.dodeveloper.admin.vo.CountUriVO;
 @Controller
 @RequestMapping("/admin")
 public class ConnectLogController {
-	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
+	private static final Logger logger = LoggerFactory.getLogger(ConnectLogController.class);
 
 	@Autowired
 	private AdminService aService;
 
-	@RequestMapping("/totalLog")
-	public ResponseEntity connectLog(Model model) {
-		logger.info("totalLog 페이지 호출");
-		
-		List<ConnectLogVO> connectLog = null;
-		List<CountUriVO> uriCount = null;
-		Map<String, Object> logData = new HashMap<String, Object>();
-		ResponseEntity<Map<String, Object>> result = null;
-
-		try {
-			connectLog = aService.getDateLog();
-			uriCount = aService.getPageLogCount();
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		logData.put("connectLog", connectLog);
-		logData.put("uriCount", uriCount);
-
-		model.addAttribute("logData", logData);
-		
-		result = new ResponseEntity<Map<String, Object>>(logData, HttpStatus.OK);
-
-		logger.info("json 변환");
-		return result;
+	@GetMapping(value = "/totalLog")
+	public void showTotalLog() {
 
 	}
+
+	@GetMapping(value = "/getLog", produces = "application/json; charset=utf-8")
+	public @ResponseBody ResponseEntity<Map<String, Object>> connectLog(@RequestParam("month") int month) {
+		logger.info("totalLog 페이지 호출");
+
+		System.out.println("입력받은 월 : " + month);
+
+
+		Map<String, Object> logData = new HashMap<>();
+		try {
+			List<ConnectLogVO> connectLog = aService.getDateLog(month);
+
+			logData.put("connectLog", connectLog);
+
+			System.out.print(logData);
+			return new ResponseEntity<>(logData, HttpStatus.OK);
+
+		} catch (Exception e) {
+			logger.error("Error retrieving log data", e);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@GetMapping(value = "/getUri", produces = "application/json; charset=utf-8")
+	public @ResponseBody ResponseEntity<Map<String, Object>> getUri() {
+		logger.info("uriData 호출됨");
+
+		Map<String, Object> uriData = new HashMap<>();
+		try {
+			List<CountUriVO> uriCount = aService.getPageLogCount();
+			uriData.put("uriCount", uriCount);
+			System.out.print(uriData);
+			return new ResponseEntity<>(uriData, HttpStatus.OK);
+
+		} catch (Exception e) {
+			logger.error("초기 데이터를 가져오는 중 오류 발생", e);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
 }

@@ -7,18 +7,23 @@
 	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
 	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
 	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
 		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
 		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
 
 	<context:property-placeholder
 		location="classpath:application.properties" />
+		
+	<util:properties id="appProperties" location="classpath:application.properties" />
+		
 
 	<!-- DB Connection을 얻어오는 객체 생성 -->
 	<bean id="dataSource"
@@ -136,7 +141,26 @@
 		base-package="com.dodeveloper.algorithm.dao"></context:component-scan>
 
 
-
+   <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.gmail.com" />
+        <property name="port" value="587" />
+        <property name="username" value="${mail.id}" />
+        <property name="password" value="${mail.pwd}" />
+        <property name="defaultEncoding" value="utf-8" />
+        
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtps.ssl.checkserveridentity">true</prop>
+                <prop key="mail.smtps.ssl.trust">*</prop>
+                <prop key="mail.debug">true</prop>
+                <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+            </props>
+        </property>
+    </bean>
+    
+    
 	<!-- admin 패키지 조사 -->
 	<context:component-scan
 		base-package="com.dodeveloper.admin.service"></context:component-scan>
@@ -144,5 +168,7 @@
 		base-package="com.dodeveloper.admin.dao"></context:component-scan>
 	<context:component-scan
 		base-package="com.dodeveloper.admin.etc"></context:component-scan>
+
+
 
 </beans>

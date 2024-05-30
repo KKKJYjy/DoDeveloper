@@ -1,4 +1,4 @@
-package com.dodeveloper.admin.vo;
+package com.dodeveloper.company.vodto;
 
 import java.sql.Timestamp;
 
@@ -14,7 +14,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class ConnectLogVO {
-	private String date;
-	private int count;
+public class ScrapVO {
+	private int scrapNo;
+	private int scrapBoard;
+	private String scrapId;
+	private Timestamp scrapDate;
+	private int bType;
 }
