@@ -15,8 +15,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class ConnectLogVO {
-	private String sessionId;
-	private String uri;
-	private Timestamp accessDate;
+	private String date;
 	private int count;
 }

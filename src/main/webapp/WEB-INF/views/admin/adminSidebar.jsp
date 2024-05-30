@@ -71,9 +71,10 @@
 
 						<li class="sidebar-item"><a
 							class="sidebar-link waves-effect waves-dark sidebar-link"
-							href="/admin/blank" aria-expanded="false"><i
+							href="/admin/totalLog" aria-expanded="false"><i
 								class="mdi me-2 mdi-book-open-variant"></i><span
-								class="hide-menu">Blank</span></a></li>
+								class="hide-menu">통계</span></a></li>
+								
 						<li class="sidebar-item"><a
 							class="sidebar-link waves-effect waves-dark sidebar-link"
 							href="/admin/inquiry" aria-expanded="false"><i

@@ -10,27 +10,18 @@
 <body>
 	<c:import url="./adminHeader.jsp"></c:import>
 
-	
+
 	<c:import url="./adminSidebar.jsp"></c:import>
 
- <div class="page-wrapper">
-	
-	<c:import url="./adminMiniHeader.jsp"></c:import>
-                        <div class="container-fluid">
-	<!-- 내용 추가 -->
+	<div class="page-wrapper">
+		<c:import url="./adminMiniHeader.jsp"></c:import>
+		<div class="container-fluid">
 
-	<main id="dashboard">
-
-		<!-- Basic Section - Index Page -->
-		<section id="dashboard" class="basic">
-			<div class="container">
-				<h1>홈</h1>
-			</div>
-		</section>
-		<!-- End Basic Section -->
-	</main>
-</div>
-	<c:import url="./adminFooter.jsp"></c:import>
-</div>
+			<main id="dashboard">
+				
+			</main>
+		</div>
+		<c:import url="./adminFooter.jsp"></c:import>
+	</div>
 </body>
 </html>

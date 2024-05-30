@@ -70,14 +70,15 @@ public class AdminDAOImpl implements AdminDAO {
 	@Override
 	public List<CountUriVO> selectPageLog() throws Exception {
 		
+		
 		return ses.selectList(ns + ".selectLog");
 		
 	}
 
 	@Override
-	public List<ConnectLogVO> connectDateLog() throws Exception {
+	public List<ConnectLogVO> connectDateLog(int month) throws Exception {
 		
-		return ses.selectList(ns + ".selectDatelog");
+		return ses.selectList(ns + ".selectDatelog", month);
 	}
 
 }
