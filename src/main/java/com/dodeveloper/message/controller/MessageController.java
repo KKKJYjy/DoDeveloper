@@ -57,18 +57,15 @@ public class MessageController {
 
 	private MessageService messageService;
 	private FileProcessing fileProcessing;
-	private HttpSession session;
 
 	@Autowired
-	public MessageController(MessageService messageService, FileProcessing fileProcessing, HttpSession session) {
+	public MessageController(MessageService messageService, FileProcessing fileProcessing) {
 		this.messageService = messageService;
 		this.fileProcessing = fileProcessing;
-		this.session = session;
-		
 	}
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public ModelAndView home() throws Exception {
+	public ModelAndView home(HttpSession session) throws Exception {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("message/home");
 		
@@ -84,9 +81,9 @@ public class MessageController {
 
 	@RequestMapping(value = "/{userId}/{messageNo}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public ResponseEntity<String> getMessage(@PathVariable("userId") String userId,
-			@PathVariable("messageNo") int messageNo) throws Exception {
+			@PathVariable("messageNo") int messageNo, HttpSession session) throws Exception {
 		
-		if(authorityCheck(userId)== false) {
+		if(authorityCheck(userId, session)== false) {
 			return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
 		}
 		
@@ -111,10 +108,10 @@ public class MessageController {
 
 	@RequestMapping(value = "/{receiver}/received/{startPoint}/{amountToShow}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public ResponseEntity<String> showReceivedMessages(@PathVariable("receiver") String receiver,
-			@PathVariable("startPoint") int startPoint, @PathVariable(required = false) Optional<Integer> amountToShow)
+			@PathVariable("startPoint") int startPoint, @PathVariable(required = false) Optional<Integer> amountToShow, HttpSession session)
 			throws Exception {
 		
-		if(authorityCheck(receiver)== false) {
+		if(authorityCheck(receiver, session)== false) {
 			return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
 		}
 		
@@ -133,9 +130,9 @@ public class MessageController {
 	@RequestMapping(value = "/{receiver}/received/{startPoint}/{amountToShow}/title/{title}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public ResponseEntity<String> searchReceivedMessagesByTitle(@PathVariable("receiver") String receiver,
 			@PathVariable("startPoint") int startPoint, @PathVariable(required = false) Optional<Integer> amountToShow,
-			@PathVariable("title") String title) throws Exception {
+			@PathVariable("title") String title, HttpSession session) throws Exception {
 
-		if(authorityCheck(receiver)== false) {
+		if(authorityCheck(receiver, session)== false) {
 			return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
 		}
 		
@@ -158,9 +155,9 @@ public class MessageController {
 	@RequestMapping(value = "/{receiver}/received/{startPoint}/{amountToShow}/content/{content}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public ResponseEntity<String> searchReceivedMessagesByContent(@PathVariable("receiver") String receiver,
 			@PathVariable("startPoint") int startPoint, @PathVariable(required = false) Optional<Integer> amountToShow,
-			@PathVariable("content") String content) throws Exception {
+			@PathVariable("content") String content, HttpSession session) throws Exception {
 
-		if(authorityCheck(receiver)== false) {
+		if(authorityCheck(receiver, session)== false) {
 			return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
 		}
 		
@@ -183,9 +180,9 @@ public class MessageController {
 	@RequestMapping(value = "/{receiver}/received/{startPoint}/{amountToShow}/writer/{writer}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public ResponseEntity<String> searchReceivedMessagesByWriter(@PathVariable("receiver") String receiver,
 			@PathVariable("startPoint") int startPoint, @PathVariable(required = false) Optional<Integer> amountToShow,
-			@PathVariable("writer") String writer) throws Exception {
+			@PathVariable("writer") String writer, HttpSession session) throws Exception {
 
-		if(authorityCheck(receiver)== false) {
+		if(authorityCheck(receiver, session)== false) {
 			return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
 		}
 
@@ -208,10 +205,10 @@ public class MessageController {
 
 	@RequestMapping(value = "/{writer}/sent/{startPoint}/{amountToShow}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public ResponseEntity<String> showSentMessages(@PathVariable("writer") String writer,
-			@PathVariable("startPoint") int startPoint, @PathVariable(required = false) Optional<Integer> amountToShow)
+			@PathVariable("startPoint") int startPoint, @PathVariable(required = false) Optional<Integer> amountToShow, HttpSession session)
 			throws Exception {
 
-		if(authorityCheck(writer)== false) {
+		if(authorityCheck(writer, session)== false) {
 			return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
 		}
 		
@@ -229,9 +226,9 @@ public class MessageController {
 	@RequestMapping(value = "/{writer}/sent/{startPoint}/{amountToShow}/title/{title}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public ResponseEntity<String> searchSentMessagesByTitle(@PathVariable("writer") String writer,
 			@PathVariable("startPoint") int startPoint, @PathVariable(required = false) Optional<Integer> amountToShow,
-			@PathVariable("title") String title) throws Exception {
+			@PathVariable("title") String title, HttpSession session) throws Exception {
 
-		if(authorityCheck(writer)== false) {
+		if(authorityCheck(writer, session)== false) {
 			return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
 		}
 		
@@ -255,9 +252,9 @@ public class MessageController {
 	@RequestMapping(value = "/{writer}/sent/{startPoint}/{amountToShow}/content/{content}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public ResponseEntity<String> searchSentMessagesByContent(@PathVariable("writer") String writer,
 			@PathVariable("startPoint") int startPoint, @PathVariable(required = false) Optional<Integer> amountToShow,
-			@PathVariable("content") String content) throws Exception {
+			@PathVariable("content") String content, HttpSession session) throws Exception {
 
-		if(authorityCheck(writer)== false) {
+		if(authorityCheck(writer, session)== false) {
 			return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
 		}
 
@@ -280,9 +277,9 @@ public class MessageController {
 	@RequestMapping(value = "/{writer}/sent/{startPoint}/{amountToShow}/receiver/{receiver}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public ResponseEntity<String> searchSentMessagesByReceiver(@PathVariable("writer") String writer,
 			@PathVariable("startPoint") int startPoint, @PathVariable(required = false) Optional<Integer> amountToShow,
-			@PathVariable("receiver") String receiver) throws Exception {
+			@PathVariable("receiver") String receiver, HttpSession session) throws Exception {
 
-		if(authorityCheck(writer)== false) {
+		if(authorityCheck(writer, session)== false) {
 			return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
 		}
 
@@ -303,9 +300,9 @@ public class MessageController {
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
-	public ResponseEntity<String> sendMessage(@RequestBody SendMessageDTO sendMessageDTO) throws Exception {
+	public ResponseEntity<String> sendMessage(@RequestBody SendMessageDTO sendMessageDTO, HttpSession session) throws Exception {
 		String writer = sendMessageDTO.getMessage().getWriter();
-		if(authorityCheck(writer) == false) {
+		if(authorityCheck(writer, session) == false) {
 			return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
 		}
 
@@ -391,7 +388,7 @@ public class MessageController {
 		}
 	}
 
-	private boolean authorityCheck(String userId) {
+	private boolean authorityCheck(String userId, HttpSession session) {
 		System.out.println("세션 아이디: " + session.getId());
 		MemberVO loginMember = (MemberVO) session.getAttribute(SessionNames.LOGIN_MEMBER);
 		
