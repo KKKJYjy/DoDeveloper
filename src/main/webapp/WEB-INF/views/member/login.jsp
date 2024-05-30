@@ -40,17 +40,19 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
 function findId() {
-	alert("아이디 찾기 미구현");
+	let email = $("#sb_findId_email").val();
+	let resultMsg = sendIdToUser(email);
+	alert(resultMsg);
 	$("#sb_findId").modal("hide");
-	console.log("아이디 찾기 결과");
-	$("#sb_findId_result").modal("show");
 }
 
 function findPwd() {
-	alert("비밀번호 찾기 미구현");
+	let userId = $("#sb_findPwd_userId").val();
+	let email = $("#sb_findPwd_email").val();
+	let resultMsg = sendPwdResetLink(userId, email);
+	alert(resultMsg);
+	
 	$("#sb_findPwd").modal("hide");
-	console.log("비밀번호 찾기 결과");
-	$("#sb_findPwd_result").modal("show");
 }
 
 function findPwdView() {
@@ -74,6 +76,48 @@ function findPwdLogin() {
 	$("#sb_findPwd_result").modal("hide");
 	
 	// 백엔드 처리
+}
+
+function sendIdToUser(email) {
+	let resultMsg = "";
+	
+	$.ajax({
+        url: "./sendUserId",
+        type: "post",
+        dataType: "text",
+        async: false,
+        data: {
+        	email: email,
+        },
+        success: function (data) {
+        	resultMsg = data;
+        },
+        error: function () {
+        	resultMsg = "에러가 발생했습니다. 잠시 후 다시 시도해주십시오.";
+        }
+     });
+	return resultMsg;
+}
+
+function sendPwdResetLink(email) {
+	let resultMsg = "";
+	
+	$.ajax({
+        url: "./sendPwdResetLink",
+        type: "post",
+        dataType: "text",
+        async: false,
+        data: {
+        	email: email,
+        },
+        success: function (data) {
+        	resultMsg = data;
+        },
+        error: function () {
+        	resultMsg = "에러가 발생했습니다. 잠시 후 다시 시도해주십시오.";
+        }
+     });
+	return resultMsg;
 }
 </script>
 </head>
@@ -150,17 +194,19 @@ function findPwdLogin() {
 				<div class="modal-body">
 					<div class="form-header text-center mb-4">
 						<div class="text-center">
-							<span class="fw-light fs-4 text-secondary">회원님의 이름과 이메일을 입력해주세요</span>
+							<span class="fw-light fs-4 text-secondary">회원님의 이메일을 입력해주세요</span>
 						</div>
 					</div>
 
 					<div class="form_chagePwd d-flex flex-column">
+						<!-- 
 						<div class="mb-3 mt-2">
 							<div class="label-group">
 								<label for="sb_findId_userName" class="form-label">이름</label>
 							</div>
 							<input type="text" class="form-control" id="sb_findId_userName" />
 						</div>
+						 -->
 						<div class="mb-3 mt-2">
 							<div class="label-group">
 								<label for="sb_findId_email" class="form-label">이메일</label>
@@ -192,7 +238,7 @@ function findPwdLogin() {
 				<div class="modal-body">
 					<div class="form-header text-center mb-4">
 						<div class="text-center">
-							<span class="fw-light fs-4 text-secondary">회원님의 아이디, 이름, 이메일을 입력해주세요</span>
+							<span class="fw-light fs-4 text-secondary">회원님의 아이디, 이메일을 입력해주세요</span>
 						</div>
 					</div>
 
@@ -202,12 +248,6 @@ function findPwdLogin() {
 								<label for="sb_findPwd_userId" class="form-label">아이디</label>
 							</div>
 							<input type="text" class="form-control" id="sb_findPwd_userId" />
-						</div>
-						<div class="mb-3 mt-2">
-							<div class="label-group">
-								<label for="sb_findPwd_userName" class="form-label">이름</label>
-							</div>
-							<input type="text" class="form-control" id="sb_findPwd_userName" />
 						</div>
 						<div class="mb-3 mt-2">
 							<div class="label-group">

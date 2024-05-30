@@ -27,6 +27,9 @@ public interface MemberDAO {
 	// 회원 정보 가져오는 메서드
 	MemberVO getMemberInfo(String userId) throws Exception;
 
+	// 이메일로 회원정보 가져오는 메서드
+	MemberVO getMemberByEmail(String email) throws Exception;
+	
 	// 비밀번호 확인하는 메서드
 	int checkUserPwd(ChangePwdDTO changePwdDTO) throws Exception;
 	
@@ -38,6 +41,9 @@ public interface MemberDAO {
 
 	// 회원탈퇴
 	int dropMember(DropMemberDTO dropMemberDTO) throws Exception;
+	
+	// 회원삭제
+	int deleteAllDroppedMembers() throws Exception;
 	
 	// 회원탈퇴 status 변경
 	int changeDropStatus(DropMemberDTO dropMemberDTO) throws Exception;
