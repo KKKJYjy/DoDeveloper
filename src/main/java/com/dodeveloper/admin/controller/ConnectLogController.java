@@ -32,7 +32,7 @@ public class ConnectLogController {
 		
 		List<ConnectLogVO> connectLog = null;
 		List<CountUriVO> uriCount = null;
-		Map<String, Object> logData = new HashMap<>();
+		Map<String, Object> logData = new HashMap<String, Object>();
 		ResponseEntity<Map<String, Object>> result = null;
 
 		try {
