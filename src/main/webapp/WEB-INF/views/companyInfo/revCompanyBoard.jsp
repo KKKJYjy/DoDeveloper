@@ -138,7 +138,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
 						<input type="button" class="btn btn-primary" value="목록으로"
 								onclick="location.href='/companyInfo/entire?companyInfoNo=${param.companyInfoNo}&revNo=${rev.revNo}';" />
 						<input type="button" class="btn btn-success" value="스크랩"
-								onclick="location.href='/companyInfo/revCompanyBoard?companyInfoNo=${param.companyInfoNo}&revNo=${rev.revNo}';" />								
+								onclick="location.href='/companyInfo/insertScrap?companyInfoNo=${param.companyInfoNo}&scrapBoard=${rev.revNo}';" />								
 					</c:forEach>
 				</ul>
 			</div>
