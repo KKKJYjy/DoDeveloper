@@ -198,39 +198,6 @@ function isValid() {
     
     return result;
 }
-
-function insertLecture() {
-    if (isValid()) {
-        let newLecBoard = {
-            "lecWriter": '${loginMember.userId}',
-            "lecTitle": $("#lecTitle").val(),
-            "lecLink": $("#lecLink").val(),
-            "lecReview": $("#lecReviewSelect").val() == '' ? $("#lecReviewInput").val() : $("#lecReviewSelect").val(),
-            "lecScore": $("#lecScore").val()
-        };
-
-        $.ajax({
-            url: '/lecture/writePOST',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(newLecBoard),
-            dataType: 'json',
-            success: function(response) {
-                console.log(response);
-                if (response.status === "success") {
-                    alert("글 작성 성공");
-                    window.location.href = "/lecture/listAll"; // 리다이렉트
-                } else {
-                    alert("글 작성 실패");
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-                alert("글 작성 중 오류가 발생했습니다.");
-            }
-        });
-    }
-}
 </script>
 <style>
 /* 별점 */

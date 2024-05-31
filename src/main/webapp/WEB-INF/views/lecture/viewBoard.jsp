@@ -678,9 +678,9 @@ document.addEventListener('DOMContentLoaded', function() {
 					<!-- 글 수정 & 글 삭제 로그인 한 유저만 가능 -->
 					<div class="btns">
 						<a href="/lecture/modifyLectureBoard?lecNo=${lecBoard.lecNo}"
-							class="btn">글수정</a> <a
-							href="/lecture/removeLectureBoard?lecNo=${lecBoard.lecNo}"
-							class="btn">글삭제</a>
+							class="modifyBtn btn">글수정</a>
+						<a href="/lecture/removeLectureBoard?lecNo=${lecBoard.lecNo}"
+							class="removeBtn btn">글삭제</a>
 					</div>
 
 
