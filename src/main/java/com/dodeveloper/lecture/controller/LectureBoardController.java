@@ -208,20 +208,18 @@ public class LectureBoardController {
 	 */
 	@RequestMapping(value = "/writePOST", method = RequestMethod.POST)
 	public String writeBoard(LectureBoardDTO newLecBoard) throws Exception {
-		logger.info("controller : " + newLecBoard.toString() + "글을 저장하러 갈게요!");
-
-		String returnPage = "/lecture/listAll"; // 게시판 전체 조회 페이지로
-
-		// 서비스단 호출
-		if (lService.writeBoardService(newLecBoard)) {
-			// 유저가 작성한 게시글 저장이 성공했을 경우
-			returnPage = "redirect:" + returnPage + "?status=writeSuccess";
-		} else {
-			// 유저가 작성한 게시글 저장이 실패한 경우
-			returnPage = "redirect:" + returnPage + "?status=writeFail";
-		}
-
-		return returnPage;
+	        logger.info("controller: " + newLecBoard.toString() + " 글을 저장하러 갈게요!");
+	        
+	        String returnPage = "/lecture/listAll";
+	        
+	        if (lService.writeBoardService(newLecBoard)) {
+	            logger.info("controller: 글 작성 성공");
+	            returnPage = "redirect:" + returnPage;
+	        } else {
+	            logger.info("controller: 글 작성 실패");
+	            returnPage = "redirect:" + returnPage + "?status=writeFail";
+	        }
+	        return returnPage;
 	}
 
 	/**

@@ -170,6 +170,67 @@ setStarRating();
         document.getElementById('lecScore').value = score; // 선택한 별점을 hidden input에 저장
     }
 })();
+
+//---------------------------------------------------------------------
+
+// 유저가 글 작성시 작성 안한 곳이 없도록 - 유효성 검사
+// 강의 후기 같은 경우는 선택하거나 작성 두 경우가 있어서 else if 두 경우로 나눔
+function isValid() {
+    let result = false;
+    
+    if ($("#lecTitle").val() == '' || $("#lecTitle").val() == null) {
+        $("#lecTitle").focus();
+        alert("제목을 입력해주세요.");
+    } else if ($("#lecLink").val() == '' || $("#lecLink").val() == null) {
+        $("#lecLink").focus();
+        alert($("#lecWriter").val() + "님께서 들었던 강의 중 좋았던 강의 링크를 공유해주세요.");
+    } else if ($("#lecReviewSelect").val() == '-1') {
+        $("#lecReviewSelect").focus();
+        alert("강의 후기를 선택하거나 작성해주세요.");
+    } else if ($("#lecReviewSelect").val() == '' && ($("#lecReviewInput").val() == '' || $("#lecReviewInput").val() == null)) {
+    	$("#lecReviewInput").focus();
+        alert("강의 후기를 작성해주세요.");
+    } else if ($("#lecScore").val() == '0') {
+        alert("들으셨던 강의가 얼마나 좋으셨는지 별점을 남겨주세요.");
+    } else {
+        result = true;
+    }
+    
+    return result;
+}
+
+function insertLecture() {
+    if (isValid()) {
+        let newLecBoard = {
+            "lecWriter": '${loginMember.userId}',
+            "lecTitle": $("#lecTitle").val(),
+            "lecLink": $("#lecLink").val(),
+            "lecReview": $("#lecReviewSelect").val() == '' ? $("#lecReviewInput").val() : $("#lecReviewSelect").val(),
+            "lecScore": $("#lecScore").val()
+        };
+
+        $.ajax({
+            url: '/lecture/writePOST',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(newLecBoard),
+            dataType: 'json',
+            success: function(response) {
+                console.log(response);
+                if (response.status === "success") {
+                    alert("글 작성 성공");
+                    window.location.href = "/lecture/listAll"; // 리다이렉트
+                } else {
+                    alert("글 작성 실패");
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                alert("글 작성 중 오류가 발생했습니다.");
+            }
+        });
+    }
+}
 </script>
 <style>
 /* 별점 */
@@ -217,28 +278,28 @@ setStarRating();
 					<!-- 단, 유저가 select박스 중 다른 것을 눌렀을 경우 input박스는 사라져야 한다. -->
 					<!-- 링크를 올렸을 때 바로 북마크가 생기도록 -->
 					<div class="lecBoard">
-						<form action="/lecture/writePOST" method="post">
-							<div class="mb-3 mt-3">
-								<label for="lecWriter" class="form-label"></label> <input
+						<form action="/lecture/writePOST" method="post" >
+							<div class="mb-3 mt-3" class="form-label">
+								<label for="lecWriter" class="lecWriter"></label> <input
 									type="text" class="form-control" id="lecWriter"
 									name="lecWriter" value="${sessionScope.loginMember.userId}" />
 								님께서 시청하신 강의 중 좋았던 강의 링크를 공유해주시고 후기를 남겨주세요.
 							</div>
 
-							<div class="mb-3 mt-3">
-								<label for="lecTitle" class="form-label">제목</label> <input
+							<div class="mb-3 mt-3" class="form-label">
+								<label for="lecTitle" class="lecTitle">제목</label> <input
 									type="text" class="form-control" id="lecTitle" name="lecTitle"
 									placeholder="제목을 작성해주세요." />
 							</div>
 
-							<div class="mb-3 mt-3">
-								<label for="lecLink" class="form-label">강의 링크</label>
+							<div class="mb-3 mt-3"  class="form-label">
+								<label for="lecLink" class="lecLink">강의 링크</label>
 								<textarea id="lecLink" name="lecLink" rows="5" cols="500"
 									placeholder="강의 링크를 공유해주세요." class="form-control"></textarea>
 							</div>
 
-							<div class="mb-3 mt-3">
-								<label for="lecReview" class="form-label">강의 후기</label> <select
+							<div class="mb-3 mt-3" class="form-label">
+								<label for="lecReview" class="lecReview">강의 후기</label> <select
 									id="lecReviewSelect" name="lecReview" onchange="showInput()">
 									<option value="-1">-- 강의 후기 선택 --</option>
 									<option value="초보자가 듣기 너무 좋아요.">초보자가 듣기 너무 좋아요.</option>
@@ -255,8 +316,8 @@ setStarRating();
 
 							<!-- 강의 후기 별점 -->
 							<!-- input type="hidden"을 사용해서 유저가 안보이도록 정보를 보낸다. -->
-							<div class="starRating">
-								<label for="lecScore" class="form-label">별점</label>
+							<div class="starRating"  class="form-label">
+								<label for="lecScore" class="lecScore">별점</label>
 								<label class="star"><input type="hidden" value="1"></label>
 								<label class="star"><input type="hidden" value="2"></label>
 								<label class="star"><input type="hidden" value="3"></label>
@@ -270,9 +331,9 @@ setStarRating();
 
 							<!-- 글 수정 & 글 삭제 로그인 한 유저만 가능 -->
 							<div class="btns">
-								<input type="submit" class="btn btn-success" value="글 저장"
-									onclick="insertLecture();" /> <input type="button"
-									class="btn btn-danger" value="취소" onclick="cancelWriteBoard();" />
+								<input type="submit" class="btn btn-success" value="글 저장" onclick="return isValid();"/>
+								<input type="button" class="btn btn-danger" value="취소"
+									onclick="cancelWriteBoard();" />
 								<div class="btn-group">
 									<button type="button" class="btn"
 										onclick="location.href='/lecture/listAll';">목록으로</button>
