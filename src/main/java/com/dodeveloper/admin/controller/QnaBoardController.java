@@ -85,6 +85,13 @@ public class QnaBoardController {
 
 	}
 	
+	@RequestMapping(value = "/deleteQna", method = RequestMethod.GET)
+	public String deleteQna(int no) throws Exception {
+		
+		bService.qnaDeleteBoard(no);
+		
+		return "redirect:listAll";
+	}
 	
 	
 

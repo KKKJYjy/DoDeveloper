@@ -15,12 +15,12 @@
 </style>
 <script>
 	$(function() {
-		var chkObj = document.getElementsByName("rowCheck");
-		var rowCnt = chkObj.length;
+		let chkObj = document.getElementsByName("rowCheck");
+		let rowCnt = chkObj.length;
 
 		$("input[name='allCheck']").click(function() {
-			var chk_listArr = $("input[name='rowCheck']");
-			for (var i = 0; i < chk_listArr.length; i++) {
+			let chk_listArr = $("input[name='rowCheck']");
+			for (let i = 0; i < chk_listArr.length; i++) {
 				chk_listArr[i].checked = this.checked;
 			}
 		});

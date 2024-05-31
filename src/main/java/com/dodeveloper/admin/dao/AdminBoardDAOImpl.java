@@ -286,6 +286,13 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 		ses.delete(ns + ".deleteQnaBoard", no);
 	}
 	
+	
+	@Override
+	public void deleteQnaBoard(int no) throws Exception {
+		
+		ses.delete(ns + ".deleteQnaBoard", no);
+	}
+	
 
 	@Override
 	public int insertNoticeBoard(NoticeDTO newBoard) throws Exception {
@@ -347,11 +354,8 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 		return ses.selectOne(ns + ".getQnaTotalBoardCnt");
 	}
 
-
-
 	
 
-	
 	//@Override
 //	public int stuBoardDelete(int stuNo) throws Exception {
 //		

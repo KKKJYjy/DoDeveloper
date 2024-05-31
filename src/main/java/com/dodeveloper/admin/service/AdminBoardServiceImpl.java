@@ -399,6 +399,14 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 
 		bDao.deleteQna(no);
 	}
+	
+	
+	@Override
+	public void qnaDeleteBoard(int no) throws Exception {
+		
+		bDao.deleteQnaBoard(no);
+	}
+	
 
 	@Override
 	public boolean writeNoticeBoard(NoticeDTO newBoard) throws Exception {
@@ -506,7 +514,6 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 
 	}
 
-	
 
 
 

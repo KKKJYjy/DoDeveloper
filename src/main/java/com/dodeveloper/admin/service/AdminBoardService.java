@@ -55,6 +55,9 @@ public interface AdminBoardService {
 		// 관리자 페이지에서 문의게시물 삭제 처리한는 메서드
 		void qnaDelete(String no) throws Exception;
 		
+		// 문의게시물 삭제 처리한는 메서드
+		void qnaDeleteBoard(int no) throws Exception;
+		
 		// 공지사항 작성
 		boolean writeNoticeBoard(NoticeDTO newBoard) throws Exception;
 		

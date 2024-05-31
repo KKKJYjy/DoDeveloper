@@ -102,8 +102,11 @@ public interface AdminBoardDAO {
     // 신고내역 삭제 
     void deleteReport(String reportNo) throws Exception;
     
-    // 문의 게시글 삭제
+    // 관리자 페이지에서 문의 게시글 삭제
     void deleteQna(String no) throws Exception;
+    
+    // 문의 게시글 삭제
+    void deleteQnaBoard(int no) throws Exception;
     
     // 공지사항 테이블에 insert하는 메서드
     int insertNoticeBoard(NoticeDTO newBoard) throws Exception;

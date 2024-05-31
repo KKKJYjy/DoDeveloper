@@ -255,7 +255,13 @@ function processPostDate(writtenDate) {
 
 
 function remBtn() {
-	 if(confirm("정말 삭제하시겠습니까?")){
+	
+	let user = '${sessionScope.loginMember.userId}'
+	if (user == '') {
+		alert("로그인 후 이용해주세요");
+	}
+	else if(confirm("정말 삭제하시겠습니까?")){
+		 location.href='/qna/deleteQna?no=${qnaView.no}'
 		alert("정상적으로 삭제되었습니다.");
 	} 
 }
