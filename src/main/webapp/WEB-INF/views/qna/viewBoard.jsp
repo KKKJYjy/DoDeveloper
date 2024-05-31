@@ -255,15 +255,27 @@ function processPostDate(writtenDate) {
 
 
 function remBtn() {
-	
-	let user = '${sessionScope.loginMember.userId}'
-	if (user == '') {
-		alert("로그인 후 이용해주세요");
+	let user = preAuth();  // 로그인한 유저
+	let writer = '${qnaView.qnaWriter }';
+//	let user = '${sessionScope.loginMember.userId}'
+
+	if (user == writer) {
+		if(window.confirm('정말 삭제하시겠습니까?')) {
+			alert("정상적으로 삭제되었습니다.");
+			location.href='/qna/deleteQna?no=${qnaView.no}'
+				
+		} 
+			
 	}
-	else if(confirm("정말 삭제하시겠습니까?")){
-		 location.href='/qna/deleteQna?no=${qnaView.no}'
-		alert("정상적으로 삭제되었습니다.");
-	} 
+	
+	
+//	if (user == '') {
+//		alert("로그인 후 이용해주세요");
+//	}
+//	else if(confirm("정말 삭제하시겠습니까?")){
+//		 location.href='/qna/deleteQna?no=${qnaView.no}'
+//		alert("정상적으로 삭제되었습니다.");
+//	} 
 }
 
 
