@@ -152,6 +152,8 @@ public class AdminBoardController {
 		resultPage = "/admin/noticeBoard";
 
 	}
+	
+	
 
 	@RequestMapping(value = "/delete")
 	public String removeStuBoard(HttpServletRequest request) throws Exception {
