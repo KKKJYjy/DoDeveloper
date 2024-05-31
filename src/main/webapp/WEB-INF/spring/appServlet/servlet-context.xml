@@ -51,6 +51,9 @@
 		class="com.dodeveloper.commons.interceptor.ConnectUserInterceptor">
 	</beans:bean>
 
+	<beans:bean id="testInterceptor"
+		class="com.dodeveloper.commons.interceptor.TestInterceptor">
+	</beans:bean>
 	<!-- 인터셉터가 동작하는 매핑 설정 -->
 	<interceptors>
 		<interceptor>
@@ -93,7 +96,8 @@
 			<mapping path="/message"/>
 
 			<mapping path="/algorithm/writeDetailPOST" />
-			
+			<!--  
+			 -->
 			<mapping path="/algorithm/modifyAlgDetail" />
 			
 			<beans:ref bean="authInterceptor" />
@@ -112,6 +116,13 @@
 			<!-- /index 매핑 주소가 들어오면 connectUserInterceptor 객체가 동작하도록 -->
 			<mapping path="/" />
 			<beans:ref bean="connectUserInterceptor" />
+		</interceptor>
+		
+		
+		<interceptor>
+			<mapping path="/algorithm/writeDetailPOST"/>
+			<mapping path="/algorithm/modifyAlgDetail"/>
+			<beans:ref bean="testInterceptor"/>
 		</interceptor>
 		
 		

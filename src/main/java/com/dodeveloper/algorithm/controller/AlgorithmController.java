@@ -68,6 +68,9 @@ public class AlgorithmController {
 		
 		model.addAttribute("algDetailList", returnMap);
 		//model.addAttribute("login", loginDTO);
+		
+		// 세션에 boardNo 저장해서 인터셉터에서 가져올 수 있도록 함
+		ses.setAttribute("boardNum", boardNo);
 	}
 	
 	
@@ -99,6 +102,7 @@ public class AlgorithmController {
 		returnMap = aService.getAlgClassification();
 		System.out.println(returnMap.toString());
 		model.addAttribute("algClassification", returnMap);
+		
 		
 		return "/algorithm/writeBoard";
 	}
