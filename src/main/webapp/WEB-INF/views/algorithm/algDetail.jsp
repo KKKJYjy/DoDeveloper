@@ -61,29 +61,52 @@
 <script>
 	$(function () {
 		
+		$('.py').hide();
 		
-		$.ajax({
-			url : "",
-			data : {
-				
-				"": ,
-			},
-			type : "post",
-			dataType : "text", // 수신받을 데이터의 타입
-			success : function(data) {
-			console.log(data);
+		
+		for (i=0; i<${fn:length(algDetailList)}; i++){
+			let text = document. querySelectorAll('.content')[i].textContent;
+			console.log(text);
+			var enter = text.replace(/(\n|\r\n)/g, '<br>');
+			console.log(enter);
+			var tab = enter.replaceAll('    ', '&emsp;');
+			console.log(tab);
 			
-			
-			},
-		});
+			const html = document.getElementsByClassName('content')[i];
+			html.innerHTML = tab;
+		}
+		
 		
 		
 		
 	});
 	
+	function button1_click(no) {
+		var boardNo = no;
+			
+		$('.'+boardNo).show()
+	}
+	
+	function button2_click(no) {
+		var boardNo = no;
+		
+		$('.'+boardNo).hide()
+	}
+	
 	
 </script>
-
+<style>
+	#button {
+		color : black;
+		font-size: 12px;
+		border : 1px solid black;
+		padding: 5px;
+		border-radius: 6px;
+		
+		
+		
+	}
+</style>
 </head>
 
 
@@ -105,8 +128,8 @@
 				<h2>${fn:length(algDetailList)}</h2>
 
 				<h1>alg</h1>
-				
-				
+
+
 
 
 				<py-script> def bubbleSort(arr): n = len(arr) for i in
@@ -124,7 +147,7 @@
 
 
 
-				<div id='test' type="text">???</div>
+				
 
 				<div>${algDetailList}</div>
 
@@ -142,9 +165,16 @@
 						<div>${algDetail.algDetailNo}</div>
 						<div class="mt-4 p-5 bg-primary text-white rounded">
 							<h1>code</h1>
-							<p>${algDetail.algDetailContent}</p>
+							<div class='content' id='content'>${algDetail.algDetailContent}</div>
 							<h1>result</h1>
-							<p><py-script> ${algDetail.algDetailContent} </py-script></p>
+							<p>
+								<py-script class="py ${algDetail.algDetailNo}">
+								${algDetail.algDetailContent} </py-script>
+							</p>
+							<input type="button" id="button"
+								onclick="button1_click(${algDetail.algDetailNo})" value="RUN" />
+							<input type="button" id="button"
+								onclick="button2_click(${algDetail.algDetailNo})" value="HIDE" />
 						</div>
 					</div>
 					<div></div>
