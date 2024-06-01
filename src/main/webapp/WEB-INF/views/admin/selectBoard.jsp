@@ -130,6 +130,8 @@
 		<div class="container-fluid">
 
 
+
+
 			<div class="container mt-3">
 				<p class="text-center">스터디 모임</p>
 				<ul class="nav nav-tabs nav-justified">
@@ -145,6 +147,7 @@
 						href="/admin/noticeBoard">공지사항</a></li>
 				</ul>
 			</div>
+
 
 
 			<div class="container">

@@ -6,6 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+</style>
 <meta content="" name="description" />
 <meta content="" name="keywords" />
 <script type="text/javascript"
@@ -211,12 +213,95 @@
 					</div>
 				</div>
 			</div>
-			
-			
-			
-			
+
+			<div class="row">
+				<!-- column -->
+				<div class="col-sm-12">
+					<div class="card">
+						<div class="card-body">
+							<div>
+								<h4>공지사항</h4>
+							</div>
+							<table class="table table-Default table-hover">
 
 
+
+								<thead>
+									<tr>
+
+										<th>글번호</th>
+										<th>작성자</th>
+										<th>제목</th>
+										<th>작성일</th>
+
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="board" items="${diffNotc }">
+
+										<tr id="table"
+											onclick="location.href = '/adminView/noticViewDetail?boardNo=${board.boardNo}';">
+
+											<td>${board.boardNo }</td>
+											<td>${board.writer}</td>
+											<td>${board.title }</td>
+											<td>${board.postDate }</td>
+
+										</tr>
+
+
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="row">
+				<!-- column -->
+				<div class="col-sm-12">
+					<div class="card">
+						<div class="card-body">
+
+							<div>
+								<h4>문의사항</h4>
+							</div>
+
+							<table class="table table-Default table-hover">
+
+
+
+								<thead>
+									<tr>
+
+										<th>글번호</th>
+										<th>작성자</th>
+										<th>제목</th>
+										<th>작성 일자</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="board" items="${diffQna }">
+
+										<tr id="table"
+											onclick="location.href = '/qna/viewBoard?no=${board.no}';">
+
+											<td>${board.no }</td>
+											<td>${board.qnaWriter }</td>
+											<td>${board.qnaTitle }</td>
+											<td>${board.postDate}</td>
+										</tr>
+
+
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
 
 
 

@@ -310,6 +310,16 @@
 		values(#{qnaWriter}, #{qnaTitle}, #{qnaContent})
 	</insert>
 	
+	<!-- 공지사항 최신글 5개 조회 -->
+	<select id="selectDiffNotc" resultType="NoticeDTO">
+		select * from noticeBoard order by boardNo desc limit 5
+	</select>
+	
+	<!-- 문의사항 최신글 5개 조회 -->
+	<select id="selectDiffQna" resultType="QnaBoardVO">
+		select * from qnaBoard order by no desc limit 5
+	</select>
+	
 
 
 

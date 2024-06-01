@@ -135,5 +135,10 @@ public interface AdminBoardDAO {
    // 문의사항 테이블 insert
    int insertQnaBoard(QnaBoardVO newBoard) throws Exception;
    
+   // 홈에 공지사항 5개 출력
+   List<NoticeDTO> selectDiffNotice() throws Exception;
+   
+   // 홈에 문의사항 5개 출력
+   List<QnaBoardVO> selectDiffQna() throws Exception;
     
 }

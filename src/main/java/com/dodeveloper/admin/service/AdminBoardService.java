@@ -88,6 +88,11 @@ public interface AdminBoardService {
 	    // 문의사항 작성
 	    boolean writeQndBoard(QnaBoardVO newBoard) throws Exception;
 	    
+	    // dashboard에 공지사항 5개만 출력
+	    List<NoticeDTO> diffNotice() throws Exception;
+	    
+	    // dashboard에 문의사항 5개 출럭
+	    List<QnaBoardVO> diffQna() throws Exception;
 	    
 	    
 	

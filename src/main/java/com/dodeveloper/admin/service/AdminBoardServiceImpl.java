@@ -514,6 +514,22 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 
 	}
 
+	@Override
+	public List<NoticeDTO> diffNotice() throws Exception {
+		
+		List<NoticeDTO> diffNotc = bDao.selectDiffNotice();
+		
+		return diffNotc;
+	}
+
+	@Override
+	public List<QnaBoardVO> diffQna() throws Exception {
+		
+		List<QnaBoardVO> diffQna = bDao.selectDiffQna();
+		
+		return diffQna;
+	}
+
 
 
 

@@ -354,6 +354,18 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 		return ses.selectOne(ns + ".getQnaTotalBoardCnt");
 	}
 
+	@Override
+	public List<NoticeDTO> selectDiffNotice() throws Exception {
+		
+		return ses.selectList(ns + ".selectDiffNotc");
+	}
+
+	@Override
+	public List<QnaBoardVO> selectDiffQna() throws Exception {
+		
+		return ses.selectList(ns + ".selectDiffQna");
+	}
+
 	
 
 	//@Override
