@@ -382,7 +382,7 @@
 
 				<div class="container">
 					<h3 class="center text-center text-light">
-						<b>🔥 개발 스터디 모집</b>
+						🔥 개발 스터디 모집
 					</h3>
 				</div>
 
