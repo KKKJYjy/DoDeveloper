@@ -72,11 +72,11 @@
 	});
 </script>
 <style>
-.accordion{
-	--bs-accordion-btn-bg : white;
-	--bs-accordion-active-bg : #f8f9fa;
-	--bs-accordion-active-color : black;
-	--bs-accordion-btn-focus-box-shadow: none;
+.accordion { -
+	-bs-accordion-btn-bg: white; -
+	-bs-accordion-active-bg: #f8f9fa; -
+	-bs-accordion-active-color: black; -
+	-bs-accordion-btn-focus-box-shadow: none;
 }
 </style>
 
@@ -106,11 +106,43 @@
 										<p class="card-subtitle mb-1">📍${study.stuLoc }</p>
 										<p class="card-text">
 											<!-- 수정 버튼 -->
-											<i class="bi bi-pencil fs-5 me-2" style="cursor: pointer"></i>
+											<i class="bi bi-pencil fs-5 me-2" style="cursor: pointer"
+												onclick="location.href='/study/modifyStudyBoard?stuNo=${study.stuNo}';"></i>
 											<!-- 삭제 버튼 -->
-											<i class="bi bi-trash3 fs-5 me-2" style="cursor: pointer"></i>
+											<i class="bi bi-trash3 fs-5 me-2" style="cursor: pointer"
+												data-bs-toggle="modal"
+												data-bs-target="#deleteModal_${study.stuNo}"></i>
 										</p>
 									</div>
+
+									<!-- 모집글 삭제 확인용 모달창 -->
+									<div class="modal fade" id="deleteModal_${study.stuNo}">
+										<div class="modal-dialog">
+											<div class="modal-content">
+
+												<!-- Modal Header -->
+												<div class="modal-header">
+													<h4 class="modal-title">스터디 모집글 삭제</h4>
+													<button type="button" class="btn-close"
+														data-bs-dismiss="modal"></button>
+												</div>
+
+												<!-- Modal body -->
+												<div class="modal-body">해당 글을 삭제하시겠습니까?</div>
+
+												<!-- Modal footer -->
+												<div class="modal-footer">
+													<button type="button" class="btn btn-outline-danger"
+														data-bs-dismiss="modal">취소</button>
+													<button type="button" class="btn btn-danger"
+														onclick="location.href='/study/deleteStudy?stuNo=${study.stuNo }';">삭제</button>
+												</div>
+
+											</div>
+										</div>
+									</div>
+									<!-- 모집글 삭제 확인용 모달창 끝 -->
+
 									<h5 class="card-title">
 										<b>${study.stuTitle }</b>
 									</h5>
