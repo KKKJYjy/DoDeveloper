@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.dodeveloper.studyApply.service.StudyApplyService;
-import com.dodeveloper.studyApply.vodto.StudyApplyVO;
+import com.dodeveloper.studyApply.vodto.StudyApplyDTO;
 
 @Controller
 @RequestMapping("/studyApply")
@@ -27,7 +27,7 @@ public class StudyApplyController {
 		* @description : 해당 스터디 모임글에 신청 내용을 insert 한다.
 	 */
 	@RequestMapping(value = "/insertApply", method = RequestMethod.POST)
-	public String insertApply(StudyApplyVO newApply) {
+	public String insertApply(StudyApplyDTO newApply) {
 		String result = "";
 		
 		logger.info(newApply.toString() + "을 신청하자");

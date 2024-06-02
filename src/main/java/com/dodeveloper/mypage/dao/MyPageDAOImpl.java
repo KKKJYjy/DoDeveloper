@@ -1,5 +1,7 @@
 package com.dodeveloper.mypage.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -7,6 +9,8 @@ import org.springframework.stereotype.Repository;
 import com.dodeveloper.mypage.dto.ChangePwdDTO;
 import com.dodeveloper.mypage.dto.ProfileDTO;
 import com.dodeveloper.mypage.vo.ProfileVO;
+import com.dodeveloper.study.vodto.StudyBoardVO;
+import com.dodeveloper.studyApply.vodto.StudyApplyVO;
 
 @Repository
 public class MyPageDAOImpl implements MyPageDAO {
@@ -34,5 +38,29 @@ public class MyPageDAOImpl implements MyPageDAO {
 	@Override
 	public int removeProfileImage(String userId) throws Exception {
 		return sqlSession.update(REMOVE_PROFILE_IMAGE, userId);
+	}
+
+	/**
+		* @author : yeonju
+		* @date : 2024. 5. 31.
+		* @param : String userId - 로그인한 유저
+		* @return : List<StudyBoardVO> 
+		* @description : userId가 쓴 스터디 모임글 리스트를 가져온다
+	 */
+	@Override
+	public List<StudyBoardVO> getMyStudyList(String userId) throws Exception{
+		return sqlSession.selectList(NS + ".getMyStudyList" ,userId);
+	}
+
+	/**
+		* @author : yeonju
+		* @date : 2024. 5. 31.
+		* @param : String userId
+		* @return : List<StudyApplyVO>
+		* @description : userId가 쓴 스터디 모임글의 참여신청 리스트를 가져온다
+	 */
+	@Override
+	public List<StudyApplyVO> getMyStudyApplyList(String userId) {
+		return sqlSession.selectList(NS + ".getMyStudyApplyList", userId);
 	}
 }

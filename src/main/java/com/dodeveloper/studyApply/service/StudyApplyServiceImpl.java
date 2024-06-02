@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dodeveloper.studyApply.dao.StudyApplyDAO;
-import com.dodeveloper.studyApply.vodto.StudyApplyVO;
+import com.dodeveloper.studyApply.vodto.StudyApplyDTO;
 
 @Service
 public class StudyApplyServiceImpl implements StudyApplyService {
@@ -20,7 +20,7 @@ public class StudyApplyServiceImpl implements StudyApplyService {
 		* @description : 해당 스터디 모임글에 신청 내용을 insert 한다.
 	 */
 	@Override
-	public int insertApply(StudyApplyVO newApply) throws Exception {
+	public int insertApply(StudyApplyDTO newApply) throws Exception {
 		return saDao.insertApply(newApply);
 	}
 

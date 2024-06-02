@@ -4,7 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.dodeveloper.studyApply.vodto.StudyApplyVO;
+import com.dodeveloper.studyApply.vodto.StudyApplyDTO;
 
 @Repository
 public class StudyApplyDAOImpl implements StudyApplyDAO {
@@ -22,7 +22,7 @@ public class StudyApplyDAOImpl implements StudyApplyDAO {
 		* @description : 해당 스터디 모임글에 신청 내용을 insert 한다.
 	 */
 	@Override
-	public int insertApply(StudyApplyVO newApply) throws Exception {
+	public int insertApply(StudyApplyDTO newApply) throws Exception {
 		return ses.insert(ns + ".insertApply", newApply);
 	}
 
