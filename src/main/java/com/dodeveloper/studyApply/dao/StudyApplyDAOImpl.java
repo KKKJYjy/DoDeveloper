@@ -26,4 +26,16 @@ public class StudyApplyDAOImpl implements StudyApplyDAO {
 		return ses.insert(ns + ".insertApply", newApply);
 	}
 
+	/**
+		* @author : yeonju
+		* @date : 2024. 6. 3.
+		* @param : int applyNo
+		* @return : String 
+		* @description : applyNo번째 스터디 신청을 수락한다
+	*/
+	@Override
+	public int acceptApply(int applyNo) throws Exception {
+		return ses.update(ns + ".acceptApply", applyNo);
+	}
+
 }

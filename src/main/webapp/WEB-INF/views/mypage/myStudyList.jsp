@@ -56,30 +56,26 @@
   ======================================================== -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<!-- 스터디 listAll css 파일 -->
-<link href="/resources/assets/css/study/listAll.css" rel="stylesheet" />
+<!-- 스터디 myStudyList css 파일 -->
+<link href="/resources/assets/css/study/myStudyList.css" rel="stylesheet" />
 
 <script>
 	$(function() {
+		console.log($(".accordion").length);
+		for(let i=0; i < $(".accordion").length; i++){		
+			console.log($(".accordion:eq(i)"));
+			
+			if($(".accordion:eq(i)") == null){
+				$(".accordion:eq(i)").html(`<p class="card-text me-2 text-secondary">아직 스터디원이 없습니다.</p>`);		
+			}
+		}
 		/* if($(".list-group").html("")){
 			//$(".list-group").html(`<p class="card-text me-2 text-secondary">아직 스터디 신청이 없습니다.</p>`);
 		} */
-		for(let i=0; i < ${studyList.size()}; i++){
-			
-			console.log(${studyList[i]});
-		}
+		
 		/* $(".studyMember").html(`<p class="card-text me-2 text-secondary">아직 스터디원이 없습니다.</p>`); */
 	});
 </script>
-<style>
-.accordion { -
-	-bs-accordion-btn-bg: white; -
-	-bs-accordion-active-bg: #f8f9fa; -
-	-bs-accordion-active-color: black; -
-	-bs-accordion-btn-focus-box-shadow: none;
-}
-</style>
-
 </head>
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
 	<%@ include file="../header.jsp"%>
@@ -157,23 +153,19 @@
 										class="card-text mb-2 border-top border-secondary border-opacity-25 pt-3">
 										<b>👀 현재 스터디원</b>
 									</p>
-									<%-- ${stuApplyList } --%>
 									<div class="d-flex mb-2 studyMember_${study.stuNo }">
 										<c:forEach var="apply" items="${stuApplyList }">
-
-											<c:if
-												test="${study.stuNo eq apply.stuNo and apply.status eq 'Y'}">
-												<p class="card-text me-2">${apply.applyId }</p>
-											</c:if>
-
-
-											<c:if test="${(study.stuNo eq apply.stuNo) eq null}">
-
-												<p class="card-text me-2 text-secondary">아직 스터디원이 없습니다.</p>
-											</c:if>
-
+											<c:choose>
+												<c:when
+													test="${study.stuNo eq apply.stuNo and apply.status eq 'Y'}">
+													<p class="card-text me-2">${apply.applyId }</p>
+												</c:when>
+											</c:choose>
 
 										</c:forEach>
+										
+										<!-- <p class="card-text me-2 text-secondary">아직 스터디원이 없습니다.</p> -->
+											
 									</div>
 									<p
 										class="card-text mb-2 border-top border-secondary border-opacity-25 pt-3">
@@ -184,35 +176,36 @@
 									<div class="accordion accordion-flush"
 										id="accordionFlushExample_${study.stuNo }">
 										<c:forEach var="apply" items="${stuApplyList }">
-											<c:if
-												test="${study.stuNo == apply.stuNo and apply.status == 'R'}">
-												<div class="accordion-item">
-													<h2 class="accordion-header" style="border: none;">
-														<button class="accordion-button collapsed" type="button"
-															data-bs-toggle="collapse"
-															data-bs-target="#flush-collapseOne_${apply.applyNo}"
-															aria-expanded="false"
-															aria-controls="flush-collapseOne_${apply.applyNo}">
-															${apply.applyId }님의스터디참여 신청</button>
-													</h2>
-													<div id="flush-collapseOne_${apply.applyNo}"
-														class="accordion-collapse collapse"
-														data-bs-parent="#accordionFlushExample_${study.stuNo }">
-														<div class="accordion-body">
-															${apply.reason }
-															<button type="button"
-																class="btn btn-outline-danger btn-sm">거절</button>
-															<button type="button" class="btn btn-danger btn-sm">수락</button>
+											<c:choose>
+												<c:when
+													test="${study.stuNo == apply.stuNo and apply.status == 'R'}">
+													<div class="accordion-item">
+														<h2 class="accordion-header" style="border: none;">
+															<button class="accordion-button collapsed" type="button"
+																data-bs-toggle="collapse"
+																data-bs-target="#flush-collapseOne_${apply.applyNo}"
+																aria-expanded="false"
+																aria-controls="flush-collapseOne_${apply.applyNo}">
+																${apply.applyId }님의스터디참여 신청</button>
+														</h2>
+														<div id="flush-collapseOne_${apply.applyNo}"
+															class="accordion-collapse collapse"
+															data-bs-parent="#accordionFlushExample_${study.stuNo }">
+															<div class="accordion-body">
+																${apply.reason }
+																<button type="button"
+																	class="btn btn-outline-danger btn-sm">거절</button>
+																<button type="button" class="btn btn-danger btn-sm" onclick="location.href='/studyApply/acceptApply/${apply.applyNo}';">수락</button>
+															</div>
 														</div>
 													</div>
-												</div>
-											</c:if>
+												</c:when>
+											</c:choose>
 										</c:forEach>
+																				
+										<!-- 		<p class="card-text me-2 text-secondary">아직 스터디신청이 없습니다.</p> -->
+										
 									</div>
-									<%-- <c:if test="${apply eq ' '}">
-												<p class="card-text me-2 text-secondary">아직 스터디 신청이
-													없습니다.</p>
-											</c:if> --%>
 
 								</div>
 							</div>

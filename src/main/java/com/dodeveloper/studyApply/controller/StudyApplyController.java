@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -43,4 +45,31 @@ public class StudyApplyController {
 		
 		return result;
 	}
+	
+	/**
+		* @author : yeonju
+		* @date : 2024. 6. 3.
+		* @param : int applyNo
+		* @return : String
+		* @description : applyNo번째 스터디 신청을 수락한다
+		* 수락 성공시 파라메터 applyAccept=success를 달고 myStudyList 페이지로 이동
+	 */
+	@GetMapping("/acceptApply/{applyNo}")
+	public String acceptApply(@PathVariable("applyNo") int applyNo) {
+		String result = "";
+		logger.info(applyNo + "번째 스터디 신청을 수락하자");
+		
+		try {
+			if(saService.acceptApply(applyNo) == 1) {
+				System.out.println(applyNo + "번째 스터디 신청 수락 성공");
+				result = "redirect:/mypage/myStudyList?applyAccept=success";
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
 }
