@@ -57,23 +57,38 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <!-- 스터디 myStudyList css 파일 -->
-<link href="/resources/assets/css/study/myStudyList.css" rel="stylesheet" />
+<link href="/resources/assets/css/study/myStudyList.css"
+	rel="stylesheet" />
 
 <script>
 	$(function() {
 		console.log($(".accordion").length);
-		for(let i=0; i < $(".accordion").length; i++){		
+		for (let i = 0; i < $(".accordion").length; i++) {
 			console.log($(".accordion:eq(i)"));
-			
-			if($(".accordion:eq(i)") == null){
-				$(".accordion:eq(i)").html(`<p class="card-text me-2 text-secondary">아직 스터디원이 없습니다.</p>`);		
+
+			if ($(".accordion:eq(i)") == null) {
+				$(".accordion:eq(i)")
+						.html(
+								`<p class="card-text me-2 text-secondary">아직 스터디원이 없습니다.</p>`);
 			}
 		}
 		/* if($(".list-group").html("")){
 			//$(".list-group").html(`<p class="card-text me-2 text-secondary">아직 스터디 신청이 없습니다.</p>`);
 		} */
-		
+
 		/* $(".studyMember").html(`<p class="card-text me-2 text-secondary">아직 스터디원이 없습니다.</p>`); */
+
+		//신청 수락, 거절 버튼 눌렀을 때 알럿창
+		let url = new URL(window.location.href);
+		let urlParams = url.searchParams;
+		console.log(urlParams);
+
+		if (urlParams.get('applyAccept') == 'success') {
+			alert("참여신청을 수락했습니다.");
+		}else if(urlParams.get('applyRefuse') == 'success'){
+			alert("참여신청을 거절했습니다.");
+		}
+
 	});
 </script>
 </head>
@@ -163,9 +178,9 @@
 											</c:choose>
 
 										</c:forEach>
-										
+
 										<!-- <p class="card-text me-2 text-secondary">아직 스터디원이 없습니다.</p> -->
-											
+
 									</div>
 									<p
 										class="card-text mb-2 border-top border-secondary border-opacity-25 pt-3">
@@ -194,17 +209,19 @@
 															<div class="accordion-body">
 																${apply.reason }
 																<button type="button"
-																	class="btn btn-outline-danger btn-sm">거절</button>
-																<button type="button" class="btn btn-danger btn-sm" onclick="location.href='/studyApply/acceptApply/${apply.applyNo}';">수락</button>
+																	class="btn btn-outline-danger btn-sm"
+																	onclick="location.href='/studyApply/refuseApply/${apply.applyNo}';">거절</button>
+																<button type="button" class="btn btn-danger btn-sm"
+																	onclick="location.href='/studyApply/acceptApply/${apply.applyNo}';">수락</button>
 															</div>
 														</div>
 													</div>
 												</c:when>
 											</c:choose>
 										</c:forEach>
-																				
+
 										<!-- 		<p class="card-text me-2 text-secondary">아직 스터디신청이 없습니다.</p> -->
-										
+
 									</div>
 
 								</div>

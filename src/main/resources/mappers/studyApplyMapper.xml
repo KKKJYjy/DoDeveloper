@@ -14,4 +14,9 @@
 		update studyApply set status = 'Y' where applyNo = #{applyNo}
 	</update>
 	
+	<!-- applyNo번째 모임글 참여 신청 거절 update -->
+	<update id="refuseApply">
+		update studyApply set status = 'N' where applyNo = #{applyNo}
+	</update>
+	
 </mapper>
