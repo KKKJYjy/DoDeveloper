@@ -63,29 +63,36 @@
 <script>
 	$(function() {
 		console.log($(".accordion").length);
-		for (let i = 0; i < $(".accordion").length; i++) {
-			console.log($(".accordion:eq(i)"));
+		//$(".accordion:empty").append("없음"); 
 
-			if ($(".accordion:eq(i)") == null) {
-				$(".accordion:eq(i)")
-						.html(
-								`<p class="card-text me-2 text-secondary">아직 스터디원이 없습니다.</p>`);
+		/* console.log(0, "번째: ", $(".accordion:eq(0)")[0]);
+		console.log(1, "번째: ", $(".accordion:eq(1)")[0]);
+		console.log(2, "번째: ", $(".accordion:eq(2)")[0]);
+		console.log(3, "번째: ", $(".accordion:eq(3)")[0]); */
+
+		for (let i = 0; i < $(".accordion").length; i++) {
+			console.log(i, "번째: ", $(".accordion:eq("+i+")")[0]);
+			 if (!($(".accordion:eq("+i+")").children().hasClass('accordion-item'))) {
+				$(".accordion:eq("+i+")").html(`<p class="card-text me-2 text-secondary">아직 스터디 신청이 없습니다.</p>`);				
 			}
 		}
-		/* if($(".list-group").html("")){
-			//$(".list-group").html(`<p class="card-text me-2 text-secondary">아직 스터디 신청이 없습니다.</p>`);
-		} */
-
-		/* $(".studyMember").html(`<p class="card-text me-2 text-secondary">아직 스터디원이 없습니다.</p>`); */
+		
+		for (let i = 0; i < $(".studyMember").length; i++) {
+			console.log(i, "번째: ", $(".studyMember:eq("+i+")")[0]);
+			if (!($(".studyMember:eq("+i+")").children().hasClass('member'))) {
+				$(".studyMember:eq("+i+")").html(`<p class="card-text me-2 text-secondary">아직 스터디원이 없습니다.</p>`);
+			}
+		}
+		
 
 		//신청 수락, 거절 버튼 눌렀을 때 알럿창
 		let url = new URL(window.location.href);
 		let urlParams = url.searchParams;
-		console.log(urlParams);
+		//console.log(urlParams);
 
 		if (urlParams.get('applyAccept') == 'success') {
 			alert("참여신청을 수락했습니다.");
-		}else if(urlParams.get('applyRefuse') == 'success'){
+		} else if (urlParams.get('applyRefuse') == 'success') {
 			alert("참여신청을 거절했습니다.");
 		}
 
@@ -168,15 +175,14 @@
 										class="card-text mb-2 border-top border-secondary border-opacity-25 pt-3">
 										<b>👀 현재 스터디원</b>
 									</p>
-									<div class="d-flex mb-2 studyMember_${study.stuNo }">
+									<div class="d-flex mb-2 studyMember">
 										<c:forEach var="apply" items="${stuApplyList }">
 											<c:choose>
 												<c:when
 													test="${study.stuNo eq apply.stuNo and apply.status eq 'Y'}">
-													<p class="card-text me-2">${apply.applyId }</p>
+													<p class="card-text me-2 member">${apply.applyId }</p>
 												</c:when>
 											</c:choose>
-
 										</c:forEach>
 
 										<!-- <p class="card-text me-2 text-secondary">아직 스터디원이 없습니다.</p> -->
@@ -220,7 +226,7 @@
 											</c:choose>
 										</c:forEach>
 
-										<!-- 		<p class="card-text me-2 text-secondary">아직 스터디신청이 없습니다.</p> -->
+
 
 									</div>
 
