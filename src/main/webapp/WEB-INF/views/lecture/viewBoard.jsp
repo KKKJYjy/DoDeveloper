@@ -196,7 +196,8 @@ $(function() {
 function preAuth() {
 	let writer = '${sessionScope.loginMember.userId}';
 	if (writer === '') { // 로그인 하지 않았다면 로그인 페이지로 이동
-		location.href = '/member/login?redirectUrl=view&lecNo=${lecBoard.lecNo}';
+		location.href = '/member/login?redirectUrl=viewBoard&lecNo=${lecBoard.lecNo }';
+		writer = '${sessionScope.loginMember.userId}';
 	}
 	return writer;
 }
@@ -312,9 +313,13 @@ function showModifyReply(replyNo) {
 		output += `</button></div></div>`;
 		
 		$(output).insertAfter($(`#reply_\${replyNo}`));
-	} else {
-		// 댓글 작성자가 아닌 경우
+	} else if (user != writer){
+		// 댓글 작성자가 아닌데 수정을 할 경우
 		alert("작성자 댓글이 아닙니다.");
+	} else {
+		// 로그인을 안하고 수정을 할 경우
+		alert("로그인 후 부탁드립니다!");
+		return "/member/login";
 	}
 }
 
@@ -390,6 +395,11 @@ function showRemoveReply(replyNo) {
 				}
 			});
 		}
+	} else if (user == writer) {
+		alert("작성자 댓글이 아닙니다.");
+	} else {
+		alert("로그인 후 부탁드립니다!");
+		return "/member/login";
 	}
 }
 
@@ -580,6 +590,9 @@ document.addEventListener('DOMContentLoaded', function() {
     showStarRating(starScore);
 });
 
+function modifyBtn() {
+	modify
+}
 </script>
 </head>
 
@@ -677,10 +690,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 					<!-- 글 수정 & 글 삭제 로그인 한 유저만 가능 -->
 					<div class="btns">
+					<c:if test="${sessionScope.loginMember.userId == lecBoard.lecWriter}">
 						<a href="/lecture/modifyLectureBoard?lecNo=${lecBoard.lecNo}"
 							class="modifyBtn btn">글수정</a>
 						<a href="/lecture/removeLectureBoard?lecNo=${lecBoard.lecNo}"
 							class="removeBtn btn">글삭제</a>
+					</c:if>
 					</div>
 
 

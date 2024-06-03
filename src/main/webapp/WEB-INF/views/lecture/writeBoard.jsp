@@ -177,20 +177,25 @@ setStarRating();
 // 강의 후기 같은 경우는 선택하거나 작성 두 경우가 있어서 else if 두 경우로 나눔
 function isValid() {
     let result = false;
-    
-    if ($("#lecTitle").val() == '' || $("#lecTitle").val() == null) {
+    // 강의 링크를 올릴때 링크가 아니면 올리지 못하도록 URL 검사
+    const urlPattern = new RegExp('https?://[^\s/$.?#].[^\s]*', 'i');
+
+    if ($("#lecTitle").val() == '' || $("#lecTitle").val() == null) { // 제목
         $("#lecTitle").focus();
         alert("제목을 입력해주세요.");
-    } else if ($("#lecLink").val() == '' || $("#lecLink").val() == null) {
+    } else if ($("#lecLink").val() == '' || $("#lecLink").val() == null) { // 링크
         $("#lecLink").focus();
         alert($("#lecWriter").val() + "님께서 들었던 강의 중 좋았던 강의 링크를 공유해주세요.");
-    } else if ($("#lecReviewSelect").val() == '-1') {
+    } else if (!urlPattern.test($("#lecLink").val())) { // URL을 맞도록 작성했는지 검사
+        $("#lecLink").focus();
+        alert("유효한 강의 링크를 입력해주세요.");
+    } else if ($("#lecReviewSelect").val() == '-1') { // 후기 선택
         $("#lecReviewSelect").focus();
         alert("강의 후기를 선택하거나 작성해주세요.");
-    } else if ($("#lecReviewSelect").val() == '' && ($("#lecReviewInput").val() == '' || $("#lecReviewInput").val() == null)) {
-    	$("#lecReviewInput").focus();
+    } else if ($("#lecReviewSelect").val() == '' && ($("#lecReviewInput").val() == '' || $("#lecReviewInput").val() == null)) { // 후기 작성
+        $("#lecReviewInput").focus();
         alert("강의 후기를 작성해주세요.");
-    } else if ($("#lecScore").val() == '0') {
+    } else if ($("#lecScore").val() == '0') { // 별점
         alert("들으셨던 강의가 얼마나 좋으셨는지 별점을 남겨주세요.");
     } else {
         result = true;
@@ -198,6 +203,13 @@ function isValid() {
     
     return result;
 }
+
+// 폼 제출 이벤트에 유효성 검사 함수 연결
+document.getElementById('yourFormId').addEventListener('submit', function(event) {
+    if (!isValid()) {
+        event.preventDefault(); // 폼 제출 방지
+    }
+});
 </script>
 <style>
 /* 별점 */
