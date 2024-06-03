@@ -216,9 +216,9 @@
 
 			<div class="row">
 				<!-- column -->
-				<div class="col-sm-12">
+				<div class="col-sm-6">
 					<div class="card">
-						<div class="card-body">
+						<div class="card-body tableN">
 							<div>
 								<h4>공지사항</h4>
 							</div>
@@ -256,14 +256,10 @@
 						</div>
 					</div>
 				</div>
-			</div>
 
-
-			<div class="row">
-				<!-- column -->
-				<div class="col-sm-12">
+				<div class="col-lg-6">
 					<div class="card">
-						<div class="card-body">
+						<div class="card-body tableQ">
 
 							<div>
 								<h4>문의사항</h4>
@@ -298,10 +294,115 @@
 									</c:forEach>
 								</tbody>
 							</table>
+
+
 						</div>
 					</div>
 				</div>
+
 			</div>
+
+
+
+
+
+
+
+			<div class="row">
+				<!-- column -->
+				<div class="col-sm-6">
+					<div class="card">
+						<div class="card-body">
+							<div>
+								<h4>스터디모임</h4>
+							</div>
+							<table class="table table-Default table-hover">
+
+
+
+								<thead>
+									<tr>
+
+										<th>글번호</th>
+										<th>작성자</th>
+										<th>제목</th>
+										<th>장소</th>
+										<th>기간</th>
+										<th>모집상태</th>
+										<th>종료일</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="board" items="${diffStu }">
+
+										<tr id="table"
+											onclick="location.href = '/study/viewStudyBoard?stuNo=${board.stuNo}';">
+
+											<td>${board.stuNo }</td>
+											<td>${board.stuWriter }</td>
+											<td>${board.stuTitle }</td>
+											<td>${board.stuLoc }</td>
+											<td>${board.stuDate }</td>
+											<td>${board.status }</td>
+											<td>${board.endDate }</td>
+										</tr>
+
+
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-6">
+					<div class="card">
+						<div class="card-body">
+
+							<div>
+								<h4>강의추천</h4>
+							</div>
+
+							<table class="table table-Default table-hover">
+
+
+
+								<thead>
+									<tr>
+
+										<th>글번호</th>
+										<th>작성자</th>
+										<th>제목</th>
+										<th>작성일</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="board" items="${diffLec }">
+										<tr
+											onclick="location.href = '/lecture/viewBoard?lecNo=${board.lecNo}';">
+
+											<td>${board.lecNo }</td>
+											<td>${board.lecWriter }</td>
+											<td>${board.lecTitle }</td>
+											<td>${board.lecPostDate }</td>
+										
+										</tr>
+
+
+									</c:forEach>
+								</tbody>
+							</table>
+
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+
+
 
 
 

@@ -19,6 +19,7 @@ import com.dodeveloper.admin.dto.NoticeDTO;
 import com.dodeveloper.admin.dto.SearchCriteriaDTO;
 import com.dodeveloper.admin.service.AdminBoardService;
 import com.dodeveloper.admin.service.AdminService;
+import com.dodeveloper.admin.vo.AdminLectureVO;
 import com.dodeveloper.admin.vo.AdminVO;
 import com.dodeveloper.admin.vo.BadMemberBoardVO;
 import com.dodeveloper.admin.vo.QnaBoardVO;
@@ -48,9 +49,13 @@ public class AdminController {
 
 		List<NoticeDTO> diffNotc = bService.diffNotice();
 		List<QnaBoardVO> diffQna = bService.diffQna();
+		List<AdminVO> diffStu = bService.diffStu();
+		List<AdminLectureVO> diffLec = bService.diffLec();
 		
 		model.addAttribute("diffNotc", diffNotc);
 		model.addAttribute("diffQna", diffQna);
+		model.addAttribute("diffStu", diffStu);
+		model.addAttribute("diffLec", diffLec);
 	
 
 	}

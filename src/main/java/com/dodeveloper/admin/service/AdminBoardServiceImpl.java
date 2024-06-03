@@ -530,6 +530,22 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		return diffQna;
 	}
 
+	@Override
+	public List<AdminVO> diffStu() throws Exception {
+		
+		List<AdminVO> diffStu = bDao.selectDiffStu();
+		
+		return diffStu;
+	}
+
+	@Override
+	public List<AdminLectureVO> diffLec() throws Exception {
+		
+		List<AdminLectureVO> diffLec = bDao.selectDiffLec();
+		
+		return diffLec;
+	}
+
 
 
 

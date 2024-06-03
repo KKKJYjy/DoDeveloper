@@ -8,6 +8,7 @@ import com.dodeveloper.admin.dto.NoticeDTO;
 import com.dodeveloper.admin.vo.AdminArgBoardVO;
 import com.dodeveloper.admin.vo.AdminLectureVO;
 import com.dodeveloper.admin.vo.AdminReviewBoardVO;
+import com.dodeveloper.admin.vo.AdminVO;
 import com.dodeveloper.admin.vo.QnaBoardVO;
 import com.dodeveloper.admin.vo.QnaReplyVO;
 import com.dodeveloper.admin.vo.ReportVO;
@@ -94,6 +95,11 @@ public interface AdminBoardService {
 	    // dashboard에 문의사항 5개 출럭
 	    List<QnaBoardVO> diffQna() throws Exception;
 	    
+	    // 홈에 스터디모임 최신글 5개 출력
+	    List<AdminVO> diffStu() throws Exception;
+	    
+	    // 홈에 강의추천 최신글 5개 출력
+	    List<AdminLectureVO> diffLec() throws Exception;
 	    
 	
 }

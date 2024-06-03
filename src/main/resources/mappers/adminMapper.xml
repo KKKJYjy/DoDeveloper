@@ -320,6 +320,15 @@
 		select * from qnaBoard order by no desc limit 5
 	</select>
 	
+	<!-- 스터디모임 최신글 5개 조회 -->
+	<select id="selectDiffStu" resultType="AdminVO">
+		select * from studyBoard order by stuNo desc limit 5
+	</select>
+	
+	<!-- 강의추천 최신글 5개 조회 -->
+	<select id="selectDiffLec" resultType="AdminLectureVO">
+		select * from lectureBoard order by lecNo desc limit 5
+	</select>
 
 
 

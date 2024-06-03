@@ -366,6 +366,18 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 		return ses.selectList(ns + ".selectDiffQna");
 	}
 
+	@Override
+	public List<AdminVO> selectDiffStu() throws Exception {
+		
+		return ses.selectList(ns + ".selectDiffStu");
+	}
+
+	@Override
+	public List<AdminLectureVO> selectDiffLec() throws Exception {
+		
+		return ses.selectList(ns + ".selectDiffLec");
+	}
+
 	
 
 	//@Override

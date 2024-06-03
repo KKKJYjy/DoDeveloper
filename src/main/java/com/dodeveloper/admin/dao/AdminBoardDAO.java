@@ -140,5 +140,11 @@ public interface AdminBoardDAO {
    
    // 홈에 문의사항 5개 출력
    List<QnaBoardVO> selectDiffQna() throws Exception;
+   
+   // 홈에 스터디모임 최신글 5개 출력
+   List<AdminVO> selectDiffStu() throws Exception;
+   
+   // 홈에 강의추천 최신글 5개 출력
+   List<AdminLectureVO> selectDiffLec() throws Exception;
     
 }
