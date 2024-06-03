@@ -14,9 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -39,17 +37,15 @@ import com.dodeveloper.member.dto.SessionDTO;
 import com.dodeveloper.member.service.MemberService;
 import com.dodeveloper.member.vo.MemberVO;
 import com.dodeveloper.message.service.MessageService;
-import com.dodeveloper.mypage.dto.ChangeProfileDTO;
 
 @Controller
 @RequestMapping("/member")
 public class MemberController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
-
-	@Value("#{appProperties['mail.pwd']}")
-	private String email;
-
+	private final String PASSWORD_RESET_URL = "password-reset";
+	private Map<String, MemberVO> pwdResetUserHolder = new HashMap<String, MemberVO>(100);
+	
 	@Autowired
 	private MailManager mailManager;
 
@@ -60,8 +56,17 @@ public class MemberController {
 	private MessageService messageService;
 
 	@GetMapping("/login")
-	public void loginGet() {
+	public void loginGet(HttpServletRequest request) {
 		logger.info("Login View.");
+		
+		String fullUrl = request.getRequestURL().toString();
+		System.out.println(fullUrl);
+		
+		String url = fullUrl.substring(0, fullUrl.indexOf(request.getRequestURI()));
+		System.out.println(url);
+		
+		String sp = request.getServletPath();
+		System.out.println(sp.split("/")[1]);
 	}
 
 	@RequestMapping(value = "/loginPost", method = RequestMethod.POST)
@@ -184,7 +189,7 @@ public class MemberController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/sendUserId", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
+	@RequestMapping(value = "/forgottenUserId", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
 	public ResponseEntity<String> sendUserId(String email) throws Exception {
 		System.out.println(email);
 		MemberVO member = mService.getMemberByEmail(email);
@@ -199,8 +204,8 @@ public class MemberController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/sendPwdResetLink", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
-	public ResponseEntity<String> sendPwdLink(String userId, String email, HttpSession session) throws Exception {
+	@RequestMapping(value = "/pwdResetLink", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
+	public ResponseEntity<String> pwdResetLink(String userId, String email, HttpServletRequest request, HttpSession session) throws Exception {
 		System.out.println("uid: " + userId + "// email : " + email);
 		MemberVO member = mService.getMemberByEmail(email);
 
@@ -209,15 +214,42 @@ public class MemberController {
 			return ResponseEntity.ok("회원 아이디와 이메일이 매치되지 않습니다.");
 		}
 
-		String uid = UUID.randomUUID().toString().replace("-", "") + UUID.randomUUID().toString().replace("-", "");
+		String uuid = UUID.randomUUID().toString().replace("-", "") + UUID.randomUUID().toString().replace("-", "");
 		
-		session.setAttribute(email, uid);
 		
-		mailManager.sendPwdResetLink(email, uid);
+		String fullUrl = request.getRequestURL().toString();
+		String url = fullUrl.substring(0, fullUrl.indexOf(request.getRequestURI()));
+		String projectPath = request.getServletPath();
+		
+		url += "/" + projectPath.split("/")[1] + "/" + PASSWORD_RESET_URL + "/" + uuid;
+		
+		pwdResetUserHolder.put(uuid, member);
+		
+		mailManager.sendPwdResetLink(email, url);
 		System.out.println("전송완료");
 		return ResponseEntity.ok("해당 이메일로 비밀번호 재설정 링크를 전송했습니다.");
 	}
 
+	
+	@RequestMapping(value = "/" + PASSWORD_RESET_URL + "/{UUID}", method = RequestMethod.GET)
+	public String pwdResetPage(@PathVariable("UUID") String uuid) throws Exception {
+		System.out.println("HI MAN");
+		if(!pwdResetUserHolder.containsKey(uuid)) {
+			return "home";
+		}
+
+		return "member/pwdReset";
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/" + PASSWORD_RESET_URL + "/{UUID}", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+	public ResponseEntity<Map<String, String>> pwdReset(String pwd, @PathVariable("UUID") String uuid) throws Exception {
+		Map<String, String> result = new HashMap<String, String>();
+		
+		result.put("isSuccess", "1");
+		return ResponseEntity.ok(result);
+	}
+	
 	@ResponseBody
 	@RequestMapping(value = "/dropMember", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<Map<String, Object>> dropMember(@RequestBody DropMemberDTO dropMemberDTO) throws Exception {
