@@ -28,6 +28,7 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
 	@Autowired // root-context.xml 객체의 '타입'에 해당하는 bean을 찾아 의존 주입(CompanyInfoDAO)하는 어노테이션
 	private CompanyInfoDAO ciDao;
 
+	@Autowired
 	private ScrapDAO sDao;  // 스크랩DAO단 객체 생성
 	
 	/**
@@ -163,7 +164,7 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
 	 */
 	@Override
 	public List<ScrapVO> selectAllScrap(String scrapId) throws Exception {
-		
+		System.out.println(scrapId + "!!!!!!!!");
 		for (ScrapVO s : sDao.selectAllScrap(scrapId)) {
 			System.out.println(s.toString());
 		}
