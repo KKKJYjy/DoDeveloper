@@ -308,61 +308,119 @@
 
 
 
-			<div class="row">
-				<!-- column -->
-				<div class="col-sm-6">
-					<div class="card">
-						<div class="card-body">
-							<div>
-								<h4>스터디모임</h4>
+			<div class="col-lg-6 col-xlg-5">
+				<div class="card">
+					<!-- Nav tabs -->
+					<ul class="nav nav-tabs profile-tab" role="tablist">
+						<li class="nav-item"><a class="nav-link active"
+							data-bs-toggle="tab" href="#home" role="tab">스터디모임</a></li>
+						<li class="nav-item"><a class="nav-link" data-bs-toggle="tab"
+							href="#profile" role="tab">강의추천</a></li>
+						<li class="nav-item"><a class="nav-link" data-bs-toggle="tab"
+							href="#settings" role="tab">알고리즘</a></li>
+						<li class="nav-item"><a class="nav-link" data-bs-toggle="tab"
+							href="#review" role="tab">기업리뷰</a></li>
+					</ul>
+
+					<div class="tab-content">
+						<div class="tab-pane active" id="home" role="tabpanel">
+							<div class="card-body">
+								<div class="profiletimeline border-start-0">
+
+									<div>
+										<h4>스터디모임</h4>
+									</div>
+									<table class="table table-Default table-hover">
+
+
+
+										<thead>
+											<tr>
+
+												<th>글번호</th>
+												<th>작성자</th>
+												<th>제목</th>
+												<th>장소</th>
+												<th>기간</th>
+												<th>모집상태</th>
+												<th>종료일</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach var="board" items="${diffStu }">
+
+												<tr id="table"
+													onclick="location.href = '/study/viewStudyBoard?stuNo=${board.stuNo}';">
+
+													<td>${board.stuNo }</td>
+													<td>${board.stuWriter }</td>
+													<td>${board.stuTitle }</td>
+													<td>${board.stuLoc }</td>
+													<td>${board.stuDate }</td>
+													<td>${board.status }</td>
+													<td>${board.endDate }</td>
+												</tr>
+
+
+											</c:forEach>
+										</tbody>
+									</table>
+
+
+								</div>
 							</div>
-							<table class="table table-Default table-hover">
-
-
-
-								<thead>
-									<tr>
-
-										<th>글번호</th>
-										<th>작성자</th>
-										<th>제목</th>
-										<th>장소</th>
-										<th>기간</th>
-										<th>모집상태</th>
-										<th>종료일</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach var="board" items="${diffStu }">
-
-										<tr id="table"
-											onclick="location.href = '/study/viewStudyBoard?stuNo=${board.stuNo}';">
-
-											<td>${board.stuNo }</td>
-											<td>${board.stuWriter }</td>
-											<td>${board.stuTitle }</td>
-											<td>${board.stuLoc }</td>
-											<td>${board.stuDate }</td>
-											<td>${board.status }</td>
-											<td>${board.endDate }</td>
-										</tr>
-
-
-									</c:forEach>
-								</tbody>
-							</table>
 						</div>
-					</div>
-				</div>
+						<!--second tab-->
+						<div class="tab-pane" id="profile" role="tabpanel">
+							<div class="card-body">
+								<div class="profiletimeline border-start-0">
 
-				<div class="col-lg-6">
-					<div class="card">
-						<div class="card-body">
 
-							<div>
-								<h4>강의추천</h4>
+									<div>
+										<h4>강의추천</h4>
+									</div>
+
+									<table class="table table-Default table-hover">
+
+
+
+										<thead>
+											<tr>
+
+												<th>글번호</th>
+												<th>작성자</th>
+												<th>제목</th>
+												<th>작성일</th>
+
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach var="board" items="${diffLec }">
+												<tr
+													onclick="location.href = '/lecture/viewBoard?lecNo=${board.lecNo}';">
+
+													<td>${board.lecNo }</td>
+													<td>${board.lecWriter }</td>
+													<td>${board.lecTitle }</td>
+													<td>${board.lecPostDate }</td>
+
+												</tr>
+
+
+											</c:forEach>
+										</tbody>
+									</table>
+								</div>
+
 							</div>
-
+						</div>
+						<div class="tab-pane" id="settings" role="tabpanel">
+							<div class="card-body">
+								<div class="profiletimeline border-start-0">
+								
+								<div>
+								<h4>알고리즘</h4>
+							</div>
 							<table class="table table-Default table-hover">
 
 
@@ -371,36 +429,85 @@
 									<tr>
 
 										<th>글번호</th>
-										<th>작성자</th>
 										<th>제목</th>
-										<th>작성일</th>
-										
+										<th>내용</th>
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="board" items="${diffLec }">
+									<c:forEach var="board" items="${diffAlg }">
 										<tr
-											onclick="location.href = '/lecture/viewBoard?lecNo=${board.lecNo}';">
+											onclick="location.href = '/algorithm/algDetail?boardNo=${board.boardNo}';">
 
-											<td>${board.lecNo }</td>
-											<td>${board.lecWriter }</td>
-											<td>${board.lecTitle }</td>
-											<td>${board.lecPostDate }</td>
-										
+											<td>${board.boardNo }</td>
+											<td>${board.title }</td>
+											<td>${board.comment }</td>
 										</tr>
 
 
 									</c:forEach>
 								</tbody>
 							</table>
-
-
+								
+								
+								</div>
+							</div>
 						</div>
+						
+						
+						
+						<div class="tab-pane" id="review" role="tabpanel">
+							<div class="card-body">
+								<div class="profiletimeline border-start-0">
+								
+								
+								<div>
+								<h4>기업리뷰</h4>
+							</div>
+
+							<table class="table table-Default table-hover">
+
+
+
+								<thead>
+									<tr>
+
+										<th>글번호</th>
+										<th>작성자</th>
+										<th>제목</th>
+										<th>부서</th>
+										<th>작성일</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="board" items="${diffRev }">
+										<tr
+											onclick="location.href = '/companyInfo/revCompanyBoard?companyInfoNo=${board.companyInfoNo}';">
+
+											<td>${board.revNo }</td>
+											<td>${board.revWriter }</td>
+											<td>${board.revTitle }</td>
+											<td>${board.revProfession }</td>
+											<td>${board.revPostDate }</td>
+										</tr>
+
+
+									</c:forEach>
+								</tbody>
+							</table>
+								
+								</div>
+							</div>
+						</div>
+						
+						
+						
+						
 					</div>
+
+
+
 				</div>
-
 			</div>
-
 
 
 

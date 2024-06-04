@@ -146,5 +146,11 @@ public interface AdminBoardDAO {
    
    // 홈에 강의추천 최신글 5개 출력
    List<AdminLectureVO> selectDiffLec() throws Exception;
+   
+   // 홈에 알로리즘 최신글 5개 출력
+   List<AdminArgBoardVO> selectDiffAlg() throws Exception;
+   
+   // 홈에 기업리뷰 최신글 5개 출력
+   List<AdminReviewBoardVO> selectDiffRev() throws Exception;
     
 }

@@ -101,5 +101,11 @@ public interface AdminBoardService {
 	    // 홈에 강의추천 최신글 5개 출력
 	    List<AdminLectureVO> diffLec() throws Exception;
 	    
+	    // 홈에 알고리즘 최신글 5개 출력
+	    List<AdminArgBoardVO> diffAlg() throws Exception;
+	    
+	    // 홈에 기업리뷰 최신글 5개 출력
+	    List<AdminReviewBoardVO> diffRev() throws Exception;
+	    
 	
 }

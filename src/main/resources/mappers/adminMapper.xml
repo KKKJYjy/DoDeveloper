@@ -329,6 +329,16 @@
 	<select id="selectDiffLec" resultType="AdminLectureVO">
 		select * from lectureBoard order by lecNo desc limit 5
 	</select>
+	
+	<!-- 알고리즘 최신글 5개 조회 -->
+	<select id="selectDiffAlg" resultType="AdminArgBoardVO">
+		select * from algBoard order by boardNo desc limit 5
+	</select>
+	
+	<!-- 기업리뷰 최신글 5개 조회 -->
+	<select id="selectDiffRev" resultType="AdminReviewBoardVO">
+		select * from companyrevboard order by revNo desc limit 5
+	</select>
 
 
 
