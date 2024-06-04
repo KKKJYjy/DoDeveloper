@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+<beans:beans
+	xmlns="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
@@ -38,7 +39,7 @@
 	<beans:bean id="loginInterceptor"
 		class="com.dodeveloper.commons.interceptor.LoginInterceptor">
 	</beans:bean>
-	
+
 	<beans:bean id="rememberInterceptor"
 		class="com.dodeveloper.commons.interceptor.RememberInterceptor">
 	</beans:bean>
@@ -46,7 +47,7 @@
 	<beans:bean id="authInterceptor"
 		class="com.dodeveloper.commons.interceptor.AuthInterceptor">
 	</beans:bean>
-	
+
 	<beans:bean id="connectUserInterceptor"
 		class="com.dodeveloper.commons.interceptor.ConnectUserInterceptor">
 	</beans:bean>
@@ -61,7 +62,7 @@
 			<mapping path="/member/loginPost" />
 			<beans:ref bean="loginInterceptor" />
 		</interceptor>
-		
+
 		<interceptor>
 			<!-- /**/ 매핑 주소가 들어오면 RememberInterceptor 객체가 동작하도록 -->
 			<mapping path="/**/" />
@@ -71,39 +72,38 @@
 		<interceptor>
 			<!-- 강의 추천 게시판 글쓰기 버튼을 누르면 authInterceptor 객체가 동작 -->
 			<mapping path="/lecture/writeBoard" />
-			
+
 			<!-- 강의 추천 게시판 수정 버튼을 누르면 authInterceptor 객체가 동작 -->
 			<mapping path="/lecture/modifyLectureBoard" />
-			
+
 			<!-- 강의 추천 게시판 삭제 버튼을 누르면 authInterceptor 객체가 동작 -->
 			<mapping path="/lecture/removeLectureBoard" />
-			
+
 			<!-- /board/write 매핑 주소가 들어오면 authInterceptor 객체가 동작하도록 -->
-			
+
 			<!-- 게시판 글쓰기 -->
 			<mapping path="/board/write" />
 			<!-- 스터디 게시판 글쓰기 버튼을 누르면 authInterceptor 객체가 동작 -->
 			<mapping path="/study/writeStudyBoard" />
-			
-			<!-- 기업 리뷰 작성하기 -->  
+
+			<!-- 기업 리뷰 작성하기 -->
 			<mapping path="/companyInfo/writtenBoard" />
-			<!-- 기업 리뷰 수정 버튼 클릭시 동작 --> 
+			<!-- 기업 리뷰 수정 버튼 클릭시 동작 -->
 			<mapping path="/companyInfo/editWrittenBoard" />
 			<!-- 기업 리뷰 삭제 버튼 클릭시 동작 -->
 			<mapping path="/companyInfo/deleteWrittenBoard" />
 
 			<!-- 메세지 조회하기 -->
-			<mapping path="/message"/>
+			<mapping path="/message" />
 
 			<mapping path="/algorithm/writeDetailPOST" />
-			<!--  
-			 -->
+			<!-- -->
 			<mapping path="/algorithm/modifyAlgDetail" />
-			
+
 			<beans:ref bean="authInterceptor" />
 		</interceptor>
-		
-		
+
+
 		<interceptor>
 			<!-- /algorithm/listAll 매핑 주소가 들어오면 connectUserInterceptor 객체가 동작하도록 -->
 			<mapping path="/algorithm/listAll" />
@@ -117,19 +117,19 @@
 			<mapping path="/" />
 			<beans:ref bean="connectUserInterceptor" />
 		</interceptor>
-		
-		
+
+
 		<interceptor>
-			<mapping path="/algorithm/writeDetailPOST"/>
-			<mapping path="/algorithm/modifyAlgDetail"/>
-			<beans:ref bean="testInterceptor"/>
+			<mapping path="/algorithm/writeDetailPOST" />
+			<mapping path="/algorithm/modifyAlgDetail" />
+			<beans:ref bean="testInterceptor" />
 		</interceptor>
-		
-		
+
+
 
 	</interceptors>
-	
-	
+
+
 
 	<context:component-scan
 		base-package="com.dodeveloper.commons.controller" />
@@ -151,5 +151,7 @@
 		base-package="com.dodeveloper.message.controller" />
 	<context:component-scan
 		base-package="com.dodeveloper.admin.controller" />
+	<context:component-scan
+		base-package="com.dodeveloper.report.controller" />
 
 </beans:beans>

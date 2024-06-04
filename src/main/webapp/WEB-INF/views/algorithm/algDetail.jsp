@@ -59,6 +59,50 @@
 
 
 <script>
+
+function selectNo(no) {
+	console.log(no);
+	let user = '${sessionScope.loginMember.userId}';
+	console.log(user);
+	return no;
+}
+
+function insertReport() {
+	reporter = $('#reporter').val();
+	btypeNo = $('#btypeNo').val();
+	boardNo = $('#boardNo').val();
+	writer = $('#writer').val();
+	reportReason = $('#reportReason').val();
+	
+	if(reporter != ''){
+		$.ajax({
+			url : "/report/insertReport",
+			data : {
+				
+				
+				"reporter": reporter,
+				"writer" : writer,
+				"boardNo" : boardNo,
+				"btypeNo" : btypeNo,
+				"reportReason" : reportReason,
+				
+				
+			},
+			type : "get",
+			dataType : "text", // 수신받을 데이터의 타입
+			success : function(data) {
+			console.log(data);
+			
+			
+			},
+		});
+		
+		alert("등록되었습니다.")
+	} else {
+		alert("부적절한 입력값");
+	}
+}
+
 	$(function () {
 		
 		$('.py').hide();
@@ -96,16 +140,13 @@
 	
 </script>
 <style>
-	#button {
-		color : black;
-		font-size: 12px;
-		border : 1px solid black;
-		padding: 5px;
-		border-radius: 6px;
-		
-		
-		
-	}
+#button {
+	color: black;
+	font-size: 12px;
+	border: 1px solid black;
+	padding: 5px;
+	border-radius: 6px;
+}
 </style>
 </head>
 
@@ -147,7 +188,7 @@
 
 
 
-				
+
 
 				<div>${algDetailList}</div>
 
@@ -195,7 +236,84 @@
 		</form>
 		<button type="button" class="btn btn-danger"
 			onclick="location.href='/algorithm/listAll';">알고리즘목록</button>
+		<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+			data-bs-target="#myModal">신고</button>
 
+		<!--  -----------------------------------------------report board modal------------------------------------------------------------------ -->
+		<!-- The Modal   -->
+		<div class="modal" id="myModal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+
+					<!-- Modal Header -->
+					<div class="modal-header">
+						<h4 class="modal-title">신고할 게시글 선택</h4>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+					</div>
+
+					<!-- Modal body -->
+
+					<select class="form-select" id="boardNo" name="boardNo"
+						onchange="selectNo(this.value);">
+						<option value="-1">신고할 게시판을 선택</option>
+						<c:forEach var="algDetail" items="${algDetailList}" begin="0"
+							end="${fn:length(algDetailList)}" varStatus="status">
+							<option value="${algDetail.algDetailNo}">${algDetail.algDetailNo} ${algDetail.algDetailTitle}</option>
+
+							
+							
+
+
+						</c:forEach>
+
+					</select>
+					
+					
+						<label for="title" class="form-label">게시글 작성자 : </label> <input
+									type="text" class="form-control" id="writer" placeholder="게시글 작성자를 입력하세요..."
+									name="writer" />
+							
+						<label for="title" class="form-label">신고글 작성자 : </label> <input
+									type="text" class="form-control" id="reporter" placeholder="신고글 작성자를 입력하세요..."
+									name="reporter" />
+
+
+
+
+					<div class="modal-body">Modal body..</div>
+					<div class="mb-3 mt-3">
+						<label for="title" class="form-label">신고사유 : </label> <input
+							type="text" class="form-control" id="reportReason"
+							placeholder="신고 사유를 입력하세요..." name="reportReason" />
+					</div>
+
+					
+
+					<select class="form-select" id="btypeNo" name="btypeNo">
+						<option value="0">신고할 게시판이 어느 게시판인지 선택</option>
+
+
+						<option value="1">강의추천</option>
+						<option value="2">스터디게시판</option>
+						<option value="3">location</option>
+						<option value="4">알고리즘게시판</option>
+						<option value="5">Q&A</option>
+
+
+					</select>
+
+					<!-- Modal footer -->
+					<div class="modal-footer">
+						<button type="button" class="btn btn-warning"
+							onclick="insertReport()">등록</button>
+						<button type="button" class="btn btn-danger"
+							data-bs-dismiss="modal">Close</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<!--  ------------------------------------------------------------------------------------------------------------------------- -->
 		<!-- End Basic Section -->
 	</main>
 

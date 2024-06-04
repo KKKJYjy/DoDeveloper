@@ -42,6 +42,7 @@ public class AlgServiceImpl implements AlgService {
 		
 		try {
 			algDetailList = aDao.selectAlgDetail(boardNo);
+			
 		} catch (Exception e) {
 			// 
 			e.printStackTrace();
