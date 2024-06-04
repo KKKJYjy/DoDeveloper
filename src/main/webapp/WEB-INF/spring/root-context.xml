@@ -139,6 +139,8 @@
 		base-package="com.dodeveloper.algorithm.service"></context:component-scan>
 	<context:component-scan
 		base-package="com.dodeveloper.algorithm.dao"></context:component-scan>
+	<context:component-scan
+		base-package="com.dodeveloper.report.service"></context:component-scan>
 
 
    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">

@@ -68,6 +68,7 @@ function selectNo(no) {
 }
 
 function insertReport() {
+	// 모달창에서 받은 변수들을 컨트롤러 단의 report/insertReport 에서 Map으로 묶어서 전송됨
 	reporter = $('#reporter').val();
 	btypeNo = $('#btypeNo').val();
 	boardNo = $('#boardNo').val();
