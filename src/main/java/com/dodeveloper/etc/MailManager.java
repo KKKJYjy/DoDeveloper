@@ -46,7 +46,10 @@ public class MailManager {
 	
 	public void sendPwdResetLink(String receiverEmail, String url) throws MessagingException, UnsupportedEncodingException {
 		String title = "비밀번호 재설정 메일입니다..";
-		String body = "아래 링크를 통해 비밀번호를 재설정 하세요.\n" + "링크 : " + url;
+		String body = "만약 비밀번호 재설정을 요청하지 않으셨다면 본 이메일을 무시해주시기 바랍니다.\n" + 
+				"비밀번호 재설정을 요청하셨다면, 아래 링크를 통해 비밀번호를 재설정 하세요.\n" + 
+				"링크 : " + url + "\n" +
+				"30분이 지나면 링크가 만료됩니다.\n";
 
 		sendMail(receiverEmail, title, body);
 	}
