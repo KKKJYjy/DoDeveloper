@@ -63,12 +63,6 @@
 <script>
 	$(function() {
 		console.log($(".accordion").length);
-		//$(".accordion:empty").append("없음"); 
-
-		/* console.log(0, "번째: ", $(".accordion:eq(0)")[0]);
-		console.log(1, "번째: ", $(".accordion:eq(1)")[0]);
-		console.log(2, "번째: ", $(".accordion:eq(2)")[0]);
-		console.log(3, "번째: ", $(".accordion:eq(3)")[0]); */
 
 		for (let i = 0; i < $(".accordion").length; i++) {
 			console.log(i, "번째: ", $(".accordion:eq("+i+")")[0]);
@@ -110,11 +104,12 @@
 
 				<div class="container">
 					<h3 class="center text-center text-light pb-4">
-						${loginMember.userId }님이 작성한 스터디 모임글</h3>
+						${loginMember.userId }님이 작성한 스터디 모임글
+					</h3>
 				</div>
 				<%-- ${studyList } --%>
 
-				<div class="row row-cols-md-1 mt-5">
+				<div class="row row-cols-md-2 mt-5">
 					<c:forEach var="study" items="${studyList }">
 						<div class="col-md mb-2 study">
 							<div class="card mb-3">

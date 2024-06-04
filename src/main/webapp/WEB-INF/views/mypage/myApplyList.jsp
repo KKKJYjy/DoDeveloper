@@ -61,7 +61,8 @@
 
 <script>
 	$(function() {
-
+		
+		
 		//신청 수락, 거절 버튼 눌렀을 때 알럿창
 		let url = new URL(window.location.href);
 		let urlParams = url.searchParams;
@@ -91,13 +92,19 @@
 		} else if ($(`.reason_\${applyNo}`).val().length < 10) {
 			alert("참여 신청 이유는 10자 이상 입력해주세요");
 		} else {
-			
+
 			result = true;
 		}
 
 		return result;
 	}
 </script>
+<style>
+.mouseOver:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
+</style>
 </head>
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
 	<%@ include file="../header.jsp"%>
@@ -108,23 +115,24 @@
 			<div class="container" style="width: 70%">
 
 				<div class="container">
-					<h3 class="center text-center text-light pb-4">
+					<h3 class="center text-center text-light pb-4 fw-medium">
 						${loginMember.userId }님의 스터디 참여 신청</h3>
 				</div>
 
-				<div class="row row-cols-md-1 mt-5">
+				<div class="row row-cols-md-2 mt-5">
 					<c:forEach var="study" items="${studyList }">
-						<div class="col-md mb-2 study">
+						<div class="col-md mb-2">
 							<div class="card mb-3">
 								<div class="card-body">
+									<h5 class="card-title mb-3 fw-semibold">🔥 내가 참여 신청한 스터디
+										모집글</h5>
 									<!-- 스터디 모임글 내용 -->
-									<p class="card-subtitle mb-1">📍${study.stuLoc }</p>
-
-									<h5 class="card-title"
-										onclick="location.href='/study/viewStudyBoard?stuNo=${study.stuNo}';"
-										style="cursor: pointer;">
-										<b>${study.stuTitle }</b>
-									</h5>
+									<div class="mouseOver">
+										<p class="card-text mb-2 text-dark-emphasis">📍${study.stuLoc }</p>
+										<p class="card-text mb-2 text-dark-emphasis"
+											onclick="location.href='/study/viewStudyBoard?stuNo=${study.stuNo}';">
+											${study.stuTitle }</p>
+									</div>
 
 									<c:forEach var="stack" items="${stuStackList }">
 										<c:if test="${study.stuNo == stack.stuBoardNo }">
@@ -132,20 +140,35 @@
 										</c:if>
 									</c:forEach>
 
-									<p
-										class="card-text mb-2 border-top border-secondary border-opacity-25 pt-3">
-										<b>✉️ ${loginMember.userId }님의 신청 내용</b>
-									</p>
-									<!-- 현재 스터디 신청자 R:새로운 신청 N:거절 Y:수락 -->
+									<h5 class="card-title mb-2 border-top border-secondary border-opacity-25 pt-3 fw-semibold">
+										✉️ 내 신청 내용
+										<span class="applyStatus"></span>
+									</h5>
+									
+									<!-- 현재 스터디 신청자 R:안읽은 신청 N:거절된 신청 Y:수락된 신청 -->
 									<c:forEach var="apply" items="${stuApplyList }">
 										<c:if test="${study.stuNo == apply.stuNo}">
-											<p class="card-text">${apply.reason }</p>
-											<button type="button" class="btn btn-outline-danger btn-sm"
-												data-bs-toggle="modal"
-												data-bs-target="#deleteModal_${study.stuNo}">신청 취소</button>
-											<button type="button" class="btn btn-outline-danger btn-sm"
-												data-bs-toggle="modal"
-												data-bs-target="#modifyModal_${study.stuNo}">신청 수정</button>
+											<p class="card-text text-dark-emphasis">${apply.reason }
+												<c:choose>
+													<c:when test="${apply.status == 'R' }">
+														<span class="badge text-bg-light">읽지 않음</span>
+													</c:when>
+													<c:when test="${apply.status == 'Y' }">
+														<span class="badge text-bg-light">신청 수락됨</span>
+													</c:when>
+													<c:when test="${apply.status == 'N' }">
+														<span class="badge text-bg-light">신청 거절됨</span>
+													</c:when>
+												</c:choose>
+											</p>
+											<c:if test="${apply.status == 'R' }">											
+												<button type="button" class="btn btn-outline-danger btn-sm"
+													data-bs-toggle="modal"
+													data-bs-target="#deleteModal_${study.stuNo}">신청 취소</button>
+												<button type="button" class="btn btn-outline-danger btn-sm"
+													data-bs-toggle="modal"
+													data-bs-target="#modifyModal_${study.stuNo}">신청 수정</button>
+											</c:if>
 
 											<!-- 참여 신청 수정 모달창 -->
 											<div class="modal fade" id="modifyModal_${study.stuNo}">
@@ -160,9 +183,12 @@
 														<!-- Modal body -->
 														<form action="/studyApply/modifyApply" method="post">
 															<div class="modal-body">
-																<input type="text" id="applyNo" name="applyNo" value="${apply.applyNo}" hidden="true" /> 
-																<input type="text" id="applyId" name="applyId" value="${apply.applyId}" hidden="true" /> 
-																<input type="text" id="stuNo" name="stuNo" value="${apply.stuNo}" hidden="true" />
+																<input type="text" id="applyNo" name="applyNo"
+																	value="${apply.applyNo}" hidden="true" /> <input
+																	type="text" id="applyId" name="applyId"
+																	value="${apply.applyId}" hidden="true" /> <input
+																	type="text" id="stuNo" name="stuNo"
+																	value="${apply.stuNo}" hidden="true" />
 																<div class="mb-3">
 																	<label for="reason_${apply.applyNo}"
 																		class="col-form-label">참여 신청하는 이유를 간단하게
@@ -222,11 +248,8 @@
 				</div>
 			</div>
 
-
-
 		</section>
 		<!-- End Basic Section -->
-
 
 	</main>
 
