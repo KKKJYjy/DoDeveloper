@@ -65,19 +65,23 @@
 		console.log($(".accordion").length);
 
 		for (let i = 0; i < $(".accordion").length; i++) {
-			console.log(i, "번째: ", $(".accordion:eq("+i+")")[0]);
-			 if (!($(".accordion:eq("+i+")").children().hasClass('accordion-item'))) {
-				$(".accordion:eq("+i+")").html(`<p class="card-text me-2 text-secondary">아직 스터디 신청이 없습니다.</p>`);				
+			console.log(i, "번째: ", $(".accordion:eq(" + i + ")")[0]);
+			if (!($(".accordion:eq(" + i + ")").children()
+					.hasClass('accordion-item'))) {
+				$(".accordion:eq(" + i + ")")
+						.html(
+								`<p class="card-text me-2 text-secondary">아직 스터디 신청이 없습니다.</p>`);
 			}
 		}
-		
+
 		for (let i = 0; i < $(".studyMember").length; i++) {
-			console.log(i, "번째: ", $(".studyMember:eq("+i+")")[0]);
-			if (!($(".studyMember:eq("+i+")").children().hasClass('member'))) {
-				$(".studyMember:eq("+i+")").html(`<p class="card-text me-2 text-secondary">아직 스터디원이 없습니다.</p>`);
+			console.log(i, "번째: ", $(".studyMember:eq(" + i + ")")[0]);
+			if (!($(".studyMember:eq(" + i + ")").children().hasClass('member'))) {
+				$(".studyMember:eq(" + i + ")")
+						.html(
+								`<p class="card-text me-2 text-secondary">아직 스터디원이 없습니다.</p>`);
 			}
 		}
-		
 
 		//신청 수락, 거절 버튼 눌렀을 때 알럿창
 		let url = new URL(window.location.href);
@@ -103,9 +107,8 @@
 			<div class="container" style="width: 70%">
 
 				<div class="container">
-					<h3 class="center text-center text-light pb-4">
-						${loginMember.userId }님이 작성한 스터디 모임글
-					</h3>
+					<h3 class="center text-center text-light pb-4 fw-medium">
+						내가 작성한 스터디 모임글</h3>
 				</div>
 				<%-- ${studyList } --%>
 
@@ -155,10 +158,12 @@
 										</div>
 									</div>
 									<!-- 모집글 삭제 확인용 모달창 끝 -->
-
-									<h5 class="card-title">
-										<b>${study.stuTitle }</b>
-									</h5>
+									<div class="mouseOver">
+										<h5 class="card-title"
+											onclick="location.href='/study/viewStudyBoard?stuNo=${study.stuNo}';">
+											<b>${study.stuTitle }</b>
+										</h5>
+									</div>
 									<c:forEach var="stack" items="${stuStackList }">
 										<c:if test="${study.stuNo == stack.stuBoardNo }">
 											<span class="badge text-bg-secondary mb-3">${stack.stackName }</span>

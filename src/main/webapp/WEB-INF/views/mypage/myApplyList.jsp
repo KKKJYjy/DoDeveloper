@@ -55,9 +55,8 @@
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
 
-<!-- 스터디 myStudyList css 파일 -->
-<link href="/resources/assets/css/study/myStudyList.css"
-	rel="stylesheet" />
+<!-- 스터디 myApplyList css 파일 -->
+<link href="/resources/assets/css/study/myApplyList.css" rel="stylesheet" />
 
 <script>
 	$(function() {
@@ -99,12 +98,6 @@
 		return result;
 	}
 </script>
-<style>
-.mouseOver:hover {
-	text-decoration: underline;
-	cursor: pointer;
-}
-</style>
 </head>
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
 	<%@ include file="../header.jsp"%>
@@ -116,7 +109,7 @@
 
 				<div class="container">
 					<h3 class="center text-center text-light pb-4 fw-medium">
-						${loginMember.userId }님의 스터디 참여 신청</h3>
+						내가 참여 신청한 스터디 모임글</h3>
 				</div>
 
 				<div class="row row-cols-md-2 mt-5">
