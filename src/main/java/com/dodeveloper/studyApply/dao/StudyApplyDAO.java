@@ -16,4 +16,7 @@ public interface StudyApplyDAO {
 	//applyNo번째 스터디 신청을 삭제하는 메서드
 	int deleteApply(int applyNo) throws Exception;
 
+	//스터디 신청을 수정하는 메서드
+	int modifyApply(StudyApplyDTO modifyApply) throws Exception;
+
 }

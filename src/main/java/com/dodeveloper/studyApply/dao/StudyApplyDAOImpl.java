@@ -62,4 +62,17 @@ public class StudyApplyDAOImpl implements StudyApplyDAO {
 		return ses.delete(ns + ".deleteApply", applyNo);
 	}
 
+	
+	/**
+		* @author : yeonju
+		* @date : 2024. 6. 4.
+		* @param : StudyApplyDTO modifyApply - 수정할 스터디 신청 정보를 담은 객체
+		* @return : int
+		* @description : 스터디 신청을 수정한다
+	 */
+	@Override
+	public int modifyApply(StudyApplyDTO modifyApply) throws Exception {
+		return ses.update(ns + ".modifyApply", modifyApply);
+	}
+
 }

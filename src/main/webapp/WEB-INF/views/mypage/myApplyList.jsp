@@ -61,29 +61,37 @@
 
 <script>
 	$(function() {
-	
+
 		//신청 수락, 거절 버튼 눌렀을 때 알럿창
 		let url = new URL(window.location.href);
 		let urlParams = url.searchParams;
 		//console.log(urlParams);
 
-		if (urlParams.get('applyAccept') == 'success') {
-			alert("참여신청을 수락했습니다.");
-		} else if (urlParams.get('applyRefuse') == 'success') {
-			alert("참여신청을 거절했습니다.");
+		if (urlParams.get('applyModify') == 'success') {
+			alert("참여신청을 수정했습니다.");
+		} else if (urlParams.get('applyDelete') == 'success') {
+			alert("참여신청을 취소했습니다.");
 		}
 
 	});
 
 	//수정 팝업창에서 수정 버튼 눌렀을 때 유효성검사
-	function isVaild() {
+	function isVaild(applyNo) {
 		let result = false;
 
-		if ($("#reason").val() == null || $("#reason").val() == '') {
+		console.log(applyNo);
+		console.log($(`.reason_\${applyNo}`).val());
+		console.log($(`.reason_\${applyNo}`).val().length);
+
+		//공백수까지 세어서 유효성 검사에 그냥 통과하는 문제가 있다
+
+		if (($(`.reason_\${applyNo}`).val() == null)
+				|| ($(`.reason_\${applyNo}`).val() == '')) {
 			alert("참여 신청 이유를 입력해주세요");
-		} else if ($("#reason").val().length < 10) {
+		} else if ($(`.reason_\${applyNo}`).val().length < 10) {
 			alert("참여 신청 이유는 10자 이상 입력해주세요");
 		} else {
+			
 			result = true;
 		}
 
@@ -97,14 +105,12 @@
 	<main id="main">
 		<!-- Basic Section - Study Page -->
 		<section id="study" class="studyBasic">
-
 			<div class="container" style="width: 70%">
 
 				<div class="container">
 					<h3 class="center text-center text-light pb-4">
 						${loginMember.userId }님의 스터디 참여 신청</h3>
 				</div>
-				<%-- ${studyList } --%>
 
 				<div class="row row-cols-md-1 mt-5">
 					<c:forEach var="study" items="${studyList }">
@@ -119,14 +125,15 @@
 										style="cursor: pointer;">
 										<b>${study.stuTitle }</b>
 									</h5>
-									
+
 									<c:forEach var="stack" items="${stuStackList }">
 										<c:if test="${study.stuNo == stack.stuBoardNo }">
 											<span class="badge text-bg-secondary mb-3">${stack.stackName }</span>
 										</c:if>
 									</c:forEach>
 
-									<p class="card-text mb-2 border-top border-secondary border-opacity-25 pt-3">
+									<p
+										class="card-text mb-2 border-top border-secondary border-opacity-25 pt-3">
 										<b>✉️ ${loginMember.userId }님의 신청 내용</b>
 									</p>
 									<!-- 현재 스터디 신청자 R:새로운 신청 N:거절 Y:수락 -->
@@ -139,8 +146,7 @@
 											<button type="button" class="btn btn-outline-danger btn-sm"
 												data-bs-toggle="modal"
 												data-bs-target="#modifyModal_${study.stuNo}">신청 수정</button>
-												
-												
+
 											<!-- 참여 신청 수정 모달창 -->
 											<div class="modal fade" id="modifyModal_${study.stuNo}">
 												<div class="modal-dialog">
@@ -154,25 +160,28 @@
 														<!-- Modal body -->
 														<form action="/studyApply/modifyApply" method="post">
 															<div class="modal-body">
-																<input type="text" id="applyNo" name="applyNo"
-																	value="${apply.applyNo}" hidden="true" />
+																<input type="text" id="applyNo" name="applyNo" value="${apply.applyNo}" hidden="true" /> 
+																<input type="text" id="applyId" name="applyId" value="${apply.applyId}" hidden="true" /> 
+																<input type="text" id="stuNo" name="stuNo" value="${apply.stuNo}" hidden="true" />
 																<div class="mb-3">
-																	<label for="reason" class="col-form-label">참여
-																		신청하는 이유를 간단하게 입력해주세요.</label>
-																	<textarea class="form-control" id="reason"
-																		name="reason">
+																	<label for="reason_${apply.applyNo}"
+																		class="col-form-label">참여 신청하는 이유를 간단하게
+																		입력해주세요.</label>
+																	<textarea class="form-control reason_${apply.applyNo}"
+																		id="reason" name="reason">
 																	${apply.reason }
 																</textarea>
 																</div>
 															</div>
+															<!-- Modal footer -->
+															<div class="modal-footer">
+																<button type="button" class="btn btn-secondary"
+																	data-bs-dismiss="modal">취소</button>
+																<input type="submit" class="btn btn-danger"
+																	onclick="return isVaild('${apply.applyNo}');"
+																	value="수정" />
+															</div>
 														</form>
-														<!-- Modal footer -->
-														<div class="modal-footer">
-															<button type="button" class="btn btn-secondary"
-																data-bs-dismiss="modal">취소</button>
-															<input type="submit" class="btn btn-danger"
-																onclick="return isVaild();" value="수정" />
-														</div>
 													</div>
 												</div>
 											</div>
@@ -189,7 +198,7 @@
 														</div>
 														<!-- Modal body -->
 														<div class="modal-body">
-														<b>${study.stuTitle }</b> 스터디 모집글의 참여 신청 내역을 취소하시겠습니까?
+															<b>${study.stuTitle }</b> 스터디 모집글의 참여 신청 내역을 취소하시겠습니까?
 														</div>
 														<!-- Modal footer -->
 														<div class="modal-footer">

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -101,18 +103,28 @@ public class StudyApplyController {
 	/**
 	 * @author : yeonju
 	 * @date : 2024. 6. 4.
-	 * @param : int applyNo
+	 * @param : StudyApplyDTO modifyApply - 수정할 스터디 신청 정보를 담은 객체
 	 * @return : String
 	 * @description : applyNo번째 스터디 신청을 수정한다
 	 */
-	@GetMapping("/modifyApply/{applyNo}")
-	public String modifyApply(@PathVariable("applyNo") int applyNo) {
+	@PostMapping("/modifyApply")
+	public String modifyApply(StudyApplyDTO modifyApply) {
 		String result = "";
-		logger.info(applyNo + "번째 스터디 신청을 수정하자");
+		logger.info(modifyApply.getApplyNo() + "번째 스터디 신청을 수정하자");
 
+		try {
+			if(saService.modifyApply(modifyApply) == 1) {
+				System.out.println(modifyApply.getApplyNo() + "번째 스터디 신청 수정 성공");
+				result = "redirect:/mypage/myApplyList?applyModify=success";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return result;
 	}
 
+	
 	/**
 	 * @author : yeonju
 	 * @date : 2024. 6. 4.

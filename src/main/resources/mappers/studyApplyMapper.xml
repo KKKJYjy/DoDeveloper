@@ -24,4 +24,8 @@
 		delete from studyApply where applyNo = #{applyNo}
 	</delete>
 	
+	<!-- 모임글 참여 신청 update -->
+	<update id="modifyApply">
+		update studyApply set reason = #{reason} where applyNo = #{applyNo} 
+	</update>
 </mapper>
