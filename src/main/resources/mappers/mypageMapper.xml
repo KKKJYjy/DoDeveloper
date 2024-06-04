@@ -23,7 +23,8 @@
 	<select id="getMyStudyList"
 		resultType="com.dodeveloper.study.vodto.StudyBoardVO">
 		select * from studyBoard where stuWriter = #{userId}
-		order by wrritenDate desc
+		order
+		by wrritenDate desc
 	</select>
 
 	<!-- userId가 쓴 스터디 모임글의 스터디 참여 리스트를 select -->
@@ -31,8 +32,31 @@
 		resultType="com.dodeveloper.studyApply.vodto.StudyApplyVO">
 		select sa.* from studyApply sa
 		inner join studyBoard sb
-		on sa.stuNo = sb.stuNo
+		on
+		sa.stuNo = sb.stuNo
 		where sb.stuWriter = #{userId}
 	</select>
+
+	<!-- userId가 참여신청한 스터디 모임글 리스트를 select -->
+	<select id="getMyAppliedStudyList"
+		resultType="com.dodeveloper.study.vodto.StudyBoardVO">
+		select * from studyBoard sb
+		inner join studyApply sa
+		on
+		sb.stuNo = sa.stuNo
+		where sa.applyId = #{userId}
+		order by wrritenDate
+		desc
+	</select>
+
+	<!-- userId가 신청한 스터디 모임글의 참여 신청 리스트를 select -->
+	<select id="getMyAppliedStudyApplyList"
+		resultType="com.dodeveloper.studyApply.vodto.StudyApplyVO">
+		select sa.* from studyApply sa
+		inner join studyBoard sb
+		on sa.stuNo = sb.stuNo
+		where sa.applyId = #{userId}
+	</select>
+
 
 </mapper>

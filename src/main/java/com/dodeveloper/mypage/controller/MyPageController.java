@@ -219,35 +219,53 @@ public class MyPageController {
 	 */
 	@GetMapping("/myStudyList")
 	public void getMyStudyList(Model model, HttpServletRequest req) {
-		
-		String userId = ((MemberVO)req.getSession().getAttribute("loginMember")).getUserId();
+
+		String userId = ((MemberVO) req.getSession().getAttribute("loginMember")).getUserId();
 		logger.info(userId + "가 작성한 스터디 모임글 페이지로 이동");
-		
+
 		Map<String, Object> result = null;
-		
+
 		try {
-			
-			result = myPageService.getMyStudyList(userId);		
-			
+
+			result = myPageService.getMyStudyList(userId);
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		model.addAttribute("studyList", (List<StudyBoardVO>)result.get("studyList"));
-		model.addAttribute("stuStackList", (List<StuStackDTO>)result.get("stuStackList"));
-		model.addAttribute("stuApplyList", (List<StudyApplyVO>)result.get("stuApplyList"));
+
+		model.addAttribute("studyList", (List<StudyBoardVO>) result.get("studyList"));
+		model.addAttribute("stuStackList", (List<StuStackDTO>) result.get("stuStackList"));
+		model.addAttribute("stuApplyList", (List<StudyApplyVO>) result.get("stuApplyList"));
 	}
 
 	/**
 	 * @author : yeonju
 	 * @date : 2024. 5. 30.
+	 * @param : Model model
+	 * @param : HttpServletRequest req
 	 * @return : void
 	 * @description : 내가 신청한 스터디 모임글 페이지로 이동
 	 */
 	@GetMapping("/myApplyList")
-	public void getMyApplyList() {
-		logger.info("내가 신청한 스터디 모임글 페이지로 이동");
+	public void getMyApplyList(Model model, HttpServletRequest req) {
+		String userId = ((MemberVO) req.getSession().getAttribute("loginMember")).getUserId();
+		logger.info(userId + "가 신청한 스터디 모임글 페이지로 이동");
+
+		Map<String, Object> result = null;
+
+		try {
+
+			result = myPageService.getMyApplyList(userId);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		model.addAttribute("studyList", (List<StudyBoardVO>) result.get("studyList"));
+		model.addAttribute("stuStackList", (List<StuStackDTO>) result.get("stuStackList"));
+		model.addAttribute("stuApplyList", (List<StudyApplyVO>) result.get("stuApplyList"));
 	}
 
 }

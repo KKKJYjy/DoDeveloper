@@ -16,6 +16,9 @@ public interface MyPageService {
     // 프로필 사진 삭제하기
 	int removeProfileImage(String userId) throws Exception;
 
-	//userId의 스터디 모임글 + 스터디 언어 + 스터디 참여 리스트 불러오기
+	//userId가 쓴 스터디 모임글 & 스터디 언어 & 참여 신청 리스트 불러오기
 	Map<String, Object> getMyStudyList(String userId) throws Exception;
+
+	//userId가 참여 신청한 스터디 모임글 & 스터디 언어 & 참여 신청 리스트 불러오기
+	Map<String, Object> getMyApplyList(String userId) throws Exception;
 }

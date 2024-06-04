@@ -49,9 +49,7 @@ public class MyPageServiceImpl implements MyPageService {
 	 * @date : 2024. 5. 31.
 	 * @param : String userId - 로그인한 유저
 	 * @return : Map<String, Object>
-	 * @description : userId가 쓴 스터디 모임글 리스트 
-	 * 스터디 모임글의 스터디 언어 리스트 
-	 * 스터디 모임글의 참여 신청 리스트를 가져와 Map에 저장한다
+	 * @description : userId가 쓴 스터디 모임글 & 스터디 언어 & 참여 신청 리스트를 Map에 저장
 	 */
 	@Override
 	public Map<String, Object> getMyStudyList(String userId) throws Exception {
@@ -73,6 +71,37 @@ public class MyPageServiceImpl implements MyPageService {
 
 		// userId의 스터디 모임글의 참여 신청 리스트 가져와 map에 저장
 		List<StudyApplyVO> stuApplyList = myPageDao.getMyStudyApplyList(userId);
+		result.put("stuApplyList", stuApplyList);
+
+		return result;
+	}
+
+	/**
+		* @author : yeonju
+		* @date : 2024. 6. 3.
+		* @param : String userId - 로그인한 유저
+		* @return : Map<String, Object>
+		* @description : userId가 참여 신청한 스터디 모임글 & 스터디 언어 & 참여 신청 리스트를 Map에 저장
+	 */
+	@Override
+	public Map<String, Object> getMyApplyList(String userId) throws Exception {
+		Map<String, Object> result = new HashMap<String, Object>();
+
+		// userId가 참여신청한 스터디 모임글 리스트 가져와 map에 저장
+		List<StudyBoardVO> studyList = myPageDao.getMyAppliedStudyList(userId);
+		result.put("studyList", studyList);
+
+		// userId의 스터디 모임글의 스터디 언어 리스트 가져와 map에 저장
+		List<StuStackDTO> stuStackList = new ArrayList<StuStackDTO>();
+		if(studyList != null) {			
+			for (StudyBoardVO s : studyList) {				
+				stuStackList.addAll(studyDao.selectAllStudyStack(s.getStuNo()));
+			}
+		}
+		result.put("stuStackList", stuStackList);
+
+		// userId의 스터디 모임글의 참여 신청 리스트 가져와 map에 저장
+		List<StudyApplyVO> stuApplyList = myPageDao.getMyAppliedStudyApplyList(userId);
 		result.put("stuApplyList", stuApplyList);
 
 		return result;
