@@ -106,4 +106,35 @@ public class MyPageServiceImpl implements MyPageService {
 
 		return result;
 	}
+
+	/**
+		* @author : yeonju
+		* @date : 2024. 6. 4.
+		* @param : String userId - 로그인한 유저
+		* @return : Map<String, Object>
+		* @description : userId가 참여중인 스터디 모임글 & 스터디 언어 & 참여 신청 리스트 불러오기
+	 */
+	@Override
+	public Map<String, Object> getMyJoinedStudyList(String userId) throws Exception {
+		Map<String, Object> result = new HashMap<String, Object>();
+
+		// userId가 참여신청한 스터디 모임글 리스트 가져와 map에 저장
+		List<StudyBoardVO> studyList = myPageDao.getMyjoinedStudyList(userId);
+		result.put("studyList", studyList);
+
+		// userId의 스터디 모임글의 스터디 언어 리스트 가져와 map에 저장
+		List<StuStackDTO> stuStackList = new ArrayList<StuStackDTO>();
+		if(studyList != null) {			
+			for (StudyBoardVO s : studyList) {				
+				stuStackList.addAll(studyDao.selectAllStudyStack(s.getStuNo()));
+			}
+		}
+		result.put("stuStackList", stuStackList);
+
+		// userId의 스터디 모임글의 참여 신청 리스트 가져와 map에 저장
+		List<StudyApplyVO> stuApplyList = myPageDao.getMyjoinedStudyApplyList(userId);
+		result.put("stuApplyList", stuApplyList);
+
+		return result;
+	}
 }

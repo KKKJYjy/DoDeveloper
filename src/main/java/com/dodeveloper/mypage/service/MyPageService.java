@@ -21,4 +21,7 @@ public interface MyPageService {
 
 	//userId가 참여 신청한 스터디 모임글 & 스터디 언어 & 참여 신청 리스트 불러오기
 	Map<String, Object> getMyApplyList(String userId) throws Exception;
+
+	//userId가 참여중인 스터디 모임글 & 스터디 언어 & 참여 신청 리스트 불러오기
+	Map<String, Object> getMyJoinedStudyList(String userId) throws Exception;
 }

@@ -267,5 +267,34 @@ public class MyPageController {
 		model.addAttribute("stuStackList", (List<StuStackDTO>) result.get("stuStackList"));
 		model.addAttribute("stuApplyList", (List<StudyApplyVO>) result.get("stuApplyList"));
 	}
+	
+	/**
+		* @author : yeonju
+		* @date : 2024. 6. 4.
+		* @param : Model model
+		* @param : HttpServletRequest req
+		* @return : void
+		* @description : 내가 참여중인 스터디 페이지로 이동
+	 */
+	@GetMapping("/myJoinedStudyList")
+	public void getMyJoinedStudyList(Model model, HttpServletRequest req) {
+		String userId = ((MemberVO) req.getSession().getAttribute("loginMember")).getUserId();
+		logger.info(userId + "가 참여중인 스터디 모임글 페이지로 이동");
+		
+		Map<String, Object> result = null;
+
+		try {
+
+			result = myPageService.getMyJoinedStudyList(userId);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		model.addAttribute("studyList", (List<StudyBoardVO>) result.get("studyList"));
+		model.addAttribute("stuStackList", (List<StuStackDTO>) result.get("stuStackList"));
+		model.addAttribute("stuApplyList", (List<StudyApplyVO>) result.get("stuApplyList"));
+	}
 
 }

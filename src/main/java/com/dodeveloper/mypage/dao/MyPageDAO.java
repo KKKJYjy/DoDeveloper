@@ -32,5 +32,11 @@ public interface MyPageDAO {
 	//userId가 참여 신청한 스터디 모임글의 참여 신청 리스트 가져오기
 	List<StudyApplyVO> getMyAppliedStudyApplyList(String userId) throws Exception;
 
+	//userId가 참여중인 스터디 모임글 리스트 가져오기
+	List<StudyBoardVO> getMyjoinedStudyList(String userId) throws Exception;
+
+	//userId가 참여중인 스터디 모임글의 참여 신청 리스트 가져오기
+	List<StudyApplyVO> getMyjoinedStudyApplyList(String userId) throws Exception;
+
 	
 }

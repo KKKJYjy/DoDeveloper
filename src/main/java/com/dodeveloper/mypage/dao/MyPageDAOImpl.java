@@ -87,4 +87,28 @@ public class MyPageDAOImpl implements MyPageDAO {
 	public List<StudyApplyVO> getMyAppliedStudyApplyList(String userId) throws Exception {
 		return sqlSession.selectList(NS + ".getMyAppliedStudyApplyList" ,userId);
 	}
+
+	/**
+		* @author : yeonju
+		* @date : 2024. 6. 4.
+		* @param : String userId
+		* @return : List<StudyBoardVO>
+		* @description : userId가 참여중인 스터디 모임글 리스트 가져오기
+	 */
+	@Override
+	public List<StudyBoardVO> getMyjoinedStudyList(String userId) throws Exception {
+		return sqlSession.selectList(NS + ".getMyjoinedStudyList" ,userId);
+	}
+
+	/**
+		* @author : yeonju
+		* @date : 2024. 6. 4.
+		* @param : String userId
+		* @return : List<StudyApplyVO> 
+		* @description : userId가 참여중인 스터디 모임글의 참여 신청 리스트 가져오기
+	 */
+	@Override
+	public List<StudyApplyVO> getMyjoinedStudyApplyList(String userId) throws Exception {
+		return sqlSession.selectList(NS + ".getMyjoinedStudyApplyList" ,userId);
+	}
 }

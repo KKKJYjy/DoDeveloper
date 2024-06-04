@@ -577,8 +577,8 @@ function dropMember() {
 								<div class="card-body">
 									<div class="btn-group">
 										<a href="/mypage/myStudyList" class="btn btn-outline-secondary" aria-current="page">내가 작성한 스터디 모임글</a>
-										<a href="/mypage/myApplyList" class="btn btn-outline-secondary">내가 신청한 스터디 모임글</a>
-										<a href="#" class="btn btn-outline-secondary">내가 참여중인 스터디 모임글</a>
+										<a href="/mypage/myApplyList" class="btn btn-outline-secondary">내가 참여 신청한 스터디 모임글</a>
+										<a href="/mypage/myJoinedStudyList" class="btn btn-outline-secondary">내가 참여중인 스터디 모임글</a>
 									</div>
 								</div>
 							</div>
