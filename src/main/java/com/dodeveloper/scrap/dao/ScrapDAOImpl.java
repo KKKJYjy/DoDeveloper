@@ -30,7 +30,7 @@ public class ScrapDAOImpl implements ScrapDAO {
 	 */
 	@Override
 	public List<ScrapVO> selectAllScrap(String scrapId) throws Exception {
-		
+		System.out.println(scrapId + "!!!!!!!!");
 		List<ScrapVO>lst = ses.selectList(ns + ".selectAllScrap", scrapId);
 		
 		for (ScrapVO s :lst) {
