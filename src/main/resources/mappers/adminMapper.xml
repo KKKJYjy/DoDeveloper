@@ -39,10 +39,11 @@
 		select count(*) as
 		totalPostCnt from noticeBoard
 	</select>
-	
+
 	<!-- 문의 게시글 전체 갯수 -->
 	<select id="getQnaTotalBoardCnt" resultType="int">
-		select count(*) as totalPostCnt from qnaBoard
+		select count(*) as
+		totalPostCnt from qnaBoard
 	</select>
 
 
@@ -254,7 +255,7 @@
 	<delete id="deleteReportBoard">
 		delete from reportBoard where reportNo = #{reportNo}
 	</delete>
-	
+
 	<!-- 문의 게시글 삭제 -->
 	<delete id="deleteQnaBoard">
 		delete from qnaBoard where no = #{no}
@@ -298,47 +299,55 @@
 		select * from qnaBoard order
 		by no desc limit #{startRowIndex},#{viewPostCntPerPage}
 	</select>
-	
+
 	<!-- 문의 ?번 글 가져오는 쿼리문 -->
 	<select id="selectQnaBoardNo" resultType="QnaBoardVO">
-		select * from qnaBoard where no = #{no}
+		select * from qnaBoard
+		where no = #{no}
 	</select>
-	
+
 	<!-- 문의사항 작성 -->
 	<insert id="insertQna">
 		insert into qnaBoard(qnaWriter, qnaTitle, qnaContent)
 		values(#{qnaWriter}, #{qnaTitle}, #{qnaContent})
 	</insert>
-	
+
 	<!-- 공지사항 최신글 5개 조회 -->
 	<select id="selectDiffNotc" resultType="NoticeDTO">
-		select * from noticeBoard order by boardNo desc limit 5
+		select * from noticeBoard
+		order by boardNo desc limit 5
 	</select>
-	
+
 	<!-- 문의사항 최신글 5개 조회 -->
 	<select id="selectDiffQna" resultType="QnaBoardVO">
-		select * from qnaBoard order by no desc limit 5
+		select * from qnaBoard
+		order by no desc limit 5
 	</select>
-	
+
 	<!-- 스터디모임 최신글 5개 조회 -->
 	<select id="selectDiffStu" resultType="AdminVO">
-		select * from studyBoard order by stuNo desc limit 5
+		select * from studyBoard
+		order by stuNo desc limit 5
 	</select>
-	
+
 	<!-- 강의추천 최신글 5개 조회 -->
 	<select id="selectDiffLec" resultType="AdminLectureVO">
-		select * from lectureBoard order by lecNo desc limit 5
+		select * from lectureBoard
+		order by lecNo desc limit 5
 	</select>
-	
+
 	<!-- 알고리즘 최신글 5개 조회 -->
 	<select id="selectDiffAlg" resultType="AdminArgBoardVO">
-		select * from algBoard order by boardNo desc limit 5
+		select * from algBoard
+		order by boardNo desc limit 5
 	</select>
-	
+
 	<!-- 기업리뷰 최신글 5개 조회 -->
 	<select id="selectDiffRev" resultType="AdminReviewBoardVO">
-		select * from companyrevboard order by revNo desc limit 5
+		select * from
+		companyrevboard order by revNo desc limit 5
 	</select>
+
 
 
 
@@ -382,7 +391,8 @@
 	<select id="selectLog"
 		resultType="com.dodeveloper.admin.vo.CountUriVO">
 		SELECT u.uriName, COUNT(*) as accessCount
-		FROM accessLog a, uri u
+		FROM accessLog a,
+		uri u
 		WHERE
 		a.uri = u.uri
 		GROUP BY
@@ -394,11 +404,13 @@
 		resultType="com.dodeveloper.admin.vo.ConnectLogVO">
 		SELECT
 		DATE_FORMAT(`accessDate`, '%d') as `date`,
-		COUNT(*) as `count`
+		COUNT(*) as
+		`count`
 		FROM `accessLog`
 		WHERE MONTH(`accessDate`) =
 		#{date}
-		GROUP BY date(`accessDate`)
+		GROUP BY
+		date(`accessDate`)
 
 	</select>
 

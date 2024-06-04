@@ -308,7 +308,7 @@
 
 
 
-			<div class="col-lg-6 col-xlg-5">
+			<div class="col-lg-7 col-xlg-5">
 				<div class="card">
 					<!-- Nav tabs -->
 					<ul class="nav nav-tabs profile-tab" role="tablist">
