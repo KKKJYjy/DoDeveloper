@@ -451,6 +451,8 @@ function dropMember() {
 	        setTimeout(function() { 
 	        	alert('회원 탈퇴가 완료되었습니다.')
 	        }, 200);
+	        
+	        location.href = "/member/logout";
 	      } else {
 	        console.log("회원탈퇴 실패");
 	      }
@@ -566,71 +568,6 @@ function dropMember() {
 
 									</form>
 								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="row justify-content-center mt-3">
-						<div class="col-xl-8">
-							<div class="card mb-4 mb-xl-0">
-								<div class="card-header">스터디 모임</div>
-								<div class="card-body">
-									<a href="#" class="stretched-link me-4">내가 작성한 스터디 모임글</a> 
-									<a href="#" class="stretched-link me-4">내가 신청한 스터디 모임글</a> 
-									<a href="#" class="stretched-link">내가 참여중인 스터디 모임글</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="row justify-content-center mt-3">
-						<div class="col-xl-8">
-							<div class="card mb-4 mb-xl-0">
-								<div class="card-header">내가 작성한 강의추천 글 리스트</div>
-								<div class="card-body"></div>
-							</div>
-						</div>
-					</div>
-					<div class="row justify-content-center mt-3">
-						<div class="col-xl-8">
-							<div class="card mb-4 mb-xl-0">
-								<div class="card-header">내가 작성한 재직자 리뷰 글 리스트</div>
-								<div class="card-body"></div>
-							</div>
-						</div>
-					</div>
-
-					<div class="row justify-content-center mt-3">
-						<div class="col-xl-8">
-							<div class="card mb-4 mb-xl-0">
-								<div class="card-header">내가 댓글단 글 리스트</div>
-								<div class="card-body"></div>
-							</div>
-						</div>
-					</div>
-
-					<div class="row justify-content-center mt-3">
-						<div class="col-xl-8">
-							<div class="card mb-4 mb-xl-0">
-								<div class="card-header">내가 좋아요한 글 리스트</div>
-								<div class="card-body"></div>
-							</div>
-						</div>
-					</div>
-
-					<div class="row justify-content-center mt-3">
-						<div class="col-xl-8">
-							<div class="card mb-4 mb-xl-0">
-								<div class="card-header">내가 스크랩한 글 리스트</div>
-								<div class="card-body"></div>
-							</div>
-						</div>
-					</div>
-
-					<div class="row justify-content-center mt-3">
-						<div class="col-xl-8">
-							<div class="card mb-4 mb-xl-0">
-								<div class="card-header">내가 신고한 글 리스트</div>
-								<div class="card-body"></div>
 							</div>
 						</div>
 					</div>
