@@ -50,4 +50,17 @@ public class StudyApplyServiceImpl implements StudyApplyService {
 		return saDao.refuseApply(applyNo);
 	}
 
+
+	/**
+		* @author : yeonju
+		* @date : 2024. 6. 4.
+		* @param : int applyNo
+		* @return : int  
+		* @description : applyNo번째 스터디 신청을 삭제한다
+	 */
+	@Override
+	public int deleteApply(int applyNo) throws Exception {
+		return saDao.deleteApply(applyNo);
+	}
+
 }

@@ -19,4 +19,9 @@
 		update studyApply set status = 'N' where applyNo = #{applyNo}
 	</update>
 	
+	<!-- applyNo번째 모임글 참여 신청 delete -->
+	<delete id="deleteApply">
+		delete from studyApply where applyNo = #{applyNo}
+	</delete>
+	
 </mapper>

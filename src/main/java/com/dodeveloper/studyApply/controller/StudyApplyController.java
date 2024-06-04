@@ -77,8 +77,8 @@ public class StudyApplyController {
 	 * @date : 2024. 6. 3.
 	 * @param : int applyNo
 	 * @return : String
-	 * @description : applyNo번째 스터디 신청을 거절한다  
-	 * 성공시 파라메터 applyRefuse=success를 달고 myStudyList 페이지로 이동
+	 * @description : applyNo번째 스터디 신청을 거절한다 성공시 파라메터 applyRefuse=success를 달고
+	 *              myStudyList 페이지로 이동
 	 */
 	@GetMapping("/refuseApply/{applyNo}")
 	public String refuseApply(@PathVariable("applyNo") int applyNo) {
@@ -95,6 +95,45 @@ public class StudyApplyController {
 			e.printStackTrace();
 		}
 
+		return result;
+	}
+
+	/**
+	 * @author : yeonju
+	 * @date : 2024. 6. 4.
+	 * @param : int applyNo
+	 * @return : String
+	 * @description : applyNo번째 스터디 신청을 수정한다
+	 */
+	@GetMapping("/modifyApply/{applyNo}")
+	public String modifyApply(@PathVariable("applyNo") int applyNo) {
+		String result = "";
+		logger.info(applyNo + "번째 스터디 신청을 수정하자");
+
+		return result;
+	}
+
+	/**
+	 * @author : yeonju
+	 * @date : 2024. 6. 4.
+	 * @param : int applyNo
+	 * @return : String
+	 * @description : applyNo번째 스터디 신청을 삭제한다
+	 */
+	@GetMapping("/deleteApply/{applyNo}")
+	public String deleteApply(@PathVariable("applyNo") int applyNo) {
+		String result = "";
+		logger.info(applyNo + "번째 스터디 신청을 삭제하자");
+
+		try {
+			if(saService.deleteApply(applyNo) == 1) {
+				System.out.println(applyNo + "번째 스터디 신청 거절 성공");
+				result = "redirect:/mypage/myApplyList?applyDelete=success";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return result;
 	}
 

@@ -12,8 +12,8 @@
 <meta content="" name="description" />
 <meta content="" name="keywords" />
 
-<!-- jquery -->
-<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <!-- 부트스트랩 아이콘 -->
 <link rel="stylesheet"
@@ -54,35 +54,14 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 <!-- 스터디 myStudyList css 파일 -->
 <link href="/resources/assets/css/study/myStudyList.css"
 	rel="stylesheet" />
 
 <script>
 	$(function() {
-		console.log($(".accordion").length);
-
-		for (let i = 0; i < $(".accordion").length; i++) {
-			console.log(i, "번째: ", $(".accordion:eq(" + i + ")")[0]);
-			if (!($(".accordion:eq(" + i + ")").children()
-					.hasClass('accordion-item'))) {
-				$(".accordion:eq(" + i + ")")
-						.html(
-								`<p class="card-text me-2 text-secondary">아직 스터디 신청이 없습니다.</p>`);
-			}
-		}
-
-		for (let i = 0; i < $(".studyMember").length; i++) {
-			console.log(i, "번째: ", $(".studyMember:eq(" + i + ")")[0]);
-			if (!($(".studyMember:eq(" + i + ")").children().hasClass('member'))) {
-				$(".studyMember:eq(" + i + ")")
-						.html(
-								`<p class="card-text me-2 text-secondary">아직 스터디원이 없습니다.</p>`);
-			}
-		}
-
+	
 		//신청 수락, 거절 버튼 눌렀을 때 알럿창
 		let url = new URL(window.location.href);
 		let urlParams = url.searchParams;
@@ -95,6 +74,21 @@
 		}
 
 	});
+
+	//수정 팝업창에서 수정 버튼 눌렀을 때 유효성검사
+	function isVaild() {
+		let result = false;
+
+		if ($("#reason").val() == null || $("#reason").val() == '') {
+			alert("참여 신청 이유를 입력해주세요");
+		} else if ($("#reason").val().length < 10) {
+			alert("참여 신청 이유는 10자 이상 입력해주세요");
+		} else {
+			result = true;
+		}
+
+		return result;
+	}
 </script>
 </head>
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
@@ -121,51 +115,95 @@
 									<p class="card-subtitle mb-1">📍${study.stuLoc }</p>
 
 									<h5 class="card-title"
-										onclick="location.href='/study/viewStudyBoard?stuNo=${study.stuNo}';">
+										onclick="location.href='/study/viewStudyBoard?stuNo=${study.stuNo}';"
+										style="cursor: pointer;">
 										<b>${study.stuTitle }</b>
 									</h5>
+									
 									<c:forEach var="stack" items="${stuStackList }">
 										<c:if test="${study.stuNo == stack.stuBoardNo }">
 											<span class="badge text-bg-secondary mb-3">${stack.stackName }</span>
 										</c:if>
 									</c:forEach>
 
-									<p
-										class="card-text mb-2 border-top border-secondary border-opacity-25 pt-3">
-										<b>✉️ 신청 내용</b>
+									<p class="card-text mb-2 border-top border-secondary border-opacity-25 pt-3">
+										<b>✉️ ${loginMember.userId }님의 신청 내용</b>
 									</p>
 									<!-- 현재 스터디 신청자 R:새로운 신청 N:거절 Y:수락 -->
 									<c:forEach var="apply" items="${stuApplyList }">
 										<c:if test="${study.stuNo == apply.stuNo}">
 											<p class="card-text">${apply.reason }</p>
 											<button type="button" class="btn btn-outline-danger btn-sm"
-												onclick="location.href='/studyApply/Apply/${apply.applyNo}';">신청 수정</button>
-											<button type="button" class="btn btn-danger btn-sm" >신청 취소</button>
-										</c:if>
-
-										<!-- 참여 신청 취소 확인용 모달창 -->
-										<div class="modal fade" id="deleteModal_${study.stuNo}">
-											<div class="modal-dialog">
-												<div class="modal-content">
-													<!-- Modal Header -->
-													<div class="modal-header">
-														<h4 class="modal-title">스터디 참여 신청 취소</h4>
-														<button type="button" class="btn-close"
-															data-bs-dismiss="modal"></button>
-													</div>
-													<!-- Modal body -->
-													<div class="modal-body">해당 참여 신청 내역을 취소하시겠습니까?</div>
-													<!-- Modal footer -->
-													<div class="modal-footer">
-														<button type="button" class="btn btn-outline-danger"
-															data-bs-dismiss="modal">아니오</button>
-														<button type="button" class="btn btn-danger"
-															onclick="location.href='/studyApply/deleteApply?stuNo=${apply.applyNo }';">네</button>
+												data-bs-toggle="modal"
+												data-bs-target="#deleteModal_${study.stuNo}">신청 취소</button>
+											<button type="button" class="btn btn-outline-danger btn-sm"
+												data-bs-toggle="modal"
+												data-bs-target="#modifyModal_${study.stuNo}">신청 수정</button>
+												
+												
+											<!-- 참여 신청 수정 모달창 -->
+											<div class="modal fade" id="modifyModal_${study.stuNo}">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<!-- Modal Header -->
+														<div class="modal-header">
+															<h4 class="modal-title">스터디 참여 신청 수정하기</h4>
+															<button type="button" class="btn-close"
+																data-bs-dismiss="modal"></button>
+														</div>
+														<!-- Modal body -->
+														<form action="/studyApply/modifyApply" method="post">
+															<div class="modal-body">
+																<input type="text" id="applyNo" name="applyNo"
+																	value="${apply.applyNo}" hidden="true" />
+																<div class="mb-3">
+																	<label for="reason" class="col-form-label">참여
+																		신청하는 이유를 간단하게 입력해주세요.</label>
+																	<textarea class="form-control" id="reason"
+																		name="reason">
+																	${apply.reason }
+																</textarea>
+																</div>
+															</div>
+														</form>
+														<!-- Modal footer -->
+														<div class="modal-footer">
+															<button type="button" class="btn btn-secondary"
+																data-bs-dismiss="modal">취소</button>
+															<input type="submit" class="btn btn-danger"
+																onclick="return isVaild();" value="수정" />
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-										<!-- 참여 신청 취소 확인용 모달창 끝 -->
+
+											<!-- 참여 신청 취소 확인용 모달창 -->
+											<div class="modal fade" id="deleteModal_${study.stuNo}">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<!-- Modal Header -->
+														<div class="modal-header">
+															<h4 class="modal-title">스터디 참여 신청 취소하기</h4>
+															<button type="button" class="btn-close"
+																data-bs-dismiss="modal"></button>
+														</div>
+														<!-- Modal body -->
+														<div class="modal-body">
+														<b>${study.stuTitle }</b> 스터디 모집글의 참여 신청 내역을 취소하시겠습니까?
+														</div>
+														<!-- Modal footer -->
+														<div class="modal-footer">
+															<button type="button" class="btn btn-outline-danger"
+																data-bs-dismiss="modal">아니오</button>
+															<button type="button" class="btn btn-danger"
+																onclick="location.href='/studyApply/deleteApply/${apply.applyNo}';">네</button>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- 참여 신청 취소 확인용 모달창 끝 -->
+										</c:if>
+
 									</c:forEach>
 
 								</div>
@@ -190,7 +228,7 @@
 		class="scroll-top d-flex align-items-center justify-content-center"><i
 		class="bi bi-arrow-up-short"></i></a>
 
-	<!-- Preloader -->
+	<!-- Preloader --
 	<div id="preloader">
 		<div></div>
 		<div></div>
