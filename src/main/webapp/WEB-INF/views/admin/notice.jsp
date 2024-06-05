@@ -116,6 +116,8 @@
 		<c:import url="./adminMiniHeader.jsp"></c:import>
 
 		<div class="container-fluid">
+		
+		
 
 			<div class="noticeBoard">
 				<form action="/admin/noticePOST" method="post" name="frm">
@@ -148,6 +150,7 @@
 				</form>
 
 			</div>
+			
 
 
 
