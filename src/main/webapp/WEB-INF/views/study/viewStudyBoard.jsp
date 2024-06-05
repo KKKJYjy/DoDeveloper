@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -565,7 +566,11 @@ i {
 								<!-- 마감일 -->
 								<div class="col-md-6">
 									<div class="mb-1 ">
-										<b>모집 마감일</b> <span class="">${studyList.endDate }</span>
+										<b>모집 마감일</b> 
+										<span class="">
+											<fmt:formatDate pattern="yyyy-MM-dd" value="${studyList.endDate }"/>
+											
+										</span>
 									</div>
 								</div>
 							</div>
