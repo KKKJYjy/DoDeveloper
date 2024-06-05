@@ -52,6 +52,7 @@
 <script>
       let isValidName = false;
       let isValidMobile = false;
+      let isTryingSubmitEmail = false;
       let isValidEmail = false;
 
       $(function () {
@@ -61,35 +62,116 @@
         });
 
         $("#userPwd, #userPwdConfirm").on("keyup", function (e) {
-          checkValidPassword();
+          	checkValidPassword();
         });
-
-        $("#email").keyup(function (e) {
-          
+        
+        $("#email").keyup(function (e){
+        	rewriteEmail();
         });
         
         $("#request-confirm-email-btn").on("click",function(e){
-        	let emailAddress = $("#email").val();
-        	/*
-        	if(emailAddress != '^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'){
-        		return;
-        	}
-        	*/
-        	console.log(emailAddress);
-        	requestEmailConfirm(emailAddress);
-        	$("#email-validation-check").show();
+        	requestToConfirmEmail();
         });
         
-        $("#confirm-email-code-btn").on("click", function(e){
-        	let emailValidCode = $("#email-code").val();
-        	isValidEmail = confirmEmail(emailValidCode);
+        $("#check-email-code-btn").on("click", function(e){
+        	checkEmailCode();
+        });
+        
+        $("#email-submit").on("click", function(e){
+          	isTryingSubmitEmail = $(this).is(":checked");
+        	showEmailInputDiv(isTryingSubmitEmail);
         });
 
         $("#userName").keyup(function (e) {
           checkValidName();
         });
+       
+        showEmailInputDiv(false);
       });
+      
+      function requestToConfirmEmail(){
+      	let emailAddress = $("#email").val();
+    	/*
+    	if(emailAddress != '^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'){
+    		return;
+    	}
+    	*/
+    	sendRequestToConfirmEmail(emailAddress);
+    	$("#email-validation-check").show();
+      }
+      
+      function rewriteEmail(){
+    	$("#email-validation-check").hide();
+    	$("#email-error-msg").html("");
+    	isValidEmail = false;
+    	$("#email-code").val("");
+      }
+      
+      function checkEmailCode(){
+      	let emailValidCode = $("#email-code").val();
+    	isValidEmail = confirmEmail(emailValidCode);
+    	if(isValidEmail){
+    		$("#email-error-msg").html("확인됨!");
+    		$("#email-error-msg").css("color", "green");
+    	}else{
+    		$("#email-error-msg").html("다시 확인해주십시오.");
+    		$("#email-error-msg").css("color", "red");
+    	}
+      }
 
+      function showEmailInputDiv(data){
+    	if(data == true){
+    		$("#email-input-div").show();
+    		$("#email").prop("disabled", false);
+    	}else{
+    		$("#email-input-div").hide();
+    		$("#email").prop("disabled", true);
+    	}
+      }
+      
+      function sendRequestToConfirmEmail(emailAddress){
+    	  let urlInput = "./emailConfirmRequest";
+    	  result = false;
+    	  
+    	  $.ajax({
+              url: urlInput,
+              type: "post",
+              dataType: "json",
+              data: {
+                  emailAddress: emailAddress,
+                },
+              success: function (data) {
+            	  result = data;
+              },
+            });
+    	  
+		  return result;
+      }
+      
+      function confirmEmail(code){
+    	  let urlInput = "./emailCode";
+    	  result = false;
+    	  
+    	  $.ajax({
+              url: urlInput,
+              type: "post",
+              dataType: "json",
+              async: false,
+              data: {
+                  code: code,
+                },
+              success: function (data) {
+				if(data.isSuccess == "1"){
+					result = true;
+				}else{
+					result = false;
+				}
+              },
+            });
+    	  
+    	  return result;
+      }
+      
       function duplicateUserId(userId) {
         let result = false;
         $.ajax({
@@ -204,48 +286,14 @@
       function checkValidName() {
         return $("#userId").val().length > 0 ? true : false;
       }
-
-      function requestEmailConfirm(emailAddress){
-    	  let urlInput = "./emailConfirmRequest";
-    	  result = false;
-    	  
-    	  $.ajax({
-              url: urlInput,
-              type: "post",
-              dataType: "json",
-              data: {
-                  emailAddress: emailAddress,
-                },
-              success: function (data) {
-            	  result = data;
-              },
-            });
-    	  
-		  return result;
-      }
-      
-      function confirmEmail(code){
-    	  let urlInput = "./emailCode";
-    	  result = false;
-    	  
-    	  $.ajax({
-              url: urlInput,
-              type: "post",
-              dataType: "json",
-              async: false,
-              data: {
-                  code: code,
-                },
-              success: function (data) {
-                result = data;
-              },
-            });
-    	  
-    	  return result;
-      }
       
       function checkValidEmail() {
-    	  return true;
+    	  if(isTryingSubmitEmail == false || isValidEmail == true){
+    		  return true;
+    	  }
+    	  $("#email-error-msg").html("이메일을 확인해주세요.");
+    	  $("#email-error-msg").css("color","red");
+    	  return false;
       }
 
       function validate() {
@@ -320,27 +368,34 @@
 												type="text" class="form-control" id="userName"
 												name="userName" required="required" />
 										</div>
-										<div class="mb-3 mt-2">
+
+										<div class="mb-3 mt-2" id="email-input-div"
+											style="display: none;">
 											<div class="label-group">
 												<label for="email" class="form-label">이메일</label><span
-													id="errorMsgEmail" class="errMessage"></span>
+													id="email-error-msg" class="errMessage"></span>
 											</div>
 											<input type="text" class="form-control" id="email"
 												name="email" />
+											
 											<button type="button"
 												class="btn btn-block btn-outline-secondary mt-2"
-												id="request-confirm-email-btn">인증받기</button> 아직은 이거 안해도 됩니다.
+												id="request-confirm-email-btn">인증받기</button>
+												
 											<div id="email-validation-check" style="display: none">
 												<input type="text" class="form-control" id="email-code"
 													style="margin: 5px 0;" />
-												<button type="button" id="confirm-email-code-btn"
+												<button type="button" id="check-email-code-btn"
 													class="btn btn-outline-success btn-sm">인증확인</button>
 											</div>
-											<div class="d-grid">
-												<button type="submit"
-													class="btn btn-block btn-register mt-2"
-													onclick="return validate()">가입하기</button>
-											</div>
+										</div>
+										<div>
+											<input type="checkbox" id="email-submit" name="email-submit" />
+											<label for="email-submit">이메일 제출</label>
+										</div>
+										<div class="d-grid">
+											<button type="submit" class="btn btn-block btn-register mt-2"
+												onclick="return validate()">가입하기</button>
 										</div>
 									</div>
 								</form>
