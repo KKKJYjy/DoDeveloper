@@ -200,12 +200,16 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = "/emailCode", method = RequestMethod.POST)
-	public ResponseEntity<Boolean> checkEMailCode(@RequestParam("code") String code, HttpSession session)
+	public ResponseEntity<Map<String, String>> checkEMailCode(@RequestParam("code") String code, HttpSession session)
 			throws Exception {
+		Map<String, String> result = new HashMap<String, String>();
+		
 		if (code.equals(session.getAttribute(SessionNames.EMAIL_VALIDATION_CODE))) {
-			return ResponseEntity.ok(true);
+			result.put("isSuccess", "1");
+			return ResponseEntity.ok(result);
 		} else {
-			return ResponseEntity.ok(false);
+			result.put("isSuccess", "0");
+			return ResponseEntity.ok(result);
 		}
 
 	}
@@ -259,6 +263,11 @@ public class MemberController {
 	@RequestMapping(value = "/pwdResetLink", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
 	public ResponseEntity<String> pwdResetLink(String userId, String email, HttpServletRequest request, HttpSession session) throws Exception {
 		logger.info("uid: " + userId + "// email : " + email + " 에서 비밀번호 재생성을 요청함");
+		
+//		if(!email.equals("^[a-zA-Z0-9+-\\_.]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$")) {
+//			logger.info("유효한 이메일이 아닙니다.");
+//			return ResponseEntity.ok("유효한 이메일이 아닙니다.");
+//		}
 		
 		MemberVO member = mService.getMemberByEmail(email);
 
