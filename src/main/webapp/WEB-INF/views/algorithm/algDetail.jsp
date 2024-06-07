@@ -169,7 +169,7 @@ function insertReport() {
 
 				<h2>${fn:length(algDetailList)}</h2>
 
-				<h1>alg</h1>
+				<h1>alg ${algDetailList[0].boardType}</h1>
 
 
 

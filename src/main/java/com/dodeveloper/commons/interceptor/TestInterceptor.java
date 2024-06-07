@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.dodeveloper.algorithm.dao.AlgDAO;
 import com.dodeveloper.algorithm.service.AlgService;
 import com.dodeveloper.algorithm.vodto.AlgDetailDTO;
 import com.dodeveloper.member.service.MemberService;
@@ -21,6 +22,9 @@ public class TestInterceptor extends HandlerInterceptorAdapter implements Sessio
 
 	@Autowired
 	private MemberService mService;
+	
+	@Autowired
+	AlgDAO aDao;
 	
 	@Autowired
 	AlgService aService;
@@ -34,7 +38,7 @@ public class TestInterceptor extends HandlerInterceptorAdapter implements Sessio
 	    
 	   
 	    HttpSession session = request.getSession();
-	    		
+	    	
 	    
 	    if (session.getAttribute(LOGIN_MEMBER) != null) {
 		MemberVO mem = (MemberVO)session.getAttribute(LOGIN_MEMBER);
@@ -44,9 +48,14 @@ public class TestInterceptor extends HandlerInterceptorAdapter implements Sessio
 		// 컨트롤러단 getAlgDetail 에서 세션으로 보낸 boardNo
 		int boardNo = (int)session.getAttribute("boardNum");
 		
+		
 		if(uri.contains("write") || uri.contains("modify")) {
-//		    
+		    
 		    List<AlgDetailDTO> list = aService.getListDetail(boardNo);
+		    System.out.println(boardNo);
+		    System.out.println(list.toString());
+		//    if(mem.getUserId().equals(  aDao.selectAlgDetail(boardNo) )) { }
+		    return true;
 		    
 		}
 	    }
