@@ -58,8 +58,8 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
 <script
 	src="/resources/assets/js/company/common.js?v=<%=sdf.format(l)%>"></script>
 <script>
-	if (getParameter('status') == 'reviewFail') {
-		alert('리뷰 작성에 실패하셨습니다!');
+	if (getParameter('status').indexOf('Fail') != -1) {
+		alert('작업에 실패하셨습니다!');
 	}
 </script>
 

@@ -6,6 +6,7 @@ import com.dodeveloper.algorithm.vodto.AlgBoardDTO;
 import com.dodeveloper.algorithm.vodto.AlgClassificationDTO;
 import com.dodeveloper.algorithm.vodto.AlgDetailDTO;
 import com.dodeveloper.member.dto.LoginDTO;
+import com.dodeveloper.report.dto.ReportDTO;
 
 public interface AlgDAO {
 	
@@ -30,4 +31,7 @@ public interface AlgDAO {
 
 	// algDetail 업데이트
 	int updateAlgDetail(AlgDetailDTO algDetailDTO);
+
+	// reportBoard 업데이트
+	int insertReport(ReportDTO reportDTO);
 }

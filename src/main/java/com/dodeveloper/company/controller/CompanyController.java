@@ -45,7 +45,7 @@ public class CompanyController {
 
 	@Autowired
 	private CompanyInfoService ciService; // CompanyInfoService객체를 찾아 주입
-
+	
 	/**
 	 * @methodName : companyListAll
 	 * @author : kimso05
@@ -196,8 +196,8 @@ public class CompanyController {
 	 * @methodName : revEditWrittenBoard
 	 * @author : kimso05
 	 * @date : 2024.05.22
-	 * @param : WrittenCompanyBoardDTO newEditWrittenBoard (새롭게 수정되어야 할 기업 리뷰 게시글 그
-	 *          자체)
+	 * @param : WrittenCompanyBoardDTO newEditWrittenBoard 
+	 * (새롭게 수정되어야 할 기업 리뷰 게시글 그 자체)
 	 * @return : String
 	 * @throws Exception
 	 * @description :
@@ -208,7 +208,7 @@ public class CompanyController {
 		System.out.println(newEditWrittenBoard.toString() + "수정하자");
 
 		try {
-			if (ciService.RevEditWrittenBoard(newEditWrittenBoard) == 1) {
+			if (ciService.revEditWrittenBoard(newEditWrittenBoard) == 1) {
 				// 수정완료 버튼 누르면 되돌아갈 페이지
 				returnPage += "companyInfoNo=" + newEditWrittenBoard.getCompanyInfoNo();
 			}
@@ -220,7 +220,7 @@ public class CompanyController {
 
 		return returnPage;
 	}
-
+	
 	/**
 	 * @methodName : insertScrap
 	 * @author : kimso05
@@ -228,19 +228,31 @@ public class CompanyController {
 	 * @param : int scrapBoard, int companyInfoNo
 	 * @param :
 	 * @param :
-	 * @return : void
+	 * @return : String
 	 * @throws Exception 
-	 * @description :
+	 * @description : 
 	 */
 	@RequestMapping(value = "/insertScrap", method = RequestMethod.GET)
-	public void insertScrap(@RequestParam("scrapBoard") int scrapBoard,
-			@RequestParam("companyInfoNo") int companyInfoNo, HttpSession session) throws Exception {
+	public String insertScrap(@RequestParam("scrapBoard") int scrapBoard,
+			@RequestParam("companyInfoNo") int companyInfoNo, HttpSession session)  {
+		String returnPage = "";
 		System.out.println(scrapBoard + "revNo게시글 번호" + companyInfoNo + "scrapBoard 기업리뷰번호");
 		// 로그인한 유저의 아이디를 얻어와 scrapId 변수에 저장하고
 		MemberVO loginMember = (MemberVO) session.getAttribute(SessionNames.LOGIN_MEMBER);
 		System.out.println(loginMember.getUserId());
 		// scrapId, scrapBoard, companyInfoNo를 서비스단 메서드에 보내면서 호출
-		ciService.insertScrap(scrapBoard, companyInfoNo, loginMember.getUserId());
+		try {
+			if(ciService.insertScrap(scrapBoard, loginMember.getUserId(), companyInfoNo) == 1) {
+				returnPage = "redirect:/mypage/myProfile";
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			returnPage = "redirect:/companyInfo/revCompanyBoard?companyInfoNo=" + companyInfoNo 
+					+ "&status=scrapFail";
+		}
+		
+		return returnPage;
 	}
 
 }

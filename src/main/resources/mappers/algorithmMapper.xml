@@ -57,7 +57,12 @@
 		algDetailResult = #{algDetailResult}, algDetailComment = #{algDetailComment}, writer = #{writer} where algDetailNo = #{algDetailNo}
 	</update>
 
-
+	<!--  reportBoard 새 항목 insert -->
+	<insert id="insertReport">
+		insert into reportBoard (boardNo, writer, reportReason, reporter, btypeNo) 
+		values (#{boardNo}, #{writer}, #{reportReason}, #{reporter}, #{btypeNo});
+	</insert>
+	
 
 
 

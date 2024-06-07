@@ -15,12 +15,12 @@
 </style>
 <script>
 	$(function() {
-		var chkObj = document.getElementsByName("rowCheck");
-		var rowCnt = chkObj.length;
+		let chkObj = document.getElementsByName("rowCheck");
+		let rowCnt = chkObj.length;
 
 		$("input[name='allCheck']").click(function() {
-			var chk_listArr = $("input[name='rowCheck']");
-			for (var i = 0; i < chk_listArr.length; i++) {
+			let chk_listArr = $("input[name='rowCheck']");
+			for (let i = 0; i < chk_listArr.length; i++) {
 				chk_listArr[i].checked = this.checked;
 			}
 		});
@@ -67,7 +67,7 @@
 
 				});
 			}
-			
+
 		}
 	}
 
@@ -106,7 +106,7 @@
 						href="/admin/algorithmBoard">알고리즘</a></li>
 					<li class="nav-item"><a class="nav-link"
 						href="/admin/reviewBoard">기업리뷰</a></li>
-						<li class="nav-item"><a class="nav-link"
+					<li class="nav-item"><a class="nav-link"
 						href="/admin/noticeBoard">공지사항</a></li>
 				</ul>
 			</div>
@@ -120,41 +120,52 @@
 					<button id="openModalBtn" onclick="checkCheckbox()">게시글삭제</button>
 				</c:if>
 
-				
-					<table class="table table-light table-hover">
+
+				<div class="row">
+					<!-- column -->
+					<div class="col-sm-12">
+						<div class="card">
+							<div class="card-body">
+								<table class="table table-Default table-hover">
 
 
 
-						<thead>
-							<tr>
-								<th><input id="allCheck" type="checkbox" name="allCheck" /></th>
-								<th>글번호</th>
-								<th>작성자</th>
-								<th>제목</th>
-								<th>작성일</th>
-								<th>조회수</th>
-								<th>좋아요</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach var="board" items="${lecBoardList }">
-								<tr
-									onclick="location.href = '/lecture/viewBoard?lecNo=${board.lecNo}';">
-									<td onclick="event.cancelBubble=true"><input type="checkbox" name="rowCheck"
-										class="deleteCheckbox" id="myCheckbox" value="${board.lecNo }" /></td>
-									<td>${board.lecNo }</td>
-									<td>${board.lecWriter }</td>
-									<td>${board.lecTitle }</td>
-									<td>${board.lecPostDate }</td>
-									<td>${board.lecReadCount }</td>
-									<td>${board.lecLikeCount }</td>
-								</tr>
+									<thead>
+										<tr>
+											<th><input id="allCheck" type="checkbox" name="allCheck" /></th>
+											<th>글번호</th>
+											<th>작성자</th>
+											<th>제목</th>
+											<th>작성일</th>
+											<th>조회수</th>
+											<th>좋아요</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach var="board" items="${lecBoardList }">
+											<tr
+												onclick="location.href = '/lecture/viewBoard?lecNo=${board.lecNo}';">
+												<td onclick="event.cancelBubble=true"><input
+													type="checkbox" name="rowCheck" class="deleteCheckbox"
+													id="myCheckbox" value="${board.lecNo }" /></td>
+												<td>${board.lecNo }</td>
+												<td>${board.lecWriter }</td>
+												<td>${board.lecTitle }</td>
+												<td>${board.lecPostDate }</td>
+												<td>${board.lecReadCount }</td>
+												<td>${board.lecLikeCount }</td>
+											</tr>
 
 
-							</c:forEach>
-						</tbody>
-					</table>
-				
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
 
 				<ul class="pagination">
 					<c:if test="${param.pageNo > 1 }">

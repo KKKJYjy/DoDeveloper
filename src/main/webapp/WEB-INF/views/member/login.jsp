@@ -82,7 +82,7 @@ function sendIdToUser(email) {
 	let resultMsg = "";
 	
 	$.ajax({
-        url: "./sendUserId",
+        url: "./forgottenUserId",
         type: "post",
         dataType: "text",
         async: false,
@@ -99,15 +99,16 @@ function sendIdToUser(email) {
 	return resultMsg;
 }
 
-function sendPwdResetLink(email) {
+function sendPwdResetLink(userId, email) {
 	let resultMsg = "";
 	
 	$.ajax({
-        url: "./sendPwdResetLink",
+        url: "./pwdResetLink",
         type: "post",
         dataType: "text",
         async: false,
         data: {
+        	userId : userId,
         	email: email,
         },
         success: function (data) {

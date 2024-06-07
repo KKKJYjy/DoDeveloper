@@ -10,6 +10,7 @@ import com.dodeveloper.algorithm.vodto.AlgBoardDTO;
 import com.dodeveloper.algorithm.vodto.AlgClassificationDTO;
 import com.dodeveloper.algorithm.vodto.AlgDetailDTO;
 import com.dodeveloper.member.dto.LoginDTO;
+import com.dodeveloper.report.dto.ReportDTO;
 
 @Repository
 public class AlgDAOImpl implements AlgDAO {
@@ -78,6 +79,13 @@ public class AlgDAOImpl implements AlgDAO {
 		
 		return ses.update(ns+".updateAlgDetail", algDetailDTO);
 		
+	}
+
+	@Override
+	public int insertReport(ReportDTO reportDTO) {
+	    // TODO Auto-generated method stub
+	    
+	    return ses.insert(ns+".insertReport", reportDTO);
 	}
 
 }

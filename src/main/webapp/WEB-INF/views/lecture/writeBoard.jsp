@@ -52,49 +52,52 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
 function insertLecture() {
-    let lecNo = document.getElementById('lecNo').value;
-    let lecTitle = document.getElementById('lecTitle').value;
-    let lecReview = document.getElementById('lecReview').value;
-    let lecPostDate = document.getElementById('lecPostDate').value;
-    let lecScore = document.getElementById('lecScore').value; // 별점 값을 가져옴
-    let lecLink = document.getElementById('lecLink').value;
+	let lecNo = document.getElementById('lecNo').value;
+	let lecTitle = document.getElementById('lecTitle').value;
+	let lecReview = document.getElementById('lecReviewHidden').value;
+	let lecPostDate = document.getElementById('lecPostDate').value;
+	let lecScore = document.getElementById('lecScore').value; // 별점 값을 가져옴
+	let lecLink = document.getElementById('lecLink').value;
 
-    let newLecBoard = {
-        lecNo: lecNo,
-        lecTitle: lecTitle,
-        lecReview: lecReview,
-        lecWriter: '${loginMember.userId}',
-        lecPostDate: lecPostDate,
-        lecScore: lecScore,
-        lecLink: lecLink
-    };
+	let newLecBoard = {
+		lecNo : lecNo,
+		lecTitle : lecTitle,
+		lecReview : lecReview,
+		lecWriter : '${loginMember.userId}',
+		lecPostDate : lecPostDate,
+		lecScore : lecScore,
+		lecLink : lecLink
+	};
 
-    $.ajax({
-        url: '/lecture/writePOST',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(newLecBoard),
-        dataType: 'json',
-        success: function(response) {
-            console.log(response);
-            // 성공적으로 요청이 처리된 경우 실행할 코드
-        },
-        error: function(xhr, status, error) {
-            console.error(xhr.responseText);
-            // 요청이 실패한 경우 실행할 코드
-        }
-    });
+	$.ajax({
+		url : '/lecture/writePOST',
+		type : 'POST',
+		contentType : 'application/json',
+		data : JSON.stringify(newLecBoard),
+		dataType : 'json',
+		success : function(response) {
+			console.log(response);
+			// 성공적으로 요청이 처리된 경우 실행할 코드
+		},
+		error : function(xhr, status, error) {
+			console.error(xhr.responseText);
+			// 요청이 실패한 경우 실행할 코드
+		}
+	});
 }
 
 // 강의 후기 작성시 "내가 작성"을 눌렀을 때 input 박스가 보이도록 설정
 function showInput() {
 	let selectBox = document.getElementById("lecReviewSelect");
 	let inputField = document.getElementById("lecReviewInput");
+	let hiddenField = document.getElementById("lecReviewHidden");
 
 	if (selectBox.value === "") {
 		inputField.style.display = "block";
+		hiddenField.value = "";
 	} else {
 		inputField.style.display = "none";
+		hiddenField.value = selectBox.options[selectBox.selectedIndex].text;
 	}
 }
 
@@ -143,33 +146,74 @@ function setStarRating() {
 setStarRating();
 
 //유저가 누른 별점을 불러오는 함수
-(function () {
+(function() {
 	// 별점을 표시하는 함수 starSc
-    let starSc = document.querySelectorAll('.starRating .star');
+	let starSc = document.querySelectorAll('.starRating .star');
 	// 유저가 누른 별점을 저장하는 함수score
-    let score = 0;
+	let score = 0;
 
-    starSc.forEach(function (e, i) {
-        e.addEventListener('click', function () { // 유저가 선택한 별점을 처리
-            rating(i + 1); // 유저가 클릭한 별의 i에 1을 더해서 rating 함수에 전달
-        });
-    });
+	starSc.forEach(function(e, i) {
+		e.addEventListener('click', function() { // 유저가 선택한 별점을 처리
+			rating(i + 1); // 유저가 클릭한 별의 i에 1을 더해서 rating 함수에 전달
+		});
+	});
 
-    // 유저가 클릭한 별접 DB에 업데이트
-    function rating(score) {
-    	// 유저가 클릭한 별점(score)이 낮은 index(i)는 on클래스 추가해서 활성화
-    	// 유저가 클릭한 별점(score)이 낮은 index(i)는 on클래스 제거해서 비활성화
-    	starSc.forEach(function (e, i) {
-            if (i < score) {
-                e.classList.add('on');
-            } else {
-                e.classList.remove('on');
-            }
-        });
-    	score = score; // 유저가 선택한 score를 score에 저장
-        document.getElementById('lecScore').value = score; // 선택한 별점을 hidden input에 저장
-    }
+	// 유저가 클릭한 별접 DB에 업데이트
+	function rating(score) {
+		// 유저가 클릭한 별점(score)이 낮은 index(i)는 on클래스 추가해서 활성화
+		// 유저가 클릭한 별점(score)이 낮은 index(i)는 on클래스 제거해서 비활성화
+		starSc.forEach(function(e, i) {
+			if (i < score) {
+				e.classList.add('on');
+			} else {
+				e.classList.remove('on');
+			}
+		});
+		score = score; // 유저가 선택한 score를 score에 저장
+		document.getElementById('lecScore').value = score; // 선택한 별점을 hidden input에 저장
+	}
 })();
+
+//---------------------------------------------------------------------
+
+// 유저가 글 작성시 작성 안한 곳이 없도록 - 유효성 검사
+// 강의 후기 같은 경우는 선택하거나 작성 두 경우가 있어서 else if 두 경우로 나눔
+function isValid() {
+	let result = false;
+	// 강의 링크를 올릴때 링크가 아니면 올리지 못하도록 URL 검사
+	const urlPattern = new RegExp('https?://[^\s/$.?#].[^\s]*', 'i');
+
+	if ($("#lecTitle").val() == '' || $("#lecTitle").val() == null) { // 제목
+		$("#lecTitle").focus();
+		alert("제목을 입력해주세요.");
+	} else if ($("#lecLink").val() == '' || $("#lecLink").val() == null) { // 링크
+		$("#lecLink").focus();
+		alert($("#lecWriter").val() + "님께서 들었던 강의 중 좋았던 강의 링크를 공유해주세요.");
+	} else if (!urlPattern.test($("#lecLink").val())) { // URL을 맞도록 작성했는지 검사
+		$("#lecLink").focus();
+		alert("유효한 강의 링크를 입력해주세요.");
+	} else if ($("#lecReviewSelect").val() == '-1') { // 후기 선택
+		$("#lecReviewSelect").focus();
+		alert("강의 후기를 선택하거나 작성해주세요.");
+	} else if ($("#lecReviewSelect").val() == ''
+			&& ($("#lecReviewInput").val() == '' || $("#lecReviewInput").val() == null)) {
+		$("#lecReviewInput").focus();
+		alert("강의 후기를 작성해주세요.");
+	} else if ($("#lecScore").val() == '0') { // 별점
+		alert("들으셨던 강의가 얼마나 좋으셨는지 별점을 남겨주세요.");
+	} else {
+		result = true;
+	}
+
+	return result;
+}
+
+// 폼 제출 이벤트에 유효성 검사 함수 연결
+document.getElementById('yourFormId').addEventListener('submit', function(event) {
+	if (!isValid()) {
+		event.preventDefault(); // 폼 제출 방지
+	}
+});
 </script>
 <style>
 /* 별점 */
@@ -218,45 +262,52 @@ setStarRating();
 					<!-- 링크를 올렸을 때 바로 북마크가 생기도록 -->
 					<div class="lecBoard">
 						<form action="/lecture/writePOST" method="post">
-							<div class="mb-3 mt-3">
-								<label for="lecWriter" class="form-label"></label> <input
-									type="text" class="form-control" id="lecWriter"
+							<div class="mb-3 mt-3" class="form-label">
+								<label for="lecWriter" class="lecWriter"></label>
+								<input type="text" class="form-control" id="lecWriter"
 									name="lecWriter" value="${sessionScope.loginMember.userId}" />
 								님께서 시청하신 강의 중 좋았던 강의 링크를 공유해주시고 후기를 남겨주세요.
 							</div>
 
-							<div class="mb-3 mt-3">
-								<label for="lecTitle" class="form-label">제목</label> <input
-									type="text" class="form-control" id="lecTitle" name="lecTitle"
+							<div class="mb-3 mt-3" class="form-label">
+								<label for="lecTitle" class="lecTitle">제목</label>
+								<input type="text" class="form-control" id="lecTitle" name="lecTitle"
 									placeholder="제목을 작성해주세요." />
 							</div>
 
-							<div class="mb-3 mt-3">
-								<label for="lecLink" class="form-label">강의 링크</label>
+							<div class="mb-3 mt-3" class="form-label">
+								<label for="lecLink" class="lecLink">강의 링크</label>
 								<textarea id="lecLink" name="lecLink" rows="5" cols="500"
 									placeholder="강의 링크를 공유해주세요." class="form-control"></textarea>
 							</div>
 
-							<div class="mb-3 mt-3">
-								<label for="lecReview" class="form-label">강의 후기</label> <select
+							<div class="mb-3 mt-3" class="form-label">
+								<label for="lecReview" class="lecReview">강의 후기</label> <select
 									id="lecReviewSelect" name="lecReview" onchange="showInput()">
-									<option value="-1">-- 강의 후기 선택 --</option>
-									<option value="초보자가 듣기 너무 좋아요.">초보자가 듣기 너무 좋아요.</option>
-									<option value="기초가 있으신 분들이 들으셔야 할 것 같아요.">기초가 있으신 분들이
-										들으셔야 할 것 같아요.</option>
-									<option value="등등 생각 좀 해볼게요...">등등 생각 좀 해볼게요...</option>
-									<option value="">강의 후기 직접 작성할게요.</option>
+									<option value="">-- 강의 후기 선택 --</option>
+									<option>이번 강의는 정말 유익했습니다. 교수님께서 어려운 개념을 쉽게 설명해 주셔서 이해가
+										잘 되었습니다. 실습 시간도 충분해서 배운 내용을 바로 적용할 수 있었습니다.</option>
+									<option>강사님께서 주제에 대해 깊은 이해를 가지고 계셨고, 실제 사례를 들어 설명해 주셔서
+										실무에 어떻게 적용되는지 잘 알 수 있었습니다. 덕분에 이론과 실무를 모두 배울 수 있어 좋았습니다.</option>
+									<option>수업 자료가 체계적으로 준비되어 있었고, 강의 슬라이드와 참고 자료가 매우 도움이
+										되었습니다. 특히, 수업 후 제공된 추가 자료들이 학습에 큰 도움이 되었습니다.</option>
+									<option>강의 내용이 매우 유익했지만, 다소 빠르게 진행된 느낌이 있었습니다. 중요한
+										부분에서는 조금 더 시간을 할애해 주시면 좋을 것 같습니다.</option>
+									<option>강의 시간이 너무 길어서 집중력이 떨어질 때가 있었습니다. 중간에 짧은 휴식 시간을
+										주시면 좋겠습니다.</option>
+									<option>수업 자료가 조금 더 일찍 제공되면 예습하는 데 도움이 될 것 같습니다. 또한,
+										수업 중 다루는 예제 코드도 함께 배포해 주시면 좋겠습니다.</option>
+									<option value="">강의 후기 직접 입력</option>
 								</select>
-								<textarea class="form-control" id="lecReviewInput"
-									name="lecReview" placeholder="강의 후기 직접 작성해주세요..."
+								<textarea class="form-control" id="lecReviewInput" name="lecReview" placeholder="강의 후기 작성해주세요."
 									style="display: none;"></textarea>
 							</div>
 
 
 							<!-- 강의 후기 별점 -->
 							<!-- input type="hidden"을 사용해서 유저가 안보이도록 정보를 보낸다. -->
-							<div class="starRating">
-								<label for="lecScore" class="form-label">별점</label>
+							<div class="starRating" class="form-label">
+								<label for="lecScore" class="lecScore">별점</label>
 								<label class="star"><input type="hidden" value="1"></label>
 								<label class="star"><input type="hidden" value="2"></label>
 								<label class="star"><input type="hidden" value="3"></label>
@@ -271,7 +322,7 @@ setStarRating();
 							<!-- 글 수정 & 글 삭제 로그인 한 유저만 가능 -->
 							<div class="btns">
 								<input type="submit" class="btn btn-success" value="글 저장"
-									onclick="insertLecture();" /> <input type="button"
+									onclick="return isValid();" /> <input type="button"
 									class="btn btn-danger" value="취소" onclick="cancelWriteBoard();" />
 								<div class="btn-group">
 									<button type="button" class="btn"

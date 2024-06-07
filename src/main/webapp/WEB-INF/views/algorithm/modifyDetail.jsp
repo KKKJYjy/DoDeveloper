@@ -197,6 +197,7 @@ textarea {
 					</div>
 
 					<button type="submit">수정</button>
+					<button type="button" onclick="location.href='/algorithm/algDetail?boardNo=${algDetail[0].algBoardNo}'">취소</button>
 
 				</form>
 

@@ -45,6 +45,9 @@ public interface AdminBoardDAO {
 	// 공지사항 게시글 전체 갯수 구할 수 있는 메서드
 	int selectNotcTotalBoardCnt() throws Exception;
 	
+	// 문의사항 게시글 전체 갯수 구할 수 있는 메서드
+	int selectQnaTotalBoardCnt() throws Exception;
+	
 	// 검색된 글의 갯수를 가져오는 메서드
 	int selectBoardSearchCritera(SearchCriteriaDTO sc) throws Exception;
 	
@@ -99,8 +102,11 @@ public interface AdminBoardDAO {
     // 신고내역 삭제 
     void deleteReport(String reportNo) throws Exception;
     
-    // 문의 게시글 삭제
+    // 관리자 페이지에서 문의 게시글 삭제
     void deleteQna(String no) throws Exception;
+    
+    // 문의 게시글 삭제
+    void deleteQnaBoard(int no) throws Exception;
     
     // 공지사항 테이블에 insert하는 메서드
     int insertNoticeBoard(NoticeDTO newBoard) throws Exception;
@@ -121,7 +127,7 @@ public interface AdminBoardDAO {
    int updateNoticeBoard(NoticeDTO mdBoard) throws Exception;
    
    // 문의 게시판 조회 메서드
-   List<QnaBoardVO> selectQnaBoard() throws Exception;
+   List<QnaBoardVO> selectQnaBoard(PagingInfo pi) throws Exception;
    
    // 문의 ?번 글을 가져오는 메서드
    QnaBoardVO selectQnaBoardNo(int no) throws Exception;
@@ -134,5 +140,22 @@ public interface AdminBoardDAO {
 
 
    
+   // 홈에 공지사항 5개 출력
+   List<NoticeDTO> selectDiffNotice() throws Exception;
+   
+   // 홈에 문의사항 5개 출력
+   List<QnaBoardVO> selectDiffQna() throws Exception;
+   
+   // 홈에 스터디모임 최신글 5개 출력
+   List<AdminVO> selectDiffStu() throws Exception;
+   
+   // 홈에 강의추천 최신글 5개 출력
+   List<AdminLectureVO> selectDiffLec() throws Exception;
+   
+   // 홈에 알로리즘 최신글 5개 출력
+   List<AdminArgBoardVO> selectDiffAlg() throws Exception;
+   
+   // 홈에 기업리뷰 최신글 5개 출력
+   List<AdminReviewBoardVO> selectDiffRev() throws Exception;
     
 }

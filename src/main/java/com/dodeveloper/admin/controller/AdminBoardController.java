@@ -155,6 +155,8 @@ public class AdminBoardController {
 		resultPage = "/admin/noticeBoard";
 
 	}
+	
+	
 
 	@RequestMapping(value = "/delete")
 	public String removeStuBoard(HttpServletRequest request) throws Exception {
@@ -293,12 +295,23 @@ public class AdminBoardController {
 	}
 
 	@RequestMapping(value = "/inquiry", method = RequestMethod.GET)
-	public void qnaBoard(Model model) throws Exception {
+	public void qnaBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo) throws Exception {
+		
+		Map<String, Object> returnMap = null;
 
-		List<QnaBoardVO> qnaList = bService.getQnaBoard();
+		String resultPage = null;
 
-		model.addAttribute("qnaList", qnaList);
+		if (pageNo <= 0) {
+			pageNo = 1;
+		}
+		
+		returnMap = bService.getQnaBoard(pageNo);
+		
+		model.addAttribute("qnaList", (List<QnaBoardVO>) returnMap.get("qnaList"));
+		model.addAttribute("pagingInfo", (PagingInfo) returnMap.get("pagingInfo"));
 
+		resultPage = "/admin/inquiry";
+		
 	}
 
 	@PostMapping("/deleteBoard")

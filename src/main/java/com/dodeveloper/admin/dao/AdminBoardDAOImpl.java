@@ -286,6 +286,13 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 		ses.delete(ns + ".deleteQnaBoard", no);
 	}
 	
+	
+	@Override
+	public void deleteQnaBoard(int no) throws Exception {
+		
+		ses.delete(ns + ".deleteQnaBoard", no);
+	}
+	
 
 	@Override
 	public int insertNoticeBoard(NoticeDTO newBoard) throws Exception {
@@ -324,9 +331,14 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 	}
 
 	@Override
-	public List<QnaBoardVO> selectQnaBoard() throws Exception {
+	public List<QnaBoardVO> selectQnaBoard(PagingInfo pi) throws Exception {
 		
-		return ses.selectList(ns + ".selectQna");
+		Map<String, Object> params = new HashMap<String, Object>();
+	
+		params.put("startRowIndex", pi.getStartRowIndex());
+		params.put("viewPostCntPerPage", pi.getViewPostCntPerPage());
+		
+		return ses.selectList(ns + ".selectQna", params);
 	}
 
 	@Override
@@ -348,11 +360,50 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 		return 0;
 	}
 
+  @Override
+	public int selectQnaTotalBoardCnt() throws Exception {
+		
+		return ses.selectOne(ns + ".getQnaTotalBoardCnt");
+	}
 
+	@Override
+	public List<NoticeDTO> selectDiffNotice() throws Exception {
+		
+		return ses.selectList(ns + ".selectDiffNotc");
+	}
+
+	@Override
+	public List<QnaBoardVO> selectDiffQna() throws Exception {
+		
+		return ses.selectList(ns + ".selectDiffQna");
+	}
+
+	@Override
+	public List<AdminVO> selectDiffStu() throws Exception {
+		
+		return ses.selectList(ns + ".selectDiffStu");
+	}
+
+	@Override
+	public List<AdminLectureVO> selectDiffLec() throws Exception {
+		
+		return ses.selectList(ns + ".selectDiffLec");
+	}
+
+	@Override
+	public List<AdminArgBoardVO> selectDiffAlg() throws Exception {
+		
+		return ses.selectList(ns + ".selectDiffAlg");
+	}
+
+	@Override
+	public List<AdminReviewBoardVO> selectDiffRev() throws Exception {
+	
+		return ses.selectList(ns + ".selectDiffRev");
+	}
 
 	
 
-	
 	//@Override
 //	public int stuBoardDelete(int stuNo) throws Exception {
 //		
