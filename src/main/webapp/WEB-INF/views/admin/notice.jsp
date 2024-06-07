@@ -100,7 +100,6 @@
 .sendNotice {
 	position: relative;
 	left: 83%;
-	/* left: 1137%;
 
 	/* position: relative;
 	left: 1358px;  */
@@ -117,6 +116,8 @@
 		<c:import url="./adminMiniHeader.jsp"></c:import>
 
 		<div class="container-fluid">
+		
+		
 
 			<div class="noticeBoard">
 				<form action="/admin/noticePOST" method="post" name="frm">
@@ -149,6 +150,7 @@
 				</form>
 
 			</div>
+			
 
 
 

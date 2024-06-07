@@ -77,7 +77,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	        // System.out.println("검색조건 검색필터 둘 다 X" + lectureBoardList.toString());
 	    }
 
-	    Map<String, Object> returnMap = new HashMap<>();
+	    Map<String, Object> returnMap = new HashMap<String, Object>();
 	    returnMap.put("lectureBoardList", lectureBoardList);
 	    returnMap.put("pagingInfo", this.pi);
 
