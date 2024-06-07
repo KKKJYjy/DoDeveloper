@@ -75,7 +75,9 @@
   });
 
   getProfileImage();
+  
   getAllScrap();
+  
 });
 
 function checkValidPassword() {
@@ -459,7 +461,8 @@ function dropMember() {
 	});
 }
 
-
+	//----------------------------------------- 스크랩 작업 ----------------------------------------// 
+	
 	function getAllScrap() { // 함수 호출해서 scrap한 글들을 가져온다 
 		let scrapId = '${loginMember.userId }';
 		
@@ -470,10 +473,27 @@ function dropMember() {
 		    async: 'false',
 		    success: function(data) {
 		    	console.log(data);
+		    	
+		    	outputAllScrap(data);
 		    },
 		});
 	}
 	
+	function outputAllScrap(data) {
+		let output = `<div class="list-group">`;
+		$.each(data, function(i, scrap) {
+			output += `<a href="#" class="list-group-item list-group-item-action">`;
+			
+			output += `<div>\${scrap.scrapNo}</div>`; // scrapNo : 스크랩 번호 
+			
+			output += `</a>`;
+		});
+		
+		$('.scrapList').html(output);
+		
+	}
+	
+
 </script>
 </head>
 
@@ -638,10 +658,11 @@ function dropMember() {
 							<div class="col-xl-8">
 								<div class="card mb-4 mb-xl-0">
 									<div class="card-header">내가 스크랩한 글 리스트</div>
-									<div class="card-body"></div>
+									<div class="card-body scrapList"></div>
 								</div>
 							</div>
 						</div>
+					
 					
 						<div class="row justify-content-center mt-3">
 							<div class="col-xl-8">
