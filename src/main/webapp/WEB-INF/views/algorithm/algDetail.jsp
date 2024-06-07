@@ -61,8 +61,22 @@
 <script>
 
 function selectNo(no) {
+	// 셀렉트 태그로 게시판을 선택하면 1.신고자의 아이디를 SessionScope에서 받아와 #reoprter태그에 삽입
+	// 2.셀렉트태그로 받아온 번호를 이용해 해당하는 번호를 작성한 작성자를 #writer태그에 삽입
 	console.log(no);
 	let user = '${sessionScope.loginMember.userId}';
+	let boardNumber = no.split('&')[0]
+	let indexNo = parseInt(no.split('&')[1]);
+	//console.log(boardNumber);
+	console.log(indexNo);
+	let list = `${algDetailList}`;
+	
+	console.log(list);
+	listSplit = list.split('writer=');
+	console.log(listSplit[1])
+	let writer = listSplit[indexNo+1].split(',')[0]
+	$('#reporter').val(user);
+	$('#writer').val(writer);
 	console.log(user);
 	return no;
 }
@@ -259,7 +273,7 @@ function insertReport() {
 						<option value="-1">신고할 게시판을 선택</option>
 						<c:forEach var="algDetail" items="${algDetailList}" begin="0"
 							end="${fn:length(algDetailList)}" varStatus="status">
-							<option value="${algDetail.algDetailNo}">${algDetail.algDetailNo} ${algDetail.algDetailTitle}</option>
+							<option value="${algDetail.algDetailNo}&${status.index}">${algDetail.algDetailNo} ${algDetail.algDetailTitle} ${status.index} </option>
 
 							
 							
