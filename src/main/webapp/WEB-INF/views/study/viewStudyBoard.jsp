@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -448,7 +448,6 @@
 	
 	// ====== 댓글 관련 끝 =====
 	
-	
 	//참여신청팝업창에서 참여신청버튼을 눌렀을 때 유효성검사
 	function isVaild(){
 		let result = false;
@@ -494,24 +493,25 @@ i {
 							<!-- 수정 버튼 -->
 
 							<div class="icon-link icon-link-hover"
-								style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);"
+								style="-bs-icon-link-transform: translate3d(0, -.125rem, 0);"
 								onclick="location.href='/study/modifyStudyBoard?stuNo=${studyList.stuNo}';">
 								<i class="bi bi-pencil fs-5 me-2" style="color: #ffffff;"></i>
 							</div>
 							<!-- 삭제 버튼 -->
 							<div class="studyBoardDelete icon-link icon-link-hover"
-								style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);"
+								style="-bs-icon-link-transform: translate3d(0, -.125rem, 0);"
 								data-bs-toggle="modal" data-bs-target="#deleteModal">
 								<i class="bi bi-trash3 fs-5 me-2" style="color: #ffffff;"></i>
 							</div>
 						</c:if>
 
 						<!-- 카카오 공유 버튼 -->
-						<a id="kakaotalk-sharing-btn" href="javascript:;" class="icon-link icon-link-hover"
-							style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);"> 
+						<a id="kakaotalk-sharing-btn" href="javascript:;"
+							class="icon-link icon-link-hover"
+							style="-bs-icon-link-transform: translate3d(0, -.125rem, 0);">
 							<i class="bi bi-share fs-5 me-2" style="color: #ffffff;"></i>
 						</a>
-						
+
 					</div>
 
 					<p class="text-light mt-3">
@@ -566,10 +566,9 @@ i {
 								<!-- 마감일 -->
 								<div class="col-md-6">
 									<div class="mb-1 ">
-										<b>모집 마감일</b> 
-										<span class="">
-											<fmt:formatDate pattern="yyyy-MM-dd" value="${studyList.endDate }"/>
-											
+										<b>모집 마감일</b> <span class=""> <fmt:formatDate
+												pattern="yyyy-MM-dd" value="${studyList.endDate }" />
+
 										</span>
 									</div>
 								</div>

@@ -130,8 +130,7 @@
 			<div class="container" style="width: 70%">
 
 				<div class="container">
-					<h3 class="center text-center text-light pb-4 fw-medium">내가
-						참여중인 스터디 모임글</h3>
+					<h3 class="center text-center text-light pb-4 fw-medium">내가 참여중인 스터디</h3>
 				</div>
 				<%-- ${studyList } --%>
 
