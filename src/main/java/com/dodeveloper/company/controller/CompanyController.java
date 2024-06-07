@@ -228,9 +228,9 @@ public class CompanyController {
 	 * @param : int scrapBoard, int companyInfoNo
 	 * @param :
 	 * @param :
-	 * @return : void
+	 * @return : String
 	 * @throws Exception 
-	 * @description :
+	 * @description : 
 	 */
 	@RequestMapping(value = "/insertScrap", method = RequestMethod.GET)
 	public String insertScrap(@RequestParam("scrapBoard") int scrapBoard,
