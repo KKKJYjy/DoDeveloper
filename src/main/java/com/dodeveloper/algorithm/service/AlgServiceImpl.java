@@ -10,6 +10,7 @@ import com.dodeveloper.algorithm.vodto.AlgBoardDTO;
 import com.dodeveloper.algorithm.vodto.AlgClassificationDTO;
 import com.dodeveloper.algorithm.vodto.AlgDetailDTO;
 import com.dodeveloper.member.dto.LoginDTO;
+import com.dodeveloper.report.dto.ReportDTO;
 
 @Service
 public class AlgServiceImpl implements AlgService {
@@ -42,6 +43,7 @@ public class AlgServiceImpl implements AlgService {
 		
 		try {
 			algDetailList = aDao.selectAlgDetail(boardNo);
+			
 		} catch (Exception e) {
 			// 
 			e.printStackTrace();
@@ -109,6 +111,16 @@ public class AlgServiceImpl implements AlgService {
 		
 		aDao.updateAlgDetail(algDetailDTO);
 		
+	}
+
+
+	@Override
+	public void insertReport(ReportDTO reportDTO) {
+	    // TODO Auto-generated method stub
+	    System.out.println(reportDTO.toString());
+	    System.out.println("신고글 인서트");
+	    
+	    aDao.insertReport(reportDTO);
 	}
 
 }

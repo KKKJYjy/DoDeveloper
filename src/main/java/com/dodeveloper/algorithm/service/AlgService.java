@@ -6,6 +6,7 @@ import com.dodeveloper.algorithm.vodto.AlgBoardDTO;
 import com.dodeveloper.algorithm.vodto.AlgClassificationDTO;
 import com.dodeveloper.algorithm.vodto.AlgDetailDTO;
 import com.dodeveloper.member.dto.LoginDTO;
+import com.dodeveloper.report.dto.ReportDTO;
 
 public interface AlgService {
 	// 게시판 전체 조회
@@ -31,6 +32,8 @@ public interface AlgService {
 
 	// algDetail 항목 업데이트
 	void updateAlgDetail(AlgDetailDTO algDetailDTO, int algDetailNo);
+
+	void insertReport(ReportDTO reportDTO);
 	
 	
 
