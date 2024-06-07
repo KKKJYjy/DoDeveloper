@@ -1,6 +1,7 @@
 package com.dodeveloper.lecture.controller;
 
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -151,6 +152,13 @@ public class ReplyController {
 		return result;
 	}
 	
+	/**
+	 * @methodName : cancelReply
+	 * @author : 
+	 * @date : 2024.05.11
+	 * @return : String
+	 * @description : 유저가 댓글을 작성하다가 취소 버튼을 누른 경우
+	 */
 	@RequestMapping(value = "/cancelReply", method = RequestMethod.POST)
 	public @ResponseBody String cancelReply() {
 		System.out.println("댓글 작성 안할래요!");
