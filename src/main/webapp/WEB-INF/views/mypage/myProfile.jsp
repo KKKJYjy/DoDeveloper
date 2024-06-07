@@ -451,6 +451,8 @@ function dropMember() {
 	        setTimeout(function() { 
 	        	alert('회원 탈퇴가 완료되었습니다.')
 	        }, 200);
+	        
+	        location.href = "/member/logout";
 	      } else {
 	        console.log("회원탈퇴 실패");
 	      }
@@ -601,9 +603,7 @@ function dropMember() {
 							</div>
 						</div>
 					</div>
-
-					
-
+          
 					<div class="row justify-content-center mt-3">
 						<div class="col-xl-8">
 							<div class="card mb-4 mb-xl-0">
