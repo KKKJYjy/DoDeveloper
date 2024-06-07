@@ -1,6 +1,8 @@
 package com.dodeveloper.company.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.dodeveloper.company.vodto.CompanyInfoVO;
 import com.dodeveloper.company.vodto.RevCompanyBoardVO;
+import com.dodeveloper.company.vodto.ScrapVO;
 import com.dodeveloper.company.vodto.WrittenCompanyBoardDTO;
 
 /**
@@ -77,18 +80,29 @@ public class CompanyInfoDAOImpl implements CompanyInfoDAO {
 	public int updateEditWrittenBoard(RevCompanyBoardVO newEditWrittenBoard) throws Exception {
 		System.out.println("DAO단 게시글 수정함!!!!!");
 		
-		return ses.update(ns + ".updateEditWrittenBoard", newEditWrittenBoard);
-		
+		return ses.update(ns + ".updateEditWrittenBoard", newEditWrittenBoard);		
+	
 	}
 
+	/**
+	 * @methodName : insertScrap
+	 * @author : kimso05
+	 * @date : 2024.06.01
+	 * @param : int scrapBoard : 게시글 번호
+	 * @param : String scrapId : 스크랩한 사람 
+	 * @param : int bType : 게시판 구분
+	 * @return : 스크랩 저장 성공했으면 1 반환, 저장되지 않았다면 -1 반환
+	 * @description : 유저가 어떤 게시판의 ?번 글을 스크랩 하는 메서드 (insert)  
+	 */
 	@Override
-	public int insertScrap(int companyInfoNo, int scrapBoard, String scrapId) throws Exception {
-		System.out.println("DAO단 스크랩 insert!!");
-		return scrapBoard;
+	public int insertScrap(int scrapBoard, String scrapId, int bType) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
 		
+		param.put("scrapBoard", scrapBoard);
+		param.put("scrapId", scrapId);
+		param.put("bType", bType);
 		
-		
+		return ses.insert(ns + ".getInsertScrap", param);
 	}
-
 	
 }

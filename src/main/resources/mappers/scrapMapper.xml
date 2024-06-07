@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper에서 기본 세팅 namespace 반드시 있어야함 (myBatis공식홈 -> ConfigurationXML) -->
+<mapper namespace="com.dodeveloper.mappers.scrapMapper">
+
+	<!-- 공동 스크랩 -->
+
+	<!-- 어떤 유저가 자기가 스크랩한 글들을 전체 볼 수 있는 쿼리문 -->
+	<!-- bType(게시판 구분) 상관없이 스크랩한 게시글들 모두 확인 가능 -->
+	<select id="selectAllScrap"
+		resultType="com.dodeveloper.company.vodto.ScrapVO">
+		select * from scrap where scrapId = #{scrapId}
+	</select>
+
+	<!-- 어떤 유저가 해당 스크랩한 게시글들만 전체 볼 수 있는 쿼리문 (select) -->
+	<select id="selectScrap"
+		resultType="com.dodeveloper.company.vodto.ScrapVO">
+		select * from scrap where scrapId = #{scrapId} and
+		bType = #{bType}
+	</select>
+
+	<!-- 유저가 ?번 스크랩 글을 취소하는 쿼리문 (delete) -->
+	<delete id="deleteScrap">
+		delete from scrap where scrapNo = #{scrapNo}
+	</delete>
+	
+
+</mapper>

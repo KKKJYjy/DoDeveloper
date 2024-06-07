@@ -75,6 +75,9 @@
   });
 
   getProfileImage();
+  
+  getAllScrap();
+  
 });
 
 function checkValidPassword() {
@@ -459,6 +462,40 @@ function dropMember() {
 	    },
 	});
 }
+
+	//----------------------------------------- 스크랩 작업 ----------------------------------------// 
+	
+	function getAllScrap() { // 함수 호출해서 scrap한 글들을 가져온다 
+		let scrapId = '${loginMember.userId }';
+		
+		$.ajax({
+		    url: "/scrap/all/" + scrapId,
+		    type: "get",
+		    dataType: "json",
+		    async: 'false',
+		    success: function(data) {
+		    	console.log(data);
+		    	
+		    	outputAllScrap(data);
+		    },
+		});
+	}
+	
+	function outputAllScrap(data) {
+		let output = `<div class="list-group">`;
+		$.each(data, function(i, scrap) {
+			output += `<a href="#" class="list-group-item list-group-item-action">`;
+			
+			output += `<div>\${scrap.scrapNo}</div>`; // scrapNo : 스크랩 번호 
+			
+			output += `</a>`;
+		});
+		
+		$('.scrapList').html(output);
+		
+	}
+	
+
 </script>
 </head>
 
@@ -603,11 +640,11 @@ function dropMember() {
 							</div>
 						</div>
 					</div>
-          
+
 					<div class="row justify-content-center mt-3">
 						<div class="col-xl-8">
 							<div class="card mb-4 mb-xl-0">
-								<div class="card-header">내가 신고한 글 리스트</div>
+								<div class="card-header">내가 댓글단 글 리스트</div>
 								<div class="card-body"></div>
 							</div>
 						</div>
@@ -616,22 +653,51 @@ function dropMember() {
 					<div class="row justify-content-center mt-3">
 						<div class="col-xl-8">
 							<div class="card mb-4 mb-xl-0">
-								<div class="card-header">회원 정보 변경</div>
-								<div class="card-body">
-									<button class="btn btn-primary" type="button"
-										data-bs-toggle="modal" data-bs-target="#staticBackdrop">비밀번호
-										변경</button>
-									<button class="btn btn-success" type="button"
-										onclick="location.href='/member/logout'">로그아웃</button>
+								<div class="card-header">내가 좋아요한 글 리스트</div>
+								<div class="card-body"></div>
+							</div>
+						</div>
+					</div>
 
-									<button class="btn btn-danger float-end" type="button"
-										data-bs-toggle="modal" data-bs-target="#sb_dropMember">회원탈퇴</button>
+					<div class="row justify-content-center mt-3">
+							<div class="col-xl-8">
+								<div class="card mb-4 mb-xl-0">
+									<div class="card-header">내가 스크랩한 글 리스트</div>
+									<div class="card-body scrapList"></div>
+								</div>
+							</div>
+						</div>
+					
+					
+						<div class="row justify-content-center mt-3">
+							<div class="col-xl-8">
+								<div class="card mb-4 mb-xl-0">
+									<div class="card-header">내가 신고한 글 리스트</div>
+									<div class="card-body"></div>
+								</div>
+							</div>
+						</div>
+
+
+						<div class="row justify-content-center mt-3">
+							<div class="col-xl-8">
+								<div class="card mb-4 mb-xl-0">
+									<div class="card-header">회원 정보 변경</div>
+									<div class="card-body">
+										<button class="btn btn-primary" type="button"
+											data-bs-toggle="modal" data-bs-target="#staticBackdrop">비밀번호
+											변경</button>
+										<button class="btn btn-success" type="button"
+											onclick="location.href='/member/logout'">로그아웃</button>
+
+										<button class="btn btn-danger float-end" type="button"
+											data-bs-toggle="modal" data-bs-target="#sb_dropMember">회원탈퇴</button>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 		</section>
 		<!-- End Basic Section -->
 	</main>
