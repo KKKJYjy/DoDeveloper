@@ -55,90 +55,12 @@
       let isValidEmail = false;
 
       $(function () {
-        // 아이디를 입력할 때, 중복인지 아닌지 검사하는 메서드
-        $("#userId").keyup(function (e) {
-          checkValidId();
-        });
-
         $("#userPwd, #userPwdConfirm").on("keyup", function (e) {
           checkValidPassword();
         });
 
-        $("#email").keyup(function (e) {
-          
-        });
-        
-        $("#request-confirm-email-btn").on("click",function(e){
-        	let emailAddress = $("#email").val();
-        	/*
-        	if(emailAddress != '^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'){
-        		return;
-        	}
-        	*/
-        	console.log(emailAddress);
-        	requestEmailConfirm(emailAddress);
-        	$("#email-validation-check").show();
-        });
-        
-        $("#confirm-email-code-btn").on("click", function(e){
-        	let emailValidCode = $("#email-code").val();
-        	isValidEmail = confirmEmail(emailValidCode);
-        });
-
-        $("#userName").keyup(function (e) {
-          checkValidName();
-        });
       });
 
-      function duplicateUserId(userId) {
-        let result = false;
-        $.ajax({
-          url: "./duplicateUserId",
-          type: "post",
-          dataType: "json",
-          async: false,
-          data: {
-            userId: userId,
-          },
-          success: function (data) {
-            console.log(data);
-
-            if (data.isDuplicate == true) {
-              $("#errorMsgUserId").html("사용 불가능한 아이디 입니다.");
-              $("#errorMsgUserId").removeClass("text-primary");
-              $("#errorMsgUserId").removeClass("text-success");
-              $("#errorMsgUserId").addClass("text-danger");
-              $("#checkUserId").val("false");
-              result = false;
-            } else {
-              $("#errorMsgUserId").html("사용 가능한 아이디 입니다.");
-              $("#errorMsgUserId").removeClass("text-primary");
-              $("#errorMsgUserId").removeClass("text-danger");
-              $("#errorMsgUserId").addClass("text-success");
-              $("#checkUserId").val("true");
-              result = true;
-            }
-          },
-        });
-        return result;
-      }
-
-      function checkValidId() {
-        let result = false;
-        let userId = $("#userId").val();
-
-        if (userId.length > 2) {
-          result = duplicateUserId(userId);
-        } else if (userId.length == 0) {
-          $("#errorMsgUserId").html("아이디는 2자리 이상 필수 항목 입니다");
-
-          $("#errorMsgUserId").removeClass("text-danger");
-          $("#errorMsgUserId").removeClass("text-success");
-          $("#errorMsgUserId").addClass("text-primary");
-          result = false;
-        }
-        return result;
-      }
 
       function checkValidPassword() {
         // 비밀번호 : 4자 이상 12자 이하 필수 (비밀 번호 확인과 동일해야 함)
@@ -201,64 +123,58 @@
         return result;
       }
 
-      function checkValidName() {
-        return $("#userId").val().length > 0 ? true : false;
-      }
+      
+      function submitNewPwd(){
+    	  if(!validate()){
+    		  alert("유효한 비밀번호가 아닙니다!");
+    		  return;
+    	  }
+    	  
+	      let newPwd = $("#userPwd").val();
 
-      function requestEmailConfirm(emailAddress){
-    	  let urlInput = "./emailConfirmRequest";
-    	  result = false;
-    	  
-    	  $.ajax({
-              url: urlInput,
-              type: "post",
-              dataType: "json",
-              data: {
-                  emailAddress: emailAddress,
-                },
-              success: function (data) {
-            	  result = data;
-              },
-            });
-    	  
-		  return result;
+    	  sendNewPwdToServer(newPwd);
       }
       
-      function confirmEmail(code){
-    	  let urlInput = "./emailCode";
-    	  result = false;
-    	  
+      function sendNewPwdToServer(newPwd){
+    	  let urlPaths = window.location.pathname.split("/");
+		  let urlUuid = urlPaths[urlPaths.length - 1];
+		  
     	  $.ajax({
-              url: urlInput,
-              type: "post",
-              dataType: "json",
-              async: false,
-              data: {
-                  code: code,
-                },
-              success: function (data) {
-                result = data;
-              },
-            });
-    	  
-    	  return result;
+    			url : "./",
+    			method : "post",
+    			dataType : "json",
+    			async : false,
+    			data : {
+    				"newPwd" : newPwd,
+    				"UUID" : urlUuid
+    			},
+    			success : function(data) {
+    				if(data.isSuccess == "0"){
+    					if(data.reason == "timeout"){
+    						alert("시간초과! 더 이상 이 링크는 유효하지 않습니다! 새로운 링크를 발급 받으십시오!");
+    					}else{
+    						alert("오류 발생! 잠시 후 다시 시도해주시길 바랍니다.");
+    					}
+    					location.href = "/";
+    				
+    				}else if(data.isSuccess == "1"){
+    					alert("비밀번호가 성공적으로 변경되었습니다!");
+    					location.href = "/";
+    				}
+    			},
+    			error : function() {
+    				console.log("실패");
+    				alert("오류 발생! 잠시 후 다시 시도해주시길 바랍니다.");
+					location.href = "/";
+    			}
+    			
+    		});
       }
       
-      function checkValidEmail() {
-    	  return true;
-      }
-
       function validate() {
         let result = false;
-        let isValidId = $("#checkUserId").val();
 
-        if (
-          isValidId &&
-          checkValidId() &&
-          checkValidPassword() &&
-          checkValidName() &&
-          checkValidEmail()
-        ) {
+        if (checkValidPassword()) {
           result = true;
         }
         console.log("result", result);
@@ -284,66 +200,38 @@
 							<div class="form-header text-center">
 								<i class="bi bi-person-fill-add"></i>
 								<div class="text-center mb-4">
-									<span class="fw-light fs-3 text-secondary">회원 가입</span>
+									<span class="fw-light fs-3 text-secondary">비밀번호 변경</span>
 								</div>
 							</div>
 							<div class="form-content">
-								<form action="registerPost" method="post">
+
 									<div class="d-flex flex-column">
+
 										<div class="mb-3 mt-2">
 											<div class="label-group">
-												<label for="userId" class="form-label">아이디</label><span
-													id="errorMsgUserId" class="errMessage"></span>
-											</div>
-											<input type="text" class="form-control" id="userId"
-												name="userId" /> <input type="hidden" id="checkUserId"
-												value="false" />
-										</div>
-										<div class="mb-3 mt-2">
-											<div class="label-group">
-												<label for="userPwd" class="form-label">비밀번호</label><span
+												<label for="userPwd" class="form-label">새 비밀번호</label><span
 													id="errorMsgUserPwd" class="errMessage"></span>
 											</div>
 											<input type="password" class="form-control" id="userPwd"
 												name="userPwd" />
 										</div>
+
 										<div class="mb-3 mt-2">
 											<div class="label-group">
-												<label for="userPwdConfirm" class="form-label">비밀번호
-													확인</label><span id="errorMsgUserPwdConfirm" class="errMessage"></span>
+												<label for="userPwdConfirm" class="form-label">새
+													비밀번호 확인</label><span id="errorMsgUserPwdConfirm" class="errMessage"></span>
 											</div>
 											<input type="password" class="form-control"
 												id="userPwdConfirm" />
 										</div>
-										<div class="mb-3 mt-2">
-											<label for="userName" class="form-label">이름</label><input
-												type="text" class="form-control" id="userName"
-												name="userName" required="required" />
+
+										<div class="d-grid">
+											<button type="button" class="btn btn-block btn-register mt-2" id="submitBtn"
+												onclick="submitNewPwd()">비밀번호 변경</button>
 										</div>
-										<div class="mb-3 mt-2">
-											<div class="label-group">
-												<label for="email" class="form-label">이메일</label><span
-													id="errorMsgEmail" class="errMessage"></span>
-											</div>
-											<input type="text" class="form-control" id="email"
-												name="email" />
-											<button type="button"
-												class="btn btn-block btn-outline-secondary mt-2"
-												id="request-confirm-email-btn">인증받기</button> 아직은 이거 안해도 됩니다.
-											<div id="email-validation-check" style="display: none">
-												<input type="text" class="form-control" id="email-code"
-													style="margin: 5px 0;" />
-												<button type="button" id="confirm-email-code-btn"
-													class="btn btn-outline-success btn-sm">인증확인</button>
-											</div>
-											<div class="d-grid">
-												<button type="submit"
-													class="btn btn-block btn-register mt-2"
-													onclick="return validate()">가입하기</button>
-											</div>
-										</div>
+
 									</div>
-								</form>
+
 							</div>
 						</div>
 					</div>

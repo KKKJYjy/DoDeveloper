@@ -21,7 +21,6 @@ import com.dodeveloper.study.vodto.StudyBoardVO;
 import com.dodeveloper.study.vodto.SearchStudyDTO;
 import com.dodeveloper.study.vodto.StackVO;
 import com.dodeveloper.study.vodto.StuStackDTO;
-import com.dodeveloper.study.vodto.StuStackModifyDTO;
 
 @Service
 public class StudyServiceImpl implements StudyService {

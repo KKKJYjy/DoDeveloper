@@ -9,4 +9,23 @@
 		insert into studyApply(applyId, stuNo, reason) values(#{applyId}, #{stuNo}, #{reason})
 	</insert>	
 	
+	<!-- applyNo번째 모임글 참여 신청 수락 update -->
+	<update id="acceptApply">
+		update studyApply set status = 'Y' where applyNo = #{applyNo}
+	</update>
+	
+	<!-- applyNo번째 모임글 참여 신청 거절 update -->
+	<update id="refuseApply">
+		update studyApply set status = 'N' where applyNo = #{applyNo}
+	</update>
+	
+	<!-- applyNo번째 모임글 참여 신청 delete -->
+	<delete id="deleteApply">
+		delete from studyApply where applyNo = #{applyNo}
+	</delete>
+	
+	<!-- 모임글 참여 신청 update -->
+	<update id="modifyApply">
+		update studyApply set reason = #{reason} where applyNo = #{applyNo} 
+	</update>
 </mapper>

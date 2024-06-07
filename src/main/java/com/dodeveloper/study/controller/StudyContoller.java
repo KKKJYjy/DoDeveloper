@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,13 +15,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.member.vo.MemberVO;
@@ -36,7 +35,6 @@ import javax.servlet.http.Cookie;
 import com.dodeveloper.study.vodto.SearchStudyDTO;
 import com.dodeveloper.study.vodto.StackVO;
 import com.dodeveloper.study.vodto.StuStackDTO;
-import com.dodeveloper.study.vodto.StuStackModifyDTO;
 
 @Controller
 @RequestMapping("/study")
@@ -427,7 +425,49 @@ public class StudyContoller {
 	@ResponseBody // json으로 응답 해줄때 쓰는 어노테이션
 	@RequestMapping(value = "/searchStudyByStack", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
 	public ResponseEntity<Map<String, Object>> searchStudyByStack(
-			@RequestParam(value = "pageNo", defaultValue = "1") int pageNo, @RequestBody List<String> studyStackList,
+			@RequestBody List<String> studyStackList, Model model) {
+		// @RequestBody는 json으로 요청 받을때 쓰는 어노테이션
+
+		int pageNo = 1;
+		
+		logger.info("첫화면"+pageNo + "쪽을 보여주자");
+		logger.info(studyStackList.toString());
+		
+		ResponseEntity<Map<String, Object>> result = null;
+		Map<String, Object> map = null;
+
+		try {
+			map = stuService.searchStudyByStack(studyStackList, pageNo);
+			System.out.println("Controller 검색할 스터디 언어 갯수 :" + studyStackList.size());
+
+			if (studyStackList.size() > 0) {
+				result = new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+			} else {
+				result = new ResponseEntity<Map<String, Object>>(HttpStatus.CONFLICT);
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+	
+	/**
+		* @author : yeonju
+		* @date : 2024. 5. 30.
+		* @param : List<String> studyStackList
+		* @param : int pageNo - 페이지 번호
+		* @param : Model model
+		* @return : ResponseEntity<Map<String, Object>> - 스터디 모임글 리스트와 스터디 언어 리스트를 담고있는 Map
+		* @description : 스터디 언어로 필터링한 뒤 페이지 번호 눌렀을 때
+		* 해당 페이지의 게시글 가져오는 메서드
+	 */
+	@ResponseBody // json으로 응답 해줄때 쓰는 어노테이션
+	@RequestMapping(value = "/searchStudyByStack/{pageNo}", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
+	public ResponseEntity<Map<String, Object>> searchStudyByStack(
+			@PathVariable(value = "pageNo") int pageNo, @RequestBody List<String> studyStackList,
 			Model model) {
 		// @RequestBody는 json으로 요청 받을때 쓰는 어노테이션
 
@@ -458,6 +498,7 @@ public class StudyContoller {
 
 		return result;
 	}
+	
 
 	/**
 	 * @author : yeonju

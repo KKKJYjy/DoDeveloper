@@ -2,9 +2,19 @@ package com.dodeveloper.member.controller;
 
 import java.nio.charset.Charset;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -14,13 +24,12 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
 import org.springframework.web.util.WebUtils;
 
 import com.dodeveloper.commons.interceptor.SessionNames;
@@ -39,17 +49,17 @@ import com.dodeveloper.member.dto.SessionDTO;
 import com.dodeveloper.member.service.MemberService;
 import com.dodeveloper.member.vo.MemberVO;
 import com.dodeveloper.message.service.MessageService;
-import com.dodeveloper.mypage.dto.ChangeProfileDTO;
+import com.dodeveloper.mypage.dto.ChangePwdDTO;
 
 @Controller
 @RequestMapping("/member")
 public class MemberController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
-
-	@Value("#{appProperties['mail.pwd']}")
-	private String email;
-
+	private final String PASSWORD_RESET_URL = "password-reset";
+	private Map<String, PwdResetUser> pwdResetUserHolder = new ConcurrentHashMap<String, PwdResetUser>(100);
+	private Map<String, EmailToValidate> emailsToValidate = new ConcurrentHashMap<String, EmailToValidate>(100);
+	
 	@Autowired
 	private MailManager mailManager;
 
@@ -59,8 +69,82 @@ public class MemberController {
 	@Autowired
 	private MessageService messageService;
 
+	
+	private class PwdResetUser {
+		private LocalDateTime requestTime;
+		private MemberVO member;
+		
+		public PwdResetUser(MemberVO member){
+			this.requestTime = LocalDateTime.now();
+			this.member = member;
+		}
+		
+		public MemberVO getMember() {
+			return member;
+		}
+		public LocalDateTime getRequestTime() {
+			return requestTime;
+		}
+	}
+	
+	private class EmailToValidate {
+		private LocalDateTime requestTime;
+		private String email;
+		
+		public EmailToValidate(String email){
+			this.requestTime = LocalDateTime.now();
+			this.email = email;
+		}
+		
+		public String getEmail() {
+			return email;
+		}
+		public LocalDateTime getRequestTime() {
+			return requestTime;
+		}
+	}
+	
+	private static final long PWD_RESET_LINK_EXPIRE_MINUTE = 30;
+	private static final long EMAIL_WAIT_TO_VALIDATION_MINUTE = 5;
+	
+	private boolean isTimerWorking = false;
+	private Timer timer = new Timer(true);
+	
+	
+	TimerTask deleteOldRequest = new TimerTask() {
+		
+		@Override
+		public void run() {
+			logger.info("timer 가 호출되었다.");
+			List<Map.Entry<String, PwdResetUser>> pwdResetHolderEntryList = new ArrayList<>(pwdResetUserHolder.entrySet());
+			for(Map.Entry<String, PwdResetUser> entry : pwdResetHolderEntryList) {
+				logger.info(entry.getKey() + "를 검사한다.");
+				
+				long passedMinuteAfterRequest = ChronoUnit.MINUTES.between(entry.getValue().getRequestTime(), LocalDateTime.now());
+				
+				if(passedMinuteAfterRequest > PWD_RESET_LINK_EXPIRE_MINUTE){
+					logger.info(entry.getKey() + "를 제거한다.");
+					pwdResetUserHolder.remove(entry.getKey());
+				}
+			}
+			
+			List<Map.Entry<String, EmailToValidate>> emailsToValidateEntryList = new ArrayList<>(emailsToValidate.entrySet());
+			for(Map.Entry<String, EmailToValidate> entry : emailsToValidateEntryList) {
+				logger.info(entry.getKey() + "를 검사한다");
+				
+				long passedMinuteAfterRequest = ChronoUnit.MINUTES.between(entry.getValue().getRequestTime(), LocalDateTime.now());
+				
+				if(passedMinuteAfterRequest > EMAIL_WAIT_TO_VALIDATION_MINUTE){
+					logger.info(entry.getKey() + "를 제거한다.");
+					emailsToValidate.remove(entry.getKey());
+				}
+			}
+		}
+	};
+	
+
 	@GetMapping("/login")
-	public void loginGet() {
+	public void loginGet(HttpServletRequest request) {
 		logger.info("Login View.");
 	}
 
@@ -131,38 +215,68 @@ public class MemberController {
 	@RequestMapping(value = "/emailConfirmRequest", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
 	public ResponseEntity<Boolean> sendComfirmMail(@RequestParam("emailAddress") String emailAddress,
 			HttpSession session) throws Exception {
+		
 		String code = UUID.randomUUID().toString().replace("-", "");
 
 		try {
 			mailManager.sendValidationCode(emailAddress, code);
 			session.setAttribute(SessionNames.EMAIL_VALIDATION_CODE, code);
+			emailsToValidate.put(code, new EmailToValidate(emailAddress));
+			startTimer();
+			
 			return ResponseEntity.ok(true);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
+			
 			return ResponseEntity.ok(false);
 		}
 
 	}
 
 	@RequestMapping(value = "/emailCode", method = RequestMethod.POST)
-	public ResponseEntity<Boolean> checkEMailCode(@RequestParam("code") String code, HttpSession session)
+	public ResponseEntity<Map<String, String>> checkEMailCode(@RequestParam("code") String code, HttpSession session)
 			throws Exception {
-		if (code.equals(session.getAttribute(SessionNames.EMAIL_VALIDATION_CODE))) {
-			return ResponseEntity.ok(true);
-		} else {
-			return ResponseEntity.ok(false);
+		Map<String, String> result = new HashMap<String, String>();
+		
+		if(code == null) {
+			result.put("isSuccess", "0");
+			return ResponseEntity.ok(result);
 		}
+		
+		if (code.equals(session.getAttribute(SessionNames.EMAIL_VALIDATION_CODE)) == false) {
+			result.put("isSuccess", "0");
+			return ResponseEntity.ok(result);
+		}
+
+		if (emailsToValidate.containsKey(code) == false) {
+			result.put("isSuccess", "0");
+			return ResponseEntity.ok(result);
+		}
+
+
+		session.setAttribute(SessionNames.VALIDATED_EMAIL, emailsToValidate.get(code).getEmail());
+		emailsToValidate.remove(code);
+
+		result.put("isSuccess", "1");
+		return ResponseEntity.ok(result);	
+		
 
 	}
 
 	@RequestMapping(value = "/registerPost", method = RequestMethod.POST)
-	public String registerPost(RegisterDTO registerDTO) throws Exception {
+	public String registerPost(RegisterDTO registerDTO, HttpSession session) throws Exception {
 		logger.info(registerDTO.toString() + "회원가입");
 
-		if (mService.registerMember(registerDTO) == 1) {
-			return "redirect:/member/login?status=registerSuccess";
+		if(registerDTO.getEmail().equals(session.getAttribute(SessionNames.VALIDATED_EMAIL)) == false) {
+			return "redirect:/member/register?status=registerFail";
 		}
-		return "redirect:/member/register?status=registerFail";
+		
+		if (mService.registerMember(registerDTO) != 1) {
+			return "redirect:/member/register?status=registerFail";
+		}
+
+		return "redirect:/member/login?status=registerSuccess";
 	}
 
 	@ResponseBody
@@ -184,40 +298,113 @@ public class MemberController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/sendUserId", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
+	@RequestMapping(value = "/forgottenUserId", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
 	public ResponseEntity<String> sendUserId(String email) throws Exception {
-		System.out.println(email);
+		logger.info(email + "이 아이디를 요청함");
+		
 		MemberVO member = mService.getMemberByEmail(email);
+		
 		if (member == null) {
 			System.out.println("해당 이메일로 가입된 회원이 없습니다.");
 			return ResponseEntity.ok("해당 이메일로 가입된 회원이 없습니다.");
 		}
 
 		mailManager.sendUserId(email, member.getUserId());
-		System.out.println("전송완료");
+		logger.info(email + " 에게 전송완료");
 		return ResponseEntity.ok("해당 이메일로 유저 아이디를 전송했습니다.");
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/sendPwdResetLink", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
-	public ResponseEntity<String> sendPwdLink(String userId, String email, HttpSession session) throws Exception {
-		System.out.println("uid: " + userId + "// email : " + email);
+	@RequestMapping(value = "/pwdResetLink", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
+	public ResponseEntity<String> pwdResetLink(String userId, String email, HttpServletRequest request, HttpSession session) throws Exception {
+		logger.info("uid: " + userId + "// email : " + email + " 에서 비밀번호 재생성을 요청함");
+		
+//		if(!email.equals("^[a-zA-Z0-9+-\\_.]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$")) {
+//			logger.info("유효한 이메일이 아닙니다.");
+//			return ResponseEntity.ok("유효한 이메일이 아닙니다.");
+//		}
+		
 		MemberVO member = mService.getMemberByEmail(email);
 
 		if (!member.getUserId().equals(userId)) {
-			System.out.println("회원 아이디와 이메일이 매치되지 않습니다.");
+			logger.info(email + "이 보낸 요청에서 회원 아이디와 이메일이 매치되지 않습니다.");
 			return ResponseEntity.ok("회원 아이디와 이메일이 매치되지 않습니다.");
 		}
 
-		String uid = UUID.randomUUID().toString().replace("-", "") + UUID.randomUUID().toString().replace("-", "");
+		String uuid = UUID.randomUUID().toString().replace("-", "") + UUID.randomUUID().toString().replace("-", "");
 		
-		session.setAttribute(email, uid);
+		String fullUrl = request.getRequestURL().toString();
+		String urlWithoutParam = fullUrl.substring(0, fullUrl.indexOf(request.getRequestURI()));
+		String projectPath = request.getServletPath();
+		String classMappingUrl = projectPath.split("/")[1];
 		
-		mailManager.sendPwdResetLink(email, uid);
-		System.out.println("전송완료");
+		String urlResult = urlWithoutParam + "/" + classMappingUrl + "/" + PASSWORD_RESET_URL + "/" + uuid;
+		
+		pwdResetUserHolder.put(uuid, new PwdResetUser(member));
+		
+		startTimer();
+		
+		mailManager.sendPwdResetLink(email, urlResult);
+		
+		logger.info(email + " 에게 전송완료");
 		return ResponseEntity.ok("해당 이메일로 비밀번호 재설정 링크를 전송했습니다.");
 	}
 
+	
+	@RequestMapping(value = "/" + PASSWORD_RESET_URL + "/{UUID}", method = RequestMethod.GET)
+	public String pwdResetPage(@PathVariable("UUID") String uuid, Model model) throws Exception {
+		logger.info("패스워드 리셋 링크: " + uuid + " 접속 요청됨");
+		
+		if(!pwdResetUserHolder.containsKey(uuid)) {
+			logger.info("패스워드 리셋 링크: " + uuid + " 접속 거절 -> 유효하지 않은 uuid");
+			return "redirect:/";
+		}
+		
+		long passedMinuteAfterRequest = ChronoUnit.MINUTES.between(pwdResetUserHolder.get(uuid).getRequestTime(), LocalDateTime.now());
+		
+		if(passedMinuteAfterRequest > PWD_RESET_LINK_EXPIRE_MINUTE) {
+			logger.info("패스워드 리셋 링크: " + uuid + " 접속 거절 -> timeout");
+			return "redirect:/";
+		}
+		
+		model.addAttribute(pwdResetUserHolder.get(uuid));
+		
+		return "member/pwdReset";
+	}
+
+
+	@ResponseBody
+	@RequestMapping(value = "/" + PASSWORD_RESET_URL, method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+	public ResponseEntity<Map<String, String>> pwdReset(@RequestParam("newPwd")String newPwd, @RequestParam("UUID")String uuid) throws Exception {
+		Map<String, String> result = new HashMap<String, String>();
+		
+		MemberVO pwdResettingMember = pwdResetUserHolder.get(uuid).getMember();
+		
+		logger.info("패스워드 리셋 요청 들어옴");
+		logger.info("새로운 패스워드 : " + newPwd + "//" + "uuid : " + uuid);
+		
+		if(pwdResettingMember == null) {
+			logger.info("uuid 를 통한 멤버 탐색 실패함");
+			result.put("isSuccess", "0");
+			result.put("reason", "timeout");
+			return ResponseEntity.ok(result);
+		}
+
+		ChangePwdDTO changePwdDTO = new ChangePwdDTO(pwdResettingMember.getUserId(), null, newPwd);
+		if(mService.changeUserPwd(changePwdDTO) != 1) {
+			logger.info("비밀번호 변경 로직 실패함");
+			result.put("isSuccess", "0");
+			result.put("reason", "serverFail");
+			return ResponseEntity.ok(result);
+		};
+		
+		logger.info("성공적으로 비밀번호 수정함");
+		
+		result.put("isSuccess", "1");
+		return ResponseEntity.ok(result);
+	}
+	
+	
 	@ResponseBody
 	@RequestMapping(value = "/dropMember", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<Map<String, Object>> dropMember(@RequestBody DropMemberDTO dropMemberDTO) throws Exception {
@@ -239,6 +426,13 @@ public class MemberController {
 		headers.setContentType(mediaType);
 
 		return ResponseEntity.ok().headers(headers).body(returnMap);
+	}
+	
+	private void startTimer() {
+		if(isTimerWorking == false) {
+			timer.schedule(deleteOldRequest, 1000, 1000 * 60);
+			isTimerWorking = true;
+		}
 	}
 
 }
