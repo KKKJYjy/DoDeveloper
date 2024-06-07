@@ -2,6 +2,7 @@ package com.dodeveloper.admin.controller;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dodeveloper.admin.dto.SearchCriteriaDTO;
 import com.dodeveloper.admin.dto.NoticeDTO;
@@ -213,31 +216,19 @@ public class AdminBoardController {
 		return "redirect:noticeBoard";
 	}
 
-	@RequestMapping(value = "/reportDelete")
-	public String removeReport(HttpServletRequest request) throws Exception {
 
-		String[] remReport = request.getParameterValues("valueArr");
-		int size = remReport.length;
-		for (int i = 0; i < size; i++) {
-			bService.reportDelete(remReport[i]);
-		}
-
-		return "redirect:report";
-	}
-	
 	@RequestMapping(value = "/qnaDelete")
 	public String removeQna(HttpServletRequest request) throws Exception {
-		
+
 		String[] remQna = request.getParameterValues("valueArr");
 		int size = remQna.length;
 		for (int i = 0; i < size; i++) {
 			bService.qnaDelete(remQna[i]);
 		}
-		
+
 		return "redirect:inquiry";
-		
+
 	}
-	
 
 	@RequestMapping(value = "/noticePOST", method = RequestMethod.POST)
 	public String noticeBoard(NoticeDTO newBoard) throws Exception {
@@ -265,22 +256,9 @@ public class AdminBoardController {
 
 	}
 
-	@RequestMapping(value = "/viewReport", method = RequestMethod.GET)
-	public void viewReport(Model model, @RequestParam("btypeNo") int btypeNo) throws Exception {
-
-		logger.info(btypeNo + "번글 조회");
-		// ReportVO report = bService.getReportNO(reportNo);
-
-		ReportVO report = bService.getReportNO(btypeNo);
-
-		model.addAttribute("report", report);
-
-	}
-
 	@RequestMapping(value = "/updateNotice", method = RequestMethod.GET)
-	public String modifyNotcBoard(Model model, @RequestParam("boardNo") int boardNo)
-			throws Exception {
-		
+	public String modifyNotcBoard(Model model, @RequestParam("boardNo") int boardNo) throws Exception {
+
 		logger.info("공지사항 수정페이지 호출");
 
 		Map<String, Object> map = bService.getNotcByBoardNo(boardNo);
@@ -302,18 +280,28 @@ public class AdminBoardController {
 
 		return "redirect:/admin/noticeBoard";
 	}
-	
-	
+
 	@RequestMapping(value = "/inquiry", method = RequestMethod.GET)
 	public void qnaBoard(Model model) throws Exception {
-		
-		List<QnaBoardVO> qnaList = bService.getQnaBoard();
-		
-		model.addAttribute("qnaList", qnaList);
-		
-	}
-	
-	
-	
 
+		List<QnaBoardVO> qnaList = bService.getQnaBoard();
+
+		model.addAttribute("qnaList", qnaList);
+
+	}
+
+	@PostMapping("/deleteBoard")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> deleteBoard(@RequestParam("btypeNo") int btypeNo,
+			@RequestParam("boardNo") int boardNo, @RequestParam("deleteReason") String deleteReason) throws Exception {
+
+		// 해당 btype과 boardNo를 사용하여 글을 삭제
+
+		boolean success = bService.deleteBoard(btypeNo, boardNo, deleteReason);
+
+		Map<String, Object> response = new HashMap<>();
+		response.put("success", success);
+
+		return ResponseEntity.ok(response);
+	}
 }

@@ -42,14 +42,6 @@
 
 
 
-
-	<!-- 불량 회원 조회 -->
-	<select id="getBadMemberBoard" resultType="BadMemberBoardVO">
-		select * from
-		reportBoard order by reportNo desc
-	</select>
-
-
 	<!-- 강의추천게시판 조회 -->
 	<select id="getLecBoard" resultType="AdminLectureVO">
 		select * from lectureBoard
@@ -245,11 +237,7 @@
 		delete from noticeBoard where boardNo = #{boardNo}
 	</delete>
 
-	<!-- 신고내역 삭제 -->
-	<delete id="deleteReportBoard">
-		delete from reportBoard where reportNo = #{reportNo}
-	</delete>
-	
+
 	<!-- 문의 게시글 삭제 -->
 	<delete id="deleteQnaBoard">
 		delete from qnaBoard where no = #{no}
@@ -293,18 +281,19 @@
 		select * from qnaBoard order
 		by no desc
 	</select>
-	
+
 	<!-- 문의 ?번 글 가져오는 쿼리문 -->
 	<select id="selectQnaBoardNo" resultType="QnaBoardVO">
-		select * from qnaBoard where no = #{no}
+		select * from qnaBoard
+		where no = #{no}
 	</select>
-	
+
 	<!-- 문의사항 작성 -->
 	<insert id="insertQna">
 		insert into qnaBoard(qnaWriter, qnaTitle, qnaContent)
 		values(#{qnaWriter}, #{qnaTitle}, #{qnaContent})
 	</insert>
-	
+
 
 
 
@@ -327,10 +316,6 @@
 		select * from reportBoard
 	</select>
 
-	<!-- 신고내역 삭제 -->
-	<delete id="deleteReport">
-		delete * from reportBoard where writer = #{userId}
-	</delete>
 
 	<!-- 유저 상태변경 -->
 	<update id="updateStatus">
@@ -348,7 +333,8 @@
 	<select id="selectLog"
 		resultType="com.dodeveloper.admin.vo.CountUriVO">
 		SELECT u.uriName, COUNT(*) as accessCount
-		FROM accessLog a, uri u
+		FROM accessLog a,
+		uri u
 		WHERE
 		a.uri = u.uri
 		GROUP BY
@@ -360,13 +346,44 @@
 		resultType="com.dodeveloper.admin.vo.ConnectLogVO">
 		SELECT
 		DATE_FORMAT(`accessDate`, '%d') as `date`,
-		COUNT(*) as `count`
+		COUNT(*) as
+		`count`
 		FROM `accessLog`
 		WHERE MONTH(`accessDate`) =
 		#{date}
-		GROUP BY date(`accessDate`)
+		GROUP BY
+		date(`accessDate`)
 
 	</select>
 
+	<!-- 신고내역 삭제 -->
+	<delete id="deleteReport">
+		DELETE FROM reportBoard
+		WHERE btypeNo = #{btypeNo}
+		AND boardNo = #{boardNo}
+	</delete>
+	
+	<!-- btype에 해당되는 테이블에 글 삭제 -->
+	<delete id="deleteBoard">
+		DELETE FROM 
+        <choose>
+            <when test="btypeNo == 1">
+                lectureBoard WHERE lecNo = #{boardNo}
+            </when>
+            <when test="btypeNo == 2">
+                studyBoard WHERE stuNo = #{boardNo}
+            </when>
+            <when test="btypeNo == 3">
+                companyrevBoard WHERE revNo = #{boardNo}
+            </when>
+            <when test="btypeNo == 4">
+                algBoard WHERE board_no = #{boardNo}
+            </when>
+        </choose>
+    </delete>
+    
+    
+    
+  
 
 </mapper>

@@ -49,8 +49,6 @@ public interface AdminBoardService {
 		// 공지사항 게시물 삭제 처리하는 메더스
 		void notcdeleteBoard(String boardNo) throws Exception;
 		
-		// 신고내역 삭제 처리하는 메서드
-		void reportDelete(String reportNo) throws Exception;
 		
 		// 관리자 페이지에서 문의게시물 삭제 처리한는 메서드
 		void qnaDelete(String no) throws Exception;
@@ -63,7 +61,7 @@ public interface AdminBoardService {
 
 
 	// 신고내역 상세조회
-		ReportVO getReportNO(int btypeNo) throws Exception;
+		ReportVO getReportNO(int btypeNo, int boardNo) throws Exception;
 
 		
 		// 공지사항 상세페이지
@@ -84,6 +82,11 @@ public interface AdminBoardService {
 	    
 	    // 문의사항 작성
 	    boolean writeQndBoard(QnaBoardVO newBoard) throws Exception;
+	    
+	    // 신고내역 삭제
+		boolean deleteBoard(int btypeNo, int boardNo, String deleteReason) throws Exception;
+	    
+	    
 	    
 	    
 	    
