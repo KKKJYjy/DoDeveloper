@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -56,23 +56,23 @@
   ======================================================== -->
 
 <!-- 스터디 myApplyList css 파일 -->
-<link href="/resources/assets/css/study/myApplyList.css" rel="stylesheet" />
+<link href="/resources/assets/css/study/myApplyList.css"
+	rel="stylesheet" />
 
 <script>
 	$(function() {
-		
-		
-		//신청 수락, 거절 버튼 눌렀을 때 알럿창
-		let url = new URL(window.location.href);
-		let urlParams = url.searchParams;
-		//console.log(urlParams);
-
-		if (urlParams.get('applyModify') == 'success') {
-			alert("참여신청을 수정했습니다.");
-		} else if (urlParams.get('applyDelete') == 'success') {
-			alert("참여신청을 취소했습니다.");
+		//스터디 시작 날짜를 가져와 공백을 제거해서 배열에 담는다.
+		let startDateList = [];
+		let dateSumList = [];
+		for(let i=0; i<$(".startDate").length; i++){
+			//console.log($(".startDate:eq(" + i + ")").text());
+			startDateList.push($(".startDate:eq(" + i + ")").text().replace(/\s/g, ''));
+			dateSumList.push(dateSum(startDateList[i]));
 		}
-
+		
+		console.log("startDateList : " ,startDateList);
+		console.log("dateSumList : " ,dateSumList);
+		
 	});
 
 	//수정 팝업창에서 수정 버튼 눌렀을 때 유효성검사
@@ -97,6 +97,16 @@
 
 		return result;
 	}
+	
+	//스터디 시작일 디데이 계산하는 함수
+	function dateSum(date){
+		let startDate = new Date(date); 
+		let now = new Date();
+		
+		let dateDiff = (now - startDate) / 1000 / 60 / 60 / 24; // 시간차 초단위
+		
+		return dateDiff;
+	}
 </script>
 </head>
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
@@ -109,8 +119,8 @@
 			<div class="container" style="width: 70%">
 
 				<div class="container">
-					<h3 class="center text-center text-light pb-4 fw-medium">
-						내가 참여중인 스터디 모임글</h3>
+					<h3 class="center text-center text-light pb-4 fw-medium">내가
+						참여중인 스터디 모임글</h3>
 				</div>
 				<%-- ${studyList } --%>
 
@@ -122,12 +132,12 @@
 									<!-- 스터디 모임글 내용 -->
 									<div class="d-flex justify-content-between">
 										<p class="card-subtitle mb-1">📍${study.stuLoc }</p>
-										<p class="card-subtitle mb-1">
-											스터디 시작일 ${study.endDate }
+										<p class="card-subtitle mb-1 startDate">
+											<fmt:formatDate pattern="yyyy-MM-dd"
+												value="${study.endDate }" />
 										</p>
 									</div>
 
-									
 									<div class="mouseOver">
 										<h5 class="card-title"
 											onclick="location.href='/study/viewStudyBoard?stuNo=${study.stuNo}';">
@@ -145,7 +155,8 @@
 										class="card-text mb-2 border-top border-secondary border-opacity-25 pt-3">
 										<b>👀 현재 스터디원</b>
 									</p>
-									<div class="d-flex mb-3 studyMember">
+									<div class="d-flex mb-2 studyMember">
+										<p class="card-text me-2 member">${study.stuWriter }(주최자)</p>
 										<c:forEach var="apply" items="${stuApplyList }">
 											<c:choose>
 												<c:when
@@ -154,14 +165,13 @@
 												</c:when>
 											</c:choose>
 										</c:forEach>
-
-										<!-- <p class="card-text me-2 text-secondary">아직 스터디원이 없습니다.</p> -->
-
 									</div>
 									<p class="card-text mb-2 border-top border-secondary border-opacity-25 pt-3">
-										<b>카카오 오픈채팅 링크</b>
+										<b>🔗 카카오 오픈채팅 링크</b>
 									</p>
-									<p class="card-text member">${study.contactLink }</p>
+									<p class="card-text member">
+										<a href="${study.contactLink }">${study.contactLink }</a>
+									</p>
 									<!-- 현재 스터디 신청자 R:새로운 신청 N:거절 Y:수락 -->
 
 
