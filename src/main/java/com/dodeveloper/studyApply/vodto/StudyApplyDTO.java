@@ -1,7 +1,5 @@
 package com.dodeveloper.studyApply.vodto;
 
-import java.sql.Timestamp;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,11 +12,9 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class StudyApplyVO {
+public class StudyApplyDTO {
 	private int applyNo;
 	private String applyId;
 	private int stuNo;
-	private Timestamp applyDate;
 	private String reason;
-	private String status;
 }

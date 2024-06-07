@@ -575,6 +575,47 @@ function dropMember() {
 					<div class="row justify-content-center mt-3">
 						<div class="col-xl-8">
 							<div class="card mb-4 mb-xl-0">
+								<div class="card-header">스터디 모임</div>
+								<div class="card-body">
+									<div class="btn-group">
+										<a href="/mypage/myStudyList" class="btn btn-outline-secondary" aria-current="page">내가 작성한 스터디 모임글</a>
+										<a href="/mypage/myApplyList" class="btn btn-outline-secondary">내가 참여 신청한 스터디 모임글</a>
+										<a href="/mypage/myJoinedStudyList" class="btn btn-outline-secondary">내가 참여중인 스터디 모임글</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="row justify-content-center mt-3">
+						<div class="col-xl-8">
+							<div class="card mb-4 mb-xl-0">
+								<div class="card-header">내가 작성한 강의추천 글 리스트</div>
+								<div class="card-body"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row justify-content-center mt-3">
+						<div class="col-xl-8">
+							<div class="card mb-4 mb-xl-0">
+								<div class="card-header">내가 작성한 재직자 리뷰 글 리스트</div>
+								<div class="card-body"></div>
+							</div>
+						</div>
+					</div>
+          
+					<div class="row justify-content-center mt-3">
+						<div class="col-xl-8">
+							<div class="card mb-4 mb-xl-0">
+								<div class="card-header">내가 신고한 글 리스트</div>
+								<div class="card-body"></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row justify-content-center mt-3">
+						<div class="col-xl-8">
+							<div class="card mb-4 mb-xl-0">
 								<div class="card-header">회원 정보 변경</div>
 								<div class="card-body">
 									<button class="btn btn-primary" type="button"

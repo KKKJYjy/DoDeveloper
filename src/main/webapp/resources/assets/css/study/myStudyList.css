@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+.studyBasic { 
+	--default-color: #212529; 
+	--default-color-rgb: 255, 255, 255; 
+	--background-color: #212529; 
+	--background-color-rgb: 0, 0, 0;
+	padding: 150px 0;
+}
+
+.accordion { 
+	--bs-accordion-btn-bg: white;
+	--bs-accordion-active-bg: #f8f9fa; 
+	--bs-accordion-active-color: black; 
+	--bs-accordion-btn-focus-box-shadow: none;
+}
+
+.mouseOver:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}

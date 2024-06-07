@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -82,9 +83,47 @@
 <script>
 
 	let replies = "";
-	let modifyReplyTag = ""; // 댓글 수정창 클릭할 때, 수정 전에 입력했던 댓글 태그 저장하는 전역변수
 	
 	$(function() {
+		
+		//카카오 공유하기
+		Kakao.init('8b1554294fb8c555a2e57d63f00a7589'); // 사용하려는 앱의 JavaScript 키 입력
+		
+		Kakao.Share.createDefaultButton({
+			container: '#kakaotalk-sharing-btn',
+			objectType: 'feed',
+			content: {
+				title: '${studyList.stuTitle }',
+				description: '${studyList.stuWriter }님의 스터디 모집글',
+			    link: {
+			    	// [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
+			    	mobileWebUrl: 'http://localhost:8081',
+			    	webUrl: 'http://localhost:8081',
+			    	},
+			},
+			social: {
+				likeCount: 286,
+			    commentCount: 45,
+			    sharedCount: 845,
+			},
+			buttons: [
+				{
+					title: '웹으로 보기',
+			        link: {
+			        	mobileWebUrl: 'http://localhost:8081',
+			        	webUrl: 'http://localhost:8081',
+			        },
+			    },
+			    {
+			    	title: '앱으로 보기',
+			        link: {
+			        	mobileWebUrl: 'http://localhost:8081',
+			        	webUrl: 'http://localhost:8081',
+			        },
+			    },
+			],
+		});
+		
 		
 		// ====== 댓글 관련 시작 =====
 		//댓글 리스트 가져오는 함수 호출
@@ -455,21 +494,24 @@ i {
 							<!-- 수정 버튼 -->
 
 							<div class="icon-link icon-link-hover"
-								style="-bs-icon-link-transform: translate3d(0, -.125rem, 0);"
+								style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);"
 								onclick="location.href='/study/modifyStudyBoard?stuNo=${studyList.stuNo}';">
 								<i class="bi bi-pencil fs-5 me-2" style="color: #ffffff;"></i>
 							</div>
 							<!-- 삭제 버튼 -->
 							<div class="studyBoardDelete icon-link icon-link-hover"
-								style="-bs-icon-link-transform: translate3d(0, -.125rem, 0);"
+								style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);"
 								data-bs-toggle="modal" data-bs-target="#deleteModal">
 								<i class="bi bi-trash3 fs-5 me-2" style="color: #ffffff;"></i>
 							</div>
 						</c:if>
-						<div class="icon-link icon-link-hover"
-							style="-bs-icon-link-transform: translate3d(0, -.125rem, 0);">
+
+						<!-- 카카오 공유 버튼 -->
+						<a id="kakaotalk-sharing-btn" href="javascript:;" class="icon-link icon-link-hover"
+							style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);"> 
 							<i class="bi bi-share fs-5 me-2" style="color: #ffffff;"></i>
-						</div>
+						</a>
+						
 					</div>
 
 					<p class="text-light mt-3">
@@ -524,7 +566,11 @@ i {
 								<!-- 마감일 -->
 								<div class="col-md-6">
 									<div class="mb-1 ">
-										<b>모집 마감일</b> <span class="">${studyList.endDate }</span>
+										<b>모집 마감일</b> 
+										<span class="">
+											<fmt:formatDate pattern="yyyy-MM-dd" value="${studyList.endDate }"/>
+											
+										</span>
 									</div>
 								</div>
 							</div>
@@ -743,5 +789,9 @@ i {
 	<!-- kakao map api -->
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=60e5e9d6a47834eb03c485008a9e14a3&libraries=services"></script>
+	<!-- 카카오톡 공유하기 -->
+	<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
+		integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4"
+		crossorigin="anonymous"></script>
 </body>
 </html>
