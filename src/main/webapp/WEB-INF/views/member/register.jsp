@@ -54,6 +54,8 @@
       let isValidMobile = false;
       let isTryingSubmitEmail = false;
       let isValidEmail = false;
+      let emailTimer;
+      let emailCodeExpireDate = new Date();
 
       $(function () {
         // 아이디를 입력할 때, 중복인지 아닌지 검사하는 메서드
@@ -98,6 +100,7 @@
     	*/
     	sendRequestToConfirmEmail(emailAddress);
     	$("#email-validation-check").show();
+    	startEmailValidationTimer(1000 * 60 * 5);
       }
       
       function rewriteEmail(){
@@ -107,12 +110,62 @@
     	$("#email-code").val("");
       }
       
+      
+      function startEmailValidationTimer(timeLimit){
+    	  let now = new Date();
+    	  emailCodeExpireDate = new Date( now.getTime() + timeLimit );
+    	  
+    	  emailTimer = setInterval(() => {
+    	         showRemainingTime(emailCodeExpireDate);
+    	}, 1000);
+      }
+      
+      function endEmailValidationTimer(){
+    	  clearInterval(emailTimer);
+    	  $("#email-timelimit").html("");
+      }
+      
+      function showRemainingTime(expireDate){
+    	  const now = new Date();
+    	  const remainingTime = expireDate.getTime() - now.getTime();
+    	  
+    	  console.log(remainingTime);
+    	  console.log(new Date(remainingTime));
+    	  
+    	  
+    	  let output = "";
+    	  
+    	  if(remainingTime <= 0){
+    		  output = "0:00";
+        	  $("#email-timelimit").html(output);
+        	  return;
+    	  }
+    	  
+   		  let remainingMinute = Math.trunc(remainingTime / (1000 * 60));
+   		  let remainingSecond = Math.trunc(remainingTime % (1000 * 60) / 1000);
+
+   		  output += remainingMinute + ":";
+   		  
+   		  if(remainingSecond < 10){
+   			  output += "0" + remainingSecond;
+   		  }else{
+   			  output += remainingSecond + "";
+   		  }
+    	  
+   		  $("#email-timelimit").html(output);
+      
+      }
+      
+      
       function checkEmailCode(){
       	let emailValidCode = $("#email-code").val();
     	isValidEmail = confirmEmail(emailValidCode);
+    	
     	if(isValidEmail){
     		$("#email-error-msg").html("확인됨!");
-    		$("#email-error-msg").css("color", "green");
+    		$("#email-error-msg").css("color", "green");    		
+        	endEmailValidationTimer();
+        	
     	}else{
     		$("#email-error-msg").html("다시 확인해주십시오.");
     		$("#email-error-msg").css("color", "red");
@@ -377,11 +430,14 @@
 											</div>
 											<input type="text" class="form-control" id="email"
 												name="email" />
-											
-											<button type="button"
-												class="btn btn-block btn-outline-secondary mt-2"
-												id="request-confirm-email-btn">인증받기</button>
-												
+
+											<div>
+												<button type="button"
+													class="btn btn-block btn-outline-secondary mt-2"
+													id="request-confirm-email-btn">인증받기</button>
+												<span id="email-timelimit" style="color: red;"></span>
+											</div>
+
 											<div id="email-validation-check" style="display: none">
 												<input type="text" class="form-control" id="email-code"
 													style="margin: 5px 0;" />
