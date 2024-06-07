@@ -71,13 +71,16 @@
 						<!-- ============================================================== -->
 						<!-- Logo -->
 						<!-- ============================================================== -->
-
-						<a class="navbar-brand ms-4" href="../"> <!-- Logo icon --> </b> <!--End Logo icon -->
+  
+					    <a class="navbar-brand ms-4" href="../"> <!-- Logo icon --> </b> <!--End Logo icon -->
 							<!-- Logo text --> <span class="logo-text"> <!-- dark Logo text -->
 								<img src="/resources/admin/assets/images/logo.png"
 								alt="homepage" class="dark-logo" />
 						</span>
-						</a>
+						</a>    
+						
+						          
+						
 						<!-- ============================================================== -->
 						<!-- End Logo -->
 						<!-- ============================================================== -->

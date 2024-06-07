@@ -70,6 +70,19 @@
 
 		}
 	}
+	
+	
+	$(function() {
+
+		let pageNo = '${param.pageNo}';
+		if (pageNo == '') {
+			pageNo = 1;
+		}
+
+		$(`#\${pageNo}`).addClass('active')
+
+	})
+	
 </script>
 </head>
 <body>
