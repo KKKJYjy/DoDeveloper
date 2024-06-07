@@ -389,11 +389,11 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	}
 
 	@Override
-	public ReportVO getReportNO(int btypeNo) throws Exception {
+	public ReportVO getReportNO(int btypeNo, int boardNo) throws Exception {
 
 		System.out.println("서비스단 : 신고게시글 상세조회");
 
-		ReportVO report = bDao.selectReportBoardNo(btypeNo);
+		ReportVO report = bDao.selectReportBoardNo(btypeNo, boardNo);
 
 		return report;
 	}
@@ -466,7 +466,22 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		return result;
 
 	}
+	
+	// 신고된 글 삭제
+	@Override
+	public boolean deleteBoard(int btypeNo, int boardNo, String deleteReason) throws Exception {
+		boolean result = false;
+		
+		if (bDao.deleteBoard(btypeNo, boardNo, deleteReason) == 1) {
+			result = true;
+		}
+		
 
+		
+		return result;
+	}
+
+	 
 	
 
 

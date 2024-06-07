@@ -63,7 +63,7 @@ public interface AdminBoardService {
 
 
 	// 신고내역 상세조회
-		ReportVO getReportNO(int btypeNo) throws Exception;
+		ReportVO getReportNO(int btypeNo, int boardNo) throws Exception;
 
 		
 		// 공지사항 상세페이지
@@ -84,6 +84,11 @@ public interface AdminBoardService {
 	    
 	    // 문의사항 작성
 	    boolean writeQndBoard(QnaBoardVO newBoard) throws Exception;
+	    
+	    // 신고내역 삭제
+		boolean deleteBoard(int btypeNo, int boardNo, String deleteReason) throws Exception;
+	    
+	    
 	    
 	    
 	    

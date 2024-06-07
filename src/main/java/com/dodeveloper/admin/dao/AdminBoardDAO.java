@@ -111,7 +111,7 @@ public interface AdminBoardDAO {
 
 
     // ?번 글을 가져오는 메서드
-   ReportVO selectReportBoardNo(int btypeNo) throws Exception;
+   ReportVO selectReportBoardNo(int btypeNo, int boardNo) throws Exception;
    
    
    // 공지사항 ?번 글 조회
@@ -128,6 +128,11 @@ public interface AdminBoardDAO {
    
    // 문의사항 테이블 insert
    int insertQnaBoard(QnaBoardVO newBoard) throws Exception;
+  
+   // 신고내역 삭제하는 메서드
+   int deleteBoard(int btypeNo, int boardNo, String deleteReason);
+
+
    
     
 }
