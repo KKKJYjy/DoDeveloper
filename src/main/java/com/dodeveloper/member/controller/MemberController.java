@@ -58,6 +58,7 @@ public class MemberController {
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	private final String PASSWORD_RESET_URL = "password-reset";
 	private Map<String, PwdResetUser> pwdResetUserHolder = new ConcurrentHashMap<String, PwdResetUser>(100);
+	private Map<String, EmailToValidate> emailsToValidate = new ConcurrentHashMap<String, EmailToValidate>(100);
 	
 	@Autowired
 	private MailManager mailManager;
@@ -86,17 +87,37 @@ public class MemberController {
 		}
 	}
 	
+	private class EmailToValidate {
+		private LocalDateTime requestTime;
+		private String email;
+		
+		public EmailToValidate(String email){
+			this.requestTime = LocalDateTime.now();
+			this.email = email;
+		}
+		
+		public String getEmail() {
+			return email;
+		}
+		public LocalDateTime getRequestTime() {
+			return requestTime;
+		}
+	}
+	
 	private static final long PWD_RESET_LINK_EXPIRE_MINUTE = 30;
+	private static final long EMAIL_WAIT_TO_VALIDATION_MINUTE = 5;
 	
 	private boolean isTimerWorking = false;
 	private Timer timer = new Timer(true);
 	
+	
 	TimerTask deleteOldRequest = new TimerTask() {
+		
 		@Override
 		public void run() {
 			logger.info("timer 가 호출되었다.");
-			List<Map.Entry<String, PwdResetUser>> entryList = new ArrayList<>(pwdResetUserHolder.entrySet());
-			for(Map.Entry<String, PwdResetUser> entry : entryList) {
+			List<Map.Entry<String, PwdResetUser>> pwdResetHolderEntryList = new ArrayList<>(pwdResetUserHolder.entrySet());
+			for(Map.Entry<String, PwdResetUser> entry : pwdResetHolderEntryList) {
 				logger.info(entry.getKey() + "를 검사한다.");
 				
 				long passedMinuteAfterRequest = ChronoUnit.MINUTES.between(entry.getValue().getRequestTime(), LocalDateTime.now());
@@ -104,6 +125,18 @@ public class MemberController {
 				if(passedMinuteAfterRequest > PWD_RESET_LINK_EXPIRE_MINUTE){
 					logger.info(entry.getKey() + "를 제거한다.");
 					pwdResetUserHolder.remove(entry.getKey());
+				}
+			}
+			
+			List<Map.Entry<String, EmailToValidate>> emailsToValidateEntryList = new ArrayList<>(emailsToValidate.entrySet());
+			for(Map.Entry<String, EmailToValidate> entry : emailsToValidateEntryList) {
+				logger.info(entry.getKey() + "를 검사한다");
+				
+				long passedMinuteAfterRequest = ChronoUnit.MINUTES.between(entry.getValue().getRequestTime(), LocalDateTime.now());
+				
+				if(passedMinuteAfterRequest > EMAIL_WAIT_TO_VALIDATION_MINUTE){
+					logger.info(entry.getKey() + "를 제거한다.");
+					emailsToValidate.remove(entry.getKey());
 				}
 			}
 		}
@@ -188,6 +221,8 @@ public class MemberController {
 		try {
 			mailManager.sendValidationCode(emailAddress, code);
 			session.setAttribute(SessionNames.EMAIL_VALIDATION_CODE, code);
+			emailsToValidate.put(code, new EmailToValidate(emailAddress));
+			startTimer();
 			
 			return ResponseEntity.ok(true);
 			
@@ -204,24 +239,44 @@ public class MemberController {
 			throws Exception {
 		Map<String, String> result = new HashMap<String, String>();
 		
-		if (code.equals(session.getAttribute(SessionNames.EMAIL_VALIDATION_CODE))) {
-			result.put("isSuccess", "1");
+		if(code == null) {
+			result.put("isSuccess", "0");
 			return ResponseEntity.ok(result);
-		} else {
+		}
+		
+		if (code.equals(session.getAttribute(SessionNames.EMAIL_VALIDATION_CODE)) == false) {
 			result.put("isSuccess", "0");
 			return ResponseEntity.ok(result);
 		}
 
+		if (emailsToValidate.containsKey(code) == false) {
+			result.put("isSuccess", "0");
+			return ResponseEntity.ok(result);
+		}
+
+
+		session.setAttribute(SessionNames.VALIDATED_EMAIL, emailsToValidate.get(code).getEmail());
+		emailsToValidate.remove(code);
+
+		result.put("isSuccess", "1");
+		return ResponseEntity.ok(result);	
+		
+
 	}
 
 	@RequestMapping(value = "/registerPost", method = RequestMethod.POST)
-	public String registerPost(RegisterDTO registerDTO) throws Exception {
+	public String registerPost(RegisterDTO registerDTO, HttpSession session) throws Exception {
 		logger.info(registerDTO.toString() + "회원가입");
 
-		if (mService.registerMember(registerDTO) == 1) {
-			return "redirect:/member/login?status=registerSuccess";
+		if(registerDTO.getEmail().equals(session.getAttribute(SessionNames.VALIDATED_EMAIL)) == false) {
+			return "redirect:/member/register?status=registerFail";
 		}
-		return "redirect:/member/register?status=registerFail";
+		
+		if (mService.registerMember(registerDTO) != 1) {
+			return "redirect:/member/register?status=registerFail";
+		}
+
+		return "redirect:/member/login?status=registerSuccess";
 	}
 
 	@ResponseBody
@@ -287,10 +342,7 @@ public class MemberController {
 		
 		pwdResetUserHolder.put(uuid, new PwdResetUser(member));
 		
-		if(isTimerWorking == false) {
-			timer.schedule(deleteOldRequest, 1000, 1000 * 60);
-			isTimerWorking = true;
-		}
+		startTimer();
 		
 		mailManager.sendPwdResetLink(email, urlResult);
 		
@@ -374,6 +426,13 @@ public class MemberController {
 		headers.setContentType(mediaType);
 
 		return ResponseEntity.ok().headers(headers).body(returnMap);
+	}
+	
+	private void startTimer() {
+		if(isTimerWorking == false) {
+			timer.schedule(deleteOldRequest, 1000, 1000 * 60);
+			isTimerWorking = true;
+		}
 	}
 
 }
