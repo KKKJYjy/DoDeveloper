@@ -1,6 +1,7 @@
 package com.dodeveloper.admin.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.dodeveloper.admin.dto.NoticeDTO;
 import com.dodeveloper.admin.service.AdminBoardService;
 import com.dodeveloper.admin.vo.QnaBoardVO;
+import com.dodeveloper.etc.PagingInfo;
 
 @Controller
 @RequestMapping("/qna")
@@ -27,12 +29,23 @@ public class QnaBoardController {
 	
 	
 	@RequestMapping(value = "/listAll", method = RequestMethod.GET)
-	public void qnaBoard(Model model) throws Exception {
+	public void qnaBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo) throws Exception {
 		logger.info("list 페이지 호출");
 
-		List<QnaBoardVO> qnaBoardList = bService.getQnaBoard();
+		Map<String, Object> returnMap = null;
+
+		String resultPage = null;
+
+		if (pageNo <= 0) {
+			pageNo = 1;
+		}
 		
-		model.addAttribute("qnaBoardList", qnaBoardList);
+		returnMap = bService.getQnaBoard(pageNo);
+		
+		model.addAttribute("qnaList", (List<QnaBoardVO>) returnMap.get("qnaList"));
+		model.addAttribute("pagingInfo", (PagingInfo) returnMap.get("pagingInfo"));
+
+		resultPage = "/qna/listAll";
 
 	}
 	
@@ -70,6 +83,14 @@ public class QnaBoardController {
 
 		return returnPage;
 
+	}
+	
+	@RequestMapping(value = "/deleteQna", method = RequestMethod.GET)
+	public String deleteQna(int no) throws Exception {
+		
+		bService.qnaDeleteBoard(no);
+		
+		return "redirect:listAll";
 	}
 	
 	

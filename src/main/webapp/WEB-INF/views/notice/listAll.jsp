@@ -62,7 +62,7 @@
 		<section id="notice" class="basic">
 			<div class="container">
 
-				<table class="table table-light table-hover">
+				<table class="table table-dark table-hover">
 
 
 
@@ -97,19 +97,19 @@
 				<ul class="pagination">
 					<c:if test="${param.pageNo > 1 }">
 						<li class="page-item"><a class="page-link"
-							href="/admin/noticeBoard?pageNo=${param.pageNo -1 }&searchType=${param.searchType}&searchValue=${param.searchValue}">Previous</a></li>
+							href="/notice/listAll?pageNo=${param.pageNo -1 }&searchType=${param.searchType}&searchValue=${param.searchValue}">Previous</a></li>
 
 					</c:if>
 					<c:forEach var="i"
 						begin="${pagingInfo.startNumOfCurrentPagingBlock }"
 						end="${pagingInfo.endNumOfCurrentPagingBlock }" step="1">
 						<li class="page-item" id="${i }"><a class="page-link"
-							href="/admin/noticeBoard?pageNo=${i }&searchType=${param.searchType}&searchValue=${param.searchValue}">${i }</a></li>
+							href="/notice/listAll?pageNo=${i }&searchType=${param.searchType}&searchValue=${param.searchValue}">${i }</a></li>
 					</c:forEach>
 
 					<c:if test="${param.pageNo < pagingInfo.totalPageCnt }">
 						<li class="page-item"><a class="page-link"
-							href="/admin/noticeBoard?pageNo=${param.pageNo +1 }&searchType=${param.searchType}&searchValue=${param.searchValue}">Next</a></li>
+							href="/notice/listAll?pageNo=${param.pageNo +1 }&searchType=${param.searchType}&searchValue=${param.searchValue}">Next</a></li>
 					</c:if>
 				</ul>
 				

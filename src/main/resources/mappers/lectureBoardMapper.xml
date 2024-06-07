@@ -45,8 +45,7 @@
 	</update>
 
 	<!-- 유저가 작성한 글을 insert하는 쿼리문 -->
-	<insert id="insertLectureBoard" useGeneratedKeys="true"
-		keyProperty="lecNo" parameterType="LectureBoardDTO">
+	<insert id="insertLectureBoard">
 		insert into lectureBoard(bType,
 		lecTitle, lecReview, lecWriter,
 		lecScore, lecLink)

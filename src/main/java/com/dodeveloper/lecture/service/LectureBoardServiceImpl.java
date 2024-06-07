@@ -77,7 +77,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	        // System.out.println("검색조건 검색필터 둘 다 X" + lectureBoardList.toString());
 	    }
 
-	    Map<String, Object> returnMap = new HashMap<>();
+	    Map<String, Object> returnMap = new HashMap<String, Object>();
 	    returnMap.put("lectureBoardList", lectureBoardList);
 	    returnMap.put("pagingInfo", this.pi);
 
@@ -249,19 +249,17 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
 	public boolean writeBoardService(LectureBoardDTO newLecBoard) throws Exception {
-
+		
 		boolean result = false;
-
-		newLecBoard.setLecReview(newLecBoard.getLecReview().replace("\r\n", "</ br>"));
-
+		
 		// dao단 호출
-		if (lDao.insertNewLectureBoard(newLecBoard) == 1) { // 실제 게시글 (insert)
-			System.out.println("새로 저장될 게시글 번호 : " + newLecBoard.getLecNo());
-
-			result = true;
-		}
-
-		return result;
+	    if (lDao.insertNewLectureBoard(newLecBoard) == 1) { // 실제 게시글 (insert)
+	        System.out.println("새로 저장될 게시글 번호 : " + newLecBoard.getLecNo());
+	        
+	        return true;
+	    }
+	    
+	    return result;
 	}
 
 	/**

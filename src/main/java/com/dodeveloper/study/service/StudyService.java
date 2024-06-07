@@ -1,6 +1,5 @@
 package com.dodeveloper.study.service;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +9,6 @@ import com.dodeveloper.study.vodto.StudyBoardVO;
 import com.dodeveloper.study.vodto.SearchStudyDTO;
 import com.dodeveloper.study.vodto.StackVO;
 import com.dodeveloper.study.vodto.StuStackDTO;
-import com.dodeveloper.study.vodto.StuStackModifyDTO;
 
 public interface StudyService {
 	//전체 게시글을 조회하는 메서드 + 검색 기능 추가 + 모집중 필터 기능

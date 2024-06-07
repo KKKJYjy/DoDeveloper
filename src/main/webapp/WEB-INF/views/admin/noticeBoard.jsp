@@ -15,12 +15,12 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
 	$(function() {
-		var chkObj = document.getElementsByName("rowCheck");
-		var rowCnt = chkObj.length;
+		let chkObj = document.getElementsByName("rowCheck");
+		let rowCnt = chkObj.length;
 
 		$("input[name='allCheck']").click(function() {
-			var chk_listArr = $("input[name='rowCheck']");
-			for (var i = 0; i < chk_listArr.length; i++) {
+			let chk_listArr = $("input[name='rowCheck']");
+			for (let i = 0; i < chk_listArr.length; i++) {
 				chk_listArr[i].checked = this.checked;
 			}
 		});
@@ -109,39 +109,50 @@
 					<button id="openModalBtn" onclick="checkCheckbox()">게시글삭제</button>
 				</c:if>
 
-				<table class="table table-light table-hover">
+
+				<div class="row">
+					<!-- column -->
+					<div class="col-sm-12">
+						<div class="card">
+							<div class="card-body">
+
+								<table class="table table-Default table-hover">
 
 
 
-					<thead>
-						<tr>
-							<th><input id="allCheck" type="checkbox" name="allCheck" /></th>
-							<th>글번호</th>
-							<th>작성자</th>
-							<th>제목</th>
-							<th>작성일</th>
+									<thead>
+										<tr>
+											<th><input id="allCheck" type="checkbox" name="allCheck" /></th>
+											<th>글번호</th>
+											<th>작성자</th>
+											<th>제목</th>
+											<th>작성일</th>
 
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach var="board" items="${notcBoardList }">
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach var="board" items="${notcBoardList }">
 
-							<tr id="table"
-								onclick="location.href = '/adminView/noticViewDetail?boardNo=${board.boardNo}';">
-								<td onclick="event.cancelBubble=true"><input
-									type="checkbox" name="rowCheck" class="deleteCheckbox"
-									id="myCheckbox" value="${board.boardNo }" /></td>
-								<td>${board.boardNo }</td>
-								<td>${board.writer}</td>
-								<td>${board.title }</td>
-								<td>${board.postDate }</td>
+											<tr id="table"
+												onclick="location.href = '/adminView/noticViewDetail?boardNo=${board.boardNo}';">
+												<td onclick="event.cancelBubble=true"><input
+													type="checkbox" name="rowCheck" class="deleteCheckbox"
+													id="myCheckbox" value="${board.boardNo }" /></td>
+												<td>${board.boardNo }</td>
+												<td>${board.writer}</td>
+												<td>${board.title }</td>
+												<td>${board.postDate }</td>
 
-							</tr>
+											</tr>
 
 
-						</c:forEach>
-					</tbody>
-				</table>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
 
 				<ul class="pagination">
 					<c:if test="${param.pageNo > 1 }">

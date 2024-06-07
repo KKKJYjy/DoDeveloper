@@ -40,6 +40,12 @@
 		totalPostCnt from noticeBoard
 	</select>
 
+	<!-- 문의 게시글 전체 갯수 -->
+	<select id="getQnaTotalBoardCnt" resultType="int">
+		select count(*) as
+		totalPostCnt from qnaBoard
+	</select>
+
 
 
 	<!-- 강의추천게시판 조회 -->
@@ -238,6 +244,12 @@
 	</delete>
 
 
+	<!-- 신고내역 삭제 -->
+	<delete id="deleteReportBoard">
+		delete from reportBoard where reportNo = #{reportNo}
+	</delete>
+
+
 	<!-- 문의 게시글 삭제 -->
 	<delete id="deleteQnaBoard">
 		delete from qnaBoard where no = #{no}
@@ -279,7 +291,7 @@
 	<!-- 문의 게시글 조회 -->
 	<select id="selectQna" resultType="QnaBoardVO">
 		select * from qnaBoard order
-		by no desc
+		by no desc limit #{startRowIndex},#{viewPostCntPerPage}
 	</select>
 
 	<!-- 문의 ?번 글 가져오는 쿼리문 -->
@@ -293,6 +305,43 @@
 		insert into qnaBoard(qnaWriter, qnaTitle, qnaContent)
 		values(#{qnaWriter}, #{qnaTitle}, #{qnaContent})
 	</insert>
+
+
+	<!-- 공지사항 최신글 5개 조회 -->
+	<select id="selectDiffNotc" resultType="NoticeDTO">
+		select * from noticeBoard
+		order by boardNo desc limit 5
+	</select>
+
+	<!-- 문의사항 최신글 5개 조회 -->
+	<select id="selectDiffQna" resultType="QnaBoardVO">
+		select * from qnaBoard
+		order by no desc limit 5
+	</select>
+
+	<!-- 스터디모임 최신글 5개 조회 -->
+	<select id="selectDiffStu" resultType="AdminVO">
+		select * from studyBoard
+		order by stuNo desc limit 5
+	</select>
+
+	<!-- 강의추천 최신글 5개 조회 -->
+	<select id="selectDiffLec" resultType="AdminLectureVO">
+		select * from lectureBoard
+		order by lecNo desc limit 5
+	</select>
+
+	<!-- 알고리즘 최신글 5개 조회 -->
+	<select id="selectDiffAlg" resultType="AdminArgBoardVO">
+		select * from algBoard
+		order by boardNo desc limit 5
+	</select>
+
+	<!-- 기업리뷰 최신글 5개 조회 -->
+	<select id="selectDiffRev" resultType="AdminReviewBoardVO">
+		select * from
+		companyrevboard order by revNo desc limit 5
+	</select>
 
 
 

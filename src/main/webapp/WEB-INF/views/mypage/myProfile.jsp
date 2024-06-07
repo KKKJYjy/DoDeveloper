@@ -75,6 +75,9 @@
   });
 
   getProfileImage();
+  
+  getAllScrap();
+  
 });
 
 function checkValidPassword() {
@@ -451,12 +454,48 @@ function dropMember() {
 	        setTimeout(function() { 
 	        	alert('회원 탈퇴가 완료되었습니다.')
 	        }, 200);
+	        
+	        location.href = "/member/logout";
 	      } else {
 	        console.log("회원탈퇴 실패");
 	      }
 	    },
 	});
 }
+
+	//----------------------------------------- 스크랩 작업 ----------------------------------------// 
+	
+	function getAllScrap() { // 함수 호출해서 scrap한 글들을 가져온다 
+		let scrapId = '${loginMember.userId }';
+		
+		$.ajax({
+		    url: "/scrap/all/" + scrapId,
+		    type: "get",
+		    dataType: "json",
+		    async: 'false',
+		    success: function(data) {
+		    	console.log(data);
+		    	
+		    	outputAllScrap(data);
+		    },
+		});
+	}
+	
+	function outputAllScrap(data) {
+		let output = `<div class="list-group">`;
+		$.each(data, function(i, scrap) {
+			output += `<a href="#" class="list-group-item list-group-item-action">`;
+			
+			output += `<div>\${scrap.scrapNo}</div>`; // scrapNo : 스크랩 번호 
+			
+			output += `</a>`;
+		});
+		
+		$('.scrapList').html(output);
+		
+	}
+	
+
 </script>
 </head>
 
@@ -575,13 +614,16 @@ function dropMember() {
 							<div class="card mb-4 mb-xl-0">
 								<div class="card-header">스터디 모임</div>
 								<div class="card-body">
-									<a href="#" class="stretched-link me-4">내가 작성한 스터디 모임글</a> 
-									<a href="#" class="stretched-link me-4">내가 신청한 스터디 모임글</a> 
-									<a href="#" class="stretched-link">내가 참여중인 스터디 모임글</a>
+									<div class="btn-group">
+										<a href="/mypage/myStudyList" class="btn btn-outline-secondary" aria-current="page">내가 작성한 스터디 모임글</a>
+										<a href="/mypage/myApplyList" class="btn btn-outline-secondary">내가 참여 신청한 스터디 모임글</a>
+										<a href="/mypage/myJoinedStudyList" class="btn btn-outline-secondary">내가 참여중인 스터디 모임글</a>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
+					
 					<div class="row justify-content-center mt-3">
 						<div class="col-xl-8">
 							<div class="card mb-4 mb-xl-0">
@@ -618,42 +660,44 @@ function dropMember() {
 					</div>
 
 					<div class="row justify-content-center mt-3">
-						<div class="col-xl-8">
-							<div class="card mb-4 mb-xl-0">
-								<div class="card-header">내가 스크랩한 글 리스트</div>
-								<div class="card-body"></div>
+							<div class="col-xl-8">
+								<div class="card mb-4 mb-xl-0">
+									<div class="card-header">내가 스크랩한 글 리스트</div>
+									<div class="card-body scrapList"></div>
+								</div>
 							</div>
 						</div>
-					</div>
-
-					<div class="row justify-content-center mt-3">
-						<div class="col-xl-8">
-							<div class="card mb-4 mb-xl-0">
-								<div class="card-header">내가 신고한 글 리스트</div>
-								<div class="card-body"></div>
+					
+					
+						<div class="row justify-content-center mt-3">
+							<div class="col-xl-8">
+								<div class="card mb-4 mb-xl-0">
+									<div class="card-header">내가 신고한 글 리스트</div>
+									<div class="card-body"></div>
+								</div>
 							</div>
 						</div>
-					</div>
 
-					<div class="row justify-content-center mt-3">
-						<div class="col-xl-8">
-							<div class="card mb-4 mb-xl-0">
-								<div class="card-header">회원 정보 변경</div>
-								<div class="card-body">
-									<button class="btn btn-primary" type="button"
-										data-bs-toggle="modal" data-bs-target="#staticBackdrop">비밀번호
-										변경</button>
-									<button class="btn btn-success" type="button"
-										onclick="location.href='/member/logout'">로그아웃</button>
 
-									<button class="btn btn-danger float-end" type="button"
-										data-bs-toggle="modal" data-bs-target="#sb_dropMember">회원탈퇴</button>
+						<div class="row justify-content-center mt-3">
+							<div class="col-xl-8">
+								<div class="card mb-4 mb-xl-0">
+									<div class="card-header">회원 정보 변경</div>
+									<div class="card-body">
+										<button class="btn btn-primary" type="button"
+											data-bs-toggle="modal" data-bs-target="#staticBackdrop">비밀번호
+											변경</button>
+										<button class="btn btn-success" type="button"
+											onclick="location.href='/member/logout'">로그아웃</button>
+
+										<button class="btn btn-danger float-end" type="button"
+											data-bs-toggle="modal" data-bs-target="#sb_dropMember">회원탈퇴</button>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 		</section>
 		<!-- End Basic Section -->
 	</main>

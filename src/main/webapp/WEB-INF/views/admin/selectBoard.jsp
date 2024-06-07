@@ -56,12 +56,12 @@
 	})
 
 	$(function() {
-		var chkObj = document.getElementsByName("rowCheck");
-		var rowCnt = chkObj.length;
+		let chkObj = document.getElementsByName("rowCheck");
+		let rowCnt = chkObj.length;
 
 		$("input[name='allCheck']").click(function() {
-			var chk_listArr = $("input[name='rowCheck']");
-			for (var i = 0; i < chk_listArr.length; i++) {
+			let chk_listArr = $("input[name='rowCheck']");
+			for (let i = 0; i < chk_listArr.length; i++) {
 				chk_listArr[i].checked = this.checked;
 			}
 		});
@@ -130,6 +130,8 @@
 		<div class="container-fluid">
 
 
+
+
 			<div class="container mt-3">
 				<p class="text-center">스터디 모임</p>
 				<ul class="nav nav-tabs nav-justified">
@@ -147,6 +149,7 @@
 			</div>
 
 
+
 			<div class="container">
 
 
@@ -159,44 +162,53 @@
 
 
 
-
-				<table class="table table-light table-hover">
-
-
-
-					<thead>
-						<tr>
-							<th><input id="allCheck" type="checkbox" name="allCheck" /></th>
-							<th>글번호</th>
-							<th>작성자</th>
-							<th>제목</th>
-							<th>장소</th>
-							<th>기간</th>
-							<th>모집상태</th>
-							<th>종료일</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach var="board" items="${stuBoardList }">
-
-							<tr id="table"
-								onclick="location.href = '/study/viewStudyBoard?stuNo=${board.stuNo}';">
-								<td onclick="event.cancelBubble=true"><input
-									type="checkbox" name="rowCheck" class="deleteCheckbox"
-									id="myCheckbox" value="${board.stuNo }" /></td>
-								<td>${board.stuNo }</td>
-								<td>${board.stuWriter }</td>
-								<td>${board.stuTitle }</td>
-								<td>${board.stuLoc }</td>
-								<td>${board.stuDate }</td>
-								<td>${board.status }</td>
-								<td>${board.endDate }</td>
-							</tr>
+				<div class="row">
+					<!-- column -->
+					<div class="col-sm-12">
+						<div class="card">
+							<div class="card-body">
+								<table class="table table-Default table-hover">
 
 
-						</c:forEach>
-					</tbody>
-				</table>
+
+									<thead>
+										<tr>
+											<th><input id="allCheck" type="checkbox" name="allCheck" /></th>
+											<th>글번호</th>
+											<th>작성자</th>
+											<th>제목</th>
+											<th>장소</th>
+											<th>기간</th>
+											<th>모집상태</th>
+											<th>종료일</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach var="board" items="${stuBoardList }">
+
+											<tr id="table"
+												onclick="location.href = '/study/viewStudyBoard?stuNo=${board.stuNo}';">
+												<td onclick="event.cancelBubble=true"><input
+													type="checkbox" name="rowCheck" class="deleteCheckbox"
+													id="myCheckbox" value="${board.stuNo }" /></td>
+												<td>${board.stuNo }</td>
+												<td>${board.stuWriter }</td>
+												<td>${board.stuTitle }</td>
+												<td>${board.stuLoc }</td>
+												<td>${board.stuDate }</td>
+												<td>${board.status }</td>
+												<td>${board.endDate }</td>
+											</tr>
+
+
+										</c:forEach>
+									</tbody>
+								</table>
+
+							</div>
+						</div>
+					</div>
+				</div>
 
 
 
