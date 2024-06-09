@@ -79,7 +79,9 @@
 											</div>										
 										</div>
 										<div class="mouseOver">
-											<p class="card-title fw-semibold">${study.stuTitle }</p>
+											<p class="card-title fw-semibold" 
+											onclick="location.href='/study/viewStudyBoard?stuNo=${study.stuNo}';">
+											${study.stuTitle }</p>
 										</div>
 									</li>
 								</c:forEach>
