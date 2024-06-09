@@ -485,7 +485,7 @@ i {
 					<div class="d-flex">
 						<div class="me-auto">
 							<h3 class="text-light">
-								<b>${studyList.stuTitle }</b>
+								${studyList.stuTitle }
 							</h3>
 						</div>
 						<!-- 로그인한 유저와 작성자가 같을 때에만 수정 삭제 버튼이 보이도록 처리 -->
@@ -513,10 +513,14 @@ i {
 						</a>
 
 					</div>
-
-					<p class="text-light mt-3">
-						<b>${studyList.stuWriter }</b>
-					</p>
+					
+					<div class="d-flex mt-2">
+						<p class="text-light me-2 fw-semibold">${studyList.stuWriter }</p>
+						<i class="bi bi-eye me-2 text-light"> ${studyList.readCount }</i>
+						<i class="bi bi-chat me-2 text-light"> 0</i>
+						<i class="bi bi-bookmark text-light"> 0</i>
+					</div>
+				
 				</div>
 
 
@@ -566,9 +570,9 @@ i {
 								<!-- 마감일 -->
 								<div class="col-md-6">
 									<div class="mb-1 ">
-										<b>모집 마감일</b> <span class=""> <fmt:formatDate
-												pattern="yyyy-MM-dd" value="${studyList.endDate }" />
-
+										<b>모집 마감일</b> 
+										<span class=""> 
+											<fmt:formatDate pattern="yyyy-MM-dd" value="${studyList.endDate }" />
 										</span>
 									</div>
 								</div>
