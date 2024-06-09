@@ -211,5 +211,10 @@
 		#{startRowIndex}, #{viewPostCntPerPage}
 	</select>
 
+	<!-- 스터디 모임글 상위 5개글을 select -->
+	<select id="getStudyTop5" resultType="com.dodeveloper.study.vodto.StudyBoardVO">
+		SELECT * FROM studyBoard order by wrritenDate desc
+		limit 5
+	</select>
 
 </mapper>

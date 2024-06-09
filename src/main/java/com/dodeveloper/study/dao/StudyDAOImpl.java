@@ -302,6 +302,17 @@ public class StudyDAOImpl implements StudyDAO {
 		return ses.selectList(ns + ".searchStudyByStack", param);
 	}
 
+	/**
+	 * @author : yeonju
+	 * @date : 2024. 6. 9.
+	 * @return : List<StudyBoardVO>
+	 * @description : 스터디 모임글 상위 5개글을 가져온다
+	 */
+	@Override
+	public List<StudyBoardVO> getStudyTop5() {
+		return ses.selectList(ns + ".getStudyTop5");
+	}
+
 
 	
 

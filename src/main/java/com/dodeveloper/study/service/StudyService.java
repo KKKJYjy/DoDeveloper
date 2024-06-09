@@ -40,5 +40,8 @@ public interface StudyService {
 
 	//studyStackList로 필터링했을 때 나오는 스터디 모임글 반환하는 메서드
 	Map<String, Object> searchStudyByStack(List<String> studyStackList, int pageNo) throws Exception;
+
+	//스터디 모임글 상위 5개글을 가져오는 메서드
+	List<StudyBoardVO> getStudyTop5() throws Exception;
 	
 }

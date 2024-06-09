@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -59,24 +60,29 @@
 		<!-- Basic Section - Index Page -->
 		<section id="index" class="home">
 			<div class="container" style="width: 70%">
+			
 				<div class="row pb-4">
 					<div class="col-md-6">
 						<h5 class="center text-center text-light pb-2">스터디 모임</h5>
 						<div class="card">
 							<ul class="list-group list-group-flush">
-								<li class="list-group-item">
-									<div class="d-flex">									
-										<p class="card-text me-2 text-dark-emphasis mb-1">작성자</p>
-										<p class="card-text text-dark-emphasis mb-1">작성일</p>
-										<div class="ms-auto">
-											<i class="bi bi-eye me-2 text-dark-emphasis"> 0</i>
-											<i class="bi bi-chat text-dark-emphasis"> 0</i>
-										</div>										
-									</div>
-									<div class="mouseOver">
-										<p class="card-title fw-semibold">게시판 제목</p>
-									</div>
-								</li>
+								<c:forEach var="study" items="${studyList }">
+									<li class="list-group-item">
+										<div class="d-flex">									
+											<p class="card-text me-2 text-dark-emphasis mb-1">${study.stuWriter }</p>
+											<p class="card-text text-dark-emphasis mb-1">
+												<fmt:formatDate pattern="yyyy-MM-dd" value="${study.wrritenDate }" />
+											</p>
+											<div class="ms-auto">
+												<i class="bi bi-eye me-2 text-dark-emphasis"> ${study.readCount }</i>
+												<i class="bi bi-chat text-dark-emphasis"> 0</i>
+											</div>										
+										</div>
+										<div class="mouseOver">
+											<p class="card-title fw-semibold">${study.stuTitle }</p>
+										</div>
+									</li>
+								</c:forEach>
 							</ul>
 						</div>
 					</div>

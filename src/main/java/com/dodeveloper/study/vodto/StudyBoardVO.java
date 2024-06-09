@@ -29,4 +29,5 @@ public class StudyBoardVO {
 	private Timestamp endDate;
 	private int readCount;
 	private int scrape;
+	private Timestamp wrritenDate;
 }
