@@ -31,4 +31,7 @@ public interface CompanyInfoDAO {
 	// 유저가 어떤 게시판의 ?번 글을 스크랩 하는 메서드 (insert)
 	int insertScrap(int scrapBoard, String scrapId, int bType) throws Exception;
 
+	// 최근 5개의 기업 정보 리스트를 불러오는 메서드
+	List<CompanyInfoVO> getCompanyTop5() throws Exception;
+
 }

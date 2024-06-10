@@ -201,6 +201,17 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
 	public int deleteScrap(int scrapNo) throws Exception {
 		
 		return sDao.deleteScrap(scrapNo);
+	}
+
+	/**
+		* @author : yeonju
+		* @date : 2024. 6. 10. 
+		* @return : List<CompanyInfoVO>
+		* @description : 최근 5개의 기업 정보 리스트를 불러오는 메서드
+	 */
+	@Override
+	public List<CompanyInfoVO> getCompanyTop5() throws Exception {
+		return ciDao.getCompanyTop5();
 	}	
 
 }

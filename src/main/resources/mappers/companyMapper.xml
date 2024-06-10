@@ -45,4 +45,8 @@
 		values (#{scrapBoard}, #{scrapId}, #{bType})
 	</insert>
 	
+	<select id="getCompanyTop5" resultType="com.dodeveloper.company.vodto.CompanyInfoVO">
+		SELECT * FROM companyinfo order by companyInfoNo desc limit 5
+	</select>
+	
 </mapper>    

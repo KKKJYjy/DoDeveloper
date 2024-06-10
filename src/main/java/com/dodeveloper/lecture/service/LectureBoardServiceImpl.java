@@ -382,8 +382,8 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 		* @description : 최신 5개 강의 게시글을 얻어오는 메서드
 	 */
 	@Override
-	public List<LectureBoardVO> getLectureTo5() throws Exception {
-		return lDao.getLectureTo5();
+	public List<LectureBoardVO> getLectureTop5() throws Exception {
+		return lDao.getLectureTop5();
 	}
 
 }

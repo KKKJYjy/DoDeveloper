@@ -48,4 +48,8 @@ public interface CompanyInfoService {
 	// 유저가 ?번 스크랩 글을 취소하는 메서드 (delete)
 	int deleteScrap(int scrapNo) throws Exception;
 
+
+	// 최근 5개의 기업 정보 리스트를 불러오는 메서드
+	List<CompanyInfoVO> getCompanyTop5() throws Exception;
+
 }

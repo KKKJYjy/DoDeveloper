@@ -37,6 +37,6 @@ public interface LectureBoardService {
 	boolean likeDownBoard(int lecNo, String user) throws Exception;
 
 	// 최신 5개 강의 게시글을 얻어오는 메서드
-	List<LectureBoardVO> getLectureTo5() throws Exception;
+	List<LectureBoardVO> getLectureTop5() throws Exception;
 	
 }
