@@ -90,6 +90,7 @@
 /* 좋아요 버튼 */
 .btn-group {
 	position: relative;
+	margin-left: auto;
 }
 
 /* 링크(북마크) 스타일 */
@@ -129,6 +130,24 @@
 .starRating .star.on {
 	/* 채워진 별점 이미지의 경로 */
 	background-image: url('/resources/images/lecture/fullStar.png');
+}
+
+.basic img {
+	position: relative; /* 별점과 목록 사이의 간격 */
+	display: inline; /* 댓글 수정 & 댓글 삭제 위 간격 */
+}
+
+/* 좋아요 버튼 & 스크랩 버튼 양옆으로 */
+.btn-group {
+    display: flex;
+    justify-content: space-between; /* 양 끝으로 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+    width: 100%; /* 버튼 그룹의 너비를 100%로 설정 */
+}
+
+#fullScrapIcon {
+	width: 50px;
+	height: 50px;
 }
 </style>
 <script>
@@ -593,6 +612,104 @@ document.addEventListener('DOMContentLoaded', function() {
 function modifyBtn() {
 	modify
 }
+
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
+
+// 스크랩
+$(document).ready(function() {
+    getScrapStatus(); // 스크랩 상태를 확인하는 함수 호출
+});
+
+// 스크랩 상태를 나타내는 변수 초기값 설정
+let scraped = false;
+
+function getScrapStatus() {
+    let lecNo = '${lecBoard.lecNo}';
+    let user = '${sessionScope.loginMember.userId}';
+
+    $.ajax({
+        url: '/lecture/scrapStatus', // 요청을 보낼 URL
+        type: 'get', // HTTP 요청 메서드 (GET)
+        data: {
+            lecNo: lecNo,
+            user: user
+        },
+        success: function(data) {
+            // 스크랩 누르기 전과 스크랩 누른 후의 HTML 요소를 가져옴
+            let scrapIcon = document.getElementById("scrapIcon");
+            let fullScrapIcon = document.getElementById("fullScrapIcon");
+
+            // 받아온 데이터가 "success"이면 꽉찬하트를 표시, 아니면 빈하트를 표시
+            if (data === "success") {
+                scrapIcon.style.display = "none"; // 빈 스크랩 아이콘 숨김
+                fullScrapIcon.style.display = "inline"; // 꽉찬 스크랩 아이콘 표시
+                scraped = true; // 스크랩을 누른 상태
+            } else {
+                scrapIcon.style.display = "inline"; // 빈 스크랩 아이콘 표시
+                fullScrapIcon.style.display = "none"; // 꽉찬 스크랩 아이콘 숨김
+                scraped = false; // 스크랩을 누르지 않은 상태
+            }
+        },
+        error: function() {
+            console.log('스크랩 상태를 불러오는데 실패했습니다.');
+        }
+    });
+}
+
+function clickScrap() {
+    let lecNo = '${lecBoard.lecNo}'; // 게시글 번호
+    let user = preAuth(); // 로그인 한 유저만 스크랩 / 스크랩 취소 가능하도록
+
+    // 1) 게시글 번호와 스크랩 누를 유저를 scrapPost 객체에 담고
+    let scrapPost = {
+        "lecNo": lecNo,
+        "user": user
+    };
+    console.log(scrapPost);
+
+    // 스크랩/스크랩 취소 url을 변수로 설정하고
+    let url;
+
+    // 설정한 url 변수에
+    if (!scraped) {
+        url = '/lecture/scrap'; // 스크랩을 누른 경우
+    } else {
+        url = '/lecture/unScrap'; // 스크랩을 취소하는 경우
+    }
+
+    $.ajax({
+        url: url,
+        type: 'post',
+        // 2) ajax를 이용해서 데이터(scrapPost)를 문자열로 변환하여 넘겨준다.
+        data: JSON.stringify(scrapPost),
+        contentType: 'application/json', // 전송하는 데이터의 형식을 JSON으로 지정
+        success: function(data) {
+            console.log('success:', data);
+
+            // 스크랩 누르기 전과 스크랩을 누른 후의 id 값을 가져와서 변수로 지정
+            let scrapIcon = document.getElementById("scrapIcon");
+            let fullScrapIcon = document.getElementById("fullScrapIcon");
+
+            if (!scraped) {
+                // 스크랩을 누르는 경우
+                scrapIcon.style.display = "none"; // 빈 스크랩 아이콘 숨김
+                fullScrapIcon.style.display = "inline"; // 꽉찬 스크랩 아이콘 표시
+                console.log("스크랩 성공");
+            } else {
+                // 스크랩을 눌렀던 경우 -> 스크랩 취소
+                scrapIcon.style.display = "inline"; // 빈 스크랩 아이콘 표시
+                fullScrapIcon.style.display = "none"; // 꽉찬 스크랩 아이콘 숨김
+                console.log("스크랩 취소 성공");
+            }
+            scraped = !scraped; // 스크랩 상태(스크랩 <=> 스크랩 취소) 변경
+        },
+        error: function(data) {
+            console.log('error:', data);
+        }
+    });
+}
+
 </script>
 </head>
 
@@ -678,14 +795,21 @@ function modifyBtn() {
 						<div class="btns">
 							<!-- 하트 이미지 -->
 							<img id="heartIcon" src="/resources/images/lecture/redHeart.png"
-								alt="하트 이미지" style="width: 50px; height: 50px;"
-								onclick="clickHeart()">
+								alt="하트 이미지" onclick="clickHeart();">
 							<img id="fullHeartIcon" src="/resources/images/lecture/redFullHeart.png"
-								alt="하트 이미지" style="width: 50px; height: 50px; display: none;"
-								onclick="clickHeart()">
+								alt="하트 이미지" style="display: none;"
+								onclick="clickHeart();">
 						</div>
 
 						<!-- <div class="reportInfo"></div> -->
+						
+						<div class="btns">
+							<!-- 스크랩 -->
+							<img id="scrapIcon" src="/resources/images/lecture/scrap.png" alt="스크랩"
+							onclick="clickScrap();">
+							<img id="fullScrapIcon" src="/resources/images/lecture/fullScrap.png" alt="스크랩"
+							style="display: none;" onclick="clickScrap();">
+						</div>
 					</div>
 
 					<!-- 글 수정 & 글 삭제 로그인 한 유저만 가능 -->
