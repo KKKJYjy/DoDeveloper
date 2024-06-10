@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -79,6 +79,9 @@
 <!-- 스터디 writeStudyBoard css 파일 -->
 <link href="/resources/assets/css/study/writeStudyBoard.css"
 	rel="stylesheet" />
+
+<!--  리스트 길이 구하는 함수 포함 -->
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <script>
 
@@ -494,24 +497,25 @@ i {
 							<!-- 수정 버튼 -->
 
 							<div class="icon-link icon-link-hover"
-								style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);"
+								style="-bs-icon-link-transform: translate3d(0, -.125rem, 0);"
 								onclick="location.href='/study/modifyStudyBoard?stuNo=${studyList.stuNo}';">
 								<i class="bi bi-pencil fs-5 me-2" style="color: #ffffff;"></i>
 							</div>
 							<!-- 삭제 버튼 -->
 							<div class="studyBoardDelete icon-link icon-link-hover"
-								style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);"
+								style="-bs-icon-link-transform: translate3d(0, -.125rem, 0);"
 								data-bs-toggle="modal" data-bs-target="#deleteModal">
 								<i class="bi bi-trash3 fs-5 me-2" style="color: #ffffff;"></i>
 							</div>
 						</c:if>
 
 						<!-- 카카오 공유 버튼 -->
-						<a id="kakaotalk-sharing-btn" href="javascript:;" class="icon-link icon-link-hover"
-							style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);"> 
+						<a id="kakaotalk-sharing-btn" href="javascript:;"
+							class="icon-link icon-link-hover"
+							style="-bs-icon-link-transform: translate3d(0, -.125rem, 0);">
 							<i class="bi bi-share fs-5 me-2" style="color: #ffffff;"></i>
 						</a>
-						
+
 					</div>
 
 					<p class="text-light mt-3">
@@ -566,10 +570,9 @@ i {
 								<!-- 마감일 -->
 								<div class="col-md-6">
 									<div class="mb-1 ">
-										<b>모집 마감일</b> 
-										<span class="">
-											<fmt:formatDate pattern="yyyy-MM-dd" value="${studyList.endDate }"/>
-											
+										<b>모집 마감일</b> <span class=""> <fmt:formatDate
+												pattern="yyyy-MM-dd" value="${studyList.endDate }" />
+
 										</span>
 									</div>
 								</div>
@@ -684,6 +687,10 @@ i {
 										<button type="button"
 											class="btn btn-secondary ms-3 p-3 saveReply">댓글 저장</button>
 									</div>
+									
+									<!-- 로그인된 회원이 게시글 신고하는 버튼 추가함 (문전일) -->
+									<button type="button" class="btn btn-primary"
+										data-bs-toggle="modal" data-bs-target="#myModal">신고</button>
 								</c:when>
 								<c:otherwise>
 									<div class="text-light" style="width: 100px;">
@@ -733,6 +740,7 @@ i {
 										<input type="submit" class="btn btn-danger"
 											onclick="return isVaild();" value="참여신청" />
 									</div>
+									
 								</form>
 
 
@@ -744,7 +752,76 @@ i {
 				</div>
 			</div>
 		</section>
-		<!-- End Basic Section -->
+		<!--  -----------------------------------------------report board modal------------------------------------------------------------------ -->
+		<!-- The Modal   -->
+		<div class="modal" id="myModal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+
+					<!-- Modal Header -->
+					<div class="modal-header">
+						<h4 class="modal-title">신고할 게시글 선택</h4>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+					</div>
+
+					<!-- Modal body -->
+
+					<select class="form-select" id="select" name="select"
+						onchange="selectNo(this.value);">
+						<option value="-1">신고할 게시판을 선택</option>
+						<c:forEach var="algDetail" items="${algDetailList}" begin="0"
+							end="${fn:length(algDetailList)}" varStatus="status">
+							<option value="${algDetail.algDetailNo}&${status.index}">${algDetail.algDetailNo} ${algDetail.algDetailTitle} ${status.index} </option>
+
+							
+							
+
+
+						</c:forEach>
+
+					</select>
+					
+					
+						<label for="title" class="form-label">게시글 작성자 : </label> <input
+									type="text" class="form-control" id="writer" placeholder="게시글 작성자를 입력하세요..."
+									name="writer" />
+							
+						<label for="title" class="form-label">신고글 작성자 : </label> <input
+									type="text" class="form-control" id="reporter" placeholder="신고글 작성자를 입력하세요..."
+									name="reporter" />
+
+
+
+
+					<div class="modal-body">Modal body..</div>
+					<div class="mb-3 mt-3">
+						<label for="title" class="form-label">신고사유 : </label> <input
+							type="text" class="form-control" id="reportReason"
+							placeholder="신고 사유를 입력하세요..." name="reportReason" />
+					</div>
+
+					
+					<div>
+						<input type="hidden" id="btypeNo" name="btypeNo" value="4">
+					</div>
+					<div>
+						<input type="hidden" id="boardNo" name="boardNo">
+					</div>
+					
+
+					<!-- Modal footer -->
+					<div class="modal-footer">
+						<button type="button" class="btn btn-warning"
+							onclick="insertReport()">등록</button>
+						<button type="button" class="btn btn-danger"
+							data-bs-dismiss="modal">Close</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<!--  --------------------------------------------------report modal End----------------------------------------------------------------------- -->
+
 	</main>
 
 	<%@ include file="../footer.jsp"%>
