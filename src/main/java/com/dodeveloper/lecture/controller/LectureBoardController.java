@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.dodeveloper.company.vodto.ScrapVO;
 import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.lecture.service.LectureBoardService;
 import com.dodeveloper.lecture.vodto.LectureBoardDTO;
@@ -395,6 +397,100 @@ public class LectureBoardController {
         try {
         	// 좋아요를 눌렀었는지 확인 후 취소하기
             lService.likeDownBoard(lecNo, user);
+            result = new ResponseEntity<String>("success", HttpStatus.OK);
+        } catch (Exception e) {
+            // 예외 발생 시 예외 처리
+            e.printStackTrace();
+            result = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+        }
+
+        return result;
+	}
+	
+	
+	/**
+	 * @methodName : getLikeStatus
+	 * @author : 
+	 * @date : 2024.05.23
+	 * @param : int lecNo - 스크랩을 눌렸는지 확인할 게시글 번호
+	 * @param : String user - 스크랩을 누가 누른건지 확인할 유저
+	 * @return : @ResponseBody String - 스크랩 번호, 유저 정보를 받아서 문자열(success/fail)로 지정해서 반환
+	 * @description : 게시글에 스크랩(눌려있는지/안눌려있는지) 체크하는 메서드
+	 */
+	@GetMapping("/scrapStatus")
+	public @ResponseBody String lectureScrap(int lecNo, String user) {
+		try {
+			if (lService.selectAllLectureScrap(lecNo, user)) {
+				// 유저가 스크랩을 누른 게시글일 경우 "success" 반환
+				System.out.println(user + "가 " + lecNo + "번 게시글에 스크랩을 눌렀었다.");
+			    return "success";
+			} else {
+				// 유저가 스크랩을 누르지 않은 게시글일 경우 "fail" 반환
+				System.out.println(user + "가 " + lecNo + "번 게시글에 스크랩을 취소&안눌렀다.");
+			    return "fail";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+	
+	/**
+	 * @methodName : likeBoard
+	 * @author :
+	 * @date : 2024.05.18
+	 * @param : @RequestBody Map<String, String> likeRequest
+	 * json 데이터를 자바의 Map 형태로 매핑(lecNo가 int형이라 넘길수가 없기에 Map 형태로 String으로 만들어서 넘겼다.)
+	 * @return : ResponseEntity<String> - 문자열을 응답 본문으로 가지는 객체 / 그 중 Stirng 타입(문자열)으로 응답
+	 * @description : 로그인 한 유저인 경우만 스크랩을 누를 수 있다.
+	 * 유저가 스크랩을 눌렀을 경우 스크랩 수가 1증가
+	 */
+    @PostMapping("/scrap")
+    public ResponseEntity<String> scrapPost(@RequestBody Map<String, String> scrapRequest) {
+    	
+        int lecNo = Integer.parseInt(scrapRequest.get("lecNo"));
+        String user = scrapRequest.get("user");
+        
+        logger.info(lecNo + "번 글에 " + user + "가 스크랩을 눌렀습니다!");
+        
+        ResponseEntity<String> result = null; // 초기값 설정
+
+        try {
+            // 좋아요를 안눌렀었는지 확인 후 누르기
+            lService.scrapUpBoard(lecNo, user);
+            result = new ResponseEntity<String>("success", HttpStatus.OK);
+        } catch (Exception e) {
+            // 예외 발생 시 예외 처리
+            e.printStackTrace();
+            result = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+        }
+
+        return result;
+    }
+
+	/**
+	 * @methodName : likeBoard
+	 * @author :
+	 * @date : 2024.05.22
+	 * @param : @RequestBody Map<String, String> likeRequest
+	 * json 데이터를 자바의 Map 형태로 매핑(lecNo가 int형이라 넘길수가 없기에 Map 형태로 String으로 만들어서 넘겼다.)
+	 * @return : ResponseEntity<String> - 문자열을 응답 본문으로 가지는 객체 / 그 중 Stirng 타입(문자열)으로 응답
+	 * @description : 로그인 한 유저인 경우만 스크랩을 누를 수 있다.
+	 * 유저가 스크랩을 눌렀던 경우 한번 더 눌렀을 때 1감소
+	 */
+	@PostMapping("/unScrap")
+	public ResponseEntity<String> unScrapPost(@RequestBody Map<String, String> unScrapRequest) {
+		
+	    int lecNo = Integer.parseInt(unScrapRequest.get("lecNo"));
+	    String user = unScrapRequest.get("user");
+	    
+	    logger.info(lecNo + "번 글에 " + user + "가 좋아요를 취소했습니다!");
+
+	    ResponseEntity<String> result = null; // 초기값 설정
+
+        try {
+        	// 좋아요를 눌렀었는지 확인 후 취소하기
+            lService.scrapDownBoard(lecNo, user);
             result = new ResponseEntity<String>("success", HttpStatus.OK);
         } catch (Exception e) {
             // 예외 발생 시 예외 처리
