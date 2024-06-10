@@ -32,6 +32,7 @@ public class HomeController {
 	@Autowired
 	private LectureBoardService lectureService;
 	
+	@Autowired
 	private CompanyInfoService companyService;
 	
 	@Autowired

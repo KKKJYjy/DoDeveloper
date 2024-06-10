@@ -60,7 +60,7 @@
 		<!-- Basic Section - Index Page -->
 		<section id="index" class="home">
 			<div class="container" style="width: 70%">
-			
+
 				<div class="row pb-4">
 					<div class="col-md-6">
 						<h5 class="center text-center text-light pb-2">스터디 모임</h5>
@@ -68,20 +68,23 @@
 							<ul class="list-group list-group-flush">
 								<c:forEach var="study" items="${studyList }">
 									<li class="list-group-item">
-										<div class="d-flex">									
+										<div class="d-flex">
 											<p class="card-text me-2 text-dark-emphasis mb-1">${study.stuWriter }</p>
 											<p class="card-text text-dark-emphasis mb-1">
-												<fmt:formatDate pattern="yyyy-MM-dd" value="${study.wrritenDate }" />
+												<fmt:formatDate pattern="yyyy-MM-dd"
+													value="${study.wrritenDate }" />
 											</p>
 											<div class="ms-auto">
-												<i class="bi bi-eye me-2 text-dark-emphasis"> ${study.readCount }</i>
-												<i class="bi bi-chat text-dark-emphasis"> 0</i>
-											</div>										
+												<i class="bi bi-eye me-2 text-dark-emphasis">
+													${study.readCount }</i> <i
+													class="bi bi-chat text-dark-emphasis"> 0</i>
+											</div>
 										</div>
 										<div class="mouseOver">
-											<p class="card-title fw-semibold text-truncate" style="max-width: 100%;" 
-											onclick="location.href='/study/viewStudyBoard?stuNo=${study.stuNo}';">
-											${study.stuTitle }</p>
+											<p class="card-title fw-semibold text-truncate"
+												style="max-width: 100%;"
+												onclick="location.href='/study/viewStudyBoard?stuNo=${study.stuNo}';">
+												${study.stuTitle }</p>
 										</div>
 									</li>
 								</c:forEach>
@@ -94,21 +97,25 @@
 							<ul class="list-group list-group-flush">
 								<c:forEach var="lecture" items="${lectureList }">
 									<li class="list-group-item">
-										<div class="d-flex">									
+										<div class="d-flex">
 											<p class="card-text me-2 text-dark-emphasis mb-1">${lecture.lecWriter }</p>
 											<p class="card-text text-dark-emphasis mb-1">
-												<fmt:formatDate pattern="yyyy-MM-dd" value="${lecture.lecPostDate }" />
+												<fmt:formatDate pattern="yyyy-MM-dd"
+													value="${lecture.lecPostDate }" />
 											</p>
 											<div class="ms-auto">
-												<i class="bi bi-eye me-2 text-dark-emphasis"> ${lecture.lecReadCount }</i>
-												<i class="bi bi-suit-heart me-2 text-dark-emphasis"> ${lecture.lecLikeCount }</i>
-												<i class="bi bi-chat text-dark-emphasis"> 0</i>
-											</div>										
+												<i class="bi bi-eye me-2 text-dark-emphasis">
+													${lecture.lecReadCount }</i> <i
+													class="bi bi-suit-heart me-2 text-dark-emphasis">
+													${lecture.lecLikeCount }</i> <i
+													class="bi bi-chat text-dark-emphasis"> 0</i>
+											</div>
 										</div>
 										<div class="mouseOver">
-											<p class="card-title fw-semibold text-truncate" style="max-width: 100%;"
+											<p class="card-title fw-semibold text-truncate"
+												style="max-width: 100%;"
 												onclick="location.href='/lecture/viewBoard?lecNo=${lecture.lecNo }';">
-											${lecture.lecTitle }</p>
+												${lecture.lecTitle }</p>
 										</div>
 									</li>
 								</c:forEach>
@@ -122,14 +129,20 @@
 						<h5 class="center text-center text-light pb-2">기업 리뷰</h5>
 						<div class="card">
 							<ul class="list-group list-group-flush">
-								<c:forEach var="company" items="${companyList }">								
+								<c:forEach var="company" items="${companyList }">
 									<li class="list-group-item">
-										<div class="d-flex">									
-											<p class="card-text me-2 text-dark-emphasis mb-1">${company.companyInfoLocation }</p>
-											<p class="card-text text-dark-emphasis mb-1">${company.companyInfoFields }</p>										
-										</div>
-										<div class="mouseOver">
-											<p class="card-title fw-semibold text-truncate" style="max-width: 100%;">${company.companyInfoName }</p>
+										<div class="d-flex align-items-center">
+											<img src="${company.companyInfoImgLogo }" class="object-fit-scale border rounded me-3" />
+											<div>
+												<div class="d-flex">
+													<p class="card-text me-2 text-dark-emphasis mb-1">${company.companyInfoLocation }</p>
+													<p class="card-text text-dark-emphasis mb-1">${company.companyInfoFields }</p>
+												</div>
+												<div class="mouseOver" onclick="location.href='/companyInfo/revCompanyBoard?companyInfoNo=${company.companyInfoNo}';">
+													<p class="card-title fw-semibold text-truncate"
+														style="max-width: 100%;">${company.companyInfoName }</p>
+												</div>
+											</div>
 										</div>
 									</li>
 								</c:forEach>
@@ -141,16 +154,17 @@
 						<div class="card">
 							<ul class="list-group list-group-flush">
 								<li class="list-group-item">
-									<div class="d-flex">									
+									<div class="d-flex">
 										<p class="card-text me-2 text-dark-emphasis mb-1">작성자</p>
 										<p class="card-text text-dark-emphasis mb-1">작성일</p>
 										<div class="ms-auto">
-											<i class="bi bi-eye me-2 text-dark-emphasis"> 0</i>
-											<i class="bi bi-chat text-dark-emphasis"> 0</i>
-										</div>										
+											<i class="bi bi-eye me-2 text-dark-emphasis"> 0</i> <i
+												class="bi bi-chat text-dark-emphasis"> 0</i>
+										</div>
 									</div>
 									<div class="mouseOver">
-										<p class="card-title fw-semibold text-truncate" style="max-width: 100%;">게시판 제목</p>
+										<p class="card-title fw-semibold text-truncate"
+											style="max-width: 100%;">게시판 제목</p>
 									</div>
 								</li>
 							</ul>

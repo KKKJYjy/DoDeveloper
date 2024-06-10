@@ -211,6 +211,7 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
 	 */
 	@Override
 	public List<CompanyInfoVO> getCompanyTop5() throws Exception {
+		System.out.println("최근 5개의 기업 정보 리스트를 불러오자 : " + ciDao.getCompanyTop5().toString());
 		return ciDao.getCompanyTop5();
 	}	
 
