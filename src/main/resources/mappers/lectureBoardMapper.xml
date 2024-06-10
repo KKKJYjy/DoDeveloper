@@ -195,5 +195,11 @@
 		update lectureBoard set lecLikeCount = lecLikeCount
 		-1 where lecNo = #{lecNo}
 	</update>
+	
+	<!-- 강의 게시판에서 최신 5개글을 select -->
+	<select id="getLectureTo5" resultType="LectureBoardVO">
+		SELECT * FROM lectureBoard order by lecPostDate desc limit 5
+	</select>
+	
 
 </mapper>

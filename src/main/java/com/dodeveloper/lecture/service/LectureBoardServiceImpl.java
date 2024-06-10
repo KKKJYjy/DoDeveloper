@@ -375,4 +375,15 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 		return result;
 	}
 
+	/**
+		* @author : yeonju
+		* @date : 2024. 6. 10.
+		* @return : List<LectureBoardVO>
+		* @description : 최신 5개 강의 게시글을 얻어오는 메서드
+	 */
+	@Override
+	public List<LectureBoardVO> getLectureTo5() throws Exception {
+		return lDao.getLectureTo5();
+	}
+
 }

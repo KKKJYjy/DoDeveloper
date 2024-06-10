@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.dodeveloper.lecture.service.LectureBoardService;
+import com.dodeveloper.lecture.vodto.LectureBoardVO;
 import com.dodeveloper.study.service.StudyService;
 import com.dodeveloper.study.vodto.StudyBoardVO;
 
@@ -22,6 +24,9 @@ public class HomeController {
 
 	@Autowired
 	private StudyService ss;
+	
+	@Autowired
+	private LectureBoardService ls;
 
 	/**
 		* @author : yeonju
@@ -35,15 +40,18 @@ public class HomeController {
 		
 		//스터디 모임글 상위 5개글 가져오기
 		List<StudyBoardVO> studyList = null;
+		List<LectureBoardVO> lectureList = null;
 		
 		try {
 			studyList = ss.getStudyTop5();
+			lectureList = ls.getLectureTo5();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 			
 		model.addAttribute("studyList", studyList);
+		model.addAttribute("lectureList", lectureList);
 
 		return "index"; // index.jsp 호출
 	}

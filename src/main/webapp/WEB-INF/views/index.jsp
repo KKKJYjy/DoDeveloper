@@ -79,7 +79,7 @@
 											</div>										
 										</div>
 										<div class="mouseOver">
-											<p class="card-title fw-semibold" 
+											<p class="card-title fw-semibold text-truncate" style="max-width: 100%;" 
 											onclick="location.href='/study/viewStudyBoard?stuNo=${study.stuNo}';">
 											${study.stuTitle }</p>
 										</div>
@@ -92,19 +92,26 @@
 						<h5 class="center text-center text-light pb-2">강의 추천</h5>
 						<div class="card">
 							<ul class="list-group list-group-flush">
-								<li class="list-group-item">
-									<div class="d-flex">									
-										<p class="card-text me-2 text-dark-emphasis mb-1">작성자</p>
-										<p class="card-text text-dark-emphasis mb-1">작성일</p>
-										<div class="ms-auto">
-											<i class="bi bi-eye me-2 text-dark-emphasis"> 0</i>
-											<i class="bi bi-chat text-dark-emphasis"> 0</i>
-										</div>										
-									</div>
-									<div class="mouseOver">
-										<p class="card-title fw-semibold">게시판 제목</p>
-									</div>
-								</li>
+								<c:forEach var="lecture" items="${lectureList }">
+									<li class="list-group-item">
+										<div class="d-flex">									
+											<p class="card-text me-2 text-dark-emphasis mb-1">${lecture.lecWriter }</p>
+											<p class="card-text text-dark-emphasis mb-1">
+												<fmt:formatDate pattern="yyyy-MM-dd" value="${lecture.lecPostDate }" />
+											</p>
+											<div class="ms-auto">
+												<i class="bi bi-eye me-2 text-dark-emphasis"> ${lecture.lecReadCount }</i>
+												<i class="bi bi-suit-heart me-2 text-dark-emphasis"> ${lecture.lecLikeCount }</i>
+												<i class="bi bi-chat text-dark-emphasis"> 0</i>
+											</div>										
+										</div>
+										<div class="mouseOver">
+											<p class="card-title fw-semibold text-truncate" style="max-width: 100%;"
+												onclick="location.href='/lecture/viewBoard?lecNo=${lecture.lecNo }';">
+											${lecture.lecTitle }</p>
+										</div>
+									</li>
+								</c:forEach>
 							</ul>
 						</div>
 					</div>
@@ -125,7 +132,7 @@
 										</div>										
 									</div>
 									<div class="mouseOver">
-										<p class="card-title fw-semibold">게시판 제목</p>
+										<p class="card-title fw-semibold text-truncate" style="max-width: 100%;">게시판 제목</p>
 									</div>
 								</li>
 							</ul>
@@ -145,7 +152,7 @@
 										</div>										
 									</div>
 									<div class="mouseOver">
-										<p class="card-title fw-semibold">게시판 제목</p>
+										<p class="card-title fw-semibold text-truncate" style="max-width: 100%;">게시판 제목</p>
 									</div>
 								</li>
 							</ul>
