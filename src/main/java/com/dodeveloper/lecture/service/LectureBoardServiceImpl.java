@@ -14,12 +14,16 @@ import com.dodeveloper.lecture.dao.LectureBoardDAO;
 import com.dodeveloper.lecture.vodto.LectureBoardDTO;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
 import com.dodeveloper.lecture.vodto.LectureSearchDTO;
+import com.dodeveloper.scrap.dao.ScrapDAO;
 
 @Service // 아래의 클래스가 서비스 객체임을 명시하는 것
 public class LectureBoardServiceImpl implements LectureBoardService {
 
 	@Autowired
 	private LectureBoardDAO lDao; // 스프링 컨테이너에 있는 LectureDAO 객체를 찾아 주입
+	
+	@Autowired
+	private ScrapDAO sDao; // 스프링 컨테이너에 있는 ScrapDAO 객체를 찾아 주입
 
 	@Autowired
 	private PagingInfo pi; // 스프링 컨테이너에 있는 PagingInfo 객체를 찾아 주입
@@ -375,4 +379,75 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 		return result;
 	}
 
+	/**
+	 * @methodName : selectAllLectureScrap
+	 * @author : kde
+	 * @date : 2024.06.08
+	 * @param : int lecNo - 스크랩을 눌렀는지 확인 할 게시글 번호
+	 * @param : String user - 스크랩을 눌렀는지 확인 할 유저
+	 * @return : List<Object>
+	 * @description : 유저가 스크랩을 누른적이 있는지 조회 (스크랩 눌렀을 경우 1반환)
+	 */
+	@Override
+	public boolean selectAllLectureScrap(int lecNo, String user) throws Exception {
+		
+		boolean result = false;
+		
+		if (lDao.selectAllLectureScrap(lecNo, user) == 1) {
+			result = true;
+		}
+		
+		return result;
+	}
+
+	/**
+	 * @methodName : scrapUpBoard
+	 * @author : kde
+	 * @date : 2024.06.09
+	 * @param : int lecNo - 게시글 번호
+	 * @param : String user - 스크랩을 누른 유저
+	 * @return : boolean
+	 * @description : 게시글에 스크랩 버튼을 눌렀을 경우 - 스크랩 갯수 1개 update (전체 게시글에 보여주기)
+	 */
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+	public boolean scrapUpBoard(int lecNo, String user) throws Exception {
+
+		boolean result = false; // 초기값 설정
+		
+		// 스크랩을 눌렀는지 안눌렀는지 확인후 안눌렀을 경우
+		if (lDao.selectAllLectureScrap(lecNo, user) != 1) {
+			lDao.insertScrap(lecNo, user); // 스크랩을 누른다.
+			lDao.updateUpScrap(lecNo); // 스크랩 수를 1 증가
+			System.out.println("서비스단 : " + lecNo + "번 글에 " + user + "가 스크랩을 눌렀습니다!");
+		}
+		
+		return result;
+	}
+
+	/**
+	 * @methodName : scrapDownBoard
+	 * @author : kde
+	 * @date : 2024.06.09
+	 * @param : int lecNo - 게시글 번호
+	 * @param : String user - 스크랩을 누른 유저
+	 * @return : boolean
+	 * @description : 게시글에 스크랩 버튼을 눌렀을 경우 - 스크랩 갯수 1개(down) update (전체 게시글에 보여주기)
+	 */
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+	public boolean scrapDownBoard(int lecNo, String user) throws Exception {
+		
+		boolean result = false; // 초기값 설정
+		
+		// 스크랩을 눌렀는지 안눌렀는지 확인후 눌렀던 경우
+		if (lDao.selectAllLectureScrap(lecNo, user) == 1) {
+			lDao.deleteScrap(lecNo, user); // 눌렀던 스크랩을 취소한다.
+			lDao.updateDownScrap(lecNo); // 스크랩 수를 1 감소
+			System.out.println("서비스단 : " + lecNo + "번 글에 " + user + "가 스크랩을 취소했습니다!");
+		}
+		
+		return result;
+	}
+	
 }

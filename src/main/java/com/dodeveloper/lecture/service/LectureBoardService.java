@@ -1,5 +1,6 @@
 package com.dodeveloper.lecture.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.dodeveloper.lecture.vodto.LectureBoardDTO;
@@ -33,5 +34,14 @@ public interface LectureBoardService {
 	
 	// 게시글에 좋아요 버튼 한번 더 눌렀을 경우 - 좋아요 갯수 1개(down) update (전체 게시글에 보여주기)
 	boolean likeDownBoard(int lecNo, String user) throws Exception;
+	
+	// 유저가 스크랩을 누른적이 있는지 조회 (스크랩 눌렀을 경우 1반환)
+	boolean selectAllLectureScrap(int lecNo, String user) throws Exception;
+	
+	// 게시글에 스크랩 버튼을 눌렀을 경우 - 스크랩 갯수 1개 update (전체 게시글에 보여주기)
+	boolean scrapUpBoard(int lecNo, String user) throws Exception;
+	
+	// 게시글에 스크랩 버튼을 눌렀을 경우 - 스크랩 갯수 1개(down) update (전체 게시글에 보여주기)
+	boolean scrapDownBoard(int lecNo, String user) throws Exception;
 	
 }
