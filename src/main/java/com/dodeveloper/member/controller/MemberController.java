@@ -147,8 +147,17 @@ public class MemberController {
 	
 	
 	@GetMapping("/login")
-	public void loginGet(HttpServletRequest request) {
+	public void loginGet(HttpServletRequest request, HttpSession session) {
 		logger.info("Login View.");
+
+		if(request.getParameter("redirectUrl") == null) {
+			return;
+		}
+		
+		if(request.getParameter("lecNo") != null) {
+			String urlToVisitAfterLogin = "/lecture/viewBoard?lecNo=" + request.getParameter("lecNo");
+			session.setAttribute(SessionNames.ATTEMPTED, urlToVisitAfterLogin);
+		}
 	}
 
 	@RequestMapping(value = "/loginPost", method = RequestMethod.POST)
