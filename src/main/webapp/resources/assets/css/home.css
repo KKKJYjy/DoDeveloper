@@ -11,4 +11,5 @@
 .mouseOver:hover {
 	text-decoration: underline;
 	cursor: pointer;
+	color : #dc3545;
 }

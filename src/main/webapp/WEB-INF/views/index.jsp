@@ -59,11 +59,19 @@
 	<main id="main">
 		<!-- Basic Section - Index Page -->
 		<section id="index" class="home">
-			<div class="container" style="width: 70%">
 
-				<div class="row pb-4">
+			<div class="container" style="width: 70%">
+			
+				<div class="bg-white bg-opacity-10 rounded">
+					<p class="text-center text-light p-3" >
+						<span class="fw-semibold me-2"><i class="bi bi-check-circle"></i> 공지사항</span>
+						<span class="opacity-75">공지사항 내용</span>
+					</p>
+				</div>
+
+				<div class="row pt-5 pb-4">
 					<div class="col-md-6">
-						<h5 class="center text-center text-light pb-2">스터디 모임</h5>
+						<h5 class="center text-center text-light pb-2 fw-semibold">스터디 모임</h5>
 						<div class="card">
 							<ul class="list-group list-group-flush">
 								<c:forEach var="study" items="${studyList }">
@@ -76,8 +84,9 @@
 											</p>
 											<div class="ms-auto">
 												<i class="bi bi-eye me-2 text-dark-emphasis">${study.readCount }</i>
-												<i class="bi bi-bookmark me-2 text-dark-emphasis">${study.scrape }</i> 
-												<i class="bi bi-chat text-dark-emphasis"> ${study.replyCount }</i>
+												<i class="bi bi-bookmark me-2 text-dark-emphasis">${study.scrape }</i>
+												<i class="bi bi-chat text-dark-emphasis">
+													${study.replyCount }</i>
 											</div>
 										</div>
 										<div class="mouseOver">
@@ -92,7 +101,7 @@
 						</div>
 					</div>
 					<div class="col-md-6">
-						<h5 class="center text-center text-light pb-2">강의 추천</h5>
+						<h5 class="center text-center text-light pb-2 fw-semibold">강의 추천</h5>
 						<div class="card">
 							<ul class="list-group list-group-flush">
 								<c:forEach var="lecture" items="${lectureList }">
@@ -104,9 +113,11 @@
 													value="${lecture.lecPostDate }" />
 											</p>
 											<div class="ms-auto">
-												<i class="bi bi-eye me-2 text-dark-emphasis"> ${lecture.lecReadCount }</i> 
-												<i class="bi bi-suit-heart me-2 text-dark-emphasis"> ${lecture.lecLikeCount }</i> 
-												<i class="bi bi-chat text-dark-emphasis"> 0</i>
+												<i class="bi bi-eye me-2 text-dark-emphasis">
+													${lecture.lecReadCount }</i> <i
+													class="bi bi-suit-heart me-2 text-dark-emphasis">
+													${lecture.lecLikeCount }</i> <i
+													class="bi bi-bookmark me-2 text-dark-emphasis">${lecture.scrap }</i>
 											</div>
 										</div>
 										<div class="mouseOver">
@@ -124,24 +135,26 @@
 
 				<div class="row">
 					<div class="col-md-6">
-						<h5 class="center text-center text-light pb-2">기업 리뷰</h5>
+						<h5 class="center text-center text-light pb-2 fw-semibold">기업 리뷰</h5>
 						<div class="card">
 							<ul class="list-group list-group-flush">
 								<c:forEach var="company" items="${companyList }">
 									<li class="list-group-item">
 										<div class="d-flex align-items-center">
-											<img src="${company.companyInfoImgLogo }" class="object-fit-scale border rounded me-3" />
+											<img src="${company.companyInfoImgLogo }"
+												class="object-fit-scale border rounded me-3 img-fluid" />
 											<div>
 												<div class="d-flex">
 													<p class="card-text me-2 text-dark-emphasis mb-1">${company.companyInfoLocation }</p>
 													<p class="card-text text-dark-emphasis mb-1">${company.companyInfoFields }</p>
 												</div>
-												<div class="mouseOver" onclick="location.href='/companyInfo/revCompanyBoard?companyInfoNo=${company.companyInfoNo}';">
+												<div class="mouseOver"
+													onclick="location.href='/companyInfo/revCompanyBoard?companyInfoNo=${company.companyInfoNo}';">
 													<p class="card-title fw-semibold text-truncate"
 														style="max-width: 100%;">${company.companyInfoName }</p>
 												</div>
 											</div>
-											
+
 										</div>
 									</li>
 								</c:forEach>
@@ -149,7 +162,7 @@
 						</div>
 					</div>
 					<div class="col-md-6">
-						<h5 class="center text-center text-light pb-2">알고리즘</h5>
+						<h5 class="center text-center text-light pb-2 fw-semibold">알고리즘</h5>
 						<div class="card">
 							<ul class="list-group list-group-flush">
 								<li class="list-group-item">
