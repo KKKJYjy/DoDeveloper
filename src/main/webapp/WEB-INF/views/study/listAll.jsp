@@ -528,6 +528,11 @@
 															<i class="bi bi-eye"></i> ${study.readCount }
 														</p>
 													</div>
+													<div class="me-2">
+														<p class="card-text text-body-secondary">
+															<i class="bi bi-chat"></i> ${study.replyCount }
+														</p>
+													</div>
 													<div class="">
 														<p class="card-text text-body-secondary">
 															<i class="bi bi-bookmark"></i> ${study.scrape }

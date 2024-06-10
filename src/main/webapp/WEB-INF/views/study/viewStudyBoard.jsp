@@ -517,8 +517,8 @@ i {
 					<div class="d-flex mt-2">
 						<p class="text-light me-2 fw-semibold">${studyList.stuWriter }</p>
 						<i class="bi bi-eye me-2 text-light"> ${studyList.readCount }</i>
-						<i class="bi bi-chat me-2 text-light"> 0</i>
-						<i class="bi bi-bookmark text-light"> 0</i>
+						<i class="bi bi-chat me-2 text-light"> ${studyList.replyCount }</i>
+						<i class="bi bi-bookmark text-light"> ${studyList.scrape }</i>
 					</div>
 				
 				</div>
