@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.dodeveloper.company.vodto.ScrapVO;
 import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.lecture.vodto.LectureBoardDTO;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
@@ -377,6 +378,91 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	public int updateLikeDownCount(int lecNo) throws Exception {
 		
 		return ses.update(ns + ".updateLikeDownCount", lecNo);
+	}
+
+	/**
+	 * @methodName : selectAllLectureScrap
+	 * @author : kde
+	 * @date : 2024.06.08
+	 * @param : int lecNo - 스크랩을 눌렀는지 확인 할 게시글 번호
+	 * @param : String user - 스크랩을 눌렀는지 확인 할 유저
+	 * @return : List<Object>
+	 * @description : 유저가 스크랩을 누른적이 있는지 조회 (스크랩 눌렀을 경우 1반환)
+	 */
+	@Override
+	public int selectAllLectureScrap(int lecNo, String user) throws Exception {
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("lecNo", lecNo);
+		params.put("user", user);
+		
+		return ses.selectOne(ns + ".selectAllLectureScrap", params);
+	}
+
+	/**
+	 * @methodName : insertScrap
+	 * @author : kde
+	 * @date : 2024.06.09
+	 * @param : int lecNo - 게시글 번호
+	 * @param : String user - 스크랩을 누른 유저
+	 * @return : int
+	 * @description : 게시글에 스크랩 처리하는 메서드
+	 */
+	@Override
+	public int insertScrap(int lecNo, String user) throws Exception {
+
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("lecNo", lecNo);
+		params.put("user", user);
+		
+		return ses.insert(ns + ".insertScrap", params);
+	}
+
+	/**
+	 * @methodName : updateUpScrap
+	 * @author : kde
+	 * @date : 2024.06.09
+	 * @param : int lecNo - 게시글 번호
+	 * @return : int
+	 * @description : 게시글에 스크랩 버튼을 눌렀을 경우 갯수 1개 update (전체 게시글에 보여주기)
+	 */
+	@Override
+	public int updateUpScrap(int lecNo) throws Exception {
+		
+		return ses.update(ns + ".updateUpScrap", lecNo);
+	}
+
+	/**
+	 * @methodName : deleteScrap
+	 * @author : kde
+	 * @date : 2024.06.09
+	 * @param : int lecNo - 게시글 번호
+	 * @param : String user - 스크랩을 취소한 유저
+	 * @return : int
+	 * @description : 게시글에 스크랩 한 번 더 눌렀을 경우 취소처리하는 메서드
+	 */
+	@Override
+	public int deleteScrap(int lecNo, String user) throws Exception {
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("lecNo", lecNo);
+		params.put("user", user);
+		
+		return ses.delete(ns + ".deleteScrap", params);
+	}
+
+	/**
+	 * @methodName : updateDownScrap
+	 * @author : kde
+	 * @date : 2024.06.09
+	 * @param : int lecNo - 게시글 번호
+	 * @return : int
+	 * @description : 게시글에 스크랩 한 번 더 눌렀을 경우 갯수 1개 횟수 down하는 update (전체 게시글에 보여주기)
+	 */
+	@Override
+	public int updateDownScrap(int lecNo) throws Exception {
+		
+		return ses.update(ns + ".updateDownScrap", lecNo);
 	}
 
 }
