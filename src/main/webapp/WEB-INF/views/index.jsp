@@ -35,6 +35,7 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
 	rel="stylesheet" />
+
 <link href="/resources/assets/vendor/aos/aos.css" rel="stylesheet" />
 
 <!-- Template Main CSS File -->
@@ -51,7 +52,33 @@
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+	$(function() {
+
+		new Swiper('.swiper', {
+			// 다양한 옵션 설정, 
+			// 아래에서 설명하는 옵션들은 해당 위치에 들어갑니다!!
+			slidesPerView : 'auto',
+			spaceBetween : 2,
+
+			autoplay : {
+				// 자동재생 여부
+				delay : 5000, // 시작시간 설정
+			},
+			loop : true, // 반복재생 여부
+			slidesPerView : 1, // 한번에 보여줄 슬라이드 개수
+			spaceBetween : 10, // 슬라이드 사이 여백
+			centeredSlides : true, // 1번 슬라이드가 가운데 보이기
+			// nav 화살표 출력 시 추가
+			navigation : {
+				prevEl : '.swiper-prev',
+				nextEl : '.swiper-next',
+			},
+		});
+	});
+</script>
 </head>
+
 
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
 	<%@ include file="./header.jsp"%>
@@ -61,17 +88,25 @@
 		<section id="index" class="home">
 
 			<div class="container" style="width: 70%">
-			
-				<div class="bg-white bg-opacity-10 rounded">
-					<p class="text-center text-light p-3" >
-						<span class="fw-semibold me-2"><i class="bi bi-check-circle"></i> 공지사항</span>
-						<span class="opacity-75">공지사항 내용</span>
-					</p>
+
+				<div class="bg-white bg-opacity-10 rounded p-3">
+					<p class="text-center text-light fw-semibold mb-1">공지사항</p>
+					<!-- Slider main container -->
+					<div class="swiper">
+						<!-- Additional required wrapper -->
+						<div class="swiper-wrapper">
+							<!-- Slides -->
+							<c:forEach var="notice" items="${noticeList }">
+								<div class="swiper-slide text-light text-center">${notice.title }</div>
+							</c:forEach>
+						</div>
+					</div>
 				</div>
 
 				<div class="row pt-5 pb-4">
 					<div class="col-md-6">
-						<h5 class="center text-center text-light pb-2 fw-semibold">스터디 모임</h5>
+						<h5 class="center text-center text-light pb-2 fw-semibold">스터디
+							모임</h5>
 						<div class="card">
 							<ul class="list-group list-group-flush">
 								<c:forEach var="study" items="${studyList }">
@@ -101,7 +136,8 @@
 						</div>
 					</div>
 					<div class="col-md-6">
-						<h5 class="center text-center text-light pb-2 fw-semibold">강의 추천</h5>
+						<h5 class="center text-center text-light pb-2 fw-semibold">강의
+							추천</h5>
 						<div class="card">
 							<ul class="list-group list-group-flush">
 								<c:forEach var="lecture" items="${lectureList }">
@@ -135,7 +171,8 @@
 
 				<div class="row">
 					<div class="col-md-6">
-						<h5 class="center text-center text-light pb-2 fw-semibold">기업 리뷰</h5>
+						<h5 class="center text-center text-light pb-2 fw-semibold">기업
+							리뷰</h5>
 						<div class="card">
 							<ul class="list-group list-group-flush">
 								<c:forEach var="company" items="${companyList }">
@@ -223,5 +260,6 @@
 
 	<!-- Template Main JS File -->
 	<script src="/resources/assets/js/main.js"></script>
+
 </body>
 </html>

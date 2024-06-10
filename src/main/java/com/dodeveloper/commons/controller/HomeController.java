@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.dodeveloper.admin.dto.NoticeDTO;
+import com.dodeveloper.admin.service.AdminBoardService;
 import com.dodeveloper.company.service.CompanyInfoService;
 import com.dodeveloper.company.vodto.CompanyInfoVO;
 import com.dodeveloper.lecture.service.LectureBoardService;
@@ -36,7 +38,8 @@ public class HomeController {
 	private CompanyInfoService companyService;
 	
 	@Autowired
-	private ReplyService rs;
+	private AdminBoardService adminService;
+	
 
 	/**
 		* @author : yeonju
@@ -52,13 +55,13 @@ public class HomeController {
 		List<StudyBoardVO> studyList = null;
 		List<LectureBoardVO> lectureList = null;
 		List<CompanyInfoVO> companyList = null;
-		
-		//List<ReplyVO> replyList = null;
+		List<NoticeDTO> noticeList = null;
 		
 		try {
 			studyList = sutdyService.getStudyTop5();
 			lectureList = lectureService.getLectureTop5();
 			companyList = companyService.getCompanyTop5();
+			noticeList = adminService.getNoticeTop5();
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -68,6 +71,7 @@ public class HomeController {
 		model.addAttribute("studyList", studyList);
 		model.addAttribute("lectureList", lectureList);
 		model.addAttribute("companyList", companyList);
+		model.addAttribute("noticeList", noticeList);
 
 		return "index"; // index.jsp 호출
 	}
