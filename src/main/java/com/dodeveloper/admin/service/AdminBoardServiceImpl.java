@@ -425,11 +425,11 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	}
 
 	@Override
-	public ReportVO getReportNO(int btypeNo, int boardNo) throws Exception {
+	public List<ReportVO> getReportNO(int btypeNo, int boardNo) throws Exception {
 
 		System.out.println("서비스단 : 신고게시글 상세조회");
 
-		ReportVO report = bDao.selectReportBoardNo(btypeNo, boardNo);
+		List<ReportVO> report = (List<ReportVO>) bDao.selectReportBoardNo(btypeNo, boardNo);
 
 		return report;
 	}

@@ -83,6 +83,20 @@
 
 	})
 	
+	
+	function writeBtn() {
+		let user = '${sessionScope.loginMember.userId}'
+		let admin = '${sessionScope.loginMember.isAdmin}'
+		if (user === ''){
+			alert('로그인 후 이용해주세요');
+			window.location.href = '/member/login';
+		} else if (admin === 'N'){
+			alert('작성 권한이 없습니다');
+		} else {
+			window.location.href = '/admin/notice';
+		}
+	}
+	
 </script>
 </head>
 <body>
@@ -120,6 +134,7 @@
 
 				<c:if test="${sessionScope.loginMember.isAdmin == 'Y' }">
 					<button id="openModalBtn" onclick="checkCheckbox()">게시글삭제</button>
+					<button id="openModalBtn" onclick="writeBtn();">글 쓰기</button>
 				</c:if>
 
 
@@ -147,7 +162,7 @@
 										<c:forEach var="board" items="${notcBoardList }">
 
 											<tr id="table"
-												onclick="location.href = '/adminView/noticViewDetail?boardNo=${board.boardNo}';">
+												onclick="location.href = '/notice/viewBoard?boardNo=${board.boardNo}';">
 												<td onclick="event.cancelBubble=true"><input
 													type="checkbox" name="rowCheck" class="deleteCheckbox"
 													id="myCheckbox" value="${board.boardNo }" /></td>

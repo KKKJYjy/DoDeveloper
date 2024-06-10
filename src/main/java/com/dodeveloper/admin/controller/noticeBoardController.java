@@ -48,4 +48,14 @@ public class noticeBoardController {
 
 	}
 	
+	@RequestMapping(value = "/viewBoard", method = RequestMethod.GET)
+	public void noticeDetail(Model model, @RequestParam("boardNo") int boardNo) throws Exception {
+		
+		logger.info(boardNo + "번글 조회");
+		
+		NoticeDTO notice = bService.getNotcBoardNo(boardNo);
+		
+		model.addAttribute("notice", notice);
+	}
+	
 }

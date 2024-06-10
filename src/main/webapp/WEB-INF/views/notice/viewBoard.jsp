@@ -38,20 +38,24 @@
 
 <!-- Template Main CSS File -->
 <link href="/resources/assets/css/main.css" rel="stylesheet" />
-<link href="/resources/assets/css/lecture/listAll.css" rel="stylesheet" />
+
+
 <title>Insert title here</title>
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<style>
+#noticeInput {
+	
+	height: 500px;
+	
+
+}
+</style>
 <script>
-	function writeBtn() {
-		let user = '${sessionScope.loginMember.userId}'
-		let admin = '${sessionScope.loginMember.isAdmin}'
-		if (user === ''){
-			alert('로그인 후 이용해주세요');
-			window.location.href = '/member/login';
-		} else if (admin === 'N'){
-			alert('작성 권한이 없습니다');
-		} else {
-			window.location.href = '/admin/notice';
-		}
+	function checkCheck() {
+		window.location.href = "/admin/updateNotice?boardNo=${notice.boardNo}"
 	}
 </script>
 </head>
@@ -59,68 +63,56 @@
 	<%@ include file="../header.jsp"%>
 
 	<main id="main">
-		<section id="notice" class="basic">
+		<section id="qna" class="basic">
 			<div class="container">
 
-				<table class="table table-dark table-hover">
+				<div class="noticeBoard">
+
+					<div class="mb-3 mt-3">
+						<label>작성자</label>
+						<textarea class="form-control" id="notWriter" name="Writer"
+							readonly="readonly">${notice.writer}</textarea>
+					</div>
+
+					<div class="mb-3 mt-3">
+						<label>작성 일자</label>
+						<textarea class="form-control" id="notpostDate" name="postDate"
+							readonly="readonly">${notice.postDate}</textarea>
+					</div>
+
+					<div class="mb-3 mt-3">
+						<label>제목</label>
+						<textarea class="form-control" id="notTitle" name="title"
+							readonly="readonly">${notice.title }</textarea>
+					</div>
 
 
+					<div class="mb-3 mt-3">
+						<label>내용</label>
+						<textarea class="form-control" id="noticeInput" name="content"
+							readonly="readonly">${notice.content }</textarea>
+					</div>
 
-					<thead>
-						<tr>
-							<th>글번호</th>
-							<th>작성자</th>
-							<th>제목</th>
-							<th>작성일</th>
+					<c:if test="${sessionScope.loginMember.isAdmin == 'Y' }">
+						<div class="btns">
 
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach var="board" items="${notcBoardList }">
+							<!--   <input type="button" class="btn btn-primary sendNotice"
+								onclick="return checkCheck()" value="글 수정">  -->
 
-							<tr id="table"
-								onclick="location.href = '/notice/viewBoard?boardNo=${board.boardNo}';">
-								<td>${board.boardNo }</td>
-								<td>${board.writer}</td>
-								<td>${board.title }</td>
-								<td>${board.postDate }</td>
-
-							</tr>
-
-
-						</c:forEach>
-					</tbody>
-				</table>
-				
-				
-				
-				<ul class="pagination">
-					<c:if test="${param.pageNo > 1 }">
-						<li class="page-item"><a class="page-link"
-							href="/notice/listAll?pageNo=${param.pageNo -1 }&searchType=${param.searchType}&searchValue=${param.searchValue}">Previous</a></li>
-
+							<button type="button" class="btn btn-primary"
+								onclick="return checkCheck()">글 수정</button>
+						</div>
 					</c:if>
-					<c:forEach var="i"
-						begin="${pagingInfo.startNumOfCurrentPagingBlock }"
-						end="${pagingInfo.endNumOfCurrentPagingBlock }" step="1">
-						<li class="page-item" id="${i }"><a class="page-link"
-							href="/notice/listAll?pageNo=${i }&searchType=${param.searchType}&searchValue=${param.searchValue}">${i }</a></li>
-					</c:forEach>
-
-					<c:if test="${param.pageNo < pagingInfo.totalPageCnt }">
-						<li class="page-item"><a class="page-link"
-							href="/notice/listAll?pageNo=${param.pageNo +1 }&searchType=${param.searchType}&searchValue=${param.searchValue}">Next</a></li>
-					</c:if>
-				</ul>
-				
-				<button type="button" id="openModalBtn" onclick="writeBtn();">글 쓰기</button>
 
 
+				</div>
+
+
+
+				<div class="replies"></div>
 			</div>
 		</section>
 	</main>
-
-
 
 
 

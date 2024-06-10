@@ -22,15 +22,15 @@ public class AdminViewDetaileController {
 	@Autowired
 	private AdminBoardService bService;
 	
-	@RequestMapping(value = "/noticViewDetail", method = RequestMethod.GET)
-	public void noticeDetail(Model model, @RequestParam("boardNo") int boardNo) throws Exception {
-		
-		logger.info(boardNo + "번글 조회");
-		
-		NoticeDTO notice = bService.getNotcBoardNo(boardNo);
-		
-		model.addAttribute("notice", notice);
-	}
+//	@RequestMapping(value = "/noticViewDetail", method = RequestMethod.GET)
+//	public void noticeDetail(Model model, @RequestParam("boardNo") int boardNo) throws Exception {
+//		
+//		logger.info(boardNo + "번글 조회");
+//		
+//		NoticeDTO notice = bService.getNotcBoardNo(boardNo);
+//		
+//		model.addAttribute("notice", notice);
+//	}
 	
 	@RequestMapping(value = "/qnaView", method = RequestMethod.GET)
 	public void qnaViewBoard() {

@@ -225,8 +225,7 @@ h2 {
 								
 									<button type="button" class="btn btn-secondary"
 										id="deleteReportBtn" onclick="checkCheckbox()">신고내역삭제</button>
-										<button type="button" class="btn btn-secondary"
-										id="deleteReportBtn" onclick="checkCheckbox()">패널티유저조회</button>
+										
 								</c:when>
 								<c:otherwise>
 									<button type="button" class="btn btn-secondary"
