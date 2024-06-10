@@ -131,10 +131,10 @@
 
 
 
-
+   
 			<div class="container mt-3">
 				<p class="text-center">스터디 모임</p>
-				<ul class="nav nav-tabs nav-justified">
+				<ul class="nav nav-tabs nav-justified dark">
 					<li class="nav-item"><a class="nav-link"
 						href="/admin/selectBoard">스터디 모임</a></li>
 					<li class="nav-item"><a class="nav-link"
@@ -146,7 +146,12 @@
 					<li class="nav-item"><a class="nav-link"
 						href="/admin/noticeBoard">공지사항</a></li>
 				</ul>
-			</div>
+			</div>  
+			
+			
+			
+			
+			
 
 
 
