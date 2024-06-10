@@ -76,4 +76,10 @@ public interface StudyDAO {
 	//스터디 모임글 상위 5개글을 가져오는 메서드
 	List<StudyBoardVO> getStudyTop5();
 
+	//bNo번째 댓글수를 +1 업데이트하는 메서드
+	int ReplyCntUp(int bNo) throws Exception;
+
+	//stuNo번째 댓글수를 -1 업데이트하는 메서드
+	int ReplyCntDown(int stuNo) throws Exception;
+
 }

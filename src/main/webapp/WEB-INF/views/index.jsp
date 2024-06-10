@@ -75,9 +75,9 @@
 													value="${study.wrritenDate }" />
 											</p>
 											<div class="ms-auto">
-												<i class="bi bi-eye me-2 text-dark-emphasis">
-													${study.readCount }</i> <i
-													class="bi bi-chat text-dark-emphasis"> 0</i>
+												<i class="bi bi-eye me-2 text-dark-emphasis">${study.readCount }</i>
+												<i class="bi bi-bookmark me-2 text-dark-emphasis">${study.scrape }</i> 
+												<i class="bi bi-chat text-dark-emphasis"> ${study.replyCount }</i>
 											</div>
 										</div>
 										<div class="mouseOver">
@@ -104,11 +104,9 @@
 													value="${lecture.lecPostDate }" />
 											</p>
 											<div class="ms-auto">
-												<i class="bi bi-eye me-2 text-dark-emphasis">
-													${lecture.lecReadCount }</i> <i
-													class="bi bi-suit-heart me-2 text-dark-emphasis">
-													${lecture.lecLikeCount }</i> <i
-													class="bi bi-chat text-dark-emphasis"> 0</i>
+												<i class="bi bi-eye me-2 text-dark-emphasis"> ${lecture.lecReadCount }</i> 
+												<i class="bi bi-suit-heart me-2 text-dark-emphasis"> ${lecture.lecLikeCount }</i> 
+												<i class="bi bi-chat text-dark-emphasis"> 0</i>
 											</div>
 										</div>
 										<div class="mouseOver">
@@ -143,6 +141,7 @@
 														style="max-width: 100%;">${company.companyInfoName }</p>
 												</div>
 											</div>
+											
 										</div>
 									</li>
 								</c:forEach>

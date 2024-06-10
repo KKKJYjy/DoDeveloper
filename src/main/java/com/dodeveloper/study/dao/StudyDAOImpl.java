@@ -117,7 +117,7 @@ public class StudyDAOImpl implements StudyDAO {
 
 		return ses.selectList(ns + ".selectAllListWithsDTO", param);
 	}
-	
+
 	/**
 	 * @author : yeonju
 	 * @date : 2024. 5. 24.
@@ -275,17 +275,17 @@ public class StudyDAOImpl implements StudyDAO {
 	}
 
 	/**
-		* @author : yeonju
-		* @date : 2024. 5. 28.
-		* @param : List<String> studyStackList - 필터링할 스터디 언어
-		* @return : int
-		* @description : 스터디 언어로 필터링했을 때 스터디 모임글 갯수 select
+	 * @author : yeonju
+	 * @date : 2024. 5. 28.
+	 * @param : List<String> studyStackList - 필터링할 스터디 언어
+	 * @return : int
+	 * @description : 스터디 언어로 필터링했을 때 스터디 모임글 갯수 select
 	 */
 	@Override
 	public int selectTotalBoardCntWithSdtoWithStuStack(List<String> studyStackList) {
 		return ses.selectOne(ns + ".selectTotalBoardCntWithSdtoWithStuStack", studyStackList);
 	}
-	
+
 	/**
 	 * @author : yeonju
 	 * @date : 2024. 5. 24.
@@ -313,7 +313,28 @@ public class StudyDAOImpl implements StudyDAO {
 		return ses.selectList(ns + ".getStudyTop5");
 	}
 
+	/**
+	 * @author : yeonju
+	 * @date : 2024. 6. 10.
+	 * @param : bNo - 스터디 모임글 번호 pk
+	 * @return : int
+	 * @description : bNo번째 댓글수를 +1 업데이트하는 메서드
+	 */
+	@Override
+	public int ReplyCntUp(int bNo) throws Exception {
+		return ses.update(ns + ".updateReplyCnt", bNo);
+	}
 
-	
+	/**
+	 * @author : yeonju
+	 * @date : 2024. 6. 10.
+	 * @param : stuNo - 스터디 모임글 번호 pk
+	 * @return : int
+	 * @description : stuNo번째 댓글수를 +1 업데이트하는 메서드
+	 */
+	@Override
+	public int ReplyCntDown(int stuNo) throws Exception {
+		return ses.update(ns + ".ReplyCntDown", stuNo);
+	}
 
 }

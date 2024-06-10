@@ -388,14 +388,14 @@
 		if(window.confirm("댓글을 삭제하시겠습니까?")){
 			//예 - true값이 넘어오면 db에서 삭제하자
 			$.ajax({
-				url : "/studyReply/deleteReply/" + replyNo,
+				url : "/studyReply/deleteReply/" + replyNo + "/" + ${studyList.stuNo},
 				type : "delete",
 				header : {
 					//PUT, DELETE, PATCH등의 HTTP method가 동작하지 않는 과거의 웹 브라우저라면 post방식으로 작동되도록 한다 
 					"X-HTTP-Method-Override" : "POST"
 				},
 				dataType : "text",
-				async : 'false', //받아올 데이터가 있어야 파싱 가능.
+				async : false, //받아올 데이터가 있어야 파싱 가능.
 				success : function(data) {
 					console.log(data);
 					if(data == 'deleteSuccess'){
