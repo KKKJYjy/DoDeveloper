@@ -68,7 +68,7 @@
         });
         
         $("#email").keyup(function (e){
-        	rewriteEmail();
+        	onChangeOfWrittenEmail();
         });
         
         $("#request-confirm-email-btn").on("click",function(e){
@@ -98,12 +98,13 @@
     		return;
     	}
     	*/
+    	$("#email-code").prop("disabled", false);
     	sendRequestToConfirmEmail(emailAddress);
     	$("#email-validation-check").show();
     	startEmailValidationTimer(1000 * 60 * 5);
       }
       
-      function rewriteEmail(){
+      function onChangeOfWrittenEmail(){
     	$("#email-validation-check").hide();
     	$("#email-error-msg").html("");
     	isValidEmail = false;
@@ -117,7 +118,7 @@
     	  
     	  emailTimer = setInterval(() => {
     	         showRemainingTime(emailCodeExpireDate);
-    	}, 1000);
+    	}, 100);
       }
       
       function endEmailValidationTimer(){
@@ -138,6 +139,7 @@
     	  if(remainingTime <= 0){
     		  output = "0:00";
         	  $("#email-timelimit").html(output);
+        	  $("#email-code").prop("disabled", true);
         	  return;
     	  }
     	  
@@ -155,7 +157,6 @@
    		  $("#email-timelimit").html(output);
       
       }
-      
       
       function checkEmailCode(){
       	let emailValidCode = $("#email-code").val();
@@ -440,7 +441,7 @@
 
 											<div id="email-validation-check" style="display: none">
 												<input type="text" class="form-control" id="email-code"
-													style="margin: 5px 0;" />
+													style="margin: 5px 0;" disabled/>
 												<button type="button" id="check-email-code-btn"
 													class="btn btn-outline-success btn-sm">인증확인</button>
 											</div>
