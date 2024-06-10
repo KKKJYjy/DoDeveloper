@@ -8,6 +8,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -62,7 +63,7 @@ public class MemberController {
 	
 	@Autowired
 	private MailManager mailManager;
-
+	
 	@Autowired
 	private MemberService mService;
 
@@ -71,8 +72,8 @@ public class MemberController {
 
 	
 	private class PwdResetUser {
-		private LocalDateTime requestTime;
-		private MemberVO member;
+		private final LocalDateTime requestTime;
+		private final MemberVO member;
 		
 		public PwdResetUser(MemberVO member){
 			this.requestTime = LocalDateTime.now();
@@ -88,8 +89,8 @@ public class MemberController {
 	}
 	
 	private class EmailToValidate {
-		private LocalDateTime requestTime;
-		private String email;
+		private final LocalDateTime requestTime;
+		private final String email;
 		
 		public EmailToValidate(String email){
 			this.requestTime = LocalDateTime.now();
@@ -107,9 +108,11 @@ public class MemberController {
 	private static final long PWD_RESET_LINK_EXPIRE_MINUTE = 30;
 	private static final long EMAIL_WAIT_TO_VALIDATION_MINUTE = 5;
 	
-	private boolean isTimerWorking = false;
-	private Timer timer = new Timer(true);
+	public MemberController() {
+		timer.schedule(deleteOldRequest, 1000, 1000 * 60);
+	}
 	
+	private Timer timer = new Timer(true);
 	
 	TimerTask deleteOldRequest = new TimerTask() {
 		
@@ -142,7 +145,7 @@ public class MemberController {
 		}
 	};
 	
-
+	
 	@GetMapping("/login")
 	public void loginGet(HttpServletRequest request) {
 		logger.info("Login View.");
@@ -222,8 +225,7 @@ public class MemberController {
 			mailManager.sendValidationCode(emailAddress, code);
 			session.setAttribute(SessionNames.EMAIL_VALIDATION_CODE, code);
 			emailsToValidate.put(code, new EmailToValidate(emailAddress));
-			startTimer();
-			
+
 			return ResponseEntity.ok(true);
 			
 		} catch (Exception e) {
@@ -302,14 +304,20 @@ public class MemberController {
 	public ResponseEntity<String> sendUserId(String email) throws Exception {
 		logger.info(email + "이 아이디를 요청함");
 		
-		MemberVO member = mService.getMemberByEmail(email);
+		List<MemberVO> members = mService.getMemberByEmail(email);
 		
-		if (member == null) {
+		if (members == null || members.isEmpty()) {
 			System.out.println("해당 이메일로 가입된 회원이 없습니다.");
 			return ResponseEntity.ok("해당 이메일로 가입된 회원이 없습니다.");
 		}
 
-		mailManager.sendUserId(email, member.getUserId());
+		List<String> userIds = new LinkedList<String>();
+		
+		for(MemberVO member : members) {
+			userIds.add(member.getUserId());
+		}
+		
+		mailManager.sendUserId(email, userIds);
 		logger.info(email + " 에게 전송완료");
 		return ResponseEntity.ok("해당 이메일로 유저 아이디를 전송했습니다.");
 	}
@@ -324,9 +332,21 @@ public class MemberController {
 //			return ResponseEntity.ok("유효한 이메일이 아닙니다.");
 //		}
 		
-		MemberVO member = mService.getMemberByEmail(email);
-
-		if (!member.getUserId().equals(userId)) {
+		List<MemberVO> members = mService.getMemberByEmail(email);
+		
+		if(members == null || members.isEmpty()) {
+			return ResponseEntity.ok("회원 아이디와 이메일이 매치되지 않습니다.");
+		}
+		
+		MemberVO requestingMember = null;
+		for(MemberVO member : members) {
+			if(member.getUserId().equals(userId)) {
+				requestingMember = member;
+				break;
+			}
+		}
+		
+		if (requestingMember == null) {
 			logger.info(email + "이 보낸 요청에서 회원 아이디와 이메일이 매치되지 않습니다.");
 			return ResponseEntity.ok("회원 아이디와 이메일이 매치되지 않습니다.");
 		}
@@ -340,9 +360,7 @@ public class MemberController {
 		
 		String urlResult = urlWithoutParam + "/" + classMappingUrl + "/" + PASSWORD_RESET_URL + "/" + uuid;
 		
-		pwdResetUserHolder.put(uuid, new PwdResetUser(member));
-		
-		startTimer();
+		pwdResetUserHolder.put(uuid, new PwdResetUser(requestingMember));
 		
 		mailManager.sendPwdResetLink(email, urlResult);
 		
@@ -426,13 +444,6 @@ public class MemberController {
 		headers.setContentType(mediaType);
 
 		return ResponseEntity.ok().headers(headers).body(returnMap);
-	}
-	
-	private void startTimer() {
-		if(isTimerWorking == false) {
-			timer.schedule(deleteOldRequest, 1000, 1000 * 60);
-			isTimerWorking = true;
-		}
 	}
 
 }

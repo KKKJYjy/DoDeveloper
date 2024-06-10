@@ -1,5 +1,7 @@
 package com.dodeveloper.member.service;
 
+import java.util.List;
+
 import com.dodeveloper.member.dto.DropMemberDTO;
 import com.dodeveloper.member.dto.LoginDTO;
 import com.dodeveloper.member.dto.RegisterDTO;
@@ -42,5 +44,7 @@ public interface MemberService {
 	// 회원 삭제
 	int deleteAllDroppedMember() throws Exception;
 	
-	MemberVO getMemberByEmail(String email) throws Exception;
+	// 이메일로 회원 가져오기
+	List<MemberVO> getMemberByEmail(String email) throws Exception;
+	
 }
