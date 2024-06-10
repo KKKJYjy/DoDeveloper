@@ -67,7 +67,7 @@ function selectNo(no) {
 	let user = '${sessionScope.loginMember.userId}';
 	let boardNumber = no.split('&')[0]
 	let indexNo = parseInt(no.split('&')[1]);
-	//console.log(boardNumber);
+	console.log(boardNumber);
 	console.log(indexNo);
 	let list = `${algDetailList}`;
 	
@@ -77,8 +77,9 @@ function selectNo(no) {
 	let writer = listSplit[indexNo+1].split(',')[0]
 	$('#reporter').val(user);
 	$('#writer').val(writer);
+	$('#boardNo').val(boardNumber);
 	console.log(user);
-	return no;
+	return boardNumber;
 }
 
 function insertReport() {
@@ -268,7 +269,7 @@ function insertReport() {
 
 					<!-- Modal body -->
 
-					<select class="form-select" id="boardNo" name="boardNo"
+					<select class="form-select" id="select" name="select"
 						onchange="selectNo(this.value);">
 						<option value="-1">신고할 게시판을 선택</option>
 						<c:forEach var="algDetail" items="${algDetailList}" begin="0"
@@ -303,19 +304,13 @@ function insertReport() {
 					</div>
 
 					
-
-					<select class="form-select" id="btypeNo" name="btypeNo">
-						<option value="0">신고할 게시판이 어느 게시판인지 선택</option>
-
-
-						<option value="1">강의추천</option>
-						<option value="2">스터디게시판</option>
-						<option value="3">location</option>
-						<option value="4">알고리즘게시판</option>
-						<option value="5">Q&A</option>
-
-
-					</select>
+					<div>
+						<input type="hidden" id="btypeNo" name="btypeNo" value="4">
+					</div>
+					<div>
+						<input type="hidden" id="boardNo" name="boardNo">
+					</div>
+					
 
 					<!-- Modal footer -->
 					<div class="modal-footer">
