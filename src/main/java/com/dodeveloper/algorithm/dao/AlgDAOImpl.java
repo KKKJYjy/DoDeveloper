@@ -1,6 +1,8 @@
 package com.dodeveloper.algorithm.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +88,18 @@ public class AlgDAOImpl implements AlgDAO {
 	    // TODO Auto-generated method stub
 	    
 	    return ses.insert(ns+".insertReport", reportDTO);
+	}
+
+	@Override
+	public AlgDetailDTO selectAlgDetail(int algBoardNo, int algDetailNo) {
+	 // algDetailNo 에 해당하는 AlgDetail 테이블 조회
+	    Map<String, Integer> map = new HashMap<String, Integer>();
+	    
+	    map.put("algBoardNo", algBoardNo);
+	    map.put("algDetailNo", algDetailNo);
+	    
+	    return ses.selectOne(ns+".selectAlgCodeDetail", map);
+	    
 	}
 
 }

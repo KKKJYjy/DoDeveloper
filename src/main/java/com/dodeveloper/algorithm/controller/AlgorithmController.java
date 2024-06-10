@@ -251,6 +251,28 @@ public class AlgorithmController {
 		return "/algorithm/listAll";
 		
 	}
+	
+	@RequestMapping("codeDetail")
+	public void veiwCodeDetail(@RequestParam("algBoardNo") int algBoard,
+		@RequestParam("algDetailNo") int algDetailNo, Model model) {
+	    //System.out.println(algBoard);
+	    //System.out.println(algDetailNo);
+	    AlgDetailDTO returnMap = null;
+	    
+	    try {
+		returnMap = aService.getListDetail(algBoard, algDetailNo);
+		System.out.println("controll codeDetail");
+		
+		
+		System.out.println(returnMap);
+		model.addAttribute("algDetailList", returnMap);
+	    } catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+	    
+	    
+	}
 
 
 }

@@ -1,6 +1,8 @@
 package com.dodeveloper.algorithm.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -121,6 +123,20 @@ public class AlgServiceImpl implements AlgService {
 	    System.out.println("신고글 인서트");
 	    
 	    aDao.insertReport(reportDTO);
+	}
+
+
+	@Override
+	public AlgDetailDTO getListDetail(int algBoardNo, int algDetailNo) throws Exception {
+	    //
+	    AlgDetailDTO algDetail = null;
+	    
+	   System.out.println("service codeDetail");
+	    
+	    algDetail = aDao.selectAlgDetail(algBoardNo, algDetailNo);
+	    
+	    
+	    return algDetail;
 	}
 
 }
