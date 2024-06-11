@@ -91,14 +91,14 @@ public class AlgDAOImpl implements AlgDAO {
 	}
 
 	@Override
-	public AlgDetailDTO selectAlgDetail(int algBoardNo, int algDetailNo) {
+	public AlgDetailDTO selectOneAlgDetail( int algDetailNo) {
 	 // algDetailNo 에 해당하는 AlgDetail 테이블 조회
 	    Map<String, Integer> map = new HashMap<String, Integer>();
 	    
-	    map.put("algBoardNo", algBoardNo);
+	   
 	    map.put("algDetailNo", algDetailNo);
 	    
-	    return ses.selectOne(ns+".selectAlgCodeDetail", map);
+	    return ses.selectOne(ns+".selectAlgCodeDetail", algDetailNo);
 	    
 	}
 

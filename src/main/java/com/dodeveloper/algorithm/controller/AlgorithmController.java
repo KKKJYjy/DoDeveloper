@@ -253,14 +253,13 @@ public class AlgorithmController {
 	}
 	
 	@RequestMapping("codeDetail")
-	public void veiwCodeDetail(@RequestParam("algBoardNo") int algBoard,
-		@RequestParam("algDetailNo") int algDetailNo, Model model) {
+	public void veiwCodeDetail(@RequestParam("algDetailNo") int algDetailNo, Model model) {
 	    //System.out.println(algBoard);
 	    //System.out.println(algDetailNo);
 	    AlgDetailDTO returnMap = null;
 	    
 	    try {
-		returnMap = aService.getListDetail(algBoard, algDetailNo);
+		returnMap = aService.getAlgDetail( algDetailNo);
 		System.out.println("controll codeDetail");
 		
 		

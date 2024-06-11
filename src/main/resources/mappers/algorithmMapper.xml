@@ -16,10 +16,10 @@
 		select * from algDetail where algBoardNo = #{boardNo}
 	</select>
 	
-	<!-- algBoardNo, algDetail 에 해당하는 algDetail 조회 -->
+	<!-- algBoardNo, algDetailNo 에 해당하는 algDetail 조회 -->
 	<select id="selectAlgCodeDetail"
 		resultType="com.dodeveloper.algorithm.vodto.AlgDetailDTO">
-		select * from algDetail where algBoardNo = #{algBoardNo} and algDetailNo = #{algDetailNo}
+		select * from algDetail where algDetailNo = #{algDetailNo}
 	</select>
 
 	<!-- 알고리즘분류 테이블 조회 -->

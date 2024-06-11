@@ -127,13 +127,13 @@ public class AlgServiceImpl implements AlgService {
 
 
 	@Override
-	public AlgDetailDTO getListDetail(int algBoardNo, int algDetailNo) throws Exception {
+	public AlgDetailDTO getAlgDetail( int algDetailNo) throws Exception {
 	    //
 	    AlgDetailDTO algDetail = null;
 	    
 	   System.out.println("service codeDetail");
 	    
-	    algDetail = aDao.selectAlgDetail(algBoardNo, algDetailNo);
+	    algDetail = aDao.selectOneAlgDetail( algDetailNo);
 	    
 	    
 	    return algDetail;

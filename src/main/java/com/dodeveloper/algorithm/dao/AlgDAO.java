@@ -36,5 +36,5 @@ public interface AlgDAO {
 	int insertReport(ReportDTO reportDTO);
 
 	// algDetailNo 에 해당하는 AlgDetail 테이블 조회
-	AlgDetailDTO selectAlgDetail(int algBoardNo, int algDetailNo);
+	AlgDetailDTO selectOneAlgDetail( int algDetailNo);
 }

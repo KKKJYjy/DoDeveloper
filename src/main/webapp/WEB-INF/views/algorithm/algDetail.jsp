@@ -218,7 +218,7 @@ function insertReport() {
 					end="${fn:length(algDetailList)}">
 
 					<div class="container mt-3">
-					<a href="/algorithm/codeDetail?algBoardNo=${algDetail.algBoardNo}&algDetailNo=${algDetail.algDetailNo}">
+					<a href="/algorithm/codeDetail?algDetailNo=${algDetail.algDetailNo}">
 						<h2>${algDetail.algDetailTitle}</h2></a>
 						<div>${algDetail.algDetailNo}</div>
 						<div class="mt-4 p-5 bg-primary text-white rounded">

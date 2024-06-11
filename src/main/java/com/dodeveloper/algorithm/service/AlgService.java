@@ -16,7 +16,7 @@ public interface AlgService {
     List<AlgDetailDTO> getListDetail(int boardNo) throws Exception;
 
     // alg상세게시판 조회 codeDetail.jsp 에 출력하기 위해 algDetailNo에 해당하는 algDetailDTO 하나만 출력
-    AlgDetailDTO getListDetail(int algBoardNo, int algDetailNo) throws Exception;
+    AlgDetailDTO getAlgDetail( int algDetailNo) throws Exception;
 
     // algBoard 글 쓰기
     void writeAlgBoard(AlgBoardDTO algBoardDTO) throws Exception;
