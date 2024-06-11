@@ -82,6 +82,11 @@
 		and sa.status='Y'
 		order by applyDate desc
 	</select>
-
+	
+	<!-- a유저가 강의 추천 게시판에 작성한 게시글 select -->
+	<select id="getMyPageLecBoardList"
+	resultType="com.dodeveloper.lecture.vodto.LectureBoardVO">
+		select * from lectureBoard where lecWriter = #{userId} and bType = 1 order by lecPostDate desc
+	</select>
 
 </mapper>
