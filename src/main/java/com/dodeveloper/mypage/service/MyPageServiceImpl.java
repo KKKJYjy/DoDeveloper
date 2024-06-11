@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dodeveloper.company.vodto.ScrapVO;
 import com.dodeveloper.lecture.dao.LectureBoardDAO;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
 import com.dodeveloper.mypage.dao.MyPageDAO;
@@ -178,6 +179,25 @@ public class MyPageServiceImpl implements MyPageService {
 
 		List<ReplyVO> lectureReplyList = myPageDao.getMyPageLecBoardReplyList(userId);
 		result.put("lectureReplyList", lectureReplyList);
+
+		return result;
+	}
+	
+	/**
+	 * @methodName : getMyScrapLectureList
+	 * @author : kde
+	 * @date : 2024.06.11
+	 * @param : String userId - 로그인 한 유저
+	 * @return : Map<String, Object>
+	 * @description : 유저가 강의 추천 게시판의 게시글 스크랩한 게시글 불러오기
+	 */
+	@Override
+	public Map<String, Object> getMyScrapLectureList(String userId) throws Exception {
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+
+		List<ScrapVO> lectureScrapList = myPageDao.getMyPageLecBoardScrapList(userId);
+		result.put("lectureScrapList", lectureScrapList);
 
 		return result;
 	}
