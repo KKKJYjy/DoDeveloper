@@ -148,17 +148,36 @@ public class MyPageServiceImpl implements MyPageService {
 	 * @methodName : getMyLectureList
 	 * @author : kde
 	 * @date : 2024.06.11
-	 * @param : String userId - 로그인한 유저
+	 * @param : String userId - 로그인 한 유저
 	 * @return : Map<String, Object>
-	 * @description : userId가 강의 추천 게시판에 작성한 게시글로 이동
+	 * @description : 유저가 강의 추천 게시판에 작성한 게시글로 이동
 	 */
 	@Override
 	public Map<String, Object> getMyLectureList(String userId) throws Exception {
 
 		Map<String, Object> result = new HashMap<String, Object>();
 
-		List<StudyBoardVO> lectureList = myPageDao.getMyStudyList(userId);
+		List<LectureBoardVO> lectureList = myPageDao.getMyPageLecBoardList(userId);
 		result.put("lectureList", lectureList);
+
+		return result;
+	}
+	
+	/**
+	 * @methodName : getMyReplyLectureList
+	 * @author : kde
+	 * @date : 2024.06.11
+	 * @param : String userId - 로그인 한 유저
+	 * @return : Map<String, Object>
+	 * @description : 유저가 강의 추천 게시판의 게시글에 작성한 댓글 불러오기
+	 */
+	@Override
+	public Map<String, Object> getMyReplyLectureList(String userId) throws Exception {
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+
+		List<ReplyVO> lectureReplyList = myPageDao.getMyPageLecBoardReplyList(userId);
+		result.put("lectureReplyList", lectureReplyList);
 
 		return result;
 	}

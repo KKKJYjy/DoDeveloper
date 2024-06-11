@@ -26,7 +26,10 @@ public interface MyPageService {
 	//userId가 참여중인 스터디 모임글 & 스터디 언어 & 참여 신청 리스트 불러오기
 	Map<String, Object> getMyJoinedStudyList(String userId) throws Exception;
 	
-	// userId가 강의 추천 게시판에 작성한 게시글 불러오기
+	// 유저가 강의 추천 게시판에 작성한 게시글 불러오기
 	Map<String, Object> getMyLectureList(String userId) throws Exception;
+	
+	// 유저가 강의 추천 게시판의 게시글에 작성한 댓글 불러오기
+	Map<String, Object> getMyReplyLectureList(String userId) throws Exception;
 	
 }
