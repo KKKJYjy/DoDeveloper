@@ -609,10 +609,6 @@ document.addEventListener('DOMContentLoaded', function() {
     showStarRating(starScore);
 });
 
-function modifyBtn() {
-	modify
-}
-
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
 
