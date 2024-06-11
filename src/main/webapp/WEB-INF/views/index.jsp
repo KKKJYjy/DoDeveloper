@@ -177,16 +177,16 @@
 									<li class="list-group-item">
 										<div class="d-flex align-items-center">
 											<img src="${company.companyInfoImgLogo }"
-												class="object-fit-scale border rounded me-3 img-fluid" />
-											<div>
+												class="object-fit-scale border rounded me-2 img-fluid" style="height: 60px;" />
+											<div class="text-truncate" style="max-width: 100%;">
 												<div class="d-flex">
 													<p class="card-text me-2 text-dark-emphasis mb-1">${company.companyInfoLocation }</p>
-													<p class="card-text text-dark-emphasis mb-1">${company.companyInfoFields }</p>
+													<p class="card-text me-2 text-dark-emphasis mb-1">${company.companyInfoFields }</p>
+													<p class="card-text me-2 text-dark-emphasis mb-1">${company.companyInfoName }</p>
 												</div>
 												<div class="mouseOver"
 													onclick="location.href='/companyInfo/revCompanyBoard?companyInfoNo=${company.companyInfoNo}';">
-													<p class="card-title fw-semibold text-truncate"
-														style="max-width: 100%;">${company.companyInfoName }</p>
+													<p class="card-title fw-semibold "> ${company.revTitle }</p>
 												</div>
 											</div>
 

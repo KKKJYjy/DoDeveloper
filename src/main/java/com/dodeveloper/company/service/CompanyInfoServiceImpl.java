@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.dodeveloper.company.dao.CompanyInfoDAO;
 import com.dodeveloper.company.vodto.CompanyInfoVO;
+import com.dodeveloper.company.vodto.CompanyInfoWithRevVO;
 import com.dodeveloper.company.vodto.RevCompanyBoardVO;
 import com.dodeveloper.company.vodto.ScrapVO;
 import com.dodeveloper.company.vodto.WrittenCompanyBoardDTO;
@@ -206,11 +207,11 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
 	/**
 		* @author : yeonju
 		* @date : 2024. 6. 10. 
-		* @return : List<CompanyInfoVO>
+		* @return : List<CompanyInfoWithRevVO>
 		* @description : 최근 5개의 기업 정보 리스트를 불러오는 메서드
 	 */
 	@Override
-	public List<CompanyInfoVO> getCompanyTop5() throws Exception {
+	public List<CompanyInfoWithRevVO> getCompanyTop5() throws Exception {
 		System.out.println("최근 5개의 기업 정보 리스트를 불러오자 : " + ciDao.getCompanyTop5().toString());
 		return ciDao.getCompanyTop5();
 	}	

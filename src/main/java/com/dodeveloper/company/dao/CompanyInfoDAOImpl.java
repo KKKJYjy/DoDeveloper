@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.dodeveloper.company.vodto.CompanyInfoVO;
+import com.dodeveloper.company.vodto.CompanyInfoWithRevVO;
 import com.dodeveloper.company.vodto.RevCompanyBoardVO;
 import com.dodeveloper.company.vodto.ScrapVO;
 import com.dodeveloper.company.vodto.WrittenCompanyBoardDTO;
@@ -105,11 +106,11 @@ public class CompanyInfoDAOImpl implements CompanyInfoDAO {
 	/**
 	 * @author : yeonju
 	 * @date : 2024. 6. 10.
-	 * @return : List<CompanyInfoVO>
+	 * @return : List<CompanyInfoWithRevVO>
 	 * @description : 최근 5개의 기업 정보 리스트를 불러오는 메서드
 	 */
 	@Override
-	public List<CompanyInfoVO> getCompanyTop5() throws Exception {
+	public List<CompanyInfoWithRevVO> getCompanyTop5() throws Exception {
 		return ses.selectList(ns + ".getCompanyTop5");
 	}
 
