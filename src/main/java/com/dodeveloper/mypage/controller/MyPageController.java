@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dodeveloper.lecture.service.LectureBoardService;
 import com.dodeveloper.member.service.MemberService;
 import com.dodeveloper.member.vo.MemberVO;
 import com.dodeveloper.mypage.dto.ChangeProfileDTO;
@@ -46,6 +48,9 @@ public class MyPageController {
 
 	@Autowired
 	private MemberService mService;
+	
+	@Autowired
+	private LectureBoardService lService; // 스프링 컨테이너에서 LectureService 객체를 찾아 주입
 
 	@GetMapping("/myProfile")
 	public void myProfileGet() {
@@ -295,6 +300,31 @@ public class MyPageController {
 		model.addAttribute("studyList", (List<StudyBoardVO>) result.get("studyList"));
 		model.addAttribute("stuStackList", (List<StuStackDTO>) result.get("stuStackList"));
 		model.addAttribute("stuApplyList", (List<StudyApplyVO>) result.get("stuApplyList"));
+	}
+	
+	/**
+	 * @methodName : myLectureList
+	 * @author : kde
+	 * @date : 2024.06.11
+	 * @param : Model model - 컨트롤러에서 뷰로 데이터를 전달
+	 * @param : HttpServletRequest req - 로그인한 사용자의 아이디를 가져오기 위해 사용
+	 * @return : void
+	 * @description : userId가 강의 추천 게시판에 작성한 게시글 불러오기
+	 */
+	@GetMapping("/myLectureList")
+	public void myLectureList(Model model, HttpServletRequest req) {
+		// 현재 로그인한 사용자의 아이디
+		String userId = ((MemberVO) req.getSession().getAttribute("loginMember")).getUserId();
+		logger.info(userId + "가 강의 추천 게시판에 작성한 게시글로 이동");
+		
+	    Map<String, Object> result = null;
+	    
+	    try {
+			result = myPageService.getMyLectureList(userId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
