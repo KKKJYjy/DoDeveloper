@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.dodeveloper.admin.dto.ConnectLogDTO;
+import com.dodeveloper.admin.dto.UserDTO;
 import com.dodeveloper.admin.dto.UserStatusDTO;
 import com.dodeveloper.admin.vo.AdminVO;
 import com.dodeveloper.admin.vo.BadMemberBoardVO;
@@ -37,7 +38,7 @@ public class AdminDAOImpl implements AdminDAO {
   }
 	
 	@Override
-	public List<MemberVO> selectAllUser() throws Exception {
+	public List<UserDTO> selectAllUser() throws Exception {
 		
 		return ses.selectList(ns + ".selectAllUser");
 

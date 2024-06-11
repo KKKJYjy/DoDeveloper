@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.dodeveloper.admin.dao.AdminDAO;
 
 import com.dodeveloper.admin.dto.ConnectLogDTO;
+import com.dodeveloper.admin.dto.UserDTO;
 import com.dodeveloper.admin.dto.UserStatusDTO;
 import com.dodeveloper.admin.vo.AdminVO;
 import com.dodeveloper.admin.vo.BadMemberBoardVO;
@@ -28,21 +29,13 @@ public class AdminServiceImpl implements AdminService {
 	
 	
 
-	@Override
-	public List<BadMemberBoardVO> getListBadMemberBoard() throws Exception {
-		
-		System.out.println("서비스단 : 불량 회원 게시물 조회");
-		
-		List<BadMemberBoardVO> badMemberList = aDao.selectListBadMemberBoard();
-	
-		return badMemberList;
-  }
+
   
 	
-	public List<MemberVO> getAllUser() throws Exception {
+	public List<UserDTO> getAllUser() throws Exception {
 		System.out.println("서비스단 유저 조회");
 		
-		List<MemberVO> userList = aDao.selectAllUser();
+		List<UserDTO> userList = aDao.selectAllUser();
 		
 		return userList;
 
