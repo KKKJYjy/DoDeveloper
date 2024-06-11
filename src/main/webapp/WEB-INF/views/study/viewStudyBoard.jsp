@@ -448,6 +448,20 @@
 	
 	// ====== 댓글 관련 끝 =====
 	
+	//참여신청 버튼 눌렀을때 로그인 안했다면 로그인 페이지로 이동
+	function isLogin(){
+		let result = false;
+		let user = '${sessionScope.loginMember.userId}';
+		
+		if(user == ''){ //로그인 안했다면
+			location.href='/member/login?redirectUrl=viewStudyBoard&stuNo=${studyList.stuNo}';
+			result = true;
+		}
+		
+		return result; 
+	}	
+		
+		
 	//참여신청팝업창에서 참여신청버튼을 눌렀을 때 유효성검사
 	function isVaild(){
 		let result = false;
@@ -661,7 +675,7 @@ i {
 							</div>
 
 							<div class="col-md-11">
-								<input type="button" class="btn btn-secondary" value="참여신청"
+								<input type="button" class="btn btn-secondary" value="참여신청" onclick="return isLogin();"
 									style="width: 100%" data-bs-toggle="modal"
 									data-bs-target="#exampleModal" />
 							</div>
