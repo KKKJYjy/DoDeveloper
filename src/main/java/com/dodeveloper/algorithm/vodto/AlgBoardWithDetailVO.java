@@ -9,6 +9,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+	* @author : yeonju
+	* @date : 2024. 6. 11. 
+	* @description : 알고리즘 + 알고리즘 상세 join하여 메인홈에 출력하기 위해서 만든 VO객체
+ */
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
