@@ -85,7 +85,7 @@
 			<div class="container" style="width: 70%">
 
 				<div class="bg-white bg-opacity-10 rounded p-3">
-					<p class="text-center text-light fw-semibold mb-1">공지사항</p>
+					<p class="text-center text-light fw-semibold mb-1">📣 공지사항</p>
 					<!-- Slider main container -->
 					<div class="swiper">
 						<!-- Additional required wrapper -->
