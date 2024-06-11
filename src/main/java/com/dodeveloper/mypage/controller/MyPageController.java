@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dodeveloper.lecture.service.LectureBoardService;
+import com.dodeveloper.lecture.vodto.LectureBoardVO;
 import com.dodeveloper.member.service.MemberService;
 import com.dodeveloper.member.vo.MemberVO;
 import com.dodeveloper.mypage.dto.ChangeProfileDTO;
@@ -33,6 +34,7 @@ import com.dodeveloper.mypage.dto.ChangePwdDTO;
 import com.dodeveloper.mypage.dto.ProfileDTO;
 import com.dodeveloper.mypage.service.MyPageService;
 import com.dodeveloper.mypage.vo.ProfileVO;
+import com.dodeveloper.reply.vodto.ReplyVO;
 import com.dodeveloper.study.vodto.StuStackDTO;
 import com.dodeveloper.study.vodto.StudyBoardVO;
 import com.dodeveloper.studyApply.vodto.StudyApplyVO;
@@ -322,9 +324,34 @@ public class MyPageController {
 	    try {
 			result = myPageService.getMyLectureList(userId);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	    model.addAttribute("lectureList", (List<LectureBoardVO>) result.get("lectureList"));
+	}
+	
+	/**
+	 * @methodName : myReplyLectureList
+	 * @author : kde
+	 * @date : 2024.06.11
+	 * @param : Model model - 컨트롤러에서 뷰로 데이터를 전달
+	 * @param : HttpServletRequest req - 로그인한 사용자의 아이디를 가져오기 위해 사용
+	 * @return : void
+	 * @description : 유저가 강의 추천 게시판의 게시글에 작성한 댓글 불러오기
+	 */
+	@GetMapping("/myReplyLectureList")
+	public void myReplyLectureList(Model model, HttpServletRequest req) {
+		// 현재 로그인한 사용자의 아이디
+		String userId = ((MemberVO) req.getSession().getAttribute("loginMember")).getUserId();
+		logger.info(userId + "가 강의 추천 게시판의 게시글에 작성한 댓글 게시글로 이동");
+		
+		Map<String, Object> result = null;
+		
+		try {
+			result = myPageService.getMyReplyLectureList(userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	    model.addAttribute("lectureReplyList", (List<ReplyVO>) result.get("lectureReplyList"));
 	}
 
 }
