@@ -368,7 +368,7 @@ public class MyPageController {
 	public void myScrapLectureList(Model model, HttpServletRequest req) {
 		// 현재 로그인한 사용자의 아이디
 		String userId = ((MemberVO) req.getSession().getAttribute("loginMember")).getUserId();
-		logger.info(userId + "가 강의 추천 게시판에 작성한 게시글로 이동");
+		logger.info(userId + "가 강의 추천 게시판에 게시글 스크랩한 게시글로 이동");
 		
 	    Map<String, Object> result = null;
 	    
@@ -378,6 +378,30 @@ public class MyPageController {
 			e.printStackTrace();
 		}
 	    model.addAttribute("lectureScrapList", (List<ScrapVO>) result.get("lectureScrapList"));
+	}
+	
+	/**
+	 * @methodName : myLikeLectureList
+	 * @author : 
+	 * @date : 2024.06.11
+	 * @param : Model model - 컨트롤러에서 뷰로 데이터를 전달
+	 * @param : HttpServletRequest req - 로그인한 사용자의 아이디를 가져오기 위해 사용
+	 * @return : void
+	 * @description : 유저가 강의 추천 게시판의 게시글에 좋아요 누른 게시글로 이동
+	 */
+	@GetMapping("/myLikeLectureList")
+	public void myLikeLectureList(Model model, HttpServletRequest req) {
+		String userId = ((MemberVO) req.getSession().getAttribute("loginMember")).getUserId();
+		logger.info(userId + "가 강의 추천 게시글판에 게시글 좋아요를 눌렀던 게시글로 이동");
+		
+	    Map<String, Object> result = null;
+	    
+	    try {
+			result = myPageService.getMyLikedLectureList(userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	    model.addAttribute("lectureLikeList", (List<LectureBoardVO>) result.get("lectureLikeList"));
 	}
 
 }
