@@ -40,7 +40,10 @@ public interface MyPageDAO {
 	//userId가 참여중인 스터디 모임글의 참여 신청 리스트 가져오기
 	List<StudyApplyVO> getMyjoinedStudyApplyList(String userId) throws Exception;
 	
-	// userId가 강의 추천 게시판에 작성한 게시글로 이동
+	// 유저가 강의 추천 게시판에 작성한 게시글 가져오기
     List<LectureBoardVO> getMyPageLecBoardList(String userId);
+    
+    // 유저가 강의 추천 게시판의 게시글에 작성한 댓글 가져오기
+    List<ReplyVO> getMyPageLecBoardReplyList(String userId);
 	
 }

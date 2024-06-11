@@ -10,6 +10,7 @@ import com.dodeveloper.lecture.vodto.LectureBoardVO;
 import com.dodeveloper.mypage.dto.ChangePwdDTO;
 import com.dodeveloper.mypage.dto.ProfileDTO;
 import com.dodeveloper.mypage.vo.ProfileVO;
+import com.dodeveloper.reply.vodto.ReplyVO;
 import com.dodeveloper.study.vodto.StudyBoardVO;
 import com.dodeveloper.studyApply.vodto.StudyApplyVO;
 
@@ -117,14 +118,28 @@ public class MyPageDAOImpl implements MyPageDAO {
 	 * @methodName : getMyPageLecBoardList
 	 * @author : kde
 	 * @date : 2024.06.11
-	 * @param : String userId - 로그인한 유저
+	 * @param : String userId - 로그인 한 유저
 	 * @return : List<LectureBoardVO>
-	 * @description : userId가 강의 추천 게시판에 작성한 게시글로 이동
+	 * @description : 유저가 강의 추천 게시판에 작성한 게시글 가져오기
 	 */
 	@Override
 	public List<LectureBoardVO> getMyPageLecBoardList(String userId) {
 
 		return sqlSession.selectList(NS + ".getMyPageLecBoardList", userId);
+	}
+
+	/**
+	 * @methodName : getMyPageLecBoardReplyList
+	 * @author : kde
+	 * @date : 2024.06.11
+	 * @param : String userId - 로그인 한 유저
+	 * @return : List<ReplyVO>
+	 * @description : 유저가 강의 추천 게시판의 게시글에 작성한 댓글 가져오기
+	 */
+	@Override
+	public List<ReplyVO> getMyPageLecBoardReplyList(String userId) {
+
+		return sqlSession.selectList(NS + ".getMyPageLecBoardReplyList", userId);
 	}
 	
 }
