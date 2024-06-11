@@ -89,10 +89,12 @@
 					<!-- Slider main container -->
 					<div class="swiper">
 						<!-- Additional required wrapper -->
-						<div class="swiper-wrapper">
+						<div class="swiper-wrapper mouseOver">
 							<!-- Slides -->
 							<c:forEach var="notice" items="${noticeList }">
-								<div class="swiper-slide text-light text-center">${notice.title }</div>
+								<div class="swiper-slide text-light text-center" 
+								onclick="location.href='/adminView/noticViewDetail?boardNo=${notice.boardNo}';">
+									${notice.title }</div>
 							</c:forEach>
 						</div>
 					</div>
@@ -188,7 +190,6 @@
 													<p class="card-title fw-semibold "> ${company.revTitle }</p>
 												</div>
 											</div>
-
 										</div>
 									</li>
 								</c:forEach>
