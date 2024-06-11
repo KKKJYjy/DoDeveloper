@@ -7,7 +7,7 @@
 <meta charset="utf-8" />
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-<title>Lecture List - DoDeveloper</title>
+<title>Q&A List</title>
 <meta content="" name="description" />
 <meta content="" name="keywords" />
 
@@ -60,6 +60,7 @@
 			<div class="container">
 
 
+	
 
 				<table class="table table-dark table-hover">
 
@@ -88,6 +89,7 @@
 						</c:forEach>
 					</tbody>
 				</table>
+				
 				
 				<button type="button" id="openModalBtn" onclick="writeBtn();">문의하기</button>
 
