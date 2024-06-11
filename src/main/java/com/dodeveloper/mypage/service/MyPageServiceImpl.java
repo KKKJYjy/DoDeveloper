@@ -202,4 +202,23 @@ public class MyPageServiceImpl implements MyPageService {
 		return result;
 	}
 	
+	/**
+	 * @methodName : getMyLikedLectureList
+	 * @author : kde
+	 * @date : 2024.06.11
+	 * @param : String userId - 로그인 한 유저
+	 * @return : Map<String, Object>
+	 * @description : 유저가 강의 추천 게시판의 게시글에 좋아요 누른 게시글 불러오기
+	 */
+	@Override
+	public Map<String, Object> getMyLikedLectureList(String userId) throws Exception {
+
+		Map<String, Object> result = new HashMap<String, Object>();
+
+		List<LectureBoardVO> lectureLikeList = myPageDao.getMyPageLecBoardLikeList(userId);
+		result.put("lectureLikeList", lectureLikeList);
+
+		return result;
+	}
+	
 }

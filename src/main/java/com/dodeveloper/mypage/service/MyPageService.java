@@ -35,4 +35,6 @@ public interface MyPageService {
 	// 유저가 강의 추천 게시판의 게시글 스크랩한 게시글 불러오기
 	Map<String, Object> getMyScrapLectureList(String userId) throws Exception;
 
+	// 유저가 강의 추천 게시판의 게시글에 좋아요 누른 게시글 불러오기
+	Map<String, Object> getMyLikedLectureList(String userId) throws Exception;
 }
