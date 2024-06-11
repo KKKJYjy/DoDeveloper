@@ -68,7 +68,7 @@
 
 					<thead>
 						<tr>
-							<th>글번호</th>
+							
 							<th>작성자</th>
 							<th>제목</th>
 							<th>작성일</th>
@@ -80,7 +80,7 @@
 
 							<tr id="table"
 								onclick="location.href = '/notice/viewBoard?boardNo=${board.boardNo}';">
-								<td>${board.boardNo }</td>
+								
 								<td>${board.writer}</td>
 								<td>${board.title }</td>
 								<td>${board.postDate }</td>
@@ -92,7 +92,7 @@
 					</tbody>
 				</table>
 				
-				
+				<button type="button" id="openModalBtn" onclick="writeBtn();">글쓰기</button>
 				
 				<ul class="pagination">
 					<c:if test="${param.pageNo > 1 }">
@@ -113,7 +113,7 @@
 					</c:if>
 				</ul>
 				
-				<button type="button" id="openModalBtn" onclick="writeBtn();">글 쓰기</button>
+				
 
 
 			</div>

@@ -70,8 +70,7 @@
 
 		}
 	}
-	
-	
+
 	$(function() {
 
 		let pageNo = '${param.pageNo}';
@@ -82,21 +81,19 @@
 		$(`#\${pageNo}`).addClass('active')
 
 	})
-	
-	
+
 	function writeBtn() {
 		let user = '${sessionScope.loginMember.userId}'
 		let admin = '${sessionScope.loginMember.isAdmin}'
-		if (user === ''){
+		if (user === '') {
 			alert('로그인 후 이용해주세요');
 			window.location.href = '/member/login';
-		} else if (admin === 'N'){
+		} else if (admin === 'N') {
 			alert('작성 권한이 없습니다');
 		} else {
 			window.location.href = '/admin/notice';
 		}
 	}
-	
 </script>
 </head>
 <body>
@@ -112,19 +109,28 @@
 		<div class="container-fluid">
 
 			<div class="container mt-3">
-				<p class="text-center">공지사항</p>
-				<ul class="nav nav-tabs nav-justified">
-					<li class="nav-item"><a class="nav-link"
-						href="/admin/selectBoard">스터디 모임</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="/admin/lectureBoard">강의추천</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="/admin/algorithmBoard">알고리즘</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="/admin/reviewBoard">기업리뷰</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="/admin/noticeBoard">공지사항</a></li>
-				</ul>
+				
+				<div class="row">
+					<!-- column -->
+					<div class="col-sm-12">
+						<div class="card">
+							<div class="card-body">
+								<ul class="nav nav-pills nav-justified">
+									<li class="nav-item"><a class="nav-link"
+										href="/admin/selectBoard">스터디 모임</a></li>
+									<li class="nav-item"><a class="nav-link"
+										href="/admin/lectureBoard">강의추천</a></li>
+									<li class="nav-item"><a class="nav-link"
+										href="/admin/algorithmBoard">알고리즘</a></li>
+									<li class="nav-item"><a class="nav-link"
+										href="/admin/reviewBoard">기업리뷰</a></li>
+									<li class="nav-item"><a class="nav-link active"
+										href="/admin/noticeBoard">공지사항</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 
 			<div class="container">
