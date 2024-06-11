@@ -49,5 +49,8 @@ public interface MyPageDAO {
     
     // 유저가 강의 추천 게시판의 게시글 스크랩한 게시글 가져오기
     List<ScrapVO> getMyPageLecBoardScrapList(String userId);
+    
+    // 유저가 강의 추천 게시판의 게시글에 좋아요 누른 게시글 가져오기
+    List<LectureBoardVO> getMyPageLecBoardLikeList(String userId);
 	
 }

@@ -148,13 +148,27 @@ public class MyPageDAOImpl implements MyPageDAO {
 	 * @author : kde
 	 * @date : 2024.06.11
 	 * @param : String userId - 로그인 한 유저
-	 * @return : List<ReplyVO>
+	 * @return : List<ScrapVO>
 	 * @description : 유저가 강의 추천 게시판의 게시글 스크랩한 게시글 가져오기
 	 */
 	@Override
 	public List<ScrapVO> getMyPageLecBoardScrapList(String userId) {
 
 		return sqlSession.selectList(NS + ".getMyPageLecBoardScrapList", userId);
+	}
+	
+	/**
+	 * @methodName : getMyPageLecBoardLikeList
+	 * @author : kde
+	 * @date : 2024.06.11
+	 * @param : String userId - 로그인 한 유저
+	 * @return : List<LectureBoardVO>
+	 * @description : 유저가 강의 추천 게시판의 게시글에 좋아요 누른 게시글 가져오기
+	 */
+	@Override
+	public List<LectureBoardVO> getMyPageLecBoardLikeList(String userId) {
+
+		return sqlSession.selectList(NS + ".getMyPageLecBoardLikeList", userId);
 	}
 	
 }
