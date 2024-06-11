@@ -468,6 +468,93 @@
 	}
 	
 	
+	// =============== 신고 버튼 관련 함수 (문전일)=========================
+	
+	function selectNo(no) {
+		// 셀렉트 태그로 게시판을 선택하면 1.신고자의 아이디를 SessionScope에서 받아와 #reoprter태그에 삽입
+		// 2.셀렉트태그로 받아온 번호를 이용해 해당하는 번호를 작성한 작성자를 #writer태그에 삽입
+		console.log(no);
+		let user = '${sessionScope.loginMember.userId}';
+		let boardNumber = no.split('&')[0]
+		
+		console.log(boardNumber);
+		
+		let list = `${studyList}`;
+		
+		console.log(list);
+		let writer = list.split('stuWriter=')[1].split(', stuTitle')[0];
+		console.log(writer);
+		
+		$('#reporter').val(user);
+		$('#writer').val(writer);
+		$('#boardNo').val(boardNumber);
+		console.log(user);
+		return boardNumber;
+	}
+	
+		
+		
+	function openReport() {
+		alert("openReport");
+		
+		let list = `${studyList}`;
+		let user = '${sessionScope.loginMember.userId}';
+		console.log(list);
+		let writer = list.split('stuWriter=')[1].split(', stuTitle')[0];
+		let boardNo = list.split('stuNo=')[1].split(', stuWriter=')[0];
+		
+		
+		
+		console.log(writer);
+		console.log(user);
+		console.log(boardNo);
+		
+		
+		$('#writer').val(writer);
+		$('#reporter').val(user);
+		$('#boardNo').val(boardNo);
+		
+	}
+
+	function insertReport() {
+		// 모달창에서 받은 변수들을 컨트롤러 단의 report/insertReport 에서 Map으로 묶어서 전송됨
+		reporter = $('#reporter').val();
+		btypeNo = $('#btypeNo').val();
+		boardNo = $('#boardNo').val();
+		writer = $('#writer').val();
+		reportReason = $('#reportReason').val();
+		
+		if(reporter != ''){
+			$.ajax({
+				url : "/report/insertReport",
+				data : {
+					
+					
+					"reporter": reporter,
+					"writer" : writer,
+					"boardNo" : boardNo,
+					"btypeNo" : btypeNo,
+					"reportReason" : reportReason,
+					
+					
+				},
+				type : "get",
+				dataType : "text", // 수신받을 데이터의 타입
+				success : function(data) {
+				console.log(data);
+				
+				
+				},
+			});
+			
+			alert("등록되었습니다.")
+		} else {
+			alert("부적절한 입력값");
+		}
+	}
+	// ========================================================
+	
+	
 </script>
 <style>
 i {
@@ -687,10 +774,11 @@ i {
 										<button type="button"
 											class="btn btn-secondary ms-3 p-3 saveReply">댓글 저장</button>
 									</div>
-									
+
 									<!-- 로그인된 회원이 게시글 신고하는 버튼 추가함 (문전일) -->
 									<button type="button" class="btn btn-primary"
-										data-bs-toggle="modal" data-bs-target="#myModal">신고</button>
+										data-bs-toggle="modal" data-bs-target="#myModal"
+										onclick="openReport()">신고</button>
 								</c:when>
 								<c:otherwise>
 									<div class="text-light" style="width: 100px;">
@@ -740,7 +828,7 @@ i {
 										<input type="submit" class="btn btn-danger"
 											onclick="return isVaild();" value="참여신청" />
 									</div>
-									
+
 								</form>
 
 
@@ -764,50 +852,42 @@ i {
 						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 					</div>
 
-					<!-- Modal body -->
+					<!-- Modal body
+					 -->
 
-					<select class="form-select" id="select" name="select"
-						onchange="selectNo(this.value);">
-						<option value="-1">신고할 게시판을 선택</option>
-						<c:forEach var="algDetail" items="${algDetailList}" begin="0"
-							end="${fn:length(algDetailList)}" varStatus="status">
-							<option value="${algDetail.algDetailNo}&${status.index}">${algDetail.algDetailNo} ${algDetail.algDetailTitle} ${status.index} </option>
-
-							
-							
-
-
-						</c:forEach>
-
-					</select>
 					
-					
-						<label for="title" class="form-label">게시글 작성자 : </label> <input
-									type="text" class="form-control" id="writer" placeholder="게시글 작성자를 입력하세요..."
-									name="writer" />
-							
-						<label for="title" class="form-label">신고글 작성자 : </label> <input
-									type="text" class="form-control" id="reporter" placeholder="신고글 작성자를 입력하세요..."
-									name="reporter" />
+
+						<label for="title" class="form-label">신고할 게시판 : </label>
+						<input type="text" class="form-control" id=""
+						value="${studyList.stuTitle}" name="" readonly="readonly"/>
 
 
 
 
-					<div class="modal-body">Modal body..</div>
+					 <label for="title" class="form-label">게시글 작성자 : </label> <input
+						type="text" class="form-control" id="writer"
+						placeholder="게시글 작성자를 입력하세요..." name="writer" /> <label
+						for="title" class="form-label">신고글 작성자 : </label> <input
+						type="text" class="form-control" id="reporter"
+						placeholder="신고글 작성자를 입력하세요..." name="reporter" readonly="readonly"/>
+
+
+
+
 					<div class="mb-3 mt-3">
 						<label for="title" class="form-label">신고사유 : </label> <input
 							type="text" class="form-control" id="reportReason"
-							placeholder="신고 사유를 입력하세요..." name="reportReason" />
+							placeholder="신고 사유를 입력하세요..." name="reportReason">
 					</div>
 
-					
+
 					<div>
-						<input type="hidden" id="btypeNo" name="btypeNo" value="4">
+						<input type="hidden" id="btypeNo" name="btypeNo" value="2">
 					</div>
 					<div>
 						<input type="hidden" id="boardNo" name="boardNo">
 					</div>
-					
+
 
 					<!-- Modal footer -->
 					<div class="modal-footer">
