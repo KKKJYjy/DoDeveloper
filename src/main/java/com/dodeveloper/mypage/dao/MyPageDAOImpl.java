@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.dodeveloper.lecture.vodto.LectureBoardVO;
 import com.dodeveloper.mypage.dto.ChangePwdDTO;
 import com.dodeveloper.mypage.dto.ProfileDTO;
 import com.dodeveloper.mypage.vo.ProfileVO;
@@ -111,4 +112,19 @@ public class MyPageDAOImpl implements MyPageDAO {
 	public List<StudyApplyVO> getMyjoinedStudyApplyList(String userId) throws Exception {
 		return sqlSession.selectList(NS + ".getMyjoinedStudyApplyList" ,userId);
 	}
+	
+	/**
+	 * @methodName : getMyPageLecBoardList
+	 * @author : kde
+	 * @date : 2024.06.11
+	 * @param : String userId - 로그인한 유저
+	 * @return : List<LectureBoardVO>
+	 * @description : userId가 강의 추천 게시판에 작성한 게시글로 이동
+	 */
+	@Override
+	public List<LectureBoardVO> getMyPageLecBoardList(String userId) {
+
+		return sqlSession.selectList(NS + ".getMyPageLecBoardList", userId);
+	}
+	
 }

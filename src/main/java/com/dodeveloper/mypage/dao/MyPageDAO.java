@@ -3,9 +3,11 @@ package com.dodeveloper.mypage.dao;
 import java.util.Collection;
 import java.util.List;
 
+import com.dodeveloper.lecture.vodto.LectureBoardVO;
 import com.dodeveloper.mypage.dto.ChangePwdDTO;
 import com.dodeveloper.mypage.dto.ProfileDTO;
 import com.dodeveloper.mypage.vo.ProfileVO;
+import com.dodeveloper.reply.vodto.ReplyVO;
 import com.dodeveloper.study.vodto.StuStackDTO;
 import com.dodeveloper.study.vodto.StudyBoardVO;
 import com.dodeveloper.studyApply.vodto.StudyApplyVO;
@@ -37,6 +39,8 @@ public interface MyPageDAO {
 
 	//userId가 참여중인 스터디 모임글의 참여 신청 리스트 가져오기
 	List<StudyApplyVO> getMyjoinedStudyApplyList(String userId) throws Exception;
-
+	
+	// userId가 강의 추천 게시판에 작성한 게시글로 이동
+    List<LectureBoardVO> getMyPageLecBoardList(String userId);
 	
 }
