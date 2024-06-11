@@ -10,10 +10,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dodeveloper.lecture.dao.LectureBoardDAO;
+import com.dodeveloper.lecture.vodto.LectureBoardVO;
 import com.dodeveloper.mypage.dao.MyPageDAO;
 import com.dodeveloper.mypage.dto.ChangePwdDTO;
 import com.dodeveloper.mypage.dto.ProfileDTO;
 import com.dodeveloper.mypage.vo.ProfileVO;
+import com.dodeveloper.reply.vodto.ReplyVO;
 import com.dodeveloper.study.dao.StudyDAO;
 import com.dodeveloper.study.vodto.StuStackDTO;
 import com.dodeveloper.study.vodto.StuStackVO;
@@ -27,6 +30,9 @@ public class MyPageServiceImpl implements MyPageService {
 
 	@Autowired
 	private StudyDAO studyDao;
+	
+	@Autowired
+	private LectureBoardDAO lectureDao; // 스프링 컨테이너에 있는 LectureDAO 객체를 찾아 주입
 	
 	@Autowired
 	private MyPageDAO myPageDao;
@@ -137,4 +143,24 @@ public class MyPageServiceImpl implements MyPageService {
 
 		return result;
 	}
+	
+	/**
+	 * @methodName : getMyLectureList
+	 * @author : kde
+	 * @date : 2024.06.11
+	 * @param : String userId - 로그인한 유저
+	 * @return : Map<String, Object>
+	 * @description : userId가 강의 추천 게시판에 작성한 게시글로 이동
+	 */
+	@Override
+	public Map<String, Object> getMyLectureList(String userId) throws Exception {
+
+		Map<String, Object> result = new HashMap<String, Object>();
+
+		List<StudyBoardVO> lectureList = myPageDao.getMyStudyList(userId);
+		result.put("lectureList", lectureList);
+
+		return result;
+	}
+	
 }
