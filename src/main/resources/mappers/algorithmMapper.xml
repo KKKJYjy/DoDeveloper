@@ -64,6 +64,10 @@
 	</insert>
 	
 
+	<!-- 알고리즘 게시판 최신 5개글 select -->
+	<select id="getAlgTop5" resultType="com.dodeveloper.algorithm.vodto.AlgBoardDTO">
+		SELECT * FROM kdtclass.algBoard order by boardNo desc limit 5
+	</select>
 
 
 

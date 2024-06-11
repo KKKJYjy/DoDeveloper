@@ -34,6 +34,9 @@ public interface AlgService {
 	void updateAlgDetail(AlgDetailDTO algDetailDTO, int algDetailNo);
 
 	void insertReport(ReportDTO reportDTO);
+
+	// 알고리즘 게시판 최신 5개글 가져오는 메서드
+	List<AlgBoardDTO> getAlgTop5() throws Exception;
 	
 	
 

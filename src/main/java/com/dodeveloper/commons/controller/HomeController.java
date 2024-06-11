@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.dodeveloper.admin.dto.NoticeDTO;
 import com.dodeveloper.admin.service.AdminBoardService;
+import com.dodeveloper.algorithm.service.AlgService;
+import com.dodeveloper.algorithm.vodto.AlgBoardDTO;
 import com.dodeveloper.company.service.CompanyInfoService;
 import com.dodeveloper.company.vodto.CompanyInfoVO;
 import com.dodeveloper.lecture.service.LectureBoardService;
@@ -40,6 +42,9 @@ public class HomeController {
 	@Autowired
 	private AdminBoardService adminService;
 	
+	@Autowired
+	private AlgService algService;
+	
 
 	/**
 		* @author : yeonju
@@ -51,16 +56,17 @@ public class HomeController {
 	public String home(Locale locale, Model model) {
 		logger.info("dodeveloper.com의 index가 호출.", locale);
 		
-		//스터디 모임글 상위 5개글 가져오기
 		List<StudyBoardVO> studyList = null;
 		List<LectureBoardVO> lectureList = null;
 		List<CompanyInfoVO> companyList = null;
+		List<AlgBoardDTO> algList = null;
 		List<NoticeDTO> noticeList = null;
 		
 		try {
 			studyList = sutdyService.getStudyTop5();
 			lectureList = lectureService.getLectureTop5();
 			companyList = companyService.getCompanyTop5();
+			algList = algService.getAlgTop5();
 			noticeList = adminService.getNoticeTop5();
 			
 		} catch (Exception e) {
@@ -71,6 +77,7 @@ public class HomeController {
 		model.addAttribute("studyList", studyList);
 		model.addAttribute("lectureList", lectureList);
 		model.addAttribute("companyList", companyList);
+		model.addAttribute("algList", algList);
 		model.addAttribute("noticeList", noticeList);
 
 		return "index"; // index.jsp 호출

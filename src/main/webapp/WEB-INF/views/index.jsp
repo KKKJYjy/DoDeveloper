@@ -69,11 +69,6 @@
 			slidesPerView : 1, // 한번에 보여줄 슬라이드 개수
 			spaceBetween : 10, // 슬라이드 사이 여백
 			centeredSlides : true, // 1번 슬라이드가 가운데 보이기
-			// nav 화살표 출력 시 추가
-			navigation : {
-				prevEl : '.swiper-prev',
-				nextEl : '.swiper-next',
-			},
 		});
 	});
 </script>
@@ -118,9 +113,10 @@
 													value="${study.wrritenDate }" />
 											</p>
 											<div class="ms-auto">
-												<i class="bi bi-eye me-2 text-dark-emphasis">${study.readCount }</i>
-												<i class="bi bi-bookmark me-2 text-dark-emphasis">${study.scrape }</i>
-												<i class="bi bi-chat text-dark-emphasis">
+												<i class="bi bi-eye me-2 text-dark-emphasis">
+													${study.readCount }</i> <i
+													class="bi bi-bookmark me-2 text-dark-emphasis">
+													${study.scrape }</i> <i class="bi bi-chat text-dark-emphasis">
 													${study.replyCount }</i>
 											</div>
 										</div>
@@ -143,7 +139,8 @@
 								<c:forEach var="lecture" items="${lectureList }">
 									<li class="list-group-item">
 										<div class="d-flex">
-											<p class="card-text me-2 text-dark-emphasis mb-1">${lecture.lecWriter }</p>
+											<p class="card-text me-2 text-dark-emphasis mb-1">
+												${lecture.lecWriter }</p>
 											<p class="card-text text-dark-emphasis mb-1">
 												<fmt:formatDate pattern="yyyy-MM-dd"
 													value="${lecture.lecPostDate }" />
@@ -153,13 +150,14 @@
 													${lecture.lecReadCount }</i> <i
 													class="bi bi-suit-heart me-2 text-dark-emphasis">
 													${lecture.lecLikeCount }</i> <i
-													class="bi bi-bookmark me-2 text-dark-emphasis">${lecture.scrap }</i>
+													class="bi bi-bookmark me-2 text-dark-emphasis">
+													${lecture.scrap }</i>
 											</div>
 										</div>
 										<div class="mouseOver">
 											<p class="card-title fw-semibold text-truncate"
 												style="max-width: 100%;"
-												onclick="location.href='/lecture/viewBoard?lecNo=${lecture.lecNo }';">
+												onclick="location.href='/lecture/viewBoard?lecNo= ${lecture.lecNo }';">
 												${lecture.lecTitle }</p>
 										</div>
 									</li>
@@ -202,20 +200,16 @@
 						<h5 class="center text-center text-light pb-2 fw-semibold">알고리즘</h5>
 						<div class="card">
 							<ul class="list-group list-group-flush">
-								<li class="list-group-item">
-									<div class="d-flex">
-										<p class="card-text me-2 text-dark-emphasis mb-1">작성자</p>
-										<p class="card-text text-dark-emphasis mb-1">작성일</p>
-										<div class="ms-auto">
-											<i class="bi bi-eye me-2 text-dark-emphasis"> 0</i> <i
-												class="bi bi-chat text-dark-emphasis"> 0</i>
+								<c:forEach var="alg" items="${algList }">								
+									<li class="list-group-item">
+										<div class="d-flex">
 										</div>
-									</div>
-									<div class="mouseOver">
-										<p class="card-title fw-semibold text-truncate"
-											style="max-width: 100%;">게시판 제목</p>
-									</div>
-								</li>
+										<div class="mouseOver">
+											<p class="card-title fw-semibold text-truncate"
+												style="max-width: 100%;">${alg.title }</p>
+										</div>
+									</li>
+								</c:forEach>
 							</ul>
 						</div>
 					</div>

@@ -123,4 +123,16 @@ public class AlgServiceImpl implements AlgService {
 	    aDao.insertReport(reportDTO);
 	}
 
+
+	/**
+		* @author : yeonju
+		* @date : 2024. 6. 11.
+		* @return : List<AlgBoardDTO>
+		* @description : 알고리즘 게시판 최신 5개글 가져온다
+	 */
+	@Override
+	public List<AlgBoardDTO> getAlgTop5() throws Exception {
+		return aDao.getAlgTop5();
+	}
+
 }

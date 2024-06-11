@@ -34,4 +34,7 @@ public interface AlgDAO {
 
 	// reportBoard 업데이트
 	int insertReport(ReportDTO reportDTO);
+
+	// 알고리즘 게시판 최신 5개글 가져오는 메서드
+	List<AlgBoardDTO> getAlgTop5() throws Exception;
 }
