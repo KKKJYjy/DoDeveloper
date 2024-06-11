@@ -206,7 +206,7 @@
 										</div>
 										<div class="mouseOver">
 											<p class="card-title fw-semibold text-truncate"
-												style="max-width: 100%;">${alg.title }</p>
+												style="max-width: 100%;" onclick="location.href='/algorithm/algDetail?boardNo=${alg.boardNo}';">${alg.title }</p>
 										</div>
 									</li>
 								</c:forEach>
