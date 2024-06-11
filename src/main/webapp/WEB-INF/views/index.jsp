@@ -105,7 +105,7 @@
 						<div class="card">
 							<ul class="list-group list-group-flush">
 								<c:forEach var="study" items="${studyList }">
-									<li class="list-group-item">
+									<li class="list-group-item mt-1">
 										<div class="d-flex">
 											<p class="card-text me-2 text-dark-emphasis mb-1">${study.stuWriter }</p>
 											<p class="card-text text-dark-emphasis mb-1">
@@ -137,7 +137,7 @@
 						<div class="card">
 							<ul class="list-group list-group-flush">
 								<c:forEach var="lecture" items="${lectureList }">
-									<li class="list-group-item">
+									<li class="list-group-item mt-1">
 										<div class="d-flex">
 											<p class="card-text me-2 text-dark-emphasis mb-1">
 												${lecture.lecWriter }</p>
@@ -169,16 +169,15 @@
 
 				<div class="row">
 					<div class="col-md-6">
-						<h5 class="center text-center text-light pb-2 fw-semibold">기업
-							리뷰</h5>
+						<h5 class="center text-center text-light pb-2 fw-semibold">기업리뷰</h5>
 						<div class="card">
 							<ul class="list-group list-group-flush">
 								<c:forEach var="company" items="${companyList }">
-									<li class="list-group-item">
+									<li class="list-group-item ">
 										<div class="d-flex align-items-center">
 											<img src="${company.companyInfoImgLogo }"
 												class="object-fit-scale border rounded me-2 img-fluid" style="height: 60px;" />
-											<div class="text-truncate" style="max-width: 100%;">
+											<div class="text-truncate mt-1" style="max-width: 100%;">
 												<div class="d-flex">
 													<p class="card-text me-2 text-dark-emphasis mb-1">${company.companyInfoLocation }</p>
 													<p class="card-text me-2 text-dark-emphasis mb-1">${company.companyInfoFields }</p>
@@ -201,12 +200,19 @@
 						<div class="card">
 							<ul class="list-group list-group-flush">
 								<c:forEach var="alg" items="${algList }">								
-									<li class="list-group-item">
+									<li class="list-group-item mt-1">
 										<div class="d-flex">
+											<p class="card-text me-2 text-dark-emphasis mb-1">${alg.writer }</p>
+											<p class="card-text me-2 text-dark-emphasis mb-1">
+												<fmt:formatDate pattern="yyyy-MM-dd" value="${alg.algDetailPostDate }" />
+											</p>
 										</div>
 										<div class="mouseOver">
 											<p class="card-title fw-semibold text-truncate"
-												style="max-width: 100%;" onclick="location.href='/algorithm/algDetail?boardNo=${alg.boardNo}';">${alg.title }</p>
+												style="max-width: 100%;" onclick="location.href='/algorithm/algDetail?boardNo=${alg.boardNo}';">
+												[${alg.title }]
+												${alg.algDetailTitle }
+											</p>
 										</div>
 									</li>
 								</c:forEach>

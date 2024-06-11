@@ -3,6 +3,7 @@ package com.dodeveloper.algorithm.dao;
 import java.util.List;
 
 import com.dodeveloper.algorithm.vodto.AlgBoardDTO;
+import com.dodeveloper.algorithm.vodto.AlgBoardWithDetailVO;
 import com.dodeveloper.algorithm.vodto.AlgClassificationDTO;
 import com.dodeveloper.algorithm.vodto.AlgDetailDTO;
 import com.dodeveloper.member.dto.LoginDTO;
@@ -36,5 +37,5 @@ public interface AlgDAO {
 	int insertReport(ReportDTO reportDTO);
 
 	// 알고리즘 게시판 최신 5개글 가져오는 메서드
-	List<AlgBoardDTO> getAlgTop5() throws Exception;
+	List<AlgBoardWithDetailVO> getAlgTop5() throws Exception;
 }

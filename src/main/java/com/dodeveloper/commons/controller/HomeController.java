@@ -16,6 +16,7 @@ import com.dodeveloper.admin.dto.NoticeDTO;
 import com.dodeveloper.admin.service.AdminBoardService;
 import com.dodeveloper.algorithm.service.AlgService;
 import com.dodeveloper.algorithm.vodto.AlgBoardDTO;
+import com.dodeveloper.algorithm.vodto.AlgBoardWithDetailVO;
 import com.dodeveloper.company.service.CompanyInfoService;
 import com.dodeveloper.company.vodto.CompanyInfoVO;
 import com.dodeveloper.company.vodto.CompanyInfoWithRevVO;
@@ -60,7 +61,7 @@ public class HomeController {
 		List<StudyBoardVO> studyList = null;
 		List<LectureBoardVO> lectureList = null;
 		List<CompanyInfoWithRevVO> companyList = null;
-		List<AlgBoardDTO> algList = null;
+		List<AlgBoardWithDetailVO> algList = null;
 		List<NoticeDTO> noticeList = null;
 		
 		try {

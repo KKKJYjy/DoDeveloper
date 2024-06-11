@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.dodeveloper.algorithm.vodto.AlgBoardDTO;
+import com.dodeveloper.algorithm.vodto.AlgBoardWithDetailVO;
 import com.dodeveloper.algorithm.vodto.AlgClassificationDTO;
 import com.dodeveloper.algorithm.vodto.AlgDetailDTO;
 import com.dodeveloper.member.dto.LoginDTO;
@@ -90,11 +91,11 @@ public class AlgDAOImpl implements AlgDAO {
 	/**
 	 * @author : yeonju
 	 * @date : 2024. 6. 11.
-	 * @return : List<AlgBoardDTO>
+	 * @return : List<AlgBoardWithDetailVO>
 	 * @description : 알고리즘 게시판 최신 5개글 가져온다
 	 */
 	@Override
-	public List<AlgBoardDTO> getAlgTop5() throws Exception {
+	public List<AlgBoardWithDetailVO> getAlgTop5() throws Exception {
 		return ses.selectList(ns + ".getAlgTop5");
 	}
 
