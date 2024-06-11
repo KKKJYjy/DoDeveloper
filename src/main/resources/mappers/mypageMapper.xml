@@ -83,10 +83,16 @@
 		order by applyDate desc
 	</select>
 	
-	<!-- a유저가 강의 추천 게시판에 작성한 게시글 select -->
+	<!-- 유저가 강의 추천 게시판에 작성한 게시글 select -->
 	<select id="getMyPageLecBoardList"
 	resultType="com.dodeveloper.lecture.vodto.LectureBoardVO">
 		select * from lectureBoard where lecWriter = #{userId} and bType = 1 order by lecPostDate desc
+	</select>
+	
+	<!-- a유저가 강의 추천 게시판의 게시글에 작성한 댓글 select -->
+	<select id="getMyPageLecBoardReplyList"
+	resultType="com.dodeveloper.reply.vodto.ReplyVO">
+		select * from reply where replyer = #{userId} and bType = 1 order by writtenDate desc
 	</select>
 
 </mapper>
