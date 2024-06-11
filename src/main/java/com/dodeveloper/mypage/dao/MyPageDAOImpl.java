@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.dodeveloper.company.vodto.ScrapVO;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
 import com.dodeveloper.mypage.dto.ChangePwdDTO;
 import com.dodeveloper.mypage.dto.ProfileDTO;
@@ -140,6 +141,20 @@ public class MyPageDAOImpl implements MyPageDAO {
 	public List<ReplyVO> getMyPageLecBoardReplyList(String userId) {
 
 		return sqlSession.selectList(NS + ".getMyPageLecBoardReplyList", userId);
+	}
+	
+	/**
+	 * @methodName : getMyPageLecBoardScrapList
+	 * @author : kde
+	 * @date : 2024.06.11
+	 * @param : String userId - 로그인 한 유저
+	 * @return : List<ReplyVO>
+	 * @description : 유저가 강의 추천 게시판의 게시글 스크랩한 게시글 가져오기
+	 */
+	@Override
+	public List<ScrapVO> getMyPageLecBoardScrapList(String userId) {
+
+		return sqlSession.selectList(NS + ".getMyPageLecBoardScrapList", userId);
 	}
 	
 }

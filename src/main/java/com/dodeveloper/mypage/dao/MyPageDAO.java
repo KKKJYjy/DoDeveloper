@@ -3,6 +3,7 @@ package com.dodeveloper.mypage.dao;
 import java.util.Collection;
 import java.util.List;
 
+import com.dodeveloper.company.vodto.ScrapVO;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
 import com.dodeveloper.mypage.dto.ChangePwdDTO;
 import com.dodeveloper.mypage.dto.ProfileDTO;
@@ -45,5 +46,8 @@ public interface MyPageDAO {
     
     // 유저가 강의 추천 게시판의 게시글에 작성한 댓글 가져오기
     List<ReplyVO> getMyPageLecBoardReplyList(String userId);
+    
+    // 유저가 강의 추천 게시판의 게시글 스크랩한 게시글 가져오기
+    List<ScrapVO> getMyPageLecBoardScrapList(String userId);
 	
 }
