@@ -89,10 +89,16 @@
 		select * from lectureBoard where lecWriter = #{userId} and bType = 1 order by lecPostDate desc
 	</select>
 	
-	<!-- a유저가 강의 추천 게시판의 게시글에 작성한 댓글 select -->
+	<!-- 유저가 강의 추천 게시판의 게시글에 작성한 댓글 select -->
 	<select id="getMyPageLecBoardReplyList"
 	resultType="com.dodeveloper.reply.vodto.ReplyVO">
 		select * from reply where replyer = #{userId} and bType = 1 order by writtenDate desc
+	</select>
+	
+	<!-- 유저가 강의 추천 게시판에 스크랩 한 게시글 select -->
+	<select id="getMyPageLecBoardScrapList"
+	resultType="com.dodeveloper.company.vodto.ScrapVO">
+		select * from scrap where scrapId = #{userId} and bType = 1 order by scrapDate desc
 	</select>
 
 </mapper>
