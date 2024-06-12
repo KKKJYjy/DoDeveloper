@@ -285,7 +285,7 @@ public class MyPageServiceImpl implements MyPageService {
         pi.setPageNo(pageNo);
 
         // 페이지 당 보여줄 게시글의 갯수와 블럭당 페이지 갯수 설정
-        pi.setViewPostCntPerPage(2);
+        pi.setViewPostCntPerPage(5);
         pi.setPageCntPerBlock(4);
 
         // 게시물의 총 갯수를 구해서 멤버 변수에 저장
