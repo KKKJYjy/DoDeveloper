@@ -33,8 +33,7 @@ public class ScrapController {
 	 * @author : kimso05
 	 * @date : 2024.06.03
 	 * @param : String scrapId : 스크랩한 사람 
-	 * @param : ResponseEntity<List<ScrapVO>> : 강의,스터디,기업리뷰,알고리즘 등 스크랩한 목록들을 볼 수 있다.
-	 * @return : ResponseEntity<String>
+	 * @param : ResponseEntity<List<ScrapRevJoinVO>> : 기업리뷰글 관련 스크랩
 	 * @throws Exception 
 	 * @description :  
 	 */
