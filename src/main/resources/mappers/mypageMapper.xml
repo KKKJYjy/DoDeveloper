@@ -86,25 +86,49 @@
 	<!-- 유저가 강의 추천 게시판에 작성한 게시글 select -->
 	<select id="getMyPageLecBoardList"
 	resultType="com.dodeveloper.lecture.vodto.LectureBoardVO">
-		select * from lectureBoard where lecWriter = #{userId} and bType = 1 order by lecPostDate desc
+		select * from lectureBoard where lecWriter = #{userId} and bType = 1 order by lecPostDate desc 
+		limit #{startRowIndex}, #{viewPostCntPerPage}
+	</select>
+	
+	<!-- 유저가 강의 추천 게시판에 작성한 게시글의 갯수 -->
+	<select id="getMyPageLecBoardListCnt" resultType="int">
+		select count(*) from lectureBoard where lecWriter = #{userId}
 	</select>
 	
 	<!-- 유저가 강의 추천 게시판의 게시글에 작성한 댓글 select -->
 	<select id="getMyPageLecBoardReplyList"
 	resultType="com.dodeveloper.reply.vodto.ReplyVO">
-		select * from reply where replyer = #{userId} and bType = 1 order by writtenDate desc
+		select * from reply where replyer = #{userId} and bType = 1 order by writtenDate desc 
+		limit #{startRowIndex}, #{viewPostCntPerPage}
+	</select>
+	
+	<!-- 유저가 강의 추천 게시판의 게시글에 작성한 댓글의 갯수 -->
+	<select id="getMyPageLecBoardReplyListCnt" resultType="int">
+		select count(*) from reply where replyer = #{userId} and bType = 1
 	</select>
 	
 	<!-- 유저가 강의 추천 게시판에 스크랩 한 게시글 select -->
 	<select id="getMyPageLecBoardScrapList"
 	resultType="com.dodeveloper.company.vodto.ScrapVO">
-		select * from scrap where scrapId = #{userId} and bType = 1 order by scrapDate desc
+		select * from scrap where scrapId = #{userId} and bType = 1 order by scrapDate desc 
+		limit #{startRowIndex}, #{viewPostCntPerPage}
+	</select>
+	
+	<!-- 유저가 강의 추천 게시판에 스크랩 한 게시글의 갯수 -->
+	<select id="getMyPageLecBoardScrapListCnt" resultType="int">
+		select count(*) from scrap where scrapId = #{userId} and bType = 1
 	</select>
 	
 	<!-- 유저가 강의 추천 게시판에 좋아요 누른 게시글 select -->
 	<select id="getMyPageLecBoardLikeList"
 	resultType="com.dodeveloper.lecture.vodto.LectureBoardVO">
-		select * from lectureLikeInfo where lecLikeUser = #{userId} order by lecNo desc
-	</select> 
+		select * from lectureLikeInfo where lecLikeUser = #{userId} order by lecNo desc 
+		limit #{startRowIndex}, #{viewPostCntPerPage}
+	</select>
+	
+	<!-- 유저가 강의 추천 게시판에 좋아요 누른 게시글의 갯수 -->
+	<select id="getMyPageLecBoardLikeListCnt" resultType="int">
+		select count(*) from reply where replyer = #{userId} and bType = 1
+	</select>
 
 </mapper>
