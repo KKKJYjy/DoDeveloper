@@ -37,6 +37,7 @@ public class ReportController {
 	String writer = (String)map.get("writer");
 	String reporter = (String)map.get("reporter");
 	String reoprtReason = (String)map.get("reportReason");
+	String category = (String)map.get("category");
 	
 	System.out.println(writer);
 	System.out.println(reporter);
@@ -51,6 +52,14 @@ public class ReportController {
 	reportDTO.setReporter(reporter);
 	reportDTO.setWriter(writer);
 	reportDTO.setReportReason(reoprtReason);
+	
+	reportDTO.setCategory(category);
+	
+	if(reportDTO.getBtypeNo() == 4) {
+	    
+	    reportDTO.setCategory("알고리즘");
+	    
+	}
 	
 	aService.insertReport(reportDTO);
 	

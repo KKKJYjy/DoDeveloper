@@ -593,6 +593,81 @@ document.addEventListener('DOMContentLoaded', function() {
 function modifyBtn() {
 	modify
 }
+
+
+
+
+
+
+//=============== 신고 버튼 관련 함수 (문전일)=========================
+
+function openReport() {
+	alert("openReport");
+	
+	let list = `${lecBoard}`;
+	let user = '${sessionScope.loginMember.userId}';
+	console.log(list);
+	let writer = list.split('lecWriter=')[1].split(', lecPostDate=')[0];
+	let boardNo = list.split('lecNo=')[1].split(', bType=')[0];
+	
+	
+	
+	console.log(writer);
+	console.log(user);
+	console.log(boardNo);
+	
+	
+	$('#writer').val(writer);
+	$('#reporter').val(user);
+	$('#boardNo').val(boardNo);
+	
+}
+
+function insertReport() {
+	// 모달창에서 받은 변수들을 컨트롤러 단의 report/insertReport 에서 Map으로 묶어서 전송됨
+	reporter = $('#reporter').val();
+	btypeNo = $('#btypeNo').val();
+	boardNo = $('#boardNo').val();
+	writer = $('#writer').val();
+	reportReason = $('#reportReason').val();
+	
+	if(reporter != '' && writer != ''){
+		$.ajax({
+			url : "/report/insertReport",
+			data : {
+				
+				
+				"reporter": reporter,
+				"writer" : writer,
+				"boardNo" : boardNo,
+				"btypeNo" : btypeNo,
+				"reportReason" : reportReason,
+				"category" : "강의 추천",
+				
+				
+			},
+			type : "get",
+			dataType : "text", // 수신받을 데이터의 타입
+			success : function(data) {
+			console.log(data);
+			
+			
+			},
+		});
+		
+		alert("등록되었습니다.")
+	} else {
+		alert("부적절한 입력값");
+	}
+}
+// ========================================================
+
+
+
+
+
+
+
 </script>
 </head>
 
@@ -660,16 +735,17 @@ function modifyBtn() {
 						<!-- 강의 후기 별점 -->
 						<!-- input type="hidden"을 사용해서 유저가 안보이도록 정보를 보낸다. -->
 						<div class="starRating">
-							<label for="lecScore" class="form-label">별점</label>
-							<label class="star"><input type="hidden" value="1"></label>
-							<label class="star"><input type="hidden" value="2"></label>
-							<label class="star"><input type="hidden" value="3"></label>
-							<label class="star"><input type="hidden" value="4"></label>
-							<label class="star"><input type="hidden" value="5"></label>
+							<label for="lecScore" class="form-label">별점</label> <label
+								class="star"><input type="hidden" value="1"></label> <label
+								class="star"><input type="hidden" value="2"></label> <label
+								class="star"><input type="hidden" value="3"></label> <label
+								class="star"><input type="hidden" value="4"></label> <label
+								class="star"><input type="hidden" value="5"></label>
 						</div>
 
 						<!-- 별점 값을 숨기는 input type -->
-						<input type="hidden" id="lecScore" name="lecScore" value="${lecBoard.lecScore}">
+						<input type="hidden" id="lecScore" name="lecScore"
+							value="${lecBoard.lecScore}">
 					</div>
 
 
@@ -679,9 +755,9 @@ function modifyBtn() {
 							<!-- 하트 이미지 -->
 							<img id="heartIcon" src="/resources/images/lecture/redHeart.png"
 								alt="하트 이미지" style="width: 50px; height: 50px;"
-								onclick="clickHeart()">
-							<img id="fullHeartIcon" src="/resources/images/lecture/redFullHeart.png"
-								alt="하트 이미지" style="width: 50px; height: 50px; display: none;"
+								onclick="clickHeart()"> <img id="fullHeartIcon"
+								src="/resources/images/lecture/redFullHeart.png" alt="하트 이미지"
+								style="width: 50px; height: 50px; display: none;"
 								onclick="clickHeart()">
 						</div>
 
@@ -690,17 +766,22 @@ function modifyBtn() {
 
 					<!-- 글 수정 & 글 삭제 로그인 한 유저만 가능 -->
 					<div class="btns">
-					<c:if test="${sessionScope.loginMember.userId == lecBoard.lecWriter}">
-						<a href="/lecture/modifyLectureBoard?lecNo=${lecBoard.lecNo}"
-							class="modifyBtn btn">글수정</a>
-						<a href="/lecture/removeLectureBoard?lecNo=${lecBoard.lecNo}"
-							class="removeBtn btn">글삭제</a>
-					</c:if>
+						<c:if
+							test="${sessionScope.loginMember.userId == lecBoard.lecWriter}">
+							<a href="/lecture/modifyLectureBoard?lecNo=${lecBoard.lecNo}"
+								class="modifyBtn btn">글수정</a>
+							<a href="/lecture/removeLectureBoard?lecNo=${lecBoard.lecNo}"
+								class="removeBtn btn">글삭제</a>
+						</c:if>
 					</div>
 
 
 					<div class="btns">
 						<a href="/lecture/listAll" class="btn">목록으로</a>
+					<!-- 로그인된 회원이 게시글 신고하는 버튼 추가함 (문전일) -->
+					<button type="button" class="btn btn-primary"
+						data-bs-toggle="modal" data-bs-target="#myModal"
+						onclick="openReport()">신고</button>
 					</div>
 
 
@@ -731,6 +812,76 @@ function modifyBtn() {
 
 			</div>
 		</section>
+		
+		
+		
+		<!--  -----------------------------------------------report board modal------------------------------------------------------------------ -->
+		<!-- The Modal   -->
+		<div class="modal" id="myModal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+
+					<!-- Modal Header -->
+					<div class="modal-header">
+						<h4 class="modal-title">신고할 게시글 선택</h4>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+					</div>
+
+					<!-- Modal body
+					 -->
+
+					<div>${lecBoard}</div>
+
+						<label for="title" class="form-label">신고할 게시판 : </label>
+						<input type="text" class="form-control" id=""
+						value="${lecBoard.lecTitle}" name="" readonly="readonly"/>
+
+
+
+
+					 <label for="title" class="form-label">게시글 작성자 : </label> <input
+						type="text" class="form-control" id="writer"
+						placeholder="게시글 작성자를 입력하세요..." name="writer" /> <label
+						for="title" class="form-label">신고글 작성자 : </label> <input
+						type="text" class="form-control" id="reporter"
+						placeholder="신고글 작성자를 입력하세요..." name="reporter" readonly="readonly"/>
+
+
+
+
+					<div class="mb-3 mt-3">
+						<label for="title" class="form-label">신고사유 : </label> <input
+							type="text" class="form-control" id="reportReason"
+							placeholder="신고 사유를 입력하세요..." name="reportReason">
+					</div>
+
+
+					<div>
+						<input type="hidden" id="btypeNo" name="btypeNo" value="1">
+					</div>
+					<div>
+						<input type="hidden" id="boardNo" name="boardNo">
+					</div>
+
+
+					<!-- Modal footer -->
+					<div class="modal-footer">
+						<button type="button" class="btn btn-warning"
+							onclick="insertReport()">등록</button>
+						<button type="button" class="btn btn-danger"
+							data-bs-dismiss="modal">Close</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<!--  --------------------------------------------------report modal End-----------------------------------------------
+		
+		
+		
+		
+		
+		
 		<!-- End Basic Section -->
 	</main>
 

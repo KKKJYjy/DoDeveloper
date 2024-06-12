@@ -57,10 +57,81 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
 
 <script
 	src="/resources/assets/js/company/common.js?v=<%=sdf.format(l)%>"></script>
+	
+<!--  리스트 길이 구하는 함수 포함 -->
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>	
+
 <script>
-	if (getParameter('status').indexOf('Fail') != -1) {
-		alert('작업에 실패하셨습니다!');
+//	if (getParameter('status').indexOf('Fail') != -1) {
+//		alert('작업에 실패하셨습니다!');
+//		}
+
+
+
+
+function selectNo(no) {
+	// 셀렉트 태그로 게시판을 선택하면 1.신고자의 아이디를 SessionScope에서 받아와 #reoprter태그에 삽입
+	// 2.셀렉트태그로 받아온 번호를 이용해 해당하는 번호를 작성한 작성자를 #writer태그에 삽입
+	console.log(no);
+	let user = '${sessionScope.loginMember.userId}';
+	let boardNumber = no.split('&')[0]
+	let indexNo = parseInt(no.split('&')[1]);
+	console.log(boardNumber);
+	console.log(indexNo);
+	let list = `${revList}`;
+	
+	console.log(list);
+	
+	let writer = list.split('revWriter=')[1+indexNo].split(', revTitle')[0];
+	console.log(writer);
+	$('#reporter').val(user);
+	$('#writer').val(writer);
+	$('#boardNo').val(boardNumber);
+	console.log(user);
+	
+	return boardNumber;
+}
+
+function insertReport() {
+	// 모달창에서 받은 변수들을 컨트롤러 단의 report/insertReport 에서 Map으로 묶어서 전송됨
+	reporter = $('#reporter').val();
+	btypeNo = $('#btypeNo').val();
+	boardNo = $('#boardNo').val();
+	writer = $('#writer').val();
+	reportReason = $('#reportReason').val();
+	
+	if(reporter != ''){
+		$.ajax({
+			url : "/report/insertReport",
+			data : {
+				
+				
+				"reporter": reporter,
+				"writer" : writer,
+				"boardNo" : boardNo,
+				"btypeNo" : btypeNo,
+				"reportReason" : reportReason,
+				"category" : "기업 리뷰",
+				
+				
+			},
+			type : "get",
+			dataType : "text", // 수신받을 데이터의 타입
+			success : function(data) {
+			console.log(data);
+			
+			
+			},
+		});
+		
+		alert("등록되었습니다.")
+	} else {
+		alert("부적절한 입력값");
 	}
+}
+
+
+
 </script>
 
 <style>
@@ -138,7 +209,9 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
 						<input type="button" class="btn btn-primary" value="목록으로"
 								onclick="location.href='/companyInfo/entire?companyInfoNo=${param.companyInfoNo}&revNo=${rev.revNo}';" />
 						<input type="button" class="btn btn-success" value="스크랩"
-								onclick="location.href='/companyInfo/insertScrap?companyInfoNo=${param.companyInfoNo}&scrapBoard=${rev.revNo}';" />								
+								onclick="location.href='/companyInfo/insertScrap?companyInfoNo=${param.companyInfoNo}&scrapBoard=${rev.revNo}';" />
+								<!--  신고 버튼 추가함 (전일) -->
+						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">신고</button>								
 					</c:forEach>
 				</ul>
 			</div>
@@ -146,6 +219,85 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
 				class="float"><i class="fa fa-plus my-float"></i></a>
 
 		</section>
+		
+		
+		
+		
+		
+		
+		
+		
+		<!--  -----------------------------------------------report board modal------------------------------------------------------------------ -->
+		<!-- The Modal   -->
+		<div class="modal" id="myModal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+
+					<!-- Modal Header -->
+					<div class="modal-header">
+						<h4 class="modal-title">신고할 게시글 선택</h4>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+					</div>
+
+					<!-- Modal body -->
+					
+					
+					<select class="form-select" id="select" name="select"
+						onchange="selectNo(this.value);">
+						<option value="-1">신고할 게시판을 선택</option>
+						<c:forEach items="${revList}" var="revList" begin="0" end="${fn:length(revList)}" varStatus="status">
+							
+							<option value="${revList.revNo}&${status.index}">${revList.revTitle} ${revList.revNo}</option>
+						</c:forEach>
+					</select>
+
+					
+						
+					
+						<label for="title" class="form-label">게시글 작성자 : </label> <input
+									type="text" class="form-control" id="writer" placeholder="게시글 작성자를 입력하세요..."
+									name="writer" />
+							
+						<label for="title" class="form-label">신고글 작성자 : </label> <input
+									type="text" class="form-control" id="reporter" placeholder="신고글 작성자를 입력하세요..."
+									name="reporter" />
+
+
+
+
+					<div class="modal-body">Modal body..</div>
+					<div class="mb-3 mt-3">
+						<label for="title" class="form-label">신고사유 : </label> <input
+							type="text" class="form-control" id="reportReason"
+							placeholder="신고 사유를 입력하세요..." name="reportReason" />
+					</div>
+
+					
+					<div>
+						<input type="hidden" id="btypeNo" name="btypeNo" value="3">
+					</div>
+					<div>
+						<input type="hidden" id="boardNo" name="boardNo">
+					</div>
+					
+
+					<!-- Modal footer -->
+					<div class="modal-footer">
+						<button type="button" class="btn btn-warning"
+							onclick="insertReport()">등록</button>
+						<button type="button" class="btn btn-danger"
+							data-bs-dismiss="modal">Close</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<!--  ----------------------------------------------------------------------------------------------------------------------
+		
+		
+		
+		
+		
 		<!-- End Basic Section -->
 	</main>
 

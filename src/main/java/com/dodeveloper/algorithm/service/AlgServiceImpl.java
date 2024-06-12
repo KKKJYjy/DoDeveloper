@@ -121,8 +121,10 @@ public class AlgServiceImpl implements AlgService {
 	    // TODO Auto-generated method stub
 	    System.out.println(reportDTO.toString());
 	    System.out.println("신고글 인서트");
-	    
+	    System.out.println(reportDTO.getBtypeNo());
 	    aDao.insertReport(reportDTO);
+	    
+	   
 	}
 
 

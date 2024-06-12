@@ -535,6 +535,7 @@
 					"boardNo" : boardNo,
 					"btypeNo" : btypeNo,
 					"reportReason" : reportReason,
+					"category" : "스터디 모임",
 					
 					
 				},

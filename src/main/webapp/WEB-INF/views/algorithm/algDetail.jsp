@@ -101,6 +101,7 @@ function insertReport() {
 				"boardNo" : boardNo,
 				"btypeNo" : btypeNo,
 				"reportReason" : reportReason,
+				"category" : "알고리즘",
 				
 				
 			},

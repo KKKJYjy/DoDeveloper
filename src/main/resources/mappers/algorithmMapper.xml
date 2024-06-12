@@ -65,8 +65,8 @@
 
 	<!--  reportBoard 새 항목 insert -->
 	<insert id="insertReport">
-		insert into reportBoard (boardNo, writer, reportReason, reporter, btypeNo) 
-		values (#{boardNo}, #{writer}, #{reportReason}, #{reporter}, #{btypeNo});
+		insert into reportBoard (boardNo, writer, reportReason, reporter, btypeNo, category) 
+		values (#{boardNo}, #{writer}, #{reportReason}, #{reporter}, #{btypeNo}, #{category});
 	</insert>
 	
 
