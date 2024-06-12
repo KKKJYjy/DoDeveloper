@@ -71,8 +71,7 @@
 
 		}
 	}
-	
-	
+
 	$(function() {
 
 		let pageNo = '${param.pageNo}';
@@ -83,8 +82,6 @@
 		$(`#\${pageNo}`).addClass('active')
 
 	})
-	
-	
 </script>
 
 
@@ -97,7 +94,7 @@
 
 	<div class="page-wrapper">
 
-		<c:import url="./adminMiniHeader.jsp"></c:import>
+	<c:import url="./adminMiniHeader.jsp"></c:import>
 
 		<div class="container-fluid">
 
