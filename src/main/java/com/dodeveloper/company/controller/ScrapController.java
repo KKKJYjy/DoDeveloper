@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dodeveloper.company.service.CompanyInfoService;
+import com.dodeveloper.company.vodto.ScrapRevJoinVO;
 import com.dodeveloper.company.vodto.ScrapVO;
 
 
@@ -38,18 +39,18 @@ public class ScrapController {
 	 * @description :  
 	 */
 	@RequestMapping(value="/all/{scrapId}", method = RequestMethod.GET)
-	public ResponseEntity<List<ScrapVO>> selectAllScrap(@PathVariable("scrapId") String scrapId) {
+	public ResponseEntity<List<ScrapRevJoinVO>> selectAllScrap(@PathVariable("scrapId") String scrapId) {
 		
 		System.out.println(scrapId + "스크랩 확인!!!");
 		
-		ResponseEntity<List<ScrapVO>> result = null;
+		ResponseEntity<List<ScrapRevJoinVO>> result = null;
 		
 		// scrapId를 서비스단으로 보내고 DAO단으로 보내서
 		// 해당 유저의 스크랩 목록을 가져와 json으로 반환해준다.
 		try {
-			List<ScrapVO> lst = ciService.selectAllScrap(scrapId);
+			List<ScrapRevJoinVO> lst = ciService.selectAllScrap(scrapId);
 			
-			result = new ResponseEntity<List<ScrapVO>>(lst, HttpStatus.OK);
+			result = new ResponseEntity<List<ScrapRevJoinVO>>(lst, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			
