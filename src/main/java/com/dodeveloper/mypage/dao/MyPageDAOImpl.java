@@ -1,12 +1,15 @@
 package com.dodeveloper.mypage.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.dodeveloper.company.vodto.ScrapVO;
+import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
 import com.dodeveloper.mypage.dto.ChangePwdDTO;
 import com.dodeveloper.mypage.dto.ProfileDTO;
@@ -124,9 +127,28 @@ public class MyPageDAOImpl implements MyPageDAO {
 	 * @description : 유저가 강의 추천 게시판에 작성한 게시글 가져오기
 	 */
 	@Override
-	public List<LectureBoardVO> getMyPageLecBoardList(String userId) {
+	public List<LectureBoardVO> getMyPageLecBoardList(String userId, PagingInfo pi) {
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		
+		params.put("userId", userId);
+		params.put("startRowIndex", pi.getStartRowIndex());
+		params.put("viewPostCntPerPage", pi.getViewPostCntPerPage());
 
-		return sqlSession.selectList(NS + ".getMyPageLecBoardList", userId);
+		return sqlSession.selectList(NS + ".getMyPageLecBoardList", params);
+	}
+	
+	/**
+	 * @methodName : getMyPageLecBoardListCnt
+	 * @author : kde
+	 * @date : 2024.06.12
+	 * @return : int - 글의 갯수
+	 * @description : 유저가 강의 추천 게시판에 작성한 게시글의 글의 갯수 가져오기
+	 */
+	@Override
+	public int getMyPageLecBoardListCnt(String userId) throws Exception {
+
+		return sqlSession.selectOne(NS + ".getMyPageLecBoardListCnt", userId);
 	}
 
 	/**
@@ -138,9 +160,28 @@ public class MyPageDAOImpl implements MyPageDAO {
 	 * @description : 유저가 강의 추천 게시판의 게시글에 작성한 댓글 가져오기
 	 */
 	@Override
-	public List<ReplyVO> getMyPageLecBoardReplyList(String userId) {
+	public List<ReplyVO> getMyPageLecBoardReplyList(String userId, PagingInfo pi) {
 
-		return sqlSession.selectList(NS + ".getMyPageLecBoardReplyList", userId);
+		Map<String, Object> params = new HashMap<String, Object>();
+		
+		params.put("userId", userId);
+		params.put("startRowIndex", pi.getStartRowIndex());
+		params.put("viewPostCntPerPage", pi.getViewPostCntPerPage());
+		
+		return sqlSession.selectList(NS + ".getMyPageLecBoardReplyList", params);
+	}
+	
+	/**
+	 * @methodName : getMyPageLecBoardListCnt
+	 * @author : kde
+	 * @date : 2024.06.12
+	 * @return : int - 글의 갯수
+	 * @description : 유저가 강의 추천 게시판에 작성한 게시글의 댓글 갯수 가져오기
+	 */
+	@Override
+	public int getMyPageLecBoardReplyListCnt(String userId) throws Exception {
+
+		return sqlSession.selectOne(NS + ".getMyPageLecBoardReplyListCnt", userId);
 	}
 	
 	/**
@@ -152,9 +193,28 @@ public class MyPageDAOImpl implements MyPageDAO {
 	 * @description : 유저가 강의 추천 게시판의 게시글 스크랩한 게시글 가져오기
 	 */
 	@Override
-	public List<ScrapVO> getMyPageLecBoardScrapList(String userId) {
+	public List<ScrapVO> getMyPageLecBoardScrapList(String userId, PagingInfo pi) {
 
-		return sqlSession.selectList(NS + ".getMyPageLecBoardScrapList", userId);
+		Map<String, Object> params = new HashMap<String, Object>();
+		
+		params.put("userId", userId);
+		params.put("startRowIndex", pi.getStartRowIndex());
+		params.put("viewPostCntPerPage", pi.getViewPostCntPerPage());
+		
+		return sqlSession.selectList(NS + ".getMyPageLecBoardScrapList", params);
+	}
+	
+	/**
+	 * @methodName : getMyPageLecBoardListCnt
+	 * @author : kde
+	 * @date : 2024.06.12
+	 * @return : int - 글의 갯수
+	 * @description : 유저가 강의 추천 게시판의 게시글을 스크랩한 게시글의 글의 갯수 가져오기
+	 */
+	@Override
+	public int getMyPageLecBoardScrapListCnt(String userId) throws Exception {
+
+		return sqlSession.selectOne(NS + ".getMyPageLecBoardScrapListCnt", userId);
 	}
 	
 	/**
@@ -166,9 +226,28 @@ public class MyPageDAOImpl implements MyPageDAO {
 	 * @description : 유저가 강의 추천 게시판의 게시글에 좋아요 누른 게시글 가져오기
 	 */
 	@Override
-	public List<LectureBoardVO> getMyPageLecBoardLikeList(String userId) {
+	public List<LectureBoardVO> getMyPageLecBoardLikeList(String userId, PagingInfo pi) {
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		
+		params.put("userId", userId);
+		params.put("startRowIndex", pi.getStartRowIndex());
+		params.put("viewPostCntPerPage", pi.getViewPostCntPerPage());
 
-		return sqlSession.selectList(NS + ".getMyPageLecBoardLikeList", userId);
+		return sqlSession.selectList(NS + ".getMyPageLecBoardLikeList", params);
+	}
+
+	/**
+	 * @methodName : getMyPageLecBoardListCnt
+	 * @author : kde
+	 * @date : 2024.06.12
+	 * @return : int - 글의 갯수
+	 * @description : 유저가 강의 추천 게시판에 게시글을 스크랩한 게시글의 글의 갯수 가져오기
+	 */
+	@Override
+	public int getMyPageLecBoardLikeListCnt(String userId) throws Exception {
+
+		return sqlSession.selectOne(NS + ".getMyPageLecBoardLikeListCnt", userId);
 	}
 	
 }
