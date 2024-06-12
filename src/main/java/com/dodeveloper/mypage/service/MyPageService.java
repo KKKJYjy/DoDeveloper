@@ -26,15 +26,15 @@ public interface MyPageService {
 	//userId가 참여중인 스터디 모임글 & 스터디 언어 & 참여 신청 리스트 불러오기
 	Map<String, Object> getMyJoinedStudyList(String userId) throws Exception;
 	
-	// 유저가 강의 추천 게시판에 작성한 게시글 불러오기
-	Map<String, Object> getMyLectureList(String userId) throws Exception;
+	// 유저가 강의 추천 게시판에 작성한 게시글 불러오기 + 페이징
+	Map<String, Object> getMyLectureList(int pageNo, String userId) throws Exception;
 	
-	// 유저가 강의 추천 게시판의 게시글에 작성한 댓글 불러오기
-	Map<String, Object> getMyReplyLectureList(String userId) throws Exception;
+    // 유저가 강의 추천 게시판의 게시글에 작성한 댓글 불러오기 + 페이징
+    Map<String, Object> getMyReplyLectureList(int pageNo, String userId) throws Exception;
 
-	// 유저가 강의 추천 게시판의 게시글 스크랩한 게시글 불러오기
-	Map<String, Object> getMyScrapLectureList(String userId) throws Exception;
+    // 유저가 강의 추천 게시판의 게시글 스크랩한 게시글 불러오기 + 페이징
+    Map<String, Object> getMyScrapLectureList(int pageNo, String userId) throws Exception;
 
-	// 유저가 강의 추천 게시판의 게시글에 좋아요 누른 게시글 불러오기
-	Map<String, Object> getMyLikedLectureList(String userId) throws Exception;
+    // 유저가 강의 추천 게시판의 게시글에 좋아요 누른 게시글 불러오기 + 페이징
+    Map<String, Object> getMyLikedLectureList(int pageNo, String userId) throws Exception;
 }
