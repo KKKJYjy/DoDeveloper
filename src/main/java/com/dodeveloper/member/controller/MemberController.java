@@ -154,7 +154,7 @@ public class MemberController {
 			return;
 		}
 		
-		if(request.getParameter("lecNo") != null) {
+		if(request.getParameter("redirectUrl").equals("viewBoard") && request.getParameter("lecNo") != null) {
 			String urlToVisitAfterLogin = "/lecture/viewBoard?lecNo=" + request.getParameter("lecNo");
 			session.setAttribute(SessionNames.ATTEMPTED, urlToVisitAfterLogin);
 		}
@@ -278,6 +278,10 @@ public class MemberController {
 	@RequestMapping(value = "/registerPost", method = RequestMethod.POST)
 	public String registerPost(RegisterDTO registerDTO, HttpSession session) throws Exception {
 		logger.info(registerDTO.toString() + "회원가입");
+		
+		if(registerDTO.getEmail() == null) {
+			registerDTO.setEmail("");
+		}
 
 		if(registerDTO.getEmail().equals(session.getAttribute(SessionNames.VALIDATED_EMAIL)) == false) {
 			return "redirect:/member/register?status=registerFail";
@@ -313,6 +317,10 @@ public class MemberController {
 	public ResponseEntity<String> sendUserId(String email) throws Exception {
 		logger.info(email + "이 아이디를 요청함");
 		
+		if(email.equals("")) {
+			return ResponseEntity.ok("이메일을 입력해주십시오.");
+		}
+		
 		List<MemberVO> members = mService.getMemberByEmail(email);
 		
 		if (members == null || members.isEmpty()) {
@@ -336,10 +344,9 @@ public class MemberController {
 	public ResponseEntity<String> pwdResetLink(String userId, String email, HttpServletRequest request, HttpSession session) throws Exception {
 		logger.info("uid: " + userId + "// email : " + email + " 에서 비밀번호 재생성을 요청함");
 		
-//		if(!email.equals("^[a-zA-Z0-9+-\\_.]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$")) {
-//			logger.info("유효한 이메일이 아닙니다.");
-//			return ResponseEntity.ok("유효한 이메일이 아닙니다.");
-//		}
+		if(email.equals("")) {
+			return ResponseEntity.ok("이메일을 입력해주십시오.");
+		}
 		
 		List<MemberVO> members = mService.getMemberByEmail(email);
 		
