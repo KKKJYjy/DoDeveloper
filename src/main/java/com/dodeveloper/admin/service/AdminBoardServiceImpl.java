@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dodeveloper.admin.dao.AdminBoardDAO;
 import com.dodeveloper.admin.dto.SearchCriteriaDTO;
@@ -220,8 +221,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		// 현재 페이징 블럭 끝 페이지 번호
 		this.pi.setEndNumOfCurrentPagingBlock();
 	}
-	
-	
+
 	private void makeQnaPagingInfo(int pageNo) throws Exception {
 		this.pi.setPageNo(pageNo);
 
@@ -249,9 +249,6 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		// 현재 페이징 블럭 끝 페이지 번호
 		this.pi.setEndNumOfCurrentPagingBlock();
 	}
-
-	
-	
 
 	@Override
 	public Map<String, Object> getlistLectureBoard(int pageNo, SearchCriteriaDTO sc) throws Exception {
@@ -388,21 +385,17 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		bDao.deleteNotc(boardNo);
 	}
 
-	
-
 	@Override
 	public void qnaDelete(String no) throws Exception {
 
 		bDao.deleteQna(no);
 	}
-	
-	
+
 	@Override
 	public void qnaDeleteBoard(int no) throws Exception {
-		
+
 		bDao.deleteQnaBoard(no);
 	}
-	
 
 	@Override
 	public boolean writeNoticeBoard(NoticeDTO newBoard) throws Exception {
@@ -425,11 +418,11 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	}
 
 	@Override
-	public ReportVO getReportNO(int btypeNo, int boardNo) throws Exception {
+	public List<ReportVO> getReportNO(int btypeNo, int boardNo) throws Exception {
 
 		System.out.println("서비스단 : 신고게시글 상세조회");
 
-		ReportVO report = bDao.selectReportBoardNo(btypeNo, boardNo);
+		List<ReportVO> report = bDao.selectReportBoardNo(btypeNo, boardNo);
 
 		return report;
 	}
@@ -476,16 +469,16 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	public Map<String, Object> getQnaBoard(int pageNo) throws Exception {
 
 		System.out.println("서비스단 : 문의게시글 조회");
-		
+
 		List<QnaBoardVO> qnaList = null;
-		
+
 		makeQnaPagingInfo(pageNo);
 		qnaList = bDao.selectQnaBoard(pi);
-		
+
 		Map<String, Object> returnMap = new HashMap<String, Object>();
 		returnMap.put("qnaList", qnaList);
 		returnMap.put("pagingInfo", this.pi);
-		
+
 		return returnMap;
 	}
 
@@ -503,77 +496,113 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	public boolean writeQndBoard(QnaBoardVO newBoard) throws Exception {
 
 		boolean result = false;
-		
+
 		bDao.insertQnaBoard(newBoard);
 
 		return result;
 
 	}
-	
-	// 신고된 글 삭제
-	@Override
-	public boolean deleteBoard(int btypeNo, int boardNo, String deleteReason) throws Exception {
-		boolean result = false;
-		
-		if (bDao.deleteBoard(btypeNo, boardNo, deleteReason) == 1) {
-			result = true;
-		}
-		
 
-		
+	// 신고된 글 삭제, 페널티 추가
+	@Transactional
+	public boolean insertPenalty(int btypeNo, int boardNo, String deleteReason, String userId) throws Exception {
+		boolean result = true;
+
+		int deleteBoardResult = bDao.deleteBoard(btypeNo, boardNo);
+		int deleteSelectBoardResult = bDao.deleteSelectBoard(btypeNo, boardNo);
+		int insertPenaltyResult = bDao.insertPenalty(deleteReason, userId);
+
+		if (deleteBoardResult == 0 || deleteSelectBoardResult == 0 || insertPenaltyResult == 0) {
+			result = false;
+
+		}
+
 		return result;
 	}
 
-
 	@Override
 	public List<NoticeDTO> diffNotice() throws Exception {
-		
+
 		List<NoticeDTO> diffNotc = bDao.selectDiffNotice();
-		
+
 		return diffNotc;
 	}
 
 	@Override
 	public List<QnaBoardVO> diffQna() throws Exception {
-		
+
 		List<QnaBoardVO> diffQna = bDao.selectDiffQna();
-		
+
 		return diffQna;
 	}
 
 	@Override
 	public List<AdminVO> diffStu() throws Exception {
-		
+
 		List<AdminVO> diffStu = bDao.selectDiffStu();
-		
+
 		return diffStu;
 	}
 
 	@Override
 	public List<AdminLectureVO> diffLec() throws Exception {
-		
+
 		List<AdminLectureVO> diffLec = bDao.selectDiffLec();
-		
+
 		return diffLec;
 	}
 
 	@Override
 	public List<AdminArgBoardVO> diffAlg() throws Exception {
-		
+
 		List<AdminArgBoardVO> diffAlg = bDao.selectDiffAlg();
-		
+
 		return diffAlg;
 	}
 
 	@Override
 	public List<AdminReviewBoardVO> diffRev() throws Exception {
-		
+
 		List<AdminReviewBoardVO> diffRev = bDao.selectDiffRev();
-		
+
 		return diffRev;
 	}
 
+	@Override
+	@Transactional
+	public boolean insertOrUpdatePenaltyRecord(String deleteReason, String userId, int btypeNo, int boardNo)
+			throws Exception {
+		System.out.println("패널티 서비스단 호출");
+		System.out.println("btypeNo: " + btypeNo);
+	    System.out.println("boardNo: " + boardNo);
+	    System.out.println("userId: " + userId);
+	    System.out.println("deleteReason: " + deleteReason);
+		boolean result = false;
+		
+		if (bDao.insertPenalty(deleteReason, userId) == 1) { // (insert)
+			// 신고된 게시글 삭제
+			if (bDao.deleteSelectBoard(btypeNo, boardNo) == 1) {
+				// 신고 내역에서 글삭제
+				if (bDao.deleteBoard(btypeNo, boardNo) == 1) {
+					result = true;
+				}
+				System.out.println("글삭제 성공");
+			}
 
+		}
+		
+		return result;
+	}
 
+	@Override
+	public boolean deleteBoard(int btypeNo, int boardNo) throws Exception {
 
+		boolean result = false;
+
+		if (bDao.deleteBoard(btypeNo, boardNo) == 1) {
+			result = true;
+		}
+
+		return false;
+	}
 }

@@ -65,7 +65,7 @@ public interface AdminBoardService {
 
 
 	// 신고내역 상세조회
-		ReportVO getReportNO(int btypeNo, int boardNo) throws Exception;
+		List<ReportVO> getReportNO(int btypeNo, int boardNo) throws Exception;
 
 		
 		// 공지사항 상세페이지
@@ -88,8 +88,6 @@ public interface AdminBoardService {
 	    boolean writeQndBoard(QnaBoardVO newBoard) throws Exception;
 	    
 
-	    // 신고내역 삭제
-		boolean deleteBoard(int btypeNo, int boardNo, String deleteReason) throws Exception;
 	    
 	    // dashboard에 공지사항 5개만 출력
 	    List<NoticeDTO> diffNotice() throws Exception;
@@ -108,6 +106,13 @@ public interface AdminBoardService {
 	    
 	    // 홈에 기업리뷰 최신글 5개 출력
 	    List<AdminReviewBoardVO> diffRev() throws Exception;
+		
+	    // 신고내역 삭제
+		boolean deleteBoard(int btypeNo, int boardNo) throws Exception;
+		
+		// 패널티 증가하면 불량회원 테이블 insert
+		boolean insertOrUpdatePenaltyRecord(String deleteReason, String userId, int btypeNo, int boardNo)
+				throws Exception;
 	    
 	
 }
