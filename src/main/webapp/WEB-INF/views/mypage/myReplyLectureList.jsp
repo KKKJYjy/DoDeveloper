@@ -75,20 +75,53 @@
 
 				<div class="container">
 					<h3 class="center text-center text-light pb-4 fw-medium">
-					${sessionScope.loginMember.userId}님이 강의 추천 게시판에 좋아요를 누른 게시글</h3>
+						${sessionScope.loginMember.userId}님이 강의 추천 게시판에 좋아요를 누른 게시글</h3>
 				</div>
-				
 
-				<div class="row row-cols-md-2 mt-5">
-					<c:forEach var="lecture" items="${lectureReplyList}">
-						<div class="col-md mb-2 study">
-							<div class="card mb-3">
-								${lectureReplyList }
+
+					<c:forEach var="lectureReply" items="${lectureReplyList}">
+						<div class="col-md mb-2 lecture">
+						<div class="card mb-3">
+							<div class="card-body">
+								<table class="table">
+									<thead>
+										<tr>
+											<th>댓글 작성 내용</th>
+											<th>댓글 작성 일자</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr onclick="location.href='/mypage/myReplyLectureList';">
+											<td>${lectureReply.replyContent}</td>
+											<td>${lectureReply.writtenDate}</td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
-					</c:forEach>
+					</div>
+				</c:forEach>
+
+					<!-- 페이징 -->
+					<!-- 여기서 사용한 쿼리스트링은 페이징 다음 페이지로 넘어갔을 때 조건을 유지하기 위해서 사용한 것 -->
+					<ul class="pagination">
+						<c:if test="${param.pageNo > 1}">
+							<li class="page-item "><a class="page-link"
+								href="/mypage/myReplyLectureList?pageNo=${param.pageNo -1 }">Previous</a></li>
+						</c:if>
+						<c:forEach var="i"
+							begin="${pagingInfo.startNumOfCurrentPagingBlock }"
+							end="${pagingInfo.endNumOfCurrentPagingBlock }" step="1">
+							<li class="page-item " id="${i }"><a class="page-link"
+								href="/mypage/myReplyLectureList?pageNo=${i }">${i }</a></li>
+						</c:forEach>
+						<c:if test="${param.pageNo < pagingInfo.totalPageCnt}">
+							<li class="page-item "><a class="page-link"
+								href="/mypage/myReplyLectureList?pageNo=${param.pageNo +1 }">Next</a></li>
+						</c:if>
+					</ul>
+
 				</div>
-			</div>
 
 
 
