@@ -166,7 +166,7 @@ public class MyPageServiceImpl implements MyPageService {
 
 	    List<LectureBoardVO> lectureList = null;
 
-	    makePagingInfo(pageNo, userId);
+	    listMakePagingInfo(pageNo, userId);
 	    lectureList = myPageDao.getMyPageLecBoardList(userId, pi);
 	        
 	    System.out.println("마이페이지에서 " + userId + "가 강의 추천 게시판에 작성한 게시글 : " + lectureList.toString() + "확인");
@@ -196,7 +196,7 @@ public class MyPageServiceImpl implements MyPageService {
 
 	    List<ReplyVO> lectureReplyList = null;
 
-	    makePagingInfo(pageNo, userId);
+	    replyMakePagingInfo(pageNo, userId);
 	    lectureReplyList = myPageDao.getMyPageLecBoardReplyList(userId, pi);
 	        
 	    System.out.println("마이페이지에서 " + userId + "가 강의 추천 게시판의 게시글에 댓글 작성한 게시글 : " + lectureReplyList.toString() + "확인");
@@ -226,7 +226,7 @@ public class MyPageServiceImpl implements MyPageService {
 
 	    List<ScrapVO> lectureScrapList = null;
 
-	    makePagingInfo(pageNo, userId);
+	    scrapMakePagingInfo(pageNo, userId);
 	    lectureScrapList = myPageDao.getMyPageLecBoardScrapList(userId, pi);
 	        
 	    System.out.println("마이페이지에서 " + userId + "가 강의 추천 게시판의 게시글 스크랩 : " + lectureScrapList.toString() + "확인");
@@ -256,7 +256,7 @@ public class MyPageServiceImpl implements MyPageService {
 
 	    List<LectureLikeVO> lectureLikeList = null;
 
-	    makePagingInfo(pageNo, userId);
+	    likeMakePagingInfo(pageNo, userId);
 	    lectureLikeList = myPageDao.getMyPageLecBoardLikeList(userId, pi);
 	        
 	    System.out.println("마이페이지에서 " + userId + "가 강의 추천 게시판의 게시글 좋아요 : " + lectureLikeList.toString() + "확인");
@@ -277,7 +277,7 @@ public class MyPageServiceImpl implements MyPageService {
      * @return : void
      * @description : 페이징 처리 메서드 (마이페이지에서 검색기능 X)
      */
-    private void makePagingInfo(int pageNo, String userId) throws Exception {
+    private void listMakePagingInfo(int pageNo, String userId) throws Exception {
         // pageNo 값 설정
         pi.setPageNo(pageNo);
 
@@ -287,14 +287,125 @@ public class MyPageServiceImpl implements MyPageService {
 
         // 게시물의 총 갯수를 구해서 멤버 변수에 저장
         int totalPostListCnt = myPageDao.getMyPageLecBoardListCnt(userId);
-        int totalPostReplyCnt = myPageDao.getMyPageLecBoardReplyListCnt(userId);
-        int totalPostScrapCnt = myPageDao.getMyPageLecBoardScrapListCnt(userId);
-        int totalPostLikeCnt = myPageDao.getMyPageLecBoardLikeListCnt(userId);
 
         // 각각의 게시글 유형에 대한 총 게시물 수를 저장
         pi.setTotalPostCnt(totalPostListCnt);
+
+        // 총 페이지 수 저장
+        pi.setTotalPageCnt();
+
+        // 보여주기 시작할 글의 rowIndex 번호 저장
+        pi.setStartRowIndex();
+
+        // 전체 페이지 블럭 갯수 저장
+        pi.setTotalPageBlockCnt();
+
+        // 현재 페이지가 속한 페이징 블럭 번호 저장
+        pi.setPageBlockOfCurrentPage();
+
+        // 현재 페이징 블럭 시작 페이지 번호 저장
+        pi.setStartNumOfCurrentPagingBlock();
+
+        // 현재 페이징 블럭 끝 페이지 번호 저장
+        pi.setEndNumOfCurrentPagingBlock();
+    }
+    
+    /**
+     * @methodName : makePagingInfo
+     * @param : int pageNo - 보여줘야 할 페이지 번호
+     * @return : void
+     * @description : 페이징 처리 메서드 (마이페이지에서 검색기능 X)
+     */
+    private void replyMakePagingInfo(int pageNo, String userId) throws Exception {
+        // pageNo 값 설정
+        pi.setPageNo(pageNo);
+
+        // 페이지 당 보여줄 게시글의 갯수와 블럭당 페이지 갯수 설정
+        pi.setViewPostCntPerPage(5);
+        pi.setPageCntPerBlock(4);
+
+        // 게시물의 총 갯수를 구해서 멤버 변수에 저장
+        int totalPostReplyCnt = myPageDao.getMyPageLecBoardReplyListCnt(userId);
+
+        // 각각의 게시글 유형에 대한 총 게시물 수를 저장
         pi.setTotalPostCnt(totalPostReplyCnt);
+
+        // 총 페이지 수 저장
+        pi.setTotalPageCnt();
+
+        // 보여주기 시작할 글의 rowIndex 번호 저장
+        pi.setStartRowIndex();
+
+        // 전체 페이지 블럭 갯수 저장
+        pi.setTotalPageBlockCnt();
+
+        // 현재 페이지가 속한 페이징 블럭 번호 저장
+        pi.setPageBlockOfCurrentPage();
+
+        // 현재 페이징 블럭 시작 페이지 번호 저장
+        pi.setStartNumOfCurrentPagingBlock();
+
+        // 현재 페이징 블럭 끝 페이지 번호 저장
+        pi.setEndNumOfCurrentPagingBlock();
+    }
+    
+    /**
+     * @methodName : makePagingInfo
+     * @param : int pageNo - 보여줘야 할 페이지 번호
+     * @return : void
+     * @description : 페이징 처리 메서드 (마이페이지에서 검색기능 X)
+     */
+    private void scrapMakePagingInfo(int pageNo, String userId) throws Exception {
+        // pageNo 값 설정
+        pi.setPageNo(pageNo);
+
+        // 페이지 당 보여줄 게시글의 갯수와 블럭당 페이지 갯수 설정
+        pi.setViewPostCntPerPage(5);
+        pi.setPageCntPerBlock(4);
+
+        // 게시물의 총 갯수를 구해서 멤버 변수에 저장
+        int totalPostScrapCnt = myPageDao.getMyPageLecBoardScrapListCnt(userId);
+
+        // 각각의 게시글 유형에 대한 총 게시물 수를 저장
         pi.setTotalPostCnt(totalPostScrapCnt);
+
+        // 총 페이지 수 저장
+        pi.setTotalPageCnt();
+
+        // 보여주기 시작할 글의 rowIndex 번호 저장
+        pi.setStartRowIndex();
+
+        // 전체 페이지 블럭 갯수 저장
+        pi.setTotalPageBlockCnt();
+
+        // 현재 페이지가 속한 페이징 블럭 번호 저장
+        pi.setPageBlockOfCurrentPage();
+
+        // 현재 페이징 블럭 시작 페이지 번호 저장
+        pi.setStartNumOfCurrentPagingBlock();
+
+        // 현재 페이징 블럭 끝 페이지 번호 저장
+        pi.setEndNumOfCurrentPagingBlock();
+    }
+    
+    /**
+     * @methodName : makePagingInfo
+     * @param : int pageNo - 보여줘야 할 페이지 번호
+     * @return : void
+     * @description : 페이징 처리 메서드 (마이페이지에서 검색기능 X)
+     */
+    private void likeMakePagingInfo(int pageNo, String userId) throws Exception {
+        // pageNo 값 설정
+        pi.setPageNo(pageNo);
+
+        // 페이지 당 보여줄 게시글의 갯수와 블럭당 페이지 갯수 설정
+        pi.setViewPostCntPerPage(5);
+        pi.setPageCntPerBlock(4);
+
+        // 게시물의 총 갯수를 구해서 멤버 변수에 저장
+        int totalPostLikeCnt = myPageDao.getMyPageLecBoardLikeListCnt(userId);
+
+        // 각각의 게시글 유형에 대한 총 게시물 수를 저장
         pi.setTotalPostCnt(totalPostLikeCnt);
 
         // 총 페이지 수 저장
