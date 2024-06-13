@@ -494,6 +494,17 @@ public class MyPageController {
 		model.addAttribute("pagingInfo", (PagingInfo) resultMap.get("pagingInfo"));
 	}
 	
+	/**
+	 * @methodName : myLikeLectureList
+	 * @author : kde
+	 * @date : 2024.06.12
+	 * @param : @RequestParam(value = "pageNo", defaultValue = "1") int pageNo
+	 * - 뷰단에서 쿼리스트링으로 넘겨 페이징 하기 위한 pageNo
+	 * @param : Model model - 컨트롤러에서 뷰로 데이터를 전달
+	 * @param : HttpServletRequest req - 로그인한 사용자의 아이디를 가져오기 위해 사용
+	 * @return : void
+	 * @description : 유저가 신고한 게시글 확인하는 마이페이지의 게시글로 이동 + 페이징
+	 */
 	@GetMapping("/myReportList")
 	public void myReportList(@RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
 			Model model, HttpServletRequest req) {
@@ -526,6 +537,17 @@ public class MyPageController {
 		model.addAttribute("pagingInfo", (PagingInfo) resultMap.get("pagingInfo"));
 	}
 	
+	/**
+	 * @methodName : myLikeLectureList
+	 * @author : kde
+	 * @date : 2024.06.12
+	 * @param : @RequestParam(value = "pageNo", defaultValue = "1") int pageNo
+	 * - 뷰단에서 쿼리스트링으로 넘겨 페이징 하기 위한 pageNo
+	 * @param : Model model - 컨트롤러에서 뷰로 데이터를 전달
+	 * @param : HttpServletRequest req - 로그인한 사용자의 아이디를 가져오기 위해 사용
+	 * @return : void
+	 * @description : 유저가 문의한 게시글 확인하는 마이페이지의 게시글로 이동 + 페이징
+	 */
 	@GetMapping("/myQnAList")
 	public void myQnAList(@RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
 			Model model, HttpServletRequest req) {

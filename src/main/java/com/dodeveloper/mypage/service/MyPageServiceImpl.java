@@ -425,6 +425,15 @@ public class MyPageServiceImpl implements MyPageService {
         pi.setEndNumOfCurrentPagingBlock();
     }
 
+    /**
+     * @methodName : getMyLikedLectureList
+     * @author : kde
+	 * @date : 2024.06.11
+	 * @param : int pageNo - 페이징 하기 위한 pageNo
+     * @param : String userId - 로그인 한 유저
+     * @return : Map<String, Object>
+     * @description : 유저가 신고한 게시글 마이페이지에서 확인 + 페이징
+     */
 	@Override
 	public Map<String, Object> getMyPageReportList(int pageNo, String userId) throws Exception {
 		System.out.println(userId + "가 서비스단 : " + pageNo + "신고한 게시글 확인!");
@@ -484,6 +493,15 @@ public class MyPageServiceImpl implements MyPageService {
         pi.setEndNumOfCurrentPagingBlock();
     }
 
+    /**
+     * @methodName : getMyLikedLectureList
+     * @author : kde
+	 * @date : 2024.06.11
+	 * @param : int pageNo - 페이징 하기 위한 pageNo
+     * @param : String userId - 로그인 한 유저
+     * @return : Map<String, Object>
+     * @description : 유저가 문의한 게시글 마이페이지에서 확인 + 페이징
+     */
 	@Override
 	public Map<String, Object> getMyPageQnAList(int pageNo, String userId) throws Exception {
 		System.out.println(userId + "가 서비스단 : " + pageNo + "문의한 게시글 확인!");

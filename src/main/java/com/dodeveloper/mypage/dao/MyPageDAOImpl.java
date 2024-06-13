@@ -288,12 +288,29 @@ public class MyPageDAOImpl implements MyPageDAO {
 		return sqlSession.selectList(NS + ".getMyPageReport", params);
 	}
 
+	/**
+	 * @methodName : getMyPageReport
+	 * @author : kde
+	 * @date : 2024.06.13
+	 * @param : String userId - 로그인 한 유저
+	 * @return : int
+	 * @description : 유저가 문의 남긴 게시글 갯수 가져오기
+	 */
 	@Override
 	public int getMyPageQnACnt(String userId) throws Exception {
 
 		return sqlSession.selectOne(NS + ".getMyPageQnACnt", userId);
 	}
 
+	/**
+	 * @methodName : getMyPageReport
+	 * @author : kde
+	 * @date : 2024.06.13
+	 * @param : String userId - 로그인 한 유저
+	 * @param : PagingInfo pi - 페이징
+	 * @return : List<QnaBoardVO> - 문의VO
+	 * @description : 유저가 문의한 게시글 마이페이지에서 확인
+	 */
 	@Override
 	public List<QnaBoardVO> getMyPageQnA(String userId, PagingInfo pi) throws Exception {
 
