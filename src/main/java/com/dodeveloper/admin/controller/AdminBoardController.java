@@ -303,18 +303,35 @@ public class AdminBoardController {
 		
 	}
 
-	@PostMapping("/deleteBoard")
+	@PostMapping("/insertPenalty")
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> deleteBoard(@RequestParam("btypeNo") int btypeNo,
-			@RequestParam("boardNo") int boardNo, @RequestParam("deleteReason") String deleteReason) throws Exception {
+	        @RequestParam("boardNo") int boardNo, @RequestParam("deleteReason") String deleteReason, @RequestParam("userId") String userId) throws Exception {
 
-		// 해당 btype과 boardNo를 사용하여 글을 삭제
+	    System.out.println("btypeNo: " + btypeNo);
+	    System.out.println("boardNo: " + boardNo);
+	    System.out.println("userId: " + userId);
+	    System.out.println("deleteReason: " + deleteReason);
+	    
+	    boolean success = bService.insertOrUpdatePenaltyRecord(deleteReason, userId, btypeNo, boardNo);
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("success", success);
 
-		boolean success = bService.deleteBoard(btypeNo, boardNo, deleteReason);
-
-		Map<String, Object> response = new HashMap<>();
-		response.put("success", success);
-
-		return ResponseEntity.ok(response);
+	    return ResponseEntity.ok(response);
 	}
+	
+	  @PostMapping("/deleteReport")
+	    @ResponseBody
+	    public String deleteReport(@RequestParam("btypeNo") int btypeNo, @RequestParam("boardNo") int boardNo) throws Exception {
+	        
+		  	String result = null;
+		  
+		  	if (bService.deleteBoard(btypeNo, boardNo)) {
+		  		result = "/admin/report";
+		  	}
+		  
+	        return result;	
+	    }
+	
+	
 }
