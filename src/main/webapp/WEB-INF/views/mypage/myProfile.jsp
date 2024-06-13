@@ -465,8 +465,8 @@ function dropMember() {
 
 	//----------------------------------------- 스크랩 작업 ----------------------------------------// 
 	
-	function getAllScrap() { // 함수 호출해서 scrap한 글들을 가져온다 
-		let scrapId = '${loginMember.userId }';
+	function getAllScrap() {
+		let scrapId = '${loginMember.userId}';
 		
 		$.ajax({
 		    url: "/scrap/all/" + scrapId,
@@ -481,12 +481,18 @@ function dropMember() {
 		});
 	}
 	
-	function outputAllScrap(data) {
+	function outputAllScrap(data) { // 기업리뷰글 스크랩(join)
 		let output = `<div class="list-group">`;
-		$.each(data, function(i, scrap) {
+		$.each(data, function(i, ScrapRevJoinVO) {
 			output += `<a href="#" class="list-group-item list-group-item-action">`;
 			
-			output += `<div>\${scrap.scrapNo}</div>`; // scrapNo : 스크랩 번호 
+			output += `<div><img src="\${ScrapRevJoinVO.companyInfoImgLogo}" /></div>`;
+			output += `<div>\${ScrapRevJoinVO.companyInfoName}</div>`;
+			output += `<div>\${ScrapRevJoinVO.revTitle}</div>`;
+			
+			// 스크랩 한 날짜 시간 처리 
+			let diff = processPostDate(ScrapRevJoinVO.scrapDate);
+			output += `<div>\${diff}</div>`;
 			
 			output += `</a>`;
 		});
@@ -495,7 +501,31 @@ function dropMember() {
 		
 	}
 	
-
+	function processPostDate(scrapRevDate) { // 스크랩한 날짜 시간 처리
+		let postDate = new Date(scrapRevDate);
+		let now = new Date();
+		
+		let diff = (now - postDate) / 1000; 
+		
+		let times = [
+			{name: "일", time: 60 * 60 * 24},
+			{name: "시간", time: 60 * 60},
+			{name: "분", time: 60}
+		];
+		
+		for (let val of times) {
+			
+			let betweenTime = Math.floor(diff / val.time);
+			console.log(diff, betweenTime);
+			
+			if(betweenTime > 0) {
+				return betweenTime + val.name + "전";
+			}
+		}
+		
+		return "방금전";
+	}
+	
 </script>
 </head>
 
