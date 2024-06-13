@@ -10,12 +10,12 @@
 	<!-- 기업리뷰글 관련 스크랩 쿼리문 (join) -->
 	<select id="selectAllScrap"
 		resultType="com.dodeveloper.company.vodto.ScrapRevJoinVO">
-		select c.companyInfoImgLogo, c.companyInfoName, r.revTitle, s.scrapDate
+		select r.revNo, c.companyInfoImgLogo, c.companyInfoName, r.revTitle, s.scrapDate
 		from scrap s inner join companyrevboard r
 		on s.scrapBoard = r.revNo
 		inner join companyinfo c
 		on r.companyInfoNo = c.companyInfoNo
-		where s.scrapId = #{scrapId}
+		where s.scrapId = #{scrapId} and s.btype=3
 	</select>
 
 	<!-- 어떤 유저가 해당 스크랩한 게시글들만 전체 볼 수 있는 쿼리문 (select) -->
