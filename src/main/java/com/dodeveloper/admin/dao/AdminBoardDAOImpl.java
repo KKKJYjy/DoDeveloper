@@ -393,6 +393,14 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 		return ses.selectList(ns + ".selectDiffRev");
 	}
 	
+	
+	@Override
+	public void notcReadCnt(int boardNo) throws Exception {
+		
+		ses.update(ns + ".notcReadCntBoard", boardNo);
+	}
+	
+	
 
 	// 패널티를 증가 시키며, 불량회원 테이블에 insert
 	@Override
@@ -438,6 +446,8 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 	public List<NoticeDTO> getNoticeTop5() throws Exception {
 		return ses.selectList(ns + ".getNoticeTop5");
 	}
+
+	
 
 	
 

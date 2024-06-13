@@ -344,6 +344,15 @@
 	</select>
 
 
+	<!-- 공지사항 조회수 -->
+	<update id="notcReadCntBoard" parameterType="int">
+		update noticeBoard
+		set
+		readCount = readCount + 1
+		where boardNo = #{boardNo}
+	</update>
+
+
 
 
 
@@ -407,7 +416,8 @@
 
 	<!-- 최신 공지글 5개를 가져오는 메서드 (메인홈에 출력할 용도) -->
 	<select id="getNoticeTop5" resultType="NoticeDTO">
-		SELECT * FROM noticeBoard order by postDate desc limit 5
+		SELECT * FROM noticeBoard
+		order by postDate desc limit 5
 	</select>
 
 	<!-- 신고내역 삭제 -->
@@ -436,17 +446,20 @@
 
 
 	<insert id="insertPenalty">
-		INSERT INTO badMemberBoard (userId, penaltyCnt, reportDate, suspendReason)
+		INSERT INTO badMemberBoard (userId, penaltyCnt,
+		reportDate, suspendReason)
 		SELECT
 		#{userId},
-		IFNULL(MAX(penaltyCnt), 0) + 1,
+		IFNULL(MAX(penaltyCnt), 0) +
+		1,
 		NOW(),
 		#{reportReason}
 		FROM
 		badMemberBoard
 		WHERE
 		userId = #{userId}
-		ON DUPLICATE KEY UPDATE
+		ON
+		DUPLICATE KEY UPDATE
 		penaltyCnt = VALUES(penaltyCnt);
 	</insert>
 

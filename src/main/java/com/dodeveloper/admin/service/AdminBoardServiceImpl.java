@@ -696,6 +696,17 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 
 		return diffRev;
 	}
+	
+	
+	@Override
+	public NoticeDTO notcReadCnt(int boardNo) throws Exception {
+		bDao.notcReadCnt(boardNo);
+		
+		return notcReadCnt(boardNo);
+	}
+	
+	
+	
 
 	@Override
 	@Transactional
@@ -746,4 +757,6 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 
 		return false;
 	}
+
+	
 }

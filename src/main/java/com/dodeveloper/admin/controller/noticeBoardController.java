@@ -26,12 +26,12 @@ public class noticeBoardController {
 
 	@Autowired
 	private AdminBoardService bService;
-	
+
 	@RequestMapping(value = "/listAll", method = RequestMethod.GET)
 	public void noticeBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
 			SearchCriteriaDTO sc) throws Exception {
 		logger.info("list 페이지 호출");
-		
+
 		Map<String, Object> returnMap = null;
 
 		String resultPage = null;
@@ -47,15 +47,17 @@ public class noticeBoardController {
 		resultPage = "/notice/listAll";
 
 	}
-	
+
 	@RequestMapping(value = "/viewBoard", method = RequestMethod.GET)
 	public void noticeDetail(Model model, @RequestParam("boardNo") int boardNo) throws Exception {
-		
+
 		logger.info(boardNo + "번글 조회");
-		
+
 		NoticeDTO notice = bService.getNotcBoardNo(boardNo);
 		
+
 		model.addAttribute("notice", notice);
+		
 	}
-	
+
 }

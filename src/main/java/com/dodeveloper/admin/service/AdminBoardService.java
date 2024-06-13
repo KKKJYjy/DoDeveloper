@@ -87,7 +87,9 @@ public interface AdminBoardService {
 	    // 문의사항 작성
 	    boolean writeQndBoard(QnaBoardVO newBoard) throws Exception;
 	    
-
+	    // 공지사항 조회수
+	    NoticeDTO notcReadCnt(int boardNo) throws Exception;
+ 
 	    
 	    // dashboard에 공지사항 5개만 출력
 	    List<NoticeDTO> diffNotice() throws Exception;

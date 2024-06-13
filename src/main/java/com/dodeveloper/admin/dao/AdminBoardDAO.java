@@ -146,6 +146,10 @@ public interface AdminBoardDAO {
 	// 홈에 기업리뷰 최신글 5개 출력
 	List<AdminReviewBoardVO> selectDiffRev() throws Exception;
 	
+	// 공지사항 조회수
+	void notcReadCnt(int boardNo) throws Exception;
+	
+	
 	// 패널티를 증가 시키며, 불량회원 테이블에 insert
 	int insertPenalty(String deleteReason, String userId) throws Exception;
 	
