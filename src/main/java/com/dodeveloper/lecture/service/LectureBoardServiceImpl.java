@@ -410,6 +410,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	 * @date : 2024.06.09
 	 * @param : int lecNo - 게시글 번호
 	 * @param : String user - 스크랩을 누른 유저
+	 * @param : scrapLecTitle - 스크랩을 누른 게시글 제목
 	 * @return : boolean
 	 * @description : 게시글에 스크랩 버튼을 눌렀을 경우 - 스크랩 갯수 1개 update (전체 게시글에 보여주기)
 	 */

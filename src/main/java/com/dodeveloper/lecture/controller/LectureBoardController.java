@@ -381,7 +381,6 @@ public class LectureBoardController {
 	 * @date : 2024.05.22
 	 * @param : @RequestBody Map<String, String> likeRequest
 	 * json 데이터를 자바의 Map 형태로 매핑(lecNo가 int형이라 넘길수가 없기에 Map 형태로 String으로 만들어서 넘겼다.)
-	 * @param : String lecLikeTitle - 좋아요를 누른 게시글 제목
 	 * @return : ResponseEntity<String> - 문자열을 응답 본문으로 가지는 객체 / 그 중 Stirng 타입(문자열)으로 응답
 	 * @description : 로그인 한 유저인 경우만 좋아요를 누를 수 있다.
 	 * 유저가 하트를 한번 더 눌렀을 경우 1감소 -> ♡
@@ -443,6 +442,7 @@ public class LectureBoardController {
 	 * @date : 2024.05.18
 	 * @param : @RequestBody Map<String, String> likeRequest
 	 * json 데이터를 자바의 Map 형태로 매핑(lecNo가 int형이라 넘길수가 없기에 Map 형태로 String으로 만들어서 넘겼다.)
+	 * @param : scrapLecTitle - 스크랩을 누른 게시글 제목
 	 * @return : ResponseEntity<String> - 문자열을 응답 본문으로 가지는 객체 / 그 중 Stirng 타입(문자열)으로 응답
 	 * @description : 로그인 한 유저인 경우만 스크랩을 누를 수 있다.
 	 * 유저가 스크랩을 눌렀을 경우 스크랩 수가 1증가
@@ -454,7 +454,7 @@ public class LectureBoardController {
         String user = scrapRequest.get("user");
         String scrapLecTitle = scrapRequest.get("scrapLecTitle");
         
-        logger.info(lecNo + "번 글에 " + user + "가 스크랩을 눌렀습니다!");
+        logger.info(lecNo + "번 글에 " + user + "가 스크랩을 눌렀습니다!" + scrapRequest);
         
         ResponseEntity<String> result = null; // 초기값 설정
 
