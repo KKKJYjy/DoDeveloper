@@ -617,13 +617,15 @@ let scraped = false;
 function getScrapStatus() {
     let lecNo = '${lecBoard.lecNo}';
     let user = '${sessionScope.loginMember.userId}';
+    let scrapLecTitle = '${lecBoard.lecTitle}';
 
     $.ajax({
         url: '/lecture/scrapStatus', // 요청을 보낼 URL
         type: 'get', // HTTP 요청 메서드 (GET)
         data: {
             lecNo: lecNo,
-            user: user
+            user: user,
+            scrapLecTitle: scrapLecTitle
         },
         success: function(data) {
             // 스크랩 누르기 전과 스크랩 누른 후의 HTML 요소를 가져옴
@@ -650,23 +652,19 @@ function getScrapStatus() {
 function clickScrap() {
     let lecNo = '${lecBoard.lecNo}'; // 게시글 번호
     let user = preAuth(); // 로그인 한 유저만 스크랩 / 스크랩 취소 가능하도록
+    let scrapLecTitle = '${lecBoard.lecTitle}';
 
-    // 1) 게시글 번호와 스크랩 누를 유저를 scrapPost 객체에 담고
+    // 스크랩 또는 스크랩 취소 요청을 보낼 URL 설정 - 삼항 연산자 사용
+    let url = scraped ? '/lecture/unScrap' : '/lecture/scrap';
+    
+ 	// 1) 게시글 번호와 스크랩 누를 유저를 scrapPost 객체에 담고
     let scrapPost = {
         "lecNo": lecNo,
-        "user": user
+        "user": user,
+        "scrapLecTitle": scrapLecTitle
     };
+
     console.log(scrapPost);
-
-    // 스크랩/스크랩 취소 url을 변수로 설정하고
-    let url;
-
-    // 설정한 url 변수에
-    if (!scraped) {
-        url = '/lecture/scrap'; // 스크랩을 누른 경우
-    } else {
-        url = '/lecture/unScrap'; // 스크랩을 취소하는 경우
-    }
 
     $.ajax({
         url: url,

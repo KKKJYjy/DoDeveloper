@@ -356,14 +356,12 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 * @description : 게시글에 좋아요 한 번 더 눌렀을 경우 취소처리하는 메서드 유저가 하트를 한번 더 눌렀을 경우 1감소 -> ♡
 	 */
 	@Override
-	public int deleteLikeBoard(int lecNo, String user, String lecLikeTitle) throws Exception {
+	public int deleteLikeBoard(int lecNo, String user) throws Exception {
 		
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("lecNo", lecNo);
 		params.put("user", user);
-		params.put("lecLikeTitle", lecLikeTitle);
 		
-
 		return ses.delete(ns + ".deleteLikeBoard", params);
 	}
 
@@ -410,11 +408,12 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 * @description : 게시글에 스크랩 처리하는 메서드
 	 */
 	@Override
-	public int insertScrap(int lecNo, String user) throws Exception {
+	public int insertScrap(int lecNo, String user, String scrapLecTitle) throws Exception {
 
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("lecNo", lecNo);
 		params.put("user", user);
+		params.put("scrapLecTitle", scrapLecTitle);
 		
 		return ses.insert(ns + ".insertScrap", params);
 	}

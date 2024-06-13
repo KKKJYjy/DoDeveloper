@@ -92,7 +92,7 @@
 										</thead>
 										<tbody>
 											<tr onclick="location.href='/mypage/myScrapLectureList';">
-												<td>${lectureScrap.scrapId}</td>
+												<td>${lectureScrap.scrapLecTitle}</td>
 												<td>${lectureScrap.scrapDate}</td>
 											</tr>
 										</tbody>

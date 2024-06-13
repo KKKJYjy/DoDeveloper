@@ -387,7 +387,7 @@ public class LectureBoardController {
 	 * 유저가 하트를 한번 더 눌렀을 경우 1감소 -> ♡
 	 */
 	@PostMapping("/unLike")
-	public ResponseEntity<String> unLikePost(@RequestBody Map<String, String> unlikeRequest, String lecLikeTitle) {
+	public ResponseEntity<String> unLikePost(@RequestBody Map<String, String> unlikeRequest) {
 	    
 	    int lecNo = Integer.parseInt(unlikeRequest.get("lecNo"));
 	    String user = unlikeRequest.get("user");
@@ -398,7 +398,7 @@ public class LectureBoardController {
 
 	    try {
 	        // 좋아요를 눌렀었는지 확인 후 취소하기
-	        lService.likeDownBoard(lecNo, user, lecLikeTitle);
+	        lService.likeDownBoard(lecNo, user);
 	        result = new ResponseEntity<String>("success", HttpStatus.OK);
 	    } catch (Exception e) {
 	        // 예외 발생 시 예외 처리
@@ -452,6 +452,7 @@ public class LectureBoardController {
     	
         int lecNo = Integer.parseInt(scrapRequest.get("lecNo"));
         String user = scrapRequest.get("user");
+        String scrapLecTitle = scrapRequest.get("scrapLecTitle");
         
         logger.info(lecNo + "번 글에 " + user + "가 스크랩을 눌렀습니다!");
         
@@ -459,7 +460,7 @@ public class LectureBoardController {
 
         try {
             // 좋아요를 안눌렀었는지 확인 후 누르기
-            lService.scrapUpBoard(lecNo, user);
+            lService.scrapUpBoard(lecNo, user, scrapLecTitle);
             result = new ResponseEntity<String>("success", HttpStatus.OK);
         } catch (Exception e) {
             // 예외 발생 시 예외 처리
@@ -486,7 +487,7 @@ public class LectureBoardController {
 	    int lecNo = Integer.parseInt(unScrapRequest.get("lecNo"));
 	    String user = unScrapRequest.get("user");
 	    
-	    logger.info(lecNo + "번 글에 " + user + "가 좋아요를 취소했습니다!");
+	    logger.info(lecNo + "번 글에 " + user + "가 스크랩을 취소했습니다!");
 
 	    ResponseEntity<String> result = null; // 초기값 설정
 
