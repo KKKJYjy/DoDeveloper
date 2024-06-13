@@ -7,7 +7,7 @@
 <meta charset="utf-8" />
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-<title>Q&A Write</title>
+<title>notice view</title>
 <meta content="" name="description" />
 <meta content="" name="keywords" />
 
@@ -41,60 +41,83 @@
 
 
 <title>Insert title here</title>
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <style>
-	#qnaiceInput {
-		height: 300px;
-	}
+#noticeInput {
+	
+	height: 500px;
+	
+
+}
 </style>
+<script>
+	function checkCheck() {
+		window.location.href = "/admin/updateNotice?boardNo=${notice.boardNo}"
+	}
+</script>
 </head>
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
 	<%@ include file="../header.jsp"%>
+
 	<main id="main">
 		<section id="qna" class="basic">
 			<div class="container">
-			
-			<div class="qnaBoard">
-				<form action="/qna/qnaPOST" method="post" name="frm">
-					<div class="mb-3 mt-3">
-					<label>작성자</label>
-						<textarea class="form-control" id="qnaWriter"
-							name="qnaWriter" readonly="readonly"
-							 >${sessionScope.loginMember.userId}</textarea>
-					</div>
+
+				<div class="noticeBoard">
 
 					<div class="mb-3 mt-3">
-					<label>제목</label>
-						<input type="text" class="form-control" id="qnaTitle" name="qnaTitle"
-							placeholder="제목을 입력하세요." />
+						<label>작성자</label>
+						<textarea class="form-control" id="notWriter" name="Writer"
+							readonly="readonly">${notice.writer}</textarea>
+					</div>
+
+					<div class="mb-3 mt-3">
+						<label>작성 일자</label>
+						<textarea class="form-control" id="notpostDate" name="postDate"
+							readonly="readonly">${notice.postDate}</textarea>
+					</div>
+
+					<div class="mb-3 mt-3">
+						<label>제목</label>
+						<textarea class="form-control" id="notTitle" name="title"
+							readonly="readonly">${notice.title }</textarea>
 					</div>
 
 
 					<div class="mb-3 mt-3">
-					<label>내용</label>
-						<textarea class="form-control" id="qnaiceInput" name="qnaContent"
-							placeholder="내용을 입력하세요"></textarea>
+						<label>내용</label>
+						<textarea class="form-control" id="noticeInput" name="content"
+							readonly="readonly">${notice.content }</textarea>
 					</div>
 
-					
-					<div class="btns">
+					<c:if test="${sessionScope.loginMember.isAdmin == 'Y' }">
+						<div class="btns">
 
-						
-						<input type="submit" class="btn btn-primary sendNotice"
-							onclick="return sendBtn()" value="글 저장">
-							
-						<input type="reset" class="btn btn-primary sendNotice"
-							onclick="location.href='/qna/listAll';" value="취소">
-					</div>
-					
+							<!--   <input type="button" class="btn btn-primary sendNotice"
+								onclick="return checkCheck()" value="글 수정">  -->
 
-				</form>
+							<button type="button" class="btn btn-primary"
+								onclick="return checkCheck()">글 수정</button>
+						</div>
+					</c:if>
 
-			</div>
-			
-			
+
+				</div>
+
+
+
+				<div class="replies"></div>
 			</div>
 		</section>
 	</main>
+
+
+
+
+
 
 
 

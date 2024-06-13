@@ -38,8 +38,20 @@
 
 <!-- Template Main CSS File -->
 <link href="/resources/assets/css/main.css" rel="stylesheet" />
-<link href="/resources/assets/css/lecture/listAll.css" rel="stylesheet" />
+
 <title>Insert title here</title>
+<style>
+.pagination {
+	display: flex;
+	justify-content: center; /* 가운데 정렬 */
+	list-style: none;
+	padding: 0;
+}
+
+.page-item {
+	margin: 0 5px;
+}
+</style>
 <script>
 	function writeBtn() {
 		let user = '${sessionScope.loginMember.userId}'
@@ -68,7 +80,7 @@
 
 					<thead>
 						<tr>
-							<th>글번호</th>
+							
 							<th>작성자</th>
 							<th>제목</th>
 							<th>작성일</th>
@@ -79,8 +91,8 @@
 						<c:forEach var="board" items="${notcBoardList }">
 
 							<tr id="table"
-								onclick="location.href = '/adminView/noticViewDetail?boardNo=${board.boardNo}';">
-								<td>${board.boardNo }</td>
+								onclick="location.href = '/notice/viewBoard?boardNo=${board.boardNo}';">
+								
 								<td>${board.writer}</td>
 								<td>${board.title }</td>
 								<td>${board.postDate }</td>
@@ -92,7 +104,7 @@
 					</tbody>
 				</table>
 				
-				
+				<button type="button" id="openModalBtn" class="btn btn-secondary openModalBtn" onclick="writeBtn();">글쓰기</button>
 				
 				<ul class="pagination">
 					<c:if test="${param.pageNo > 1 }">
@@ -113,7 +125,7 @@
 					</c:if>
 				</ul>
 				
-				<button type="button" id="openModalBtn" onclick="writeBtn();">글 쓰기</button>
+				
 
 
 			</div>

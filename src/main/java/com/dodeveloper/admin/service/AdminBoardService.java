@@ -65,7 +65,7 @@ public interface AdminBoardService {
 
 
 	// 신고내역 상세조회
-		ReportVO getReportNO(int btypeNo, int boardNo) throws Exception;
+		List<ReportVO> getReportNO(int btypeNo, int boardNo) throws Exception;
 
 		
 		// 공지사항 상세페이지

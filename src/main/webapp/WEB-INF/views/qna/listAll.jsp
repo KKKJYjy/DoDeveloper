@@ -7,7 +7,7 @@
 <meta charset="utf-8" />
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-<title>Lecture List - DoDeveloper</title>
+<title>Q&A List</title>
 <meta content="" name="description" />
 <meta content="" name="keywords" />
 
@@ -38,8 +38,20 @@
 
 <!-- Template Main CSS File -->
 <link href="/resources/assets/css/main.css" rel="stylesheet" />
-<link href="/resources/assets/css/lecture/listAll.css" rel="stylesheet" />
+
 <title>Insert title here</title>
+<style>
+.pagination {
+	display: flex;
+	justify-content: center; /* 가운데 정렬 */
+	list-style: none;
+	padding: 0;
+}
+
+.page-item {
+	margin: 0 5px;
+}
+</style>
 <script>
 	function writeBtn() {
 		let user = '${sessionScope.loginMember.userId}'
@@ -60,6 +72,7 @@
 			<div class="container">
 
 
+	
 
 				<table class="table table-dark table-hover">
 
@@ -67,7 +80,7 @@
 
 					<thead>
 						<tr>
-							<th>글번호</th>
+							
 							<th>작성자</th>
 							<th>제목</th>
 							<th>작성 일자</th>
@@ -78,7 +91,7 @@
 
 							<tr id="table"
 								onclick="location.href = '/qna/viewBoard?no=${board.no}';">
-								<td>${board.no }</td>
+								
 								<td>${board.qnaWriter }</td>
 								<td>${board.qnaTitle }</td>
 								<td>${board.postDate}</td>
@@ -88,6 +101,9 @@
 						</c:forEach>
 					</tbody>
 				</table>
+				
+				
+				<button type="button" id="openModalBtn" class="btn btn-secondary openModalBtn" onclick="writeBtn();">문의하기</button>
 
 				<ul class="pagination">
 					<c:if test="${param.pageNo > 1 }">
@@ -110,8 +126,7 @@
 
 
 
-				<button type="button" id="openModalBtn" onclick="writeBtn();">글
-					쓰기</button>
+				
 
 
 			</div>

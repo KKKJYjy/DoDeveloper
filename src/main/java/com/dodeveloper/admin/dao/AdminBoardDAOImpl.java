@@ -302,14 +302,14 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 	}
 
 	@Override
-	public ReportVO selectReportBoardNo(int btypeNo, int boardNo) throws Exception {
+	public List<ReportVO> selectReportBoardNo(int btypeNo, int boardNo) throws Exception {
 		
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("btypeNo", btypeNo);
 		params.put("boardNo", boardNo);
 		
 		
-		return ses.selectOne(ns + ".selectReportNo", params);
+		return ses.selectList(ns + ".selectReportNo", params);
 	}
 
 	@Override
