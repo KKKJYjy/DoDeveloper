@@ -30,10 +30,10 @@ public interface LectureBoardService {
 	boolean checkLikeStatus(int lecNo, String user) throws Exception;
 	
 	// 게시글에 좋아요 버튼 눌렀을 경우 - 좋아요 갯수 1개 update (전체 게시글에 보여주기)
-	boolean likeUpBoard(int lecNo, String user) throws Exception;
+	boolean likeUpBoard(int lecNo, String user, String lecLikeTitle) throws Exception;
 	
 	// 게시글에 좋아요 버튼 한번 더 눌렀을 경우 - 좋아요 갯수 1개(down) update (전체 게시글에 보여주기)
-	boolean likeDownBoard(int lecNo, String user) throws Exception;
+	boolean likeDownBoard(int lecNo, String user, String lecLikeTitle) throws Exception;
 	
 	// 유저가 스크랩을 누른적이 있는지 조회 (스크랩 눌렀을 경우 1반환)
 	boolean selectAllLectureScrap(int lecNo, String user) throws Exception;

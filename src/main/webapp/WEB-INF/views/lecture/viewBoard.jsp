@@ -459,14 +459,16 @@ $(function() {
 // 좋아요 상태를 확인하는 함수
 function getLikeStatus() {
     let lecNo = '${lecBoard.lecNo}'; // 게시글 번호
-    let user = '${sessionScope.loginMember.userId}' // 로그인 한 유저의 정보
+    let user = '${sessionScope.loginMember.userId}'; // 로그인 한 유저의 정보
+    let lecLikeTitle = '${lecBoard.lecTitle}'; // 게시글 제목
 
     $.ajax({
         url: '/lecture/likeStatus', // 요청을 보낼 URL
         type: 'get', // HTTP 요청 메서드 (GET)
         data: {
             lecNo: lecNo, // 게시글 번호
-            user: user // 유저 정보
+            user: user, // 유저 정보
+            lecLikeTitle: lecLikeTitle // 게시글 제목
         },
         success: function(data) {
             // 빈하트(좋아요 누르기 전)와 꽉찬하트(좋아요 누른 후)의 HTML 요소를 가져옴
@@ -490,17 +492,17 @@ function getLikeStatus() {
     });
 }
 
-//---------------------------------------------------------------------
-
 // 하트 아이콘 클릭시 호출되는 함수(clickHeart)
 function clickHeart() {
     let lecNo = '${lecBoard.lecNo}'; // 게시글 번호
     let user = preAuth(); // 로그인 한 유저만 좋아요 / 좋아요 취소 가능하도록
+    let lecLikeTitle = '${lecBoard.lecTitle}'; // 게시글 제목
 
     // 1) 게시글 번호, 좋아요 누를 유저를 likePost 객체에 담고
     let likePost = {
-        "lecNo" : lecNo,
-        "user" : user
+        "lecNo": lecNo,
+        "user": user,
+        "lecLikeTitle": lecLikeTitle
     };
     console.log(likePost);
 
@@ -515,10 +517,10 @@ function clickHeart() {
     }
 
     $.ajax({
-        url : url,
-        type : 'post',
+        url: url,
+        type: 'post',
         // 2) ajax를 이용해서 데이터(likePost)를 문자열로 변환하여 넘겨준다.
-        data : JSON.stringify(likePost),
+        data: JSON.stringify(likePost),
         contentType: 'application/json', // 전송하는 데이터의 형식을 json으로 지정
         success: function(data) {
             console.log('success:', data);
@@ -528,12 +530,12 @@ function clickHeart() {
             let fullHeartIcon = document.getElementById("fullHeartIcon");
 
             if (!liked) {
-            	// 좋아요를 누르는 경우
+                // 좋아요를 누르는 경우
                 heartIcon.style.display = "none"; // 빈하트 숨김
                 fullHeartIcon.style.display = "inline"; // 꽉하트 표시
                 console.log("좋아요 성공");
             } else {
-            	// 좋아요를 눌렀던 경우 -> 좋아요 취소
+                // 좋아요를 눌렀던 경우 -> 좋아요 취소
                 heartIcon.style.display = "inline"; // 빈하트 표시
                 fullHeartIcon.style.display = "none"; // 꽉하트 숨김
                 console.log("좋아요 취소 성공");
@@ -545,7 +547,6 @@ function clickHeart() {
         }
     });
 }
-
 //---------------------------------------------------------------------
 
 // 링크에 대한 함수

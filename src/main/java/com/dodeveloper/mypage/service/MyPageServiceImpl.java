@@ -14,6 +14,7 @@ import com.dodeveloper.company.vodto.ScrapVO;
 import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.lecture.dao.LectureBoardDAO;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
+import com.dodeveloper.lecture.vodto.LectureLikeVO;
 import com.dodeveloper.lecture.vodto.LectureSearchDTO;
 import com.dodeveloper.mypage.dao.MyPageDAO;
 import com.dodeveloper.mypage.dto.ChangePwdDTO;
@@ -165,7 +166,6 @@ public class MyPageServiceImpl implements MyPageService {
 
 	    List<LectureBoardVO> lectureList = null;
 
-	    // 검색 조건과 검색어를 입력 안하고, 검색 필터를 선택 안 한 경우
 	    makePagingInfo(pageNo, userId);
 	    lectureList = myPageDao.getMyPageLecBoardList(userId, pi);
 	        
@@ -192,15 +192,14 @@ public class MyPageServiceImpl implements MyPageService {
      */
     @Override
     public Map<String, Object> getMyReplyLectureList(int pageNo, String userId) throws Exception {
-	    System.out.println(userId + "가 서비스단 : " + pageNo + "강의 추천 게시판에 작성한 게시글 확인!");
+	    System.out.println(userId + "가 서비스단 : " + pageNo + "강의 추천 게시판의 게시글에 댓글 작성 확인!");
 
-	    List<LectureBoardVO> lectureReplyList = null;
+	    List<ReplyVO> lectureReplyList = null;
 
-	    // 검색 조건과 검색어를 입력 안하고, 검색 필터를 선택 안 한 경우
 	    makePagingInfo(pageNo, userId);
-	    lectureReplyList = myPageDao.getMyPageLecBoardList(userId, pi);
+	    lectureReplyList = myPageDao.getMyPageLecBoardReplyList(userId, pi);
 	        
-	    System.out.println("마이페이지에서 " + userId + "가 강의 추천 게시판에 작성한 게시글 : " + lectureReplyList.toString() + "확인");
+	    System.out.println("마이페이지에서 " + userId + "가 강의 추천 게시판의 게시글에 댓글 작성한 게시글 : " + lectureReplyList.toString() + "확인");
 
 
 	    Map<String, Object> returnMap = new HashMap<String, Object>();
@@ -223,15 +222,14 @@ public class MyPageServiceImpl implements MyPageService {
      */
     @Override
     public Map<String, Object> getMyScrapLectureList(int pageNo, String userId) throws Exception {
-	    System.out.println(userId + "가 서비스단 : " + pageNo + "강의 추천 게시판에 작성한 게시글 확인!");
+	    System.out.println(userId + "가 서비스단 : " + pageNo + "강의 추천 게시판의 게시글 스크랩 확인!");
 
-	    List<LectureBoardVO> lectureScrapList = null;
+	    List<ScrapVO> lectureScrapList = null;
 
-	    // 검색 조건과 검색어를 입력 안하고, 검색 필터를 선택 안 한 경우
 	    makePagingInfo(pageNo, userId);
-	    lectureScrapList = myPageDao.getMyPageLecBoardList(userId, pi);
+	    lectureScrapList = myPageDao.getMyPageLecBoardScrapList(userId, pi);
 	        
-	    System.out.println("마이페이지에서 " + userId + "가 강의 추천 게시판에 작성한 게시글 : " + lectureScrapList.toString() + "확인");
+	    System.out.println("마이페이지에서 " + userId + "가 강의 추천 게시판의 게시글 스크랩 : " + lectureScrapList.toString() + "확인");
 
 
 	    Map<String, Object> returnMap = new HashMap<String, Object>();
@@ -254,15 +252,14 @@ public class MyPageServiceImpl implements MyPageService {
      */
     @Override
     public Map<String, Object> getMyLikedLectureList(int pageNo, String userId) throws Exception {
-	    System.out.println(userId + "가 서비스단 : " + pageNo + "강의 추천 게시판에 작성한 게시글 확인!");
+	    System.out.println(userId + "가 서비스단 : " + pageNo + "강의 추천 게시판의 게시글 좋아요 확인!");
 
-	    List<LectureBoardVO> lectureLikeList = null;
+	    List<LectureLikeVO> lectureLikeList = null;
 
-	    // 검색 조건과 검색어를 입력 안하고, 검색 필터를 선택 안 한 경우
 	    makePagingInfo(pageNo, userId);
-	    lectureLikeList = myPageDao.getMyPageLecBoardList(userId, pi);
+	    lectureLikeList = myPageDao.getMyPageLecBoardLikeList(userId, pi);
 	        
-	    System.out.println("마이페이지에서 " + userId + "가 강의 추천 게시판에 작성한 게시글 : " + lectureLikeList.toString() + "확인");
+	    System.out.println("마이페이지에서 " + userId + "가 강의 추천 게시판의 게시글 좋아요 : " + lectureLikeList.toString() + "확인");
 
 
 	    Map<String, Object> returnMap = new HashMap<String, Object>();

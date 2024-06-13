@@ -174,8 +174,8 @@
 
 	<!-- 유저가 게시글에 하트를 눌렀을 경우 insert 되는 쿼리문 -->
 	<insert id="insertLikeBoard">
-		insert into lectureLikeInfo(lecNo, lecLikeUser)
-		values(#{lecNo}, #{user})
+		insert into lectureLikeInfo(lecNo, lecLikeUser, lecLikeTitle)
+		values(#{lecNo}, #{user}, #{lecLikeTitle})
 	</insert>
 
 	<!-- 페이지에 좋아요 횟수 update -->
@@ -187,7 +187,7 @@
 	<!-- 유저가 게시글에 하트를 한 번 더 눌렀을 경우 delete 되는 쿼리문 -->
 	<delete id="deleteLikeBoard">
 		delete from lectureLikeInfo where lecNo = #{lecNo}
-		and lecLikeUser = #{user}
+		and lecLikeUser = #{user} and lecLikeTitle = #{lecLikeTitle}
 	</delete>
 
 	<!-- 유저가 게시글 하트를 한번 더 눌렀을 경우 좋아요 횟수 down하는 update -->

@@ -58,13 +58,13 @@ public interface LectureBoardDAO {
 	int selectLikeBoard(int lecNo, String user) throws Exception;
 	
 	// 게시글에 좋아요 처리하는 메서드
-	int insertLikeBoard(int lecNo, String user) throws Exception;
+	int insertLikeBoard(int lecNo, String user, String lecLikeTitle) throws Exception;
 	
 	// 게시글에 좋아요 버튼 눌렀을 경우 갯수 1개 update (전체 게시글에 보여주기)
 	int updateLikeCount(int lecNo) throws Exception;
 	
 	// 게시글에 좋아요 한 번 더 눌렀을 경우 취소처리하는 메서드
-	int deleteLikeBoard(int lecNo, String user) throws Exception;
+	int deleteLikeBoard(int lecNo, String user, String lecLikeTitle) throws Exception;
 	
 	// 유저가 게시글 하트를 한번 더 눌렀을 경우 좋아요 횟수 down하는 update (전체 게시글에 보여주기)
 	int updateLikeDownCount(int lecNo) throws Exception;

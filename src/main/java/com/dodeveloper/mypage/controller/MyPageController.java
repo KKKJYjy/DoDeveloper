@@ -30,6 +30,7 @@ import com.dodeveloper.company.vodto.ScrapVO;
 import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.lecture.service.LectureBoardService;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
+import com.dodeveloper.lecture.vodto.LectureLikeVO;
 import com.dodeveloper.member.service.MemberService;
 import com.dodeveloper.member.vo.MemberVO;
 import com.dodeveloper.mypage.dto.ChangeProfileDTO;
@@ -345,7 +346,6 @@ public class MyPageController {
 		// 게시글 목록 가져오기
 		List<LectureBoardVO> lectureList = (List<LectureBoardVO>) resultMap.get("lectureList");
 		
-		// 바인딩
 		// 게시글 자체를 바인딩
 		model.addAttribute("lectureList", (List<LectureBoardVO>) resultMap.get("lectureList"));
 		// 페이징 정보를 바인딩
@@ -387,11 +387,10 @@ public class MyPageController {
 		}
 		
 		// 게시글 목록 가져오기
-		List<LectureBoardVO> lectureReplyList = (List<LectureBoardVO>) resultMap.get("lectureReplyList");
+		List<ReplyVO> lectureReplyList = (List<ReplyVO>) resultMap.get("lectureReplyList");
 		
-		// 바인딩
 		// 게시글 자체를 바인딩
-		model.addAttribute("lectureReplyList", (List<LectureBoardVO>) resultMap.get("lectureReplyList"));
+		model.addAttribute("lectureReplyList", (List<ReplyVO>) resultMap.get("lectureReplyList"));
 		// 페이징 정보를 바인딩
 		model.addAttribute("pagingInfo", (PagingInfo) resultMap.get("pagingInfo"));
 	}
@@ -431,11 +430,10 @@ public class MyPageController {
 		}
 		
 		// 게시글 목록 가져오기
-		List<LectureBoardVO> lectureScrapList = (List<LectureBoardVO>) resultMap.get("lectureScrapList");
+		List<ScrapVO> lectureScrapList = (List<ScrapVO>) resultMap.get("lectureScrapList");
 		
-		// 바인딩
 		// 게시글 자체를 바인딩
-		model.addAttribute("lectureScrapList", (List<LectureBoardVO>) resultMap.get("lectureScrapList"));
+		model.addAttribute("lectureScrapList", (List<ScrapVO>) resultMap.get("lectureScrapList"));
 		// 페이징 정보를 바인딩
 		model.addAttribute("pagingInfo", (PagingInfo) resultMap.get("pagingInfo"));
 	}
@@ -475,11 +473,10 @@ public class MyPageController {
 		}
 		
 		// 게시글 목록 가져오기
-		List<LectureBoardVO> lectureLikeList = (List<LectureBoardVO>) resultMap.get("lectureLikeList");
+		List<LectureLikeVO> lectureLikeList = (List<LectureLikeVO>) resultMap.get("lectureLikeList");
 		
-		// 바인딩
 		// 게시글 자체를 바인딩
-		model.addAttribute("lectureLikeList", (List<LectureBoardVO>) resultMap.get("lectureLikeList"));
+		model.addAttribute("lectureLikeList", (List<LectureLikeVO>) resultMap.get("lectureLikeList"));
 		// 페이징 정보를 바인딩
 		model.addAttribute("pagingInfo", (PagingInfo) resultMap.get("pagingInfo"));
 	}

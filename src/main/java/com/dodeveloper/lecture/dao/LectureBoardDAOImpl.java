@@ -9,7 +9,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.dodeveloper.company.vodto.ScrapVO;
 import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.lecture.vodto.LectureBoardDTO;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
@@ -323,11 +322,12 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
      * 유저가 하트를 눌렀을 때 좋아요 수가 1증가 -> ♥
 	 */
 	@Override
-	public int insertLikeBoard(int lecNo, String user) throws Exception {
+	public int insertLikeBoard(int lecNo, String user, String lecLikeTitle) throws Exception {
 		
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("lecNo", lecNo);
 		params.put("user", user);
+		params.put("lecLikeTitle", lecLikeTitle);
 		
 		return ses.insert(ns + ".insertLikeBoard", params);
 	}
@@ -357,11 +357,12 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 * 유저가 하트를 한번 더 눌렀을 경우 1감소 -> ♡
 	 */
 	@Override
-	public int deleteLikeBoard(int lecNo, String user) throws Exception {
+	public int deleteLikeBoard(int lecNo, String user, String lecLikeTitle) throws Exception {
 		
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("lecNo", lecNo);
 		params.put("user", user);
+		params.put("lecLikeTitle", lecLikeTitle);
 		
 		return ses.delete(ns + ".deleteLikeBoard", params);
 	}

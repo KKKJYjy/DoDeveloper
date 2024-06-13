@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.dodeveloper.company.vodto.ScrapVO;
 import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
+import com.dodeveloper.lecture.vodto.LectureLikeVO;
 import com.dodeveloper.mypage.dto.ChangePwdDTO;
 import com.dodeveloper.mypage.dto.ProfileDTO;
 import com.dodeveloper.mypage.vo.ProfileVO;
@@ -226,7 +227,7 @@ public class MyPageDAOImpl implements MyPageDAO {
 	 * @description : 유저가 강의 추천 게시판의 게시글에 좋아요 누른 게시글 가져오기
 	 */
 	@Override
-	public List<LectureBoardVO> getMyPageLecBoardLikeList(String userId, PagingInfo pi) {
+	public List<LectureLikeVO> getMyPageLecBoardLikeList(String userId, PagingInfo pi) {
 		
 		Map<String, Object> params = new HashMap<String, Object>();
 		
@@ -242,7 +243,7 @@ public class MyPageDAOImpl implements MyPageDAO {
 	 * @author : kde
 	 * @date : 2024.06.12
 	 * @return : int - 글의 갯수
-	 * @description : 유저가 강의 추천 게시판에 게시글을 스크랩한 게시글의 글의 갯수 가져오기
+	 * @description : 유저가 강의 추천 게시판에 게시글을 좋아요한 게시글의 글의 갯수 가져오기
 	 */
 	@Override
 	public int getMyPageLecBoardLikeListCnt(String userId) throws Exception {

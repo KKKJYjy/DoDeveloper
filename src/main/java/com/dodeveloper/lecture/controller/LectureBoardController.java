@@ -323,7 +323,7 @@ public class LectureBoardController {
 	 * @description : 게시글에 좋아요(눌려있는지/안눌려있는지) 체크하는 메서드
 	 */
 	@GetMapping("/likeStatus")
-	public @ResponseBody String getLikeStatus(int lecNo, String user) {
+	public @ResponseBody String getLikeStatus(int lecNo, String user, String lecLikeTitle) {
 		
 		try {
 			if (lService.checkLikeStatus(lecNo, user)) {
@@ -351,28 +351,28 @@ public class LectureBoardController {
 	 * @description : 로그인 한 유저인 경우만 좋아요를 누를 수 있다.
 	 * 유저가 하트를 눌렀을 때 좋아요 수가 1증가 -> ♥
 	 */
-    @PostMapping("/like")
-    public ResponseEntity<String> likePost(@RequestBody Map<String, String> likeRequest) {
-    	
-        int lecNo = Integer.parseInt(likeRequest.get("lecNo"));
-        String user = likeRequest.get("user");
-        
-        logger.info(lecNo + "번 글에 " + user + "가 좋아요를 눌렀습니다!");
-        
-        ResponseEntity<String> result = null; // 초기값 설정
+	@PostMapping("/like")
+	public ResponseEntity<String> likePost(@RequestBody Map<String, String> likeRequest, String lecLikeTitle) {
+	    
+	    int lecNo = Integer.parseInt(likeRequest.get("lecNo"));
+	    String user = likeRequest.get("user");
+	    
+	    logger.info(lecNo + "번 글에 " + user + "가 좋아요를 눌렀습니다! 제목: " + lecLikeTitle);
+	    
+	    ResponseEntity<String> result = null; // 초기값 설정
 
-        try {
-            // 좋아요를 안눌렀었는지 확인 후 누르기
-            lService.likeUpBoard(lecNo, user);
-            result = new ResponseEntity<String>("success", HttpStatus.OK);
-        } catch (Exception e) {
-            // 예외 발생 시 예외 처리
-            e.printStackTrace();
-            result = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
-        }
+	    try {
+	        // 좋아요를 안눌렀었는지 확인 후 누르기
+	        lService.likeUpBoard(lecNo, user, lecLikeTitle);
+	        result = new ResponseEntity<String>("success", HttpStatus.OK);
+	    } catch (Exception e) {
+	        // 예외 발생 시 예외 처리
+	        e.printStackTrace();
+	        result = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+	    }
 
-        return result;
-    }
+	    return result;
+	}
 
 	/**
 	 * @methodName : likeBoard
@@ -385,26 +385,26 @@ public class LectureBoardController {
 	 * 유저가 하트를 한번 더 눌렀을 경우 1감소 -> ♡
 	 */
 	@PostMapping("/unLike")
-	public ResponseEntity<String> unLikePost(@RequestBody Map<String, String> unlikeRequest) {
-		
+	public ResponseEntity<String> unLikePost(@RequestBody Map<String, String> unlikeRequest, String lecLikeTitle) {
+	    
 	    int lecNo = Integer.parseInt(unlikeRequest.get("lecNo"));
 	    String user = unlikeRequest.get("user");
 	    
-	    logger.info(lecNo + "번 글에 " + user + "가 좋아요를 취소했습니다!");
+	    logger.info(lecNo + "번 글에 " + user + "가 좋아요를 취소했습니다! 제목: " + lecLikeTitle);
 
 	    ResponseEntity<String> result = null; // 초기값 설정
 
-        try {
-        	// 좋아요를 눌렀었는지 확인 후 취소하기
-            lService.likeDownBoard(lecNo, user);
-            result = new ResponseEntity<String>("success", HttpStatus.OK);
-        } catch (Exception e) {
-            // 예외 발생 시 예외 처리
-            e.printStackTrace();
-            result = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
-        }
+	    try {
+	        // 좋아요를 눌렀었는지 확인 후 취소하기
+	        lService.likeDownBoard(lecNo, user, lecLikeTitle);
+	        result = new ResponseEntity<String>("success", HttpStatus.OK);
+	    } catch (Exception e) {
+	        // 예외 발생 시 예외 처리
+	        e.printStackTrace();
+	        result = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+	    }
 
-        return result;
+	    return result;
 	}
 	
 	

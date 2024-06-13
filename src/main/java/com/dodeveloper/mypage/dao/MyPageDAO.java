@@ -6,6 +6,7 @@ import java.util.List;
 import com.dodeveloper.company.vodto.ScrapVO;
 import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
+import com.dodeveloper.lecture.vodto.LectureLikeVO;
 import com.dodeveloper.mypage.dto.ChangePwdDTO;
 import com.dodeveloper.mypage.dto.ProfileDTO;
 import com.dodeveloper.mypage.vo.ProfileVO;
@@ -61,7 +62,7 @@ public interface MyPageDAO {
     int getMyPageLecBoardScrapListCnt(String userId) throws Exception;
     
     // 유저가 강의 추천 게시판의 게시글에 좋아요 누른 게시글 가져오기
-    List<LectureBoardVO> getMyPageLecBoardLikeList(String userId, PagingInfo pi);
+    List<LectureLikeVO> getMyPageLecBoardLikeList(String userId, PagingInfo pi);
 	
     // 유저가 강의 추천 게시판의 게시글에 좋아요 누른 게시글의 갯수 가져오기
     int getMyPageLecBoardLikeListCnt(String userId) throws Exception;

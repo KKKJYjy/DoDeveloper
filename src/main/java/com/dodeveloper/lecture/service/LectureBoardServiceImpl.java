@@ -339,18 +339,19 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	 */
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-	public boolean likeUpBoard(int lecNo, String user) throws Exception {
-		
-		boolean result = false; // 초기값 설정
-		
-		// 좋아요를 눌렀는지 안눌렀는지 확인후 안눌렀을 경우
-		if (lDao.selectLikeBoard(lecNo, user) != 1) {
-			lDao.insertLikeBoard(lecNo, user); // 좋아요를 누른다.
-			lDao.updateLikeCount(lecNo); // 좋아요 수를 1 증가
-			System.out.println("서비스단 : " + lecNo + "번 글에 " + user + "가 좋아요를 눌렀습니다!");
-		}
-		
-		return result;
+	public boolean likeUpBoard(int lecNo, String user, String lecLikeTitle) throws Exception {
+	    
+	    boolean result = false; // 초기값 설정
+	    
+	    // 좋아요를 눌렀는지 안눌렀는지 확인 후 안눌렀을 경우
+	    if (lDao.selectLikeBoard(lecNo, user) != 1) {
+	        lDao.insertLikeBoard(lecNo, user, lecLikeTitle); // 좋아요를 누른다.
+	        lDao.updateLikeCount(lecNo); // 좋아요 수를 1 증가
+	        System.out.println("서비스단 : " + lecNo + "번 글에 " + user + "가 좋아요를 눌렀습니다! 제목: " + lecLikeTitle);
+	        result = true; // 성공적으로 좋아요를 누른 경우 true 반환
+	    }
+	    
+	    return result;
 	}
 
 	/**
@@ -365,15 +366,16 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	 */
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-	public boolean likeDownBoard(int lecNo, String user) throws Exception {
+	public boolean likeDownBoard(int lecNo, String user, String lecLikeTitle) throws Exception {
 		
 		boolean result = false; // 초기값 설정
 		
 		// 좋아요를 눌렀는지 안눌렀는지 확인후 눌렀던 경우
 		if (lDao.selectLikeBoard(lecNo, user) == 1) {
-			lDao.deleteLikeBoard(lecNo, user); // 눌렀던 좋아요를 취소한다.
+			lDao.deleteLikeBoard(lecNo, user, lecLikeTitle); // 눌렀던 좋아요를 취소한다.
 			lDao.updateLikeDownCount(lecNo); // 좋아요 수를 1 감소
-			System.out.println("서비스단 : " + lecNo + "번 글에 " + user + "가 좋아요를 취소했습니다!");
+			System.out.println("서비스단 : " + lecNo + "번 글에 " + user + "가 좋아요를 취소했습니다!" + lecLikeTitle);
+			result = true;
 		}
 		
 		return result;
