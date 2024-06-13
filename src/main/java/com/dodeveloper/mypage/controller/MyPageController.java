@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,8 +23,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dodeveloper.company.vodto.ScrapVO;
+import com.dodeveloper.etc.PagingInfo;
+import com.dodeveloper.lecture.service.LectureBoardService;
+import com.dodeveloper.lecture.vodto.LectureBoardVO;
+import com.dodeveloper.lecture.vodto.LectureLikeVO;
 import com.dodeveloper.member.service.MemberService;
 import com.dodeveloper.member.vo.MemberVO;
 import com.dodeveloper.mypage.dto.ChangeProfileDTO;
@@ -31,6 +38,7 @@ import com.dodeveloper.mypage.dto.ChangePwdDTO;
 import com.dodeveloper.mypage.dto.ProfileDTO;
 import com.dodeveloper.mypage.service.MyPageService;
 import com.dodeveloper.mypage.vo.ProfileVO;
+import com.dodeveloper.reply.vodto.ReplyVO;
 import com.dodeveloper.study.vodto.StuStackDTO;
 import com.dodeveloper.study.vodto.StudyBoardVO;
 import com.dodeveloper.studyApply.vodto.StudyApplyVO;
@@ -46,6 +54,9 @@ public class MyPageController {
 
 	@Autowired
 	private MemberService mService;
+	
+	@Autowired
+	private LectureBoardService lService; // 스프링 컨테이너에서 LectureService 객체를 찾아 주입
 
 	@GetMapping("/myProfile")
 	public void myProfileGet() {
@@ -306,6 +317,179 @@ public class MyPageController {
 		model.addAttribute("studyList", (List<StudyBoardVO>) result.get("studyList"));
 		model.addAttribute("stuStackList", (List<StuStackDTO>) result.get("stuStackList"));
 		model.addAttribute("stuApplyList", (List<StudyApplyVO>) result.get("stuApplyList"));
+	}
+	
+	/**
+	 * @methodName : myLectureList
+	 * @author : kde
+	 * @date : 2024.06.12
+	 * @param : @RequestParam(value = "pageNo", defaultValue = "1") int pageNo
+	 * - 뷰단에서 쿼리스트링으로 넘겨 페이징 하기 위한 pageNo
+	 * @param : Model model - 컨트롤러에서 뷰로 데이터를 전달
+	 * @param : HttpServletRequest req - 로그인한 사용자의 아이디를 가져오기 위해 사용
+	 * @return : void
+	 * @throws Exception 
+	 * @description : userId가 강의 추천 게시판에 작성한 게시글로 이동 + 페이징
+	 */
+	@GetMapping("/myLectureList")
+	public void myLectureList(@RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+			Model model, HttpServletRequest req) {
+		// 현재 로그인한 사용자의 아이디
+		String userId = ((MemberVO) req.getSession().getAttribute("loginMember")).getUserId();
+		logger.info(userId + "가 강의 추천 게시판에 작성한 게시글로 이동");
+		
+	    Map<String, Object> resultMap = null;
+	    
+	    String resultPage = null;
+	    
+	    // 페이지 번호가 1이상이 되도록 설정
+	 	if (pageNo <= 0) {
+	 		pageNo = 1;
+	 	}
+	 		
+	 	// 서비스단 호출(getMyLectureList() 메서드 호출)
+		try {
+			resultMap = myPageService.getMyLectureList(pageNo, userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		// 게시글 목록 가져오기
+		List<LectureBoardVO> lectureList = (List<LectureBoardVO>) resultMap.get("lectureList");
+		
+		// 게시글 자체를 바인딩
+		model.addAttribute("lectureList", (List<LectureBoardVO>) resultMap.get("lectureList"));
+		// 페이징 정보를 바인딩
+		model.addAttribute("pagingInfo", (PagingInfo) resultMap.get("pagingInfo"));
+	}
+	
+	/**
+	 * @methodName : myReplyLectureList
+	 * @author : kde
+	 * @date : 2024.06.12
+	 * @param : @RequestParam(value = "pageNo", defaultValue = "1") int pageNo
+	 * - 뷰단에서 쿼리스트링으로 넘겨 페이징 하기 위한 pageNo
+	 * @param : Model model - 컨트롤러에서 뷰로 데이터를 전달
+	 * @param : HttpServletRequest req - 로그인한 사용자의 아이디를 가져오기 위해 사용
+	 * @return : void
+	 * @description : 유저가 강의 추천 게시판의 게시글에 작성한 댓글 불러오는 게시글로 이동 + 페이징
+	 */
+	@GetMapping("/myReplyLectureList")
+	public void myReplyLectureList(@RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+			Model model, HttpServletRequest req) {
+		// 현재 로그인한 사용자의 아이디
+		String userId = ((MemberVO) req.getSession().getAttribute("loginMember")).getUserId();
+		logger.info(userId + "가 강의 추천 게시판의 게시글에 작성한 댓글 마이페이지의 게시글로 이동");
+		
+	    Map<String, Object> resultMap = null;
+	    
+	    String resultPage = null;
+	    
+	    // 페이지 번호가 1이상이 되도록 설정
+	 	if (pageNo <= 0) {
+	 		pageNo = 1;
+	 	}
+	 		
+	 	// 서비스단 호출(getMyReplyLectureList() 메서드 호출)
+		try {
+			resultMap = myPageService.getMyReplyLectureList(pageNo, userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		// 게시글 목록 가져오기
+		List<ReplyVO> lectureReplyList = (List<ReplyVO>) resultMap.get("lectureReplyList");
+		
+		// 게시글 자체를 바인딩
+		model.addAttribute("lectureReplyList", (List<ReplyVO>) resultMap.get("lectureReplyList"));
+		// 페이징 정보를 바인딩
+		model.addAttribute("pagingInfo", (PagingInfo) resultMap.get("pagingInfo"));
+	}
+	
+	/**
+	 * @methodName : myScrapLectureList
+	 * @author : kde
+	 * @date : 2024.06.12
+	 * @param : @RequestParam(value = "pageNo", defaultValue = "1") int pageNo
+	 * - 뷰단에서 쿼리스트링으로 넘겨 페이징 하기 위한 pageNo
+	 * @param : Model model - 컨트롤러에서 뷰로 데이터를 전달
+	 * @param : HttpServletRequest req - 로그인한 사용자의 아이디를 가져오기 위해 사용
+	 * @return : void
+	 * @description : 유저가 강의 추천 게시판의 게시글 스크랩한 게시글로 이동 + 페이징
+	 */
+	@GetMapping("/myScrapLectureList")
+	public void myScrapLectureList(@RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+			Model model, HttpServletRequest req) {
+		// 현재 로그인한 사용자의 아이디
+		String userId = ((MemberVO) req.getSession().getAttribute("loginMember")).getUserId();
+		logger.info(userId + "가 강의 추천 게시판의 게시글 스크랩 한 마이페이지의 게시글로 이동");
+		
+	    Map<String, Object> resultMap = null;
+	    
+	    String resultPage = null;
+	    
+	    // 페이지 번호가 1이상이 되도록 설정
+	 	if (pageNo <= 0) {
+	 		pageNo = 1;
+	 	}
+	 		
+	 	// 서비스단 호출(getMyScrapLectureList() 메서드 호출)
+		try {
+			resultMap = myPageService.getMyScrapLectureList(pageNo, userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		// 게시글 목록 가져오기
+		List<ScrapVO> lectureScrapList = (List<ScrapVO>) resultMap.get("lectureScrapList");
+		
+		// 게시글 자체를 바인딩
+		model.addAttribute("lectureScrapList", (List<ScrapVO>) resultMap.get("lectureScrapList"));
+		// 페이징 정보를 바인딩
+		model.addAttribute("pagingInfo", (PagingInfo) resultMap.get("pagingInfo"));
+	}
+	
+	/**
+	 * @methodName : myLikeLectureList
+	 * @author : kde
+	 * @date : 2024.06.12
+	 * @param : @RequestParam(value = "pageNo", defaultValue = "1") int pageNo
+	 * - 뷰단에서 쿼리스트링으로 넘겨 페이징 하기 위한 pageNo
+	 * @param : Model model - 컨트롤러에서 뷰로 데이터를 전달
+	 * @param : HttpServletRequest req - 로그인한 사용자의 아이디를 가져오기 위해 사용
+	 * @return : void
+	 * @description : 유저가 강의 추천 게시판의 게시글에 좋아요 누른 게시글로 이동 + 페이징
+	 */
+	@GetMapping("/myLikeLectureList")
+	public void myLikeLectureList(@RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+			Model model, HttpServletRequest req) {
+		// 현재 로그인한 사용자의 아이디
+		String userId = ((MemberVO) req.getSession().getAttribute("loginMember")).getUserId();
+		logger.info(userId + "가 강의 추천 게시판의 게시글 좋아요 한 마이페이지의 게시글로 이동");
+		
+	    Map<String, Object> resultMap = null;
+	    
+	    String resultPage = null;
+	    
+	    // 페이지 번호가 1이상이 되도록 설정
+	 	if (pageNo <= 0) {
+	 		pageNo = 1;
+	 	}
+	 		
+	 	// 서비스단 호출(getMyLikedLectureList() 메서드 호출)
+		try {
+			resultMap = myPageService.getMyLikedLectureList(pageNo, userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		// 게시글 목록 가져오기
+		List<LectureLikeVO> lectureLikeList = (List<LectureLikeVO>) resultMap.get("lectureLikeList");
+		
+		// 게시글 자체를 바인딩
+		model.addAttribute("lectureLikeList", (List<LectureLikeVO>) resultMap.get("lectureLikeList"));
+		// 페이징 정보를 바인딩
+		model.addAttribute("pagingInfo", (PagingInfo) resultMap.get("pagingInfo"));
 	}
 
 }

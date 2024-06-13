@@ -541,7 +541,7 @@ function dropMember() {
 			<!--  Section Title -->
 			<div class="container section-title mt-5 pt-5" data-aos="fade-up">
 				<h2>마이 페이지</h2>
-				<p>유저의 개인정보 및 프로필 사진변경, 내 글들이 있는 개인 공간</p>
+				<p>${sessionScope.loginMember.userId}님의 개인정보 및 프로필 사진변경 등 저장된 글 들을 볼 수 있는 공간</p>
 			</div>
 			<!-- End Section Title -->
 
@@ -581,14 +581,14 @@ function dropMember() {
 									<form>
 										<div class="row gx-3">
 											<div class="col">
-												<label class="small mb-1" for="userId">아이디</label> <input
+												<label class="small mb-1" for="userId">아이디 (변경불가)</label> <input
 													class="form-control" id="userId" type="text"
 													value="${loginMember.userId }" readonly />
 											</div>
 										</div>
 										<div class="row gx-3 mt-3">
 											<div class="col">
-												<label class="small mb-1" for="userName">이름</label> <input
+												<label class="small mb-1" for="userName">이름 (변경불가)</label> <input
 													class="form-control" id="userName" type="text"
 													value="${loginMember.userName }" readonly />
 											</div>
@@ -645,89 +645,127 @@ function dropMember() {
 								<div class="card-header">스터디 모임</div>
 								<div class="card-body">
 									<div class="btn-group">
-										<a href="/mypage/myStudyList" class="btn btn-outline-secondary" aria-current="page">내가 만든 스터디</a>
-										<a href="/mypage/myApplyList" class="btn btn-outline-secondary">내가 참여 신청한 스터디</a>
-										<a href="/mypage/myJoinedStudyList" class="btn btn-outline-secondary">내가 참여중인 스터디</a>
+
+										<a href="/mypage/myStudyList"
+											class="btn btn-outline-secondary" aria-current="page">
+											${sessionScope.loginMember.userId}님이 작성한 스터디 모임글</a>
+											<a href="/mypage/myApplyList" class="btn btn-outline-secondary">
+											${sessionScope.loginMember.userId}님이 참여 신청한 스터디 모임글</a>
+											<a href="/mypage/myJoinedStudyList" class="btn btn-outline-secondary">
+											${sessionScope.loginMember.userId}님이 참여중인 스터디 모임글</a>
+
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					
-					<div class="row justify-content-center mt-3">
-						<div class="col-xl-8">
-							<div class="card mb-4 mb-xl-0">
-								<div class="card-header">내가 작성한 강의추천 글 리스트</div>
-								<div class="card-body"></div>
-							</div>
-						</div>
-					</div>
-					<div class="row justify-content-center mt-3">
-						<div class="col-xl-8">
-							<div class="card mb-4 mb-xl-0">
-								<div class="card-header">내가 작성한 재직자 리뷰 글 리스트</div>
-								<div class="card-body"></div>
-							</div>
-						</div>
-					</div>
 
 					<div class="row justify-content-center mt-3">
 						<div class="col-xl-8">
 							<div class="card mb-4 mb-xl-0">
-								<div class="card-header">내가 댓글단 글 리스트</div>
-								<div class="card-body"></div>
-							</div>
-						</div>
-					</div>
-
-					<div class="row justify-content-center mt-3">
-						<div class="col-xl-8">
-							<div class="card mb-4 mb-xl-0">
-								<div class="card-header">내가 좋아요한 글 리스트</div>
-								<div class="card-body"></div>
-							</div>
-						</div>
-					</div>
-
-					<div class="row justify-content-center mt-3">
-							<div class="col-xl-8">
-								<div class="card mb-4 mb-xl-0">
-									<div class="card-header">내가 스크랩한 글 리스트</div>
-									<div class="card-body scrapList"></div>
-								</div>
-							</div>
-						</div>
-					
-					
-						<div class="row justify-content-center mt-3">
-							<div class="col-xl-8">
-								<div class="card mb-4 mb-xl-0">
-									<div class="card-header">내가 신고한 글 리스트</div>
-									<div class="card-body"></div>
-								</div>
-							</div>
-						</div>
-
-
-						<div class="row justify-content-center mt-3">
-							<div class="col-xl-8">
-								<div class="card mb-4 mb-xl-0">
-									<div class="card-header">회원 정보 변경</div>
+								<div class="card-header">강의 추천</div>
 									<div class="card-body">
-										<button class="btn btn-primary" type="button"
-											data-bs-toggle="modal" data-bs-target="#staticBackdrop">비밀번호
-											변경</button>
-										<button class="btn btn-success" type="button"
-											onclick="location.href='/member/logout'">로그아웃</button>
+										<div class="btn-group">
+											<a href="/mypage/myLectureList" class="btn btn-outline-secondary" aria-current="page">
+												${sessionScope.loginMember.userId}님이 작성한 게시글</a>
+											<a href="/mypage/myReplyLectureList" class="btn btn-outline-secondary">
+												${sessionScope.loginMember.userId}님이 내가 작성한 댓글</a>
+										</div>
+										<div class="btn-group">
+											<a href="/mypage/myScrapLectureList" class="btn btn-outline-secondary">
+												${sessionScope.loginMember.userId}님이 스크랩 한 게시글</a>
+											<a href="/mypage/myLikeLectureList" class="btn btn-outline-secondary">
+												${sessionScope.loginMember.userId}님이 좋아요 누른 게시글</a>
+										</div>	
+								</div>
+							</div>
+						</div>
+					</div>
 
-										<button class="btn btn-danger float-end" type="button"
-											data-bs-toggle="modal" data-bs-target="#sb_dropMember">회원탈퇴</button>
+					<div class="row justify-content-center mt-3">
+						<div class="col-xl-8">
+							<div class="card mb-4 mb-xl-0">
+								<div class="card-header">기업 리뷰</div>
+									<div class="card-body">
+										<div class="btn-group">
+											<a href="/mypage/" class="btn btn-outline-secondary" aria-current="page">
+												${sessionScope.loginMember.userId}님이 작성한 게시글</a>
+											<a href="/mypage/" class="btn btn-outline-secondary">
+												${sessionScope.loginMember.userId}님이 스크랩 한 게시글</a>
+											<a href="/mypage/" class="btn btn-outline-secondary">
+												${sessionScope.loginMember.userId}님이 내가 작성한 댓글</a>
 									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row justify-content-center mt-3">
+						<div class="col-xl-8">
+							<div class="card mb-4 mb-xl-0">
+								<div class="card-header">알고리즘</div>
+									<div class="card-body">
+										<div class="btn-group">
+											<a href="/mypage/" class="btn btn-outline-secondary" aria-current="page">
+												${sessionScope.loginMember.userId}님이 작성한 게시글</a>
+											<a href="/mypage/" class="btn btn-outline-secondary">
+												${sessionScope.loginMember.userId}님이 스크랩 한 게시글</a>
+											<a href="/mypage/" class="btn btn-outline-secondary">
+												${sessionScope.loginMember.userId}님이 내가 작성한 댓글</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="row justify-content-center mt-3">
+						<div class="col-xl-8">
+							<div class="card mb-4 mb-xl-0">
+								<div class="card-header">신고</div>
+									<div class="card-body">
+										<div class="btn-group">
+											<a href="/mypage/" class="btn btn-outline-secondary" aria-current="page">
+												${sessionScope.loginMember.userId}님이 신고한 게시글</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row justify-content-center mt-3">
+						<div class="col-xl-8">
+							<div class="card mb-4 mb-xl-0">
+								<div class="card-header">문의</div>
+									<div class="card-body">
+										<div class="btn-group">
+											<a href="/mypage/" class="btn btn-outline-secondary" aria-current="page">
+												${sessionScope.loginMember.userId}님이 작성한 문의</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="row justify-content-center mt-3">
+						<div class="col-xl-8">
+							<div class="card mb-4 mb-xl-0">
+								<div class="card-header">회원 정보 변경</div>
+								<div class="card-body">
+									<button class="btn btn-primary" type="button"
+										data-bs-toggle="modal" data-bs-target="#staticBackdrop">비밀번호
+										변경</button>
+									<button class="btn btn-success" type="button"
+										onclick="location.href='/member/logout'">로그아웃</button>
+
+									<button class="btn btn-danger float-end" type="button"
+										data-bs-toggle="modal" data-bs-target="#sb_dropMember">회원탈퇴</button>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
+			</div>
 		</section>
 		<!-- End Basic Section -->
 	</main>
