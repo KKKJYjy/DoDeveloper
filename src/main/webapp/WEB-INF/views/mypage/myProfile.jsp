@@ -536,11 +536,10 @@ function dropMember() {
 		<!-- Basic Section - My Page -->
 		<section id="myPage" class="contact">
 			<!-- <div class="container">
-        	
         </div> -->
 			<!--  Section Title -->
-			<div class="container section-title mt-5 pt-5" data-aos="fade-up">
-				<h2>마이 페이지</h2>
+			<div class="container section-title mt-5 pt-5 text-light" data-aos="fade-up">
+				<h2 class="text-light">마이 페이지</h2>
 				<p>${sessionScope.loginMember.userId}님의 개인정보 및 프로필 사진변경 등 저장된 글 들을 볼 수 있는 공간</p>
 			</div>
 			<!-- End Section Title -->
