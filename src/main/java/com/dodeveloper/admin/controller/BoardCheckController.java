@@ -26,7 +26,8 @@ public class BoardCheckController {
 	@GetMapping("/viewBoardDetail")
     public RedirectView viewBoardDetail(@RequestParam("btypeNo") int btypeNo, @RequestParam("boardNo") int boardNo) throws Exception {
         // btypeNo와 boardNo를 사용하여 게시글 정보를 가져옴.
-        ReportVO board = boardService.getReportNO(btypeNo, boardNo);
+
+		    List<ReportVO> board = boardService.getReportNO(btypeNo, boardNo);
 
         // btypeNo에 따라 다른 상세 페이지 URL을 생성.
         String redirectUrl = "";
@@ -36,9 +37,6 @@ public class BoardCheckController {
                 break;
             case 2:
                 redirectUrl = "/study/viewStudyBoard?stuNo=" + boardNo;
-                break;
-            case 3:
-                redirectUrl = "/companyInfo/revCompanyBoard?companyInfoNo=" + boardNo;
                 break;
             case 4:
                 redirectUrl = "/algorithm/algDetail?boardNo=" + boardNo;

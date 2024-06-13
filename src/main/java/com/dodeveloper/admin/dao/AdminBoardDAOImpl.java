@@ -302,14 +302,14 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 	}
 
 	@Override
-	public ReportVO selectReportBoardNo(int btypeNo, int boardNo) throws Exception {
+	public List<ReportVO> selectReportBoardNo(int btypeNo, int boardNo) throws Exception {
 		
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("btypeNo", btypeNo);
 		params.put("boardNo", boardNo);
 		
 		
-		return ses.selectOne(ns + ".selectReportNo", params);
+		return ses.selectList(ns + ".selectReportNo", params);
 	}
 
 	@Override
@@ -348,12 +348,7 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 		return ses.insert(ns + ".insertQna", newBoard);
 	}
 
-	@Override
-	public int deleteBoard(int btypeNo, int boardNo, String deleteReason) {
-		
-		
-		return 0;
-	}
+	
 
 
 	public int selectQnaTotalBoardCnt() throws Exception {
@@ -396,6 +391,52 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 	public List<AdminReviewBoardVO> selectDiffRev() throws Exception {
 	
 		return ses.selectList(ns + ".selectDiffRev");
+	}
+	
+
+	// 패널티를 증가 시키며, 불량회원 테이블에 insert
+	@Override
+	public int insertPenalty(String deleteReason, String userId) throws Exception {
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("reportReason", deleteReason);
+		params.put("userId", userId);
+		
+		return ses.insert(ns + ".insertPenalty", params);
+	}
+	
+
+	// 신고 해당 게시물 삭제
+	@Override
+	public int deleteSelectBoard(int btypeNo, int boardNo) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("btypeNo", btypeNo);
+		params.put("boardNo", boardNo);
+		
+		return ses.delete(ns + ".deleteBoard", params);
+	}
+	
+	// 신고 내역에서만 삭제
+	@Override
+	public int deleteBoard(int btypeNo, int boardNo) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("btypeNo", btypeNo);
+		params.put("boardNo", boardNo);
+		
+		return ses.delete(ns + ".deleteReport", params);
+	}
+	
+	
+
+	/**
+		* @author : yeonju
+		* @date : 2024. 6. 10.
+		* @return : List<NoticeDTO>
+		* @description : 최신 공지글 5개를 가져오는 메서드 (메인홈에 출력할 용도)
+	 */
+	@Override
+	public List<NoticeDTO> getNoticeTop5() throws Exception {
+		return ses.selectList(ns + ".getNoticeTop5");
 	}
 
 	

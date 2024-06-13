@@ -59,6 +59,9 @@
 		<typeAlias alias="ReportVO"
 			type="com.dodeveloper.admin.vo.ReportVO" />
 
+		<typeAlias alias="UserDTO"
+			type="com.dodeveloper.admin.dto.UserDTO" />
+
 
 	</typeAliases>
 </configuration>

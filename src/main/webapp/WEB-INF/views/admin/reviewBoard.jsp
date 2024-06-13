@@ -9,8 +9,15 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <style>
-#openModalBtn {
+.openModalBtn {
 	margin-bottom: 15px;
+}
+
+.pagination {
+	display: flex;
+	justify-content: center; /* 가운데 정렬 */
+	list-style: none;
+	padding: 0;
 }
 </style>
 <script>
@@ -47,7 +54,7 @@
 		} else {
 			let chk = confirm("정말 삭제하시겠습니까?");
 			if (!chk) {
-				location.replace("reviewBoard")
+				
 			} else {
 				$.ajax({
 					url : url,
@@ -98,19 +105,28 @@
 		<div class="container-fluid">
 
 			<div class="container mt-3">
-				<p class="text-center">기업리뷰</p>
-				<ul class="nav nav-tabs nav-justified">
-					<li class="nav-item"><a class="nav-link"
-						href="/admin/selectBoard">스터디 모임</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="/admin/lectureBoard">강의추천</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="/admin/algorithmBoard">알고리즘</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="/admin/reviewBoard">기업리뷰</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="/admin/noticeBoard">공지사항</a></li>
-				</ul>
+				
+				<div class="row">
+					<!-- column -->
+					<div class="col-sm-12">
+						<div class="card">
+							<div class="card-body">
+								<ul class="nav nav-pills nav-justified">
+									<li class="nav-item"><a class="nav-link"
+										href="/admin/selectBoard">스터디 모임</a></li>
+									<li class="nav-item"><a class="nav-link"
+										href="/admin/lectureBoard">강의추천</a></li>
+									<li class="nav-item"><a class="nav-link"
+										href="/admin/algorithmBoard">알고리즘</a></li>
+									<li class="nav-item"><a class="nav-link active"
+										href="/admin/reviewBoard">기업리뷰</a></li>
+									<li class="nav-item"><a class="nav-link"
+										href="/admin/noticeBoard">공지사항</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 
 
@@ -121,7 +137,7 @@
 				<c:import url="./search.jsp"></c:import>
 
 				<c:if test="${sessionScope.loginMember.isAdmin == 'Y' }">
-					<button id="openModalBtn" onclick="checkCheckbox()">게시글삭제</button>
+					<button class="btn btn-danger openModalBtn" onclick="checkCheckbox()">게시글삭제</button>
 				</c:if>
 
 

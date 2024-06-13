@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.dodeveloper.admin.dto.UserDTO;
 import com.dodeveloper.admin.dto.UserStatusDTO;
 import com.dodeveloper.admin.service.AdminService;
 import com.dodeveloper.member.vo.MemberVO;
@@ -30,7 +31,7 @@ public class UserManagerController {
 	   public void userList(Model model) throws Exception {
 		   logger.info("userList 페이지 호출");
 		   
-		   List<MemberVO> returnMap = null;
+		   List<UserDTO> returnMap = null;
 		   
 		   String resultPage = null;
 		   

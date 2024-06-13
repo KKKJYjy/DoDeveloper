@@ -202,7 +202,23 @@ public class MyPageController {
 			throws Exception {
 		System.out.println("changeProfileDTO : " + changeProfileDTO.toString());
 
+		HttpHeaders headers = new HttpHeaders();
+		Charset utf8 = Charset.forName("utf-8");
+		MediaType mediaType = new MediaType(MediaType.APPLICATION_JSON, utf8);
+		headers.setContentType(mediaType);
+
 		Map<String, Object> returnMap = new HashMap<String, Object>();
+		
+		if(changeProfileDTO.getEmail() == null) {			
+			MemberVO member = mService.getMemberInfo(changeProfileDTO.getUserId());
+			if(member == null) {
+				returnMap.put("state", "F");
+				returnMap.put("message", "Fail");
+				return ResponseEntity.ok().headers(headers).body(returnMap);
+			}
+			
+			changeProfileDTO.setEmail(member.getEmail());
+		}
 
 		if (mService.changeProfile(changeProfileDTO) > 0) {
 			returnMap.put("state", "T");
@@ -211,11 +227,6 @@ public class MyPageController {
 			returnMap.put("state", "F");
 			returnMap.put("message", "Fail");
 		}
-
-		HttpHeaders headers = new HttpHeaders();
-		Charset utf8 = Charset.forName("utf-8");
-		MediaType mediaType = new MediaType(MediaType.APPLICATION_JSON, utf8);
-		headers.setContentType(mediaType);
 
 		return ResponseEntity.ok().headers(headers).body(returnMap);
 	}

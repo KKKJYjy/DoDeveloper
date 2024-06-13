@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.dodeveloper.lecture.vodto.LectureBoardDTO;
+import com.dodeveloper.lecture.vodto.LectureBoardVO;
 import com.dodeveloper.lecture.vodto.LectureSearchDTO;
 
 public interface LectureBoardService {
@@ -43,5 +44,9 @@ public interface LectureBoardService {
 	
 	// 게시글에 스크랩 버튼을 눌렀을 경우 - 스크랩 갯수 1개(down) update (전체 게시글에 보여주기)
 	boolean scrapDownBoard(int lecNo, String user) throws Exception;
+
+	// 최신 5개 강의 게시글을 얻어오는 메서드
+	List<LectureBoardVO> getLectureTop5() throws Exception;
+
 	
 }

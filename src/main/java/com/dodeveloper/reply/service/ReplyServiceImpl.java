@@ -7,12 +7,16 @@ import org.springframework.stereotype.Service;
 import com.dodeveloper.reply.dao.ReplyDAO;
 import com.dodeveloper.reply.vodto.ReplyDTO;
 import com.dodeveloper.reply.vodto.ReplyVO;
+import com.dodeveloper.study.dao.StudyDAO;
 
 @Service
 public class ReplyServiceImpl implements ReplyService {
 
 	@Autowired
 	private ReplyDAO rDao;
+	
+	@Autowired
+	private StudyDAO sDao;
 
 	/**
 	 * @methodName : selectAllReply
@@ -71,6 +75,50 @@ public class ReplyServiceImpl implements ReplyService {
 	public int deleteReply(int replyNo) throws Exception {
 		
 		return rDao.deleteReply(replyNo);
+	}
+
+	/**
+		* @author : yeonju
+		* @date : 2024. 6. 10.
+		* @param : ReplyDTO newReply
+		* @return : int
+		* @description :댓글 작성에 성공하면 스터디 테이블의 댓글수가 +1 update
+	 */
+	@Override
+	public int insertReplyStudy(ReplyDTO newReply) throws Exception {
+		int result = 0;
+		
+		if(rDao.insertReply(newReply) == 1) {
+			System.out.println(newReply.getBNo() + "번째 스터디 모임글 댓글 인서트 성공");
+			if(sDao.ReplyCntUp(newReply.getBNo()) ==1) {
+				System.out.println(newReply.getBNo() + "번째 스터디 모임글 댓글수 +1 성공");
+				result = 1;
+			}
+		}
+		
+		return result;
+	}
+
+	/**
+	* @author : yeonju
+	* @date : 2024. 6. 10.
+	* @param : ReplyDTO newReply
+	* @return : int
+	* @description :댓글 작성에 성공하면 스터디 테이블의 댓글수가 -1 update
+ */
+	@Override
+	public int deleteReplyStudy(int replyNo, int stuNo) throws Exception {
+		int result = 0;
+		
+		if(rDao.deleteReply(replyNo) == 1) {
+			System.out.println(replyNo + "번째 스터디 모임글 댓글 삭제 성공");
+			if(sDao.ReplyCntDown(stuNo) == 1) {
+				System.out.println(stuNo + "번째 스터디 모임글 댓글수 -1 성공");
+				result= 1;
+			}
+		}
+		
+		return result;
 	}
 
 }

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,8 +36,12 @@
 
 		})
 	})
-
 </script>
+<style>
+.penalty {
+	color: red;
+}
+</style>
 
 </head>
 <body>
@@ -57,13 +62,15 @@
 		<div class="container-fluid">
 
 			<!-- 검색 박스 -->
-			<div class="nav-item search-box"><a class="nav-link text-muted"
-				href="javascript:void(0)"><i class="ti-search"></i></a>
+			<div class="nav-item search-box">
+				<a class="nav-link text-muted" href="javascript:void(0)"><i
+					class="ti-search"></i></a>
 				<form class="app-search" style="display: none">
 					<input type="text" class="form-control"
 						placeholder="Search &amp; enter" /> <a class="srh-btn"><i
 						class="ti-close"></i></a>
-				</form></div>
+				</form>
+			</div>
 			<!-- ============================================================== -->
 			<!-- Start Page Content -->
 			<!-- ============================================================== -->
@@ -82,6 +89,7 @@
 											<th class="border-top-0">회원 이름</th>
 											<th class="border-top-0">이메일</th>
 											<th class="border-top-0">가입 일자</th>
+											<th class="border-top-0">누적 경고</th>
 											<th class="border-top-0">상태</th>
 										</tr>
 									</thead>
@@ -91,30 +99,46 @@
 												<td class="userId">${user.userId}</td>
 												<td>${user.userName}</td>
 												<td>${user.email}</td>
-												<td>${user.registerDate}</td>
-												<td><c:choose>
-														<c:when test="${user.status == '정상회원'}">
-															<select class="form-select form-select-sm status">
-																<option>${user.status}</option>
-																<option>정지회원</option>
-																<option>탈퇴회원</option>
-															</select>
-														</c:when>
+												<td><fmt:formatDate value="${user.registerDate}"
+														pattern="yyyy-MM-dd" /></td>
+												<c:choose>
+													<c:when test="${user.penaltyCnt == null }">
+														<td>0</td>
+													</c:when>
+													<c:otherwise>
+														<td class="penalty">${user.penaltyCnt }</td>
+													</c:otherwise>
+												</c:choose>
 
-														<c:when test="${user.status == '정지회원'}">
-															<select class="form-select form-select-sm status">
-																<option>${user.status}</option>
-																<option>정상회원</option>
-																<option>탈퇴회원</option>
-															</select>
+												<td><c:choose>
+														<c:when test="${sessionScope.loginMember.isAdmin == 'Y'}">
+															<c:choose>
+																<c:when test="${user.status == '정상회원'}">
+																	<select class="form-select form-select-sm status">
+																		<option>${user.status}</option>
+																		<option>정지회원</option>
+																		<option>탈퇴회원</option>
+																	</select>
+																</c:when>
+																<c:when test="${user.status == '정지회원'}">
+																	<select class="form-select form-select-sm status">
+																		<option>${user.status}</option>
+																		<option>정상회원</option>
+																		<option>탈퇴회원</option>
+																	</select>
+																</c:when>
+																<c:when test="${user.status == '탈퇴회원'}">
+																	<select class="form-select form-select-sm status">
+																		<option>${user.status}</option>
+																		<option>정상회원</option>
+																		<option>정지회원</option>
+																	</select>
+																</c:when>
+															</c:choose>
 														</c:when>
 														<c:otherwise>
-															<select class="form-select form-select-sm status">
-																<option>${user.status}</option>
-																<option>정상회원</option>
-																<option>정지회원</option>
-															</select>
-														</c:otherwise>
+															${user.status}
+        												</c:otherwise>
 													</c:choose></td>
 											</tr>
 										</c:forEach>

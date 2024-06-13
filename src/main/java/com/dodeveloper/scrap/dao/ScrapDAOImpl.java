@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.dodeveloper.company.vodto.ScrapRevJoinVO;
 import com.dodeveloper.company.vodto.ScrapVO;
 
 @Repository
@@ -24,19 +25,13 @@ public class ScrapDAOImpl implements ScrapDAO {
 	 * @author : kimso05
 	 * @date : 2024.06.01
 	 * @param : String scrapId : 스크랩한 사람
-	 * @return : List<ScrapVO> : bType(게시판 구분) 없이 스크랩한 글들 전체 조회   
-	 * @description : 어떤 유저가 본인이 스크랩한 글들을 전체 볼 수 있는 메서드 (select)
-	 * 강의, 스터디, 기업리뷰, 알고리즘 관련 스크랩한 게시글 모두 확인 가능
+	 * @return : List<ScrapRevJoinVO> : 기업리뷰글 관련 스크랩
 	 */
 	@Override
-	public List<ScrapVO> selectAllScrap(String scrapId) throws Exception {
-		System.out.println(scrapId + "!!!!!!!!");
-		List<ScrapVO>lst = ses.selectList(ns + ".selectAllScrap", scrapId);
-		
-		for (ScrapVO s :lst) {
-			System.out.println(s.toString());
-		}
-		
+	public List<ScrapRevJoinVO> selectAllScrap(String scrapId) throws Exception {
+		System.out.println(scrapId + "DAO단 ScrapRevJoin 스크랩");
+		List<ScrapRevJoinVO>lst = ses.selectList(ns + ".selectAllScrap", scrapId);
+
 		return ses.selectList(ns + ".selectAllScrap", scrapId);
 	}
 	

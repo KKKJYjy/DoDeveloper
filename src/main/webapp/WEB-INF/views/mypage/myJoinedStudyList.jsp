@@ -63,11 +63,21 @@
 	$(function() {
 		//스터디 시작 날짜를 가져와 공백을 제거해서 배열에 담는다.
 		let startDateList = [];
+		//디데이 계산 결과를 임시로 넣어둘 배열
 		let dateSumList = [];
+		
 		for(let i=0; i<$(".startDate").length; i++){
 			//console.log($(".startDate:eq(" + i + ")").text());
 			startDateList.push($(".startDate:eq(" + i + ")").text().replace(/\s/g, ''));
 			dateSumList.push(dateSum(startDateList[i]));
+			
+			if(dateSum(startDateList[i]) > 0){ 
+				//양수이면
+				$(".startDate:eq(" + i + ")").html("D+" + dateSumList[i]);
+			}else if(dateSum(startDateList[i]) < 0){
+				//음수이면
+				$(".startDate:eq(" + i + ")").html("D" + dateSumList[i]);
+			}
 		}
 		
 		console.log("startDateList : " ,startDateList);
@@ -100,10 +110,11 @@
 	
 	//스터디 시작일 디데이 계산하는 함수
 	function dateSum(date){
-		let startDate = new Date(date); 
-		let now = new Date();
+		let startDate = new Date(date); //스터디 시작 날짜 
+		let now = new Date(); //오늘 날
 		
-		let dateDiff = (now - startDate) / 1000 / 60 / 60 / 24; // 시간차 초단위
+		//디데이 계산
+		let dateDiff = Math.floor((now - startDate) / 1000 / 60 / 60 / 24);
 		
 		return dateDiff;
 	}
@@ -119,8 +130,7 @@
 			<div class="container" style="width: 70%">
 
 				<div class="container">
-					<h3 class="center text-center text-light pb-4 fw-medium">내가
-						참여중인 스터디 모임글</h3>
+					<h3 class="center text-center text-light pb-4 fw-medium">내가 참여중인 스터디</h3>
 				</div>
 				<%-- ${studyList } --%>
 
