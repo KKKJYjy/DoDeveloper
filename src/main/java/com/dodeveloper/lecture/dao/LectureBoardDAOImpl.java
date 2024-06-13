@@ -32,13 +32,13 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 */
 	@Override
 	public List<LectureBoardVO> selectListAllLecBoard(PagingInfo pi) throws Exception {
-		
+
 		Map<String, Object> params = new HashMap<String, Object>();
 		// 유저가 클릭한 페이지에서 보여주기 시작할 row index 번호
 		params.put("startRowIndex", pi.getStartRowIndex());
 		// 한 페이지당 보여줄 게시글의 갯수
 		params.put("viewPostCntPerPage", pi.getViewPostCntPerPage());
-		
+
 		return ses.selectList(ns + ".getAllBoard", params);
 	}
 
@@ -55,7 +55,7 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 
 		return ses.selectOne(ns + ".selectBoardLecNo", lecNo);
 	}
-	
+
 	/**
 	 * @methodName : selectDiff
 	 * @author : kde
@@ -68,13 +68,13 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	@Override
 	public int selectDiff(String user, int lecNo) throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
-		
+
 		params.put("user", user);
 		params.put("lecNo", lecNo);
 
 		return ses.selectOne(ns + ".getDateDiff", params);
 	}
-	
+
 	/**
 	 * @methodName : updateReadCount
 	 * @author : kde
@@ -161,16 +161,16 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 
 	/**
 	 * @methodName : selectTotalLectureBoardCnt
-	 * @author : 
+	 * @author :
 	 * @date : 2024.05.14
 	 * @return : int
 	 * @description : 검색어가 없을 경우 게시글 전체 글 갯수를 얻어오는 메서드 - 검색조건
 	 */
 	public int selectTotalLectureBoardCnt() throws Exception {
-		
+
 		return ses.selectOne(ns + ".getTotalLectureBoard");
 	}
-	
+
 	/**
 	 * @methodName : getLectureBoardCntWithSc
 	 * @author : kde
@@ -206,13 +206,13 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("searchType", lsDTO.getSearchType());
 		params.put("searchValue", "%" + lsDTO.getSearchValue() + "%");
-		
+
 		params.put("startRowIndex", pi.getStartRowIndex());
 		params.put("viewPostCntPerPage", pi.getViewPostCntPerPage());
 
 		return ses.selectList(ns + ".getLectureBoardListWithSc", params);
 	}
-	
+
 	/**
 	 * @methodName : lectureBoardCntFilter
 	 * @author : kde
@@ -222,7 +222,7 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 * @description : 검색필터가 선택이 된 경우 글의 갯수를 가져오는 메서드 - 검색필터
 	 */
 	public int lectureBoardCntFilter(LectureSearchDTO lsDTO) throws Exception {
-		
+
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("filterType", lsDTO.getFilterType());
 
@@ -239,17 +239,16 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 * @description : 검색 필터(최신순 / 인기순 / 조회순)을 선택했을 때 글을 가져오는 메서드 - 검색 필터
 	 */
 	@Override
-	public List<LectureBoardVO> listAllBoardByFilter(LectureSearchDTO lsDTO, PagingInfo pi)
-			throws Exception {
-		
+	public List<LectureBoardVO> listAllBoardByFilter(LectureSearchDTO lsDTO, PagingInfo pi) throws Exception {
+
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("filterType", lsDTO.getFilterType());
 		params.put("startRowIndex", pi.getStartRowIndex());
 		params.put("viewPostCntPerPage", pi.getViewPostCntPerPage());
-		
+
 		return ses.selectList(ns + ".getLectureBoardListFilter", params);
 	}
-	
+
 	/**
 	 * @methodName : lectureBoardSearchAndFilterCnt
 	 * @author : kde
@@ -260,8 +259,8 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 */
 	@Override
 	public int lectureBoardSearchAndFilterCnt(LectureSearchDTO lsDTO) throws Exception {
-		
-	    return ses.selectOne(ns + ".getLectureBoardSearchAndFilterCnt", lsDTO);
+
+		return ses.selectOne(ns + ".getLectureBoardSearchAndFilterCnt", lsDTO);
 	}
 
 	/**
@@ -270,24 +269,24 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 * @date : 2024.05.25
 	 * @param : LectureSearchDTO lsDTO - 검색 조건 / 검색어 / 검색 필터 포함된 DTO
 	 * @param : PagingInfo pi - 전체 게시글 페이징
-	 * @return : 
+	 * @return :
 	 * @description : 검색 필터 + 검색 조건 + 페이징까지 글을 가져오는 메서드
 	 */
 	@Override
 	public List<LectureBoardVO> lectureBoardSearchAndFilter(LectureSearchDTO lsDTO, PagingInfo pi) throws Exception {
 		// System.out.println(lsDTO + " 검색필터랑 검색조건 둘 다 되는 중 " + pi + " 페이징까지");
-		
-	    Map<String, Object> params = new HashMap<String, Object>();
-	    params.put("searchType", lsDTO.getSearchType());
+
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("searchType", lsDTO.getSearchType());
 		params.put("searchValue", "%" + lsDTO.getSearchValue() + "%");
 		params.put("filterType", lsDTO.getFilterType());
-	    
+
 		params.put("startRowIndex", pi.getStartRowIndex());
 		params.put("viewPostCntPerPage", pi.getViewPostCntPerPage());
-		
-	    return ses.selectList(ns + ".getLectureBoardSearchAndFilter", params);
+
+		return ses.selectList(ns + ".getLectureBoardSearchAndFilter", params);
 	}
-	
+
 	/**
 	 * @methodName : selectLikeBoard
 	 * @author : kde
@@ -295,20 +294,19 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 * @param : int lecNo - 게시글 번호
 	 * @param : String user - 좋아요 눌렀는지 안눌렀는지 확인할 유저
 	 * @return : int
-	 * @description : 게시글에 유저가 좋아요를 눌렀는지 안눌렀는지 확인하는 메서드
-	 * selectLikeBoard 쿼리문에서 count(*)를 사용하여 갯수를 센 후에 좋아요를 눌렀을 경우 1반환
-	 * 좋아요를 안눌렀을 경우 0반환을 하기때문에 int를 사용함.
-	 * 유저가 하트를 눌렀을 때 좋아요 수가 1증가 -> ♥
-     * 유저가 하트를 한번 더 눌렀을 경우 1감소 -> ♡
+	 * @description : 게시글에 유저가 좋아요를 눌렀는지 안눌렀는지 확인하는 메서드 selectLikeBoard 쿼리문에서
+	 *              count(*)를 사용하여 갯수를 센 후에 좋아요를 눌렀을 경우 1반환 좋아요를 안눌렀을 경우 0반환을 하기때문에
+	 *              int를 사용함. 유저가 하트를 눌렀을 때 좋아요 수가 1증가 -> ♥ 유저가 하트를 한번 더 눌렀을 경우 1감소
+	 *              -> ♡
 	 */
 	@Override
 	public int selectLikeBoard(int lecNo, String user) throws Exception {
-		
-	    Map<String, Object> params = new HashMap<String, Object>();
-	    params.put("lecNo", lecNo);
-	    params.put("user", user);
-	  
-	    return ses.selectOne(ns + ".selectLikeBoard", params);
+
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("lecNo", lecNo);
+		params.put("user", user);
+
+		return ses.selectOne(ns + ".selectLikeBoard", params);
 	}
 
 	/**
@@ -318,16 +316,15 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 * @param : int lecNo - 게시글 번호
 	 * @param : String user - 좋아요를 누르는 유저
 	 * @return : int
-	 * @description : 로그인 한 유저인 경우만 좋아요를 누를 수 있다.
-     * 유저가 하트를 눌렀을 때 좋아요 수가 1증가 -> ♥
+	 * @description : 로그인 한 유저인 경우만 좋아요를 누를 수 있다. 유저가 하트를 눌렀을 때 좋아요 수가 1증가 -> ♥
 	 */
 	@Override
 	public int insertLikeBoard(int lecNo, String user) throws Exception {
-		
+
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("lecNo", lecNo);
 		params.put("user", user);
-		
+
 		return ses.insert(ns + ".insertLikeBoard", params);
 	}
 
@@ -341,7 +338,7 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 */
 	@Override
 	public int updateLikeCount(int lecNo) throws Exception {
-		
+
 		return ses.update(ns + ".updateLikeCount", lecNo);
 	}
 
@@ -352,19 +349,18 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 * @param : int lecNo - 게시글 번호
 	 * @param : String user - 좋아요를 눌렀다가 취소하려는 회원
 	 * @return : int
-	 * @description : 게시글에 좋아요 한 번 더 눌렀을 경우 취소처리하는 메서드
-	 * 유저가 하트를 한번 더 눌렀을 경우 1감소 -> ♡
+	 * @description : 게시글에 좋아요 한 번 더 눌렀을 경우 취소처리하는 메서드 유저가 하트를 한번 더 눌렀을 경우 1감소 -> ♡
 	 */
 	@Override
 	public int deleteLikeBoard(int lecNo, String user) throws Exception {
-		
+
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("lecNo", lecNo);
 		params.put("user", user);
-		
+
 		return ses.delete(ns + ".deleteLikeBoard", params);
 	}
-	
+
 	/**
 	 * @methodName : updateLikeBoard
 	 * @author : kde
@@ -375,8 +371,19 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 */
 	@Override
 	public int updateLikeDownCount(int lecNo) throws Exception {
-		
+
 		return ses.update(ns + ".updateLikeDownCount", lecNo);
+	}
+
+	/**
+	 * @author : yeonju
+	 * @date : 2024. 6. 10.
+	 * @return : List<LectureBoardVO>
+	 * @description : 최신 5개 강의 게시글을 얻어오는 메서드
+	 */
+	@Override
+	public List<LectureBoardVO> getLectureTop5() throws Exception {
+		return ses.selectList(ns + ".getLectureTo5");
 	}
 
 }

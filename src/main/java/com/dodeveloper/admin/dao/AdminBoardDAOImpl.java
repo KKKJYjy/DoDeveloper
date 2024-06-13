@@ -398,6 +398,17 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 		return ses.selectList(ns + ".selectDiffRev");
 	}
 
+	/**
+		* @author : yeonju
+		* @date : 2024. 6. 10.
+		* @return : List<NoticeDTO>
+		* @description : 최신 공지글 5개를 가져오는 메서드 (메인홈에 출력할 용도)
+	 */
+	@Override
+	public List<NoticeDTO> getNoticeTop5() throws Exception {
+		return ses.selectList(ns + ".getNoticeTop5");
+	}
+
 	
 
 	//@Override

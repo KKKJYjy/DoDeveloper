@@ -108,6 +108,9 @@ public interface AdminBoardService {
 	    
 	    // 홈에 기업리뷰 최신글 5개 출력
 	    List<AdminReviewBoardVO> diffRev() throws Exception;
+
+	    // 공지사항 최신글 5개를 가져오는 메서드
+		List<NoticeDTO> getNoticeTop5() throws Exception;
 	    
 	
 }

@@ -37,9 +37,11 @@
 
 	<!-- algDetail 에 새 항목 insert -->
 	<insert id="insertAlgDetail">
-		insert into algDetail (algBoardNo, writer, algDetailContent,
+		insert into algDetail (algBoardNo, writer,
+		algDetailContent,
 		algDetailResult,algDetailComment,algDetailTitle)
-		values (#{algBoardNo},#{writer},#{algDetailContent},#{algDetailResult},#{algDetailComment},#{algDetailTitle});
+		values
+		(#{algBoardNo},#{writer},#{algDetailContent},#{algDetailResult},#{algDetailComment},#{algDetailTitle});
 	</insert>
 
 
@@ -49,21 +51,34 @@
 		#{title}, classificationCode = #{classificationCode} where boardNo =
 		#{boardNo}
 	</update>
-	
-	
-	<!--  algDetail 수정 -->
+
+
+	<!-- algDetail 수정 -->
 	<update id="updateAlgDetail">
-		update algDetail set algDetailTitle = #{algDetailTitle}, algDetailContent = #{algDetailContent}, 
-		algDetailResult = #{algDetailResult}, algDetailComment = #{algDetailComment}, writer = #{writer} where algDetailNo = #{algDetailNo}
+		update algDetail set algDetailTitle =
+		#{algDetailTitle}, algDetailContent = #{algDetailContent},
+		algDetailResult = #{algDetailResult}, algDetailComment =
+		#{algDetailComment}, writer = #{writer} where algDetailNo =
+		#{algDetailNo}
 	</update>
 
-	<!--  reportBoard 새 항목 insert -->
+	<!-- reportBoard 새 항목 insert -->
 	<insert id="insertReport">
-		insert into reportBoard (boardNo, writer, reportReason, reporter, btypeNo) 
+		insert into reportBoard (boardNo, writer,
+		reportReason, reporter, btypeNo)
 		values (#{boardNo}, #{writer}, #{reportReason}, #{reporter}, #{btypeNo});
 	</insert>
-	
 
+
+	<!-- 알고리즘 게시판 최신 5개글 select -->
+	<select id="getAlgTop5"
+		resultType="com.dodeveloper.algorithm.vodto.AlgBoardWithDetailVO">
+		select * from algBoard ab
+		inner join algDetail ad
+		on ab.boardNo = ad.algBoardNo
+		order by ad.algDetailPostDate desc
+		limit 5
+	</select>
 
 
 

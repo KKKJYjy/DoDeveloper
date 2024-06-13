@@ -108,7 +108,7 @@
 
 				<div class="container">
 					<h3 class="center text-center text-light pb-4 fw-medium">
-						내가 작성한 스터디 모임글</h3>
+						내가 만든 스터디</h3>
 				</div>
 				<%-- ${studyList } --%>
 

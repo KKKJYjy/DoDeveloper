@@ -69,12 +69,17 @@ public interface StudyDAO {
 
 	//stuNo번째 스터디 언어를 삭제하는 메서드
 	int deleteStudyStack(int stuStackNo) throws Exception;
-
 	
 	//studyStackList로 필터링했을 때 나오는 스터디 모임글 반환하는 메서드
 	List<StudyBoardVO> searchStudyByStack(List<String> studyStackList, PagingInfo pi) throws Exception;
 
+	//스터디 모임글 상위 5개글을 가져오는 메서드
+	List<StudyBoardVO> getStudyTop5();
 
+	//bNo번째 댓글수를 +1 업데이트하는 메서드
+	int ReplyCntUp(int bNo) throws Exception;
 
+	//stuNo번째 댓글수를 -1 업데이트하는 메서드
+	int ReplyCntDown(int stuNo) throws Exception;
 
 }

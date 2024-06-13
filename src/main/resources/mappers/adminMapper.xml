@@ -405,6 +405,11 @@
 
 	</select>
 
+	<!-- 최신 공지글 5개를 가져오는 메서드 (메인홈에 출력할 용도) -->
+	<select id="getNoticeTop5" resultType="NoticeDTO">
+		SELECT * FROM noticeBoard order by postDate desc limit 5
+	</select>
+
 	<!-- 신고내역 삭제 -->
 	<delete id="deleteReport">
 		DELETE FROM reportBoard
@@ -431,8 +436,4 @@
         </choose>
     </delete>
     
-    
-    
-  
-
 </mapper>
