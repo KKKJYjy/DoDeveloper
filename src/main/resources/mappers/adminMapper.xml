@@ -351,7 +351,8 @@
 	<select id="selectAllUser" resultType="UserDTO">
 		SELECT m.userId,
 		m.userName, m.email, m.registerDate, m.status, b.penaltyCnt
-		FROM member m
+		FROM member
+		m
 		LEFT JOIN badMemberBoard b ON m.userId = b.userId;
 	</select>
 
@@ -422,37 +423,28 @@
 			<when test="btypeNo == 2">
 				studyBoard WHERE stuNo = #{boardNo}
 			</when>
-			<when test="btypeNo == 3">
-				companyrevBoard WHERE revNo = #{boardNo}
-			</when>
 			<when test="btypeNo == 4">
 				algBoard WHERE boardNo = #{boardNo}
 			</when>
 		</choose>
 	</delete>
 
-	<!-- 불량회원 테이블에 패널티기록을 insert하며, 이미 존재하는 유저라면 패널티 횟수를 1씩 증가하며 insert -->
-	<insert id="insertPenalty" useGeneratedKeys="true"
-		keyProperty="userId">
-		<selectKey keyProperty="id" resultType="int" order="BEFORE">
-			<if test="_databaseId == 'oracle'">
-				select seq_badMemberBoard.nextval from dual
-			</if>
-			<if test="_databaseId == 'db2'">
-				select nextval for seq_badMemberBoard from
-				sysibm.sysdummy1
-			</if>
-		</selectKey>
-		insert into badMemberBoard (userId, penaltyCnt, reportDate,
-		suspendReason)
-		values (#{userId},
-		(select IFNULL(MAX(penaltyCnt), 0) + 1
-		from badMemberBoard where userId =
-		#{userId}),
-		now(),
-		#{reportReason})
-	</insert>
 
+
+	<insert id="insertPenalty">
+		INSERT INTO badMemberBoard (userId, penaltyCnt, reportDate, suspendReason)
+		SELECT
+		#{userId},
+		IFNULL(MAX(penaltyCnt), 0) + 1,
+		NOW(),
+		#{reportReason}
+		FROM
+		badMemberBoard
+		WHERE
+		userId = #{userId}
+		ON DUPLICATE KEY UPDATE
+		penaltyCnt = VALUES(penaltyCnt);
+	</insert>
 
 
 </mapper>
