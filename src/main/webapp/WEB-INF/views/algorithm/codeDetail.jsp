@@ -96,7 +96,7 @@ prefix="c"%>
 				<button type="button" class="btn btn-info"
 					onclick="location.href='/algorithm/modifyAlgDetail';">글수정</button>
 				<button type="button" class="btn btn-info"
-					onclick="location.href='/algorithm/removeAlgDetail?algDetailNo=${algDetailList.algDetailNo}';">글삭제</button>
+					onclick="location.href='/algorithm/removeAlgDetail?algDetailNo=${algDetailList.algDetailNo}&algBoardNo=${algDetailList.algBoardNo}';">글삭제</button>
 			</div>
       <!-- End Basic Section -->
     </main>

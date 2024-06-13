@@ -75,6 +75,11 @@
 		values (#{boardNo}, #{writer}, #{reportReason}, #{reporter}, #{btypeNo}, #{category});
 
 	</insert>
+	
+	<!-- algDetail 테이블에서 algDetailNo에 해당하는 항목 삭제 -->
+	<delete id="deleteAlgDetailByNo">
+		delete from algDetail where algDetailNo = #{algDetailNo};
+	</delete>
 
 
 	<!-- 알고리즘 게시판 최신 5개글 select -->

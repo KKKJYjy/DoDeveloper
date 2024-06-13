@@ -114,10 +114,10 @@ public class AlgDAOImpl implements AlgDAO {
 	}
 
 	@Override
-	public int updateAlgDetailDelete(int algDetailNo) {
+	public int deleteAlgDetailDelete(int algDetailNo) {
 	    // TODO Auto-generated method stub
 	    System.out.println("DAO 에서"+algDetailNo+"번글을");
-	    return ses.update(ns+".", algDetailNo);
+	    return ses.delete(ns+".deleteAlgDetailByNo", algDetailNo);
 	}
 
 }

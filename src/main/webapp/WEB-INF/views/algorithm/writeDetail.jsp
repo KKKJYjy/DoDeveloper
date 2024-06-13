@@ -50,6 +50,22 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 
+<script>
+	$(function name() {
+		
+		let user = '${sessionScope.loginMember.userId}';
+		
+		console.log(user);
+		
+		$('#writer').val(user);
+		
+		
+		
+		
+	});
+
+</script>
+
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
 	<%@ include file="../header.jsp"%>
 
@@ -85,7 +101,7 @@
 					<div class="mb-3 mt-3">
 						<label for="title" class="form-label">글쓴이 : </label> <input
 							type="text" class="form-control" id="writer"
-							placeholder=" 입력하세요..." name="writer" />
+							placeholder=" 입력하세요..." name="writer" readonly="readonly" />
 					</div>
 					
 					

@@ -238,14 +238,16 @@ public class AlgorithmController {
     }
 
     @RequestMapping("removeAlgDetail")
-    public String removeAlgDetail(@RequestParam("algDetailNo") int algDetailNo) {
+    public String removeAlgDetail(@RequestParam("algDetailNo") int algDetailNo, @RequestParam("algBoardNo") int algBoardNo) {
 	 System.out.println(algDetailNo);
 	// AuthInterceptor.preHandle() 호출 - 글 삭제 권한이 있는지 검사하고 옴
 	String result = null;
 	System.out.println(algDetailNo + "번글을 삭제하자");
 
 	if (aService.remBoard(algDetailNo)) {
-	    return "/board/listAll";
+	    result = "redirect:/algorithm/algDetail?boardNo="+algBoardNo;
+	} else {
+	    result = "redirect:/listAll";
 	}
 
 //	 		if(((MemberVO)ses.getAttribute("ioginMember")).getUserId().equals(writer)) {

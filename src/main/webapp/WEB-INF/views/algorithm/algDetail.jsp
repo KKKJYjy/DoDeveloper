@@ -213,7 +213,6 @@ function insertReport() {
 
 
 
-					
 
 				<c:forEach var="algDetail" items="${algDetailList}" begin="0"
 					end="${fn:length(algDetailList)}">
@@ -237,9 +236,13 @@ function insertReport() {
 						</div>
 					</div>
 					<div></div>
+				
+					
+				
 				</c:forEach>
 
-
+					
+			
 
 
 			</div>

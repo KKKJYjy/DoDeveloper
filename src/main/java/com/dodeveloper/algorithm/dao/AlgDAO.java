@@ -41,7 +41,7 @@ public interface AlgDAO {
 	AlgDetailDTO selectOneAlgDetail( int algDetailNo);
 
 	// algDetail 테이블의 isDeleted 칼럼을 Y로 업데이트
-	int updateAlgDetailDelete(int boardNo);
+	int deleteAlgDetailDelete(int boardNo);
 
 	// 알고리즘 게시판 최신 5개글 가져오는 메서드
 	List<AlgBoardWithDetailVO> getAlgTop5() throws Exception;

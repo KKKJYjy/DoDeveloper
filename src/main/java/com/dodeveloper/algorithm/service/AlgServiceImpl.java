@@ -147,8 +147,9 @@ public class AlgServiceImpl implements AlgService {
 	public boolean remBoard(int algDetailNo) {
 	    boolean result = false;
 	    System.out.println("서비스 에서 "+algDetailNo+"번 글을 삭제하자");
-		if (aDao.updateAlgDetailDelete(algDetailNo) == 1) {
+		if (aDao.deleteAlgDetailDelete(algDetailNo) == 1) {
 			result = true;
+			System.out.println(result);
 		}
 		return result;
 	}
