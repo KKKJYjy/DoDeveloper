@@ -56,7 +56,7 @@
   ======================================================== -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<!-- 스터디 myStudyList css 파일 -->
+<!-- 강의 추천 게시판의 myLectureList css 파일 -->
 <link href="/resources/assets/css/lecture/myLectureList.css"
 	rel="stylesheet" />
 
