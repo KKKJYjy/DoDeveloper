@@ -247,7 +247,7 @@
 		let result;
 
 		$.ajax({
-			url : "http://localhost:8081/message/"+ uid +"/received/" + startPoint + "/" + amountToShow,
+			url : "./message/" +  uid +"/received/" + startPoint + "/" + amountToShow,//"http://localhost:8081/message/"+ uid +"/received/" + startPoint + "/" + amountToShow,
 			method : "get",
 			dataType : "json",
 			async : false,
@@ -266,7 +266,7 @@
 		let result;
 
 		$.ajax({
-			url : "http://localhost:8081/message/" + uid + "/sent/" + startPoint + "/" + amountToShow,
+			url : "./message/" + uid + "/sent/" + startPoint + "/" + amountToShow, //"http://localhost:8081/message/"
 			method : "get",
 			dataType : "json",
 			async : false,
@@ -285,7 +285,7 @@
 		let result;
 
 		$.ajax({
-			url : "http://localhost:8081/message/" + uid + "/" + messageNo,
+			url : "./message/" + uid + "/" + messageNo,
 			method : "get",
 			dataType : "json",
 			async : false,
@@ -343,7 +343,7 @@
 	
 	function getMessages(outputMessageType, startPoint, amountToShow, messageSearchType, messageSearchWord){
 		let result;
-		let urlString = "http://localhost:8081/message/"+ uid +"/" + outputMessageType + "/" + startPoint + "/" + amountToShow;
+		let urlString = "./message/"+ uid +"/" + outputMessageType + "/" + startPoint + "/" + amountToShow;
 		
 		if(messageSearchType != searchType.NONE && messageSearchWord != ''){
 			urlString += "/" + messageSearchType + "/" + messageSearchWord;
@@ -627,7 +627,7 @@
 	function postMessage(sendData){
 		let result = false;
 		$.ajax({
-			url : "http://localhost:8081/message",
+			url : "./message",
 			method : "post",
 			dataType : "text",
 			async : false,
@@ -656,7 +656,7 @@
 		let result;
 
 		$.ajax({
-			url : "http://localhost:8081/message/file",
+			url : "./message/file",
 			method : "post",
 			data: formData,
 			dataType : "text",

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,43 +30,55 @@
 		});
 	});
 
+	let selectedReportIds = [];
+
 	function checkCheckbox() {
-		let url = "reportDelete";
-		let valueArr = new Array();
+		selectedReportIds = [];
 		let list = $("input[name='rowCheck']");
 		for (let i = 0; i < list.length; i++) {
 			if (list[i].checked) {
-				valueArr.push(list[i].value);
+				selectedReportIds.push(list[i].value);
 			}
 		}
-		if (valueArr.length == 0) {
+		if (selectedReportIds.length == 0) {
 			alert("선택된 게시글이 없습니다");
 		} else {
-			$('#myModal').show();
-			if (!chk) {
-				location.replace("report")
-			} else {
-				$.ajax({
-					url : url,
-					type : "post",
-					traditional : true,
-					data : {
-						valueArr : valueArr
-					},
-					success : function(data) {
-						if (data = 1) {
-							alert("삭제 성공");
-							location.replace("report")
-						} else {
-							alert("삭제 실패");
-						}
-					}
-
-				});
-			}
 
 		}
 	}
+	
+	function deleteBoard(btypeNo, boardNo) {
+		let url = "reportDelete";
+		let deleteReason = $('#reportInput').val();
+		if (deleteReason.trim() === "") {
+			
+			$('#myModal').show();
+			return;
+		}
+
+	    $.ajax({
+	    	url : url,
+			type : "post",
+	        data: {
+	            btypeNo: btypeNo,
+	            boardNo: boardNo,
+	            deleteReason: deleteReason
+	        },
+	        success : function(data) {
+				if (data == 1) {
+
+					alert("삭제 성공");
+					location.replace("report")
+				} else {
+					alert("삭제 실패");
+				}
+			},
+	       
+	    });
+	}
+
+
+	
 
 	//	function modal() {
 	//let modalText = document.getElementById("modalText");
@@ -80,7 +93,7 @@
 		window.location.href = '/admin/viewReport';
 
 	}
- */
+	 */
 	let modalText = document.getElementById("modalText");
 
 	document.addEventListener("DOMContentLoaded", function() {
@@ -90,6 +103,7 @@
 		// 모달 닫기 (x 버튼 클릭 시)
 		closeModalSpan.addEventListener("click", function() {
 			modal.style.display = "none";
+			
 		});
 
 		// 모달 닫기 (모달 외부 클릭 시)
@@ -166,6 +180,23 @@ to {
 
 #openModalBtn {
 	margin-bottom: 15px;
+	background-color: #cf4d3d;
+	color: white;
+	border-radius: 25px;
+}
+
+#deleteReportBtn {
+	margin-bottom: 15px;
+	color: white;
+	float: right;
+}
+
+h2 {
+	text-align: center;
+}
+
+.viewBoard {
+	border-radius: 25px;
 }
 </style>
 
@@ -183,62 +214,93 @@ to {
 
 		<div class="container-fluid">
 
-			<c:if test="${sessionScope.loginMember.isAdmin == 'Y' }">
-			<button id="openModalBtn" onclick="checkCheckbox()">게시글삭제</button>
-			</c:if>
-			
 
-			<table class="table table-light table-hover">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="card">
+						<div class="card-body">
+							<h2>신고 내역 조회</h2>
+							<c:choose>
+								<c:when test="${sessionScope.loginMember.isAdmin == 'Y' }">
+									<button type="button" class="btn btn-secondary"
+										id="deleteReportBtn" onclick="checkCheckbox()">신고내역삭제</button>
+								</c:when>
+								<c:otherwise>
+									<button type="button" class="btn btn-secondary"
+										id="deleteReportBtn" disabled>신고내역삭제</button>
+								</c:otherwise>
+							</c:choose>
 
+							<table class="table table-light table-hover">
 
+								<thead>
+									<tr>
+										<th><input id="allCheck" type="checkbox" name="allCheck" /></th>
+										<th>신고 일자</th>
+										<th>게시판 구분</th>
+										<th>신고 사유</th>
+										<th>작성자</th>
+										<th>신고자</th>
+										<th>글 보기</th>
+										<th>삭제</th>
+									</tr>
+								</thead>
+								<tbody>
 
-				<thead>
-					<tr>
-						<th><input id="allCheck" type="checkbox" name="allCheck" /></th>
-						<th>번호</th>
-						<th>게시판 구분</th>
-						<th>글 번호</th>
-						<th>작성자</th>
-						<th>신고 일자</th>
-						<th>신고자</th>
-						<th>게시판 번호</th>
-					</tr>
-				</thead>
-				<tbody>
+									<c:forEach var="board" items="${reportList }">
 
-					<c:forEach var="board" items="${reportList }">
-?
-						<tr id="table" onclick="location.href='/admin/viewReportbtypeNo=${board.btypeNo}';">
-							<td onclick="event.cancelBubble=true"><input type="checkbox" name="rowCheck"
-								class="deleteCheckbox" id="myCheckbox"
-								value="${board.reportNo }" /></td>
-							<td>${board.reportNo }</td>
-							<td>${board.category }</td>
-							<td>${board.boardNo }</td>
-							<td>${board.writer }</td>
-							<td>${board.reportDate }</td>
-							<td>${board.reporter }</td>
-							<td>${board.btypeNo }</td>
-						</tr>
-							
-					</c:forEach>
-			</table>
-
-
-
-		</div>
-
-		<div id="myModal" class="modal">
-			<div class="modal-content">
-				<span class="close">&times;</span>
-				<p id="modalText"></p>
-				<textarea id="reportInput" placeholder="삭제 사유를 입력하세요."></textarea>
-				<button type="button" class="btn btn-secondary deBtn"
-					id="deleteButton">삭제</button>
+										<tr>
+											<td onclick="event.cancelBubble=true"><input
+												type="checkbox" name="rowCheck" class="deleteCheckbox"
+												id="myCheckbox" value="${board.reportNo }" /></td>
+											<td><fmt:formatDate value="${board.reportDate}"
+													pattern="yyyy-MM-dd" /></td>
+											<td>${board.category }</td>
+											<td>${board.reportReason }</td>
+											<td>${board.writer }</td>
+											<td>${board.reporter }</td>
+											<td>
+												<form id="moveToDetailViewForm" action="/viewBoardDetail"
+													method="GET">
+													<input type="hidden" name="btypeNo"
+														value="${board.btypeNo}" /> <input type="hidden"
+														name="boardNo" value="${board.boardNo}" />
+													<button type="submit"
+														class="btn btn-light btn-sm viewBoard">글 이동</button>
+												</form>
+											</td>
+											<td><c:choose>
+													<c:when test="${sessionScope.loginMember.isAdmin == 'Y' }">
+														<button type="button" class="btn btn-danger btn-sm"
+															id="openModalBtn" onclick="deleteReport()"
+															value="${board.reportNo }">삭제</button>
+													</c:when>
+													<c:otherwise>
+														<button type="button" class="btn btn-danger btn-sm"
+															id="openModalBtn" disabled>삭제</button>
+													</c:otherwise>
+												</c:choose></td>
+										</tr>
+									</c:forEach>
+							</table>
+						</div>
+					</div>
+				</div>
 			</div>
+
+
+
+			<div id="myModal" class="modal">
+				<div class="modal-content">
+					<span class="close">&times;</span>
+					<p id="modalText"></p>
+					<textarea id="reportInput" placeholder="삭제 사유를 입력하세요."></textarea>
+					<button type="button" class="btn btn-secondary deBtn"
+						id="deleteButton">삭제</button>
+				</div>
+			</div>
+
 		</div>
-
-
 
 		<c:import url="./adminFooter.jsp"></c:import>
 	</div>

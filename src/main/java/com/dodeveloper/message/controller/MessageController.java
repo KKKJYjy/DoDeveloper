@@ -3,6 +3,7 @@ package com.dodeveloper.message.controller;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.LinkedList;
@@ -378,7 +379,7 @@ public class MessageController {
 
 			HttpHeaders header = new HttpHeaders();
 			header.setContentType(MediaType.valueOf(contentType));
-			header.add("Content-Disposition", "attachment; filename=" + downloadFile.getName());
+			header.add("Content-Disposition", "attachment; filename=" + URLEncoder.encode(downloadFile.getName(), "UTF-8"));
 
 			return new ResponseEntity<byte[]>(fileByteArray, header, HttpStatus.OK);
 

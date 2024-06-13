@@ -273,11 +273,6 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 	}
 	
 	
-	@Override
-	public void deleteReport(String reportNo) throws Exception {
-		
-		ses.delete(ns + ".deleteReportBoard", reportNo);
-	}
 	
 	
 	@Override
@@ -307,9 +302,14 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 	}
 
 	@Override
-	public ReportVO selectReportBoardNo(int btypeNo) throws Exception {
+	public ReportVO selectReportBoardNo(int btypeNo, int boardNo) throws Exception {
 		
-		return ses.selectOne(ns + ".selectReportNo", btypeNo);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("btypeNo", btypeNo);
+		params.put("boardNo", boardNo);
+		
+		
+		return ses.selectOne(ns + ".selectReportNo", params);
 	}
 
 	@Override
@@ -349,6 +349,13 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 	}
 
 	@Override
+	public int deleteBoard(int btypeNo, int boardNo, String deleteReason) {
+		
+		
+		return 0;
+	}
+
+
 	public int selectQnaTotalBoardCnt() throws Exception {
 		
 		return ses.selectOne(ns + ".getQnaTotalBoardCnt");
@@ -377,6 +384,7 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 		
 		return ses.selectList(ns + ".selectDiffLec");
 	}
+
 
 	@Override
 	public List<AdminArgBoardVO> selectDiffAlg() throws Exception {

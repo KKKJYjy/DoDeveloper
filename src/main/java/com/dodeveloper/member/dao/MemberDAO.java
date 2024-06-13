@@ -1,5 +1,7 @@
 package com.dodeveloper.member.dao;
 
+import java.util.List;
+
 import com.dodeveloper.member.dto.DropMemberDTO;
 import com.dodeveloper.member.dto.LoginDTO;
 import com.dodeveloper.member.dto.RegisterDTO;
@@ -28,7 +30,7 @@ public interface MemberDAO {
 	MemberVO getMemberInfo(String userId) throws Exception;
 
 	// 이메일로 회원정보 가져오는 메서드
-	MemberVO getMemberByEmail(String email) throws Exception;
+	List<MemberVO> getMemberByEmail(String email) throws Exception;
 	
 	// 비밀번호 확인하는 메서드
 	int checkUserPwd(ChangePwdDTO changePwdDTO) throws Exception;

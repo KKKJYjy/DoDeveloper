@@ -49,6 +49,7 @@
   ======================================================== -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="/resources/assets/js/emailVerification/emailVerification.js"></script>
 <script>
       let isValidName = false;
       let isValidMobile = false;
@@ -68,15 +69,15 @@
         });
         
         $("#email").keyup(function (e){
-        	rewriteEmail();
+        	onChangeOfWrittenEmail();
         });
         
         $("#request-confirm-email-btn").on("click",function(e){
-        	requestToConfirmEmail();
+        	requestVerificateEmail();
         });
         
         $("#check-email-code-btn").on("click", function(e){
-        	checkEmailCode();
+        	checkEmailVerificationCode();
         });
         
         $("#email-submit").on("click", function(e){
@@ -91,19 +92,22 @@
         showEmailInputDiv(false);
       });
       
-      function requestToConfirmEmail(){
+      function requestVerificateEmail(){
       	let emailAddress = $("#email").val();
-    	/*
-    	if(emailAddress != '^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'){
+    	let emailRegex = new RegExp('^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$');
+      	
+    	if(!emailRegex.test(emailAddress)){
+    		$("#email-error-msg").html("이메일 주소를 다시 확인해주십시오.");
     		return;
     	}
-    	*/
-    	sendRequestToConfirmEmail(emailAddress);
+    	
+    	$("#email-code").prop("disabled", false);
+    	sendRequestToVerificateEmail(emailAddress);
     	$("#email-validation-check").show();
     	startEmailValidationTimer(1000 * 60 * 5);
       }
       
-      function rewriteEmail(){
+      function onChangeOfWrittenEmail(){
     	$("#email-validation-check").hide();
     	$("#email-error-msg").html("");
     	isValidEmail = false;
@@ -117,7 +121,7 @@
     	  
     	  emailTimer = setInterval(() => {
     	         showRemainingTime(emailCodeExpireDate);
-    	}, 1000);
+    	}, 100);
       }
       
       function endEmailValidationTimer(){
@@ -138,6 +142,7 @@
     	  if(remainingTime <= 0){
     		  output = "0:00";
         	  $("#email-timelimit").html(output);
+        	  $("#email-code").prop("disabled", true);
         	  return;
     	  }
     	  
@@ -156,10 +161,9 @@
       
       }
       
-      
-      function checkEmailCode(){
-      	let emailValidCode = $("#email-code").val();
-    	isValidEmail = confirmEmail(emailValidCode);
+      function checkEmailVerificationCode(){
+      	let emailCode = $("#email-code").val();
+    	isValidEmail = sendEmailVerificationCode(emailCode);
     	
     	if(isValidEmail){
     		$("#email-error-msg").html("확인됨!");
@@ -180,49 +184,6 @@
     		$("#email-input-div").hide();
     		$("#email").prop("disabled", true);
     	}
-      }
-      
-      function sendRequestToConfirmEmail(emailAddress){
-    	  let urlInput = "./emailConfirmRequest";
-    	  result = false;
-    	  
-    	  $.ajax({
-              url: urlInput,
-              type: "post",
-              dataType: "json",
-              data: {
-                  emailAddress: emailAddress,
-                },
-              success: function (data) {
-            	  result = data;
-              },
-            });
-    	  
-		  return result;
-      }
-      
-      function confirmEmail(code){
-    	  let urlInput = "./emailCode";
-    	  result = false;
-    	  
-    	  $.ajax({
-              url: urlInput,
-              type: "post",
-              dataType: "json",
-              async: false,
-              data: {
-                  code: code,
-                },
-              success: function (data) {
-				if(data.isSuccess == "1"){
-					result = true;
-				}else{
-					result = false;
-				}
-              },
-            });
-    	  
-    	  return result;
       }
       
       function duplicateUserId(userId) {
@@ -440,7 +401,7 @@
 
 											<div id="email-validation-check" style="display: none">
 												<input type="text" class="form-control" id="email-code"
-													style="margin: 5px 0;" />
+													style="margin: 5px 0;" disabled/>
 												<button type="button" id="check-email-code-btn"
 													class="btn btn-outline-success btn-sm">인증확인</button>
 											</div>

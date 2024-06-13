@@ -48,14 +48,6 @@
 
 
 
-
-	<!-- 불량 회원 조회 -->
-	<select id="getBadMemberBoard" resultType="BadMemberBoardVO">
-		select * from
-		reportBoard order by reportNo desc
-	</select>
-
-
 	<!-- 강의추천게시판 조회 -->
 	<select id="getLecBoard" resultType="AdminLectureVO">
 		select * from lectureBoard
@@ -251,10 +243,12 @@
 		delete from noticeBoard where boardNo = #{boardNo}
 	</delete>
 
+
 	<!-- 신고내역 삭제 -->
 	<delete id="deleteReportBoard">
 		delete from reportBoard where reportNo = #{reportNo}
 	</delete>
+
 
 	<!-- 문의 게시글 삭제 -->
 	<delete id="deleteQnaBoard">
@@ -311,6 +305,7 @@
 		insert into qnaBoard(qnaWriter, qnaTitle, qnaContent)
 		values(#{qnaWriter}, #{qnaTitle}, #{qnaContent})
 	</insert>
+
 
 	<!-- 공지사항 최신글 5개 조회 -->
 	<select id="selectDiffNotc" resultType="NoticeDTO">
@@ -370,10 +365,6 @@
 		select * from reportBoard
 	</select>
 
-	<!-- 신고내역 삭제 -->
-	<delete id="deleteReport">
-		delete * from reportBoard where writer = #{userId}
-	</delete>
 
 	<!-- 유저 상태변경 -->
 	<update id="updateStatus">
@@ -418,4 +409,31 @@
 	<select id="getNoticeTop5" resultType="NoticeDTO">
 		SELECT * FROM noticeBoard order by postDate desc limit 5
 	</select>
+
+	<!-- 신고내역 삭제 -->
+	<delete id="deleteReport">
+		DELETE FROM reportBoard
+		WHERE btypeNo = #{btypeNo}
+		AND boardNo = #{boardNo}
+	</delete>
+	
+	<!-- btype에 해당되는 테이블에 글 삭제 -->
+	<delete id="deleteBoard">
+		DELETE FROM 
+        <choose>
+            <when test="btypeNo == 1">
+                lectureBoard WHERE lecNo = #{boardNo}
+            </when>
+            <when test="btypeNo == 2">
+                studyBoard WHERE stuNo = #{boardNo}
+            </when>
+            <when test="btypeNo == 3">
+                companyrevBoard WHERE revNo = #{boardNo}
+            </when>
+            <when test="btypeNo == 4">
+                algBoard WHERE board_no = #{boardNo}
+            </when>
+        </choose>
+    </delete>
+    
 </mapper>
