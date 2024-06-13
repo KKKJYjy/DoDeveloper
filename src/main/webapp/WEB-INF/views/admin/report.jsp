@@ -258,8 +258,10 @@ h2 {
 							<h2>신고 내역 조회</h2>
 							<c:choose>
 								<c:when test="${sessionScope.loginMember.isAdmin == 'Y' }">
+								
 									<button type="button" class="btn btn-secondary"
 										id="deleteReportBtn" onclick="checkCheckbox(${board.btypeNo}, ${board.boardNo })">신고내역삭제</button>
+
 								</c:when>
 								<c:otherwise>
 									<button type="button" class="btn btn-secondary"

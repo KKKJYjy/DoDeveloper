@@ -17,12 +17,12 @@
 	function checkCheck() {
 
 		if (frm.writer.value == "") {
-			
+
 			alert('로그인 후 이용해주세요');
-			
+
 			return false;
 		}
-		
+
 		else if (frm.title.value == "") {
 
 			frm.title.focus();
@@ -59,11 +59,13 @@
 </script>
 <style>
 #noticeInput {
-	width: 1200px;
+
+height: 500px;
+	/*width: 1200px;
 	height: 500px;
 	margin: 0 auto;
 	padding: 10px;
-	border: 0;
+	border: 0; */
 
 	/* height: 500px;
 	width: 1300px;
@@ -74,10 +76,10 @@
 }
 
 #notTitle {
-	width: 1200px;
+	/*width: 1200px;
 	margin: 0 auto;
 	padding: 10px;
-	border: 0;
+	border: 0; */
 
 	/* width: 1300px;
 	position: relative;
@@ -86,24 +88,19 @@
 }
 
 #notWriter {
-	width: 1200px;
+	/*width: 1200px;
 	margin: 0 auto;
 	padding: 10px;
-	border: 0;
+	border: 0; */
 
 	/* width: 1300px;
 	position: relative;
 	top: 9%;
 	left: 9%;  */
-}
+	}
+	
 
-.sendNotice {
-	position: relative;
-	left: 83%;
 
-	/* position: relative;
-	left: 1358px;  */
-}
 </style>
 </head>
 <body>
@@ -116,42 +113,47 @@
 		<c:import url="./adminMiniHeader.jsp"></c:import>
 
 		<div class="container-fluid">
-		
-		
 
-			<div class="noticeBoard">
-				<form action="/admin/noticePOST" method="post" name="frm">
-					<div class="mb-3 mt-3">
-						<textarea class="form-control" id="notWriter"
-							name="writer" readonly="readonly"
-							 >${sessionScope.loginMember.userId}</textarea>
-					</div>
-
-					<div class="mb-3 mt-3">
-						<input type="text" class="form-control" id="notTitle" name="title"
-							placeholder="제목을 입력하세요." />
-					</div>
+			<div class="container">
 
 
-					<div class="mb-3 mt-3">
-						<textarea class="form-control" id="noticeInput" name="content"
-							placeholder="내용을 입력하세요"></textarea>
-					</div>
 
-					<c:if test="${sessionScope.loginMember.isAdmin == 'Y' }">
-					<div class="btns">
+				<div class="noticeBoard">
+					<form action="/admin/noticePOST" method="post" name="frm">
+						<div class="mb-3 mt-3">
+							<textarea class="form-control" id="notWriter" name="writer"
+								readonly="readonly">${sessionScope.loginMember.userId}</textarea>
+						</div>
 
-						
-						<input type="submit" class="btn btn-primary sendNotice"
-							onclick="return checkCheck()" value="글 저장">
-					</div>
-					</c:if>
+						<div class="mb-3 mt-3">
+							<input type="text" class="form-control" id="notTitle"
+								name="title" placeholder="제목을 입력하세요." />
+						</div>
 
-				</form>
+
+						<div class="mb-3 mt-3">
+							<textarea class="form-control" id="noticeInput" name="content"
+								placeholder="내용을 입력하세요"></textarea>
+						</div>
+
+
+						<c:if test="${sessionScope.loginMember.isAdmin == 'Y' }">
+
+
+
+							<input type="submit" class="btn btn-primary sendNotice"
+								onclick="return checkCheck()" value="글 저장">
+
+						</c:if>
+
+					</form>
+
+				</div>
+
+
+
 
 			</div>
-			
-
 
 
 

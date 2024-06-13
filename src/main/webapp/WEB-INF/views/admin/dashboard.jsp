@@ -337,7 +337,7 @@
 										<thead>
 											<tr>
 
-												<th>글번호</th>
+												
 												<th>작성자</th>
 												<th>제목</th>
 												<th>장소</th>
@@ -352,7 +352,7 @@
 												<tr id="table"
 													onclick="location.href = '/study/viewStudyBoard?stuNo=${board.stuNo}';">
 
-													<td>${board.stuNo }</td>
+													
 													<td>${board.stuWriter }</td>
 													<td>${board.stuTitle }</td>
 													<td>${board.stuLoc }</td>
@@ -387,7 +387,7 @@
 										<thead>
 											<tr>
 
-												<th>글번호</th>
+												
 												<th>작성자</th>
 												<th>제목</th>
 												<th>작성일</th>
@@ -399,7 +399,7 @@
 												<tr
 													onclick="location.href = '/lecture/viewBoard?lecNo=${board.lecNo}';">
 
-													<td>${board.lecNo }</td>
+													
 													<td>${board.lecWriter }</td>
 													<td>${board.lecTitle }</td>
 													<td>${board.lecPostDate }</td>
@@ -471,7 +471,7 @@
 								<thead>
 									<tr>
 
-										<th>글번호</th>
+										
 										<th>작성자</th>
 										<th>제목</th>
 										<th>부서</th>
@@ -483,7 +483,7 @@
 										<tr
 											onclick="location.href = '/companyInfo/revCompanyBoard?companyInfoNo=${board.companyInfoNo}';">
 
-											<td>${board.revNo }</td>
+											
 											<td>${board.revWriter }</td>
 											<td>${board.revTitle }</td>
 											<td>${board.revProfession }</td>

@@ -13,6 +13,8 @@
 	content="Material Pro Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework" />
 <meta name="robots" content="noindex,nofollow" />
 <title>Material Pro Lite Template by WrapPixel</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <link rel="canonical"
 	href="https://www.wrappixel.com/templates/materialpro-lite/" />
 <!-- Favicon icon -->
@@ -58,11 +60,7 @@
 							href="/admin/selectBoard" aria-expanded="false"><i
 								class="mdi me-2 mdi-table"></i><span class="hide-menu">게시판 관리</span></a>
 						</li>
-						<li class="sidebar-item"><a
-							class="sidebar-link waves-effect waves-dark sidebar-link"
-							href="/admin/notice" aria-expanded="false"><i
-								class="mdi me-2 mdi-emoticon"></i><span class="hide-menu">공지사항</span></a>
-						</li>
+						
 						<li class="sidebar-item"><a
 							class="sidebar-link waves-effect waves-dark sidebar-link"
 							href="/admin/report" aria-expanded="false"><i
