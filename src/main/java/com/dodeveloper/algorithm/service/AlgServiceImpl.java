@@ -141,4 +141,15 @@ public class AlgServiceImpl implements AlgService {
 	    return algDetail;
 	}
 
+
+	@Override
+	public boolean remBoard(int algDetailNo) {
+	    boolean result = false;
+	    System.out.println("서비스 에서 "+algDetailNo+"번 글을 삭제하자");
+		if (aDao.updateAlgDetailDelete(algDetailNo) == 1) {
+			result = true;
+		}
+		return result;
+	}
+
 }

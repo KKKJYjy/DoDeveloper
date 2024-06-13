@@ -37,4 +37,7 @@ public interface AlgService {
 
     void insertReport(ReportDTO reportDTO);
 
+    // algDetail 항목 삭제
+    boolean remBoard(int boardNo);
+
 }

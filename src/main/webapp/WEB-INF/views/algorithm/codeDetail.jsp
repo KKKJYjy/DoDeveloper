@@ -91,6 +91,13 @@ prefix="c"%>
           
         </div>
       </section>
+        <div class="btns">
+				
+				<button type="button" class="btn btn-info"
+					onclick="location.href='/algorithm/modifyAlgDetail';">글수정</button>
+				<button type="button" class="btn btn-info"
+					onclick="location.href='/algorithm/removeAlgDetail?algDetailNo=${algDetailList.algDetailNo}';">글삭제</button>
+			</div>
       <!-- End Basic Section -->
     </main>
 

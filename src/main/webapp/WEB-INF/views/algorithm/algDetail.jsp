@@ -213,7 +213,7 @@ function insertReport() {
 
 
 
-
+					
 
 				<c:forEach var="algDetail" items="${algDetailList}" begin="0"
 					end="${fn:length(algDetailList)}">
@@ -250,6 +250,7 @@ function insertReport() {
 				<button type="submit" class="btn btn-info">글쓰기</button>
 				<button type="button" class="btn btn-info"
 					onclick="location.href='/algorithm/modifyAlgDetail';">글수정</button>
+				
 			</div>
 		</form>
 		<button type="button" class="btn btn-danger"

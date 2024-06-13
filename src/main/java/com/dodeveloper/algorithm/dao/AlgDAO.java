@@ -37,4 +37,7 @@ public interface AlgDAO {
 
 	// algDetailNo 에 해당하는 AlgDetail 테이블 조회
 	AlgDetailDTO selectOneAlgDetail( int algDetailNo);
+
+	// algDetail 테이블의 isDeleted 칼럼을 Y로 업데이트
+	int updateAlgDetailDelete(int boardNo);
 }
