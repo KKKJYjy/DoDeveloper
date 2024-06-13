@@ -8,7 +8,7 @@
 
 <title>1대1 문의</title>
 <style>
-#openModalBtn {
+.openModalBtn {
 	margin-bottom: 15px;
 }
 </style>
@@ -101,7 +101,7 @@
 			<div class="container">
 
 				<c:if test="${sessionScope.loginMember.isAdmin == 'Y' }">
-					<button id="openModalBtn" onclick="checkCheckbox()">게시글삭제</button>
+					<button class="btn btn-danger openModalBtn" onclick="checkCheckbox()">게시글삭제</button>
 				</c:if>
 
 				<div class="row">

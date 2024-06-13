@@ -13,9 +13,18 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <style>
-#openModalBtn {
+.openModalBtn {
 	margin-bottom: 15px;
 }
+
+.pagination {
+	display: flex;
+	justify-content: center; /* 가운데 정렬 */
+	list-style: none;
+	padding: 0;
+}
+
+
 </style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -173,7 +182,7 @@
 				<c:import url="./search.jsp"></c:import>
 
 				<c:if test="${sessionScope.loginMember.isAdmin == 'Y' }">
-					<button id="openModalBtn" onclick="checkCheckbox()">게시글삭제</button>
+					<button class="btn btn-danger openModalBtn" onclick="checkCheckbox()">게시글삭제</button>
 				</c:if>
 
 

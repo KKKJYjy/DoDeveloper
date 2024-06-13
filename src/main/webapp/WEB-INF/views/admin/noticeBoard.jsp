@@ -7,8 +7,15 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-#openModalBtn {
+.openModalBtn {
 	margin-bottom: 15px;
+}
+
+.pagination {
+	display: flex;
+	justify-content: center; /* 가운데 정렬 */
+	list-style: none;
+	padding: 0;
 }
 </style>
 <script
@@ -139,8 +146,8 @@
 
 
 				<c:if test="${sessionScope.loginMember.isAdmin == 'Y' }">
-					<button id="openModalBtn" onclick="checkCheckbox()">게시글삭제</button>
-					<button id="openModalBtn" onclick="writeBtn();">글 쓰기</button>
+					<button class="btn btn-danger openModalBtn" onclick="checkCheckbox()">게시글삭제</button>
+					<button class="btn btn-secondary openModalBtn" onclick="writeBtn();">글 쓰기</button>
 				</c:if>
 
 

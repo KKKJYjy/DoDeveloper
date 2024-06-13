@@ -38,8 +38,20 @@
 
 <!-- Template Main CSS File -->
 <link href="/resources/assets/css/main.css" rel="stylesheet" />
-<link href="/resources/assets/css/lecture/listAll.css" rel="stylesheet" />
+
 <title>Insert title here</title>
+<style>
+.pagination {
+	display: flex;
+	justify-content: center; /* 가운데 정렬 */
+	list-style: none;
+	padding: 0;
+}
+
+.page-item {
+	margin: 0 5px;
+}
+</style>
 <script>
 	function writeBtn() {
 		let user = '${sessionScope.loginMember.userId}'
@@ -91,7 +103,7 @@
 				</table>
 				
 				
-				<button type="button" id="openModalBtn" onclick="writeBtn();">문의하기</button>
+				<button type="button" id="openModalBtn" class="btn btn-secondary openModalBtn" onclick="writeBtn();">문의하기</button>
 
 				<ul class="pagination">
 					<c:if test="${param.pageNo > 1 }">

@@ -58,7 +58,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		this.pi.setPageNo(pageNo);
 
 		this.pi.setViewPostCntPerPage(10);
-		this.pi.setPageCntPerBlock(3);
+		this.pi.setPageCntPerBlock(5);
 
 		this.pi.setTotalPostCnt(bDao.selectBoardSearchCritera(sc));
 
@@ -85,7 +85,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		this.pi.setPageNo(pageNo);
 
 		this.pi.setViewPostCntPerPage(10);
-		this.pi.setPageCntPerBlock(3);
+		this.pi.setPageCntPerBlock(5);
 
 		// 게시물 데이터 갯수
 		this.pi.setTotalPostCnt(bDao.selectTotalBoardCnt());
@@ -113,7 +113,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		this.pi.setPageNo(pageNo);
 
 		this.pi.setViewPostCntPerPage(10);
-		this.pi.setPageCntPerBlock(3);
+		this.pi.setPageCntPerBlock(5);
 
 		// 게시물 데이터 갯수
 		this.pi.setTotalPostCnt(bDao.selectLecTotalBoardCnt());
@@ -141,7 +141,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		this.pi.setPageNo(pageNo);
 
 		this.pi.setViewPostCntPerPage(10);
-		this.pi.setPageCntPerBlock(3);
+		this.pi.setPageCntPerBlock(5);
 
 		// 게시물 데이터 갯수
 		this.pi.setTotalPostCnt(bDao.selectAlgTotalBoardCnt());
@@ -169,7 +169,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		this.pi.setPageNo(pageNo);
 
 		this.pi.setViewPostCntPerPage(10);
-		this.pi.setPageCntPerBlock(3);
+		this.pi.setPageCntPerBlock(5);
 
 		// 게시물 데이터 갯수
 		this.pi.setTotalPostCnt(bDao.selectRevTotalBoardCnt());
@@ -197,7 +197,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		this.pi.setPageNo(pageNo);
 
 		this.pi.setViewPostCntPerPage(10);
-		this.pi.setPageCntPerBlock(3);
+		this.pi.setPageCntPerBlock(5);
 
 		// 게시물 데이터 갯수
 		this.pi.setTotalPostCnt(bDao.selectNotcTotalBoardCnt());
@@ -226,7 +226,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		this.pi.setPageNo(pageNo);
 
 		this.pi.setViewPostCntPerPage(10);
-		this.pi.setPageCntPerBlock(3);
+		this.pi.setPageCntPerBlock(5);
 
 		// 게시물 데이터 갯수
 		this.pi.setTotalPostCnt(bDao.selectQnaTotalBoardCnt());
