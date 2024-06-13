@@ -3,6 +3,7 @@ package com.dodeveloper.company.service;
 import java.util.List;
 
 import com.dodeveloper.company.vodto.CompanyInfoVO;
+import com.dodeveloper.company.vodto.CompanyInfoWithRevVO;
 import com.dodeveloper.company.vodto.RevCompanyBoardVO;
 import com.dodeveloper.company.vodto.ScrapVO;
 import com.dodeveloper.company.vodto.WrittenCompanyBoardDTO;
@@ -47,5 +48,9 @@ public interface CompanyInfoService {
 	
 	// 유저가 ?번 스크랩 글을 취소하는 메서드 (delete)
 	int deleteScrap(int scrapNo) throws Exception;
+
+
+	// 최근 5개의 기업 정보 리스트를 불러오는 메서드
+	List<CompanyInfoWithRevVO> getCompanyTop5() throws Exception;
 
 }

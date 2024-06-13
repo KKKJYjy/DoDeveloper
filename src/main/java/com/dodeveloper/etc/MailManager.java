@@ -1,6 +1,7 @@
 package com.dodeveloper.etc;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetHeaders;
@@ -36,10 +37,16 @@ public class MailManager {
 		sendMail(receiverEmail, title, body);
 	}
 	
-	public void sendUserId(String receiverEmail, String userId) throws MessagingException, UnsupportedEncodingException {
+	public void sendUserId(String receiverEmail, List<String> userIds) throws MessagingException, UnsupportedEncodingException {
 		String title = "아이디 찾기 메일입니다..";
-		String body = "이 이메일로 가입된 DDev 계정 아이디입니다.\n" + "아이디 : " + userId;
+		String body = "이 이메일로 가입된 DDev 계정 아이디입니다.\n" + "아이디 : ";
 
+		for(String userId : userIds) {
+			body += userId + ", ";
+		}
+		
+		body = body.substring(0, body.lastIndexOf(","));
+		
 		sendMail(receiverEmail, title, body);
 	}
 	

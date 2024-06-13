@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -388,14 +388,14 @@
 		if(window.confirm("댓글을 삭제하시겠습니까?")){
 			//예 - true값이 넘어오면 db에서 삭제하자
 			$.ajax({
-				url : "/studyReply/deleteReply/" + replyNo,
+				url : "/studyReply/deleteReply/" + replyNo + "/" + ${studyList.stuNo},
 				type : "delete",
 				header : {
 					//PUT, DELETE, PATCH등의 HTTP method가 동작하지 않는 과거의 웹 브라우저라면 post방식으로 작동되도록 한다 
 					"X-HTTP-Method-Override" : "POST"
 				},
 				dataType : "text",
-				async : 'false', //받아올 데이터가 있어야 파싱 가능.
+				async : false, //받아올 데이터가 있어야 파싱 가능.
 				success : function(data) {
 					console.log(data);
 					if(data == 'deleteSuccess'){
@@ -448,7 +448,20 @@
 	
 	// ====== 댓글 관련 끝 =====
 	
-	
+	//참여신청 버튼 눌렀을때 로그인 안했다면 로그인 페이지로 이동
+	function isLogin(){
+		let result = false;
+		let user = '${sessionScope.loginMember.userId}';
+		
+		if(user == ''){ //로그인 안했다면
+			location.href='/member/login?redirectUrl=viewStudyBoard&stuNo=${studyList.stuNo}';
+			result = true;
+		}
+		
+		return result; 
+	}	
+		
+		
 	//참여신청팝업창에서 참여신청버튼을 눌렀을 때 유효성검사
 	function isVaild(){
 		let result = false;
@@ -486,7 +499,7 @@ i {
 					<div class="d-flex">
 						<div class="me-auto">
 							<h3 class="text-light">
-								<b>${studyList.stuTitle }</b>
+								${studyList.stuTitle }
 							</h3>
 						</div>
 						<!-- 로그인한 유저와 작성자가 같을 때에만 수정 삭제 버튼이 보이도록 처리 -->
@@ -494,29 +507,34 @@ i {
 							<!-- 수정 버튼 -->
 
 							<div class="icon-link icon-link-hover"
-								style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);"
+								style="-bs-icon-link-transform: translate3d(0, -.125rem, 0);"
 								onclick="location.href='/study/modifyStudyBoard?stuNo=${studyList.stuNo}';">
 								<i class="bi bi-pencil fs-5 me-2" style="color: #ffffff;"></i>
 							</div>
 							<!-- 삭제 버튼 -->
 							<div class="studyBoardDelete icon-link icon-link-hover"
-								style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);"
+								style="-bs-icon-link-transform: translate3d(0, -.125rem, 0);"
 								data-bs-toggle="modal" data-bs-target="#deleteModal">
 								<i class="bi bi-trash3 fs-5 me-2" style="color: #ffffff;"></i>
 							</div>
 						</c:if>
 
 						<!-- 카카오 공유 버튼 -->
-						<a id="kakaotalk-sharing-btn" href="javascript:;" class="icon-link icon-link-hover"
-							style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);"> 
+						<a id="kakaotalk-sharing-btn" href="javascript:;"
+							class="icon-link icon-link-hover"
+							style="-bs-icon-link-transform: translate3d(0, -.125rem, 0);">
 							<i class="bi bi-share fs-5 me-2" style="color: #ffffff;"></i>
 						</a>
-						
-					</div>
 
-					<p class="text-light mt-3">
-						<b>${studyList.stuWriter }</b>
-					</p>
+					</div>
+					
+					<div class="d-flex mt-2">
+						<p class="text-light me-2 fw-semibold">${studyList.stuWriter }</p>
+						<i class="bi bi-eye me-2 text-light"> ${studyList.readCount }</i>
+						<i class="bi bi-chat me-2 text-light"> ${studyList.replyCount }</i>
+						<i class="bi bi-bookmark text-light"> ${studyList.scrape }</i>
+					</div>
+				
 				</div>
 
 
@@ -567,9 +585,8 @@ i {
 								<div class="col-md-6">
 									<div class="mb-1 ">
 										<b>모집 마감일</b> 
-										<span class="">
-											<fmt:formatDate pattern="yyyy-MM-dd" value="${studyList.endDate }"/>
-											
+										<span class=""> 
+											<fmt:formatDate pattern="yyyy-MM-dd" value="${studyList.endDate }" />
 										</span>
 									</div>
 								</div>
@@ -658,7 +675,7 @@ i {
 							</div>
 
 							<div class="col-md-11">
-								<input type="button" class="btn btn-secondary" value="참여신청"
+								<input type="button" class="btn btn-secondary" value="참여신청" onclick="return isLogin();"
 									style="width: 100%" data-bs-toggle="modal"
 									data-bs-target="#exampleModal" />
 							</div>

@@ -197,7 +197,6 @@ function preAuth() {
 	let writer = '${sessionScope.loginMember.userId}';
 	if (writer === '') { // 로그인 하지 않았다면 로그인 페이지로 이동
 		location.href = '/member/login?redirectUrl=viewBoard&lecNo=${lecBoard.lecNo }';
-		writer = '${sessionScope.loginMember.userId}';
 	}
 	return writer;
 }

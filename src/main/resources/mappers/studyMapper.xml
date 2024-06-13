@@ -211,5 +211,21 @@
 		#{startRowIndex}, #{viewPostCntPerPage}
 	</select>
 
+	<!-- 스터디 모임글 상위 5개글을 select -->
+	<select id="getStudyTop5" resultType="com.dodeveloper.study.vodto.StudyBoardVO">
+		SELECT * FROM studyBoard order by wrritenDate desc
+		limit 5
+	</select>
+	
+	<!-- bNo번째 스터디 리스트 댓글수를 +1 update -->
+	<update id="updateReplyCnt">
+		update studyBoard set replyCount = replyCount+1 where stuNo = #{bNo}
+	</update>
+	
+	<!-- bNo번째 스터디 리스트 댓글수를 -1 update -->
+	<update id="ReplyCntDown">
+		update studyBoard set replyCount = replyCount-1 where stuNo = #{stuNo}
+	</update>
+	
 
 </mapper>

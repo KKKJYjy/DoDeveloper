@@ -113,6 +113,11 @@ public interface AdminBoardService {
 		// 패널티 증가하면 불량회원 테이블 insert
 		boolean insertOrUpdatePenaltyRecord(String deleteReason, String userId, int btypeNo, int boardNo)
 				throws Exception;
+
+
+	    // 공지사항 최신글 5개를 가져오는 메서드
+		List<NoticeDTO> getNoticeTop5() throws Exception;
+
 	    
 	
 }

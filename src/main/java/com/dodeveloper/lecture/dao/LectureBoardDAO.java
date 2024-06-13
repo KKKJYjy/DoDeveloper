@@ -68,5 +68,8 @@ public interface LectureBoardDAO {
 	
 	// 유저가 게시글 하트를 한번 더 눌렀을 경우 좋아요 횟수 down하는 update (전체 게시글에 보여주기)
 	int updateLikeDownCount(int lecNo) throws Exception;
+
+	// 최신 5개 강의 게시글을 얻어오는 메서드
+	List<LectureBoardVO> getLectureTop5() throws Exception;
 	
 }

@@ -109,7 +109,7 @@
 
 				<div class="container">
 					<h3 class="center text-center text-light pb-4 fw-medium">
-						내가 참여 신청한 스터디 모임글</h3>
+						내가 참여 신청한 스터디</h3>
 				</div>
 
 				<div class="row row-cols-md-2 mt-5">
@@ -117,8 +117,7 @@
 						<div class="col-md mb-2">
 							<div class="card mb-3">
 								<div class="card-body">
-									<h5 class="card-title mb-3 fw-semibold">🔥 내가 참여 신청한 스터디
-										모집글</h5>
+									<h5 class="card-title mb-3 fw-semibold">🔥 내가 참여 신청한 스터디</h5>
 									<!-- 스터디 모임글 내용 -->
 									<div class="mouseOver">
 										<p class="card-text mb-2 text-dark-emphasis">📍${study.stuLoc }</p>

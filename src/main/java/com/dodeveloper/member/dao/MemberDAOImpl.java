@@ -1,5 +1,7 @@
 package com.dodeveloper.member.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -95,7 +97,7 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public MemberVO getMemberByEmail(String email) throws Exception {
-		return sqlSession.selectOne(GET_MEMBER_BY_EMAIL, email);
+	public List<MemberVO> getMemberByEmail(String email) throws Exception {
+		return sqlSession.selectList(GET_MEMBER_BY_EMAIL, email);
 	}
 }
