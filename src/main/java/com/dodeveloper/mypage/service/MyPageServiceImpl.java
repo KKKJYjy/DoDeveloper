@@ -272,7 +272,7 @@ public class MyPageServiceImpl implements MyPageService {
     }
 
     /**
-     * @methodName : makePagingInfo
+     * @methodName : listMakePagingInfo
      * @param : int pageNo - 보여줘야 할 페이지 번호
      * @return : void
      * @description : 페이징 처리 메서드 (마이페이지에서 검색기능 X)
@@ -311,7 +311,7 @@ public class MyPageServiceImpl implements MyPageService {
     }
     
     /**
-     * @methodName : makePagingInfo
+     * @methodName : replyMakePagingInfo
      * @param : int pageNo - 보여줘야 할 페이지 번호
      * @return : void
      * @description : 페이징 처리 메서드 (마이페이지에서 검색기능 X)
@@ -350,7 +350,7 @@ public class MyPageServiceImpl implements MyPageService {
     }
     
     /**
-     * @methodName : makePagingInfo
+     * @methodName : scrapMakePagingInfo
      * @param : int pageNo - 보여줘야 할 페이지 번호
      * @return : void
      * @description : 페이징 처리 메서드 (마이페이지에서 검색기능 X)
@@ -389,7 +389,7 @@ public class MyPageServiceImpl implements MyPageService {
     }
     
     /**
-     * @methodName : makePagingInfo
+     * @methodName : likeMakePagingInfo
      * @param : int pageNo - 보여줘야 할 페이지 번호
      * @return : void
      * @description : 페이징 처리 메서드 (마이페이지에서 검색기능 X)
