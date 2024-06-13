@@ -242,7 +242,7 @@ public class CompanyController {
 		System.out.println(loginMember.getUserId());
 		// scrapId, scrapBoard, companyInfoNo를 서비스단 메서드에 보내면서 호출
 		try {
-			if(ciService.insertScrap(scrapBoard, loginMember.getUserId(), companyInfoNo) == 1) {
+			if(ciService.insertScrap(scrapBoard, loginMember.getUserId(), 3) == 1) {
 				returnPage = "redirect:/mypage/myProfile";
 			}
 		} catch (Exception e) {

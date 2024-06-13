@@ -5,6 +5,7 @@ import java.util.List;
 import com.dodeveloper.company.vodto.CompanyInfoVO;
 import com.dodeveloper.company.vodto.CompanyInfoWithRevVO;
 import com.dodeveloper.company.vodto.RevCompanyBoardVO;
+import com.dodeveloper.company.vodto.ScrapRevJoinVO;
 import com.dodeveloper.company.vodto.ScrapVO;
 import com.dodeveloper.company.vodto.WrittenCompanyBoardDTO;
 
@@ -37,9 +38,8 @@ public interface CompanyInfoService {
 	int insertScrap(int scrapBoard, String scrapId, int bType) throws Exception;
 
 	
-	// 어떤 유저가 본인이 스크랩한 글들을 전체 볼 수 있는 메서드 (select)
-	// 강의, 스터디, 기업리뷰, 알고리즘 관련 스크랩한 게시글 확인 가능
-	List<ScrapVO> selectAllScrap(String scrapId) throws Exception;
+	// 기업 리뷰 글 관련 스크랩 
+	List<ScrapRevJoinVO> selectAllScrap(String scrapId) throws Exception;
 
 	
 	// 어떤 유저가 해당 스크랩한 게시글들만 전체 볼 수 있는 메서드 (select)

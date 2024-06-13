@@ -9,6 +9,7 @@ import com.dodeveloper.company.dao.CompanyInfoDAO;
 import com.dodeveloper.company.vodto.CompanyInfoVO;
 import com.dodeveloper.company.vodto.CompanyInfoWithRevVO;
 import com.dodeveloper.company.vodto.RevCompanyBoardVO;
+import com.dodeveloper.company.vodto.ScrapRevJoinVO;
 import com.dodeveloper.company.vodto.ScrapVO;
 import com.dodeveloper.company.vodto.WrittenCompanyBoardDTO;
 import com.dodeveloper.scrap.dao.ScrapDAO;
@@ -159,16 +160,12 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
 	 * @author : kimso05
 	 * @date : 2024.06.01
 	 * @param : String scrapId : 스크랩한 사람
-	 * @return : List<ScrapVO> : bType(게시판 구분) 없이 스크랩한 글들 전체 조회   
-	 * @description : 어떤 유저가 본인이 스크랩한 글들을 전체 볼 수 있는 메서드 (select)
-	 * 강의, 스터디, 기업리뷰, 알고리즘 관련 스크랩한 게시글 모두 확인 가능
+	 * @return : List<ScrapRevJoinVO> : 기업리뷰글 관련 스크랩 
 	 */
 	@Override
-	public List<ScrapVO> selectAllScrap(String scrapId) throws Exception {
-		System.out.println(scrapId + "!!!!!!!!");
-		for (ScrapVO s : sDao.selectAllScrap(scrapId)) {
-			System.out.println(s.toString());
-		}
+	public List<ScrapRevJoinVO> selectAllScrap(String scrapId) throws Exception {
+		System.out.println(scrapId + "서비스단 ScrapRevJoinVO 스크랩");
+		
 		return sDao.selectAllScrap(scrapId);
 	}
 
