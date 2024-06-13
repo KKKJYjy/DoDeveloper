@@ -61,10 +61,25 @@
 <script>
 
 function selectNo(no) {
+	// 셀렉트 태그로 게시판을 선택하면 1.신고자의 아이디를 SessionScope에서 받아와 #reoprter태그에 삽입
+	// 2.셀렉트태그로 받아온 번호를 이용해 해당하는 번호를 작성한 작성자를 #writer태그에 삽입
 	console.log(no);
 	let user = '${sessionScope.loginMember.userId}';
+	let boardNumber = no.split('&')[0]
+	let indexNo = parseInt(no.split('&')[1]);
+	console.log(boardNumber);
+	console.log(indexNo);
+	let list = `${algDetailList}`;
+	
+	console.log(list);
+	listSplit = list.split('writer=');
+	console.log(listSplit[1])
+	let writer = listSplit[indexNo+1].split(',')[0]
+	$('#reporter').val(user);
+	$('#writer').val(writer);
+	$('#boardNo').val(boardNumber);
 	console.log(user);
-	return no;
+	return boardNumber;
 }
 
 function insertReport() {
@@ -86,6 +101,7 @@ function insertReport() {
 				"boardNo" : boardNo,
 				"btypeNo" : btypeNo,
 				"reportReason" : reportReason,
+				"category" : "알고리즘",
 				
 				
 			},
@@ -197,13 +213,14 @@ function insertReport() {
 
 
 
-
+					
 
 				<c:forEach var="algDetail" items="${algDetailList}" begin="0"
 					end="${fn:length(algDetailList)}">
 
 					<div class="container mt-3">
-						<h2>${algDetail.algDetailTitle}</h2>
+					<a href="/algorithm/codeDetail?algDetailNo=${algDetail.algDetailNo}">
+						<h2>${algDetail.algDetailTitle}</h2></a>
 						<div>${algDetail.algDetailNo}</div>
 						<div class="mt-4 p-5 bg-primary text-white rounded">
 							<h1>code</h1>
@@ -233,6 +250,7 @@ function insertReport() {
 				<button type="submit" class="btn btn-info">글쓰기</button>
 				<button type="button" class="btn btn-info"
 					onclick="location.href='/algorithm/modifyAlgDetail';">글수정</button>
+				
 			</div>
 		</form>
 		<button type="button" class="btn btn-danger"
@@ -254,12 +272,12 @@ function insertReport() {
 
 					<!-- Modal body -->
 
-					<select class="form-select" id="boardNo" name="boardNo"
+					<select class="form-select" id="select" name="select"
 						onchange="selectNo(this.value);">
 						<option value="-1">신고할 게시판을 선택</option>
 						<c:forEach var="algDetail" items="${algDetailList}" begin="0"
 							end="${fn:length(algDetailList)}" varStatus="status">
-							<option value="${algDetail.algDetailNo}">${algDetail.algDetailNo} ${algDetail.algDetailTitle}</option>
+							<option value="${algDetail.algDetailNo}&${status.index}">${algDetail.algDetailNo} ${algDetail.algDetailTitle} ${status.index} </option>
 
 							
 							
@@ -289,19 +307,13 @@ function insertReport() {
 					</div>
 
 					
-
-					<select class="form-select" id="btypeNo" name="btypeNo">
-						<option value="0">신고할 게시판이 어느 게시판인지 선택</option>
-
-
-						<option value="1">강의추천</option>
-						<option value="2">스터디게시판</option>
-						<option value="3">location</option>
-						<option value="4">알고리즘게시판</option>
-						<option value="5">Q&A</option>
-
-
-					</select>
+					<div>
+						<input type="hidden" id="btypeNo" name="btypeNo" value="4">
+					</div>
+					<div>
+						<input type="hidden" id="boardNo" name="boardNo">
+					</div>
+					
 
 					<!-- Modal footer -->
 					<div class="modal-footer">

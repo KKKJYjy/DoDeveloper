@@ -24,4 +24,5 @@ public class AlgDetailDTO {
 	private String algDetailTitle;
 	private String algDetailComment;
 	private int boardType;
+	private String isDeleted;
 }

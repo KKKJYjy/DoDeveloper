@@ -1,6 +1,8 @@
 package com.dodeveloper.algorithm.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,6 +99,25 @@ public class AlgDAOImpl implements AlgDAO {
 	@Override
 	public List<AlgBoardWithDetailVO> getAlgTop5() throws Exception {
 		return ses.selectList(ns + ".getAlgTop5");
+	}
+
+	@Override
+	public AlgDetailDTO selectOneAlgDetail( int algDetailNo) {
+	 // algDetailNo 에 해당하는 AlgDetail 테이블 조회
+	    Map<String, Integer> map = new HashMap<String, Integer>();
+	    
+	   
+	    map.put("algDetailNo", algDetailNo);
+	    
+	    return ses.selectOne(ns+".selectAlgCodeDetail", algDetailNo);
+	    
+	}
+
+	@Override
+	public int updateAlgDetailDelete(int algDetailNo) {
+	    // TODO Auto-generated method stub
+	    System.out.println("DAO 에서"+algDetailNo+"번글을");
+	    return ses.update(ns+".", algDetailNo);
 	}
 
 }
