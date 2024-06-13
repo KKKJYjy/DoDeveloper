@@ -3,6 +3,7 @@ package com.dodeveloper.company.dao;
 import java.util.List;
 
 import com.dodeveloper.company.vodto.CompanyInfoVO;
+import com.dodeveloper.company.vodto.CompanyInfoWithRevVO;
 import com.dodeveloper.company.vodto.RevCompanyBoardVO;
 import com.dodeveloper.company.vodto.ScrapVO;
 import com.dodeveloper.company.vodto.WrittenCompanyBoardDTO;
@@ -30,5 +31,8 @@ public interface CompanyInfoDAO {
 
 	// 유저가 어떤 게시판의 ?번 글을 스크랩 하는 메서드 (insert)
 	int insertScrap(int scrapBoard, String scrapId, int bType) throws Exception;
+
+	// 최근 5개의 기업 정보 리스트를 불러오는 메서드
+	List<CompanyInfoWithRevVO> getCompanyTop5() throws Exception;
 
 }

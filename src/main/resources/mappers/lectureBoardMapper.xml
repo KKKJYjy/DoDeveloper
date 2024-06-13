@@ -174,8 +174,8 @@
 
 	<!-- 유저가 게시글에 하트를 눌렀을 경우 insert 되는 쿼리문 -->
 	<insert id="insertLikeBoard">
-		insert into lectureLikeInfo(lecNo, lecLikeUser)
-		values(#{lecNo}, #{user})
+		insert into lectureLikeInfo(lecNo, lecLikeUser, lecLikeTitle)
+		values(#{lecNo}, #{user}, #{lecLikeTitle})
 	</insert>
 
 	<!-- 페이지에 좋아요 횟수 update -->
@@ -187,7 +187,7 @@
 	<!-- 유저가 게시글에 하트를 한 번 더 눌렀을 경우 delete 되는 쿼리문 -->
 	<delete id="deleteLikeBoard">
 		delete from lectureLikeInfo where lecNo = #{lecNo}
-		and lecLikeUser = #{user}
+		and lecLikeUser = #{user} and lecLikeTitle = #{lecLikeTitle}
 	</delete>
 
 	<!-- 유저가 게시글 하트를 한번 더 눌렀을 경우 좋아요 횟수 down하는 update -->
@@ -195,5 +195,37 @@
 		update lectureBoard set lecLikeCount = lecLikeCount
 		-1 where lecNo = #{lecNo}
 	</update>
+	
+
+	<!-- 유저가 스크랩을 누른적이 있는지 조회 (스크랩 눌렀을 경우 1반환) -->
+	<select id="selectAllLectureScrap" resultType="int">
+		select count(*) from scrap where scrapId = #{user} and scrapBoard = #{lecNo}
+	</select>
+	
+	<!-- 스크랩을 한 번 눌렀을 경우 insert 되는 쿼리문 -->
+	<insert id="insertScrap">
+		insert into scrap(scrapBoard, scrapId, bType) values(#{lecNo}, #{user}, 1)
+	</insert>
+	
+	<!-- 스크랩을 한 번 눌렀을 경우 스크랩 횟수 update -->
+	<update id="updateUpScrap">
+		update lectureBoard set scrap = scrap + 1 where lecNo = #{lecNo} and bType = 1
+	</update>
+
+	<!-- 스크랩을 취소 할 경우 delete 되는 쿼리문 -->
+	<delete id="deleteScrap">
+		delete from scrap where scrapBoard = 46 and scrapId = #{user}
+	</delete>
+
+	<!-- 스크랩을 한 번 눌렀을 경우 스크랩 횟수 down하는 update -->
+	<update id="updateDownScrap">
+		update lectureBoard set scrap = scrap - 1 where lecNo = #{lecNo} and bType = 1
+	</update>
+
+	<!-- 강의 게시판에서 최신 5개글을 select -->
+	<select id="getLectureTo5" resultType="LectureBoardVO">
+		SELECT * FROM lectureBoard order by lecPostDate desc limit 5
+	</select>
+	
 
 </mapper>

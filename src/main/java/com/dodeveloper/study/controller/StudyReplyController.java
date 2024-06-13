@@ -77,7 +77,7 @@ public class StudyReplyController {
 		logger.info(bNo + "번 게시글에" + newReply.toString() + "댓글을 추가하자");
 		
 		try {
-			if(rs.insertReply(newReply) ==1) {
+			if(rs.insertReplyStudy(newReply) ==1) {
 				result = new ResponseEntity<String>("insertSuccess", HttpStatus.OK);
 			}
 		} catch (Exception e) {
@@ -95,13 +95,14 @@ public class StudyReplyController {
 		* @return : ResponseEntity<String> - 성공시 HttpStatus.OK, 실패시 HttpStatus.CONFLICT 반환
 		* @description : repyNo번째 댓글을 삭제 처리한다.
 	 */
-	@DeleteMapping("/deleteReply/{replyNo}")
-	public ResponseEntity<String> deleteReply(@PathVariable("replyNo") int replyNo){
+	@DeleteMapping("/deleteReply/{replyNo}/{stuNo}")
+	public ResponseEntity<String> deleteReply(@PathVariable("replyNo") int replyNo,
+			@PathVariable("stuNo") int stuNo){
 		ResponseEntity<String> result = null;
-		logger.info(replyNo + "번 댓글을 삭제하자");
+		logger.info(stuNo + "번째 게시글의 " + replyNo + "번 댓글을 삭제하자");
 		
 		try {
-			if(rs.deleteReply(replyNo) ==1) {
+			if(rs.deleteReplyStudy(replyNo, stuNo) ==1) {
 				result = new ResponseEntity<String>("deleteSuccess", HttpStatus.OK);
 			}
 		} catch (Exception e) {

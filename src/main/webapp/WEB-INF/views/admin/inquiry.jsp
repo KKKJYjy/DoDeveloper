@@ -8,7 +8,7 @@
 
 <title>1대1 문의</title>
 <style>
-#openModalBtn {
+.openModalBtn {
 	margin-bottom: 15px;
 }
 </style>
@@ -71,6 +71,17 @@
 
 		}
 	}
+
+	$(function() {
+
+		let pageNo = '${param.pageNo}';
+		if (pageNo == '') {
+			pageNo = 1;
+		}
+
+		$(`#\${pageNo}`).addClass('active')
+
+	})
 </script>
 
 
@@ -83,14 +94,14 @@
 
 	<div class="page-wrapper">
 
-		<c:import url="./adminMiniHeader.jsp"></c:import>
+	<c:import url="./adminMiniHeader.jsp"></c:import>
 
 		<div class="container-fluid">
 
 			<div class="container">
 
 				<c:if test="${sessionScope.loginMember.isAdmin == 'Y' }">
-					<button id="openModalBtn" onclick="checkCheckbox()">게시글삭제</button>
+					<button class="btn btn-danger openModalBtn" onclick="checkCheckbox()">게시글삭제</button>
 				</c:if>
 
 				<div class="row">

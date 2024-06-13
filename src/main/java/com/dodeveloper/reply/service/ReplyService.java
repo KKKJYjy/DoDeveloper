@@ -17,5 +17,11 @@ public interface ReplyService {
 	
 	// ?번 댓글을 삭제하는 메서드
 	int deleteReply(int replyNo) throws Exception;
+
+	// 스터디 게시판에 댓글을 작성하는 메서드 (댓글 작성후 댓글수 업데이트)
+	int insertReplyStudy(ReplyDTO newReply) throws Exception;
+
+	// 스터디 게시판에 댓글을 삭제하는 메서드 (댓글 삭제후 댓글수 업데이트)
+	int deleteReplyStudy(int replyNo, int stuNo) throws Exception;
 	
 }

@@ -348,9 +348,12 @@
 
 
 	<!-- 유저 전체 조회 -->
-	<select id="selectAllUser" resultType="MemberVO">
-		select userId, userName,
-		email, careers, registerDate, status from member
+	<select id="selectAllUser" resultType="UserDTO">
+		SELECT m.userId,
+		m.userName, m.email, m.registerDate, m.status, b.penaltyCnt
+		FROM member
+		m
+		LEFT JOIN badMemberBoard b ON m.userId = b.userId;
 	</select>
 
 	<!-- 유저 아이디로 조회 -->
@@ -360,10 +363,7 @@
 		#{userId}
 	</select>
 
-	<!-- 신고내역 조회 -->
-	<select id="selectReport" resultType="ReportVO">
-		select * from reportBoard
-	</select>
+
 
 
 	<!-- 유저 상태변경 -->
@@ -405,34 +405,49 @@
 
 	</select>
 
+	<!-- 최신 공지글 5개를 가져오는 메서드 (메인홈에 출력할 용도) -->
+	<select id="getNoticeTop5" resultType="NoticeDTO">
+		SELECT * FROM noticeBoard order by postDate desc limit 5
+	</select>
+
 	<!-- 신고내역 삭제 -->
 	<delete id="deleteReport">
 		DELETE FROM reportBoard
 		WHERE btypeNo = #{btypeNo}
-		AND boardNo = #{boardNo}
+		AND
+		boardNo = #{boardNo}
 	</delete>
-	
+
 	<!-- btype에 해당되는 테이블에 글 삭제 -->
 	<delete id="deleteBoard">
-		DELETE FROM 
-        <choose>
-            <when test="btypeNo == 1">
-                lectureBoard WHERE lecNo = #{boardNo}
-            </when>
-            <when test="btypeNo == 2">
-                studyBoard WHERE stuNo = #{boardNo}
-            </when>
-            <when test="btypeNo == 3">
-                companyrevBoard WHERE revNo = #{boardNo}
-            </when>
-            <when test="btypeNo == 4">
-                algBoard WHERE board_no = #{boardNo}
-            </when>
-        </choose>
-    </delete>
-    
-    
-    
-  
+		DELETE FROM
+		<choose>
+			<when test="btypeNo == 1">
+				lectureBoard WHERE lecNo = #{boardNo}
+			</when>
+			<when test="btypeNo == 2">
+				studyBoard WHERE stuNo = #{boardNo}
+			</when>
+			<when test="btypeNo == 4">
+				algBoard WHERE boardNo = #{boardNo}
+			</when>
+		</choose>
+	</delete>
+
+
+	<insert id="insertPenalty">
+		INSERT INTO badMemberBoard (userId, penaltyCnt, reportDate, suspendReason)
+		SELECT
+		#{userId},
+		IFNULL(MAX(penaltyCnt), 0) + 1,
+		NOW(),
+		#{reportReason}
+		FROM
+		badMemberBoard
+		WHERE
+		userId = #{userId}
+		ON DUPLICATE KEY UPDATE
+		penaltyCnt = VALUES(penaltyCnt);
+	</insert>
 
 </mapper>

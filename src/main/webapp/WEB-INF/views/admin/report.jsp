@@ -31,8 +31,18 @@
 	});
 
 	let selectedReportIds = [];
+	let selectedBtypeNo, selectedBoardNo, writerId;
 
-	function checkCheckbox() {
+	
+	function openDeleteModal(btypeNo, boardNo, writerIdParam) {
+		selectedBtypeNo = btypeNo;
+		selectedBoardNo = boardNo;
+		writer = writerIdParam;
+		console.log(btypeNo, boardNo, writer);
+		$('#myModal').show();
+	}
+	
+	function checkCheckbox(btypeNo, boardNo) {
 		selectedReportIds = [];
 		let list = $("input[name='rowCheck']");
 		for (let i = 0; i < list.length; i++) {
@@ -43,38 +53,64 @@
 		if (selectedReportIds.length == 0) {
 			alert("선택된 게시글이 없습니다");
 		} else {
-
+			deleteReport(btypeNo, boardNo);
 		}
 	}
 	
-	function deleteBoard(btypeNo, boardNo) {
-		let url = "reportDelete";
+	
+	function deleteReport(btypeNo, boardNo){
+		alert("내역을 삭제합니다")
+		console.log(btypeNo, boardNo);
+		
+		   $.ajax({
+		    	url : "/admin/deleteReport",
+				type : "post",
+		        data: {
+		            btypeNo: btypeNo,
+		            boardNo: boardNo
+  
+		        },
+		        success : function(data) {
+					if (data == 1) {
+
+						alert("삭제 성공");
+						location.replace("report")
+					} else {
+						alert("삭제 실패");
+					}
+				},
+		       
+		    });
+	}
+	
+	function insertPenalty() {
 		let deleteReason = $('#reportInput').val();
 		if (deleteReason.trim() === "") {
-			
-			$('#myModal').show();
+			alert("삭제 사유를 입력하세요.");
 			return;
 		}
+		
+		alert("신고 처리합니다")
+		console.log(selectedBtypeNo, selectedBoardNo, deleteReason, writer);
 
-	    $.ajax({
-	    	url : url,
+		$.ajax({
+			url : "/admin/insertPenalty",
 			type : "post",
-	        data: {
-	            btypeNo: btypeNo,
-	            boardNo: boardNo,
-	            deleteReason: deleteReason
-	        },
-	        success : function(data) {
-				if (data == 1) {
-
+			data: {
+				btypeNo: selectedBtypeNo,
+				boardNo: selectedBoardNo,
+				deleteReason: deleteReason,
+	            userId: writer
+			},
+			success : function(data) {
+				if (data.success) {
 					alert("삭제 성공");
-					location.replace("report")
+					location.replace("report");
 				} else {
 					alert("삭제 실패");
 				}
 			},
-	       
-	    });
+		});
 	}
 
 
@@ -222,8 +258,10 @@ h2 {
 							<h2>신고 내역 조회</h2>
 							<c:choose>
 								<c:when test="${sessionScope.loginMember.isAdmin == 'Y' }">
+								
 									<button type="button" class="btn btn-secondary"
-										id="deleteReportBtn" onclick="checkCheckbox()">신고내역삭제</button>
+										id="deleteReportBtn" onclick="checkCheckbox(${board.btypeNo}, ${board.boardNo })">신고내역삭제</button>
+
 								</c:when>
 								<c:otherwise>
 									<button type="button" class="btn btn-secondary"
@@ -272,7 +310,7 @@ h2 {
 											<td><c:choose>
 													<c:when test="${sessionScope.loginMember.isAdmin == 'Y' }">
 														<button type="button" class="btn btn-danger btn-sm"
-															id="openModalBtn" onclick="deleteReport()"
+															id="openModalBtn" onclick="openDeleteModal(${board.btypeNo}, ${board.boardNo},'${board.writer}')"
 															value="${board.reportNo }">삭제</button>
 													</c:when>
 													<c:otherwise>
@@ -296,7 +334,7 @@ h2 {
 					<p id="modalText"></p>
 					<textarea id="reportInput" placeholder="삭제 사유를 입력하세요."></textarea>
 					<button type="button" class="btn btn-secondary deBtn"
-						id="deleteButton">삭제</button>
+						id="deleteButton" onclick="insertPenalty()">삭제</button>
 				</div>
 			</div>
 

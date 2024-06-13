@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+.lectureBasic { 
+	--default-color: #212529; 
+	--default-color-rgb: 255, 255, 255; 
+	--background-color: #212529; 
+	--background-color-rgb: 0, 0, 0;
+	padding: 150px 0;
+}
