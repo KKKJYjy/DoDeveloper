@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dodeveloper.admin.vo.ReportVO;
 import com.dodeveloper.company.vodto.ScrapVO;
 import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.lecture.service.LectureBoardService;
@@ -488,6 +489,38 @@ public class MyPageController {
 		
 		// 게시글 자체를 바인딩
 		model.addAttribute("lectureLikeList", (List<LectureLikeVO>) resultMap.get("lectureLikeList"));
+		// 페이징 정보를 바인딩
+		model.addAttribute("pagingInfo", (PagingInfo) resultMap.get("pagingInfo"));
+	}
+	
+	@GetMapping("/myReportList")
+	public void myReportList(@RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+			Model model, HttpServletRequest req) {
+		// 현재 로그인한 사용자의 아이디
+		String userId = ((MemberVO) req.getSession().getAttribute("loginMember")).getUserId();
+		logger.info(userId + "가 신고한 게시글 확인하러 마이페이지의 게시글로 이동");
+		
+		Map<String, Object> resultMap = null;
+		
+		String resultPage = null;
+		
+	    // 페이지 번호가 1이상이 되도록 설정
+	 	if (pageNo <= 0) {
+	 		pageNo = 1;
+	 	}
+	 	
+	 	// 서비스단 호출(getMyLikedLectureList() 메서드 호출)
+		try {
+			resultMap = myPageService.getMyPageReportList(pageNo, userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		// 게시글 목록 가져오기
+		List<ReportVO> reportList = (List<ReportVO>) resultMap.get("reportList");
+		
+		// 게시글 자체를 바인딩
+		model.addAttribute("reportList", (List<ReportVO>) resultMap.get("reportList"));
 		// 페이징 정보를 바인딩
 		model.addAttribute("pagingInfo", (PagingInfo) resultMap.get("pagingInfo"));
 	}

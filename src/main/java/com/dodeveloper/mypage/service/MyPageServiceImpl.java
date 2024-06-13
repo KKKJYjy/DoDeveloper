@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dodeveloper.admin.vo.ReportVO;
 import com.dodeveloper.company.vodto.ScrapVO;
 import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.lecture.dao.LectureBoardDAO;
@@ -404,6 +405,66 @@ public class MyPageServiceImpl implements MyPageService {
 
         // 게시물의 총 갯수를 구해서 멤버 변수에 저장
         int totalPostLikeCnt = myPageDao.getMyPageLecBoardLikeListCnt(userId);
+
+        // 각각의 게시글 유형에 대한 총 게시물 수를 저장
+        pi.setTotalPostCnt(totalPostLikeCnt);
+
+        // 총 페이지 수 저장
+        pi.setTotalPageCnt();
+
+        // 보여주기 시작할 글의 rowIndex 번호 저장
+        pi.setStartRowIndex();
+
+        // 전체 페이지 블럭 갯수 저장
+        pi.setTotalPageBlockCnt();
+
+        // 현재 페이지가 속한 페이징 블럭 번호 저장
+        pi.setPageBlockOfCurrentPage();
+
+        // 현재 페이징 블럭 시작 페이지 번호 저장
+        pi.setStartNumOfCurrentPagingBlock();
+
+        // 현재 페이징 블럭 끝 페이지 번호 저장
+        pi.setEndNumOfCurrentPagingBlock();
+    }
+
+	@Override
+	public Map<String, Object> getMyPageReportList(int pageNo, String userId) throws Exception {
+		System.out.println(userId + "가 서비스단 : " + pageNo + "신고한 게시글 확인!");
+
+	    List<ReportVO> reportList = null;
+
+	    reportMakePagingInfo(pageNo, userId);
+	    reportList = myPageDao.getMyPageReport(userId, pi);
+	        
+	    System.out.println("마이페이지에서 " + userId + "가 신고한 게시글 : " + reportList.toString() + "확인");
+
+
+	    Map<String, Object> returnMap = new HashMap<String, Object>();
+	    returnMap.put("reportList", reportList);
+	    returnMap.put("pagingInfo", this.pi);
+
+	    System.out.println(pi);
+
+	    return returnMap;
+	}
+	
+    /**
+     * @methodName : reportMakePagingInfo
+     * @param : int pageNo - 보여줘야 할 페이지 번호
+     * @return : void
+     * @description : 페이징 처리 메서드 (마이페이지에서 검색기능 X)
+     */
+    private void reportMakePagingInfo(int pageNo, String userId) throws Exception {
+        // pageNo 값 설정
+        pi.setPageNo(pageNo);
+
+        // 페이지 당 보여줄 게시글의 갯수와 블럭당 페이지 갯수 설정
+        pi.setViewPostCntPerPage(5);
+        pi.setPageCntPerBlock(4);
+
+        // 게시물의 총 갯수를 구해서 멤버 변수에 저장
+        int totalPostLikeCnt = myPageDao.getMyPageReportCnt(userId);
 
         // 각각의 게시글 유형에 대한 총 게시물 수를 저장
         pi.setTotalPostCnt(totalPostLikeCnt);

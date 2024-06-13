@@ -130,5 +130,16 @@
 	<select id="getMyPageLecBoardLikeListCnt" resultType="int">
 		select count(*) from reply where replyer = #{userId} and bType = 1
 	</select>
+	
+	<!-- 유저가 신고한 게시글들의 갯수 -->
+	<select id="getMyPageReportCnt" resultType="int">
+		select count(*) from reportBoard where reporter = #{userId}
+	</select>
+	
+	<!-- 유저가 신고한 게시글들 select -->
+	<select id="getMyPageReport" resultType="com.dodeveloper.admin.vo.ReportVO">
+		select * from reportBoard where reporter = #{userId} order by reportNo desc 
+		limit #{startRowIndex}, #{viewPostCntPerPage}
+	</select>
 
 </mapper>

@@ -37,4 +37,8 @@ public interface MyPageService {
 
     // 유저가 강의 추천 게시판의 게시글에 좋아요 누른 게시글 불러오기 + 페이징
     Map<String, Object> getMyLikedLectureList(int pageNo, String userId) throws Exception;
+    
+    // 유저가 신고한 게시판의 게시글 불러오기 + 페이징
+    Map<String, Object> getMyPageReportList(int pageNo, String userId) throws Exception;
+    
 }

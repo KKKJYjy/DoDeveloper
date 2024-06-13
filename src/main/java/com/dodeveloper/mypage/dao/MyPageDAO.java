@@ -3,6 +3,7 @@ package com.dodeveloper.mypage.dao;
 import java.util.Collection;
 import java.util.List;
 
+import com.dodeveloper.admin.vo.ReportVO;
 import com.dodeveloper.company.vodto.ScrapVO;
 import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
@@ -43,28 +44,34 @@ public interface MyPageDAO {
 	//userId가 참여중인 스터디 모임글의 참여 신청 리스트 가져오기
 	List<StudyApplyVO> getMyjoinedStudyApplyList(String userId) throws Exception;
 	
-	// 유저가 강의 추천 게시판에 작성한 게시글 가져오기
-    List<LectureBoardVO> getMyPageLecBoardList(String userId, PagingInfo pi);
-    
-    // 유저가 강의 추천 게시판에 작성한 게시글의 글의 갯수 가져오기
+	// 유저가 강의 추천 게시판에 작성한 게시글의 글의 갯수 가져오기
     int getMyPageLecBoardListCnt(String userId) throws Exception;
-    
-    // 유저가 강의 추천 게시판의 게시글에 작성한 댓글 가져오기
-    List<ReplyVO> getMyPageLecBoardReplyList(String userId, PagingInfo pi);
+	
+	// 유저가 강의 추천 게시판에 작성한 게시글 가져오기
+    List<LectureBoardVO> getMyPageLecBoardList(String userId, PagingInfo pi) throws Exception;
     
     // 유저가 강의 추천 게시판의 게시글에 작성한 댓글의 갯수 가져오기
     int getMyPageLecBoardReplyListCnt(String userId) throws Exception;
     
-    // 유저가 강의 추천 게시판의 게시글 스크랩한 게시글 가져오기
-    List<ScrapVO> getMyPageLecBoardScrapList(String userId, PagingInfo pi);
+    // 유저가 강의 추천 게시판의 게시글에 작성한 댓글 가져오기
+    List<ReplyVO> getMyPageLecBoardReplyList(String userId, PagingInfo pi) throws Exception;
     
     // 유저가 강의 추천 게시판의 게시글 스크랩한 게시글의 갯수 가져오기
     int getMyPageLecBoardScrapListCnt(String userId) throws Exception;
     
-    // 유저가 강의 추천 게시판의 게시글에 좋아요 누른 게시글 가져오기
-    List<LectureLikeVO> getMyPageLecBoardLikeList(String userId, PagingInfo pi);
-	
+    // 유저가 강의 추천 게시판의 게시글 스크랩한 게시글 가져오기
+    List<ScrapVO> getMyPageLecBoardScrapList(String userId, PagingInfo pi) throws Exception;
+    
     // 유저가 강의 추천 게시판의 게시글에 좋아요 누른 게시글의 갯수 가져오기
     int getMyPageLecBoardLikeListCnt(String userId) throws Exception;
+    
+    // 유저가 강의 추천 게시판의 게시글에 좋아요 누른 게시글 가져오기
+    List<LectureLikeVO> getMyPageLecBoardLikeList(String userId, PagingInfo pi) throws Exception;
+	
+    // 유저가 게시판마다 신고한 게시글 갯수 가져오기
+    int getMyPageReportCnt(String userId) throws Exception;
+    
+    // 유저가 게시판마다 신고한 게시글 가져오기
+    List<ReportVO> getMyPageReport(String userId, PagingInfo pi) throws Exception;
     
 }
