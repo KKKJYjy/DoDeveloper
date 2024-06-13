@@ -452,7 +452,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 		return result;
 	}
 	
-
+	/**
 		* @author : yeonju
 		* @date : 2024. 6. 10.
 		* @return : List<LectureBoardVO>
