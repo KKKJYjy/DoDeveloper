@@ -177,8 +177,11 @@
 								<c:forEach var="company" items="${companyList }">
 									<li class="list-group-item ">
 										<div class="d-flex align-items-center">
-											<img src="${company.companyInfoImgLogo }"
-												class="object-fit-scale border rounded me-2 img-fluid" style="height: 60px;" />
+											<div>
+												<img src="${company.companyInfoImgLogo }"
+												class="object-fit-scale border rounded me-2 img-fluid" style="width: 60px;height: 60px;" />
+											</div>
+											
 											<div class="text-truncate mt-1" style="max-width: 100%;">
 												<div class="d-flex">
 													<p class="card-text me-2 text-dark-emphasis mb-1">${company.companyInfoLocation }</p>
