@@ -720,7 +720,7 @@ function dropMember() {
 								<div class="card-header">문의</div>
 									<div class="card-body">
 										<div class="btn-group">
-											<a href="/mypage/" class="btn btn-outline-secondary" aria-current="page">
+											<a href="/mypage/myQnAList" class="btn btn-outline-secondary" aria-current="page">
 												${sessionScope.loginMember.userId}님이 작성한 문의</a>
 									</div>
 								</div>

@@ -41,4 +41,7 @@ public interface MyPageService {
     // 유저가 신고한 게시판의 게시글 불러오기 + 페이징
     Map<String, Object> getMyPageReportList(int pageNo, String userId) throws Exception;
     
+    // 유저가 문의남긴 게시글 불러오기 + 페이징
+    Map<String, Object> getMyPageQnAList(int pageNo, String userId) throws Exception;
+    
 }

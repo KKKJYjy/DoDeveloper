@@ -141,5 +141,16 @@
 		select * from reportBoard where reporter = #{userId} order by reportNo desc 
 		limit #{startRowIndex}, #{viewPostCntPerPage}
 	</select>
+	
+	<!-- 유저가 문의한 게시글들의 갯수 -->
+	<select id="getMyPageQnACnt" resultType="int">
+		select count(*) from qnaBoard where qnaWriter = #{userId}
+	</select>
+	
+	<!-- 유저가 문의한 게시글들 select -->
+	<select id="getMyPageQnA" resultType="com.dodeveloper.admin.vo.QnaBoardVO">
+		select * from qnaBoard where qnaWriter = #{userId} order by no desc 
+		limit #{startRowIndex}, #{viewPostCntPerPage}
+	</select>
 
 </mapper>

@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.dodeveloper.admin.vo.QnaBoardVO;
 import com.dodeveloper.admin.vo.ReportVO;
 import com.dodeveloper.company.vodto.ScrapVO;
 import com.dodeveloper.etc.PagingInfo;
@@ -285,6 +286,24 @@ public class MyPageDAOImpl implements MyPageDAO {
 		params.put("viewPostCntPerPage", pi.getViewPostCntPerPage());
 		
 		return sqlSession.selectList(NS + ".getMyPageReport", params);
+	}
+
+	@Override
+	public int getMyPageQnACnt(String userId) throws Exception {
+
+		return sqlSession.selectOne(NS + ".getMyPageQnACnt", userId);
+	}
+
+	@Override
+	public List<QnaBoardVO> getMyPageQnA(String userId, PagingInfo pi) throws Exception {
+
+		Map<String, Object> params = new HashMap<String, Object>();
+		
+		params.put("userId", userId);
+		params.put("startRowIndex", pi.getStartRowIndex());
+		params.put("viewPostCntPerPage", pi.getViewPostCntPerPage());
+		
+		return sqlSession.selectList(NS + ".getMyPageQnA", params);
 	}
 	
 }

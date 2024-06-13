@@ -3,6 +3,7 @@ package com.dodeveloper.mypage.dao;
 import java.util.Collection;
 import java.util.List;
 
+import com.dodeveloper.admin.vo.QnaBoardVO;
 import com.dodeveloper.admin.vo.ReportVO;
 import com.dodeveloper.company.vodto.ScrapVO;
 import com.dodeveloper.etc.PagingInfo;
@@ -73,5 +74,11 @@ public interface MyPageDAO {
     
     // 유저가 게시판마다 신고한 게시글 가져오기
     List<ReportVO> getMyPageReport(String userId, PagingInfo pi) throws Exception;
+    
+    // 유저가 문의 남긴 게시글 갯수 가져오기
+    int getMyPageQnACnt(String userId) throws Exception;
+    
+    // 유저가 문의 남긴 게시글 가져오기
+    List<QnaBoardVO> getMyPageQnA(String userId, PagingInfo pi) throws Exception;
     
 }
