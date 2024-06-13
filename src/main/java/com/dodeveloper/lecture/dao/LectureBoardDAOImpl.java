@@ -315,6 +315,7 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 * @date : 2024.05.18
 	 * @param : int lecNo - 게시글 번호
 	 * @param : String user - 좋아요를 누르는 유저
+	 * @param : String lecLikeTitle - 좋아요를 누른 게시글 제목
 	 * @return : int
 	 * @description : 로그인 한 유저인 경우만 좋아요를 누를 수 있다. 유저가 하트를 눌렀을 때 좋아요 수가 1증가 -> ♥
 	 */
@@ -350,6 +351,7 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 * @date : 2024.05.21
 	 * @param : int lecNo - 게시글 번호
 	 * @param : String user - 좋아요를 눌렀다가 취소하려는 회원
+	 * @param : String lecLikeTitle - 좋아요 취소한 게시글 제목
 	 * @return : int
 	 * @description : 게시글에 좋아요 한 번 더 눌렀을 경우 취소처리하는 메서드 유저가 하트를 한번 더 눌렀을 경우 1감소 -> ♡
 	 */

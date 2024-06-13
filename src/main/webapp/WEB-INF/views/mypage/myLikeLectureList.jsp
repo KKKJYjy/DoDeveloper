@@ -92,7 +92,7 @@
 									</thead>
 									<tbody>
 										<tr onclick="location.href='/mypage/myLikeLectureList';">
-											<td>${lectureLike.lecLikeBoard}</td>
+											<td>${lectureLike.lecLikeTitle}</td>
 											<td>${lectureLike.lecLikeDate}</td>
 										</tr>
 									</tbody>

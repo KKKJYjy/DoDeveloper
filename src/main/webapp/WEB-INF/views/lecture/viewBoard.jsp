@@ -450,9 +450,9 @@ function cancelWriteReply() {
 // 좋아요 변수 초기값 설정
 let liked = false;
 
-// 좋아요 상태를 확인하기위해 아래의 함수(getLikeStatus)를 호출
+// 좋아요 상태를 확인하기 위해 페이지 로드 시 호출
 $(function() {
-    getLikeStatus();
+    getLikeStatus(); // 초기 좋아요 상태 확인
 });
 
 // 좋아요 상태를 확인하는 함수
@@ -462,27 +462,27 @@ function getLikeStatus() {
     let lecLikeTitle = '${lecBoard.lecTitle}'; // 게시글 제목
 
     $.ajax({
-        url: '/lecture/likeStatus', // 요청을 보낼 URL
-        type: 'get', // HTTP 요청 메서드 (GET)
+        url: '/lecture/likeStatus', // 좋아요 상태 확인 요청을 보낼 URL
+        type: 'get', // HTTP GET 메서드 사용
         data: {
-            lecNo: lecNo, // 게시글 번호
-            user: user, // 유저 정보
-            lecLikeTitle: lecLikeTitle // 게시글 제목
+            lecNo: lecNo, // 게시글 번호 전송
+            user: user, // 유저 정보 전송
+            lecLikeTitle: lecLikeTitle // 게시글 제목 전송
         },
         success: function(data) {
-            // 빈하트(좋아요 누르기 전)와 꽉찬하트(좋아요 누른 후)의 HTML 요소를 가져옴
+            // 빈하트(좋아요 누르기 전)와 꽉찬하트(좋아요 누른 후)의 HTML 요소 가져오기
             let heartIcon = document.getElementById("heartIcon");
             let fullHeartIcon = document.getElementById("fullHeartIcon");
 
-            // 받아온 데이터가 "success"이면 꽉찬하트를 표시, 아니면 빈하트를 표시
+            // 받아온 데이터가 "success"인 경우 꽉찬하트 표시, 아니면 빈하트 표시
             if (data === "success") {
                 heartIcon.style.display = "none"; // 빈하트 숨김
                 fullHeartIcon.style.display = "inline"; // 꽉찬하트 표시
-                liked = true; // 좋아요를 누른 상태
+                liked = true; // 좋아요를 누른 상태로 설정
             } else {
                 heartIcon.style.display = "inline"; // 빈하트 표시
                 fullHeartIcon.style.display = "none"; // 꽉찬하트 숨김
-                liked = false; // 좋아요를 누르지 않은 상태
+                liked = false; // 좋아요를 누르지 않은 상태로 설정
             }
         },
         error: function() {
@@ -491,52 +491,46 @@ function getLikeStatus() {
     });
 }
 
-// 하트 아이콘 클릭시 호출되는 함수(clickHeart)
+// 하트 아이콘 클릭 시 호출되는 함수(clickHeart)
 function clickHeart() {
     let lecNo = '${lecBoard.lecNo}'; // 게시글 번호
-    let user = preAuth(); // 로그인 한 유저만 좋아요 / 좋아요 취소 가능하도록
+    let user = '${sessionScope.loginMember.userId}'; // 로그인 한 유저의 정보
     let lecLikeTitle = '${lecBoard.lecTitle}'; // 게시글 제목
 
-    // 1) 게시글 번호, 좋아요 누를 유저를 likePost 객체에 담고
+    // 좋아요 또는 좋아요 취소 요청을 보낼 URL 설정 - 삼항 연산자 사용
+    let url = liked ? '/lecture/unLike' : '/lecture/like';
+
+    // 좋아요 또는 좋아요 취소 데이터 객체 설정
     let likePost = {
         "lecNo": lecNo,
         "user": user,
         "lecLikeTitle": lecLikeTitle
     };
+
     console.log(likePost);
-
-    // 좋아요/좋아요취소 url을 변수로 설정하고
-    let url;
-
-    // 설정한 url변수에
-    if (!liked) {
-        url = '/lecture/like'; // 좋아요를 누른 경우
-    } else {
-        url = '/lecture/unLike'; // 누른 좋아요를 취소하는 경우
-    }
-
+    
+    // AJAX 요청
     $.ajax({
-        url: url,
-        type: 'post',
-        // 2) ajax를 이용해서 데이터(likePost)를 문자열로 변환하여 넘겨준다.
-        data: JSON.stringify(likePost),
-        contentType: 'application/json', // 전송하는 데이터의 형식을 json으로 지정
+        url: url, // 요청 보낼 URL
+        type: 'post', // HTTP POST 메서드 사용
+        data: JSON.stringify(likePost), // 좋아요 데이터를 JSON 문자열로 변환하여 전송
+        contentType: 'application/json', // 전송하는 데이터의 형식을 JSON으로 설정
         success: function(data) {
             console.log('success:', data);
 
-            // 빈하트(좋아요 누르기 전)와 꽉찬하트(좋아요누른후)의 id값을 가져와서 변수로 지정
+            // 빈하트(좋아요 누르기 전)와 꽉찬하트(좋아요 누른 후)의 HTML 요소 가져오기
             let heartIcon = document.getElementById("heartIcon");
             let fullHeartIcon = document.getElementById("fullHeartIcon");
 
             if (!liked) {
-                // 좋아요를 누르는 경우
+                // 좋아요를 누른 경우
                 heartIcon.style.display = "none"; // 빈하트 숨김
-                fullHeartIcon.style.display = "inline"; // 꽉하트 표시
+                fullHeartIcon.style.display = "inline"; // 꽉찬하트 표시
                 console.log("좋아요 성공");
             } else {
-                // 좋아요를 눌렀던 경우 -> 좋아요 취소
+                // 좋아요를 취소한 경우
                 heartIcon.style.display = "inline"; // 빈하트 표시
-                fullHeartIcon.style.display = "none"; // 꽉하트 숨김
+                fullHeartIcon.style.display = "none"; // 꽉찬하트 숨김
                 console.log("좋아요 취소 성공");
             }
             liked = !liked; // 좋아요 상태(좋아요 <=> 좋아요 취소) 변경
@@ -919,9 +913,6 @@ function insertReport() {
 
 
 				</section>
-
-
-
 			</div>
 		</section>
 		

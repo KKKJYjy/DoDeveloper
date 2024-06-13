@@ -18,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -323,7 +322,7 @@ public class LectureBoardController {
 	 * @description : 게시글에 좋아요(눌려있는지/안눌려있는지) 체크하는 메서드
 	 */
 	@GetMapping("/likeStatus")
-	public @ResponseBody String getLikeStatus(int lecNo, String user, String lecLikeTitle) {
+	public @ResponseBody String getLikeStatus(int lecNo, String user) {
 		
 		try {
 			if (lService.checkLikeStatus(lecNo, user)) {
@@ -347,15 +346,17 @@ public class LectureBoardController {
 	 * @date : 2024.05.18
 	 * @param : @RequestBody Map<String, String> likeRequest
 	 * json 데이터를 자바의 Map 형태로 매핑(lecNo가 int형이라 넘길수가 없기에 Map 형태로 String으로 만들어서 넘겼다.)
+	 * @param : String lecLikeTitle - 좋아요를 누른 게시글 제목
 	 * @return : ResponseEntity<String> - 문자열을 응답 본문으로 가지는 객체 / 그 중 Stirng 타입(문자열)으로 응답
 	 * @description : 로그인 한 유저인 경우만 좋아요를 누를 수 있다.
 	 * 유저가 하트를 눌렀을 때 좋아요 수가 1증가 -> ♥
 	 */
 	@PostMapping("/like")
-	public ResponseEntity<String> likePost(@RequestBody Map<String, String> likeRequest, String lecLikeTitle) {
+	public ResponseEntity<String> likePost(@RequestBody Map<String, String> likeRequest) {
 	    
 	    int lecNo = Integer.parseInt(likeRequest.get("lecNo"));
 	    String user = likeRequest.get("user");
+	    String lecLikeTitle = likeRequest.get("lecLikeTitle"); // 매개변수에서 lecLikeTitle 추출
 	    
 	    logger.info(lecNo + "번 글에 " + user + "가 좋아요를 눌렀습니다! 제목: " + lecLikeTitle);
 	    
@@ -380,6 +381,7 @@ public class LectureBoardController {
 	 * @date : 2024.05.22
 	 * @param : @RequestBody Map<String, String> likeRequest
 	 * json 데이터를 자바의 Map 형태로 매핑(lecNo가 int형이라 넘길수가 없기에 Map 형태로 String으로 만들어서 넘겼다.)
+	 * @param : String lecLikeTitle - 좋아요를 누른 게시글 제목
 	 * @return : ResponseEntity<String> - 문자열을 응답 본문으로 가지는 객체 / 그 중 Stirng 타입(문자열)으로 응답
 	 * @description : 로그인 한 유저인 경우만 좋아요를 누를 수 있다.
 	 * 유저가 하트를 한번 더 눌렀을 경우 1감소 -> ♡
@@ -390,7 +392,7 @@ public class LectureBoardController {
 	    int lecNo = Integer.parseInt(unlikeRequest.get("lecNo"));
 	    String user = unlikeRequest.get("user");
 	    
-	    logger.info(lecNo + "번 글에 " + user + "가 좋아요를 취소했습니다! 제목: " + lecLikeTitle);
+	    logger.info(lecNo + "번 글에 " + user + "가 좋아요를 취소했습니다!");
 
 	    ResponseEntity<String> result = null; // 초기값 설정
 

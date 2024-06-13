@@ -333,6 +333,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	 * @date : 2024.05.18
 	 * @param : int lecNo - 게시글 번호
 	 * @param : String user - 좋아요를 누르는 유저
+	 * @param : String lecLikeTitle - 좋아요를 누른 게시글 제목
 	 * @return : boolean
 	 * @description : 로그인 한 유저인 경우만 좋아요를 누를 수 있다.
      * 유저가 하트를 눌렀을 때 좋아요 수가 1증가 -> ♥
@@ -360,6 +361,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	 * @date : 2024.05.21
 	 * @param : int lecNo - 게시글 번호
 	 * @param : String user - 좋아요를 취소하는 유저
+	 * @param : String lecLikeTitle - 좋아요 취소한 게시글 제목
 	 * @return : boolean
 	 * @description : 로그인 한 유저 + 좋아요를 눌렀던 유저일 경우만 좋아요를 취소할 수 있다.
      * 유저가 하트를 한번 더 눌렀을 경우 1감소 -> ♡
@@ -374,7 +376,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 		if (lDao.selectLikeBoard(lecNo, user) == 1) {
 			lDao.deleteLikeBoard(lecNo, user, lecLikeTitle); // 눌렀던 좋아요를 취소한다.
 			lDao.updateLikeDownCount(lecNo); // 좋아요 수를 1 감소
-			System.out.println("서비스단 : " + lecNo + "번 글에 " + user + "가 좋아요를 취소했습니다!" + lecLikeTitle);
+			System.out.println("서비스단 : " + lecNo + "번 글에 " + user + "가 좋아요를 취소했습니다!");
 			result = true;
 		}
 		
