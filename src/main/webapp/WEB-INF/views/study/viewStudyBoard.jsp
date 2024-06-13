@@ -508,7 +508,7 @@
 		
 		
 	function openReport() {
-		alert("openReport");
+		//alert("openReport");
 		
 		let list = `${studyList}`;
 		let user = '${sessionScope.loginMember.userId}';
@@ -765,10 +765,16 @@ i {
 								</button>
 							</div>
 
-							<div class="col-md-11">
+							<div class="col-md-10">
 								<input type="button" class="btn btn-secondary" value="참여신청" onclick="return isLogin();"
 									style="width: 100%" data-bs-toggle="modal"
 									data-bs-target="#exampleModal" />
+							</div>
+							<!-- 로그인된 회원이 게시글 신고하는 버튼 추가함 (문전일) -->
+							<div class="col-md-1">							
+								<button type="button" class="btn btn-outline-secondary"
+									data-bs-toggle="modal" data-bs-target="#myModal"
+									onclick="openReport()" style="width: 100%">신고</button>
 							</div>
 						</div>
 					</c:if>
@@ -793,10 +799,7 @@ i {
 											class="btn btn-secondary ms-3 p-3 saveReply">댓글 저장</button>
 									</div>
 
-									<!-- 로그인된 회원이 게시글 신고하는 버튼 추가함 (문전일) -->
-									<button type="button" class="btn btn-primary"
-										data-bs-toggle="modal" data-bs-target="#myModal"
-										onclick="openReport()">신고</button>
+									
 								</c:when>
 								<c:otherwise>
 									<div class="text-light" style="width: 100px;">
@@ -870,49 +873,43 @@ i {
 						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 					</div>
 
-					<!-- Modal body
-					 -->
-
-					
-
+					<!-- Modal body -->
+					<div class="modal-body">
 						<label for="title" class="form-label">신고할 게시판 : </label>
 						<input type="text" class="form-control" id=""
-						value="${studyList.stuTitle}" name="" readonly="readonly"/>
-
-
-
-
-					 <label for="title" class="form-label">게시글 작성자 : </label> <input
-						type="text" class="form-control" id="writer"
-						placeholder="게시글 작성자를 입력하세요..." name="writer" /> <label
-						for="title" class="form-label">신고글 작성자 : </label> <input
-						type="text" class="form-control" id="reporter"
-						placeholder="신고글 작성자를 입력하세요..." name="reporter" readonly="readonly"/>
-
-
-
-
-					<div class="mb-3 mt-3">
-						<label for="title" class="form-label">신고사유 : </label> <input
-							type="text" class="form-control" id="reportReason"
-							placeholder="신고 사유를 입력하세요..." name="reportReason">
-					</div>
-
-
-					<div>
-						<input type="hidden" id="btypeNo" name="btypeNo" value="2">
-					</div>
-					<div>
-						<input type="hidden" id="boardNo" name="boardNo">
+							value="${studyList.stuTitle}" name="" readonly="readonly"/>
+	
+	
+						<label for="title" class="form-label">게시글 작성자 : </label> 
+						<input type="text" class="form-control" id="writer"
+							placeholder="게시글 작성자를 입력하세요..." name="writer" />
+							 
+						<label for="title" class="form-label">신고글 작성자 : </label> 
+						<input type="text" class="form-control" id="reporter"
+							placeholder="신고글 작성자를 입력하세요..." name="reporter" readonly="readonly"/>
+	
+						<div class="mb-3 mt-3">
+							<label for="title" class="form-label">신고사유 : </label> <input
+								type="text" class="form-control" id="reportReason"
+								placeholder="신고 사유를 입력하세요..." name="reportReason">
+						</div>
+	
+	
+						<div>
+							<input type="hidden" id="btypeNo" name="btypeNo" value="2">
+						</div>
+						<div>
+							<input type="hidden" id="boardNo" name="boardNo">
+						</div>
 					</div>
 
 
 					<!-- Modal footer -->
 					<div class="modal-footer">
-						<button type="button" class="btn btn-warning"
-							onclick="insertReport()">등록</button>
+						<button type="button" class="btn btn-outline-danger"
+							data-bs-dismiss="modal">취소</button>
 						<button type="button" class="btn btn-danger"
-							data-bs-dismiss="modal">Close</button>
+							onclick="insertReport()">신고하기</button>
 					</div>
 
 				</div>
