@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dodeveloper.admin.dao.AdminBoardDAO;
@@ -557,13 +559,23 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	}
 
 	@Override
-	public NoticeDTO getNotcBoardNo(int boardNo) throws Exception {
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+	public Map<String, Object> getNotcBoardNo(int boardNo, String user) throws Exception {
 
 		System.out.println("서비스단 : 공지사항 상세페이지");
 
+		if (bDao.selectDiffNotc(boardNo, user) == -1) {
+			bDao.notcReadCnt(boardNo);
+			bDao.insertReadCntProcess(boardNo, user);
+		}
+		
 		NoticeDTO notice = bDao.selectNoticeBoardNo(boardNo);
 
-		return notice;
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		result.put("notice", notice);
+		
+		return result;
 	}
 
 	@Override
@@ -698,12 +710,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	}
 	
 	
-	@Override
-	public NoticeDTO notcReadCnt(int boardNo) throws Exception {
-		bDao.notcReadCnt(boardNo);
-		
-		return notcReadCnt(boardNo);
-	}
+	
 	
 	
 	

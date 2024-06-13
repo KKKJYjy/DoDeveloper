@@ -395,9 +395,9 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 	
 	
 	@Override
-	public void notcReadCnt(int boardNo) throws Exception {
+	public int notcReadCnt(int boardNo) throws Exception {
 		
-		ses.update(ns + ".notcReadCntBoard", boardNo);
+		return ses.update(ns + ".notcReadCntBoard", boardNo);
 	}
 	
 	
@@ -445,6 +445,30 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 	@Override
 	public List<NoticeDTO> getNoticeTop5() throws Exception {
 		return ses.selectList(ns + ".getNoticeTop5");
+	}
+
+	
+	
+	@Override
+	public int selectDiffNotc(int boardNo, String user) throws Exception {
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+
+		params.put("user", user);
+		params.put("boardNo", boardNo);
+
+		return ses.selectOne(ns + ".getDate", params);
+	}
+
+	@Override
+	public int insertReadCntProcess(int boardNo, String user) throws Exception {
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+
+		params.put("user", user);
+		params.put("boardNo", boardNo);
+
+		return ses.insert(ns + ".insertReadCntProcess", params);
 	}
 
 	
