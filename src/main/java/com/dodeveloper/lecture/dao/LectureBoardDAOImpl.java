@@ -464,6 +464,7 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 		return ses.update(ns + ".updateDownScrap", lecNo);
   }
 
+	/**
 	 * @author : yeonju
 	 * @date : 2024. 6. 10.
 	 * @return : List<LectureBoardVO>
