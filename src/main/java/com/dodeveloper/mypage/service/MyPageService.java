@@ -3,6 +3,9 @@ package com.dodeveloper.mypage.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.dodeveloper.admin.vo.ReportVO;
 import com.dodeveloper.mypage.dto.ChangePwdDTO;
 import com.dodeveloper.mypage.dto.ProfileDTO;
 import com.dodeveloper.mypage.vo.ProfileVO;
@@ -43,5 +46,8 @@ public interface MyPageService {
     
     // 유저가 문의남긴 게시글 불러오기 + 페이징
     Map<String, Object> getMyPageQnAList(int pageNo, String userId) throws Exception;
+
+    // 마이페이지의 신고 게시글 -> 게시판마다의 유저가 신고한 게시글로 이동
+    List<ReportVO> getReportNO(int btypeNo, int reportNo) throws Exception;
     
 }

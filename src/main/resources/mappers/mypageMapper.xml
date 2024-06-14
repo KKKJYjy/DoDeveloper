@@ -152,5 +152,11 @@
 		select * from qnaBoard where qnaWriter = #{userId} order by no desc 
 		limit #{startRowIndex}, #{viewPostCntPerPage}
 	</select>
+	
+	<!-- 마이페이지의 신고 게시글 -> 게시판마다의 유저가 신고한 게시글로 이동 -->
+	<select id="getMyReportListGo" resultType="com.dodeveloper.admin.vo.ReportVO">
+		select rb.*, lb.* from reportBoard rb left join lectureBoard lb on rb.reportNo = lb.lecNo
+		where rb.btypeNo = #{btypeNo} and rb.reportNo = #{reportNo}
+	</select>
 
 </mapper>

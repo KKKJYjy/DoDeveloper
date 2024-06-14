@@ -79,8 +79,8 @@
 				</div>
 
 
-					<c:forEach var="report" items="${reportList}">
-						<div class="col-md mb-2 lecture">
+				<c:forEach var="report" items="${reportList}">
+					<div class="col-md mb-2 lecture">
 						<div class="card mb-3">
 							<div class="card-body">
 								<table class="table">
@@ -93,7 +93,8 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr onclick="location.href='/mypage/myReportList';">
+										<tr
+											onclick="location.href='/mypage/goMyReportList?btypeNo=${report.btypeNo}&reportNo=${report.reportNo}';">
 											<td>${report.category }</td>
 											<td>${report.writer }</td>
 											<td>${report.reportReason }</td>
@@ -106,26 +107,26 @@
 					</div>
 				</c:forEach>
 
-					<!-- 페이징 -->
-					<!-- 여기서 사용한 쿼리스트링은 페이징 다음 페이지로 넘어갔을 때 조건을 유지하기 위해서 사용한 것 -->
-					<ul class="pagination">
-						<c:if test="${param.pageNo > 1}">
-							<li class="page-item "><a class="page-link"
-								href="/mypage/myReportList?pageNo=${param.pageNo -1 }">Previous</a></li>
-						</c:if>
-						<c:forEach var="i"
-							begin="${pagingInfo.startNumOfCurrentPagingBlock }"
-							end="${pagingInfo.endNumOfCurrentPagingBlock }" step="1">
-							<li class="page-item " id="${i }"><a class="page-link"
-								href="/mypage/myReportList?pageNo=${i }">${i }</a></li>
-						</c:forEach>
-						<c:if test="${param.pageNo < pagingInfo.totalPageCnt}">
-							<li class="page-item "><a class="page-link"
-								href="/mypage/myReportList?pageNo=${param.pageNo +1 }">Next</a></li>
-						</c:if>
-					</ul>
+				<!-- 페이징 -->
+				<!-- 여기서 사용한 쿼리스트링은 페이징 다음 페이지로 넘어갔을 때 조건을 유지하기 위해서 사용한 것 -->
+				<ul class="pagination">
+					<c:if test="${param.pageNo > 1}">
+						<li class="page-item "><a class="page-link"
+							href="/mypage/myReportList?pageNo=${param.pageNo -1 }">Previous</a></li>
+					</c:if>
+					<c:forEach var="i"
+						begin="${pagingInfo.startNumOfCurrentPagingBlock }"
+						end="${pagingInfo.endNumOfCurrentPagingBlock }" step="1">
+						<li class="page-item " id="${i }"><a class="page-link"
+							href="/mypage/myReportList?pageNo=${i }">${i }</a></li>
+					</c:forEach>
+					<c:if test="${param.pageNo < pagingInfo.totalPageCnt}">
+						<li class="page-item "><a class="page-link"
+							href="/mypage/myReportList?pageNo=${param.pageNo +1 }">Next</a></li>
+					</c:if>
+				</ul>
 
-				</div>
+			</div>
 
 
 

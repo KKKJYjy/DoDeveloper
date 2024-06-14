@@ -9,6 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.dodeveloper.admin.vo.QnaBoardVO;
 import com.dodeveloper.admin.vo.ReportVO;
@@ -562,4 +567,21 @@ public class MyPageServiceImpl implements MyPageService {
         pi.setEndNumOfCurrentPagingBlock();
 	}
 	
+    /**
+     * @methodName : getReportNO
+     * @author : kde
+     * @date : 2024.06.14
+     * @param : int btypeNo - 게시판 구분
+     * @param : int reportNo - 게시글 번호
+     * @return : List<ReportVO>
+     * @description : 마이페이지의 신고 게시글 -> 게시판마다의 유저가 신고한 게시글로 이동
+     */
+	@Override
+    public List<ReportVO> getReportNO(int btypeNo, int reportNo) throws Exception {
+		System.out.println("서비스단 : 마이페이지에서 " + btypeNo + " 게시판의 " + reportNo + "번 신고 상세글로 이동!");
+		
+		List<ReportVO> reportList = (List<ReportVO>)myPageDao.getMyReportListGo(btypeNo, reportNo);
+		
+        return reportList;
+    }
 }

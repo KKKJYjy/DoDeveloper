@@ -323,4 +323,23 @@ public class MyPageDAOImpl implements MyPageDAO {
 		return sqlSession.selectList(NS + ".getMyPageQnA", params);
 	}
 	
+    /**
+     * @methodName : getMyReportListGo
+     * @author : kde
+     * @date : 2024.06.14
+     * @param : int btypeNo - 게시판 구분
+     * @param : int reportNo - 게시글 번호
+     * @return : List<ReportVO>
+     * @description : 마이페이지의 신고 게시글 -> 게시판마다의 유저가 신고한 게시글로 이동
+     */
+    public List<ReportVO> getMyReportListGo(int btypeNo, int reportNo) throws Exception {
+    	
+        Map<String, Object> params = new HashMap<>();
+        
+        params.put("btypeNo", btypeNo);
+        params.put("reportNo", reportNo);
+        
+        return sqlSession.selectList(NS + ".getMyReportListGo", params);
+    }
+	
 }

@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.dodeveloper.admin.vo.QnaBoardVO;
 import com.dodeveloper.admin.vo.ReportVO;
@@ -579,5 +580,42 @@ public class MyPageController {
 		// 페이징 정보를 바인딩
 		model.addAttribute("pagingInfo", (PagingInfo) resultMap.get("pagingInfo"));
 	}
+	
+	
+    /**
+     * @methodName : goReportList
+     * @author : kde
+     * @date : 2024.06.14
+     * @param : @RequestParam("btypeNo") int btypeNo
+     * @param : @RequestParam("reportNo") int reportNo
+     * @return : RedirectView
+     * @description : 마이페이지의 신고 게시글 -> 게시판마다의 유저가 신고한 게시글로 이동
+     */
+    @GetMapping("/goMyReportList")
+    public RedirectView goReportList(@RequestParam("btypeNo") int btypeNo, @RequestParam("reportNo") int reportNo) throws Exception {
+        
+    	// btypeNo와 boardNo를 사용하여 게시글 정보를 가져옴.
+        List<ReportVO> board = myPageService.getReportNO(btypeNo, reportNo);
 
+        // btypeNo에 따라 다른 상세 페이지 URL을 생성.
+        String redirectUrl = "";
+        switch (btypeNo) {
+            case 1:
+                redirectUrl = "/lecture/viewBoard?lecNo=" + reportNo;
+                break;
+            case 2:
+                redirectUrl = "/study/viewStudyBoard?stuNo=" + reportNo;
+                break;
+            case 4:
+                redirectUrl = "/algorithm/algDetail?boardNo=" + reportNo;
+                break;
+            default:
+                redirectUrl = "/errorPage"; // 예외 처리
+                break;
+        }
+
+        // 리디렉션 URL을 반환합니다.
+        return new RedirectView(redirectUrl);
+    }
+	
 }

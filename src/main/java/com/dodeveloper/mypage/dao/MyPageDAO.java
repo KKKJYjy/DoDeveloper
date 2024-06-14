@@ -81,4 +81,7 @@ public interface MyPageDAO {
     // 유저가 문의 남긴 게시글 가져오기
     List<QnaBoardVO> getMyPageQnA(String userId, PagingInfo pi) throws Exception;
     
+    // 마이페이지의 신고 게시글 -> 게시판마다의 유저가 신고한 게시글로 이동
+    List<ReportVO> getMyReportListGo(int btypeNo, int reportNo) throws Exception;
+    
 }
