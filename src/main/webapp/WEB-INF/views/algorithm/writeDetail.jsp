@@ -114,10 +114,15 @@
 					
 
 
+					<!--  event.keyCode == 9 (tab 키를 누르면 텍스트 박스에서 tab 이 적욕되도록 함 -->
 					<div class="mb-3 mt-3">
-						<label for="title" class="form-label">알고리즘 상세 : </label> <input
-							type="text" class="form-control" id="algDetailContent"
-							placeholder=" 입력하세요..." name="algDetailContent" />
+
+						<label for="title" class="form-label">게시글 내용 : </label>
+						<textarea
+							onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}"
+							class="form-control" value="${algDetail[0].algDetailContent }"
+							id="algDetailContent" placeholder="입력하세요..."
+							name="algDetailContent"></</textarea>
 					</div>
 					
 					<div class="mb-3 mt-3">

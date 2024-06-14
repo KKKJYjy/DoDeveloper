@@ -38,6 +38,7 @@
 
 <!-- Template Main CSS File -->
 <link href="/resources/assets/css/main.css" rel="stylesheet" />
+<link href="/resources/assets/css/mypage/myProfile.css" rel="stylesheet" />
 
 <!-- =======================================================
   * Template Name: Append
