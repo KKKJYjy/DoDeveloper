@@ -30,6 +30,9 @@ public interface AdminBoardDAO {
 
 	// 공지사항 조회 메서드
 	List<NoticeDTO> selectListNotcBoard(PagingInfo pi) throws Exception;
+	
+	// 공지사항 조회순 메서드
+	List<NoticeDTO> selectListViewNotcBoard(PagingInfo pi) throws Exception;
 
 	// 스터디게시글 전체 갯수 구할 수 있는 메서드
 	int selectTotalBoardCnt() throws Exception;

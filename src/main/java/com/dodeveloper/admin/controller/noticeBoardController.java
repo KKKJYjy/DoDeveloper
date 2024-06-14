@@ -37,7 +37,7 @@ public class noticeBoardController {
 
 	@RequestMapping(value = "/listAll", method = RequestMethod.GET)
 	public void noticeBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
-			SearchCriteriaDTO sc) throws Exception {
+			@RequestParam(defaultValue = "date") String notc, SearchCriteriaDTO sc) throws Exception {
 		logger.info("list 페이지 호출");
 
 		Map<String, Object> returnMap = null;
@@ -47,10 +47,14 @@ public class noticeBoardController {
 		if (pageNo <= 0) {
 			pageNo = 1;
 		}
-		
-		
 
-		returnMap = bService.getlistNotcBoard(pageNo, sc);
+		if (notc.equals("date")) {
+			returnMap = bService.getlistNotcBoard(pageNo, sc);
+		} else {
+			returnMap = bService.getlistViewNotcBoard(pageNo, sc);
+		}
+
+		// returnMap = bService.getlistNotcBoard(pageNo, sc);
 		model.addAttribute("notcBoardList", (List<NoticeDTO>) returnMap.get("notcBoardList"));
 		model.addAttribute("pagingInfo", (PagingInfo) returnMap.get("pagingInfo"));
 
@@ -59,11 +63,11 @@ public class noticeBoardController {
 	}
 
 	@RequestMapping(value = "/viewBoard", method = RequestMethod.GET)
-	public ModelAndView noticeDetail(Model model, @RequestParam("boardNo") int boardNo, HttpServletRequest req, HttpServletResponse resp,
-			ModelAndView mav, HttpSession ses) throws Exception {
+	public ModelAndView noticeDetail(Model model, @RequestParam("boardNo") int boardNo, HttpServletRequest req,
+			HttpServletResponse resp, ModelAndView mav, HttpSession ses) throws Exception {
 
 		logger.info(boardNo + "번글 조회");
-		
+
 		String user = null;
 
 		if (ses.getAttribute("loginMember") != null) {
@@ -75,25 +79,22 @@ public class noticeBoardController {
 		} else {
 			user = cookieExist(req, "rses");
 		}
-		
+
 		Map<String, Object> result = bService.getNotcBoardNo(boardNo, user);
 
 		mav.addObject("notice", (NoticeDTO) result.get("notice"));
 		mav.setViewName("/notice/viewBoard");
 
-		
 		// model.addAttribute("notice", notice);
 		return mav;
 	}
-	
-	
+
 	private void saveCookie(HttpServletResponse resp, String sesId) {
 		Cookie sessionCookie = new Cookie("rses", sesId);
 		sessionCookie.setMaxAge(60 * 60 * 24);
 		resp.addCookie(sessionCookie);
 	}
-	
-	
+
 	private String cookieExist(HttpServletRequest req, String cookieName) {
 		String result = null;
 

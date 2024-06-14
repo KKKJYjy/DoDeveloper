@@ -56,10 +56,10 @@
 	function writeBtn() {
 		let user = '${sessionScope.loginMember.userId}'
 		let admin = '${sessionScope.loginMember.isAdmin}'
-		if (user === ''){
+		if (user === '') {
 			alert('로그인 후 이용해주세요');
 			window.location.href = '/member/login';
-		} else if (admin === 'N'){
+		} else if (admin === 'N') {
 			alert('작성 권한이 없습니다');
 		} else {
 			window.location.href = '/admin/notice';
@@ -74,13 +74,20 @@
 		<section id="notice" class="basic">
 			<div class="container">
 
+				<form action="/notice/listAll" method="get">
+					<select name="notc" onchange="submit()">
+						<option value="date" selected="selected">최신순</option>
+						<option value="view">조회수</option>
+					</select>
+				</form>
+				
 				<table class="table table-dark table-hover">
 
 
 
 					<thead>
 						<tr>
-							
+
 							<th>작성자</th>
 							<th>제목</th>
 							<th>작성일</th>
@@ -93,7 +100,7 @@
 
 							<tr id="table"
 								onclick="location.href = '/notice/viewBoard?boardNo=${board.boardNo}';">
-								
+
 								<td>${board.writer}</td>
 								<td>${board.title }</td>
 								<td>${board.postDate }</td>
@@ -105,29 +112,30 @@
 						</c:forEach>
 					</tbody>
 				</table>
-				
-				<button type="button" id="openModalBtn" class="btn btn-secondary openModalBtn" onclick="writeBtn();">글쓰기</button>
-				
+
+				<button type="button" id="openModalBtn"
+					class="btn btn-secondary openModalBtn" onclick="writeBtn();">글쓰기</button>
+
 				<ul class="pagination">
 					<c:if test="${param.pageNo > 1 }">
 						<li class="page-item"><a class="page-link"
-							href="/notice/listAll?pageNo=${param.pageNo -1 }&searchType=${param.searchType}&searchValue=${param.searchValue}">Previous</a></li>
+							href="/notice/listAll?pageNo=${param.pageNo -1 }">Previous</a></li>
 
 					</c:if>
 					<c:forEach var="i"
 						begin="${pagingInfo.startNumOfCurrentPagingBlock }"
 						end="${pagingInfo.endNumOfCurrentPagingBlock }" step="1">
 						<li class="page-item" id="${i }"><a class="page-link"
-							href="/notice/listAll?pageNo=${i }&searchType=${param.searchType}&searchValue=${param.searchValue}">${i }</a></li>
+							href="/notice/listAll?pageNo=${i }">${i }</a></li>
 					</c:forEach>
 
 					<c:if test="${param.pageNo < pagingInfo.totalPageCnt }">
 						<li class="page-item"><a class="page-link"
-							href="/notice/listAll?pageNo=${param.pageNo +1 }&searchType=${param.searchType}&searchValue=${param.searchValue}">Next</a></li>
+							href="/notice/listAll?pageNo=${param.pageNo +1 }">Next</a></li>
 					</c:if>
 				</ul>
-				
-				
+
+
 
 
 			</div>

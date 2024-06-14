@@ -32,6 +32,10 @@ public interface AdminBoardService {
 	// 공지사항 조회하는 메서드
 		Map<String, Object> getlistNotcBoard(int pageNo, SearchCriteriaDTO sc) throws Exception;
 		
+	// 공지사항 조회순
+		Map<String, Object> getlistViewNotcBoard(int pageNo, SearchCriteriaDTO sc) throws Exception;
+		
+		
 	// 스터디 게시물 삭체 처리하는 메서드
 	//	boolean studeleteBoard(int stuNo) throws Exception;
 		

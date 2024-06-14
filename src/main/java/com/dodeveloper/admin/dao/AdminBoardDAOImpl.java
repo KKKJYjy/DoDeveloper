@@ -84,6 +84,19 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 	}
 	
 	
+	
+	@Override
+	public List<NoticeDTO> selectListViewNotcBoard(PagingInfo pi) throws Exception {
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("startRowIndex", pi.getStartRowIndex());
+		params.put("viewPostCntPerPage", pi.getViewPostCntPerPage());
+		
+		return ses.selectList(ns + ".selectViewNotc", params);
+	}
+
+	
+	
 
 	@Override
 	public int selectTotalBoardCnt() throws Exception {
@@ -471,6 +484,7 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 		return ses.insert(ns + ".insertReadCntProcess", params);
 	}
 
+	
 	
 
 	

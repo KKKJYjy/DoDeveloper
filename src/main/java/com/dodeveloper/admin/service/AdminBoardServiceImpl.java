@@ -469,6 +469,34 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 
 		return returnMap;
 	}
+	
+	
+	@Override
+	public Map<String, Object> getlistViewNotcBoard(int pageNo, SearchCriteriaDTO sc) throws Exception {
+		
+		System.out.println("서비스단 : 공지사항 조회순");
+		
+		List<NoticeDTO> notcBoardList = null;
+
+		if (sc.getSearchType() != null && sc.getSearchValue() != null) {
+			makeNotcPagingInfo(pageNo, sc);
+			notcBoardList = bDao.selectNotcBoardListSc(sc, pi);
+		} else {
+			makeNotcPagingInfo(pageNo);
+			notcBoardList = bDao.selectListViewNotcBoard(pi);
+		}
+
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		returnMap.put("notcBoardList", notcBoardList);
+		returnMap.put("pagingInfo", this.pi);
+
+		return returnMap;
+		
+	}
+
+	
+
+	
 
 //	@Override
 //	public boolean studeleteBoard(int stuNo) throws Exception {
@@ -764,6 +792,9 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 
 		return false;
 	}
+
+	
+	
 
 	
 }
