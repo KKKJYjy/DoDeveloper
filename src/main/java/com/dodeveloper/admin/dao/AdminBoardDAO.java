@@ -147,8 +147,13 @@ public interface AdminBoardDAO {
 	List<AdminReviewBoardVO> selectDiffRev() throws Exception;
 	
 	// 공지사항 조회수
-	void notcReadCnt(int boardNo) throws Exception;
+	int notcReadCnt(int boardNo) throws Exception;
 	
+	// 공지사항 글을 언제 읽었는지
+	int selectDiffNotc(int boardNo, String user) throws Exception;
+	
+	// ?글을 유저가 조회했다는 이력 기록
+	int insertReadCntProcess(int boardNo, String user) throws Exception;
 	
 	// 패널티를 증가 시키며, 불량회원 테이블에 insert
 	int insertPenalty(String deleteReason, String userId) throws Exception;
