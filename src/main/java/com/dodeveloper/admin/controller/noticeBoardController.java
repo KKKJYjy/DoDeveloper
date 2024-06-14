@@ -57,7 +57,6 @@ public class noticeBoardController {
 		
 
 		model.addAttribute("notice", notice);
-		
 	}
 
 }
