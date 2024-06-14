@@ -120,7 +120,7 @@
 
 
 		<interceptor>
-			<mapping path="/algorithm/writeDetailPOST" />
+			
 			<mapping path="/algorithm/modifyAlgDetail" />
 			<mapping path="/algorithm/removeAlgDetail" />
 			<beans:ref bean="testInterceptor" />

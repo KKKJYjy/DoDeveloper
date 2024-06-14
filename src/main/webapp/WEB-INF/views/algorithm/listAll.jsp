@@ -206,6 +206,7 @@ a {
             padding-bottom: 0px;
             box-shadow: 0 0px 24px 0 rgb(0 0 0 / 6%), 0 1px 0px 0 rgb(0 0 0 / 2%);
             color: black;
+            margin-top: 40px;
         }
 
         .sub_menu {
@@ -333,7 +334,7 @@ a {
 					</div>
 				</div>
 
-				<div>${algBoardList}</div>
+				
 
 
 
@@ -353,7 +354,9 @@ a {
 				<tbody>
 						<c:forEach var="alg" items="${algBoardList}">
 							<tr>
-								<td style="color: black;">${alg.title}</td>
+								
+								<td style="color: black;"><a href="/algorithm/algDetail?boardNo=${alg.boardNo}">${alg.title}</a></td>
+								
 								<td>Matman</td>
 								<td>(713) 123-8965</td>
 								<td><a href="mailto:jmatman@stewart.com">jmatman@stewart.com</a></td>

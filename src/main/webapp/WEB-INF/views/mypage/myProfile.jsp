@@ -706,7 +706,7 @@ function dropMember() {
 								<div class="card-header">알고리즘</div>
 									<div class="card-body">
 										<div class="btn-group">
-											<a href="/mypage/" class="btn btn-outline-secondary" aria-current="page">
+											<a href="/mypage/myAlgList" class="btn btn-outline-secondary" aria-current="page">
 												${sessionScope.loginMember.userId}님이 작성한 게시글</a>
 											<a href="/mypage/" class="btn btn-outline-secondary">
 												${sessionScope.loginMember.userId}님이 스크랩 한 게시글</a>

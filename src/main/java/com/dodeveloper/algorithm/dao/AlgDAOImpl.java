@@ -39,6 +39,12 @@ public class AlgDAOImpl implements AlgDAO {
 	}
 
 	@Override
+	public List<AlgDetailDTO> selectAlgDetail(String writer) {
+	    // TODO Auto-generated method stub
+	    return ses.selectList(ns+".selectAlgDetailByWriter", writer);
+	}
+	
+	@Override
 	public int insertAlgBoard(AlgBoardDTO algBoardDTO) {
 		// 알고리즘 게시판 글쓰기에 입력된 값을 DB Insert문으로
 		System.out.println("글쓰기(DAO)");
@@ -119,5 +125,6 @@ public class AlgDAOImpl implements AlgDAO {
 	    System.out.println("DAO 에서"+algDetailNo+"번글을");
 	    return ses.delete(ns+".deleteAlgDetailByNo", algDetailNo);
 	}
+
 
 }

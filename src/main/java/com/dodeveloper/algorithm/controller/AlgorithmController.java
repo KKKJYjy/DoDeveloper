@@ -272,5 +272,12 @@ public class AlgorithmController {
     public void redirect() {
 	
     }
+    
+    
+    @RequestMapping("Template")
+    
+    public void template() {
+	
+    }
 
 }

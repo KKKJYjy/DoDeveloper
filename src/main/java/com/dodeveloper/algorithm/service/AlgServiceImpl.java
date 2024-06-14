@@ -57,6 +57,11 @@ public class AlgServiceImpl implements AlgService {
 		return algDetailList;
 	}
 
+	@Override
+	public List<AlgDetailDTO> getListDetail(String writer) {
+	    // writer 에 해당하는 algDetail 리스트 받아오기
+	    return aDao.selectAlgDetail(writer);
+	}
 
 	@Override
 	public void writeAlgBoard(AlgBoardDTO algBoardDTO) throws Exception {
@@ -165,5 +170,7 @@ public class AlgServiceImpl implements AlgService {
 	public List<AlgBoardWithDetailVO> getAlgTop5() throws Exception {
 		return aDao.getAlgTop5();
 	}
+
+
 
 }

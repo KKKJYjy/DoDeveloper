@@ -44,7 +44,11 @@ public interface AlgService {
 
 
 	// 알고리즘 게시판 최신 5개글 가져오는 메서드
-	List<AlgBoardWithDetailVO> getAlgTop5() throws Exception;
+    List<AlgBoardWithDetailVO> getAlgTop5() throws Exception;
+
+    
+    // userId(writer) 가 작성한 algDetail 리스트로 가져오는 메서드
+    List<AlgDetailDTO> getListDetail(String userId);
 	
 	
 

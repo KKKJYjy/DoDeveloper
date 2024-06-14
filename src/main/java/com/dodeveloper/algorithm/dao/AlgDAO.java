@@ -17,6 +17,9 @@ public interface AlgDAO {
 	// boardNo 에 해당하는 algDetail 테이블 조회
 	List<AlgDetailDTO> selectAlgDetail(int boardNo) throws Exception;
 
+	// writer 에 해당하는 algDetail 테이블 조회
+	List<AlgDetailDTO> selectAlgDetail(String writer);
+	
 	// algBoard 항목 작성
 	int insertAlgBoard(AlgBoardDTO algBoardDTO) throws Exception;
 
@@ -45,5 +48,6 @@ public interface AlgDAO {
 
 	// 알고리즘 게시판 최신 5개글 가져오는 메서드
 	List<AlgBoardWithDetailVO> getAlgTop5() throws Exception;
+
 
 }

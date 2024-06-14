@@ -16,6 +16,12 @@
 		select * from algDetail where algBoardNo = #{boardNo}
 	</select>
 	
+	<!-- writer 에 해당하는 algDetail 조회 -->
+	<select id="selectAlgDetailByWriter"
+		resultType="com.dodeveloper.algorithm.vodto.AlgDetailDTO">
+		select * from algDetail where writer = #{writer}
+	</select>
+	
 	<!-- algBoardNo, algDetailNo 에 해당하는 algDetail 조회 -->
 	<select id="selectAlgCodeDetail"
 		resultType="com.dodeveloper.algorithm.vodto.AlgDetailDTO">
