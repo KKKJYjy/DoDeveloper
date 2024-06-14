@@ -230,6 +230,9 @@ public class AlgorithmController {
 
 	    System.out.println(returnMap);
 	    model.addAttribute("algDetailList", returnMap);
+	    
+	 // 세션에 algDetailNo 저장해서 인터셉터에서 가져올 수 있도록 함
+	    ses.setAttribute("detailNum", algDetailNo);
 	} catch (Exception e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
@@ -240,6 +243,7 @@ public class AlgorithmController {
     @RequestMapping("removeAlgDetail")
     public String removeAlgDetail(@RequestParam("algDetailNo") int algDetailNo, @RequestParam("algBoardNo") int algBoardNo) {
 	 System.out.println(algDetailNo);
+	 
 	// AuthInterceptor.preHandle() 호출 - 글 삭제 권한이 있는지 검사하고 옴
 	String result = null;
 	System.out.println(algDetailNo + "번글을 삭제하자");
@@ -259,6 +263,14 @@ public class AlgorithmController {
 //	 		}
 
 	return result;
+    }
+    
+    
+    
+    
+    @RequestMapping("redirect")
+    public void redirect() {
+	
     }
 
 }

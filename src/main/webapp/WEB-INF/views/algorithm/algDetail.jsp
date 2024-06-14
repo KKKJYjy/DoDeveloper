@@ -60,6 +60,7 @@
 
 <script>
 
+
 function selectNo(no) {
 	// 셀렉트 태그로 게시판을 선택하면 1.신고자의 아이디를 SessionScope에서 받아와 #reoprter태그에 삽입
 	// 2.셀렉트태그로 받아온 번호를 이용해 해당하는 번호를 작성한 작성자를 #writer태그에 삽입
