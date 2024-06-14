@@ -92,7 +92,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr onclick="location.href='/mypage/myQnAList';">
+										<tr onclick="location.href='/qna/viewBoard?no=${myQnA.no}';">
 											<td>${myQnA.qnaTitle }</td>
 											<td>${myQnA.qnaContent }</td>
 											<td>${myQnA.postDate }</td>
