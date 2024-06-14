@@ -1,6 +1,8 @@
 package com.dodeveloper.member.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import com.dodeveloper.member.dto.LoginDTO;
 import com.dodeveloper.member.dto.RegisterDTO;
 import com.dodeveloper.member.dto.SessionDTO;
 import com.dodeveloper.member.vo.MemberVO;
+import com.dodeveloper.mypage.dto.ChangeEmailDTO;
 import com.dodeveloper.mypage.dto.ChangeProfileDTO;
 import com.dodeveloper.mypage.dto.ChangePwdDTO;
 
@@ -35,6 +38,7 @@ public class MemberDAOImpl implements MemberDAO {
 	private static final String DROP_MEMBER = NS + ".dropMember";
 	private static final String CHANGE_DROP_STATUS = NS + ".changeDropStatus";
 	private static final String DELETE_DROPPED_MEMBER = NS + ".deleteAllDroppedMembers";
+	private static final String CHANGE_EMAIL = NS + ".changeEmail";
 	
 	@Override
 	public MemberVO loginMember(LoginDTO dto) throws Exception {
@@ -99,5 +103,10 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public List<MemberVO> getMemberByEmail(String email) throws Exception {
 		return sqlSession.selectList(GET_MEMBER_BY_EMAIL, email);
+	}
+	
+	@Override
+	public int changeEmail(ChangeEmailDTO changeEmailDTO) throws Exception {
+		return sqlSession.update(CHANGE_EMAIL, changeEmailDTO);
 	}
 }

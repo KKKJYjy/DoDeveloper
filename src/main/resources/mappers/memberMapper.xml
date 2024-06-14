@@ -47,7 +47,11 @@
 	</update>
 	
 	<update id="changeProfile">
-		update member set email = #{email}, careers = #{careers} where userId = #{userId}
+		update member set careers = #{careers} where userId = #{userId}
+	</update>
+	
+	<update id="changeEmail">
+		update member set email = #{email} where userId = #{userId}
 	</update>
 	
 	<!-- 회원 탈퇴 insert -->
