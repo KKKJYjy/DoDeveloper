@@ -93,7 +93,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr onclick="location.href='/mypage/myLectureList';">
+										<tr onclick="location.href='/lecture/viewBoard?lecNo=${lectureList.lecNo}';">
 											<td>${lectureList.lecTitle}</td>
 											<td>${lectureList.lecPostDate}</td>
 											<td>${lectureList.lecScore}</td>
