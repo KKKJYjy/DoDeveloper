@@ -8,7 +8,7 @@
 <meta charset="utf-8" />
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-<title>My Study List - DoDeveloper</title>
+<title>My LikeLecture List - DoDeveloper</title>
 <meta content="" name="description" />
 <meta content="" name="keywords" />
 
@@ -91,7 +91,8 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr onclick="location.href='/mypage/myLikeLectureList';">
+										<tr 
+										onclick="location.href='/mypage/goMyLikeList?lecNo=${lectureLike.lecNo}';">
 											<td>${lectureLike.lecLikeTitle}</td>
 											<td>${lectureLike.lecLikeDate}</td>
 										</tr>

@@ -323,6 +323,27 @@ public class MyPageDAOImpl implements MyPageDAO {
 		return sqlSession.selectList(NS + ".getMyPageQnA", params);
 	}
 	
+	
+	/**
+	 * @methodName : getMyLikeListGo
+	 * @author : kde
+	 * @date : 2024.06.15
+	 * @param : int lecNo - 게시글 번호
+	 * @param : int lecLikeNo - 좋아요 누른 번호
+	 * @return : List<LectureLikeVO>
+	 * @description : 마이페이지에서 유저가 강의 추천 게시글에 좋아요 남긴 게시글로 이동
+	 */
+	@Override
+	public List<LectureLikeVO> getMyLikeListGo(int lecNo, int lecLikeNo) throws Exception {
+		
+        Map<String, Object> params = new HashMap<>();
+        
+        params.put("lecNo", lecNo);
+        params.put("lecLikeNo", lecLikeNo);
+		
+		return sqlSession.selectList(NS + ".getMyLikeListGo", params);
+	}
+	
     /**
      * @methodName : getMyReportListGo
      * @author : kde
@@ -341,5 +362,5 @@ public class MyPageDAOImpl implements MyPageDAO {
         
         return sqlSession.selectList(NS + ".getMyReportListGo", params);
     }
-	
+
 }

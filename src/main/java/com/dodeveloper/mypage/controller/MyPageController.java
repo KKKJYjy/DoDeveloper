@@ -41,6 +41,7 @@ import com.dodeveloper.mypage.dto.ChangePwdDTO;
 import com.dodeveloper.mypage.dto.ProfileDTO;
 import com.dodeveloper.mypage.service.MyPageService;
 import com.dodeveloper.mypage.vo.ProfileVO;
+import com.dodeveloper.reply.service.ReplyService;
 import com.dodeveloper.reply.vodto.ReplyVO;
 import com.dodeveloper.study.vodto.StuStackDTO;
 import com.dodeveloper.study.vodto.StudyBoardVO;
@@ -581,6 +582,22 @@ public class MyPageController {
 		model.addAttribute("pagingInfo", (PagingInfo) resultMap.get("pagingInfo"));
 	}
 	
+	
+    /**
+     * @methodName : goReportList
+     * @author : kde
+     * @date : 2024.06.15
+     * @param : @RequestParam("lecNo") int lecNo - 넘어가야할 게시글 번호
+     * @return : RedirectView
+     * @description : 마이페이지의 좋아요 확인 -> 유저가 좋아요 눌렀던 게시글로 이동
+     */
+	@GetMapping("/goMyLikeList")
+	public RedirectView goLikeList(@RequestParam("lecNo") int lecNo) throws Exception {
+		
+	    String redirectUrl = "/lecture/viewBoard?lecNo=" + lecNo;
+	    
+	    return new RedirectView(redirectUrl);
+	}
 	
     /**
      * @methodName : goReportList
