@@ -323,6 +323,25 @@ public class MyPageDAOImpl implements MyPageDAO {
 		return sqlSession.selectList(NS + ".getMyPageQnA", params);
 	}
 	
+	/**
+	 * @methodName : getMyScrapListGo
+	 * @author : kde
+	 * @date : 2024.06.15
+	 * @param : int bType - 게시판 구분
+	 * @param : int scrapBoard - (스크랩에서의 : 쿼리문에서 join)게시글 번호
+	 * @return : List<ScrapVO>
+	 * @description : 마이페이지에서 유저가 강의 추천 게시글에 스크랩 남긴 게시글로 이동
+	 */
+	@Override
+	public List<ScrapVO> getMyScrapListGo(int bType, int scrapBoard) throws Exception {
+		
+        Map<String, Object> params = new HashMap<>();
+        
+        params.put("bType", bType);
+        params.put("scrapBoard", scrapBoard);
+		
+		return sqlSession.selectList(NS + ".getMyScrapListGo", params);
+	}
 	
 	/**
 	 * @methodName : getMyLikeListGo
@@ -362,5 +381,5 @@ public class MyPageDAOImpl implements MyPageDAO {
         
         return sqlSession.selectList(NS + ".getMyReportListGo", params);
     }
-
+    
 }

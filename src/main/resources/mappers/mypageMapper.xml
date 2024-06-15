@@ -153,6 +153,14 @@
 		limit #{startRowIndex}, #{viewPostCntPerPage}
 	</select>
 	
+	<!-- 마이페이지에서 유저가 강의 추천 게시글에 스크랩 남긴 게시글로 이동 -->
+	<select id="getMyScrapListGo"
+	resultType="com.dodeveloper.company.vodto.ScrapVO">
+		select s.*, lb.* from scrap s
+		left join lectureBoard lb on s.scrapBoard = lb.lecNo
+		where s.bType = #{bType} and s.scrapBoard = #{scrapBoard}
+	</select>
+	
 	<!-- 마이페이지에서 유저가 강의 추천 게시글에 좋아요 남긴 게시글로 이동 -->
 	<select id="getMyLikeListGo"
 	resultType="com.dodeveloper.lecture.vodto.LectureLikeVO">

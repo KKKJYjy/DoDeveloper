@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dodeveloper.admin.vo.ReportVO;
+import com.dodeveloper.company.vodto.ScrapVO;
 import com.dodeveloper.lecture.vodto.LectureLikeVO;
 import com.dodeveloper.mypage.dto.ChangePwdDTO;
 import com.dodeveloper.mypage.dto.ProfileDTO;
@@ -48,6 +49,9 @@ public interface MyPageService {
     
     // 유저가 문의남긴 게시글 불러오기 + 페이징
     Map<String, Object> getMyPageQnAList(int pageNo, String userId) throws Exception;
+    
+    // 마이페이지에서 유저가 강의 추천 게시글에 스크랩 남긴 게시글로 이동
+    List<ScrapVO> getMyScrapListGo(int bType, int scrapBoard) throws Exception;
     
     // 마이페이지에서 유저가 강의 추천 게시글에 좋아요 남긴 게시글로 이동
     List<LectureLikeVO> getMyLikeListGo(int lecNo, int lecLikeNo) throws Exception;

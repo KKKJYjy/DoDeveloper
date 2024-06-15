@@ -568,6 +568,23 @@ public class MyPageServiceImpl implements MyPageService {
 	}
 	
 	/**
+	 * @methodName : getMyScrapListGo
+	 * @author : kde
+	 * @date : 2024.06.15
+	 * @param : int bType - 게시판 구분
+	 * @param : int scrapBoard - (스크랩에서의 : 쿼리문에서 join)게시글 번호
+	 * @return : List<ScrapVO>
+	 * @description : 마이페이지에서 유저가 강의 추천 게시글에 스크랩 남긴 게시글로 이동
+	 */
+	@Override
+	public List<ScrapVO> getMyScrapListGo(int bType, int scrapBoard) throws Exception {
+		
+		List<ScrapVO> scrapList = (List<ScrapVO>)myPageDao.getMyScrapListGo(bType, scrapBoard);
+		
+        return scrapList;
+	}
+	
+	/**
 	 * @methodName : getMyLikeListGo
 	 * @author : kde
 	 * @date : 2024.06.15
@@ -578,8 +595,6 @@ public class MyPageServiceImpl implements MyPageService {
 	 */
 	@Override
 	public List<LectureLikeVO> getMyLikeListGo(int lecNo, int lecLikeNo) throws Exception {
-		System.out.println("서비스단 : 마이페이지에서 " + lecNo + "번 게시글에 좋아요 누른 상세글로 이동!");
-		System.out.println("서비스단 좋아요 순번 : " + lecLikeNo);
 		
 		List<LectureLikeVO> likeList = (List<LectureLikeVO>)myPageDao.getMyLikeListGo(lecNo, lecLikeNo);
 		
@@ -597,7 +612,6 @@ public class MyPageServiceImpl implements MyPageService {
      */
 	@Override
     public List<ReportVO> getReportNO(int btypeNo, int reportNo) throws Exception {
-		System.out.println("서비스단 : 마이페이지에서 " + btypeNo + "번 게시판의 신고 상세글로 이동!");
 		
 		List<ReportVO> reportList = (List<ReportVO>)myPageDao.getMyReportListGo(btypeNo, reportNo);
 		

@@ -582,6 +582,21 @@ public class MyPageController {
 		model.addAttribute("pagingInfo", (PagingInfo) resultMap.get("pagingInfo"));
 	}
 	
+    /**
+     * @methodName : goScrapList
+     * @author : kde
+     * @date : 2024.06.15
+     * @param : @RequestParam("lecNo") int lecNo - 넘어가야할 게시글 번호
+     * @return : RedirectView
+     * @description : 마이페이지의 스크랩 확인 -> 유저가 스크랩 눌렀던 게시글로 이동
+     */
+	@GetMapping("/goMyScrapList")
+	public RedirectView goScrapList(@RequestParam("scrapBoard") int scrapBoard) throws Exception {
+		
+	    String redirectUrl = "/lecture/viewBoard?lecNo=" + scrapBoard;
+	    
+	    return new RedirectView(redirectUrl);
+	}
 	
     /**
      * @methodName : goReportList
@@ -611,27 +626,27 @@ public class MyPageController {
     @GetMapping("/goMyReportList")
     public RedirectView goReportList(@RequestParam("btypeNo") int btypeNo, @RequestParam("reportNo") int reportNo) throws Exception {
         
-    	// btypeNo와 boardNo를 사용하여 게시글 정보를 가져옴.
+    	// btypeNo와 boardNo를 사용하여 게시글 정보 가져오기
         List<ReportVO> board = myPageService.getReportNO(btypeNo, reportNo);
 
-        // btypeNo에 따라 다른 상세 페이지 URL을 생성.
+        // btypeNo에 따라 다른 상세 페이지 URL을 생성
         String redirectUrl = "";
         switch (btypeNo) {
             case 1:
-                redirectUrl = "/lecture/viewBoard?lecNo=" + reportNo;
+                redirectUrl = "/lecture/viewBoard?lecNo=" + reportNo; // 강의 추천 게시판
                 break;
             case 2:
-                redirectUrl = "/study/viewStudyBoard?stuNo=" + reportNo;
+                redirectUrl = "/study/viewStudyBoard?stuNo=" + reportNo; // 스터디 모임
                 break;
             case 4:
-                redirectUrl = "/algorithm/algDetail?boardNo=" + reportNo;
+                redirectUrl = "/algorithm/algDetail?boardNo=" + reportNo; // 알고리즘
                 break;
             default:
                 redirectUrl = "/errorPage"; // 예외 처리
                 break;
         }
 
-        // 리디렉션 URL을 반환합니다.
+        // 리디렉션 URL을 반환
         return new RedirectView(redirectUrl);
     }
 	

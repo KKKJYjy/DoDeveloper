@@ -80,27 +80,28 @@
 
 
 				<c:forEach var="lectureScrap" items="${lectureScrapList}">
-						<div class="col-md mb-2 lecture">
-							<div class="card mb-3">
-								<div class="card-body">
-									<table class="table">
-										<thead>
-											<tr>
-												<th>스크랩 한 게시글 내용</th>
-												<th>스크랩 한 일자</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr onclick="location.href='/mypage/myScrapLectureList';">
-												<td>${lectureScrap.scrapLecTitle}</td>
-												<td>${lectureScrap.scrapDate}</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
+					<div class="col-md mb-2 lecture">
+						<div class="card mb-3">
+							<div class="card-body">
+								<table class="table">
+									<thead>
+										<tr>
+											<th>스크랩 한 게시글 내용</th>
+											<th>스크랩 한 일자</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr
+											onclick="location.href='/mypage/goMyScrapList?scrapBoard=${lectureScrap.scrapBoard}';">
+											<td>${lectureScrap.scrapLecTitle}</td>
+											<td>${lectureScrap.scrapDate}</td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
-					</c:forEach>
+					</div>
+				</c:forEach>
 
 
 				<!-- 페이징 -->
