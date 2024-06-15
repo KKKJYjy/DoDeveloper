@@ -49,5 +49,10 @@ public interface AlgDAO {
 	// 알고리즘 게시판 최신 5개글 가져오는 메서드
 	List<AlgBoardWithDetailVO> getAlgTop5() throws Exception;
 
+	// classificationCode 에 해당하는 알고리즘 항목들을 얻어오기
+	List<AlgBoardDTO> selectAlgListByClassificationCode(int val);
+
+	
+
 
 }

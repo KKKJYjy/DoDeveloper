@@ -97,6 +97,13 @@
 		order by ad.algDetailPostDate desc
 		limit 5
 	</select>
+	
+	
+	<select id="selectAlgBoardByCode" resultType="com.dodeveloper.algorithm.vodto.AlgBoardDTO">
+		select boardNo, classificationCode, title, comment, boardType from algBoard 
+		inner join algClassification on algBoard.classificationCode = algClassification.code 
+		where algClassification.code = #{val};
+	</select>
 
 
 

@@ -126,5 +126,12 @@ public class AlgDAOImpl implements AlgDAO {
 	    return ses.delete(ns+".deleteAlgDetailByNo", algDetailNo);
 	}
 
+	@Override
+	public List<AlgBoardDTO> selectAlgListByClassificationCode(int val) {
+	    // TODO Auto-generated method stub
+	   
+	    return ses.selectList(ns+".selectAlgBoardByCode", val);
+	}
+
 
 }

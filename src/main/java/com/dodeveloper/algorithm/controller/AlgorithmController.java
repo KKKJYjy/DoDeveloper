@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dodeveloper.algorithm.dao.AlgDAO;
 import com.dodeveloper.algorithm.service.AlgService;
 import com.dodeveloper.algorithm.vodto.AlgBoardDTO;
 import com.dodeveloper.algorithm.vodto.AlgClassificationDTO;
@@ -29,6 +31,9 @@ public class AlgorithmController {
 
     @Autowired
     AlgService aService;
+    
+    @Autowired
+    AlgDAO aDao;
 
     @Autowired
     HttpSession ses;
@@ -41,11 +46,14 @@ public class AlgorithmController {
 	System.out.println("!!!컨트롤러!!!");
 
 	List<AlgBoardDTO> returnMap = null;
+	List<AlgClassificationDTO> returnMap2 = null;
 
 	// 멤버테이블 출력함
 	returnMap = aService.getListAllBoard();
+	returnMap2 = aService.getAlgClassification();
 
 	model.addAttribute("algBoardList", returnMap);
+	model.addAttribute("algClassification",returnMap2);
     }
 
     @GetMapping("/algDetail")
@@ -263,6 +271,20 @@ public class AlgorithmController {
 //	 		}
 
 	return result;
+    }
+    
+    @RequestMapping("getClassification")
+    @ResponseBody
+    public List<AlgBoardDTO> getClassification(HttpServletRequest req, HttpServletResponse resp, HttpSession session, @RequestParam("val") int val, Model model) {
+	System.out.println("ajax 호출");
+	System.out.println(val);
+	
+	List<AlgBoardDTO> dto = aDao.selectAlgListByClassificationCode(val);
+	
+	System.out.println(dto);
+	
+	return dto;
+	
     }
     
     

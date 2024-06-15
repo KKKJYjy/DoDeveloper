@@ -300,6 +300,34 @@ a {
 
 </style>
 
+<script>
+
+	function classCodeFilter(val) {
+		alert("!!??!!");
+		console.log(val);
+		
+		$.ajax({
+            url: "/algorithm/getClassification", // 실제 Ajax 요청을 처리할 URL
+            type: "GET",
+            contentType: "application/json", // JSON 형식으로 데이터 전송
+            data : {val : val},
+            dataType: 'text',
+            success: function(data) {
+                // Ajax 요청 성공 시 처리
+                console.log("code", val); // 받은 응답을 콘솔에 출력
+                console.log(data);
+
+                
+            },
+            error: function(xhr, status, error) {
+                // Ajax 요청 실패 시 처리
+                console.error("Ajax request failed:", status, error);
+            }
+        });
+	}
+
+</script>
+
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
 	<%@ include file="../header.jsp"%>
 
@@ -336,8 +364,10 @@ a {
 
 				
 
-
-
+							<div>${algBoardList}</div>
+							<div>${algClassification}</div>
+							<div>${algBoardByCode}</div>
+                        
 
 
 			<table>
@@ -390,12 +420,13 @@ a {
                     <h2>TITLE</h2>
                     <ul class="big_menu">
                         <li>MENU 1 <i class="arrow fas fa-angle-right"></i></li>
+                        <c:forEach var="algClass" items="${algClassification}">
                         <ul class="small_menu">
-                            <li><a href="#">소메뉴1-1</a></li>
-                            <li><a href="#">소메뉴1-2</a></li>
-                            <li><a href="">소메뉴1-3</a></li>
-                            <li><a href="#">소메뉴1-4</a></li>
+                        	<!--  사이드바의 메뉴에서 항목을 클릭하면 listAll에서 항목에 해당하는 종류의 알고리즘만 출력되도록 -->
+                            <li onclick="classCodeFilter(this.value)" value="${algClass.code}">${algClass.algClassification}</li>
+                            
                         </ul>
+                        </c:forEach>
                     </ul>
                     <ul class="big_menu">
                         <li>MENU 2 <i class="arrow fas fa-angle-right"></i></li>
