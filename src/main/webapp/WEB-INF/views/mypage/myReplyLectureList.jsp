@@ -8,7 +8,7 @@
 <meta charset="utf-8" />
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-<title>My Study List - DoDeveloper</title>
+<title>My ReplyLecture List - DoDeveloper</title>
 <meta content="" name="description" />
 <meta content="" name="keywords" />
 
@@ -79,8 +79,8 @@
 				</div>
 
 
-					<c:forEach var="lectureReply" items="${lectureReplyList}">
-						<div class="col-md mb-2 lecture">
+				<c:forEach var="lectureReply" items="${lectureReplyList}">
+					<div class="col-md mb-2 lecture">
 						<div class="card mb-3">
 							<div class="card-body">
 								<table class="table">
@@ -91,7 +91,10 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr onclick="location.href='/mypage/myReplyLectureList';">
+									<!-- bNo에서 bno로 수정한 이유 : PropertyNotFoundException이 발생해서 -->
+									<!-- ReplyVO의 bNo도 bno로 수정함 -->
+									<!-- 카멜케이스 쓰는건 좋지만 두 번째 자리까지는 대문자 쓰지 말자! -->
+									<tr onclick="location.href='/mypage/goMyReplyList?bno=${lectureReply.bno}';">
 											<td>${lectureReply.replyContent}</td>
 											<td>${lectureReply.writtenDate}</td>
 										</tr>
@@ -102,26 +105,26 @@
 					</div>
 				</c:forEach>
 
-					<!-- 페이징 -->
-					<!-- 여기서 사용한 쿼리스트링은 페이징 다음 페이지로 넘어갔을 때 조건을 유지하기 위해서 사용한 것 -->
-					<ul class="pagination">
-						<c:if test="${param.pageNo > 1}">
-							<li class="page-item "><a class="page-link"
-								href="/mypage/myReplyLectureList?pageNo=${param.pageNo -1 }">Previous</a></li>
-						</c:if>
-						<c:forEach var="i"
-							begin="${pagingInfo.startNumOfCurrentPagingBlock }"
-							end="${pagingInfo.endNumOfCurrentPagingBlock }" step="1">
-							<li class="page-item " id="${i }"><a class="page-link"
-								href="/mypage/myReplyLectureList?pageNo=${i }">${i }</a></li>
-						</c:forEach>
-						<c:if test="${param.pageNo < pagingInfo.totalPageCnt}">
-							<li class="page-item "><a class="page-link"
-								href="/mypage/myReplyLectureList?pageNo=${param.pageNo +1 }">Next</a></li>
-						</c:if>
-					</ul>
+				<!-- 페이징 -->
+				<!-- 여기서 사용한 쿼리스트링은 페이징 다음 페이지로 넘어갔을 때 조건을 유지하기 위해서 사용한 것 -->
+				<ul class="pagination">
+					<c:if test="${param.pageNo > 1}">
+						<li class="page-item "><a class="page-link"
+							href="/mypage/myReplyLectureList?pageNo=${param.pageNo -1 }">Previous</a></li>
+					</c:if>
+					<c:forEach var="i"
+						begin="${pagingInfo.startNumOfCurrentPagingBlock }"
+						end="${pagingInfo.endNumOfCurrentPagingBlock }" step="1">
+						<li class="page-item " id="${i }"><a class="page-link"
+							href="/mypage/myReplyLectureList?pageNo=${i }">${i }</a></li>
+					</c:forEach>
+					<c:if test="${param.pageNo < pagingInfo.totalPageCnt}">
+						<li class="page-item "><a class="page-link"
+							href="/mypage/myReplyLectureList?pageNo=${param.pageNo +1 }">Next</a></li>
+					</c:if>
+				</ul>
 
-				</div>
+			</div>
 
 
 

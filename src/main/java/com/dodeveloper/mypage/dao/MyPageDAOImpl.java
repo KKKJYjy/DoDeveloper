@@ -324,6 +324,26 @@ public class MyPageDAOImpl implements MyPageDAO {
 	}
 	
 	/**
+	 * @methodName : getMyReplyListGo
+	 * @author : kde
+	 * @date : 2024.06.14
+	 * @param : int replyNo - 댓글 테이블의 게시판 번호
+	 * @param : int bno - 게시판의 글 번호
+	 * @return : List<ReplyVO>
+	 * @description : 마이페이지에서 유저가 강의 추천 게시글에 남긴 댓글 클릭시 그 게시글로 이동
+	 */
+	@Override
+	public List<ReplyVO> getMyReplyListGo(int replyNo, int bno) throws Exception {
+		
+        Map<String, Object> params = new HashMap<>();
+        
+        params.put("replyNo", replyNo);
+        params.put("bno", bno);
+		
+		return sqlSession.selectList(NS + ".getMyReplyListGo", params);
+	}
+	
+	/**
 	 * @methodName : getMyScrapListGo
 	 * @author : kde
 	 * @date : 2024.06.15

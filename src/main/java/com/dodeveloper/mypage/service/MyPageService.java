@@ -50,6 +50,9 @@ public interface MyPageService {
     // 유저가 문의남긴 게시글 불러오기 + 페이징
     Map<String, Object> getMyPageQnAList(int pageNo, String userId) throws Exception;
     
+    // 마이페이지에서 유저가 강의 추천 게시글에 남긴 댓글 클릭시 그 게시글로 이동
+    List<ReplyVO> getMyReplyListGo(int replyNo, int bno) throws Exception;
+    
     // 마이페이지에서 유저가 강의 추천 게시글에 스크랩 남긴 게시글로 이동
     List<ScrapVO> getMyScrapListGo(int bType, int scrapBoard) throws Exception;
     

@@ -582,6 +582,22 @@ public class MyPageController {
 		model.addAttribute("pagingInfo", (PagingInfo) resultMap.get("pagingInfo"));
 	}
 	
+	/**
+	 * @methodName : getRepliesWithBoardInfo
+	 * @author : kde
+	 * @date : 2024.06.15
+	 * @param : @RequestParam("bno") int bno - 강의 추천 게시판의 글 번호
+	 * @return : RedirectView
+	 * @description : 마이페이지에서 유저가 강의 추천 게시글에 남긴 댓글 클릭시 그 게시글로 이동
+	 */
+	@GetMapping("/goMyReplyList")
+    public RedirectView getRepliesWithBoardInfo(@RequestParam("bno") int bno) throws Exception {
+        
+	    String redirectUrl = "/lecture/viewBoard?lecNo=" + bno;
+	    
+	    return new RedirectView(redirectUrl);
+    }
+	
     /**
      * @methodName : goScrapList
      * @author : kde

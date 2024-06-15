@@ -82,6 +82,9 @@ public interface MyPageDAO {
     // 유저가 문의 남긴 게시글 가져오기
     List<QnaBoardVO> getMyPageQnA(String userId, PagingInfo pi) throws Exception;
     
+    // 마이페이지에서 유저가 강의 추천 게시글에 남긴 댓글 클릭시 그 게시글로 이동
+    List<ReplyVO> getMyReplyListGo(int replyNo, int bno) throws Exception;
+    
     // 마이페이지에서 유저가 강의 추천 게시글에 스크랩 남긴 게시글로 이동
     List<ScrapVO> getMyScrapListGo(int bType, int scrapBoard) throws Exception;
     

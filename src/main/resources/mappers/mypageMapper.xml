@@ -153,6 +153,12 @@
 		limit #{startRowIndex}, #{viewPostCntPerPage}
 	</select>
 	
+	<!-- 마이페이지에서 유저가 강의 추천 게시글에 남긴 댓글 클릭시 그 게시글로 이동 -->
+	<select id="getMyReplyListGo" resultType="com.dodeveloper.reply.vodto.ReplyVO">
+		select r.*, lb.* from reply r left join lectureBoard lb on r.bNo = lb.lecNo
+		where r.replyNo = #{replyNo} and r.bno = #{bno}
+	</select>
+	
 	<!-- 마이페이지에서 유저가 강의 추천 게시글에 스크랩 남긴 게시글로 이동 -->
 	<select id="getMyScrapListGo"
 	resultType="com.dodeveloper.company.vodto.ScrapVO">
