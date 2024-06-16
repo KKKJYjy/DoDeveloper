@@ -111,8 +111,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		// 현재 페이징 블럭 끝 페이지 번호
 		this.pi.setEndNumOfCurrentPagingBlock();
 	}
-	
-	
+
 	private void makeLecPagingInfo(int pageNo, SearchCriteriaDTO sc) throws Exception {
 		this.pi.setPageNo(pageNo);
 
@@ -139,8 +138,6 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		// 현재 페이징 블럭 끝 페이지 번호
 		this.pi.setEndNumOfCurrentPagingBlock();
 	}
-	
-	
 
 	private void makeLecPagingInfo(int pageNo) throws Exception {
 		this.pi.setPageNo(pageNo);
@@ -169,9 +166,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		// 현재 페이징 블럭 끝 페이지 번호
 		this.pi.setEndNumOfCurrentPagingBlock();
 	}
-	
-	
-	
+
 	private void makeAlgPagingInfo(int pageNo, SearchCriteriaDTO sc) throws Exception {
 		this.pi.setPageNo(pageNo);
 
@@ -198,8 +193,6 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		// 현재 페이징 블럭 끝 페이지 번호
 		this.pi.setEndNumOfCurrentPagingBlock();
 	}
-	
-	
 
 	private void makeAlgPagingInfo(int pageNo) throws Exception {
 		this.pi.setPageNo(pageNo);
@@ -228,9 +221,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		// 현재 페이징 블럭 끝 페이지 번호
 		this.pi.setEndNumOfCurrentPagingBlock();
 	}
-	
-	
-	
+
 	private void makeRevPagingInfo(int pageNo, SearchCriteriaDTO sc) throws Exception {
 		this.pi.setPageNo(pageNo);
 
@@ -257,8 +248,6 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		// 현재 페이징 블럭 끝 페이지 번호
 		this.pi.setEndNumOfCurrentPagingBlock();
 	}
-	
-	
 
 	private void makeRevPagingInfo(int pageNo) throws Exception {
 		this.pi.setPageNo(pageNo);
@@ -287,9 +276,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		// 현재 페이징 블럭 끝 페이지 번호
 		this.pi.setEndNumOfCurrentPagingBlock();
 	}
-	
-	
-	
+
 	private void makeNotcPagingInfo(int pageNo, SearchCriteriaDTO sc) throws Exception {
 		this.pi.setPageNo(pageNo);
 
@@ -316,9 +303,6 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		// 현재 페이징 블럭 끝 페이지 번호
 		this.pi.setEndNumOfCurrentPagingBlock();
 	}
-	
-	
-	
 
 	private void makeNotcPagingInfo(int pageNo) throws Exception {
 		this.pi.setPageNo(pageNo);
@@ -347,8 +331,6 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		// 현재 페이징 블럭 끝 페이지 번호
 		this.pi.setEndNumOfCurrentPagingBlock();
 	}
-	
-	
 
 	private void makeQnaPagingInfo(int pageNo) throws Exception {
 		this.pi.setPageNo(pageNo);
@@ -378,8 +360,6 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		this.pi.setEndNumOfCurrentPagingBlock();
 	}
 
-	
-	
 	@Override
 	public Map<String, Object> getlistLectureBoard(int pageNo, SearchCriteriaDTO sc) throws Exception {
 
@@ -469,34 +449,24 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 
 		return returnMap;
 	}
-	
-	
+
 	@Override
 	public Map<String, Object> getlistViewNotcBoard(int pageNo, SearchCriteriaDTO sc) throws Exception {
-		
+
 		System.out.println("서비스단 : 공지사항 조회순");
-		
+
 		List<NoticeDTO> notcBoardList = null;
 
-		if (sc.getSearchType() != null && sc.getSearchValue() != null) {
-			makeNotcPagingInfo(pageNo, sc);
-			notcBoardList = bDao.selectNotcBoardListSc(sc, pi);
-		} else {
-			makeNotcPagingInfo(pageNo);
-			notcBoardList = bDao.selectListViewNotcBoard(pi);
-		}
+		makeNotcPagingInfo(pageNo);
+		notcBoardList = bDao.selectListViewNotcBoard(pi);
 
 		Map<String, Object> returnMap = new HashMap<String, Object>();
 		returnMap.put("notcBoardList", notcBoardList);
 		returnMap.put("pagingInfo", this.pi);
 
 		return returnMap;
-		
+
 	}
-
-	
-
-	
 
 //	@Override
 //	public boolean studeleteBoard(int stuNo) throws Exception {
@@ -582,7 +552,6 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 
 		List<ReportVO> report = (List<ReportVO>) bDao.selectReportBoardNo(btypeNo, boardNo);
 
-
 		return report;
 	}
 
@@ -596,13 +565,13 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 			bDao.notcReadCnt(boardNo);
 			bDao.insertReadCntProcess(boardNo, user);
 		}
-		
+
 		NoticeDTO notice = bDao.selectNoticeBoardNo(boardNo);
 
 		Map<String, Object> result = new HashMap<String, Object>();
-		
+
 		result.put("notice", notice);
-		
+
 		return result;
 	}
 
@@ -736,12 +705,6 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 
 		return diffRev;
 	}
-	
-	
-	
-	
-	
-	
 
 	@Override
 	@Transactional
@@ -749,11 +712,11 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 			throws Exception {
 		System.out.println("패널티 서비스단 호출");
 		System.out.println("btypeNo: " + btypeNo);
-	    System.out.println("boardNo: " + boardNo);
-	    System.out.println("userId: " + userId);
-	    System.out.println("deleteReason: " + deleteReason);
+		System.out.println("boardNo: " + boardNo);
+		System.out.println("userId: " + userId);
+		System.out.println("deleteReason: " + deleteReason);
 		boolean result = false;
-		
+
 		if (bDao.insertPenalty(deleteReason, userId) == 1) { // (insert)
 			// 신고된 게시글 삭제
 			if (bDao.deleteSelectBoard(btypeNo, boardNo) == 1) {
@@ -765,16 +728,15 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 			}
 
 		}
-		
+
 		return result;
 	}
 
-
 	/**
-		* @author : yeonju
-		* @date : 2024. 6. 10.
-		* @return : List<NoticeDTO>
-		* @description : 최신 공지글 5개를 가져오는 메서드 (메인홈에 출력할 용도) 
+	 * @author : yeonju
+	 * @date : 2024. 6. 10.
+	 * @return : List<NoticeDTO>
+	 * @description : 최신 공지글 5개를 가져오는 메서드 (메인홈에 출력할 용도)
 	 */
 	@Override
 	public List<NoticeDTO> getNoticeTop5() throws Exception {
@@ -783,7 +745,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 
 	@Override
 	public boolean deleteBoard(int btypeNo, int boardNo) throws Exception {
-  
+
 		boolean result = false;
 
 		if (bDao.deleteBoard(btypeNo, boardNo) == 1) {
@@ -793,8 +755,4 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		return false;
 	}
 
-	
-	
-
-	
 }

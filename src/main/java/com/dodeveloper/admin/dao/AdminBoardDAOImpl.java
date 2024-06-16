@@ -410,6 +410,8 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 	@Override
 	public int notcReadCnt(int boardNo) throws Exception {
 		
+		
+		
 		return ses.update(ns + ".notcReadCntBoard", boardNo);
 	}
 	

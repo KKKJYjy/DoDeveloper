@@ -75,9 +75,9 @@
 			<div class="container">
 
 				<form action="/notice/listAll" method="get">
-					<select name="notc" onchange="submit()">
-						<option value="date" selected="selected">최신순</option>
-						<option value="view">조회수</option>
+					<select name="notc" onchange="this.form.submit()">
+						<option value="date"  ${notc == 'date' ? 'selected' : ''}>최신순</option>
+						<option value="view" ${notc == 'view' ? 'selected' : ''}>인기순</option>
 					</select>
 				</form>
 				

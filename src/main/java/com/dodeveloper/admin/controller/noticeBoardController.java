@@ -37,7 +37,7 @@ public class noticeBoardController {
 
 	@RequestMapping(value = "/listAll", method = RequestMethod.GET)
 	public void noticeBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
-			@RequestParam(defaultValue = "date") String notc, SearchCriteriaDTO sc) throws Exception {
+			@RequestParam(value="notc", defaultValue = "date") String notc, SearchCriteriaDTO sc) throws Exception {
 		logger.info("list 페이지 호출");
 
 		Map<String, Object> returnMap = null;
@@ -57,7 +57,8 @@ public class noticeBoardController {
 		// returnMap = bService.getlistNotcBoard(pageNo, sc);
 		model.addAttribute("notcBoardList", (List<NoticeDTO>) returnMap.get("notcBoardList"));
 		model.addAttribute("pagingInfo", (PagingInfo) returnMap.get("pagingInfo"));
-
+		model.addAttribute("notc", notc);
+		
 		resultPage = "/notice/listAll";
 
 	}

@@ -71,7 +71,7 @@
 	<!-- 공지사항 조회 -->
 	<select id="getNotcBoard" resultType="NoticeDTO">
 		select * from noticeBoard
-		order by boardNo desc limit #{startRowIndex},#{viewPostCntPerPage}
+		order by postDate desc limit #{startRowIndex},#{viewPostCntPerPage}
 	</select>
 
 
@@ -316,7 +316,7 @@
 	<!-- 공지사항 조회순 -->
 	<select id="selectViewNotc" resultType="NoticeDTO">
 		select * from noticeBoard
-		order by readCount desc
+		order by readCount desc limit #{startRowIndex}, #{viewPostCntPerPage}
 	</select>
 
 	<!-- 문의사항 최신글 5개 조회 -->
