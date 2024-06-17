@@ -75,7 +75,7 @@
 
 				<div class="container">
 					<h3 class="center text-center text-light pb-4 fw-medium">
-						${sessionScope.loginMember.userId}님이 강의 추천 게시판에 좋아요를 누른 게시글</h3>
+						${sessionScope.loginMember.userId}님이 강의 추천 게시판에 스크랩 누른 게시글</h3>
 				</div>
 
 
