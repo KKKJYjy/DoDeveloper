@@ -258,6 +258,8 @@
         
         if(urlParams.get('status') == 'success'){
         	alert("참여신청 완료했습니다.");	
+        }else if(urlParams.get('status') == 'fail'){
+			alert("이미 참여신청 내역이 있습니다.");
         }
         
         

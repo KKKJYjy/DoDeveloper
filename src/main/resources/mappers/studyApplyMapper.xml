@@ -28,4 +28,9 @@
 	<update id="modifyApply">
 		update studyApply set reason = #{reason} where applyNo = #{applyNo} 
 	</update>
+	
+	<!-- 스터디 신청을 한 적이 있는지 select -->
+	<select id="isDuplicate" resultType="int">
+		select count(*) from studyApply where applyId = #{applyId} and stuNo = #{stuNo}
+	</select>
 </mapper>
