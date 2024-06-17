@@ -316,7 +316,12 @@ a {
                 // Ajax 요청 성공 시 처리
                 console.log("code", val); // 받은 응답을 콘솔에 출력
                 console.log(data);
-
+                
+                
+               
+                
+                searchTable(data);  // db에서 받아온 데이터의 배열의 길이만큼의 tr태그를 가진 빈 값의 tbody를 html 화면에 출력 
+                insertTable(data);  // db에서 받아온 데이터를 tbody 값에 각각 입력하는 함수
                 
             },
             error: function(xhr, status, error) {
@@ -324,6 +329,50 @@ a {
                 console.error("Ajax request failed:", status, error);
             }
         });
+	}
+	
+	function searchTable(data) {
+		console.log(data);
+		
+		let arr = data.split('"boardNo":');
+		
+		
+		let html = ``;
+		for(let i=1;i<arr.length;i++){
+			let no = arr[i].split(",")[0];
+			//console.log(no);
+			var myVariable = "/algorithm/algDetail?boardNo="+no;
+			console.log(myVariable);
+		html += `<tr>`
+		html += `<td style="color: black;" id="title" class="title"><a id="myLink" class="myLink" href="#">no</a></td>`;
+		html += `<td>Matman</td>`;
+		html += `<td>(713) 123-8965</td>`;
+		html += `<td><a id="myLink">jmatman@stewart.com</a></td>`;
+		html += `<td>01/13/1979</td>`;
+		html += `</tr>`;
+		}
+		
+		$(".tbody").empty();
+		$(".tbody").append(html);
+		
+		
+	}
+	
+	function insertTable(data) {
+		let arr = data.split('"boardNo":');
+		
+		let arr2 = data.split('"title":');
+		
+		for(let i=1;i<arr.length;i++){
+			let no = arr[i].split(",")[0];
+			let title = arr2[i].split(",")[0];
+			title = title.replace(/\"/gi, "");
+			console.log(title);
+			document.getElementsByClassName("myLink")[i-1].href = "/algorithm/algDetail?boardNo="+no;
+			document.getElementsByClassName("myLink")[i-1].innerHTML = title;
+		}
+		
+		
 	}
 
 </script>
@@ -381,11 +430,11 @@ a {
 
 					</tr>
 				</thead>
-				<tbody>
+				<tbody class="tbody">
 						<c:forEach var="alg" items="${algBoardList}">
 							<tr>
 								
-								<td style="color: black;"><a href="/algorithm/algDetail?boardNo=${alg.boardNo}">${alg.title}</a></td>
+								<td style="color: black;" id="title"><a href="/algorithm/algDetail?boardNo=${alg.boardNo}">${alg.title}</a></td>
 								
 								<td>Matman</td>
 								<td>(713) 123-8965</td>
@@ -445,6 +494,7 @@ a {
              -->
         </div>
 
+			</div>
 			</div>
 
 		</section>
