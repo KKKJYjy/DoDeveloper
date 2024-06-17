@@ -12,13 +12,6 @@
 <meta content="" name="description" />
 <meta content="" name="keywords" />
 
-<!-- jquery -->
-<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-
-<!-- 부트스트랩 -->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -73,8 +66,6 @@
   ======================================================== -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-
 
 <!-- 스터디 writeStudyBoard css 파일 -->
 <link href="/resources/assets/css/study/writeStudyBoard.css"
@@ -488,22 +479,22 @@
 	function selectNo(no) {
 		// 셀렉트 태그로 게시판을 선택하면 1.신고자의 아이디를 SessionScope에서 받아와 #reoprter태그에 삽입
 		// 2.셀렉트태그로 받아온 번호를 이용해 해당하는 번호를 작성한 작성자를 #writer태그에 삽입
-		console.log(no);
+		
+		//console.log(no);
 		let user = '${sessionScope.loginMember.userId}';
 		let boardNumber = no.split('&')[0]
-		
-		console.log(boardNumber);
+		//console.log(boardNumber);
 		
 		let list = `${studyList}`;
-		
-		console.log(list);
+		//console.log(list);
 		let writer = list.split('stuWriter=')[1].split(', stuTitle')[0];
-		console.log(writer);
+		//console.log(writer);
 		
 		$('#reporter').val(user);
 		$('#writer').val(writer);
 		$('#boardNo').val(boardNumber);
-		console.log(user);
+		//console.log(user);
+		
 		return boardNumber;
 	}
 	
@@ -514,16 +505,13 @@
 		
 		let list = `${studyList}`;
 		let user = '${sessionScope.loginMember.userId}';
-		console.log(list);
+		//console.log(list);
 		let writer = list.split('stuWriter=')[1].split(', stuTitle')[0];
 		let boardNo = list.split('stuNo=')[1].split(', stuWriter=')[0];
 		
-		
-		
-		console.log(writer);
-		console.log(user);
-		console.log(boardNo);
-		
+		//console.log(writer);
+		//console.log(user);
+		//console.log(boardNo);
 		
 		$('#writer').val(writer);
 		$('#reporter').val(user);
@@ -543,27 +531,23 @@
 			$.ajax({
 				url : "/report/insertReport",
 				data : {
-					
-					
 					"reporter": reporter,
 					"writer" : writer,
 					"boardNo" : boardNo,
 					"btypeNo" : btypeNo,
 					"reportReason" : reportReason,
 					"category" : "스터디 모임",
-					
-					
 				},
 				type : "get",
 				dataType : "text", // 수신받을 데이터의 타입
 				success : function(data) {
-				console.log(data);
-				
-				
+					console.log(data);
 				},
 			});
 			
-			alert("등록되었습니다.")
+			alert("신고가 접수되었습니다.");
+			location.href='/study/viewStudyBoard?stuNo=' + boardNo;
+			
 		} else {
 			alert("부적절한 입력값");
 		}
@@ -851,27 +835,25 @@ i {
 										<input type="submit" class="btn btn-danger"
 											onclick="return isVaild();" value="참여신청" />
 									</div>
-
 								</form>
-
 
 							</div>
 						</div>
 					</div>
-
 
 				</div>
 			</div>
 		</section>
 		<!--  -----------------------------------------------report board modal------------------------------------------------------------------ -->
 		<!-- The Modal   -->
-		<div class="modal" id="myModal">
+		<div class="modal fade" id="myModal"  tabindex="-1"
+			aria-labelledby="reportModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 
 					<!-- Modal Header -->
 					<div class="modal-header">
-						<h4 class="modal-title">신고할 게시글 선택</h4>
+						<h4 class="modal-title" id="reportModalLabel">신고할 게시글 선택</h4>
 						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 					</div>
 
@@ -880,8 +862,7 @@ i {
 						<label for="title" class="form-label">신고할 게시판 : </label>
 						<input type="text" class="form-control" id=""
 							value="${studyList.stuTitle}" name="" readonly="readonly"/>
-	
-	
+
 						<label for="title" class="form-label">게시글 작성자 : </label> 
 						<input type="text" class="form-control" id="writer"
 							placeholder="게시글 작성자를 입력하세요..." name="writer" />
@@ -896,7 +877,6 @@ i {
 								placeholder="신고 사유를 입력하세요..." name="reportReason">
 						</div>
 	
-	
 						<div>
 							<input type="hidden" id="btypeNo" name="btypeNo" value="2">
 						</div>
@@ -905,13 +885,12 @@ i {
 						</div>
 					</div>
 
-
 					<!-- Modal footer -->
 					<div class="modal-footer">
 						<button type="button" class="btn btn-outline-danger"
 							data-bs-dismiss="modal">취소</button>
 						<button type="button" class="btn btn-danger"
-							onclick="insertReport()">신고하기</button>
+							onclick="insertReport();">신고하기</button>
 					</div>
 
 				</div>
