@@ -76,11 +76,23 @@
 
 				<form action="/notice/listAll" method="get">
 					<select name="notc" onchange="this.form.submit()">
-						<option value="date"  ${notc == 'date' ? 'selected' : ''}>최신순</option>
+						<option value="date" ${notc == 'date' ? 'selected' : ''}>최신순</option>
 						<option value="view" ${notc == 'view' ? 'selected' : ''}>인기순</option>
 					</select>
 				</form>
-				
+
+				<!--  <div class="dropdown">
+					<button type="button" class="btn btn-primary dropdown-toggle"
+						data-bs-toggle="dropdown">정렬 기준</button>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item"
+							href="/notice/listAll?page=${param.pageNo}&notc=date">최신순</a></li>
+						<li><a class="dropdown-item"
+							href="/notice/listAll?page=${param.pageNo}&notc=view">인기순</a></li>
+					</ul>
+				</div>-->
+
+
 				<table class="table table-dark table-hover">
 
 

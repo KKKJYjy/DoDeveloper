@@ -37,7 +37,7 @@ public class noticeBoardController {
 
 	@RequestMapping(value = "/listAll", method = RequestMethod.GET)
 	public void noticeBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
-			@RequestParam(value="notc", defaultValue = "date") String notc, SearchCriteriaDTO sc) throws Exception {
+			@RequestParam(name="notc", defaultValue = "date") String notc, SearchCriteriaDTO sc) throws Exception {
 		logger.info("list 페이지 호출");
 
 		Map<String, Object> returnMap = null;
@@ -50,7 +50,7 @@ public class noticeBoardController {
 
 		if (notc.equals("date")) {
 			returnMap = bService.getlistNotcBoard(pageNo, sc);
-		} else {
+		} else if (notc.equals("view")) {
 			returnMap = bService.getlistViewNotcBoard(pageNo, sc);
 		}
 
