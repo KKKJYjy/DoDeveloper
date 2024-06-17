@@ -315,7 +315,7 @@ public class StudyContoller {
 	/**
 	 * @author : yeonju
 	 * @date : 2024. 5. 24.
-	 * @param : int newStuStack - 새로 추가 마킹을 남길 stuStack
+	 * @param : int newStuStack - 새로 추가 마킹을 남길 chooseStack(stack테이블의 stackNo와 fk관계)
 	 * @return : ResponseEntity<String> - 성공했을 경우 newMarkSuccess, 실패했을 경우
 	 *         newMarkfail 반환
 	 * @description : 스터디 모임글 수정시에 스터디 언어 새로 추가했을 때 해당 스터디 언어를 인서트처리 하겠다는 마킹을 남긴다.
