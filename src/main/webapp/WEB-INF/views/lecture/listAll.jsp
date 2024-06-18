@@ -112,7 +112,7 @@ select option:hover {
 				<section class="notice">
 					<div class="page-title">
 						<div class="container">
-							<h3>강의 추천 게시글 전체 조회 페이지</h3>
+							<h3>강의 추천 게시판</h3>
 						</div>
 					</div>
 

@@ -160,6 +160,7 @@ let replies = null;
 
 // 댓글 작성시 저장하는 js
 $(function() {
+	
 	// 댓글 목록 가져오기
 	getAllReplies();
 	
@@ -720,12 +721,14 @@ function clickReport() {
     $('#writer').val(writer);
     $('#reporter').val(user);
     $('#boardNo').val(boardNo);
-
-    // 게시글 신고가 완료 되었을 경우 - 하얀 신고 아이콘을 숨기고 빨간 신고 아이콘을 표시
+    
+    // 게시글 신고되기 전 - 하얀 신고 아이콘을 표시 빨간 신고 아이콘 숨기기
     let reportIcon = document.getElementById("reportIcon");
     let fullreportIcon = document.getElementById("fullreportIcon");
-    reportIcon.style.display = "none";
-    fullreportIcon.style.display = "inline";
+
+    reportIcon.style.display = "inline"; // 하얀 신고 아이콘 표시
+    fullreportIcon.style.display = "none"; // 빨간 신고 아이콘 숨기기
+
 }
 
 //신고 등록 함수
@@ -754,21 +757,17 @@ function insertReport() {
             dataType: "text",
             success: function(data) {
                 console.log('응답 데이터:', data);
-                if (data === 'success') {
-                    // 성공 시 신고 아이콘을 신고 완료 아이콘으로 전환시킴
-                    let reportIcon = document.getElementById("reportIcon");
-                    let fullreportIcon = document.getElementById("fullreportIcon");
-                    reportIcon.style.display = "none"; // 기존 신고 아이콘을 숨김
-                    fullreportIcon.style.display = "inline"; // 신고 완료 아이콘을 표시
-                    $('#myModal').modal('hide'); // 신고 완료시 모달 숨기기
-                    alert("등록되었습니다.");
-                } else {
-                    alert("등록에 실패했습니다.");
-                }
             },
         });
+        
+        $('#myModal').modal('hide'); // 신고 완료시 모달 숨기기
+        reportIcon.style.display = "none"; // 하얀 신고 아이콘 숨기기
+        fullreportIcon.style.display = "inline"; // 빨간 신고 아이콘 표시
+        
+        alert("등록되었습니다.");
+        
     } else {
-        alert("부적절한 입력값"); // 입력값이 부적절한 경우 메시지 표시
+        alert("신고 접수가 안되었습니다. 다시 신고 부탁드립니다."); // 입력값이 부적절한 경우 메시지 표시
     }
 }
 
@@ -800,7 +799,7 @@ function closeReport() {
 				<section class="notice">
 					<div class="page-title">
 						<div class="container">
-							<h3>강의 추천 게시글 상세 페이지</h3>
+							<!-- <h3>강의 추천 게시글 상세 페이지</h3> -->
 						</div>
 					</div>
 
