@@ -40,6 +40,7 @@
 <link href="/resources/assets/css/main.css" rel="stylesheet" />
 
 <title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <style>
 .pagination {
 	display: flex;
@@ -50,6 +51,11 @@
 
 .page-item {
 	margin: 0 5px;
+	
+}
+
+#notc {
+	margin-bottom: 10px;
 }
 </style>
 <script>
@@ -65,6 +71,8 @@
 			window.location.href = '/admin/notice';
 		}
 	}
+	
+	
 </script>
 </head>
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
@@ -75,7 +83,7 @@
 			<div class="container">
 
 				<form action="/notice/listAll" method="get">
-					<select name="notc" onchange="this.form.submit()">
+					<select id="notc" name="notc" onchange="this.form.submit()">
 						<option value="date" ${notc == 'date' ? 'selected' : ''}>최신순</option>
 						<option value="view" ${notc == 'view' ? 'selected' : ''}>인기순</option>
 					</select>
