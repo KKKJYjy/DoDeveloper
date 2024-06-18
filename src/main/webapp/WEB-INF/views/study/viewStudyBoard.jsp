@@ -91,8 +91,8 @@
 				description: '${studyList.stuWriter }님의 스터디 모집글',
 			    link: {
 			    	// [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
-			    	mobileWebUrl: 'http://localhost:8081',
-			    	webUrl: 'http://localhost:8081',
+			    	mobileWebUrl: 'http://kdtclass.cafe24.com/DoDeveloper',
+			    	webUrl: 'http://kdtclass.cafe24.com/DoDeveloper',
 			    	},
 			},
 			social: {
@@ -104,15 +104,15 @@
 				{
 					title: '웹으로 보기',
 			        link: {
-			        	mobileWebUrl: 'http://localhost:8081',
-			        	webUrl: 'http://localhost:8081',
+			        	mobileWebUrl: 'http://kdtclass.cafe24.com/DoDeveloper',
+			        	webUrl: 'http://kdtclass.cafe24.com/DoDeveloper',
 			        },
 			    },
 			    {
 			    	title: '앱으로 보기',
 			        link: {
-			        	mobileWebUrl: 'http://localhost:8081',
-			        	webUrl: 'http://localhost:8081',
+			        	mobileWebUrl: 'http://kdtclass.cafe24.com/DoDeveloper',
+			        	webUrl: 'http://kdtclass.cafe24.com/DoDeveloper',
 			        },
 			    },
 			],
