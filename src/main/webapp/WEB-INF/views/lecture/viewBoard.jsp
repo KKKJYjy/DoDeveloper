@@ -139,15 +139,19 @@
 
 /* 좋아요 버튼 & 스크랩 버튼 양옆으로 */
 .btn-group {
-    display: flex;
-    justify-content: space-between; /* 양 끝으로 정렬 */
-    align-items: center; /* 수직 가운데 정렬 */
-    width: 100%; /* 버튼 그룹의 너비를 100%로 설정 */
+	display: flex;
+	justify-content: space-between; /* 양 끝으로 정렬 */
+	align-items: center; /* 수직 가운데 정렬 */
+	width: 100%; /* 버튼 그룹의 너비를 100%로 설정 */
 }
 
 #fullScrapIcon {
 	width: 50px;
 	height: 50px;
+}
+
+.scrap {
+	margin-left: 20px;
 }
 </style>
 <script>
@@ -450,9 +454,9 @@ function cancelWriteReply() {
 // 좋아요 변수 초기값 설정
 let liked = false;
 
-// 좋아요 상태를 확인하기위해 아래의 함수(getLikeStatus)를 호출
+// 좋아요 상태를 확인하기 위해 페이지 로드 시 호출
 $(function() {
-    getLikeStatus();
+    getLikeStatus(); // 초기 좋아요 상태 확인
 });
 
 // 좋아요 상태를 확인하는 함수
@@ -462,27 +466,27 @@ function getLikeStatus() {
     let lecLikeTitle = '${lecBoard.lecTitle}'; // 게시글 제목
 
     $.ajax({
-        url: '/lecture/likeStatus', // 요청을 보낼 URL
-        type: 'get', // HTTP 요청 메서드 (GET)
+        url: '/lecture/likeStatus', // 좋아요 상태 확인 요청을 보낼 URL
+        type: 'get', // HTTP GET 메서드 사용
         data: {
-            lecNo: lecNo, // 게시글 번호
-            user: user, // 유저 정보
-            lecLikeTitle: lecLikeTitle // 게시글 제목
+            lecNo: lecNo, // 게시글 번호 전송
+            user: user, // 유저 정보 전송
+            lecLikeTitle: lecLikeTitle // 게시글 제목 전송
         },
         success: function(data) {
-            // 빈하트(좋아요 누르기 전)와 꽉찬하트(좋아요 누른 후)의 HTML 요소를 가져옴
+            // 빈하트(좋아요 누르기 전)와 꽉찬하트(좋아요 누른 후)의 HTML 요소 가져오기
             let heartIcon = document.getElementById("heartIcon");
             let fullHeartIcon = document.getElementById("fullHeartIcon");
 
-            // 받아온 데이터가 "success"이면 꽉찬하트를 표시, 아니면 빈하트를 표시
+            // 받아온 데이터가 "success"인 경우 꽉찬하트 표시, 아니면 빈하트 표시
             if (data === "success") {
                 heartIcon.style.display = "none"; // 빈하트 숨김
                 fullHeartIcon.style.display = "inline"; // 꽉찬하트 표시
-                liked = true; // 좋아요를 누른 상태
+                liked = true; // 좋아요를 누른 상태로 설정
             } else {
                 heartIcon.style.display = "inline"; // 빈하트 표시
                 fullHeartIcon.style.display = "none"; // 꽉찬하트 숨김
-                liked = false; // 좋아요를 누르지 않은 상태
+                liked = false; // 좋아요를 누르지 않은 상태로 설정
             }
         },
         error: function() {
@@ -491,52 +495,46 @@ function getLikeStatus() {
     });
 }
 
-// 하트 아이콘 클릭시 호출되는 함수(clickHeart)
+// 하트 아이콘 클릭 시 호출되는 함수(clickHeart)
 function clickHeart() {
     let lecNo = '${lecBoard.lecNo}'; // 게시글 번호
-    let user = preAuth(); // 로그인 한 유저만 좋아요 / 좋아요 취소 가능하도록
+    let user = '${sessionScope.loginMember.userId}'; // 로그인 한 유저의 정보
     let lecLikeTitle = '${lecBoard.lecTitle}'; // 게시글 제목
 
-    // 1) 게시글 번호, 좋아요 누를 유저를 likePost 객체에 담고
+    // 좋아요 또는 좋아요 취소 요청을 보낼 URL 설정 - 삼항 연산자 사용
+    let url = liked ? '/lecture/unLike' : '/lecture/like';
+
+    // 좋아요 또는 좋아요 취소 데이터 객체 설정
     let likePost = {
         "lecNo": lecNo,
         "user": user,
         "lecLikeTitle": lecLikeTitle
     };
+
     console.log(likePost);
-
-    // 좋아요/좋아요취소 url을 변수로 설정하고
-    let url;
-
-    // 설정한 url변수에
-    if (!liked) {
-        url = '/lecture/like'; // 좋아요를 누른 경우
-    } else {
-        url = '/lecture/unLike'; // 누른 좋아요를 취소하는 경우
-    }
-
+    
+    // AJAX 요청
     $.ajax({
-        url: url,
-        type: 'post',
-        // 2) ajax를 이용해서 데이터(likePost)를 문자열로 변환하여 넘겨준다.
-        data: JSON.stringify(likePost),
-        contentType: 'application/json', // 전송하는 데이터의 형식을 json으로 지정
+        url: url, // 요청 보낼 URL
+        type: 'post', // HTTP POST 메서드 사용
+        data: JSON.stringify(likePost), // 좋아요 데이터를 JSON 문자열로 변환하여 전송
+        contentType: 'application/json', // 전송하는 데이터의 형식을 JSON으로 설정
         success: function(data) {
             console.log('success:', data);
 
-            // 빈하트(좋아요 누르기 전)와 꽉찬하트(좋아요누른후)의 id값을 가져와서 변수로 지정
+            // 빈하트(좋아요 누르기 전)와 꽉찬하트(좋아요 누른 후)의 HTML 요소 가져오기
             let heartIcon = document.getElementById("heartIcon");
             let fullHeartIcon = document.getElementById("fullHeartIcon");
 
             if (!liked) {
-                // 좋아요를 누르는 경우
+                // 좋아요를 누른 경우
                 heartIcon.style.display = "none"; // 빈하트 숨김
-                fullHeartIcon.style.display = "inline"; // 꽉하트 표시
+                fullHeartIcon.style.display = "inline"; // 꽉찬하트 표시
                 console.log("좋아요 성공");
             } else {
-                // 좋아요를 눌렀던 경우 -> 좋아요 취소
+                // 좋아요를 취소한 경우
                 heartIcon.style.display = "inline"; // 빈하트 표시
-                fullHeartIcon.style.display = "none"; // 꽉하트 숨김
+                fullHeartIcon.style.display = "none"; // 꽉찬하트 숨김
                 console.log("좋아요 취소 성공");
             }
             liked = !liked; // 좋아요 상태(좋아요 <=> 좋아요 취소) 변경
@@ -610,7 +608,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 //---------------------------------------------------------------------
-//---------------------------------------------------------------------
 
 // 스크랩
 $(document).ready(function() {
@@ -623,13 +620,15 @@ let scraped = false;
 function getScrapStatus() {
     let lecNo = '${lecBoard.lecNo}';
     let user = '${sessionScope.loginMember.userId}';
+    let scrapLecTitle = '${lecBoard.lecTitle}';
 
     $.ajax({
         url: '/lecture/scrapStatus', // 요청을 보낼 URL
         type: 'get', // HTTP 요청 메서드 (GET)
         data: {
             lecNo: lecNo,
-            user: user
+            user: user,
+            scrapLecTitle: scrapLecTitle
         },
         success: function(data) {
             // 스크랩 누르기 전과 스크랩 누른 후의 HTML 요소를 가져옴
@@ -656,23 +655,19 @@ function getScrapStatus() {
 function clickScrap() {
     let lecNo = '${lecBoard.lecNo}'; // 게시글 번호
     let user = preAuth(); // 로그인 한 유저만 스크랩 / 스크랩 취소 가능하도록
+    let scrapLecTitle = '${lecBoard.lecTitle}';
 
-    // 1) 게시글 번호와 스크랩 누를 유저를 scrapPost 객체에 담고
+    // 스크랩 또는 스크랩 취소 요청을 보낼 URL 설정 - 삼항 연산자 사용
+    let url = scraped ? '/lecture/unScrap' : '/lecture/scrap';
+    
+ 	// 1) 게시글 번호와 스크랩 누를 유저를 scrapPost 객체에 담고
     let scrapPost = {
         "lecNo": lecNo,
-        "user": user
+        "user": user,
+        "scrapLecTitle": scrapLecTitle
     };
+
     console.log(scrapPost);
-
-    // 스크랩/스크랩 취소 url을 변수로 설정하고
-    let url;
-
-    // 설정한 url 변수에
-    if (!scraped) {
-        url = '/lecture/scrap'; // 스크랩을 누른 경우
-    } else {
-        url = '/lecture/unScrap'; // 스크랩을 취소하는 경우
-    }
 
     $.ajax({
         url: url,
@@ -706,72 +701,90 @@ function clickScrap() {
     });
 }
 
+//---------------------------------------------------------------------
 
+// 신고 버튼 (등록)
+function clickReport() {
 
+    let list = `${lecBoard}`;
+    let user = preAuth(); // 로그인을 한 유저만 신고 가능
+    console.log(list);
+    
+    // 위 lecBoard에서 문자열을 가져와 필요한 정보를 list에 담은 것으로 게시글 작성자와 게시글 번호를 추출
+    let writer = list.split('lecWriter=')[1].split(', lecPostDate=')[0]; // 게시글 작성자 추출
+    let boardNo = list.split('lecNo=')[1].split(', bType=')[0]; // 게시글 번호 추출
 
-//=============== 신고 버튼 관련 함수 (문전일)=========================
+    console.log("게시글 작성자 : " + writer + ", 신고자 : " + user + ", 게시글 번호 : " + boardNo);
 
-function openReport() {
-	alert("openReport");
-	
-	let list = `${lecBoard}`;
-	let user = '${sessionScope.loginMember.userId}';
-	console.log(list);
-	let writer = list.split('lecWriter=')[1].split(', lecPostDate=')[0];
-	let boardNo = list.split('lecNo=')[1].split(', bType=')[0];
-	
-	
-	
-	console.log(writer);
-	console.log(user);
-	console.log(boardNo);
-	
-	
-	$('#writer').val(writer);
-	$('#reporter').val(user);
-	$('#boardNo').val(boardNo);
-	
+    // 게시글 작성자명과 신고자명 게시글 번호를 모달의 입력창에 값을 불러와서 설정
+    $('#writer').val(writer);
+    $('#reporter').val(user);
+    $('#boardNo').val(boardNo);
+
+    // 게시글 신고가 완료 되었을 경우 - 하얀 신고 아이콘을 숨기고 빨간 신고 아이콘을 표시
+    let reportIcon = document.getElementById("reportIcon");
+    let fullreportIcon = document.getElementById("fullreportIcon");
+    reportIcon.style.display = "none";
+    fullreportIcon.style.display = "inline";
 }
 
+//신고 등록 함수
 function insertReport() {
-	// 모달창에서 받은 변수들을 컨트롤러 단의 report/insertReport 에서 Map으로 묶어서 전송됨
-	reporter = $('#reporter').val();
-	btypeNo = $('#btypeNo').val();
-	boardNo = $('#boardNo').val();
-	writer = $('#writer').val();
-	reportReason = $('#reportReason').val();
-	
-	if(reporter != '' && writer != ''){
-		$.ajax({
-			url : "/report/insertReport",
-			data : {
-				
-				
-				"reporter": reporter,
-				"writer" : writer,
-				"boardNo" : boardNo,
-				"btypeNo" : btypeNo,
-				"reportReason" : reportReason,
-				"category" : "강의 추천",
-				
-				
-			},
-			type : "get",
-			dataType : "text", // 수신받을 데이터의 타입
-			success : function(data) {
-			console.log(data);
-			
-			
-			},
-		});
-		
-		alert("등록되었습니다.")
-	} else {
-		alert("부적절한 입력값");
-	}
-}
-// ========================================================
+    // 1) 모달 내의 입력 필드에서 값을 가져와서
+    let reporter = $('#reporter').val();
+    let btypeNo = $('#btypeNo').val();
+    let boardNo = $('#boardNo').val();
+    let writer = $('#writer').val();
+    let reportReason = $('#reportReason').val();
 
+    // 입력창이 비어있을 경우 신고접수 X - 유효성 검사
+    if (reporter != '' && writer != '' && reportReason != '') {
+        $.ajax({
+            url: "/report/insertReport",
+            data: {
+                "reporter": reporter, // 신고자
+                "writer": writer, // 게시글 작성자
+                "boardNo": boardNo, // 게시글 번호
+                "btypeNo": btypeNo, // 게시판 타입 번호
+                "reportReason": reportReason, // 신고 사유
+                "category": "강의 추천" // 게시판 구분 이름
+            },
+            type: "get",
+            contentType: "application/json",
+            dataType: "text",
+            success: function(data) {
+                console.log('응답 데이터:', data);
+                if (data === 'success') {
+                    // 성공 시 신고 아이콘을 신고 완료 아이콘으로 전환시킴
+                    let reportIcon = document.getElementById("reportIcon");
+                    let fullreportIcon = document.getElementById("fullreportIcon");
+                    reportIcon.style.display = "none"; // 기존 신고 아이콘을 숨김
+                    fullreportIcon.style.display = "inline"; // 신고 완료 아이콘을 표시
+                    $('#myModal').modal('hide'); // 신고 완료시 모달 숨기기
+                    alert("등록되었습니다.");
+                } else {
+                    alert("등록에 실패했습니다.");
+                }
+            },
+        });
+    } else {
+        alert("부적절한 입력값"); // 입력값이 부적절한 경우 메시지 표시
+    }
+}
+
+//---------------------------------------------------------------------
+
+// 신고 취소 (모달 닫기)
+function closeReport() {
+    // 이미지 표시 변경 (신고 완료 아이콘을 신고 아이콘으로 전환)
+    let reportIcon = document.getElementById("reportIcon");
+    let fullreportIcon = document.getElementById("fullreportIcon");
+    reportIcon.style.display = "inline"; // 기존 신고 아이콘을 표시
+    fullreportIcon.style.display = "none"; // 신고 완료 아이콘을 숨김
+
+    // 모달 닫기
+    $('#myModal').modal('hide');
+}
 
 </script>
 </head>
@@ -790,8 +803,6 @@ function insertReport() {
 							<h3>강의 추천 게시글 상세 페이지</h3>
 						</div>
 					</div>
-
-
 
 					<!-- 로그인을 하지않아도 유저는 볼수 있지만 강의 링크는 로그인을 해야 볼수 있다. -->
 					<!-- 별점은 이 글을 작성한 유저가 작성한 것이므로 다른 유저들이 누를 수 없다. -->
@@ -840,12 +851,12 @@ function insertReport() {
 						<!-- 강의 후기 별점 -->
 						<!-- input type="hidden"을 사용해서 유저가 안보이도록 정보를 보낸다. -->
 						<div class="starRating">
-							<label for="lecScore" class="form-label">별점</label> <label
-								class="star"><input type="hidden" value="1"></label> <label
-								class="star"><input type="hidden" value="2"></label> <label
-								class="star"><input type="hidden" value="3"></label> <label
-								class="star"><input type="hidden" value="4"></label> <label
-								class="star"><input type="hidden" value="5"></label>
+							<label for="lecScore" class="form-label">별점</label>
+							<label class="star"><input type="hidden" value="1"></label>
+							<label class="star"><input type="hidden" value="2"></label>
+							<label class="star"><input type="hidden" value="3"></label>
+							<label class="star"><input type="hidden" value="4"></label>
+							<label class="star"><input type="hidden" value="5"></label>
 						</div>
 
 						<!-- 별점 값을 숨기는 input type -->
@@ -853,26 +864,33 @@ function insertReport() {
 							value="${lecBoard.lecScore}">
 					</div>
 
-
 					<!-- 좋아요 - likeInfo / 신고 - reportInfo -->
 					<div class="btn-group">
 						<div class="btns">
-							<!-- 하트 이미지 -->
-							<img id="heartIcon" src="/resources/images/lecture/redHeart.png"
-								alt="하트 이미지" onclick="clickHeart();">
-							<img id="fullHeartIcon" src="/resources/images/lecture/redFullHeart.png"
-								alt="하트 이미지" style="display: none;"
-								onclick="clickHeart();">
-						</div>
+							<div class="btns heart">
+								<!-- 하트 이미지 -->
+								<img id="heartIcon" src="/resources/images/lecture/redHeart.png"
+									alt="하트 이미지" onclick="clickHeart();">
+								<img id="fullHeartIcon" src="/resources/images/lecture/redFullHeart.png"
+									alt="하트 이미지" style="display: none;" onclick="clickHeart();">
+							</div>
 
-						<!-- <div class="reportInfo"></div> -->
+							<div class="btns scrap">
+								<!-- 스크랩 -->
+								<img id="scrapIcon" src="/resources/images/lecture/scrap.png"
+									alt="스크랩" onclick="clickScrap();">
+								<img id="fullScrapIcon" src="/resources/images/lecture/fullScrap.png"
+									alt="스크랩" style="display: none;" onclick="clickScrap();">
+							</div>
+						</div>
 						
-						<div class="btns">
-							<!-- 스크랩 -->
-							<img id="scrapIcon" src="/resources/images/lecture/scrap.png" alt="스크랩"
-							onclick="clickScrap();">
-							<img id="fullScrapIcon" src="/resources/images/lecture/fullScrap.png" alt="스크랩"
-							style="display: none;" onclick="clickScrap();">
+						<div class="btns report">
+							<!-- 신고 -->
+							<img id="reportIcon" src="/resources/images/lecture/siren.png"
+								alt="신고" onclick="clickReport();"
+								data-bs-toggle="modal" data-bs-target="#myModal">
+							<img id="fullreportIcon" src="/resources/images/lecture/fullSiren.png"
+								alt="신고" style="display: none;" onclick="clickReport();">
 						</div>
 					</div>
 
@@ -887,16 +905,9 @@ function insertReport() {
 						</c:if>
 					</div>
 
-
 					<div class="btns">
 						<a href="/lecture/listAll" class="btn">목록으로</a>
-					<!-- 로그인된 회원이 게시글 신고하는 버튼 추가함 (문전일) -->
-					<button type="button" class="btn btn-primary"
-						data-bs-toggle="modal" data-bs-target="#myModal"
-						onclick="openReport()">신고</button>
 					</div>
-
-
 
 					<!-- 댓글 작성 로그인 한 유저만 가능 -->
 					<div class="writeReply">
@@ -916,17 +927,12 @@ function insertReport() {
 						<!-- 댓글 목록이 여기에 표시됩니다 -->
 					</div>
 
-
-
 				</section>
-
-
-
 			</div>
 		</section>
-		
-		
-		
+
+
+
 		<!--  -----------------------------------------------report board modal------------------------------------------------------------------ -->
 		<!-- The Modal   -->
 		<div class="modal" id="myModal">
@@ -935,64 +941,49 @@ function insertReport() {
 
 					<!-- Modal Header -->
 					<div class="modal-header">
-						<h4 class="modal-title">신고할 게시글 선택</h4>
+						<h4 class="modal-title">신고 사유를 작성해주세요.</h4>
 						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 					</div>
 
 					<!-- Modal body
 					 -->
 
-					<div>${lecBoard}</div>
-
-						<label for="title" class="form-label">신고할 게시판 : </label>
-						<input type="text" class="form-control" id=""
-						value="${lecBoard.lecTitle}" name="" readonly="readonly"/>
-
-
-
-
-					 <label for="title" class="form-label">게시글 작성자 : </label> <input
-						type="text" class="form-control" id="writer"
-						placeholder="게시글 작성자를 입력하세요..." name="writer" /> <label
-						for="title" class="form-label">신고글 작성자 : </label> <input
-						type="text" class="form-control" id="reporter"
-						placeholder="신고글 작성자를 입력하세요..." name="reporter" readonly="readonly"/>
-
-
+					<label for="title" class="form-label">신고할 게시판 제목 : </label>
+					<input type="text" class="form-control" id="reportTitle" value="${lecBoard.lecTitle}"
+						name="reportTitle" readonly="readonly" />
+					<label for="title" class="form-label">게시글 작성자 : </label>
+					<input type="text" class="form-control" id="writer" name="writer"
+						readonly="readonly" />
+					<label for="title" class="form-label">신고글 작성자 : </label>
+					<input type="text" class="form-control" id="reporter" name="reporter"
+						readonly="readonly" />
 
 
 					<div class="mb-3 mt-3">
-						<label for="title" class="form-label">신고사유 : </label> <input
-							type="text" class="form-control" id="reportReason"
-							placeholder="신고 사유를 입력하세요..." name="reportReason">
+						<label for="title" class="form-label">신고사유 : </label>
+						<input type="text" class="form-control" id="reportReason"
+							name="reportReason" placeholder="신고 사유를 입력하세요..." >
 					</div>
 
 
 					<div>
 						<input type="hidden" id="btypeNo" name="btypeNo" value="1">
-					</div>
-					<div>
 						<input type="hidden" id="boardNo" name="boardNo">
 					</div>
 
 
 					<!-- Modal footer -->
 					<div class="modal-footer">
-						<button type="button" class="btn btn-warning"
-							onclick="insertReport()">등록</button>
-						<button type="button" class="btn btn-danger"
-							data-bs-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-secondary"
+							onclick="insertReport();">등록</button>
+						<button type="button" class="btn btn-secondary"
+							onclick="closeReport();"  data-bs-dismiss="modal">Close</button>
 					</div>
 
 				</div>
 			</div>
 		</div>
 		<!--  --------------------------------------------------report modal End-----------------------------------------------
-		
-		
-		
-		
-		
 		
 		<!-- End Basic Section -->
 	</main>
