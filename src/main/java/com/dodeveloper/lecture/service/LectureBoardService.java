@@ -48,5 +48,4 @@ public interface LectureBoardService {
 	// 최신 5개 강의 게시글을 얻어오는 메서드
 	List<LectureBoardVO> getLectureTop5() throws Exception;
 
-	
 }

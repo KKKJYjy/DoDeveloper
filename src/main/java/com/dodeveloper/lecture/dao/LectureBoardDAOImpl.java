@@ -192,7 +192,7 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	}
 
 	/**
-	 * @methodName : getLectureBoardListWithSc
+	 * @methodName : lectureBoardListWithSc
 	 * @author : kde
 	 * @date : 2024.05.05
 	 * @param : LectureSearchDTO lsDTO - 검색조건의 Type와 value
@@ -233,7 +233,7 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 * @methodName : listAllBoardByFilter
 	 * @author : kde
 	 * @date : 2024.05.06
-	 * @param : String filterType - 필터 타입(최신순 / 인기순 / 조회순)
+	 * @param : LectureSearchDTO lsDTO - 검색 기능이 포함 된 DTO중 필터 타입(최신순 / 인기순 / 조회순)
 	 * @param : PagingInfo pi - 전체 게시글 페이징
 	 * @return : List<LectureBoardVO>
 	 * @description : 검색 필터(최신순 / 인기순 / 조회순)을 선택했을 때 글을 가져오는 메서드 - 검색 필터
@@ -269,7 +269,7 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 * @date : 2024.05.25
 	 * @param : LectureSearchDTO lsDTO - 검색 조건 / 검색어 / 검색 필터 포함된 DTO
 	 * @param : PagingInfo pi - 전체 게시글 페이징
-	 * @return :
+	 * @return : List<LectureBoardVO>
 	 * @description : 검색 필터 + 검색 조건 + 페이징까지 글을 가져오는 메서드
 	 */
 	@Override
@@ -294,10 +294,12 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 * @param : int lecNo - 게시글 번호
 	 * @param : String user - 좋아요 눌렀는지 안눌렀는지 확인할 유저
 	 * @return : int
-	 * @description : 게시글에 유저가 좋아요를 눌렀는지 안눌렀는지 확인하는 메서드 selectLikeBoard 쿼리문에서
-	 *              count(*)를 사용하여 갯수를 센 후에 좋아요를 눌렀을 경우 1반환 좋아요를 안눌렀을 경우 0반환을 하기때문에
-	 *              int를 사용함. 유저가 하트를 눌렀을 때 좋아요 수가 1증가 -> ♥ 유저가 하트를 한번 더 눌렀을 경우 1감소
-	 *              -> ♡
+	 * @description :
+	 * 게시글에 유저가 좋아요를 눌렀는지 안눌렀는지 확인하는 메서드
+	 * selectLikeBoard 쿼리문에서 count(*)를 사용하여 갯수를 센 후에 좋아요를 눌렀을 경우 1반환
+	 * 좋아요를 안눌렀을 경우 0반환을 하기때문에 int를 사용함.
+	 * 유저가 하트를 눌렀을 때 좋아요 수가 1증가 -> ♥
+	 * 유저가 하트를 한번 더 눌렀을 경우 1감소 -> ♡
 	 */
 	@Override
 	public int selectLikeBoard(int lecNo, String user) throws Exception {
@@ -310,7 +312,7 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	}
 
 	/**
-	 * @methodName : likeBoard
+	 * @methodName : insertLikeBoard
 	 * @author : kde
 	 * @date : 2024.05.18
 	 * @param : int lecNo - 게시글 번호
@@ -332,7 +334,7 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	}
 
 	/**
-	 * @methodName : updateLikeBoard
+	 * @methodName : updateLikeCount
 	 * @author : kde
 	 * @date : 2024.05.20
 	 * @param : int lecNo - 게시글 번호
@@ -365,7 +367,7 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	}
 
 	/**
-	 * @methodName : updateLikeBoard
+	 * @methodName : updateLikeDownCount
 	 * @author : kde
 	 * @date : 2024.05.20
 	 * @param : int lecNo - 게시글 번호
@@ -384,7 +386,7 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 * @date : 2024.06.08
 	 * @param : int lecNo - 스크랩을 눌렀는지 확인 할 게시글 번호
 	 * @param : String user - 스크랩을 눌렀는지 확인 할 유저
-	 * @return : List<Object>
+	 * @return : int
 	 * @description : 유저가 스크랩을 누른적이 있는지 조회 (스크랩 눌렀을 경우 1반환)
 	 */
 	@Override
@@ -403,7 +405,7 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	 * @date : 2024.06.09
 	 * @param : int lecNo - 게시글 번호
 	 * @param : String user - 스크랩을 누른 유저
-	 * @param : scrapLecTitle - 스크랩을 누른 게시글 제목
+	 * @param : String scrapLecTitle - 스크랩을 누른 게시글 제목
 	 * @return : int
 	 * @description : 게시글에 스크랩 처리하는 메서드
 	 */
@@ -463,8 +465,8 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	public int updateDownScrap(int lecNo) throws Exception {
 		
 		return ses.update(ns + ".updateDownScrap", lecNo);
-  }
-
+	}
+	
 	/**
 	 * @author : yeonju
 	 * @date : 2024. 6. 10.
@@ -474,7 +476,6 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 	@Override
 	public List<LectureBoardVO> getLectureTop5() throws Exception {
 		return ses.selectList(ns + ".getLectureTo5");
-
 	}
 
 }

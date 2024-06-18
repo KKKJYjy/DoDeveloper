@@ -9,21 +9,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.lecture.dao.LectureBoardDAO;
 import com.dodeveloper.lecture.vodto.LectureBoardDTO;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
 import com.dodeveloper.lecture.vodto.LectureSearchDTO;
-import com.dodeveloper.scrap.dao.ScrapDAO;
 
 @Service // 아래의 클래스가 서비스 객체임을 명시하는 것
 public class LectureBoardServiceImpl implements LectureBoardService {
 
 	@Autowired
 	private LectureBoardDAO lDao; // 스프링 컨테이너에 있는 LectureDAO 객체를 찾아 주입
-	
-	@Autowired
-	private ScrapDAO sDao; // 스프링 컨테이너에 있는 ScrapDAO 객체를 찾아 주입
 
 	@Autowired
 	private PagingInfo pi; // 스프링 컨테이너에 있는 PagingInfo 객체를 찾아 주입
@@ -328,7 +325,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	}
 
 	/**
-	 * @methodName : likeBoard
+	 * @methodName : likeUpBoard
 	 * @author : kde
 	 * @date : 2024.05.18
 	 * @param : int lecNo - 게시글 번호
@@ -356,12 +353,11 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	}
 
 	/**
-	 * @methodName : likeBoard
+	 * @methodName : likeDownBoard
 	 * @author : kde
 	 * @date : 2024.05.21
 	 * @param : int lecNo - 게시글 번호
 	 * @param : String user - 좋아요를 취소하는 유저
-	 * @param : String lecLikeTitle - 좋아요 취소한 게시글 제목
 	 * @return : boolean
 	 * @description : 로그인 한 유저 + 좋아요를 눌렀던 유저일 경우만 좋아요를 취소할 수 있다.
      * 유저가 하트를 한번 더 눌렀을 경우 1감소 -> ♡
@@ -389,7 +385,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	 * @date : 2024.06.08
 	 * @param : int lecNo - 스크랩을 눌렀는지 확인 할 게시글 번호
 	 * @param : String user - 스크랩을 눌렀는지 확인 할 유저
-	 * @return : List<Object>
+	 * @return : boolean
 	 * @description : 유저가 스크랩을 누른적이 있는지 조회 (스크랩 눌렀을 경우 1반환)
 	 */
 	@Override
@@ -410,7 +406,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	 * @date : 2024.06.09
 	 * @param : int lecNo - 게시글 번호
 	 * @param : String user - 스크랩을 누른 유저
-	 * @param : scrapLecTitle - 스크랩을 누른 게시글 제목
+	 * @param : String scrapLecTitle - 스크랩을 누른 게시글 제목
 	 * @return : boolean
 	 * @description : 게시글에 스크랩 버튼을 눌렀을 경우 - 스크랩 갯수 1개 update (전체 게시글에 보여주기)
 	 */
@@ -465,6 +461,5 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	public List<LectureBoardVO> getLectureTop5() throws Exception {
 		return lDao.getLectureTop5();
 	}
-
 
 }

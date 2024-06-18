@@ -196,7 +196,6 @@
 		-1 where lecNo = #{lecNo}
 	</update>
 	
-
 	<!-- 유저가 스크랩을 누른적이 있는지 조회 (스크랩 눌렀을 경우 1반환) -->
 	<select id="selectAllLectureScrap" resultType="int">
 		select count(*) from scrap where scrapId = #{user} and scrapBoard = #{lecNo}
@@ -227,5 +226,4 @@
 		SELECT * FROM lectureBoard order by lecPostDate desc limit 5
 	</select>
 	
-
 </mapper>

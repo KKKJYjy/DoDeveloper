@@ -26,13 +26,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.dodeveloper.company.vodto.ScrapVO;
 import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.lecture.service.LectureBoardService;
 import com.dodeveloper.lecture.vodto.LectureBoardDTO;
 import com.dodeveloper.lecture.vodto.LectureBoardVO;
 import com.dodeveloper.lecture.vodto.LectureSearchDTO;
 import com.dodeveloper.member.vo.MemberVO;
+import com.dodeveloper.report.service.ReportService;
 
 /**
  * @PackageName : com.dodeveloper.lecture.controller
@@ -56,11 +56,11 @@ public class LectureBoardController {
 	}
 
 	/**
-	 * @methodName : listAllGet
+	 * @methodName : listBoardGet
 	 * @author : kde
 	 * @date : 2024.05.02
 	 * @param : Model model : View단(listAll)으로 바인딩하는 전용 객체
-	 * @param : @RequestParam(value = "lecNo", defaultValue = "1") int lecNo
+	 * @param : @RequestParam(value = "lecNo", defaultValue = "1") int pageNo
 	 * int 매개변수 'lecNo'가 존재하지만 기본 유형으로 선언되기 때문에 null값으로 변환할 수 없어서 객체 래퍼로 선언한 것
 	 * @param : LectureSearchDTO lsDTO - 검색어 Type와 Value를 가져옴
 	 * @return : void
@@ -288,7 +288,7 @@ public class LectureBoardController {
 	 * @methodName : cancelBoard
 	 * @author :
 	 * @date : 2024.05.05
-	 * @return : String
+	 * @return : @ResponseBody String
 	 * @description : 유저가 게시글을 작성하려다 취소버튼을 누른 경우에 작동되는 메서드
 	 */
 	@RequestMapping(value = "/cancel", method = RequestMethod.POST, produces = "text/plain; charset=utf-8")
@@ -302,7 +302,7 @@ public class LectureBoardController {
 	 * @methodName : cancelModifyBoard
 	 * @author :
 	 * @date : 2024.05.12
-	 * @return : String
+	 * @return : @ResponseBody String
 	 * @description : 게시글 수정하려다가 취소 버튼을 누른 경우 작동되는 메서드
 	 */
 	@RequestMapping(value = "/cancelModify", method = RequestMethod.POST)
@@ -311,7 +311,7 @@ public class LectureBoardController {
 
 		return "success";
 	}
-	
+
 	/**
 	 * @methodName : getLikeStatus
 	 * @author : 
@@ -341,7 +341,7 @@ public class LectureBoardController {
 	}
 
 	/**
-	 * @methodName : likeBoard
+	 * @methodName : likePost
 	 * @author :
 	 * @date : 2024.05.18
 	 * @param : @RequestBody Map<String, String> likeRequest
@@ -376,7 +376,7 @@ public class LectureBoardController {
 	}
 
 	/**
-	 * @methodName : likeBoard
+	 * @methodName : unLikePost
 	 * @author :
 	 * @date : 2024.05.22
 	 * @param : @RequestBody Map<String, String> likeRequest
@@ -408,9 +408,8 @@ public class LectureBoardController {
 	    return result;
 	}
 	
-	
 	/**
-	 * @methodName : getLikeStatus
+	 * @methodName : lectureScrap
 	 * @author : 
 	 * @date : 2024.05.23
 	 * @param : int lecNo - 스크랩을 눌렸는지 확인할 게시글 번호
@@ -437,7 +436,7 @@ public class LectureBoardController {
 	}
 	
 	/**
-	 * @methodName : likeBoard
+	 * @methodName : scrapPost
 	 * @author :
 	 * @date : 2024.05.18
 	 * @param : @RequestBody Map<String, String> likeRequest
@@ -472,8 +471,8 @@ public class LectureBoardController {
     }
 
 	/**
-	 * @methodName : likeBoard
-	 * @author :
+	 * @methodName : unScrapPost
+	 * @author : 
 	 * @date : 2024.05.22
 	 * @param : @RequestBody Map<String, String> likeRequest
 	 * json 데이터를 자바의 Map 형태로 매핑(lecNo가 int형이라 넘길수가 없기에 Map 형태로 String으로 만들어서 넘겼다.)
@@ -502,6 +501,20 @@ public class LectureBoardController {
         }
 
         return result;
+	}
+	
+	/**
+	 * @methodName : cancelReport
+	 * @author : kde
+	 * @date : 2024.06.17
+	 * @return : String
+	 * @description : 유저가 신고 취소를 눌렀을 경우
+	 */
+	@RequestMapping(value = "/cancelReport", method = RequestMethod.POST)
+	public @ResponseBody String cancelReport() {
+		System.out.println("신고 취소 요청");
+
+		return "success";
 	}
 
 }
