@@ -187,7 +187,7 @@
 	<!-- 유저가 게시글에 하트를 한 번 더 눌렀을 경우 delete 되는 쿼리문 -->
 	<delete id="deleteLikeBoard">
 		delete from lectureLikeInfo where lecNo = #{lecNo}
-		and lecLikeUser = #{user} and lecLikeTitle = #{lecLikeTitle}
+		and lecLikeUser = #{user}
 	</delete>
 
 	<!-- 유저가 게시글 하트를 한번 더 눌렀을 경우 좋아요 횟수 down하는 update -->
@@ -196,7 +196,6 @@
 		-1 where lecNo = #{lecNo}
 	</update>
 	
-
 	<!-- 유저가 스크랩을 누른적이 있는지 조회 (스크랩 눌렀을 경우 1반환) -->
 	<select id="selectAllLectureScrap" resultType="int">
 		select count(*) from scrap where scrapId = #{user} and scrapBoard = #{lecNo}
@@ -204,7 +203,7 @@
 	
 	<!-- 스크랩을 한 번 눌렀을 경우 insert 되는 쿼리문 -->
 	<insert id="insertScrap">
-		insert into scrap(scrapBoard, scrapId, bType) values(#{lecNo}, #{user}, 1)
+		insert into scrap(scrapBoard, scrapId, scrapLecTitle, bType) values(#{lecNo}, #{user}, #{scrapLecTitle}, 1)
 	</insert>
 	
 	<!-- 스크랩을 한 번 눌렀을 경우 스크랩 횟수 update -->
@@ -227,5 +226,4 @@
 		SELECT * FROM lectureBoard order by lecPostDate desc limit 5
 	</select>
 	
-
 </mapper>

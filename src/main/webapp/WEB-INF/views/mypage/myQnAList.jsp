@@ -8,7 +8,7 @@
 <meta charset="utf-8" />
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-<title>My Lecture List - DoDeveloper</title>
+<title>My QnA List - DoDeveloper</title>
 <meta content="" name="description" />
 <meta content="" name="keywords" />
 
@@ -75,30 +75,27 @@
 
 				<div class="container">
 					<h3 class="center text-center text-light pb-4 fw-medium">
-						${sessionScope.loginMember.userId}님이 강의 추천 게시판에 작성한 게시글</h3>
+						${sessionScope.loginMember.userId}님이 신고한 게시판</h3>
 				</div>
 
-				<c:forEach var="lectureList" items="${lectureList}">
-					<div class="col-md mb-2 lecture">
+
+					<c:forEach var="myQnA" items="${myPageQnAList}">
+						<div class="col-md mb-2 lecture">
 						<div class="card mb-3">
 							<div class="card-body">
 								<table class="table">
 									<thead>
 										<tr>
 											<th>제목</th>
-											<th>작성 날짜</th>
-											<th>별점</th>
-											<th>조회수</th>
-											<th>좋아요수</th>
+											<th>내용</th>
+											<th>작성 일자</th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr onclick="location.href='/lecture/viewBoard?lecNo=${lectureList.lecNo}';">
-											<td>${lectureList.lecTitle}</td>
-											<td>${lectureList.lecPostDate}</td>
-											<td>${lectureList.lecScore}</td>
-											<td>${lectureList.lecReadCount}</td>
-											<td>${lectureList.lecLikeCount}</td>
+										<tr onclick="location.href='/qna/viewBoard?no=${myQnA.no}';">
+											<td>${myQnA.qnaTitle }</td>
+											<td>${myQnA.qnaContent }</td>
+											<td>${myQnA.postDate }</td>
 										</tr>
 									</tbody>
 								</table>
@@ -107,26 +104,32 @@
 					</div>
 				</c:forEach>
 
-				<!-- 페이징 -->
-				<!-- 여기서 사용한 쿼리스트링은 페이징 다음 페이지로 넘어갔을 때 조건을 유지하기 위해서 사용한 것 -->
-				<ul class="pagination">
-					<c:if test="${param.pageNo > 1}">
-						<li class="page-item "><a class="page-link"
-							href="/mypage/myLectureList?pageNo=${param.pageNo -1 }">Previous</a></li>
-					</c:if>
-					<c:forEach var="i"
-						begin="${pagingInfo.startNumOfCurrentPagingBlock }"
-						end="${pagingInfo.endNumOfCurrentPagingBlock }" step="1">
-						<li class="page-item " id="${i }"><a class="page-link"
-							href="/mypage/myLectureList?pageNo=${i }">${i }</a></li>
-					</c:forEach>
-					<c:if test="${param.pageNo < pagingInfo.totalPageCnt}">
-						<li class="page-item "><a class="page-link"
-							href="/mypage/myLectureList?pageNo=${param.pageNo +1 }">Next</a></li>
-					</c:if>
-				</ul>
+					<!-- 페이징 -->
+					<!-- 여기서 사용한 쿼리스트링은 페이징 다음 페이지로 넘어갔을 때 조건을 유지하기 위해서 사용한 것 -->
+					<ul class="pagination">
+						<c:if test="${param.pageNo > 1}">
+							<li class="page-item "><a class="page-link"
+								href="/mypage/myQnAList?pageNo=${param.pageNo -1 }">Previous</a></li>
+						</c:if>
+						<c:forEach var="i"
+							begin="${pagingInfo.startNumOfCurrentPagingBlock }"
+							end="${pagingInfo.endNumOfCurrentPagingBlock }" step="1">
+							<li class="page-item " id="${i }"><a class="page-link"
+								href="/mypage/myQnAList?pageNo=${i }">${i }</a></li>
+						</c:forEach>
+						<c:if test="${param.pageNo < pagingInfo.totalPageCnt}">
+							<li class="page-item "><a class="page-link"
+								href="/mypage/myQnAList?pageNo=${param.pageNo +1 }">Next</a></li>
+						</c:if>
+					</ul>
+
+				</div>
+
+
+
 		</section>
 		<!-- End Basic Section -->
+
 
 	</main>
 

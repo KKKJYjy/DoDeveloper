@@ -8,7 +8,7 @@
 <meta charset="utf-8" />
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-<title>My Lecture List - DoDeveloper</title>
+<title>My Report List - DoDeveloper</title>
 <meta content="" name="description" />
 <meta content="" name="keywords" />
 
@@ -75,30 +75,30 @@
 
 				<div class="container">
 					<h3 class="center text-center text-light pb-4 fw-medium">
-						${sessionScope.loginMember.userId}님이 강의 추천 게시판에 작성한 게시글</h3>
+						${sessionScope.loginMember.userId}님이 신고한 게시판</h3>
 				</div>
 
-				<c:forEach var="lectureList" items="${lectureList}">
+
+				<c:forEach var="report" items="${reportList}">
 					<div class="col-md mb-2 lecture">
 						<div class="card mb-3">
 							<div class="card-body">
 								<table class="table">
 									<thead>
 										<tr>
-											<th>제목</th>
-											<th>작성 날짜</th>
-											<th>별점</th>
-											<th>조회수</th>
-											<th>좋아요수</th>
+											<th>게시판 구분</th>
+											<th>게시글 작성자</th>
+											<th>신고 사유</th>
+											<th>신고 일자</th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr onclick="location.href='/lecture/viewBoard?lecNo=${lectureList.lecNo}';">
-											<td>${lectureList.lecTitle}</td>
-											<td>${lectureList.lecPostDate}</td>
-											<td>${lectureList.lecScore}</td>
-											<td>${lectureList.lecReadCount}</td>
-											<td>${lectureList.lecLikeCount}</td>
+										<tr
+											onclick="location.href='/mypage/goMyReportList?btypeNo=${report.btypeNo}&reportNo=${report.reportNo}';">
+											<td>${report.category }</td>
+											<td>${report.writer }</td>
+											<td>${report.reportReason }</td>
+											<td>${report.reportDate}</td>
 										</tr>
 									</tbody>
 								</table>
@@ -112,21 +112,27 @@
 				<ul class="pagination">
 					<c:if test="${param.pageNo > 1}">
 						<li class="page-item "><a class="page-link"
-							href="/mypage/myLectureList?pageNo=${param.pageNo -1 }">Previous</a></li>
+							href="/mypage/myReportList?pageNo=${param.pageNo -1 }">Previous</a></li>
 					</c:if>
 					<c:forEach var="i"
 						begin="${pagingInfo.startNumOfCurrentPagingBlock }"
 						end="${pagingInfo.endNumOfCurrentPagingBlock }" step="1">
 						<li class="page-item " id="${i }"><a class="page-link"
-							href="/mypage/myLectureList?pageNo=${i }">${i }</a></li>
+							href="/mypage/myReportList?pageNo=${i }">${i }</a></li>
 					</c:forEach>
 					<c:if test="${param.pageNo < pagingInfo.totalPageCnt}">
 						<li class="page-item "><a class="page-link"
-							href="/mypage/myLectureList?pageNo=${param.pageNo +1 }">Next</a></li>
+							href="/mypage/myReportList?pageNo=${param.pageNo +1 }">Next</a></li>
 					</c:if>
 				</ul>
+
+			</div>
+
+
+
 		</section>
 		<!-- End Basic Section -->
+
 
 	</main>
 

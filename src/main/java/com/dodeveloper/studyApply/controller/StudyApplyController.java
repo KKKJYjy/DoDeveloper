@@ -25,7 +25,7 @@ public class StudyApplyController {
 
 	/**
 	 * @author : yeonju
-	 * @date : 2024. 5. 24.
+	 * @date : 2024. 6. 17.
 	 * @param : StudyApplyVO newApply - 신청 내용을 담을 객체
 	 * @return : String - 신청 성공하면 해당 모임글 상세페이지로 success 파라메터 달고 이동
 	 * @description : 해당 스터디 모임글에 신청 내용을 insert 한다.
@@ -38,7 +38,11 @@ public class StudyApplyController {
 		try {
 
 			if (saService.insertApply(newApply) == 1) {
+				System.out.println("처음 신청하는 사람");
 				result = "redirect:/study/viewStudyBoard?stuNo=" + newApply.getStuNo() + "&status=success";
+			} else {				
+				System.out.println("중복 신청하는 사람");
+				result = "redirect:/study/viewStudyBoard?stuNo=" + newApply.getStuNo() + "&status=fail";
 			}
 
 		} catch (Exception e) {

@@ -26,8 +26,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.dodeveloper.commons.interceptor.SessionNames;
+import com.dodeveloper.admin.vo.QnaBoardVO;
+import com.dodeveloper.admin.vo.ReportVO;
+
 import com.dodeveloper.company.vodto.ScrapVO;
 import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.lecture.service.LectureBoardService;
@@ -41,6 +45,7 @@ import com.dodeveloper.mypage.dto.ChangePwdDTO;
 import com.dodeveloper.mypage.dto.ProfileDTO;
 import com.dodeveloper.mypage.service.MyPageService;
 import com.dodeveloper.mypage.vo.ProfileVO;
+import com.dodeveloper.reply.service.ReplyService;
 import com.dodeveloper.reply.vodto.ReplyVO;
 import com.dodeveloper.study.vodto.StuStackDTO;
 import com.dodeveloper.study.vodto.StudyBoardVO;
@@ -520,5 +525,175 @@ public class MyPageController {
 		// 페이징 정보를 바인딩
 		model.addAttribute("pagingInfo", (PagingInfo) resultMap.get("pagingInfo"));
 	}
+	
+	/**
+	 * @methodName : myLikeLectureList
+	 * @author : kde
+	 * @date : 2024.06.12
+	 * @param : @RequestParam(value = "pageNo", defaultValue = "1") int pageNo
+	 * - 뷰단에서 쿼리스트링으로 넘겨 페이징 하기 위한 pageNo
+	 * @param : Model model - 컨트롤러에서 뷰로 데이터를 전달
+	 * @param : HttpServletRequest req - 로그인한 사용자의 아이디를 가져오기 위해 사용
+	 * @return : void
+	 * @description : 유저가 신고한 게시글 확인하는 마이페이지의 게시글로 이동 + 페이징
+	 */
+	@GetMapping("/myReportList")
+	public void myReportList(@RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+			Model model, HttpServletRequest req) {
+		// 현재 로그인한 사용자의 아이디
+		String userId = ((MemberVO) req.getSession().getAttribute("loginMember")).getUserId();
+		logger.info(userId + "가 신고한 게시글 확인하러 마이페이지의 게시글로 이동");
+		
+		Map<String, Object> resultMap = null;
+		
+		String resultPage = null;
+		
+	    // 페이지 번호가 1이상이 되도록 설정
+	 	if (pageNo <= 0) {
+	 		pageNo = 1;
+	 	}
+	 	
+	 	// 서비스단 호출(getMyPageReportList() 메서드 호출)
+		try {
+			resultMap = myPageService.getMyPageReportList(pageNo, userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		// 게시글 목록 가져오기
+		List<ReportVO> reportList = (List<ReportVO>) resultMap.get("reportList");
+		
+		// 게시글 자체를 바인딩
+		model.addAttribute("reportList", (List<ReportVO>) resultMap.get("reportList"));
+		// 페이징 정보를 바인딩
+		model.addAttribute("pagingInfo", (PagingInfo) resultMap.get("pagingInfo"));
+	}
+	
+	/**
+	 * @methodName : myLikeLectureList
+	 * @author : kde
+	 * @date : 2024.06.12
+	 * @param : @RequestParam(value = "pageNo", defaultValue = "1") int pageNo
+	 * - 뷰단에서 쿼리스트링으로 넘겨 페이징 하기 위한 pageNo
+	 * @param : Model model - 컨트롤러에서 뷰로 데이터를 전달
+	 * @param : HttpServletRequest req - 로그인한 사용자의 아이디를 가져오기 위해 사용
+	 * @return : void
+	 * @description : 유저가 문의한 게시글 확인하는 마이페이지의 게시글로 이동 + 페이징
+	 */
+	@GetMapping("/myQnAList")
+	public void myQnAList(@RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+			Model model, HttpServletRequest req) {
+		// 현재 로그인한 사용자의 아이디
+		String userId = ((MemberVO) req.getSession().getAttribute("loginMember")).getUserId();
+		logger.info(userId + "가 문의한 게시글 확인하러 마이페이지의 게시글로 이동");
+		
+		Map<String, Object> resultMap = null;
+		
+		String resultPage = null;
+		
+	    // 페이지 번호가 1이상이 되도록 설정
+	 	if (pageNo <= 0) {
+	 		pageNo = 1;
+	 	}
+	 	
+	 	// 서비스단 호출(getMyLikedLectureList() 메서드 호출)
+		try {
+			resultMap = myPageService.getMyPageQnAList(pageNo, userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		// 게시글 목록 가져오기
+		List<QnaBoardVO> myPageQnAList = (List<QnaBoardVO>) resultMap.get("myPageQnAList");
+		
+		// 게시글 자체를 바인딩
+		model.addAttribute("myPageQnAList", (List<QnaBoardVO>) resultMap.get("myPageQnAList"));
+		// 페이징 정보를 바인딩
+		model.addAttribute("pagingInfo", (PagingInfo) resultMap.get("pagingInfo"));
+	}
+	
+	/**
+	 * @methodName : getRepliesWithBoardInfo
+	 * @author : kde
+	 * @date : 2024.06.15
+	 * @param : @RequestParam("bno") int bno - 강의 추천 게시판의 글 번호
+	 * @return : RedirectView
+	 * @description : 마이페이지에서 유저가 강의 추천 게시글에 남긴 댓글 클릭시 그 게시글로 이동
+	 */
+	@GetMapping("/goMyReplyList")
+    public RedirectView getRepliesWithBoardInfo(@RequestParam("bno") int bno) throws Exception {
+        
+	    String redirectUrl = "/lecture/viewBoard?lecNo=" + bno;
+	    
+	    return new RedirectView(redirectUrl);
+    }
+	
+    /**
+     * @methodName : goScrapList
+     * @author : kde
+     * @date : 2024.06.15
+     * @param : @RequestParam("lecNo") int lecNo - 넘어가야할 게시글 번호
+     * @return : RedirectView
+     * @description : 마이페이지의 스크랩 확인 -> 유저가 스크랩 눌렀던 게시글로 이동
+     */
+	@GetMapping("/goMyScrapList")
+	public RedirectView goScrapList(@RequestParam("scrapBoard") int scrapBoard) throws Exception {
+		
+	    String redirectUrl = "/lecture/viewBoard?lecNo=" + scrapBoard;
+	    
+	    return new RedirectView(redirectUrl);
+	}
+	
+    /**
+     * @methodName : goReportList
+     * @author : kde
+     * @date : 2024.06.15
+     * @param : @RequestParam("lecNo") int lecNo - 넘어가야할 게시글 번호
+     * @return : RedirectView
+     * @description : 마이페이지의 좋아요 확인 -> 유저가 좋아요 눌렀던 게시글로 이동
+     */
+	@GetMapping("/goMyLikeList")
+	public RedirectView goLikeList(@RequestParam("lecNo") int lecNo) throws Exception {
+		
+	    String redirectUrl = "/lecture/viewBoard?lecNo=" + lecNo;
+	    
+	    return new RedirectView(redirectUrl);
+	}
+	
+    /**
+     * @methodName : goReportList
+     * @author : kde
+     * @date : 2024.06.14
+     * @param : @RequestParam("btypeNo") int btypeNo
+     * @param : @RequestParam("reportNo") int reportNo
+     * @return : RedirectView
+     * @description : 마이페이지의 신고 게시글 -> 게시판마다의 유저가 신고한 게시글로 이동
+     */
+    @GetMapping("/goMyReportList")
+    public RedirectView goReportList(@RequestParam("btypeNo") int btypeNo, @RequestParam("reportNo") int reportNo) throws Exception {
+        
+    	// btypeNo와 boardNo를 사용하여 게시글 정보 가져오기
+        List<ReportVO> board = myPageService.getReportNO(btypeNo, reportNo);
 
+        // btypeNo에 따라 다른 상세 페이지 URL을 생성
+        String redirectUrl = "";
+        switch (btypeNo) {
+            case 1:
+                redirectUrl = "/lecture/viewBoard?lecNo=" + reportNo; // 강의 추천 게시판
+                break;
+            case 2:
+                redirectUrl = "/study/viewStudyBoard?stuNo=" + reportNo; // 스터디 모임
+                break;
+            case 4:
+                redirectUrl = "/algorithm/algDetail?boardNo=" + reportNo; // 알고리즘
+                break;
+            default:
+                redirectUrl = "/errorPage"; // 예외 처리
+                break;
+        }
+
+        // 리디렉션 URL을 반환
+        return new RedirectView(redirectUrl);
+    }
+	
 }

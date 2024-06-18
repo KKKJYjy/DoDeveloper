@@ -676,13 +676,12 @@ function dropMember() {
 		<!-- Basic Section - My Page -->
 		<section id="myPage" class="contact">
 			<!-- <div class="container">
-        	
         </div> -->
 			<!--  Section Title -->
-			<div class="container section-title mt-5 pt-5" data-aos="fade-up">
-				<h2>마이 페이지</h2>
-				<p>${sessionScope.loginMember.userId}님의개인정보및프로필사진변경등 저장된 글 들을 볼
-					수 있는 공간</p>
+
+			<div class="container section-title mt-5 pt-5 text-light" data-aos="fade-up">
+				<h2 class="text-light">마이 페이지</h2>
+				<p>${sessionScope.loginMember.userId}님의 개인정보 및 프로필 사진변경 등 저장된 글 들을 볼 수 있는 공간</p>
 			</div>
 			<!-- End Section Title -->
 
@@ -868,11 +867,10 @@ function dropMember() {
 						<div class="col-xl-8">
 							<div class="card mb-4 mb-xl-0">
 								<div class="card-header">신고</div>
-								<div class="card-body">
-									<div class="btn-group">
-										<a href="/mypage/" class="btn btn-outline-secondary"
-											aria-current="page"> ${sessionScope.loginMember.userId}님이
-											신고한 게시글</a>
+									<div class="card-body">
+										<div class="btn-group">
+											<a href="/mypage/myReportList" class="btn btn-outline-secondary" aria-current="page">
+												${sessionScope.loginMember.userId}님이 신고한 게시글</a>
 									</div>
 								</div>
 							</div>
@@ -883,11 +881,10 @@ function dropMember() {
 						<div class="col-xl-8">
 							<div class="card mb-4 mb-xl-0">
 								<div class="card-header">문의</div>
-								<div class="card-body">
-									<div class="btn-group">
-										<a href="/mypage/" class="btn btn-outline-secondary"
-											aria-current="page"> ${sessionScope.loginMember.userId}님이
-											작성한 문의</a>
+									<div class="card-body">
+										<div class="btn-group">
+											<a href="/mypage/myQnAList" class="btn btn-outline-secondary" aria-current="page">
+												${sessionScope.loginMember.userId}님이 작성한 문의</a>
 									</div>
 								</div>
 							</div>

@@ -130,5 +130,55 @@
 	<select id="getMyPageLecBoardLikeListCnt" resultType="int">
 		select count(*) from reply where replyer = #{userId} and bType = 1
 	</select>
+	
+	<!-- 유저가 신고한 게시글들의 갯수 -->
+	<select id="getMyPageReportCnt" resultType="int">
+		select count(*) from reportBoard where reporter = #{userId}
+	</select>
+	
+	<!-- 유저가 신고한 게시글들 select -->
+	<select id="getMyPageReport" resultType="com.dodeveloper.admin.vo.ReportVO">
+		select * from reportBoard where reporter = #{userId} order by reportNo desc 
+		limit #{startRowIndex}, #{viewPostCntPerPage}
+	</select>
+	
+	<!-- 유저가 문의한 게시글들의 갯수 -->
+	<select id="getMyPageQnACnt" resultType="int">
+		select count(*) from qnaBoard where qnaWriter = #{userId}
+	</select>
+	
+	<!-- 유저가 문의한 게시글들 select -->
+	<select id="getMyPageQnA" resultType="com.dodeveloper.admin.vo.QnaBoardVO">
+		select * from qnaBoard where qnaWriter = #{userId} order by no desc 
+		limit #{startRowIndex}, #{viewPostCntPerPage}
+	</select>
+	
+	<!-- 마이페이지에서 유저가 강의 추천 게시글에 남긴 댓글 클릭시 그 게시글로 이동 -->
+	<select id="getMyReplyListGo" resultType="com.dodeveloper.reply.vodto.ReplyVO">
+		select r.*, lb.* from reply r left join lectureBoard lb on r.bNo = lb.lecNo
+		where r.replyNo = #{replyNo} and r.bno = #{bno}
+	</select>
+	
+	<!-- 마이페이지에서 유저가 강의 추천 게시글에 스크랩 남긴 게시글로 이동 -->
+	<select id="getMyScrapListGo"
+	resultType="com.dodeveloper.company.vodto.ScrapVO">
+		select s.*, lb.* from scrap s
+		left join lectureBoard lb on s.scrapBoard = lb.lecNo
+		where s.bType = #{bType} and s.scrapBoard = #{scrapBoard}
+	</select>
+	
+	<!-- 마이페이지에서 유저가 강의 추천 게시글에 좋아요 남긴 게시글로 이동 -->
+	<select id="getMyLikeListGo"
+	resultType="com.dodeveloper.lecture.vodto.LectureLikeVO">
+		select lecLike.*, lb.* from lectureLikeInfo lecLike
+		left join lectureBoard lb on lecLike.lecNo = lb.lecNo
+		where lecLike.lecNo = #{lecNo} and lecLike.lecLikeNo = #{lecLikeNo}
+	</select>
+	
+	<!-- 마이페이지의 신고 게시글 -> 게시판마다의 유저가 신고한 게시글로 이동 -->
+	<select id="getMyReportListGo" resultType="com.dodeveloper.admin.vo.ReportVO">
+		select rb.*, lb.* from reportBoard rb left join lectureBoard lb on rb.reportNo = lb.lecNo
+		where rb.btypeNo = #{btypeNo} and rb.reportNo = #{reportNo}
+	</select>
 
 </mapper>

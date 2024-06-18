@@ -39,3 +39,9 @@ input::placeholder {
 	color: #4285f4;
 	text-align: right;
 }
+
+.contact {
+	--default-color: #212529; 
+	--default-color-rgb: 255, 255, 255; 
+	--background-color: #212529; 
+}

@@ -154,10 +154,16 @@ public class MemberController {
 			return;
 		}
 		
+		String urlToVisitAfterLogin = "";
+		
 		if(request.getParameter("redirectUrl").equals("viewBoard") && request.getParameter("lecNo") != null) {
-			String urlToVisitAfterLogin = "/lecture/viewBoard?lecNo=" + request.getParameter("lecNo");
+			urlToVisitAfterLogin = "/lecture/viewBoard?lecNo=" + request.getParameter("lecNo");
+			session.setAttribute(SessionNames.ATTEMPTED, urlToVisitAfterLogin);
+		}else if(request.getParameter("redirectUrl").equals("viewStudyBoard") && request.getParameter("stuNo") != null) {
+			urlToVisitAfterLogin = "/study/viewStudyBoard?stuNo=" + request.getParameter("stuNo");
 			session.setAttribute(SessionNames.ATTEMPTED, urlToVisitAfterLogin);
 		}
+		
 	}
 
 	@RequestMapping(value = "/loginPost", method = RequestMethod.POST)
