@@ -115,9 +115,8 @@
 
 					<div class="container mt-3">
 
-						<h2>Select Menu</h2>
-						<p>To style a select menu in Bootstrap 5, add the .form-select
-							class to the select element:</p>
+						<h2>알고리즘 분류 입력</h2>
+						<p>생성할 게시글이 어느 알고리즘에 속하는지 선택하세요. :</p>
 						<label for="sel1" class="form-label">Select list (select
 							one):</label> <select class="form-select" id="sel1" name="code"
 							onchange="selectCode(this.value);">
@@ -134,12 +133,11 @@
 
 						<!--  modal -->
 						<div class="container mt-3">
-							<h3>Modal Example</h3>
-							<p>Click on the button to open the modal.</p>
+							<h3>알고리즘 분류 신설</h3>
+							<p>생성하려는 게시판에 해당하는 알고리즘 분류가 없을 시 버튼을 눌러 새 항목을 만드세요</p>
 
 							<button type="button" class="btn btn-primary"
-								data-bs-toggle="modal" data-bs-target="#myModal">Open
-								modal</button>
+								data-bs-toggle="modal" data-bs-target="#myModal">새 항목 만들기</button>
 						</div>
 
 
@@ -188,7 +186,7 @@
 				</div>
 
 				<!-- Modal body -->
-				<div class="modal-body">Modal body..</div>
+				<div class="modal-body"></div>
 				<div class="mb-3 mt-3">
 					<label for="title" class="form-label">제목 : </label> <input
 						type="text" class="form-control" id="algClass"

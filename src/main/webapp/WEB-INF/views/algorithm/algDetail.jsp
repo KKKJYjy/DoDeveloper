@@ -253,15 +253,12 @@ function insertReport() {
 		<form method="get" action="/algorithm/writeDetailPOST">
 			<div class="btns">
 				<button type="submit" class="btn btn-info">글쓰기</button>
-				<button type="button" class="btn btn-info"
-					onclick="location.href='/algorithm/modifyAlgDetail';">글수정</button>
-
+				<button type="button" class="btn btn-danger"
+					onclick="location.href='/algorithm/listAll';">알고리즘목록</button>
+				<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+					data-bs-target="#myModal">신고</button>
 			</div>
 		</form>
-		<button type="button" class="btn btn-danger"
-			onclick="location.href='/algorithm/listAll';">알고리즘목록</button>
-		<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-			data-bs-target="#myModal">신고</button>
 
 		<!--  -----------------------------------------------report board modal------------------------------------------------------------------ -->
 		<!-- The Modal   -->

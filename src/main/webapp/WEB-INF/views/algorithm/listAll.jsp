@@ -363,6 +363,19 @@ ol, ul {
 		}
 
 	}
+	
+	$(function () {
+		
+		// 로그인한 유저가 admin 일 경우에만 글쓰기 버튼이 보이기
+		
+		let user = '${sessionScope.loginMember.userId}';
+		console.log(user);
+		$('.btn-info').hide();			
+		if(user == 'admin'){
+			$('.btn-info').show();
+		}
+	});
+	
 </script>
 
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
@@ -373,9 +386,9 @@ ol, ul {
 		<section id="algorithm" class="basic">
 			<div class="container">
 				<h1>알고리즘</h1>
-				<h1>alg</h1>
+				<h1>python code로 게시글을 작성하세요(다른 언어 실행기능 업데이트 예정)</h1>
 				
-				<div>${pagingInfo}</div>
+				
 
 
 
@@ -387,10 +400,9 @@ ol, ul {
 					<thead>
 						<tr>
 							<th>title</th>
-							<th>Last Name</th>
-							<th>Phone</th>
-							<th>Email</th>
-							<th>Date of Birth</th>
+							<th>discription</th>
+							
+							
 
 						</tr>
 					</thead>
@@ -401,10 +413,10 @@ ol, ul {
 								<td style="color: black;" id="title"><a
 									href="/algorithm/algDetail?boardNo=${alg.boardNo}">${alg.title}</a></td>
 
-								<td>Matman</td>
-								<td>(713) 123-8965</td>
-								<td><a href="mailto:jmatman@stewart.com">jmatman@stewart.com</a></td>
-								<td>01/13/1979</td>
+								<td style="color: black;"><a
+									href="/algorithm/algDetail?boardNo=${alg.boardNo}">${alg.comment}</a></td>
+							
+								
 							</tr>
 
 						</c:forEach>
@@ -456,9 +468,9 @@ ol, ul {
 						<div class="left_sub_menu">
 							<div class="sub_menu">
 								<input type="search" name="SEARCH" placeholder="SEARCH">
-								<h2>TITLE</h2>
+								<h2>Algorithm</h2>
 								<ul class="big_menu">
-									<li>MENU 1 <i class="arrow fas fa-angle-right"></i></li>
+									<li>알고리즘 분류 <i class="arrow fas fa-angle-right"></i></li>
 									<c:forEach var="algClass" items="${algClassification}">
 										<ul class="small_menu">
 											<!--  사이드바의 메뉴에서 항목을 클릭하면 listAll에서 항목에 해당하는 종류의 알고리즘만 출력되도록 -->
@@ -469,14 +481,15 @@ ol, ul {
 									</c:forEach>
 								</ul>
 								<ul class="big_menu">
-									<li>MENU 2 <i class="arrow fas fa-angle-right"></i></li>
+									<li><i class="arrow fas fa-angle-right"></i></li>
 									<ul class="small_menu">
-										<li><a href="#">소메뉴2-1</a></li>
-										<li><a href="#"></a>소메뉴2-2</a></li>
+										<li><a href="#"></a></li>
+										<li><a href="#"></a></a></li>
 									</ul>
 								</ul>
 								<ul class="big_menu">
-									<li>MYPAGE</li>
+									<a href="/mypage/myProfile"><li>MYPAGE</li></a>
+									
 								</ul>
 							</div>
 						</div>

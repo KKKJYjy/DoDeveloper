@@ -62,11 +62,11 @@ public class ReportController {
 	} else {
 	    System.out.println("....");
 	    
-	    //redirect();
-	    return "/redirect";
+	    redirect();
+	    return "redirect:/report/redirect";
 	}
 	
-	return null;
+	return "redirect:/report/redirect";
     }
     
     
