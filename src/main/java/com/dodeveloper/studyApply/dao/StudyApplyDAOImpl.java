@@ -75,4 +75,17 @@ public class StudyApplyDAOImpl implements StudyApplyDAO {
 		return ses.update(ns + ".modifyApply", modifyApply);
 	}
 
+	/**
+		* @author : yeonju
+		* @date : 2024. 6. 17.
+		* @param : StudyApplyDTO newApply
+		* @return : int
+		* @description : 스터디 신청을 한 적이 있는지 검사하는 메서드
+	 */
+	@Override
+	public int isDuplicate(StudyApplyDTO newApply) throws Exception {
+		return ses.selectOne(ns + ".isDuplicate", newApply);
+	}
+
+
 }

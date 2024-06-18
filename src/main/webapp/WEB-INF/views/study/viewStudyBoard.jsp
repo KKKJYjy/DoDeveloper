@@ -12,13 +12,6 @@
 <meta content="" name="description" />
 <meta content="" name="keywords" />
 
-<!-- jquery -->
-<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-
-<!-- 부트스트랩 -->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -73,8 +66,6 @@
   ======================================================== -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-
 
 <!-- 스터디 writeStudyBoard css 파일 -->
 <link href="/resources/assets/css/study/writeStudyBoard.css"
@@ -136,8 +127,7 @@
 		$(".saveReply").on('click',function(){
 			
 			let replyContent = $(".replyContent").val();
-			console.log(replyContent);
-						
+			//console.log(replyContent);			
 			
 			if(replyContent == ''){
 				
@@ -258,6 +248,8 @@
         
         if(urlParams.get('status') == 'success'){
         	alert("참여신청 완료했습니다.");	
+        }else if(urlParams.get('status') == 'fail'){
+			alert("이미 참여신청 내역이 있습니다.");
         }
         
         
@@ -437,13 +429,13 @@
 	
 	//로그인한 유저인지 아닌지 체크해주는 함수
 	function preAuth(){
+		
 		//ajax는 내부에서 작동하는거고, 페이지 이동이 없어서 url 변경이 안된다.
 		//즉, 인터셉터가 동작하지 않는다는 뜻이다. 그래서 로그인 했는지 안했는지 검사는 자바스크립트에서 검사해야한다.
 		let writer = '${sessionScope.loginMember.userId}';
 		
-		if(writer == ''){ //로그인 안했다면
-			location.href='/member/login?redirectUrl=viewStudyBoard&stuNo=${studyList.stuNo}';
-			writer = '${sessionScope.loginMember.userId}';
+		if(writer === ''){ //로그인 안했다면
+			location.href = '/member/login?redirectUrl=viewStudyBoard&stuNo=${studyList.stuNo }';
 		}
 		
 		return writer; //로그인을 했다면 writer 반환해준다
@@ -456,8 +448,8 @@
 		let result = false;
 		let user = '${sessionScope.loginMember.userId}';
 		
-		if(user == ''){ //로그인 안했다면
-			location.href='/member/login?redirectUrl=viewStudyBoard&stuNo=${studyList.stuNo}';
+		if(user === ''){ //로그인 안했다면
+			location.href='/member/login?redirectUrl=viewStudyBoard&stuNo=${studyList.stuNo }';
 			result = true;
 		}
 		
@@ -486,42 +478,39 @@
 	function selectNo(no) {
 		// 셀렉트 태그로 게시판을 선택하면 1.신고자의 아이디를 SessionScope에서 받아와 #reoprter태그에 삽입
 		// 2.셀렉트태그로 받아온 번호를 이용해 해당하는 번호를 작성한 작성자를 #writer태그에 삽입
-		console.log(no);
+		
+		//console.log(no);
 		let user = '${sessionScope.loginMember.userId}';
 		let boardNumber = no.split('&')[0]
-		
-		console.log(boardNumber);
+		//console.log(boardNumber);
 		
 		let list = `${studyList}`;
-		
-		console.log(list);
+		//console.log(list);
 		let writer = list.split('stuWriter=')[1].split(', stuTitle')[0];
-		console.log(writer);
+		//console.log(writer);
 		
 		$('#reporter').val(user);
 		$('#writer').val(writer);
 		$('#boardNo').val(boardNumber);
-		console.log(user);
+		//console.log(user);
+		
 		return boardNumber;
 	}
 	
 		
 		
 	function openReport() {
-		alert("openReport");
+		//alert("openReport");
 		
 		let list = `${studyList}`;
 		let user = '${sessionScope.loginMember.userId}';
-		console.log(list);
+		//console.log(list);
 		let writer = list.split('stuWriter=')[1].split(', stuTitle')[0];
 		let boardNo = list.split('stuNo=')[1].split(', stuWriter=')[0];
 		
-		
-		
-		console.log(writer);
-		console.log(user);
-		console.log(boardNo);
-		
+		//console.log(writer);
+		//console.log(user);
+		//console.log(boardNo);
 		
 		$('#writer').val(writer);
 		$('#reporter').val(user);
@@ -541,27 +530,23 @@
 			$.ajax({
 				url : "/report/insertReport",
 				data : {
-					
-					
 					"reporter": reporter,
 					"writer" : writer,
 					"boardNo" : boardNo,
 					"btypeNo" : btypeNo,
 					"reportReason" : reportReason,
 					"category" : "스터디 모임",
-					
-					
 				},
 				type : "get",
 				dataType : "text", // 수신받을 데이터의 타입
 				success : function(data) {
-				console.log(data);
-				
-				
+					console.log(data);
 				},
 			});
 			
-			alert("등록되었습니다.")
+			alert("신고가 접수되었습니다.");
+			location.href='/study/viewStudyBoard?stuNo=' + boardNo;
+			
 		} else {
 			alert("부적절한 입력값");
 		}
@@ -765,10 +750,16 @@ i {
 								</button>
 							</div>
 
-							<div class="col-md-11">
+							<div class="col-md-10">
 								<input type="button" class="btn btn-secondary" value="참여신청" onclick="return isLogin();"
 									style="width: 100%" data-bs-toggle="modal"
 									data-bs-target="#exampleModal" />
+							</div>
+							<!-- 로그인된 회원이 게시글 신고하는 버튼 추가함 (문전일) -->
+							<div class="col-md-1">							
+								<button type="button" class="btn btn-outline-secondary"
+									data-bs-toggle="modal" data-bs-target="#myModal"
+									onclick="openReport()" style="width: 100%">신고</button>
 							</div>
 						</div>
 					</c:if>
@@ -793,10 +784,7 @@ i {
 											class="btn btn-secondary ms-3 p-3 saveReply">댓글 저장</button>
 									</div>
 
-									<!-- 로그인된 회원이 게시글 신고하는 버튼 추가함 (문전일) -->
-									<button type="button" class="btn btn-primary"
-										data-bs-toggle="modal" data-bs-target="#myModal"
-										onclick="openReport()">신고</button>
+									
 								</c:when>
 								<c:otherwise>
 									<div class="text-light" style="width: 100px;">
@@ -846,73 +834,62 @@ i {
 										<input type="submit" class="btn btn-danger"
 											onclick="return isVaild();" value="참여신청" />
 									</div>
-
 								</form>
-
 
 							</div>
 						</div>
 					</div>
-
 
 				</div>
 			</div>
 		</section>
 		<!--  -----------------------------------------------report board modal------------------------------------------------------------------ -->
 		<!-- The Modal   -->
-		<div class="modal" id="myModal">
+		<div class="modal fade" id="myModal"  tabindex="-1"
+			aria-labelledby="reportModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 
 					<!-- Modal Header -->
 					<div class="modal-header">
-						<h4 class="modal-title">신고할 게시글 선택</h4>
+						<h4 class="modal-title" id="reportModalLabel">신고할 게시글 선택</h4>
 						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 					</div>
 
-					<!-- Modal body
-					 -->
-
-					
-
+					<!-- Modal body -->
+					<div class="modal-body">
 						<label for="title" class="form-label">신고할 게시판 : </label>
 						<input type="text" class="form-control" id=""
-						value="${studyList.stuTitle}" name="" readonly="readonly"/>
+							value="${studyList.stuTitle}" name="" readonly="readonly"/>
 
-
-
-
-					 <label for="title" class="form-label">게시글 작성자 : </label> <input
-						type="text" class="form-control" id="writer"
-						placeholder="게시글 작성자를 입력하세요..." name="writer" /> <label
-						for="title" class="form-label">신고글 작성자 : </label> <input
-						type="text" class="form-control" id="reporter"
-						placeholder="신고글 작성자를 입력하세요..." name="reporter" readonly="readonly"/>
-
-
-
-
-					<div class="mb-3 mt-3">
-						<label for="title" class="form-label">신고사유 : </label> <input
-							type="text" class="form-control" id="reportReason"
-							placeholder="신고 사유를 입력하세요..." name="reportReason">
+						<label for="title" class="form-label">게시글 작성자 : </label> 
+						<input type="text" class="form-control" id="writer"
+							placeholder="게시글 작성자를 입력하세요..." name="writer" />
+							 
+						<label for="title" class="form-label">신고글 작성자 : </label> 
+						<input type="text" class="form-control" id="reporter"
+							placeholder="신고글 작성자를 입력하세요..." name="reporter" readonly="readonly"/>
+	
+						<div class="mb-3 mt-3">
+							<label for="title" class="form-label">신고사유 : </label> <input
+								type="text" class="form-control" id="reportReason"
+								placeholder="신고 사유를 입력하세요..." name="reportReason">
+						</div>
+	
+						<div>
+							<input type="hidden" id="btypeNo" name="btypeNo" value="2">
+						</div>
+						<div>
+							<input type="hidden" id="boardNo" name="boardNo">
+						</div>
 					</div>
-
-
-					<div>
-						<input type="hidden" id="btypeNo" name="btypeNo" value="2">
-					</div>
-					<div>
-						<input type="hidden" id="boardNo" name="boardNo">
-					</div>
-
 
 					<!-- Modal footer -->
 					<div class="modal-footer">
-						<button type="button" class="btn btn-warning"
-							onclick="insertReport()">등록</button>
+						<button type="button" class="btn btn-outline-danger"
+							data-bs-dismiss="modal">취소</button>
 						<button type="button" class="btn btn-danger"
-							data-bs-dismiss="modal">Close</button>
+							onclick="insertReport();">신고하기</button>
 					</div>
 
 				</div>

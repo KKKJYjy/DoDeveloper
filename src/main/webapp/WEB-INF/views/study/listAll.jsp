@@ -355,7 +355,7 @@
 		}else if(sortName == 'close'){
 			location.href=`/study/listAll?pageNo=&statusFilter=모집마감&searchType=${param.searchType }&searchValue=${param.searchValue }`;
 		}else{
-			location.href=`/study/listAll?&searchType=${param.searchType }&searchValue=${param.searchValue }`;
+			location.href=`/study/listAll?statusFilter=&searchType=${param.searchType }&searchValue=${param.searchValue }`;
 		}	
 	}
 </script>
