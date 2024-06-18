@@ -12,6 +12,7 @@ import com.dodeveloper.algorithm.vodto.AlgBoardDTO;
 import com.dodeveloper.algorithm.vodto.AlgBoardWithDetailVO;
 import com.dodeveloper.algorithm.vodto.AlgClassificationDTO;
 import com.dodeveloper.algorithm.vodto.AlgDetailDTO;
+import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.member.dto.LoginDTO;
 import com.dodeveloper.report.dto.ReportDTO;
 
@@ -30,6 +31,13 @@ public class AlgDAOImpl implements AlgDAO {
 //		return ses.selectList(ns+".selectAlgBoard");
 		return ses.selectList(ns + ".selectAlgBoard");
 		// return null;
+	}
+	
+	
+	@Override
+	public List<AlgBoardDTO> selectAlgBoard(PagingInfo pagingInfo) throws Exception {
+	    // TODO Auto-generated method stub
+	    return ses.selectList(ns + ".selectAlgBoardByPageNo",pagingInfo);
 	}
 
 	@Override
@@ -132,6 +140,22 @@ public class AlgDAOImpl implements AlgDAO {
 	   
 	    return ses.selectList(ns+".selectAlgBoardByCode", val);
 	}
+
+	@Override
+	public int selectTotalAlgBoardCnt() {
+	    // TODO Auto-generated method stub
+	    return ses.selectOne(ns+".getTotalBoardCnt");
+	}
+
+
+	@Override
+	public int countReporter(ReportDTO reportDTO) {
+	    // reporter 가 같은 게시글에 이미 신고했는지 알려주는 쿼리문 실행
+	    return ses.selectOne(ns+".getCountReporter",reportDTO);
+	}
+
+
+	
 
 
 }

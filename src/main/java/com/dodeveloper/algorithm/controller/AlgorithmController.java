@@ -1,5 +1,6 @@
 package com.dodeveloper.algorithm.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +24,7 @@ import com.dodeveloper.algorithm.service.AlgService;
 import com.dodeveloper.algorithm.vodto.AlgBoardDTO;
 import com.dodeveloper.algorithm.vodto.AlgClassificationDTO;
 import com.dodeveloper.algorithm.vodto.AlgDetailDTO;
+import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.member.dto.LoginDTO;
 
 @Controller
@@ -41,19 +43,30 @@ public class AlgorithmController {
     private static final Logger logger = LoggerFactory.getLogger(AlgorithmController.class);
 
     @GetMapping(value = "/listAll")
-    public void listAllGet(Model model) throws Exception {
+    public void listAllGet(Model model, @RequestParam(value = "pageNo" , defaultValue = "1") int pageNo) throws Exception {
 	logger.info("listAll View.");
 	System.out.println("!!!컨트롤러!!!");
 
 	List<AlgBoardDTO> returnMap = null;
 	List<AlgClassificationDTO> returnMap2 = null;
+	PagingInfo returnMap3 = new PagingInfo(0);
+	
+	System.out.println(pageNo+"페이지");
+	if(pageNo < 1) {
+		pageNo = 1;
+	}
+	
+	
+	returnMap3 = aService.getPagingInfo(pageNo);
+	System.out.println(returnMap3);
 
 	// 멤버테이블 출력함
-	returnMap = aService.getListAllBoard();
+	returnMap = aService.getListAllBoard(returnMap3); // PagingInfo 를 받아 페이지에 해당하는 게시글들을 출력
 	returnMap2 = aService.getAlgClassification();
 
 	model.addAttribute("algBoardList", returnMap);
 	model.addAttribute("algClassification",returnMap2);
+	model.addAttribute("pagingInfo", returnMap3);
     }
 
     @GetMapping("/algDetail")

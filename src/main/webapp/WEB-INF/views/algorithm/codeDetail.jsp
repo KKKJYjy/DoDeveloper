@@ -55,8 +55,71 @@ prefix="c"%>
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<!--  pyscript -->
+<link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+<script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+<script>
+
+
+$(function () {
+	
+	$('.py').hide();
+	
+	
+	
+		let text = document.querySelector('.content').textContent;
+		console.log(text);
+		var enter = text.replace(/(\n|\r\n)/g, '<br>');
+		console.log(enter);
+		var tab = enter.replaceAll('    ', '&emsp;');
+		console.log(tab);
+		
+		const html = document.getElementById('content');
+		html.innerHTML = tab;
+	
+	
+	
+	
+	
+});
+
+function button1_click(no) {
+	var boardNo = no;
+	console.log(boardNo)	
+	$('.'+boardNo).show()
+}
+
+function button2_click(no) {
+	var boardNo = no;
+	
+	$('.'+boardNo).hide()
+}
+
+
+</script>    
+<style>
+#button {
+	color: black;
+	font-size: 12px;
+	border: 1px solid black;
+	padding: 5px;
+	border-radius: 6px;
+}
+p {			
+	border: 1px solid white;
+	padding: 10px;
+	margin: 20px;	
+}
+.btn {
+	margin-bottom: 30px;
+}
+</style>    
+    
   </head>
+  
+ 
 
   <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
     <%@ include file="../header.jsp"%>
@@ -82,8 +145,18 @@ prefix="c"%>
 						<div class="mt-4 p-5 bg-primary text-white rounded">
 							<h1>code</h1>
 							<div class='content' id='content'>${algDetailList.algDetailContent}</div>
-							
-							
+							<div>
+							<h1>result</h1>
+								<py-script class="py ${algDetailList.algDetailNo}">
+								${algDetailList.algDetailContent} </py-script>
+							</div>
+							<div class="btn">
+							<input type="button" id="button"
+								onclick="button1_click(${algDetailList.algDetailNo})" value="RUN" />
+							<input type="button" id="button"
+								onclick="button2_click(${algDetailList.algDetailNo})" value="HIDE" />
+							</div>
+							<p>${algDetailList.algDetailComment}</p>
 						</div>
 					</div>
           

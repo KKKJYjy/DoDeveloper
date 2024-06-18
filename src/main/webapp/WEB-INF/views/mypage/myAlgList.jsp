@@ -59,10 +59,53 @@
 <!-- 스터디 myStudyList css 파일 -->
 <link href="/resources/assets/css/study/myStudyList.css"
 	rel="stylesheet" />
-
+<!--  pyscript -->
+<link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+<script defer src="https://pyscript.net/alpha/pyscript.js"></script>
 <script>
+$(function () {
 	
+	$('.py').hide();
+	
+	
+	for (i=0; i<${fn:length(algDetailList)}; i++){
+		let text = document. querySelectorAll('.content')[i].textContent;
+		console.log(text);
+		var enter = text.replace(/(\n|\r\n)/g, '<br>');
+		console.log(enter);
+		var tab = enter.replaceAll('    ', '&emsp;');
+		console.log(tab);
+		
+		const html = document.getElementsByClassName('content')[i];
+		html.innerHTML = tab;
+	}
+	
+	
+	
+	
+});
+
+function button1_click(no) {
+	var boardNo = no;
+		
+	$('.'+boardNo).show()
+}
+
+function button2_click(no) {
+	var boardNo = no;
+	
+	$('.'+boardNo).hide()
+}
 </script>
+<style>
+#button {
+	color: black;
+	font-size: 12px;
+	border: 1px solid black;
+	padding: 5px;
+	border-radius: 6px;
+}
+</style>
 </head>
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
 	<%@ include file="../header.jsp"%>
@@ -79,6 +122,34 @@
 				</div>
 				
 				<div style="color: white;">${algDetailList}</div>
+				
+				<c:forEach var="algDetail" items="${algDetailList}" begin="0"
+					end="${fn:length(algDetailList)}">
+
+					<div class="container mt-3">
+						<a
+							href="/algorithm/codeDetail?algDetailNo=${algDetail.algDetailNo}">
+							<h2 style="color: white;">${algDetail.algDetailTitle}</h2>
+						</a>
+						<div class="mt-4 p-5 bg-primary text-white rounded">
+							<h1>code</h1>
+							<div class='content' id='content'>${algDetail.algDetailContent}</div>
+							<h1>result</h1>
+							<p>
+								<py-script class="py ${algDetail.algDetailNo}">
+								${algDetail.algDetailContent} </py-script>
+							</p>
+							<input type="button" id="button"
+								onclick="button1_click(${algDetail.algDetailNo})" value="RUN" />
+							<input type="button" id="button"
+								onclick="button2_click(${algDetail.algDetailNo})" value="HIDE" />
+						</div>
+					</div>
+					<div></div>
+
+
+
+				</c:forEach>
 
 				
 			</div>

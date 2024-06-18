@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.dodeveloper.algorithm.controller.AlgorithmController;
 import com.dodeveloper.algorithm.service.AlgService;
 import com.dodeveloper.report.dto.ReportDTO;
 import com.dodeveloper.report.service.ReportService;
@@ -22,14 +23,13 @@ public class ReportController {
     @Autowired
     HttpSession ses;
     
-   
     
     @Autowired
     AlgService aService;
     
     @SuppressWarnings("null")
     @RequestMapping("insertReport")
-    public void insertReprot(@RequestParam Map<String, Object> map ) {
+    public String insertReport(@RequestParam Map<String, Object> map ) {
 	
 	int boardNo = Integer.parseInt((String)map.get("boardNo"));
 	int btypeNo = Integer.parseInt((String)map.get("btypeNo"));
@@ -55,14 +55,23 @@ public class ReportController {
 	
 	reportDTO.setCategory(category);
 	
-	if(reportDTO.getBtypeNo() == 4) {
+	
+	//게시글 신고 시 자기 자신이 작성한 게시글 일 경우 false 반환 아닐 경우 true 반환
+	if(aService.insertReport(reportDTO)) {
 	    
-	    reportDTO.setCategory("알고리즘");
+	} else {
+	    System.out.println("....");
 	    
+	    //redirect();
+	    return "/redirect";
 	}
 	
-	aService.insertReport(reportDTO);
-	
+	return null;
+    }
+    
+    
+    @RequestMapping("/redirect")
+    public void redirect() {
 	
     }
     
