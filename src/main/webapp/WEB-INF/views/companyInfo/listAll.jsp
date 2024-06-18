@@ -48,7 +48,7 @@
   ======================================================== -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-	
+
 <style>
 .companyCard {
 	display: flex;
@@ -73,27 +73,25 @@
 	<main id="main">
 		<!-- Basic Section - CompanyInfo Page -->
 		<section id="companyInfo" class="basic">
-			<!-- <h1>기업리뷰</h1> -->
-
-			<!-- 기업 전체 리스트 -->
+			
 			<div class="container mt-3">
-				<p>IT/웹/통신</p>
+				<p>기업 정보 페이지</p>
 
 				<ul class="list-group">
 					<c:forEach var="ci" items="${ciList}">
 						<a href="/companyInfo/revCompanyBoard?companyInfoNo=${ci.companyInfoNo}"
 							class="list-group-item list-group-item-action companyCard">
 
-							<div style="width: 200px;" >
+							<div style="width: 200px;">
 								<img class="companyLogo" src="${ci.companyInfoImgLogo}"
 									alt="${ci.companyInfoName}"
 									style="width: 100px; height: 100px;">
 							</div>
-							<div class="companyDesc" >
+							<div class="companyDesc">
 								<h4 class="card-title">${ci.companyInfoName}</h4>
 								<div class="card-text">${ci.companyInfoFields}</div>
 								<div class="card-text">${ci.companyInfoLocation}</div>
-							</div>	
+							</div>
 						</a>
 					</c:forEach>
 				</ul>
