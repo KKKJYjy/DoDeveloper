@@ -201,7 +201,7 @@ public class StudyServiceImpl implements StudyService {
 		Map<String, Object> result = new HashMap<String, Object>();
 
 		// System.out.println(stuNo + "번째 글을" + userId + "가 조회한다 - 서비스단");
-		System.out.println(lDao.selectDiff(userId, stuNo, bType));
+		//System.out.println(lDao.selectDiff(userId, stuNo, bType));
 
 		// 하루이내에 같은 유저가 현재 글을 본적이 있는지 체크
 		if (lDao.selectDiff(userId, stuNo, bType) == -1) {

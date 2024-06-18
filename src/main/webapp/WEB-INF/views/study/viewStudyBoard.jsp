@@ -127,8 +127,7 @@
 		$(".saveReply").on('click',function(){
 			
 			let replyContent = $(".replyContent").val();
-			console.log(replyContent);
-						
+			//console.log(replyContent);			
 			
 			if(replyContent == ''){
 				
@@ -430,13 +429,13 @@
 	
 	//로그인한 유저인지 아닌지 체크해주는 함수
 	function preAuth(){
+		
 		//ajax는 내부에서 작동하는거고, 페이지 이동이 없어서 url 변경이 안된다.
 		//즉, 인터셉터가 동작하지 않는다는 뜻이다. 그래서 로그인 했는지 안했는지 검사는 자바스크립트에서 검사해야한다.
 		let writer = '${sessionScope.loginMember.userId}';
 		
-		if(writer == ''){ //로그인 안했다면
-			location.href='/member/login?redirectUrl=viewStudyBoard&stuNo=${studyList.stuNo}';
-			writer = '${sessionScope.loginMember.userId}';
+		if(writer === ''){ //로그인 안했다면
+			location.href = '/member/login?redirectUrl=viewStudyBoard&stuNo=${studyList.stuNo }';
 		}
 		
 		return writer; //로그인을 했다면 writer 반환해준다
@@ -449,8 +448,8 @@
 		let result = false;
 		let user = '${sessionScope.loginMember.userId}';
 		
-		if(user == ''){ //로그인 안했다면
-			location.href='/member/login?redirectUrl=viewStudyBoard&stuNo=${studyList.stuNo}';
+		if(user === ''){ //로그인 안했다면
+			location.href='/member/login?redirectUrl=viewStudyBoard&stuNo=${studyList.stuNo }';
 			result = true;
 		}
 		
