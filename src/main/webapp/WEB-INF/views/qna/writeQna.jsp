@@ -46,6 +46,35 @@
 		height: 300px;
 	}
 </style>
+<script>
+	function sendBtn() {
+		if (frm.qnaWriter.value == "") {
+
+			alert('로그인 후 이용해주세요');
+
+			return false;
+		}
+
+		else if (frm.qnaTitle.value == "") {
+
+			frm.qnaTitle.focus();
+			alert('제목을 입력해주세요');
+
+			return false;
+		}
+
+		else if (frm.qnaContent.value == "") {
+
+			frm.qnaContent.focus();
+			alert('내용을 입력해주세요');
+
+			return false;
+		} else {
+			alert('저장되었습니다');
+
+		}
+	}
+</script>
 </head>
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
 	<%@ include file="../header.jsp"%>

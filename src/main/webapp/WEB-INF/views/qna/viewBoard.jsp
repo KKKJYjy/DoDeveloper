@@ -266,6 +266,8 @@ function remBtn() {
 				
 		} 
 			
+	} else if (user != writer) {
+		alert("삭제 실패");
 	}
 	
 	
