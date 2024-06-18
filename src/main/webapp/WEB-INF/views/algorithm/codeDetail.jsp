@@ -134,7 +134,7 @@ p {
           <h1>alg</h1>
 
           
-          <div>${algDetailList}</div>
+          
           
           
           

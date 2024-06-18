@@ -121,7 +121,7 @@ function button2_click(no) {
 						내가 작성한 algorithm</h3>
 				</div>
 				
-				<div style="color: white;">${algDetailList}</div>
+				
 				
 				<c:forEach var="algDetail" items="${algDetailList}" begin="0"
 					end="${fn:length(algDetailList)}">

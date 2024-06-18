@@ -853,10 +853,7 @@ function dropMember() {
 										<div class="btn-group">
 											<a href="/mypage/myAlgList" class="btn btn-outline-secondary" aria-current="page">
 												${sessionScope.loginMember.userId}님이 작성한 게시글</a>
-											<a href="/mypage/" class="btn btn-outline-secondary">
-												${sessionScope.loginMember.userId}님이 스크랩 한 게시글</a>
-											<a href="/mypage/" class="btn btn-outline-secondary">
-												${sessionScope.loginMember.userId}님이 내가 작성한 댓글</a>
+											
 									</div>
 								</div>
 							</div>
