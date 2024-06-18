@@ -63,7 +63,7 @@ public class ReportController {
 	    System.out.println("....");
 	    
 	    //redirect();
-	    return "/redirect";
+	    return "/report/redirect";
 	}
 	
 	return null;
