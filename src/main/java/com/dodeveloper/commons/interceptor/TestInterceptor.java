@@ -47,16 +47,35 @@ public class TestInterceptor extends HandlerInterceptorAdapter implements Sessio
 		System.out.println(uri);
 		// 컨트롤러단 getAlgDetail 에서 세션으로 보낸 boardNo
 		int boardNo = (int)session.getAttribute("boardNum");
+		int algDetailNo = (int)session.getAttribute("detailNum");
+		
+		AlgDetailDTO dto = aService.getAlgDetail(algDetailNo);
 		
 		
-		if(uri.contains("write") || uri.contains("modify")) {
+		if(uri.contains("remove") || uri.contains("modify")) {
 		    
-		    List<AlgDetailDTO> list = aService.getListDetail(boardNo);
-		    System.out.println(boardNo);
-		    System.out.println(list.toString());
-		//    if(mem.getUserId().equals(  aDao.selectAlgDetail(boardNo) )) { }
-		    return true;
+		    System.out.println(algDetailNo+"!!??!!");
 		    
+		   // System.out.println("?!?!?!"+dto.toString()+"?!?!?!");
+		    String writer = dto.toString().split(", writer=")[1].split(", algDetailContent=")[0];
+		    System.out.println("게시글 작성자 = "+writer + " 로그인한 사람 ="+ mem.getUserId());
+		    
+		    if(writer.equals(mem.getUserId())) {
+			
+		    
+			return true; 
+		    
+		    } else {
+			
+			request.setAttribute("msg", "로그인한 사용자와 작성자가 다르다.");
+			
+			System.out.println("로그인 사용자와 글 작성자가 다르다.");
+			
+			response.sendRedirect("/algorithm/redirect");
+		    }
+		    
+		    
+		    		    
 		}
 	    }
 	    

@@ -12,6 +12,7 @@ import com.dodeveloper.algorithm.vodto.AlgBoardDTO;
 import com.dodeveloper.algorithm.vodto.AlgBoardWithDetailVO;
 import com.dodeveloper.algorithm.vodto.AlgClassificationDTO;
 import com.dodeveloper.algorithm.vodto.AlgDetailDTO;
+import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.member.dto.LoginDTO;
 import com.dodeveloper.report.dto.ReportDTO;
 
@@ -31,6 +32,13 @@ public class AlgDAOImpl implements AlgDAO {
 		return ses.selectList(ns + ".selectAlgBoard");
 		// return null;
 	}
+	
+	
+	@Override
+	public List<AlgBoardDTO> selectAlgBoard(PagingInfo pagingInfo) throws Exception {
+	    // TODO Auto-generated method stub
+	    return ses.selectList(ns + ".selectAlgBoardByPageNo",pagingInfo);
+	}
 
 	@Override
 	public List<AlgDetailDTO> selectAlgDetail(int boardNo) throws Exception {
@@ -38,6 +46,12 @@ public class AlgDAOImpl implements AlgDAO {
 		return ses.selectList(ns + ".selectAlgDetail", boardNo);
 	}
 
+	@Override
+	public List<AlgDetailDTO> selectAlgDetail(String writer) {
+	    // TODO Auto-generated method stub
+	    return ses.selectList(ns+".selectAlgDetailByWriter", writer);
+	}
+	
 	@Override
 	public int insertAlgBoard(AlgBoardDTO algBoardDTO) {
 		// 알고리즘 게시판 글쓰기에 입력된 값을 DB Insert문으로
@@ -114,10 +128,34 @@ public class AlgDAOImpl implements AlgDAO {
 	}
 
 	@Override
-	public int updateAlgDetailDelete(int algDetailNo) {
+	public int deleteAlgDetailDelete(int algDetailNo) {
 	    // TODO Auto-generated method stub
 	    System.out.println("DAO 에서"+algDetailNo+"번글을");
-	    return ses.update(ns+".", algDetailNo);
+	    return ses.delete(ns+".deleteAlgDetailByNo", algDetailNo);
 	}
+
+	@Override
+	public List<AlgBoardDTO> selectAlgListByClassificationCode(int val) {
+	    // TODO Auto-generated method stub
+	   
+	    return ses.selectList(ns+".selectAlgBoardByCode", val);
+	}
+
+	@Override
+	public int selectTotalAlgBoardCnt() {
+	    // TODO Auto-generated method stub
+	    return ses.selectOne(ns+".getTotalBoardCnt");
+	}
+
+
+	@Override
+	public int countReporter(ReportDTO reportDTO) {
+	    // reporter 가 같은 게시글에 이미 신고했는지 알려주는 쿼리문 실행
+	    return ses.selectOne(ns+".getCountReporter",reportDTO);
+	}
+
+
+	
+
 
 }

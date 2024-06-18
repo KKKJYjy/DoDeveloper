@@ -32,6 +32,8 @@ import com.dodeveloper.commons.interceptor.SessionNames;
 import com.dodeveloper.admin.vo.QnaBoardVO;
 import com.dodeveloper.admin.vo.ReportVO;
 
+import com.dodeveloper.algorithm.service.AlgService;
+import com.dodeveloper.algorithm.vodto.AlgDetailDTO;
 import com.dodeveloper.company.vodto.ScrapVO;
 import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.lecture.service.LectureBoardService;
@@ -65,6 +67,9 @@ public class MyPageController {
 	
 	@Autowired
 	private LectureBoardService lService; // 스프링 컨테이너에서 LectureService 객체를 찾아 주입
+	
+	@Autowired
+	private AlgService aService;  // 스프링 컨테이너에서 AlgService 객체를 찾아 주입
 
 	@GetMapping("/myProfile")
 	public void myProfileGet() {
@@ -526,6 +531,41 @@ public class MyPageController {
 		model.addAttribute("pagingInfo", (PagingInfo) resultMap.get("pagingInfo"));
 	}
 	
+	
+	/**
+	 * @author : mji
+	 * @param model
+	 * @param req
+	 */
+	@GetMapping("/myAlgList")
+	public void getMyAlgList(Model model, HttpServletRequest req) {
+
+		String userId = ((MemberVO) req.getSession().getAttribute("loginMember")).getUserId();
+		logger.info(userId + "가 작성한 스터디 모임글 페이지로 이동");
+
+		List<AlgDetailDTO> result = null;
+
+		try {
+
+			result = aService.getListDetail(userId);
+			
+			System.out.println("!!!!!!!!!!"+result);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		model.addAttribute("algDetailList", result);
+
+//		model.addAttribute("studyList", (List<StudyBoardVO>) result.get("studyList"));
+//		model.addAttribute("stuStackList", (List<StuStackDTO>) result.get("stuStackList"));
+//		model.addAttribute("stuApplyList", (List<StudyApplyVO>) result.get("stuApplyList"));
+	}
+	
+
+
 	/**
 	 * @methodName : myLikeLectureList
 	 * @author : kde
@@ -695,5 +735,4 @@ public class MyPageController {
         // 리디렉션 URL을 반환
         return new RedirectView(redirectUrl);
     }
-	
 }

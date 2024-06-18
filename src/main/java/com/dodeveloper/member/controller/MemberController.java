@@ -118,7 +118,7 @@ public class MemberController {
 		
 		@Override
 		public void run() {
-			logger.info("timer 가 호출되었다.");
+			//logger.info("timer 가 호출되었다.");
 			List<Map.Entry<String, PwdResetUser>> pwdResetHolderEntryList = new ArrayList<>(pwdResetUserHolder.entrySet());
 			for(Map.Entry<String, PwdResetUser> entry : pwdResetHolderEntryList) {
 				logger.info(entry.getKey() + "를 검사한다.");

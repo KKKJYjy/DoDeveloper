@@ -60,6 +60,7 @@
 
 <script>
 
+
 function selectNo(no) {
 	// 셀렉트 태그로 게시판을 선택하면 1.신고자의 아이디를 SessionScope에서 받아와 #reoprter태그에 삽입
 	// 2.셀렉트태그로 받아온 번호를 이용해 해당하는 번호를 작성한 작성자를 #writer태그에 삽입
@@ -164,7 +165,13 @@ function insertReport() {
 	padding: 5px;
 	border-radius: 6px;
 }
+
+.margin {
+	margin-top: 100px;
+}
 </style>
+
+
 </head>
 
 
@@ -190,16 +197,8 @@ function insertReport() {
 
 
 
-				<py-script> def bubbleSort(arr): n = len(arr) for i in
-				range(n-1): swapped = False for j in range(0,n-i-1): if
-				arr[j]>arr[j+1]: swapped = True arr[j], arr[j+1] = arr[j+1],arr[j]
 
-				if not swapped: return arr = [64,34,25,12,22,11,90] bubbleSort(arr)
-
-				print("Sorted array is:") for i in range(len(arr)): print("% d" %
-				arr[i], end=" ") </py-script>
-				<py-script> ${algDetailList[0].algDetailContent} </py-script>
-				<py-script> ${algDetailList[1].algDetailContent} </py-script>
+				
 
 
 
@@ -213,15 +212,16 @@ function insertReport() {
 
 
 
-					
 
 				<c:forEach var="algDetail" items="${algDetailList}" begin="0"
 					end="${fn:length(algDetailList)}">
 
 					<div class="container mt-3">
-					<a href="/algorithm/codeDetail?algDetailNo=${algDetail.algDetailNo}">
-						<h2>${algDetail.algDetailTitle}</h2></a>
-						<div>${algDetail.algDetailNo}</div>
+						<a class="margin"
+							href="/algorithm/codeDetail?algDetailNo=${algDetail.algDetailNo}">
+							<h2>${algDetail.algDetailTitle}</h2>
+						</a>
+						
 						<div class="mt-4 p-5 bg-primary text-white rounded">
 							<h1>code</h1>
 							<div class='content' id='content'>${algDetail.algDetailContent}</div>
@@ -235,9 +235,14 @@ function insertReport() {
 							<input type="button" id="button"
 								onclick="button2_click(${algDetail.algDetailNo})" value="HIDE" />
 						</div>
+						<div class="margin"></div>
 					</div>
 					<div></div>
+
+
+
 				</c:forEach>
+
 
 
 
@@ -250,7 +255,7 @@ function insertReport() {
 				<button type="submit" class="btn btn-info">글쓰기</button>
 				<button type="button" class="btn btn-info"
 					onclick="location.href='/algorithm/modifyAlgDetail';">글수정</button>
-				
+
 			</div>
 		</form>
 		<button type="button" class="btn btn-danger"
@@ -277,24 +282,21 @@ function insertReport() {
 						<option value="-1">신고할 게시판을 선택</option>
 						<c:forEach var="algDetail" items="${algDetailList}" begin="0"
 							end="${fn:length(algDetailList)}" varStatus="status">
-							<option value="${algDetail.algDetailNo}&${status.index}">${algDetail.algDetailNo} ${algDetail.algDetailTitle} ${status.index} </option>
+							<option value="${algDetail.algDetailNo}&${status.index}">${algDetail.algDetailNo}
+								${algDetail.algDetailTitle} ${status.index}</option>
 
-							
-							
+
+
 
 
 						</c:forEach>
 
-					</select>
-					
-					
-						<label for="title" class="form-label">게시글 작성자 : </label> <input
-									type="text" class="form-control" id="writer" placeholder="게시글 작성자를 입력하세요..."
-									name="writer" />
-							
-						<label for="title" class="form-label">신고글 작성자 : </label> <input
-									type="text" class="form-control" id="reporter" placeholder="신고글 작성자를 입력하세요..."
-									name="reporter" />
+					</select> <label for="title" class="form-label">게시글 작성자 : </label> <input
+						type="text" class="form-control" id="writer"
+						placeholder="게시글 작성자를 입력하세요..." name="writer" /> <label
+						for="title" class="form-label">신고글 작성자 : </label> <input
+						type="text" class="form-control" id="reporter"
+						placeholder="신고글 작성자를 입력하세요..." name="reporter" />
 
 
 
@@ -306,14 +308,14 @@ function insertReport() {
 							placeholder="신고 사유를 입력하세요..." name="reportReason" />
 					</div>
 
-					
+
 					<div>
 						<input type="hidden" id="btypeNo" name="btypeNo" value="4">
 					</div>
 					<div>
 						<input type="hidden" id="boardNo" name="boardNo">
 					</div>
-					
+
 
 					<!-- Modal footer -->
 					<div class="modal-footer">

@@ -1,5 +1,6 @@
 package com.dodeveloper.algorithm.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,11 +17,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dodeveloper.algorithm.dao.AlgDAO;
 import com.dodeveloper.algorithm.service.AlgService;
 import com.dodeveloper.algorithm.vodto.AlgBoardDTO;
 import com.dodeveloper.algorithm.vodto.AlgClassificationDTO;
 import com.dodeveloper.algorithm.vodto.AlgDetailDTO;
+import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.member.dto.LoginDTO;
 
 @Controller
@@ -29,6 +33,9 @@ public class AlgorithmController {
 
     @Autowired
     AlgService aService;
+    
+    @Autowired
+    AlgDAO aDao;
 
     @Autowired
     HttpSession ses;
@@ -36,16 +43,30 @@ public class AlgorithmController {
     private static final Logger logger = LoggerFactory.getLogger(AlgorithmController.class);
 
     @GetMapping(value = "/listAll")
-    public void listAllGet(Model model) throws Exception {
+    public void listAllGet(Model model, @RequestParam(value = "pageNo" , defaultValue = "1") int pageNo) throws Exception {
 	logger.info("listAll View.");
 	System.out.println("!!!컨트롤러!!!");
 
 	List<AlgBoardDTO> returnMap = null;
+	List<AlgClassificationDTO> returnMap2 = null;
+	PagingInfo returnMap3 = new PagingInfo(0);
+	
+	System.out.println(pageNo+"페이지");
+	if(pageNo < 1) {
+		pageNo = 1;
+	}
+	
+	
+	returnMap3 = aService.getPagingInfo(pageNo);
+	System.out.println(returnMap3);
 
 	// 멤버테이블 출력함
-	returnMap = aService.getListAllBoard();
+	returnMap = aService.getListAllBoard(returnMap3); // PagingInfo 를 받아 페이지에 해당하는 게시글들을 출력
+	returnMap2 = aService.getAlgClassification();
 
 	model.addAttribute("algBoardList", returnMap);
+	model.addAttribute("algClassification",returnMap2);
+	model.addAttribute("pagingInfo", returnMap3);
     }
 
     @GetMapping("/algDetail")
@@ -230,6 +251,9 @@ public class AlgorithmController {
 
 	    System.out.println(returnMap);
 	    model.addAttribute("algDetailList", returnMap);
+	    
+	 // 세션에 algDetailNo 저장해서 인터셉터에서 가져올 수 있도록 함
+	    ses.setAttribute("detailNum", algDetailNo);
 	} catch (Exception e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
@@ -238,14 +262,17 @@ public class AlgorithmController {
     }
 
     @RequestMapping("removeAlgDetail")
-    public String removeAlgDetail(@RequestParam("algDetailNo") int algDetailNo) {
+    public String removeAlgDetail(@RequestParam("algDetailNo") int algDetailNo, @RequestParam("algBoardNo") int algBoardNo) {
 	 System.out.println(algDetailNo);
+	 
 	// AuthInterceptor.preHandle() 호출 - 글 삭제 권한이 있는지 검사하고 옴
 	String result = null;
 	System.out.println(algDetailNo + "번글을 삭제하자");
 
 	if (aService.remBoard(algDetailNo)) {
-	    return "/board/listAll";
+	    result = "redirect:/algorithm/algDetail?boardNo="+algBoardNo;
+	} else {
+	    result = "redirect:/listAll";
 	}
 
 //	 		if(((MemberVO)ses.getAttribute("ioginMember")).getUserId().equals(writer)) {
@@ -257,6 +284,35 @@ public class AlgorithmController {
 //	 		}
 
 	return result;
+    }
+    
+    @RequestMapping("getClassification")
+    @ResponseBody
+    public List<AlgBoardDTO> getClassification(HttpServletRequest req, HttpServletResponse resp, HttpSession session, @RequestParam("val") int val, Model model) {
+	System.out.println("ajax 호출");
+	System.out.println(val);
+	
+	List<AlgBoardDTO> dto = aDao.selectAlgListByClassificationCode(val);
+	
+	System.out.println(dto);
+	
+	return dto;
+	
+    }
+    
+    
+    
+    
+    @RequestMapping("redirect")
+    public void redirect() {
+	
+    }
+    
+    
+    @RequestMapping("Template")
+    
+    public void template() {
+	
     }
 
 }

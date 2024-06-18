@@ -1,15 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="utf-8" />
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-<title>Algorithm List - DoDeveloper</title>
+<title>My Study List - DoDeveloper</title>
 <meta content="" name="description" />
 <meta content="" name="keywords" />
+
+<!-- jquery -->
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+
+<!-- 부트스트랩 아이콘 -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
 
 <!-- Favicons -->
 <link href="/resources/assets/img/favicon.png" rel="icon" />
@@ -26,9 +34,9 @@
 <!-- Vendor CSS Files -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-	rel="stylesheet" />
+	rel="stylesheet">
 <link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link href="/resources/assets/vendor/glightbox/css/glightbox.min.css"
 	rel="stylesheet" />
 <link
@@ -48,124 +56,110 @@
   ======================================================== -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-</head>
-
+<!-- 스터디 myStudyList css 파일 -->
+<link href="/resources/assets/css/study/myStudyList.css"
+	rel="stylesheet" />
+<!--  pyscript -->
+<link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+<script defer src="https://pyscript.net/alpha/pyscript.js"></script>
 <script>
-	$(function name() {
+$(function () {
+	
+	$('.py').hide();
+	
+	
+	for (i=0; i<${fn:length(algDetailList)}; i++){
+		let text = document. querySelectorAll('.content')[i].textContent;
+		console.log(text);
+		var enter = text.replace(/(\n|\r\n)/g, '<br>');
+		console.log(enter);
+		var tab = enter.replaceAll('    ', '&emsp;');
+		console.log(tab);
 		
-		let user = '${sessionScope.loginMember.userId}';
-		
-		console.log(user);
-		
-		$('#writer').val(user);
-		
-		
-		
-		
-	});
+		const html = document.getElementsByClassName('content')[i];
+		html.innerHTML = tab;
+	}
+	
+	
+	
+	
+});
 
+function button1_click(no) {
+	var boardNo = no;
+		
+	$('.'+boardNo).show()
+}
+
+function button2_click(no) {
+	var boardNo = no;
+	
+	$('.'+boardNo).hide()
+}
 </script>
-
+<style>
+#button {
+	color: black;
+	font-size: 12px;
+	border: 1px solid black;
+	padding: 5px;
+	border-radius: 6px;
+}
+</style>
+</head>
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
 	<%@ include file="../header.jsp"%>
 
 	<main id="main">
-		<!-- Basic Section - Algorithm Page -->
-		<section id="algorithm" class="basic">
-			<div class="container">
+		<!-- Basic Section - Study Page -->
+		<section id="study" class="studyBasic">
 
-				<h1>${algDetailList[0].algDetailTitle}</h1>
+			<div class="container" style="width: 70%">
 
-				<h1>alg</h1>
+				<div class="container">
+					<h3 class="center text-center text-light pb-4 fw-medium">
+						내가 작성한 algorithm</h3>
+				</div>
+				
+				<div style="color: white;">${algDetailList}</div>
+				
+				<c:forEach var="algDetail" items="${algDetailList}" begin="0"
+					end="${fn:length(algDetailList)}">
 
-
-				<div>${algDetailList}</div>
-
-				<div>${boardNo}</div>
-
-
-
-				<form action="/algorithm/writeDetailPOST" method="post">
-
-
-					<div class="mb-3 mt-3">
-						<label for="title" class="form-label">글 번호 : </label> <input
-							type="number" class="form-control" id="algBoardNo"
-							name="algBoardNo" value="${boardNo }" readonly="readonly" />
+					<div class="container mt-3">
+						<a
+							href="/algorithm/codeDetail?algDetailNo=${algDetail.algDetailNo}">
+							<h2 style="color: white;">${algDetail.algDetailTitle}</h2>
+						</a>
+						<div class="mt-4 p-5 bg-primary text-white rounded">
+							<h1>code</h1>
+							<div class='content' id='content'>${algDetail.algDetailContent}</div>
+							<h1>result</h1>
+							<p>
+								<py-script class="py ${algDetail.algDetailNo}">
+								${algDetail.algDetailContent} </py-script>
+							</p>
+							<input type="button" id="button"
+								onclick="button1_click(${algDetail.algDetailNo})" value="RUN" />
+							<input type="button" id="button"
+								onclick="button2_click(${algDetail.algDetailNo})" value="HIDE" />
+						</div>
 					</div>
-					
-					
-					
-
-
-					<div class="mb-3 mt-3">
-						<label for="title" class="form-label">글쓴이 : </label> <input
-							type="text" class="form-control" id="writer"
-							placeholder=" 입력하세요..." name="writer" readonly="readonly" />
-					</div>
-					
-					
-					
-					<div class="mb-3 mt-3">
-						<label for="title" class="form-label">제목 : </label> <input
-							type="text" class="form-control" id="algDetailTitle"
-							placeholder=" 입력하세요..." name="algDetailTitle" />
-					</div>
-					
-
-
-					<!--  event.keyCode == 9 (tab 키를 누르면 텍스트 박스에서 tab 이 적욕되도록 함 -->
-					<div class="mb-3 mt-3">
-
-						<label for="title" class="form-label">게시글 내용 : </label>
-						<textarea
-							onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}"
-							class="form-control" value="${algDetail[0].algDetailContent }"
-							id="algDetailContent" placeholder="입력하세요..."
-							name="algDetailContent"></</textarea>
-					</div>
-					
-					<div class="mb-3 mt-3">
-						<label for="title" class="form-label">result : </label> <input
-							type="text" class="form-control" id="algDetailResult"
-							placeholder=" 입력하세요..." name="algDetailResult" />
-					</div>
-
-
-					<div class="mb-3 mt-3">
-						<label for="title" class="form-label">comment : </label> <input
-							type="text" class="form-control" id="algDetailComment"
-							placeholder=" 입력하세요..." name="algDetailComment" />
-					</div>
-					
-					
-
-					<div class="btns">
-
-						<button type="submit" class="btn btn-info">글쓰기</button>
-						<button type="button" class="btn btn-info"
-							onclick="location.href='/';">글수정</button>
-					
-						<button type="button" class="btn btn-info"
-							onclick="location.href='/algorithm/algDetail?boardNo=${boardNo}';">목록으로</button>
-					</div>
+					<div></div>
 
 
 
+				</c:forEach>
 
-
-
-
-				</form>
-
-
-
-
-
-
+				
 			</div>
+
+
+
 		</section>
 		<!-- End Basic Section -->
+
+
 	</main>
 
 	<%@ include file="../footer.jsp"%>
@@ -200,5 +194,6 @@
 
 	<!-- Template Main JS File -->
 	<script src="/resources/assets/js/main.js"></script>
+
 </body>
 </html>
