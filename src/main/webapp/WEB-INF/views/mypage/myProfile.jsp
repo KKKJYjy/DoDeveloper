@@ -788,12 +788,12 @@ function dropMember() {
 
 										<a href="/mypage/myStudyList"
 											class="btn btn-outline-secondary" aria-current="page">
-											${sessionScope.loginMember.userId}님이 작성한 스터디 모임글</a> <a
+											작성한 스터디 모임글</a> <a
 											href="/mypage/myApplyList" class="btn btn-outline-secondary">
-											${sessionScope.loginMember.userId}님이 참여 신청한 스터디 모임글</a> <a
+											참여 신청한 스터디 모임글</a> <a
 											href="/mypage/myJoinedStudyList"
 											class="btn btn-outline-secondary">
-											${sessionScope.loginMember.userId}님이 참여중인 스터디 모임글</a>
+											참여중인 스터디 모임글</a>
 
 									</div>
 								</div>
@@ -809,36 +809,16 @@ function dropMember() {
 									<div class="btn-group">
 										<a href="/mypage/myLectureList"
 											class="btn btn-outline-secondary" aria-current="page">
-											${sessionScope.loginMember.userId}님이 작성한 게시글</a> <a
+											작성한 게시글</a> <a
 											href="/mypage/myReplyLectureList"
 											class="btn btn-outline-secondary">
-											${sessionScope.loginMember.userId}님이 내가 작성한 댓글</a>
-									</div>
-									<div class="btn-group">
+											작성한 댓글</a>
 										<a href="/mypage/myScrapLectureList"
 											class="btn btn-outline-secondary">
-											${sessionScope.loginMember.userId}님이 스크랩 한 게시글</a> <a
+											스크랩한 게시글</a> <a
 											href="/mypage/myLikeLectureList"
 											class="btn btn-outline-secondary">
-											${sessionScope.loginMember.userId}님이 좋아요 누른 게시글</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="row justify-content-center mt-3">
-						<div class="col-xl-8">
-							<div class="card mb-4 mb-xl-0">
-								<div class="card-header">기업 리뷰</div>
-								<div class="card-body">
-									<div class="btn-group">
-										<a href="/mypage/" class="btn btn-outline-secondary"
-											aria-current="page"> ${sessionScope.loginMember.userId}님이
-											작성한 게시글</a> <a href="/mypage/" class="btn btn-outline-secondary">
-											${sessionScope.loginMember.userId}님이 스크랩 한 게시글</a> <a
-											href="/mypage/" class="btn btn-outline-secondary">
-											${sessionScope.loginMember.userId}님이 내가 작성한 댓글</a>
+											좋아요한 게시글</a>
 									</div>
 								</div>
 							</div>
@@ -852,11 +832,7 @@ function dropMember() {
 									<div class="card-body">
 										<div class="btn-group">
 											<a href="/mypage/myAlgList" class="btn btn-outline-secondary" aria-current="page">
-												${sessionScope.loginMember.userId}님이 작성한 게시글</a>
-											<a href="/mypage/" class="btn btn-outline-secondary">
-												${sessionScope.loginMember.userId}님이 스크랩 한 게시글</a>
-											<a href="/mypage/" class="btn btn-outline-secondary">
-												${sessionScope.loginMember.userId}님이 내가 작성한 댓글</a>
+												작성한 게시글</a>
 									</div>
 								</div>
 							</div>
@@ -866,31 +842,18 @@ function dropMember() {
 					<div class="row justify-content-center mt-3">
 						<div class="col-xl-8">
 							<div class="card mb-4 mb-xl-0">
-								<div class="card-header">신고</div>
+								<div class="card-header">기타</div>
 									<div class="card-body">
 										<div class="btn-group">
 											<a href="/mypage/myReportList" class="btn btn-outline-secondary" aria-current="page">
-												${sessionScope.loginMember.userId}님이 신고한 게시글</a>
+												신고한 게시글</a>
+												<a href="/mypage/myQnAList" class="btn btn-outline-secondary" aria-current="page">
+											작성한 문의글</a>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-
-					<div class="row justify-content-center mt-3">
-						<div class="col-xl-8">
-							<div class="card mb-4 mb-xl-0">
-								<div class="card-header">문의</div>
-									<div class="card-body">
-										<div class="btn-group">
-											<a href="/mypage/myQnAList" class="btn btn-outline-secondary" aria-current="page">
-												${sessionScope.loginMember.userId}님이 작성한 문의</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
 
 					<div class="row justify-content-center mt-3">
 						<div class="col-xl-8">
