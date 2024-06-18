@@ -7,7 +7,7 @@ public interface SessionNames {
 	static final String ATTEMPTED = "attemptedLocation";
 	static final String UNREAD_MESSAGE_CNT = "unreadMessageCount";
 	static final String EMAIL_VALIDATION_CODE = "emailValidationCode";
-	static final String VALIDATED_EMAIL = "validatedEmail";
+	static final String VERIFIED_EMAIL = "verifiedEmail";
 	
 	static final int EXPIRE = 7 * 24 * 60 * 60;
 }

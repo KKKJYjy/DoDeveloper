@@ -16,6 +16,7 @@ import com.dodeveloper.member.dto.LoginDTO;
 import com.dodeveloper.member.dto.RegisterDTO;
 import com.dodeveloper.member.dto.SessionDTO;
 import com.dodeveloper.member.vo.MemberVO;
+import com.dodeveloper.mypage.dto.ChangeEmailDTO;
 import com.dodeveloper.mypage.dto.ChangeProfileDTO;
 import com.dodeveloper.mypage.dto.ChangePwdDTO;
 
@@ -94,5 +95,10 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public List<MemberVO> getMemberByEmail(String email) throws Exception {
 		return mDao.getMemberByEmail(email);
+	}
+
+	@Override
+	public boolean changeEmail(ChangeEmailDTO changeEmailDTO) throws Exception {
+		return (mDao.changeEmail(changeEmailDTO) == 1);
 	}
 }

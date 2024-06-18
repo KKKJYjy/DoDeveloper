@@ -272,7 +272,7 @@ public class MemberController {
 		}
 
 
-		session.setAttribute(SessionNames.VALIDATED_EMAIL, emailsToValidate.get(code).getEmail());
+		session.setAttribute(SessionNames.VERIFIED_EMAIL, emailsToValidate.get(code).getEmail());
 		emailsToValidate.remove(code);
 
 		result.put("isSuccess", "1");
@@ -289,7 +289,7 @@ public class MemberController {
 			registerDTO.setEmail("");
 		}
 
-		if(registerDTO.getEmail().equals(session.getAttribute(SessionNames.VALIDATED_EMAIL)) == false) {
+		if(registerDTO.getEmail().equals(session.getAttribute(SessionNames.VERIFIED_EMAIL)) == false) {
 			return "redirect:/member/register?status=registerFail";
 		}
 		

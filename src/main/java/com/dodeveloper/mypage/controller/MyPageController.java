@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.checkerframework.checker.units.qual.h;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.dodeveloper.commons.interceptor.SessionNames;
 import com.dodeveloper.admin.vo.QnaBoardVO;
 import com.dodeveloper.admin.vo.ReportVO;
+
 import com.dodeveloper.company.vodto.ScrapVO;
 import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.lecture.service.LectureBoardService;
@@ -36,6 +39,7 @@ import com.dodeveloper.lecture.vodto.LectureBoardVO;
 import com.dodeveloper.lecture.vodto.LectureLikeVO;
 import com.dodeveloper.member.service.MemberService;
 import com.dodeveloper.member.vo.MemberVO;
+import com.dodeveloper.mypage.dto.ChangeEmailDTO;
 import com.dodeveloper.mypage.dto.ChangeProfileDTO;
 import com.dodeveloper.mypage.dto.ChangePwdDTO;
 import com.dodeveloper.mypage.dto.ProfileDTO;
@@ -212,17 +216,6 @@ public class MyPageController {
 		headers.setContentType(mediaType);
 
 		Map<String, Object> returnMap = new HashMap<String, Object>();
-		
-		if(changeProfileDTO.getEmail() == null) {			
-			MemberVO member = mService.getMemberInfo(changeProfileDTO.getUserId());
-			if(member == null) {
-				returnMap.put("state", "F");
-				returnMap.put("message", "Fail");
-				return ResponseEntity.ok().headers(headers).body(returnMap);
-			}
-			
-			changeProfileDTO.setEmail(member.getEmail());
-		}
 
 		if (mService.changeProfile(changeProfileDTO) > 0) {
 			returnMap.put("state", "T");
@@ -234,6 +227,43 @@ public class MyPageController {
 
 		return ResponseEntity.ok().headers(headers).body(returnMap);
 	}
+	
+	@RequestMapping(value = "/email", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<Map<String, Object>> changeEmail(@RequestBody ChangeEmailDTO changeEmailDTO,
+			HttpSession session) throws Exception{
+		
+		HttpHeaders headers = new HttpHeaders();
+		Charset utf8 = Charset.forName("utf-8");
+		MediaType mediaType = new MediaType(MediaType.APPLICATION_JSON, utf8);
+		headers.setContentType(mediaType);
+		
+		MemberVO loginMember = (MemberVO)session.getAttribute(SessionNames.LOGIN_MEMBER);
+		String verifiedEmail = (String)session.getAttribute(SessionNames.VERIFIED_EMAIL);
+		
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		
+		if(!loginMember.getUserId().equals(changeEmailDTO.getUserId())) {
+			returnMap.put("isSuccess", "false");
+			returnMap.put("reason", "유저 아이디가 조작되었음. 다시 시도해주세요.");
+		}
+		if(!verifiedEmail.equals(changeEmailDTO.getEmail())) {
+			returnMap.put("isSuccess", "false");
+			returnMap.put("reason", "유저 이메일이 조작되었음. 다시 시도해주세요.");
+		}
+		if(!mService.changeEmail(changeEmailDTO)) {
+			returnMap.put("isSuccess", "false");
+			returnMap.put("reason", "서버오류. 잠시 후 다시 시도해주세요.");
+		}
+		
+		returnMap.put("isSuccess", "true");
+		
+		MemberVO changedMemberVO = mService.getMemberInfo(loginMember.getUserId());
+		session.setAttribute(SessionNames.LOGIN_MEMBER, changedMemberVO);
+		
+		return ResponseEntity.ok().headers(headers).body(returnMap);
+	}
+		
+	
 
 	/**
 	 * @author : yeonju
