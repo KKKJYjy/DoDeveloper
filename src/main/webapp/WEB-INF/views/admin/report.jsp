@@ -42,7 +42,7 @@
 		$('#myModal').show();
 	}
 	
-	function checkCheckbox(btypeNo, boardNo) {
+	function checkCheckbox(btypeNo, boardNo) {	
 		selectedReportIds = [];
 		let list = $("input[name='rowCheck']");
 		for (let i = 0; i < list.length; i++) {

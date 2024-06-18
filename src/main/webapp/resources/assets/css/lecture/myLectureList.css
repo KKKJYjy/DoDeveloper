@@ -7,3 +7,10 @@
 	--background-color-rgb: 0, 0, 0;
 	padding: 150px 0;
 }
+
+.pagination {
+	display: flex;
+	justify-content: center; /* 가운데 정렬 */
+	list-style: none;
+	padding: 0;
+}

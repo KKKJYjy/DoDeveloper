@@ -8,7 +8,7 @@
 <meta charset="utf-8" />
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-<title>My Study List - DoDeveloper</title>
+<title>My LikeLecture List - DoDeveloper</title>
 <meta content="" name="description" />
 <meta content="" name="keywords" />
 
@@ -56,7 +56,7 @@
   ======================================================== -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<!-- 스터디 myStudyList css 파일 -->
+<!-- 강의 추천 게시판의 myLectureList css 파일 -->
 <link href="/resources/assets/css/lecture/myLectureList.css"
 	rel="stylesheet" />
 
@@ -91,8 +91,9 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr onclick="location.href='/mypage/myLikeLectureList';">
-											<td>${lectureLike.lecLikeBoard}</td>
+										<tr 
+										onclick="location.href='/mypage/goMyLikeList?lecNo=${lectureLike.lecNo}';">
+											<td>${lectureLike.lecLikeTitle}</td>
 											<td>${lectureLike.lecLikeDate}</td>
 										</tr>
 									</tbody>

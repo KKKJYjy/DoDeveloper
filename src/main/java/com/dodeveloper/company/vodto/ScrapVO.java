@@ -20,4 +20,5 @@ public class ScrapVO {
 	private String scrapId;
 	private Timestamp scrapDate;
 	private int bType;
+	private String scrapLecTitle;
 }

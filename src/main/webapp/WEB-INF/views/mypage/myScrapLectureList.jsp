@@ -8,7 +8,7 @@
 <meta charset="utf-8" />
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-<title>My Study List - DoDeveloper</title>
+<title>My ScrapLecture List - DoDeveloper</title>
 <meta content="" name="description" />
 <meta content="" name="keywords" />
 
@@ -56,7 +56,7 @@
   ======================================================== -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<!-- 스터디 myStudyList css 파일 -->
+<!-- 강의 추천 게시판의 myLectureList css 파일 -->
 <link href="/resources/assets/css/lecture/myLectureList.css"
 	rel="stylesheet" />
 
@@ -75,32 +75,33 @@
 
 				<div class="container">
 					<h3 class="center text-center text-light pb-4 fw-medium">
-						${sessionScope.loginMember.userId}님이 강의 추천 게시판에 좋아요를 누른 게시글</h3>
+						${sessionScope.loginMember.userId}님이 강의 추천 게시판에 스크랩 누른 게시글</h3>
 				</div>
 
 
 				<c:forEach var="lectureScrap" items="${lectureScrapList}">
-						<div class="col-md mb-2 lecture">
-							<div class="card mb-3">
-								<div class="card-body">
-									<table class="table">
-										<thead>
-											<tr>
-												<th>스크랩 한 게시글 내용</th>
-												<th>스크랩 한 일자</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr onclick="location.href='/mypage/myScrapLectureList';">
-												<td>${lectureScrap.scrapId}</td>
-												<td>${lectureScrap.scrapDate}</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
+					<div class="col-md mb-2 lecture">
+						<div class="card mb-3">
+							<div class="card-body">
+								<table class="table">
+									<thead>
+										<tr>
+											<th>스크랩 한 게시글 내용</th>
+											<th>스크랩 한 일자</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr
+											onclick="location.href='/mypage/goMyScrapList?scrapBoard=${lectureScrap.scrapBoard}';">
+											<td>${lectureScrap.scrapLecTitle}</td>
+											<td>${lectureScrap.scrapDate}</td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
-					</c:forEach>
+					</div>
+				</c:forEach>
 
 
 				<!-- 페이징 -->

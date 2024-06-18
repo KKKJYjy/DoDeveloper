@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.dodeveloper.etc.PagingInfo;
 import com.dodeveloper.member.vo.MemberVO;
@@ -182,16 +184,15 @@ public class StudyContoller {
 	 *              userId에 세션아이디를, 로그인한 유저의 경우에는 유저아이디를 넣어준다.
 	 */
 	@GetMapping("/viewStudyBoard")
-	public String viewStudyBoard(@RequestParam("stuNo") int stuNo, Model model, HttpServletRequest req,
-			HttpServletResponse resp) throws Exception {
+	public ModelAndView viewStudyBoard(@RequestParam("stuNo") int stuNo, Model model, HttpServletRequest req,
+			HttpServletResponse resp, HttpSession ses, ModelAndView mav) throws Exception {
 
 		// 유저 정보
 		String userId = null;
-		MemberVO loginMember = (MemberVO) req.getSession().getAttribute("loginMember");
 
 		// 로그인한 유저의 경우
-		if (loginMember != null) {
-			userId = loginMember.getUserId();
+		if (ses.getAttribute("loginMember") != null) {
+			userId = ((MemberVO)ses.getAttribute("loginMember")).getUserId();
 			// System.out.println("로그인된 유저아이디:" + userId);
 		} else if (haveCookie(req, "rses") == null) {
 			// 비회원의 경우 쿠키가 저장되어있는지 검사
@@ -209,10 +210,16 @@ public class StudyContoller {
 
 		Map<String, Object> result = stuService.selectStudyByStuNo(stuNo, userId, 2);
 
-		model.addAttribute("studyList", (StudyBoardVO) result.get("studyList"));
-		model.addAttribute("stuStackList", (List<StuStackDTO>) result.get("stuStackList"));
-
-		return "study/viewStudyBoard";
+		mav.addObject("studyList", (StudyBoardVO) result.get("studyList"));
+		mav.addObject("stuStackList", (List<StuStackDTO>) result.get("stuStackList"));
+		mav.setViewName("/study/viewStudyBoard");
+		
+		return mav;
+		
+		//model.addAttribute("studyList", (StudyBoardVO) result.get("studyList"));
+		//model.addAttribute("stuStackList", (List<StuStackDTO>) result.get("stuStackList"));
+		
+		//return "study/viewStudyBoard";
 
 	}
 
@@ -315,7 +322,7 @@ public class StudyContoller {
 	/**
 	 * @author : yeonju
 	 * @date : 2024. 5. 24.
-	 * @param : int newStuStack - 새로 추가 마킹을 남길 stuStack
+	 * @param : int newStuStack - 새로 추가 마킹을 남길 chooseStack(stack테이블의 stackNo와 fk관계)
 	 * @return : ResponseEntity<String> - 성공했을 경우 newMarkSuccess, 실패했을 경우
 	 *         newMarkfail 반환
 	 * @description : 스터디 모임글 수정시에 스터디 언어 새로 추가했을 때 해당 스터디 언어를 인서트처리 하겠다는 마킹을 남긴다.

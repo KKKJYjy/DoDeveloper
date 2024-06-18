@@ -154,10 +154,16 @@ public class MemberController {
 			return;
 		}
 		
+		String urlToVisitAfterLogin = "";
+		
 		if(request.getParameter("redirectUrl").equals("viewBoard") && request.getParameter("lecNo") != null) {
-			String urlToVisitAfterLogin = "/lecture/viewBoard?lecNo=" + request.getParameter("lecNo");
+			urlToVisitAfterLogin = "/lecture/viewBoard?lecNo=" + request.getParameter("lecNo");
+			session.setAttribute(SessionNames.ATTEMPTED, urlToVisitAfterLogin);
+		}else if(request.getParameter("redirectUrl").equals("viewStudyBoard") && request.getParameter("stuNo") != null) {
+			urlToVisitAfterLogin = "/study/viewStudyBoard?stuNo=" + request.getParameter("stuNo");
 			session.setAttribute(SessionNames.ATTEMPTED, urlToVisitAfterLogin);
 		}
+		
 	}
 
 	@RequestMapping(value = "/loginPost", method = RequestMethod.POST)
@@ -266,7 +272,7 @@ public class MemberController {
 		}
 
 
-		session.setAttribute(SessionNames.VALIDATED_EMAIL, emailsToValidate.get(code).getEmail());
+		session.setAttribute(SessionNames.VERIFIED_EMAIL, emailsToValidate.get(code).getEmail());
 		emailsToValidate.remove(code);
 
 		result.put("isSuccess", "1");
@@ -283,7 +289,7 @@ public class MemberController {
 			registerDTO.setEmail("");
 		}
 
-		if(registerDTO.getEmail().equals(session.getAttribute(SessionNames.VALIDATED_EMAIL)) == false) {
+		if(registerDTO.getEmail().equals(session.getAttribute(SessionNames.VERIFIED_EMAIL)) == false) {
 			return "redirect:/member/register?status=registerFail";
 		}
 		
