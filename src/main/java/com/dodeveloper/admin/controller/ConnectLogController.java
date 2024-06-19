@@ -34,7 +34,8 @@ public class ConnectLogController {
 
 	@GetMapping(value = "/getLog", produces = "application/json; charset=utf-8")
 	public @ResponseBody ResponseEntity<Map<String, Object>> connectLog(@RequestParam("month") int month) {
-		
+
+
 
 
 
@@ -44,28 +45,33 @@ public class ConnectLogController {
 
 			logData.put("connectLog", connectLog);
 
+
 			// System.out.print(logData);
 			return new ResponseEntity<Map<String, Object>>(logData, HttpStatus.OK);
 
 		} catch (Exception e) {
 			// logger.error("Error retrieving log data", e);
+
 			return new ResponseEntity<Map<String, Object>>(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@GetMapping(value = "/getUri", produces = "application/json; charset=utf-8")
 	public @ResponseBody ResponseEntity<Map<String, Object>> getUri() {
+
 		// logger.info("uriData 호출됨");
 
 		Map<String, Object> uriData = new HashMap<String, Object>();
 		try {
 			List<CountUriVO> uriCount = aService.getPageLogCount();
 			uriData.put("uriCount", uriCount);
+
 			// System.out.print(uriData);
 			return new ResponseEntity<Map<String, Object>>(uriData, HttpStatus.OK);
 
 		} catch (Exception e) {
 			// logger.error("초기 데이터를 가져오는 중 오류 발생", e);
+
 			return new ResponseEntity<Map<String, Object>>(HttpStatus.BAD_REQUEST);
 		}
 	}

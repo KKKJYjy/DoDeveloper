@@ -104,7 +104,7 @@
 
 		//진행기간 셀렉트 디폴트값(전에 유저가 선택했던 값) 세팅
 		$("#stuDate").val('${studyList.stuDate }').prop("selected", true);
-		console.log('${studyList.stuDate }');
+		//console.log('${studyList.stuDate }');
 		
 		//스터디 언어 새로 선택했을 때 새로 인서트 처리 하겠다는 마킹 넘기기 
 		 $('.studyLang').on("select2:select", function(e) {
@@ -119,7 +119,7 @@
 				type : 'post',
 				dataType : 'text',
 				success : function(data) { 
-					console.log(data);
+					//console.log(data);
 					
 				}
 			});
@@ -138,7 +138,7 @@
 				type : 'post',
 				dataType : 'text',
 				success : function(data) { 
-					console.log(data);
+					//console.log(data);
 					
 				}
 			});
@@ -216,7 +216,7 @@
 		$("#searchMapBtn").click(function() {
 			// 지도 검색한 값 가져오기
 			let searchMap = $("#searchMap").val();
-			console.log(searchMap);
+			//console.log(searchMap);
 
 			// 1) 검색한 값 키워드로 장소를 검색
 			ps.keywordSearch(searchMap, placesSearchCB);
@@ -258,7 +258,7 @@
 				            detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
 				            
 				            mapName = result[0].address.address_name;
-				            console.log("주소검색시 Y: ", mapY, ", X: " , mapX , ", 주소 : ", mapName);
+				           // console.log("주소검색시 Y: ", mapY, ", X: " , mapX , ", 주소 : ", mapName);
 				        }   
 				        
 						// 인포윈도우로 장소에 대한 설명을 표시합니다
@@ -291,7 +291,7 @@
 	function finalClick(){
 		// 지도 검색바에 선택한 장소명 출력
 		$("#searchMap").val(mapName);
-		console.log("최종 클릭 Y: ", mapY, ", X: " , mapX , ", 주소 : ", mapName);
+		//console.log("최종 클릭 Y: ", mapY, ", X: " , mapX , ", 주소 : ", mapName);
 	}
 	
 	// 좌표로 법정동 상세 주소 정보를 요청합니다
@@ -430,18 +430,18 @@
 					"content-type" : "application/json"
 				},
 				success : function(data) {
-					console.log(data);
+					//console.log(data);
 					result = true; //modifyStudy 먼저 수행한뒤 modifyStack 수행하도록
 					
 				}
 			});
 			
-			console.log("if문 끝나기전",result);
+			//console.log("if문 끝나기전",result);
 		}else{
 			
 		}
 
-		console.log("if문 끝난후",result);
+		//console.log("if문 끝난후",result);
 		return result;
 	}
 

@@ -35,7 +35,7 @@ public class AdminViewDetaileController {
 	@RequestMapping(value = "/qnaView", method = RequestMethod.GET)
 	public void qnaViewBoard() {
 		
-		logger.info("문의 상세페이지");
+		//logger.info("문의 상세페이지");
 		
 	}
 	

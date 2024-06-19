@@ -46,7 +46,7 @@ public class AdminController {
 	 */
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
 	public void index(Model model) throws Exception {
-		logger.info("dashboard 페이지 호출");
+	//	logger.info("dashboard 페이지 호출");
 		
 
 		List<NoticeDTO> diffNotc = bService.diffNotice();
@@ -78,13 +78,13 @@ public class AdminController {
 
 	@RequestMapping(value = "/blank", method = RequestMethod.GET)
 	public void blank() {
-		logger.info("blank 페이지 호출");
+//		logger.info("blank 페이지 호출");
 
 	}
 
 	@RequestMapping(value = "/notice", method = RequestMethod.GET)
 	public void notice() {
-		logger.info("notice 호출");
+	//	logger.info("notice 호출");
 	}
 
 //	@RequestMapping(value = "/selectBoard", method = RequestMethod.GET)

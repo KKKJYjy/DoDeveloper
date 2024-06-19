@@ -91,8 +91,8 @@
 				description: '${studyList.stuWriter }님의 스터디 모집글',
 			    link: {
 			    	// [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
-			    	mobileWebUrl: 'http://kdtclass.cafe24.com/DoDeveloper',
-			    	webUrl: 'http://kdtclass.cafe24.com/DoDeveloper',
+			    	mobileWebUrl: 'http://kdtclass.cafe24.com/study/viewStudyBoard?stuNo=${studyList.stuNo}',
+			    	webUrl: 'http://kdtclass.cafe24.com/study/viewStudyBoard?stuNo=${studyList.stuNo}',
 			    	},
 			},
 			social: {
@@ -104,15 +104,15 @@
 				{
 					title: '웹으로 보기',
 			        link: {
-			        	mobileWebUrl: 'http://kdtclass.cafe24.com/DoDeveloper',
-			        	webUrl: 'http://kdtclass.cafe24.com/DoDeveloper',
+			        	mobileWebUrl: 'http://kdtclass.cafe24.com/study/viewStudyBoard?stuNo=${studyList.stuNo}',
+			        	webUrl: 'http://kdtclass.cafe24.com/study/viewStudyBoard?stuNo=${studyList.stuNo}',
 			        },
 			    },
 			    {
 			    	title: '앱으로 보기',
 			        link: {
-			        	mobileWebUrl: 'http://kdtclass.cafe24.com/DoDeveloper',
-			        	webUrl: 'http://kdtclass.cafe24.com/DoDeveloper',
+			        	mobileWebUrl: 'http://kdtclass.cafe24.com/study/viewStudyBoard?stuNo=${studyList.stuNo}',
+			        	webUrl: 'http://kdtclass.cafe24.com/study/viewStudyBoard?stuNo=${studyList.stuNo}',
 			        },
 			    },
 			],
@@ -158,7 +158,7 @@
 						},
 						dataType : "text",
 						success : function(data) {
-							console.log(data);
+							//console.log(data);
 							if(data == 'insertSuccess'){
 								$(".replyList").empty();
 								$(".replyContent").val('');
@@ -244,7 +244,7 @@
         let url = new URL(window.location.href);
         let urlParams = url.searchParams;
         
-        console.log(urlParams);
+        //console.log(urlParams);
         
         if(urlParams.get('status') == 'success'){
         	alert("참여신청 완료했습니다.");	
@@ -260,7 +260,7 @@
 	function getAllReplies(){
 		//댓글을 조회할 게시글 번호
 		let stuNo = ${studyList.stuNo};
-		console.log(stuNo + "번째 게시글 댓글 조회");
+		//console.log(stuNo + "번째 게시글 댓글 조회");
 
 		//get방식이라 쿼리스트링 붙여서 보낼 수 있음.. boardNo는 변수로 들어간다
 		$.ajax({
@@ -270,7 +270,7 @@
 			dataType : "json",
 			async : false, //받아올 데이터가 있어야 파싱 가능.
 			success : function(data) {
-				console.log(data);
+				//console.log(data);
 				//replies = data;
 				if(data.length > 0){					
 					showReplies(data);
@@ -344,7 +344,7 @@
 		
 		//수정할 댓글 내용과 댓글 번호를 ajax로 보내자
 		let replyContent = $(".modiftReplyContent").val();
-		console.log(replyContent);
+		//console.log(replyContent);
 		let bNo = `${studyList.stuNo}`;
 		
 		let modifyReply = {
@@ -354,7 +354,7 @@
 			"replyContent" : replyContent,
 		}; //수정할 댓글 객체로 선언
 		
-		console.log(JSON.stringify(modifyReply));
+		//console.log(JSON.stringify(modifyReply));
 		
 		$.ajax({
 			url : "/studyReply/modifyReply/" + replyNo + "/" + bNo,
@@ -364,7 +364,7 @@
 			dataType : "text",
 			async : false, //받아올 데이터가 있어야 파싱 가능.
 			success : function(data) {
-				console.log(data);
+				//console.log(data);
 				if(data == 'updateSuccess'){
 					$(`#cancle_\${replyNo}`).remove();
 					getAllReplies();
@@ -392,7 +392,7 @@
 				dataType : "text",
 				async : false, //받아올 데이터가 있어야 파싱 가능.
 				success : function(data) {
-					console.log(data);
+					//console.log(data);
 					if(data == 'deleteSuccess'){
 						getAllReplies();
 					}

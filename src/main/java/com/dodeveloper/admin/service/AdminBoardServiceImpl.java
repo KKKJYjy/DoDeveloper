@@ -35,7 +35,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	@Override
 	public Map<String, Object> getlistStudyBoard(int pageNo, SearchCriteriaDTO sc) throws Exception {
 
-		System.out.println("서비스단 : study게시물 조회");
+	//	System.out.println("서비스단 : study게시물 조회");
 
 		List<AdminVO> stuBoardList = null;
 
@@ -363,7 +363,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	@Override
 	public Map<String, Object> getlistLectureBoard(int pageNo, SearchCriteriaDTO sc) throws Exception {
 
-		System.out.println("서비스단 : lecture게시물 조회");
+	//	System.out.println("서비스단 : lecture게시물 조회");
 
 		List<AdminLectureVO> lecBoardList = null;
 
@@ -385,7 +385,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	@Override
 	public Map<String, Object> getlistArgBoard(int pageNo, SearchCriteriaDTO sc) throws Exception {
 
-		System.out.println("서비스단 : 알고리즘 게시물 조회");
+	//	System.out.println("서비스단 : 알고리즘 게시물 조회");
 
 		List<AdminArgBoardVO> argBoardList = null;
 
@@ -409,7 +409,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	@Override
 	public Map<String, Object> getlistRevBoard(int pageNo, SearchCriteriaDTO sc) throws Exception {
 
-		System.out.println("서비스단 : review게시물 조회");
+		//System.out.println("서비스단 : review게시물 조회");
 
 		List<AdminReviewBoardVO> revBoardList = null;
 
@@ -431,7 +431,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	@Override
 	public Map<String, Object> getlistNotcBoard(int pageNo, SearchCriteriaDTO sc) throws Exception {
 
-		System.out.println("서비스단 : 공지사항 조회");
+	//	System.out.println("서비스단 : 공지사항 조회");
 
 		List<NoticeDTO> notcBoardList = null;
 
@@ -453,7 +453,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	@Override
 	public Map<String, Object> getlistViewNotcBoard(int pageNo, SearchCriteriaDTO sc) throws Exception {
 
-		System.out.println("서비스단 : 공지사항 조회순");
+		//System.out.println("서비스단 : 공지사항 조회순");
 
 		List<NoticeDTO> notcBoardList = null;
 
@@ -538,7 +538,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	@Override
 	public List<ReportVO> getReport() throws Exception {
 
-		System.out.println("서비스단 : 신고내역 조회");
+	//	System.out.println("서비스단 : 신고내역 조회");
 
 		List<ReportVO> reportList = bDao.selectReport();
 
@@ -548,7 +548,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	@Override
 	public List<ReportVO> getReportNO(int btypeNo, int boardNo) throws Exception {
 
-		System.out.println("서비스단 : 신고게시글 상세조회");
+	//	System.out.println("서비스단 : 신고게시글 상세조회");
 
 		List<ReportVO> report = (List<ReportVO>) bDao.selectReportBoardNo(btypeNo, boardNo);
 
@@ -559,7 +559,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
 	public Map<String, Object> getNotcBoardNo(int boardNo, String user) throws Exception {
 
-		System.out.println("서비스단 : 공지사항 상세페이지");
+	//	System.out.println("서비스단 : 공지사항 상세페이지");
 
 		if (bDao.selectDiffNotc(boardNo, user) == -1) {
 			bDao.notcReadCnt(boardNo);
@@ -578,7 +578,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	@Override
 	public boolean modifyNotcBoard(NoticeDTO mdBoard) throws Exception {
 
-		System.out.println("서비스단 : 공지사항 수정");
+	//	System.out.println("서비스단 : 공지사항 수정");
 
 		boolean result = false;
 
@@ -592,7 +592,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	@Override
 	public Map<String, Object> getNotcByBoardNo(int boardNo) throws Exception {
 
-		System.out.println("수정할 글번호");
+	//	System.out.println("수정할 글번호");
 
 		NoticeDTO notcBoard = bDao.selectNoticeBoardNo(boardNo);
 
@@ -606,7 +606,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	@Override
 	public Map<String, Object> getQnaBoard(int pageNo) throws Exception {
 
-		System.out.println("서비스단 : 문의게시글 조회");
+	//	System.out.println("서비스단 : 문의게시글 조회");
 
 		List<QnaBoardVO> qnaList = null;
 
@@ -623,7 +623,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	@Override
 	public QnaBoardVO getQnaBoardNo(int no) throws Exception {
 
-		System.out.println("서비스단 : 문의 상세페이지");
+	//	System.out.println("서비스단 : 문의 상세페이지");
 
 		QnaBoardVO qnaViewBoard = bDao.selectQnaBoardNo(no);
 
@@ -699,6 +699,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 //		System.out.println("boardNo: " + boardNo);
 //		System.out.println("userId: " + userId);
 //		System.out.println("deleteReason: " + deleteReason);
+
 		boolean result = false;
 
 		if (bDao.insertPenalty(deleteReason, userId) == 1) { // (insert)
