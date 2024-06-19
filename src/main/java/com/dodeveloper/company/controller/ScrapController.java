@@ -40,7 +40,7 @@ public class ScrapController {
 	@RequestMapping(value="/all/{scrapId}", method = RequestMethod.GET)
 	public ResponseEntity<List<ScrapRevJoinVO>> selectAllScrap(@PathVariable("scrapId") String scrapId) {
 		
-		System.out.println(scrapId + "스크랩 확인!!!");
+//		System.out.println(scrapId + "스크랩 확인!!!");
 		
 		ResponseEntity<List<ScrapRevJoinVO>> result = null;
 		

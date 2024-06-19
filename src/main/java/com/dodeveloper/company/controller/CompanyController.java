@@ -57,7 +57,7 @@ public class CompanyController {
 	 */
 	@GetMapping(value = "/entire")
 	public String companyListAll(Model model) throws Exception {
-		logger.info("기업리스트를 모두 보여주자");
+//		logger.info("기업리스트를 모두 보여주자");
 
 		// 서비스단 호출(getEntireCompanyInfo()) : 서비스단에서 예외처리 날 수 있으니까 컨트롤러단에도 예외터지는건 당연함
 		List<CompanyInfoVO> ciList = ciService.getEntireCompanyInfo();
@@ -81,7 +81,7 @@ public class CompanyController {
 	public String companyRevBoard(@RequestParam(name = "companyInfoNo", defaultValue = "-1") int companyInfoNo,
 			Model model) throws Exception {
 		// /companyInfo/revCompanyBoard.jsp로 포워딩-> 유저가 기업클릭하면 클릭한 기업 리뷰를 볼 수 있다.
-		logger.info(companyInfoNo + "기업 리뷰 페이지 조회");
+//		logger.info(companyInfoNo + "기업 리뷰 페이지 조회");
 
 		// 서비스단 호출(getCompanyInfoRev())
 		List<RevCompanyBoardVO> revList = ciService.getCompanyInfoRev(companyInfoNo);
@@ -102,7 +102,7 @@ public class CompanyController {
 	@RequestMapping("/writtenBoard") // "/companyInfo/writtenBoard"가 GET방식으로 요청될 때 호출
 	public void writtenBoard() {
 		// /companyInfo/writtenBoard.jsp로 포워딩
-		logger.info("/writtenBoard GET 요청!");
+//		logger.info("/writtenBoard GET 요청!");
 //		return "companyInfo/writtenBoard"; 
 	}
 
@@ -117,7 +117,7 @@ public class CompanyController {
 	 */
 	@RequestMapping(value = "/writtenBoard", method = RequestMethod.POST)
 	public String writtenBoard(WrittenCompanyBoardDTO newWrittenCompanyBoard) {
-		System.out.println(newWrittenCompanyBoard.toString());
+//		System.out.println(newWrittenCompanyBoard.toString());
 
 		// 저장후에 되돌아갈 페이지 : 리뷰를 작성한 해당 기업(companyInfoNo)의 리뷰페이지로 되돌아가야된다.
 		String returnPage = "redirect:/companyInfo/revCompanyBoard?"; // 글 저장하면 기업 리뷰 목록으로 돌아가야함
@@ -148,7 +148,7 @@ public class CompanyController {
 	@RequestMapping(value = "/deleteWrittenBoard", method = RequestMethod.GET)
 	public String deleteWrittenBoard(@RequestParam("companyInfoNo") int companyInfoNo,
 			@RequestParam("revNo") int revNo) {
-		logger.info(revNo + "삭제 기능");
+//		logger.info(revNo + "삭제 기능");
 		// 삭제후에 되돌아갈 페이지 : 리뷰를 삭제한 해당 기업(companyInfoNo)의 리뷰페이지로 되돌아가야된다.
 		String returnPage = "redirect:/companyInfo/revCompanyBoard?";
 
@@ -179,11 +179,11 @@ public class CompanyController {
 	@GetMapping(value = "/editWrittenBoard")
 	public String editWrittenBoard(@RequestParam("companyInfoNo") int companyInfoNo, @RequestParam("revNo") int revNo,
 			Model model) throws Exception {
-		logger.info("수정페이지 GET 요청!!!");
+//		logger.info("수정페이지 GET 요청!!!");
 
 		RevCompanyBoardVO revBoard = ciService.editWrittenBoard(revNo);
 
-		System.out.println(revBoard.toString());
+//		System.out.println(revBoard.toString());
 
 		// revBoard를 바인딩 시켜서 editWrittenBoard.jsp로 넘겨야함
 		model.addAttribute("revBoard", revBoard);
@@ -205,7 +205,7 @@ public class CompanyController {
 	@PostMapping("/revCompanyBoard")
 	public String revEditWrittenBoard(@RequestParam("revNo") int revNo, RevCompanyBoardVO newEditWrittenBoard) {
 		String returnPage = "redirect:/companyInfo/revCompanyBoard?";
-		System.out.println(newEditWrittenBoard.toString() + "수정하자");
+//		System.out.println(newEditWrittenBoard.toString() + "수정하자");
 
 		try {
 			if (ciService.revEditWrittenBoard(newEditWrittenBoard) == 1) {
@@ -236,10 +236,10 @@ public class CompanyController {
 	public String insertScrap(@RequestParam("scrapBoard") int scrapBoard,
 			@RequestParam("companyInfoNo") int companyInfoNo, HttpSession session)  {
 		String returnPage = "";
-		System.out.println(scrapBoard + "revNo게시글 번호" + companyInfoNo + "scrapBoard 기업리뷰번호");
+//		System.out.println(scrapBoard + "revNo게시글 번호" + companyInfoNo + "scrapBoard 기업리뷰번호");
 		// 로그인한 유저의 아이디를 얻어와 scrapId 변수에 저장하고
 		MemberVO loginMember = (MemberVO) session.getAttribute(SessionNames.LOGIN_MEMBER);
-		System.out.println(loginMember.getUserId());
+//		System.out.println(loginMember.getUserId());
 		// scrapId, scrapBoard, companyInfoNo를 서비스단 메서드에 보내면서 호출
 		try {
 			if(ciService.insertScrap(scrapBoard, loginMember.getUserId(), 3) == 1) {
