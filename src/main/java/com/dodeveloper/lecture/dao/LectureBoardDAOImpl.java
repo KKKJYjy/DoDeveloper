@@ -126,7 +126,7 @@ public class LectureBoardDAOImpl implements LectureBoardDAO {
 //		params.put("lecScore", newLecBoard.getLecScore());
 //		params.put("lecLink", newLecBoard.getLecLink());
 
-		System.out.println("새로 저장될 글 : " + newLecBoard.getLecNo());
+//		System.out.println("새로 저장될 글 : " + newLecBoard.getLecNo());
 
 		return ses.insert(ns + ".insertLectureBoard", newLecBoard);
 	}

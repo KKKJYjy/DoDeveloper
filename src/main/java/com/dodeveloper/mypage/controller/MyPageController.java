@@ -80,7 +80,7 @@ public class MyPageController {
 	@RequestMapping(value = "/setProfileImage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<Map<String, Object>> setProfileImage(@RequestBody Map<String, Object> param)
 			throws Exception {
-		System.out.println("setProfileImage : " + param.toString());
+//		System.out.println("setProfileImage : " + param.toString());
 
 		String userId = String.valueOf(param.get("userId"));
 		String prefix = String.valueOf(param.get("prefix"));
@@ -115,18 +115,18 @@ public class MyPageController {
 		Map<String, Object> returnMap = new HashMap<String, Object>();
 
 		String userId = String.valueOf(param.get("userId"));
-		System.out.println("userId : " + userId);
+//		System.out.println("userId : " + userId);
 
 		ProfileVO profileVO = myPageService.getProfileImage(userId);
-		System.out.println("profileVO : " + profileVO);
+//		System.out.println("profileVO : " + profileVO);
 		if (profileVO != null) {
-			System.out.println("reslutMap.get(profileImage) : " + profileVO.getProfileImage());
+//			System.out.println("reslutMap.get(profileImage) : " + profileVO.getProfileImage());
 
 			byte[] profileImage = profileVO.getProfileImage();
-			System.out.println("profileImage.length : " + profileImage.length);
+//			System.out.println("profileImage.length : " + profileImage.length);
 			if (profileImage.length > 0 && profileImage != null) {
 				String base64Encode = byteToBase64(profileImage);
-				System.out.println("base64Encode : " + base64Encode);
+//				System.out.println("base64Encode : " + base64Encode);
 
 				returnMap.put("state", "T");
 				returnMap.put("message", "Success");
@@ -160,7 +160,7 @@ public class MyPageController {
 	@RequestMapping(value = "/removeProfileImage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<Map<String, Object>> removeProfileImage(@RequestBody Map<String, Object> param)
 			throws Exception {
-		System.out.println("removeProfileImage : " + param.toString());
+//		System.out.println("removeProfileImage : " + param.toString());
 
 		String userId = String.valueOf(param.get("userId"));
 
@@ -184,12 +184,12 @@ public class MyPageController {
 	@ResponseBody
 	@RequestMapping(value = "/changePwd", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<Map<String, Object>> changePwd(@RequestBody ChangePwdDTO changePwdDTO) throws Exception {
-		System.out.println("changePwdDTO : " + changePwdDTO.toString());
+//		System.out.println("changePwdDTO : " + changePwdDTO.toString());
 
 		Map<String, Object> returnMap = new HashMap<String, Object>();
 
 		int result = mService.checkUserPwd(changePwdDTO);
-		System.out.println("changePwd result : " + result);
+//		System.out.println("changePwd result : " + result);
 
 		if (result > 0) {
 			if (mService.changeUserPwd(changePwdDTO) > 0) {
@@ -213,7 +213,7 @@ public class MyPageController {
 	@RequestMapping(value = "/changeProfile", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<Map<String, Object>> changePwd(@RequestBody ChangeProfileDTO changeProfileDTO)
 			throws Exception {
-		System.out.println("changeProfileDTO : " + changeProfileDTO.toString());
+//		System.out.println("changeProfileDTO : " + changeProfileDTO.toString());
 
 		HttpHeaders headers = new HttpHeaders();
 		Charset utf8 = Charset.forName("utf-8");
@@ -282,7 +282,7 @@ public class MyPageController {
 	public void getMyStudyList(Model model, HttpServletRequest req) {
 
 		String userId = ((MemberVO) req.getSession().getAttribute("loginMember")).getUserId();
-		logger.info(userId + "가 작성한 스터디 모임글 페이지로 이동");
+//		logger.info(userId + "가 작성한 스터디 모임글 페이지로 이동");
 
 		Map<String, Object> result = null;
 
@@ -311,7 +311,7 @@ public class MyPageController {
 	@GetMapping("/myApplyList")
 	public void getMyApplyList(Model model, HttpServletRequest req) {
 		String userId = ((MemberVO) req.getSession().getAttribute("loginMember")).getUserId();
-		logger.info(userId + "가 신청한 스터디 모임글 페이지로 이동");
+//		logger.info(userId + "가 신청한 스터디 모임글 페이지로 이동");
 
 		Map<String, Object> result = null;
 
@@ -340,7 +340,7 @@ public class MyPageController {
 	@GetMapping("/myJoinedStudyList")
 	public void getMyJoinedStudyList(Model model, HttpServletRequest req) {
 		String userId = ((MemberVO) req.getSession().getAttribute("loginMember")).getUserId();
-		logger.info(userId + "가 참여중인 스터디 모임글 페이지로 이동");
+//		logger.info(userId + "가 참여중인 스터디 모임글 페이지로 이동");
 		
 		Map<String, Object> result = null;
 
@@ -375,7 +375,7 @@ public class MyPageController {
 			Model model, HttpServletRequest req) {
 		// 현재 로그인한 사용자의 아이디
 		String userId = ((MemberVO) req.getSession().getAttribute("loginMember")).getUserId();
-		logger.info(userId + "가 강의 추천 게시판에 작성한 게시글로 이동");
+//		logger.info(userId + "가 강의 추천 게시판에 작성한 게시글로 이동");
 		
 	    Map<String, Object> resultMap = null;
 	    
@@ -418,7 +418,7 @@ public class MyPageController {
 			Model model, HttpServletRequest req) {
 		// 현재 로그인한 사용자의 아이디
 		String userId = ((MemberVO) req.getSession().getAttribute("loginMember")).getUserId();
-		logger.info(userId + "가 강의 추천 게시판의 게시글에 작성한 댓글 마이페이지의 게시글로 이동");
+//		logger.info(userId + "가 강의 추천 게시판의 게시글에 작성한 댓글 마이페이지의 게시글로 이동");
 		
 	    Map<String, Object> resultMap = null;
 	    
@@ -461,7 +461,7 @@ public class MyPageController {
 			Model model, HttpServletRequest req) {
 		// 현재 로그인한 사용자의 아이디
 		String userId = ((MemberVO) req.getSession().getAttribute("loginMember")).getUserId();
-		logger.info(userId + "가 강의 추천 게시판의 게시글 스크랩 한 마이페이지의 게시글로 이동");
+//		logger.info(userId + "가 강의 추천 게시판의 게시글 스크랩 한 마이페이지의 게시글로 이동");
 		
 	    Map<String, Object> resultMap = null;
 	    
@@ -504,7 +504,7 @@ public class MyPageController {
 			Model model, HttpServletRequest req) {
 		// 현재 로그인한 사용자의 아이디
 		String userId = ((MemberVO) req.getSession().getAttribute("loginMember")).getUserId();
-		logger.info(userId + "가 강의 추천 게시판의 게시글 좋아요 한 마이페이지의 게시글로 이동");
+//		logger.info(userId + "가 강의 추천 게시판의 게시글 좋아요 한 마이페이지의 게시글로 이동");
 		
 	    Map<String, Object> resultMap = null;
 	    
@@ -541,7 +541,7 @@ public class MyPageController {
 	public void getMyAlgList(Model model, HttpServletRequest req) {
 
 		String userId = ((MemberVO) req.getSession().getAttribute("loginMember")).getUserId();
-		logger.info(userId + "가 작성한 스터디 모임글 페이지로 이동");
+//		logger.info(userId + "가 작성한 스터디 모임글 페이지로 이동");
 
 		List<AlgDetailDTO> result = null;
 
@@ -582,7 +582,7 @@ public class MyPageController {
 			Model model, HttpServletRequest req) {
 		// 현재 로그인한 사용자의 아이디
 		String userId = ((MemberVO) req.getSession().getAttribute("loginMember")).getUserId();
-		logger.info(userId + "가 신고한 게시글 확인하러 마이페이지의 게시글로 이동");
+//		logger.info(userId + "가 신고한 게시글 확인하러 마이페이지의 게시글로 이동");
 		
 		Map<String, Object> resultMap = null;
 		
@@ -625,7 +625,7 @@ public class MyPageController {
 			Model model, HttpServletRequest req) {
 		// 현재 로그인한 사용자의 아이디
 		String userId = ((MemberVO) req.getSession().getAttribute("loginMember")).getUserId();
-		logger.info(userId + "가 문의한 게시글 확인하러 마이페이지의 게시글로 이동");
+//		logger.info(userId + "가 문의한 게시글 확인하러 마이페이지의 게시글로 이동");
 		
 		Map<String, Object> resultMap = null;
 		

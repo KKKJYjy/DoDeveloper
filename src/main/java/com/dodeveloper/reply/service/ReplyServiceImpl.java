@@ -44,7 +44,7 @@ public class ReplyServiceImpl implements ReplyService {
 	@Override
 	public int insertReply(ReplyDTO rDTO) throws Exception {
 
-		System.out.println("서비스단 댓글 작성 시 " +  rDTO.toString());
+//		System.out.println("서비스단 댓글 작성 시 " +  rDTO.toString());
 		
 		return rDao.insertReply(rDTO);
 	}
@@ -89,9 +89,9 @@ public class ReplyServiceImpl implements ReplyService {
 		int result = 0;
 		
 		if(rDao.insertReply(newReply) == 1) {
-			System.out.println(newReply.getBNo() + "번째 스터디 모임글 댓글 인서트 성공");
+//			System.out.println(newReply.getBNo() + "번째 스터디 모임글 댓글 인서트 성공");
 			if(sDao.ReplyCntUp(newReply.getBNo()) ==1) {
-				System.out.println(newReply.getBNo() + "번째 스터디 모임글 댓글수 +1 성공");
+//				System.out.println(newReply.getBNo() + "번째 스터디 모임글 댓글수 +1 성공");
 				result = 1;
 			}
 		}
@@ -111,9 +111,9 @@ public class ReplyServiceImpl implements ReplyService {
 		int result = 0;
 		
 		if(rDao.deleteReply(replyNo) == 1) {
-			System.out.println(replyNo + "번째 스터디 모임글 댓글 삭제 성공");
+//			System.out.println(replyNo + "번째 스터디 모임글 댓글 삭제 성공");
 			if(sDao.ReplyCntDown(stuNo) == 1) {
-				System.out.println(stuNo + "번째 스터디 모임글 댓글수 -1 성공");
+//				System.out.println(stuNo + "번째 스터디 모임글 댓글수 -1 성공");
 				result= 1;
 			}
 		}

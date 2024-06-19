@@ -169,20 +169,20 @@ public class MyPageServiceImpl implements MyPageService {
 	 */
 	@Override
 	public Map<String, Object> getMyLectureList(int pageNo, String userId) throws Exception {
-	    System.out.println(userId + "가 서비스단 : " + pageNo + "강의 추천 게시판에 작성한 게시글 확인!");
+//	    System.out.println(userId + "가 서비스단 : " + pageNo + "강의 추천 게시판에 작성한 게시글 확인!");
 
 	    List<LectureBoardVO> lectureList = null;
 
 	    listMakePagingInfo(pageNo, userId);
 	    lectureList = myPageDao.getMyPageLecBoardList(userId, pi);
 	        
-	    System.out.println("마이페이지에서 " + userId + "가 강의 추천 게시판에 작성한 게시글 : " + lectureList.toString() + "확인");
+//	    System.out.println("마이페이지에서 " + userId + "가 강의 추천 게시판에 작성한 게시글 : " + lectureList.toString() + "확인");
 
 	    Map<String, Object> returnMap = new HashMap<String, Object>();
 	    returnMap.put("lectureList", lectureList);
 	    returnMap.put("pagingInfo", this.pi);
 
-	    System.out.println(pi);
+//	    System.out.println(pi);
 
 	    return returnMap;
 	}
@@ -198,20 +198,20 @@ public class MyPageServiceImpl implements MyPageService {
      */
     @Override
     public Map<String, Object> getMyReplyLectureList(int pageNo, String userId) throws Exception {
-	    System.out.println(userId + "가 서비스단 : " + pageNo + "강의 추천 게시판의 게시글에 댓글 작성 확인!");
+//	    System.out.println(userId + "가 서비스단 : " + pageNo + "강의 추천 게시판의 게시글에 댓글 작성 확인!");
 
 	    List<ReplyVO> lectureReplyList = null;
 
 	    replyMakePagingInfo(pageNo, userId);
 	    lectureReplyList = myPageDao.getMyPageLecBoardReplyList(userId, pi);
 	        
-	    System.out.println("마이페이지에서 " + userId + "가 강의 추천 게시판의 게시글에 댓글 작성한 게시글 : " + lectureReplyList.toString() + "확인");
+//	    System.out.println("마이페이지에서 " + userId + "가 강의 추천 게시판의 게시글에 댓글 작성한 게시글 : " + lectureReplyList.toString() + "확인");
 
 	    Map<String, Object> returnMap = new HashMap<String, Object>();
 	    returnMap.put("lectureReplyList", lectureReplyList);
 	    returnMap.put("pagingInfo", this.pi);
 
-	    System.out.println(pi);
+//	    System.out.println(pi);
 
 	    return returnMap;
     }
@@ -227,20 +227,20 @@ public class MyPageServiceImpl implements MyPageService {
      */
     @Override
     public Map<String, Object> getMyScrapLectureList(int pageNo, String userId) throws Exception {
-	    System.out.println(userId + "가 서비스단 : " + pageNo + "강의 추천 게시판의 게시글 스크랩 확인!");
+//	    System.out.println(userId + "가 서비스단 : " + pageNo + "강의 추천 게시판의 게시글 스크랩 확인!");
 
 	    List<ScrapVO> lectureScrapList = null;
 
 	    scrapMakePagingInfo(pageNo, userId);
 	    lectureScrapList = myPageDao.getMyPageLecBoardScrapList(userId, pi);
 	        
-	    System.out.println("마이페이지에서 " + userId + "가 강의 추천 게시판의 게시글 스크랩 : " + lectureScrapList.toString() + "확인");
+//	    System.out.println("마이페이지에서 " + userId + "가 강의 추천 게시판의 게시글 스크랩 : " + lectureScrapList.toString() + "확인");
 
 	    Map<String, Object> returnMap = new HashMap<String, Object>();
 	    returnMap.put("lectureScrapList", lectureScrapList);
 	    returnMap.put("pagingInfo", this.pi);
 
-	    System.out.println(pi);
+//	    System.out.println(pi);
 
 	    return returnMap;
     }
@@ -256,20 +256,20 @@ public class MyPageServiceImpl implements MyPageService {
      */
     @Override
     public Map<String, Object> getMyLikedLectureList(int pageNo, String userId) throws Exception {
-	    System.out.println(userId + "가 서비스단 : " + pageNo + "강의 추천 게시판의 게시글 좋아요 확인!");
+//	    System.out.println(userId + "가 서비스단 : " + pageNo + "강의 추천 게시판의 게시글 좋아요 확인!");
 
 	    List<LectureLikeVO> lectureLikeList = null;
 
 	    likeMakePagingInfo(pageNo, userId);
 	    lectureLikeList = myPageDao.getMyPageLecBoardLikeList(userId, pi);
 	        
-	    System.out.println("마이페이지에서 " + userId + "가 강의 추천 게시판의 게시글 좋아요 : " + lectureLikeList.toString() + "확인");
+//	    System.out.println("마이페이지에서 " + userId + "가 강의 추천 게시판의 게시글 좋아요 : " + lectureLikeList.toString() + "확인");
 
 	    Map<String, Object> returnMap = new HashMap<String, Object>();
 	    returnMap.put("lectureLikeList", lectureLikeList);
 	    returnMap.put("pagingInfo", this.pi);
 
-	    System.out.println(pi);
+//	    System.out.println(pi);
 
 	    return returnMap;
     }
@@ -441,20 +441,20 @@ public class MyPageServiceImpl implements MyPageService {
      */
 	@Override
 	public Map<String, Object> getMyPageReportList(int pageNo, String userId) throws Exception {
-		System.out.println(userId + "가 서비스단 : " + pageNo + "신고한 게시글 확인!");
+//		System.out.println(userId + "가 서비스단 : " + pageNo + "신고한 게시글 확인!");
 
 	    List<ReportVO> reportList = null;
 
 	    reportMakePagingInfo(pageNo, userId);
 	    reportList = myPageDao.getMyPageReport(userId, pi);
 	        
-	    System.out.println("마이페이지에서 " + userId + "가 신고한 게시글 : " + reportList.toString() + "확인");
+//	    System.out.println("마이페이지에서 " + userId + "가 신고한 게시글 : " + reportList.toString() + "확인");
 
 	    Map<String, Object> returnMap = new HashMap<String, Object>();
 	    returnMap.put("reportList", reportList);
 	    returnMap.put("pagingInfo", this.pi);
 
-	    System.out.println(pi);
+//	    System.out.println(pi);
 
 	    return returnMap;
 	}
@@ -509,20 +509,20 @@ public class MyPageServiceImpl implements MyPageService {
      */
 	@Override
 	public Map<String, Object> getMyPageQnAList(int pageNo, String userId) throws Exception {
-		System.out.println(userId + "가 서비스단 : " + pageNo + "문의한 게시글 확인!");
+//		System.out.println(userId + "가 서비스단 : " + pageNo + "문의한 게시글 확인!");
 
 	    List<QnaBoardVO> myPageQnAList = null;
 
 	    qnaMakePagingInfo(pageNo, userId);
 	    myPageQnAList = myPageDao.getMyPageQnA(userId, pi);
 	        
-	    System.out.println("마이페이지에서 " + userId + "가 문의한 게시글 : " + myPageQnAList.toString() + "확인");
+//	    System.out.println("마이페이지에서 " + userId + "가 문의한 게시글 : " + myPageQnAList.toString() + "확인");
 
 	    Map<String, Object> returnMap = new HashMap<String, Object>();
 	    returnMap.put("myPageQnAList", myPageQnAList);
 	    returnMap.put("pagingInfo", this.pi);
 
-	    System.out.println(pi);
+//	    System.out.println(pi);
 
 	    return returnMap;
 	}
