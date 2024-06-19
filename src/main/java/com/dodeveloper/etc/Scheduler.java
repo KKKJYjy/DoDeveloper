@@ -24,7 +24,7 @@ public class Scheduler {
 		this.fileProcessing = fileProcessing;
 		this.memberService = memberService;
 	}
-	/*
+
 	@Scheduled(cron = "0 0 3 * * *")
 	public void tempFileCleaning() {
 		File tempDir = new File(fileProcessing.getRealPath() + File.separator + UploadPaths.tempUploadPath);
@@ -49,5 +49,5 @@ public class Scheduler {
 			e.printStackTrace();
 		}
 	}
-	*/
+
 }
