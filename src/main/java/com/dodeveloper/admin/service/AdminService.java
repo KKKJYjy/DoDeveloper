@@ -31,4 +31,8 @@ public interface AdminService {
 	// 날짜별 접속자 수 조회하는 메서드
 	List<ConnectLogVO> getDateLog(int month) throws Exception;
 
+
+
+
+
  }

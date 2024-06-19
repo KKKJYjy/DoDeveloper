@@ -3,6 +3,7 @@ package com.dodeveloper.admin.dao;
 
 
 import java.util.List;
+import java.util.Map;
 
 import com.dodeveloper.admin.dto.ConnectLogDTO;
 import com.dodeveloper.admin.dto.UserDTO;
@@ -22,7 +23,7 @@ public interface AdminDAO {
 	List<UserDTO> selectAllUser() throws Exception;
 
 	// 유저 상태 변경하는 메서드
-	int modifyUserStatus(String newStatus,String userId) throws Exception;
+	int updateUserStatus(Map<String, Object> userParams) throws Exception;
 	
 	// 접속기록을 기록하는 메서드
 	int insertConnectLog(ConnectLogDTO connectLog) throws Exception;
@@ -32,6 +33,16 @@ public interface AdminDAO {
 	
 	// 날짜별 접속자 수 조회하는 메서드
 	List<ConnectLogVO> connectDateLog(int month) throws Exception;
+
+	// 상태 변경된 유저 정지일과 해제일 입력하는 메서드
+	int updatePenaltyRecord(Map<String, Object> penaltyParams) throws Exception;
+	
+	// 탈퇴회원 처리
+	int banUser(String userId) throws Exception;
+
+
+	
+	
   
 
 }

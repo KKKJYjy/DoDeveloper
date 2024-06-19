@@ -96,4 +96,8 @@ public class AdminController {
 //		model.addAttribute("stuBoardList", stuBoardList);
 //	}
 
+	
+
+    
+    
 }
