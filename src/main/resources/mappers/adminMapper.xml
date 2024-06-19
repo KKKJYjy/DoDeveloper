@@ -350,27 +350,59 @@
 	<!-- 유저 전체 조회 -->
 	<select id="selectAllUser" resultType="UserDTO">
 		SELECT m.userId,
-		m.userName, m.email, m.registerDate, m.status, b.penaltyCnt
-		FROM member
-		m
-		LEFT JOIN badMemberBoard b ON m.userId = b.userId;
+		m.userName,
+		m.email,
+		m.registerDate,
+		m.status,
+		COALESCE(b.penaltyCnt, 0) AS penaltyCnt,
+		b.suspendEnd
+		FROM member m
+		LEFT JOIN (
+		SELECT userId, MAX(penaltyCnt) AS penaltyCnt, MAX(suspendEnd) AS suspendEnd
+		FROM badMemberBoard
+		GROUP BY userId
+		) b ON m.userId = b.userId;
 	</select>
-
-	<!-- 유저 아이디로 조회 -->
-	<select id="selectUserId" resultType="MemberVO">
-		select userId, userName,
-		email, careers, registerDate, status from member where userId =
-		#{userId}
-	</select>
-
 
 
 
 	<!-- 유저 상태변경 -->
-	<update id="updateStatus">
-		update member set status = #{newStatus} where userId
-		= #{userId}
+	<update id="updateUserStatus" parameterType="java.util.Map">
+		UPDATE member
+		SET
+		status = #{newStatus}
+		WHERE userId = #{userId}
 	</update>
+
+	<!-- 정지가 되면 패널티가 가장 큰 행에 정지일과 해제일 update -->
+	<update id="updatePenaltyRecord" parameterType="java.util.Map">
+		UPDATE
+		badMemberBoard b1
+		SET b1.suspendStart = #{suspendStart},
+		b1.suspendEnd =
+		#{suspendEnd}
+		WHERE b1.userId = #{userId}
+		AND b1.penaltyCnt = (
+		SELECT
+		temp.maxPenaltyCnt
+		FROM (
+		SELECT MAX(b2.penaltyCnt) AS maxPenaltyCnt
+		FROM badMemberBoard b2
+		WHERE b2.userId = #{userId}
+		) AS temp
+		);
+	</update>
+
+	<!-- 탈퇴회원 처리 -->
+	<update id="permanentBanUser" parameterType="String">
+		UPDATE member
+		SET
+		status = '탈퇴회원'
+		WHERE userId = #{userId}
+	</update>
+
+
+
 
 	<!-- 접속기록 저장 -->
 	<insert id="insertLog">
@@ -407,8 +439,10 @@
 
 	<!-- 최신 공지글 5개를 가져오는 메서드 (메인홈에 출력할 용도) -->
 	<select id="getNoticeTop5" resultType="NoticeDTO">
-		SELECT * FROM noticeBoard order by postDate desc limit 5
+		SELECT * FROM noticeBoard
+		order by postDate desc limit 5
 	</select>
+
 
 	<!-- 신고내역 삭제 -->
 	<delete id="deleteReport">
@@ -436,18 +470,27 @@
 
 
 	<insert id="insertPenalty">
-		INSERT INTO badMemberBoard (userId, penaltyCnt, reportDate, suspendReason)
+		INSERT INTO badMemberBoard (userId, penaltyCnt,
+		reportDate, suspendReason)
 		SELECT
 		#{userId},
-		IFNULL(MAX(penaltyCnt), 0) + 1,
+		IFNULL(MAX(penaltyCnt), 0) +
+		1,
 		NOW(),
 		#{reportReason}
 		FROM
 		badMemberBoard
 		WHERE
 		userId = #{userId}
-		ON DUPLICATE KEY UPDATE
+		ON
+		DUPLICATE KEY UPDATE
 		penaltyCnt = VALUES(penaltyCnt);
 	</insert>
+
+	<!-- 체크박스에 선택된 글 전부 삭제 -->
+	<delete id="deleteCheckBoard">
+		DELETE FROM reportBoard
+		WHERE reportNo = #{reportNo}
+	</delete>
 
 </mapper>
