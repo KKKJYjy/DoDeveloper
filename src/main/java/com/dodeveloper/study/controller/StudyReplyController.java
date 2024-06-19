@@ -42,7 +42,7 @@ public class StudyReplyController {
 	public ResponseEntity<List<ReplyVO>> replyAll(@PathVariable("stuNo") int stuNo) {
 		// ResponseEntity: <List<ReplyVO>를 json으로 만들어서 반환할 수 있는 애
 		// @PathVariable: 메서드 매개변수가 URI 템플릿 변수에 바인딩되어야 함을 나타내는 어노테이션
-		logger.info(stuNo + "번 게시글의 댓글 가져오기");
+//		logger.info(stuNo + "번 게시글의 댓글 가져오기");
 
 		ResponseEntity<List<ReplyVO>> result = null;
 		List<ReplyVO> replyList = null;
@@ -74,7 +74,7 @@ public class StudyReplyController {
 		newReply.setBNo(bNo);
 		//몇번 게시판에 댓글을 작성할건지 세팅
 		newReply.setBType(2);
-		logger.info(bNo + "번 게시글에" + newReply.toString() + "댓글을 추가하자");
+//		logger.info(bNo + "번 게시글에" + newReply.toString() + "댓글을 추가하자");
 		
 		try {
 			if(rs.insertReplyStudy(newReply) ==1) {
@@ -99,7 +99,7 @@ public class StudyReplyController {
 	public ResponseEntity<String> deleteReply(@PathVariable("replyNo") int replyNo,
 			@PathVariable("stuNo") int stuNo){
 		ResponseEntity<String> result = null;
-		logger.info(stuNo + "번째 게시글의 " + replyNo + "번 댓글을 삭제하자");
+//		logger.info(stuNo + "번째 게시글의 " + replyNo + "번 댓글을 삭제하자");
 		
 		try {
 			if(rs.deleteReplyStudy(replyNo, stuNo) ==1) {
@@ -129,7 +129,7 @@ public class StudyReplyController {
 		
 		modifyReply.setBNo(bNo);
 		modifyReply.setBType(2);
-		logger.info(modifyReply.toString() + "댓글을 수정하자");
+//		logger.info(modifyReply.toString() + "댓글을 수정하자");
 		
 		try {
 			if(rs.updateReply(modifyReply) ==1) {

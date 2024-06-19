@@ -67,8 +67,8 @@ public class StudyContoller {
 			SearchStudyDTO sDTO)
 			throws Exception {
 
-		logger.info("listAll View");
-		logger.info("listAll : " + pageNo + "번째 글" + "statusFilter : " + "검색 내용 :" + sDTO.toString());
+//		logger.info("listAll View");
+//		logger.info("listAll : " + pageNo + "번째 글" + "statusFilter : " + "검색 내용 :" + sDTO.toString());
 
 		Map<String, Object> result = null;
 
@@ -111,7 +111,7 @@ public class StudyContoller {
 	 */
 	@GetMapping(value = "/writeStudyBoard")
 	public void writeBoard(Model model) throws Exception {
-		logger.info("writeStudyBoard View.");
+//		logger.info("writeStudyBoard View.");
 
 		// stack테이블의 모든 값들을 가져오자
 		List<StackVO> stackList = stuService.selectAllStack();
@@ -133,11 +133,11 @@ public class StudyContoller {
 
 		ResponseEntity<String> result = null;
 
-		logger.info("insertStudy: 새로 추가할 스터디 모집글" + newStudyDTO.toString());
+//		logger.info("insertStudy: 새로 추가할 스터디 모집글" + newStudyDTO.toString());
 
 		// 새로추가할 newStudyDTO를 멤버변수 newStudy에 저장
 		newStudy = newStudyDTO;
-		logger.info("insertStudy: 새로 추가할 스터디 모집글" + newStudy.toString());
+//		logger.info("insertStudy: 새로 추가할 스터디 모집글" + newStudy.toString());
 
 		if (newStudy != null) {
 			result = new ResponseEntity<String>("success", HttpStatus.OK);
@@ -164,7 +164,7 @@ public class StudyContoller {
 
 		if (stuService.insertStudyWithStack(newStudy, newStack) == 1) {
 			result = "redirect:/study/listAll";
-			logger.info("스터디테이블, 스터디스택 인서트 성공");
+//			logger.info("스터디테이블, 스터디스택 인서트 성공");
 			// newStudy = null;
 		}
 
@@ -206,7 +206,7 @@ public class StudyContoller {
 			userId = haveCookie(req, "rses");
 		}
 
-		logger.info(userId + "가" + stuNo + "번 글을 조회한다");
+//		logger.info(userId + "가" + stuNo + "번 글을 조회한다");
 
 		Map<String, Object> result = stuService.selectStudyByStuNo(stuNo, userId, 2);
 
@@ -234,7 +234,7 @@ public class StudyContoller {
 	 */
 	@GetMapping("/modifyStudyBoard")
 	public void modifyStudyBoard(@RequestParam("stuNo") int stuNo, Model model) throws Exception {
-		logger.info(stuNo + "번 글을 수정하는 페이지로 이동");
+//		logger.info(stuNo + "번 글을 수정하는 페이지로 이동");
 
 		// 스터디 목록
 		StudyBoardVO studyList = stuService.selectStudyByStuNo(stuNo);
@@ -260,9 +260,9 @@ public class StudyContoller {
 		}
 		// stack테이블의 모든 값들을 가져오자
 		List<StackVO> stackList = stuService.selectAllStack();
-		System.out.println(stackList.toString());
+//		System.out.println(stackList.toString());
 
-		System.out.println(stuStackListByNo.toString());
+//		System.out.println(stuStackListByNo.toString());
 		model.addAttribute("studyList", studyList); // 현재 스터디 모임글
 		model.addAttribute("chooseStack", chooseStack); // 현재 스터디 모임글에서 선택된 스택만(스터디 언어)
 		model.addAttribute("stuStackNo", stuStackNo); // 현재 스터디 모임글의 선택된 stuStackNo만(pk)
@@ -285,7 +285,7 @@ public class StudyContoller {
 
 		newStudy = modifyStudyDTO;
 
-		logger.info("modifyStudy: 수정할 스터디 모집글" + newStudy.toString());
+//		logger.info("modifyStudy: 수정할 스터디 모집글" + newStudy.toString());
 
 		if (newStudy != null) {
 			result = new ResponseEntity<String>("success", HttpStatus.OK);
@@ -312,7 +312,7 @@ public class StudyContoller {
 		// 수정에 성공했다면 수정한 상세 페이지로 이동
 		if (stuService.modifyStudyWithStack(newStudy, this.stuStackList) == 1) {
 			result = "redirect:/study/viewStudyBoard?stuNo=" + newStudy.getStuNo();
-			logger.info("스터디테이블, 스터디스택 업데이트 성공");
+//			logger.info("스터디테이블, 스터디스택 업데이트 성공");
 			// newStudy = null;
 		}
 
@@ -330,7 +330,7 @@ public class StudyContoller {
 	@RequestMapping(value = "/modifyNewMark", method = RequestMethod.POST)
 	public ResponseEntity<String> modifyNewMark(@RequestParam("newStuStack") int newStuStack) {
 		ResponseEntity<String> result = null;
-		System.out.println(newStuStack + "스터디 언어에 new 처리 마킹하자");
+//		System.out.println(newStuStack + "스터디 언어에 new 처리 마킹하자");
 
 		boolean isFind = false;
 
@@ -346,11 +346,11 @@ public class StudyContoller {
 			}
 		}
 
-		System.out.println("===================== 수정시 스터디 언어 new 마킹 =======================");
-		for (StuStackDTO stack : this.stuStackList) {
-			System.out.println(stack.toString());
-		}
-		System.out.println("====================================================================");
+//		System.out.println("===================== 수정시 스터디 언어 new 마킹 =======================");
+//		for (StuStackDTO stack : this.stuStackList) {
+//			System.out.println(stack.toString());
+//		}
+//		System.out.println("====================================================================");
 
 		if (!isFind) { // 언어를 못찾았다면
 			result = new ResponseEntity<String>("newMarkfail", HttpStatus.CONFLICT);
@@ -372,7 +372,7 @@ public class StudyContoller {
 	@RequestMapping(value = "/modifyRemMark", method = RequestMethod.POST)
 	public ResponseEntity<String> modifyRemMark(@RequestParam("remStuStack") int remStuStack) {
 		ResponseEntity<String> result = null;
-		System.out.println(remStuStack + "스터디 언어에 delete 처리 마킹하자");
+//		System.out.println(remStuStack + "스터디 언어에 delete 처리 마킹하자");
 
 		boolean isFind = false;
 
@@ -385,11 +385,11 @@ public class StudyContoller {
 			}
 		}
 
-		System.out.println("===================== 수정시 스터디 언어 delete 마킹 =======================");
-		for (StuStackDTO stack : this.stuStackList) {
-			System.out.println(stack.toString());
-		}
-		System.out.println("====================================================================");
+//		System.out.println("===================== 수정시 스터디 언어 delete 마킹 =======================");
+//		for (StuStackDTO stack : this.stuStackList) {
+//			System.out.println(stack.toString());
+//		}
+//		System.out.println("====================================================================");
 
 		if (!isFind) { // 언어를 못찾았다면
 			result = new ResponseEntity<String>("remMarkFail", HttpStatus.CONFLICT);
@@ -412,10 +412,10 @@ public class StudyContoller {
 
 		String result = null;
 
-		logger.info(stuNo + "번 글을 삭제하자");
+//		logger.info(stuNo + "번 글을 삭제하자");
 		if (stuService.deleteStudyBoard(stuNo) == 1) {
 			result = "/study/listAll";
-			logger.info(stuNo + "번 글을 삭제 성공!");
+//			logger.info(stuNo + "번 글을 삭제 성공!");
 		}
 
 		return "redirect:" + result;
@@ -437,15 +437,15 @@ public class StudyContoller {
 
 		int pageNo = 1;
 		
-		logger.info("첫화면"+pageNo + "쪽을 보여주자");
-		logger.info(studyStackList.toString());
+//		logger.info("첫화면"+pageNo + "쪽을 보여주자");
+//		logger.info(studyStackList.toString());
 		
 		ResponseEntity<Map<String, Object>> result = null;
 		Map<String, Object> map = null;
 
 		try {
 			map = stuService.searchStudyByStack(studyStackList, pageNo);
-			System.out.println("Controller 검색할 스터디 언어 갯수 :" + studyStackList.size());
+//			System.out.println("Controller 검색할 스터디 언어 갯수 :" + studyStackList.size());
 
 			if (studyStackList.size() > 0) {
 				result = new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
@@ -478,19 +478,19 @@ public class StudyContoller {
 			Model model) {
 		// @RequestBody는 json으로 요청 받을때 쓰는 어노테이션
 
-		logger.info(pageNo + "쪽을 보여주자");
+//		logger.info(pageNo + "쪽을 보여주자");
 		
 		if (pageNo <= 0) {
 			pageNo = 1;
 		}
 
-		logger.info(studyStackList.toString());
+//		logger.info(studyStackList.toString());
 		ResponseEntity<Map<String, Object>> result = null;
 		Map<String, Object> map = null;
 
 		try {
 			map = stuService.searchStudyByStack(studyStackList, pageNo);
-			System.out.println("Controller 검색할 스터디 언어 갯수 :" + studyStackList.size());
+//			System.out.println("Controller 검색할 스터디 언어 갯수 :" + studyStackList.size());
 
 			if (studyStackList.size() > 0) {
 				result = new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);

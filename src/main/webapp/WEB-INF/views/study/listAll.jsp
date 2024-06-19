@@ -134,13 +134,13 @@
 				contentType : false, //default true : 데이터를 쿼리스트링 형태로 보내는지 아닌지
 				async : false, //받아올 데이터가 있어야 파싱 가능.
 				success : function(data) { //HttpStatus code가 200인 경우 이 코드 실행
-					console.log(data);
+					//console.log(data);
 					$(".studyList").css("display", "none");
 					outputSearchStudy(data); // 스터디 리스트 데이터
 					studyListBySearchPaging(data); // 스터디 페이징 데이터
 				},
 				error : function(data) { //HttpStatus code가 200이 아닌경우 이 코드 실행
-					console.log(data);
+					//console.log(data);
 				}
 			});
 		}else{ //필터링후 페이지 쪽수 눌렀을 때 pageNo값 보내기
@@ -155,13 +155,13 @@
 				contentType : false, //default true : 데이터를 쿼리스트링 형태로 보내는지 아닌지
 				async : false, //받아올 데이터가 있어야 파싱 가능.
 				success : function(data) { //HttpStatus code가 200인 경우 이 코드 실행
-					console.log(data);
+					//console.log(data);
 					$(".studyList").css("display", "none");
 					outputSearchStudy(data); // 스터디 리스트 데이터
 					studyListBySearchPaging(data); // 스터디 페이징 데이터
 				},
 				error : function(data) { //HttpStatus code가 200이 아닌경우 이 코드 실행
-					console.log(data);
+					//console.log(data);
 				}
 			});
 		}
@@ -231,7 +231,7 @@
 
 			let stackName = [];
 			stackName = getStudyStack(e.stuNo, stuStackList);
-			console.log(stackName);
+			//console.log(stackName);
 			for (let j = 0; j < stackName.length; j++) {
 			//console.log(stackName[j])
 			output += `<span class="badge text-bg-secondary me-1">\${stackName[j]}</span>`;
@@ -315,7 +315,7 @@
 		let searchType = $("#searchType").val();
 		let searchValue = $("#searchValue").val();
 
-		console.log(searchType, searchValue);
+		//console.log(searchType, searchValue);
 
 		//검색어에 있어서는 안되는 쿼리문 키워드 배열로 정의
 		let keyWord = new Array("OR", "SELECT", "AND", "INSERT", "UPDATE",
