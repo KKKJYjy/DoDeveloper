@@ -38,7 +38,7 @@ public class noticeBoardController {
 	@RequestMapping(value = "/listAll", method = RequestMethod.GET)
 	public void noticeBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
 			@RequestParam(name="notc", defaultValue = "date") String notc, SearchCriteriaDTO sc) throws Exception {
-		logger.info("list 페이지 호출");
+	//	logger.info("list 페이지 호출");
 
 		Map<String, Object> returnMap = null;
 
@@ -67,7 +67,7 @@ public class noticeBoardController {
 	public ModelAndView noticeDetail(Model model, @RequestParam("boardNo") int boardNo, HttpServletRequest req,
 			HttpServletResponse resp, ModelAndView mav, HttpSession ses) throws Exception {
 
-		logger.info(boardNo + "번글 조회");
+	//	logger.info(boardNo + "번글 조회");
 
 		String user = null;
 
