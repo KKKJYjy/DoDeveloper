@@ -39,11 +39,11 @@ public class ReportController {
 	String reoprtReason = (String)map.get("reportReason");
 	String category = (String)map.get("category");
 	
-	System.out.println(writer);
-	System.out.println(reporter);
-	System.out.println(reoprtReason);
-	System.out.println(boardNo);
-	System.out.println(btypeNo);
+	//System.out.println(writer);
+	//System.out.println(reporter);
+	//System.out.println(reoprtReason);
+	//System.out.println(boardNo);
+	//System.out.println(btypeNo);
 	
 	
 	ReportDTO reportDTO = new ReportDTO(btypeNo, reoprtReason, boardNo, writer, null, reoprtReason, reporter, reoprtReason, btypeNo);
@@ -60,7 +60,7 @@ public class ReportController {
 	if(aService.insertReport(reportDTO)) {
 	    
 	} else {
-	    System.out.println("....");
+	    //System.out.println("....");
 	    
 	    redirect();
 	    return "redirect:/report/redirect";

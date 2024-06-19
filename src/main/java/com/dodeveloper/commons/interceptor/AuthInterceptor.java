@@ -35,7 +35,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter implements Sessio
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 
-		logger.info("AuthInterceptor.pre>>");
+//		logger.info("AuthInterceptor.pre>>");
 
 		HttpSession session = request.getSession();
 
@@ -48,7 +48,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter implements Sessio
 					return true;
 				}
 			}
-			logger.info("AuthInterceptor.pre>> no loginCookie");
+//			logger.info("AuthInterceptor.pre>> no loginCookie");
 			
 			saveAttemptedLocation(request, session);
 
@@ -63,7 +63,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter implements Sessio
 		if (StringUtils.hasText(query)) {
 			uri += "?" + query;
 		}
-		logger.info("saveAttemptedLocation uri : " + uri);
+//		logger.info("saveAttemptedLocation uri : " + uri);
 		session.setAttribute(ATTEMPTED, uri);
 	}
 

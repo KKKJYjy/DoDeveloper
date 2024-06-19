@@ -44,8 +44,8 @@ public class AlgorithmController {
 
     @GetMapping(value = "/listAll")
     public void listAllGet(Model model, @RequestParam(value = "pageNo" , defaultValue = "1") int pageNo) throws Exception {
-	logger.info("listAll View.");
-	System.out.println("!!!컨트롤러!!!");
+	//logger.info("listAll View.");
+	//System.out.println("!!!컨트롤러!!!");
 
 	List<AlgBoardDTO> returnMap = null;
 	List<AlgClassificationDTO> returnMap2 = null;
@@ -58,7 +58,7 @@ public class AlgorithmController {
 	
 	
 	returnMap3 = aService.getPagingInfo(pageNo);
-	System.out.println(returnMap3);
+	//System.out.println(returnMap3);
 
 	// 멤버테이블 출력함
 	returnMap = aService.getListAllBoard(returnMap3); // PagingInfo 를 받아 페이지에 해당하는 게시글들을 출력
@@ -92,8 +92,8 @@ public class AlgorithmController {
 
     @RequestMapping(value = "/writePOST", method = RequestMethod.POST)
     public String writeAlg(AlgBoardDTO algBoardDTO) throws Exception {
-	System.out.println("글 작성()");
-	System.out.println(algBoardDTO);
+	//System.out.println("글 작성()");
+	//System.out.println(algBoardDTO);
 
 	if (algBoardDTO.getTitle() == "" || algBoardDTO.getClassificationCode() <= 0) {
 	    System.out.println("유효성x");
@@ -108,13 +108,13 @@ public class AlgorithmController {
     @RequestMapping("/writePOST") // "/algorithm/write"가 get 방식으로 요청될 때... 호출
     public String writeBoard(Model model) throws Exception {
 	// //algorithm/writeBoard.jsp로 포워딩
-	System.out.println("글작성");
+	//System.out.println("글작성");
 
 	List<AlgClassificationDTO> returnMap = null;
 
 	// 알고리즘코드번호 테이블 받아와야 함
 	returnMap = aService.getAlgClassification();
-	System.out.println(returnMap.toString());
+	//System.out.println(returnMap.toString());
 	model.addAttribute("algClassification", returnMap);
 
 	return "/algorithm/writeBoard";
@@ -125,7 +125,7 @@ public class AlgorithmController {
     @RequestMapping(value = "/newClassification", method = RequestMethod.GET)
     public String newClassification(@RequestParam("algClassification") String algClassification) {
 	// algClassification 항목 작성
-	System.out.println(algClassification);
+	//System.out.println(algClassification);
 	try {
 	    aService.writeAlgClassification(algClassification);
 	} catch (Exception e) {
@@ -141,7 +141,7 @@ public class AlgorithmController {
     @RequestMapping(value = "/modifyAlg", method = RequestMethod.GET)
     public void modifyBoard(AlgBoardDTO algBoardDTO, Model model) throws Exception {
 	// 알고리즘게시판 수정페이지로 이동할 때 algBoard 를 modifyAlg.jsp 로 전달
-	System.out.println("!!!!!!!!!!!!");
+	//System.out.println("!!!!!!!!!!!!");
 	List<AlgBoardDTO> returnMap = null;
 
 	// AlgClassification 항목을 수정하려면 ㄱList<AlgClassificationDTO>도 modifyAlg.jsp 로
@@ -158,8 +158,8 @@ public class AlgorithmController {
 
     @RequestMapping(value = "/modifyAlg", method = RequestMethod.POST)
     public String modifyAlg(AlgBoardDTO algBoardDTO) {
-	System.out.println("modmod");
-	System.out.println(algBoardDTO);
+	//System.out.println("modmod");
+	//System.out.println(algBoardDTO);
 
 	aService.updateAlgBoard(algBoardDTO);
 
@@ -174,9 +174,9 @@ public class AlgorithmController {
 
 	List<AlgDetailDTO> algDetailDTO = null;
 
-	System.out.println("상세글작성");
+	//System.out.println("상세글작성");
 
-	System.out.println(ses.getAttribute("boardNo"));
+	//System.out.println(ses.getAttribute("boardNo"));
 
 	int boardNo = Integer.parseInt((String) ses.getAttribute("boardNo"));
 
@@ -195,7 +195,7 @@ public class AlgorithmController {
     public String writeAlgDetail(AlgDetailDTO algDetailDTO) {
 	// jsp 에서 post로 받아온 정보를 algDetail 에 insert
 	// System.out.println("$$$$$$$$$$$");
-	System.out.println(algDetailDTO);
+	//System.out.println(algDetailDTO);
 
 	int boardNo = algDetailDTO.getAlgBoardNo();
 
@@ -209,12 +209,12 @@ public class AlgorithmController {
     @RequestMapping("/modifyAlgDetail")
     public String modifyAlgDetail(Model model, HttpSession ses) throws Exception {
 	// algDetail 을 수정하기 위해 버튼을 눌렀을 때 호출 (GET)
-	System.out.println("********");
+	//System.out.println("********");
 
-	System.out.println("상세글수정");
+	//System.out.println("상세글수정");
 
 	List<AlgDetailDTO> returnMap = null;
-	System.out.println(ses.getAttribute("boardNo"));
+	//System.out.println(ses.getAttribute("boardNo"));
 
 	int boardNo = Integer.parseInt((String) ses.getAttribute("boardNo")); // 수정할 AlgDetail의 AlgBoardNo(AlgBoard 에서
 									      // 참조한 변수)
@@ -229,8 +229,8 @@ public class AlgorithmController {
 
     @RequestMapping(value = "/modifyAlgDetail", method = RequestMethod.POST)
     public String modifyAlgDetail(AlgDetailDTO algDetailDTO) {
-	System.out.println("*!*!*!*!");
-	System.out.println(algDetailDTO);
+	//System.out.println("*!*!*!*!");
+	//System.out.println(algDetailDTO);
 	int algDetailNo = algDetailDTO.getAlgDetailNo();
 
 	aService.updateAlgDetail(algDetailDTO, algDetailNo);
@@ -247,9 +247,9 @@ public class AlgorithmController {
 
 	try {
 	    returnMap = aService.getAlgDetail(algDetailNo);
-	    System.out.println("controll codeDetail");
+	    //System.out.println("controll codeDetail");
 
-	    System.out.println(returnMap);
+	    //System.out.println(returnMap);
 	    model.addAttribute("algDetailList", returnMap);
 	    
 	 // 세션에 algDetailNo 저장해서 인터셉터에서 가져올 수 있도록 함
@@ -263,11 +263,11 @@ public class AlgorithmController {
 
     @RequestMapping("removeAlgDetail")
     public String removeAlgDetail(@RequestParam("algDetailNo") int algDetailNo, @RequestParam("algBoardNo") int algBoardNo) {
-	 System.out.println(algDetailNo);
+	 //System.out.println(algDetailNo);
 	 
 	// AuthInterceptor.preHandle() 호출 - 글 삭제 권한이 있는지 검사하고 옴
 	String result = null;
-	System.out.println(algDetailNo + "번글을 삭제하자");
+	//System.out.println(algDetailNo + "번글을 삭제하자");
 
 	if (aService.remBoard(algDetailNo)) {
 	    result = "redirect:/algorithm/algDetail?boardNo="+algBoardNo;
@@ -289,8 +289,8 @@ public class AlgorithmController {
     @RequestMapping("getClassification")
     @ResponseBody
     public List<AlgBoardDTO> getClassification(HttpServletRequest req, HttpServletResponse resp, HttpSession session, @RequestParam("val") int val, Model model) {
-	System.out.println("ajax 호출");
-	System.out.println(val);
+	//System.out.println("ajax 호출");
+	//System.out.println(val);
 	
 	List<AlgBoardDTO> dto = aDao.selectAlgListByClassificationCode(val);
 	

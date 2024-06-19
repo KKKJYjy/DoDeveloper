@@ -21,7 +21,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter implements Sessi
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 
-		logger.info("LoginInterceptor.pre>>");
+//		logger.info("LoginInterceptor.pre>>");
 
 		HttpSession session = request.getSession();
 
@@ -38,7 +38,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter implements Sessi
 		HttpSession session = request.getSession();
 		
 		MemberVO loginMember = (MemberVO)modelAndView.getModelMap().get(LOGIN_MEMBER);
-		logger.info("LoginInterceptor.post>>" + loginMember);
+//		logger.info("LoginInterceptor.post>>" + loginMember);
 		
 		if (loginMember != null) {
 			session.setAttribute(LOGIN_MEMBER, loginMember);
@@ -52,7 +52,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter implements Sessi
 			}
 			
 			String attempted = (String)session.getAttribute(ATTEMPTED);
-			System.out.println("attempted : " + attempted);
+//			System.out.println("attempted : " + attempted);
 			if (StringUtils.hasText(attempted)) {
 				response.sendRedirect(attempted);
 				session.removeAttribute(ATTEMPTED);
