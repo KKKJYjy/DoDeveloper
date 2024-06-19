@@ -41,7 +41,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	@Override
 	@Transactional(readOnly = true)
 	public Map<String, Object> getListAllBoard(int pageNo, LectureSearchDTO lsDTO) throws Exception {
-	    System.out.println("서비스단 : " + pageNo + "페이지 전체 게시글 조회!" + lsDTO);
+//	    System.out.println("서비스단 : " + pageNo + "페이지 전체 게시글 조회!" + lsDTO);
 
 	    List<LectureBoardVO> lectureBoardList = null;
 
@@ -196,7 +196,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
 	public Map<String, Object> getBoardByBoardNo(int lecNo, String user) throws Exception {
-		System.out.println(user + "가" + lecNo + "번 글을 조회한다.");
+//		System.out.println(user + "가" + lecNo + "번 글을 조회한다.");
 
 		if (lDao.selectDiff(user, lecNo) == -1) {
 			// user가 하루 이내에 읽은 적이 없을 경우
@@ -207,7 +207,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 		// 조회된 글 가져오기
 		LectureBoardVO lecBoard = lDao.selectBoardLecNo(lecNo);
 
-		System.out.println("조회된 글 : " + lecBoard.toString());
+//		System.out.println("조회된 글 : " + lecBoard.toString());
 
 		Map<String, Object> result = new HashMap<String, Object>();
 
@@ -230,7 +230,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 		// DAO단에서 조회된 글 가져오기
 		LectureBoardVO lecBoard = lDao.selectBoardLecNo(lecNo);
 
-		System.out.println("조회된 글 : " + lecBoard.toString());
+//		System.out.println("조회된 글 : " + lecBoard.toString());
 
 		Map<String, Object> result = new HashMap<String, Object>();
 
@@ -255,7 +255,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 		
 		// dao단 호출
 	    if (lDao.insertNewLectureBoard(newLecBoard) == 1) { // 실제 게시글 (insert)
-	        System.out.println("새로 저장될 게시글 번호 : " + newLecBoard.getLecNo());
+//	        System.out.println("새로 저장될 게시글 번호 : " + newLecBoard.getLecNo());
 	        
 	        return true;
 	    }
@@ -345,7 +345,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	    if (lDao.selectLikeBoard(lecNo, user) != 1) {
 	        lDao.insertLikeBoard(lecNo, user, lecLikeTitle); // 좋아요를 누른다.
 	        lDao.updateLikeCount(lecNo); // 좋아요 수를 1 증가
-	        System.out.println("서비스단 : " + lecNo + "번 글에 " + user + "가 좋아요를 눌렀습니다! 제목: " + lecLikeTitle);
+//	        System.out.println("서비스단 : " + lecNo + "번 글에 " + user + "가 좋아요를 눌렀습니다! 제목: " + lecLikeTitle);
 	        result = true; // 성공적으로 좋아요를 누른 경우 true 반환
 	    }
 	    
@@ -372,7 +372,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 		if (lDao.selectLikeBoard(lecNo, user) == 1) {
 			lDao.deleteLikeBoard(lecNo, user); // 눌렀던 좋아요를 취소한다.
 			lDao.updateLikeDownCount(lecNo); // 좋아요 수를 1 감소
-			System.out.println("서비스단 : " + lecNo + "번 글에 " + user + "가 좋아요를 취소했습니다!");
+//			System.out.println("서비스단 : " + lecNo + "번 글에 " + user + "가 좋아요를 취소했습니다!");
 			result = true;
 		}
 		
@@ -420,7 +420,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 		if (lDao.selectAllLectureScrap(lecNo, user) != 1) {
 			lDao.insertScrap(lecNo, user, scrapLecTitle); // 스크랩을 누른다.
 			lDao.updateUpScrap(lecNo); // 스크랩 수를 1 증가
-			System.out.println("서비스단 : " + lecNo + "번 글에 " + user + "가 스크랩을 눌렀습니다!");
+//			System.out.println("서비스단 : " + lecNo + "번 글에 " + user + "가 스크랩을 눌렀습니다!");
 		}
 		
 		return result;
@@ -445,7 +445,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 		if (lDao.selectAllLectureScrap(lecNo, user) == 1) {
 			lDao.deleteScrap(lecNo, user); // 눌렀던 스크랩을 취소한다.
 			lDao.updateDownScrap(lecNo); // 스크랩 수를 1 감소
-			System.out.println("서비스단 : " + lecNo + "번 글에 " + user + "가 스크랩을 취소했습니다!");
+//			System.out.println("서비스단 : " + lecNo + "번 글에 " + user + "가 스크랩을 취소했습니다!");
 		}
 		
 		return result;

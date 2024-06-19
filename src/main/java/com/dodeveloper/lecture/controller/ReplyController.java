@@ -23,7 +23,7 @@ import com.dodeveloper.reply.vodto.ReplyVO;
 @RequestMapping("/reply")
 public class ReplyController {
 
-	private static final Logger logger = LoggerFactory.getLogger(LectureBoardController.class);
+//	private static final Logger logger = LoggerFactory.getLogger(LectureBoardController.class);
 
 	@Autowired
 	private ReplyService rService; // 스프링 컨테이너에서 ReplyService 객체를 찾아 주입
@@ -40,7 +40,7 @@ public class ReplyController {
 	 */
 	@GetMapping("/list/{bType}/{bNo}")
 	public ResponseEntity<List<ReplyVO>> selectAllReply(@PathVariable("bNo") int bNo, @PathVariable("bType") int bType) {
-		logger.info("댓글 조회 bNo : " + bNo + ", bType : " + bType);
+//		logger.info("댓글 조회 bNo : " + bNo + ", bType : " + bType);
 		
 	    try {
 	        // 게시글 번호(bNo)에 해당하는 모든 댓글을 가져와서 replyList에 담고,
@@ -69,7 +69,7 @@ public class ReplyController {
 	 */
 	@RequestMapping(value = "/{bType}/{bNo}", method = RequestMethod.POST, produces = "text/plain; charset=utf-8")
 	public ResponseEntity<String> insertReply(@PathVariable("bNo") int bNo, @PathVariable("bType") int bType, @RequestBody ReplyDTO rDTO) {
-		logger.info(bNo + "번 게시글에 " + bType + "게시판에 " + rDTO.toString() + "댓글 작성 완료!");
+//		logger.info(bNo + "번 게시글에 " + bType + "게시판에 " + rDTO.toString() + "댓글 작성 완료!");
 
 		ResponseEntity<String> result = null;
 
@@ -104,7 +104,7 @@ public class ReplyController {
 	 */
 	@RequestMapping(value = "/{replyNo}", method = RequestMethod.PUT)
 	public ResponseEntity<String> updateReply(@PathVariable("replyNo") int replyNo, @RequestBody ReplyDTO newReply) {
-		System.out.println(replyNo + "번 " + newReply.toString() + "댓글 수정이 완료 되었습니다!");
+//		System.out.println(replyNo + "번 " + newReply.toString() + "댓글 수정이 완료 되었습니다!");
 		
 		ResponseEntity<String> result = null;
 		
@@ -133,7 +133,7 @@ public class ReplyController {
 	 */
 	@RequestMapping(value = "/{replyNo}")
 	public ResponseEntity<String> removeReply(@PathVariable("replyNo") int replyNo) {
-		System.out.println(replyNo + "번 댓글이 삭제되었습니다!");
+//		System.out.println(replyNo + "번 댓글이 삭제되었습니다!");
 		
 		ResponseEntity<String> result = null;
 		
@@ -161,7 +161,7 @@ public class ReplyController {
 	 */
 	@RequestMapping(value = "/cancelReply", method = RequestMethod.POST)
 	public @ResponseBody String cancelReply() {
-		System.out.println("댓글 작성 안할래요!");
+//		System.out.println("댓글 작성 안할래요!");
 		
 		return "success";
 	}

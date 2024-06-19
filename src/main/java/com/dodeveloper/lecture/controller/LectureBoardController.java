@@ -45,7 +45,7 @@ import com.dodeveloper.report.service.ReportService;
 @RequestMapping("/lecture") // "/lecture"가 GET방식으로 요청될 때 아래의 클래스가 동작되도록 설정
 public class LectureBoardController {
 
-	private static final Logger logger = LoggerFactory.getLogger(LectureBoardController.class);
+//	private static final Logger logger = LoggerFactory.getLogger(LectureBoardController.class);
 
 	@Autowired
 	private LectureBoardService lService; // 스프링 컨테이너에서 LectureService 객체를 찾아 주입
@@ -71,8 +71,8 @@ public class LectureBoardController {
 	@RequestMapping(value = "/listAll")
 	public void listBoardGet(Model model, LectureSearchDTO lsDTO,
 			@RequestParam(value = "pageNo", defaultValue = "1") int pageNo) throws Exception {
-		logger.info(pageNo + "게시글 전체 글을 조회하자!");
-		logger.info("검색어 : " + lsDTO.toString());
+//		logger.info(pageNo + "게시글 전체 글을 조회하자!");
+//		logger.info("검색어 : " + lsDTO.toString());
 
 		Map<String, Object> resultMap = null;
 
@@ -127,14 +127,14 @@ public class LectureBoardController {
 			user = sesId;
 			saveCookie(resp, sesId);
 
-			logger.info("로그인 안한 유저의 쿠키값" + user);
+//			logger.info("로그인 안한 유저의 쿠키값" + user);
 		} else {
 			// 로그인을 하지않았는데 쿠키가 있다면
 			// 쿠키를 찾아서 조회수를 안올리도록
 			user = cookieExist(req, "rses");
 		}
 
-		logger.info("현재 상태의 유저 : " + user + "가 " + lecNo + "번 글을 조회한다!");
+//		logger.info("현재 상태의 유저 : " + user + "가 " + lecNo + "번 글을 조회한다!");
 
 		Map<String, Object> result = lService.getBoardByBoardNo(lecNo, user);
 
@@ -191,7 +191,7 @@ public class LectureBoardController {
 	 */
 	@RequestMapping("/writeBoard")
 	public String writeBoard() {
-		logger.info("controller : 글을 작성하러 갈게요!");
+//		logger.info("controller : 글을 작성하러 갈게요!");
 
 		return "/lecture/writeBoard";
 	}
@@ -208,15 +208,15 @@ public class LectureBoardController {
 	 */
 	@RequestMapping(value = "/writePOST", method = RequestMethod.POST)
 	public String writeBoard(LectureBoardDTO newLecBoard) throws Exception {
-	        logger.info("controller: " + newLecBoard.toString() + " 글을 저장하러 갈게요!");
+//	        logger.info("controller: " + newLecBoard.toString() + " 글을 저장하러 갈게요!");
 	        
 	        String returnPage = "/lecture/listAll";
 	        
 	        if (lService.writeBoardService(newLecBoard)) {
-	            logger.info("controller: 글 작성 성공");
+//	            logger.info("controller: 글 작성 성공");
 	            returnPage = "redirect:" + returnPage;
 	        } else {
-	            logger.info("controller: 글 작성 실패");
+//	            logger.info("controller: 글 작성 실패");
 	            returnPage = "redirect:" + returnPage + "?status=writeFail";
 	        }
 	        return returnPage;
@@ -234,7 +234,7 @@ public class LectureBoardController {
 	 */
 	@GetMapping("/modifyLectureBoard")
 	public String modifyBoard(@RequestParam("lecNo") int lecNo, Model model) throws Exception {
-		logger.info("controller : 게시글을 수정할게요!");
+//		logger.info("controller : 게시글을 수정할게요!");
 
 		Map<String, Object> map = lService.getBoardByBoardNo(lecNo);
 
@@ -255,9 +255,9 @@ public class LectureBoardController {
 	 */
 	@PostMapping("/modifyPost")
 	public String modifyBoard(LectureBoardDTO modifyBoard, HttpServletRequest req) throws Exception {
-		logger.info("controller : 게시글 수정 update");
+//		logger.info("controller : 게시글 수정 update");
 
-		System.out.println(modifyBoard.toString() + "을 수정!");
+//		System.out.println(modifyBoard.toString() + "을 수정!");
 
 		// 서비스단 호출
 		lService.modifyBoard(modifyBoard);
@@ -277,7 +277,7 @@ public class LectureBoardController {
 	 */
 	@GetMapping("/removeLectureBoard")
 	public String removeLectureBoard(@RequestParam("lecNo") int lecNo) throws Exception {
-		logger.info("controller :" + lecNo + "번 게시글 삭제 delete");
+//		logger.info("controller :" + lecNo + "번 게시글 삭제 delete");
 
 		lService.deleteLectureBoard(lecNo);
 
@@ -293,7 +293,7 @@ public class LectureBoardController {
 	 */
 	@RequestMapping(value = "/cancel", method = RequestMethod.POST, produces = "text/plain; charset=utf-8")
 	public @ResponseBody String cancelBoard() {
-		System.out.println("게시글 작성 안할래요!");
+//		System.out.println("게시글 작성 안할래요!");
 
 		return "success";
 	}
@@ -307,7 +307,7 @@ public class LectureBoardController {
 	 */
 	@RequestMapping(value = "/cancelModify", method = RequestMethod.POST)
 	public @ResponseBody String cancelModifyBoard() {
-		System.out.println("게시글 수정 취소 요청");
+//		System.out.println("게시글 수정 취소 요청");
 
 		return "success";
 	}
@@ -327,11 +327,11 @@ public class LectureBoardController {
 		try {
 			if (lService.checkLikeStatus(lecNo, user)) {
 				// 유저가 좋아요를 누른 게시글일 경우 "success" 반환
-				System.out.println(user + "가 " + lecNo + "번 게시글에 좋아요를 눌렀었다.");
+//				System.out.println(user + "가 " + lecNo + "번 게시글에 좋아요를 눌렀었다.");
 			    return "success";
 			} else {
 				// 유저가 좋아요를 누르지 않은 게시글일 경우 "fail" 반환
-				System.out.println(user + "가 " + lecNo + "번 게시글에 좋아요를 취소&안눌렀다.");
+//				System.out.println(user + "가 " + lecNo + "번 게시글에 좋아요를 취소&안눌렀다.");
 			    return "fail";
 			}
 		} catch (Exception e) {
@@ -358,7 +358,7 @@ public class LectureBoardController {
 	    String user = likeRequest.get("user");
 	    String lecLikeTitle = likeRequest.get("lecLikeTitle"); // 매개변수에서 lecLikeTitle 추출
 	    
-	    logger.info(lecNo + "번 글에 " + user + "가 좋아요를 눌렀습니다! 제목: " + lecLikeTitle);
+//	    logger.info(lecNo + "번 글에 " + user + "가 좋아요를 눌렀습니다! 제목: " + lecLikeTitle);
 	    
 	    ResponseEntity<String> result = null; // 초기값 설정
 
@@ -391,7 +391,7 @@ public class LectureBoardController {
 	    int lecNo = Integer.parseInt(unlikeRequest.get("lecNo"));
 	    String user = unlikeRequest.get("user");
 	    
-	    logger.info(lecNo + "번 글에 " + user + "가 좋아요를 취소했습니다!");
+//	    logger.info(lecNo + "번 글에 " + user + "가 좋아요를 취소했습니다!");
 
 	    ResponseEntity<String> result = null; // 초기값 설정
 
@@ -422,11 +422,11 @@ public class LectureBoardController {
 		try {
 			if (lService.selectAllLectureScrap(lecNo, user)) {
 				// 유저가 스크랩을 누른 게시글일 경우 "success" 반환
-				System.out.println(user + "가 " + lecNo + "번 게시글에 스크랩을 눌렀었다.");
+//				System.out.println(user + "가 " + lecNo + "번 게시글에 스크랩을 눌렀었다.");
 			    return "success";
 			} else {
 				// 유저가 스크랩을 누르지 않은 게시글일 경우 "fail" 반환
-				System.out.println(user + "가 " + lecNo + "번 게시글에 스크랩을 취소&안눌렀다.");
+//				System.out.println(user + "가 " + lecNo + "번 게시글에 스크랩을 취소&안눌렀다.");
 			    return "fail";
 			}
 		} catch (Exception e) {
@@ -453,7 +453,7 @@ public class LectureBoardController {
         String user = scrapRequest.get("user");
         String scrapLecTitle = scrapRequest.get("scrapLecTitle");
         
-        logger.info(lecNo + "번 글에 " + user + "가 스크랩을 눌렀습니다!" + scrapRequest);
+//        logger.info(lecNo + "번 글에 " + user + "가 스크랩을 눌렀습니다!" + scrapRequest);
         
         ResponseEntity<String> result = null; // 초기값 설정
 
@@ -486,7 +486,7 @@ public class LectureBoardController {
 	    int lecNo = Integer.parseInt(unScrapRequest.get("lecNo"));
 	    String user = unScrapRequest.get("user");
 	    
-	    logger.info(lecNo + "번 글에 " + user + "가 스크랩을 취소했습니다!");
+//	    logger.info(lecNo + "번 글에 " + user + "가 스크랩을 취소했습니다!");
 
 	    ResponseEntity<String> result = null; // 초기값 설정
 
@@ -512,7 +512,7 @@ public class LectureBoardController {
 	 */
 	@RequestMapping(value = "/cancelReport", method = RequestMethod.POST)
 	public @ResponseBody String cancelReport() {
-		System.out.println("신고 취소 요청");
+//		System.out.println("신고 취소 요청");
 
 		return "success";
 	}
