@@ -27,7 +27,7 @@ public class AlgDAOImpl implements AlgDAO {
 	@Override
 	public List<AlgBoardDTO> selectAlgBoard() throws Exception {
 		// TODO Auto-generated method stub
-		System.out.println("!!!!DAO!!!!");
+		//System.out.println("!!!!DAO!!!!");
 //		return ses.selectList(ns+".selectAlgBoard");
 		return ses.selectList(ns + ".selectAlgBoard");
 		// return null;
@@ -55,7 +55,7 @@ public class AlgDAOImpl implements AlgDAO {
 	@Override
 	public int insertAlgBoard(AlgBoardDTO algBoardDTO) {
 		// 알고리즘 게시판 글쓰기에 입력된 값을 DB Insert문으로
-		System.out.println("글쓰기(DAO)");
+		//System.out.println("글쓰기(DAO)");
 
 		return ses.insert(ns + ".insertAlgBoard", algBoardDTO);
 
@@ -130,7 +130,7 @@ public class AlgDAOImpl implements AlgDAO {
 	@Override
 	public int deleteAlgDetailDelete(int algDetailNo) {
 	    // TODO Auto-generated method stub
-	    System.out.println("DAO 에서"+algDetailNo+"번글을");
+	    //System.out.println("DAO 에서"+algDetailNo+"번글을");
 	    return ses.delete(ns+".deleteAlgDetailByNo", algDetailNo);
 	}
 
