@@ -34,6 +34,7 @@ public class UserManagerController {
 	// 회원 전체 조회하는 메서드
 	@RequestMapping("/userList")
 	public void userList(Model model) throws Exception {
+
 		// logger.info("userList 페이지 호출");
 
 		List<UserDTO> returnMap = null;
@@ -52,6 +53,7 @@ public class UserManagerController {
 	                                                           @RequestParam("userId") String userId) {
 //		System.out.println("controller단 넘겨받은 변경된 상태 : " + newStatus);
 //		System.out.println("controller단 넘겨받은 변경된 유저 : " + userId);
+
 		try {
             boolean success = aService.modifyUserStatus(userId, newStatus);
             Map<String, Object> response = new HashMap<>();

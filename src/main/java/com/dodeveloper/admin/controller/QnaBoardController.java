@@ -30,7 +30,7 @@ public class QnaBoardController {
 	
 	@RequestMapping(value = "/listAll", method = RequestMethod.GET)
 	public void qnaBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo) throws Exception {
-		logger.info("list 페이지 호출");
+	//	logger.info("list 페이지 호출");
 
 		Map<String, Object> returnMap = null;
 
@@ -53,7 +53,7 @@ public class QnaBoardController {
 	@RequestMapping(value = "/viewBoard", method = RequestMethod.GET)
 	public void qnaViewBoard(Model model, @RequestParam("no") int no) throws Exception {
 		
-		logger.info("문의 상세페이지");
+	//	logger.info("문의 상세페이지");
 		
 		QnaBoardVO qnaView = bService.getQnaBoardNo(no);
 		
@@ -64,14 +64,14 @@ public class QnaBoardController {
 	@RequestMapping(value = "/writeQna", method = RequestMethod.GET)
 	public void writeQna() {
 		
-		logger.info("문의 글쓰기 페이지");
+		//logger.info("문의 글쓰기 페이지");
 		
 	}
 	
 	
 	@RequestMapping(value = "/qnaPOST", method = RequestMethod.POST)
 	public String qnaWrite(QnaBoardVO newBoard) throws Exception {
-		logger.info("controller : " + newBoard.toString() + "글 저장");
+		//logger.info("controller : " + newBoard.toString() + "글 저장");
 
 		String returnPage = "/qna/listAll";
 		

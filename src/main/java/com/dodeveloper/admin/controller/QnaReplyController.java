@@ -32,7 +32,7 @@ public class QnaReplyController {
 	@RequestMapping(value="/qnaAll/{bNo}/{bType}", method = RequestMethod.GET)
 	public ResponseEntity<List<ReplyVO>> getAllReplies(@PathVariable("bNo") int bNo, @PathVariable("bType") int bType) {
 
-		System.out.println(bNo + "번 글의 댓글을 가져오자");
+	//	System.out.println(bNo + "번 글의 댓글을 가져오자");
 
 		ResponseEntity<List<ReplyVO>> result = null;
 
@@ -53,7 +53,7 @@ public class QnaReplyController {
 	
 	@RequestMapping(value="/{bNo}/{bType}", method = RequestMethod.POST)
 	public ResponseEntity<String> saveReply(@PathVariable("bNo") int bNo, @PathVariable("bType") int bType, @RequestBody ReplyDTO replydto) {
-		System.out.println(replydto.toString() + "댓글을 저장하자" + ", " + bNo);
+	//	System.out.println(replydto.toString() + "댓글을 저장하자" + ", " + bNo);
 		
 		ResponseEntity<String> result = null;
 		
@@ -80,7 +80,7 @@ public class QnaReplyController {
 
 	@RequestMapping(value = "/{replyNo}")
 	public ResponseEntity<String> deleteReply(@PathVariable("replyNo") int replyNo) {
-		System.out.println(replyNo + "번 댓글을 삭제하자");
+	//	System.out.println(replyNo + "번 댓글을 삭제하자");
 		
         ResponseEntity<String> result = null;
 		

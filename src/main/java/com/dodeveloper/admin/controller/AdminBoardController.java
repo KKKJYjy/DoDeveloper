@@ -51,7 +51,7 @@ public class AdminBoardController {
 	@RequestMapping(value = "/selectBoard", method = RequestMethod.GET)
 	public void selectBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
 			SearchCriteriaDTO sc) throws Exception {
-		logger.info(pageNo + "번째 study게시판 페이지 조회");
+		// logger.info(pageNo + "번째 study게시판 페이지 조회");
 
 		Map<String, Object> returnMap = null;
 
@@ -74,7 +74,7 @@ public class AdminBoardController {
 	@RequestMapping(value = "/lectureBoard", method = RequestMethod.GET)
 	public void lectureBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
 			SearchCriteriaDTO sc) throws Exception {
-		logger.info("lectureBoard 조회");
+		// logger.info("lectureBoard 조회");
 
 		Map<String, Object> returnMap = null;
 
@@ -97,7 +97,7 @@ public class AdminBoardController {
 	@RequestMapping(value = "/algorithmBoard", method = RequestMethod.GET)
 	public void algorithmBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
 			SearchCriteriaDTO sc) throws Exception {
-		logger.info("algorithmBoard 조회");
+//		logger.info("algorithmBoard 조회");
 
 		Map<String, Object> returnMap = null;
 
@@ -118,7 +118,7 @@ public class AdminBoardController {
 	@RequestMapping(value = "/reviewBoard", method = RequestMethod.GET)
 	public void reviewBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
 			SearchCriteriaDTO sc) throws Exception {
-		logger.info("reviewBoard 조회");
+		//logger.info("reviewBoard 조회");
 
 		Map<String, Object> returnMap = null;
 
@@ -140,7 +140,7 @@ public class AdminBoardController {
 	@RequestMapping(value = "/noticeBoard", method = RequestMethod.GET)
 	public void noticeBoard(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
 			SearchCriteriaDTO sc) throws Exception {
-		logger.info("공지사항 조회");
+		//logger.info("공지사항 조회");
 
 		Map<String, Object> returnMap = null;
 
@@ -253,7 +253,8 @@ public class AdminBoardController {
 
 	@RequestMapping(value = "/report", method = RequestMethod.GET)
 	public void report(Model model) throws Exception {
-		// logger.info("신고내역 조회");
+		//logger.info("신고내역 조회");
+
 
 		List<ReportVO> reportList = bService.getReport();
 
@@ -264,7 +265,7 @@ public class AdminBoardController {
 	@RequestMapping(value = "/updateNotice", method = RequestMethod.GET)
 	public String modifyNotcBoard(Model model, @RequestParam("boardNo") int boardNo) throws Exception {
 
-		logger.info("공지사항 수정페이지 호출");
+		//logger.info("공지사항 수정페이지 호출");
 
 		Map<String, Object> map = bService.getNotcByBoardNo(boardNo);
 
@@ -310,6 +311,7 @@ public class AdminBoardController {
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> deleteBoard(@RequestParam("btypeNo") int btypeNo,
 	        @RequestParam("boardNo") int boardNo, @RequestParam("deleteReason") String deleteReason, @RequestParam("userId") String userId) throws Exception {
+
 
 //	    System.out.println("btypeNo: " + btypeNo);
 //	    System.out.println("boardNo: " + boardNo);
