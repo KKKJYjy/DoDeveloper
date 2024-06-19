@@ -504,22 +504,6 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 
 	}
 
-	// 신고된 글 삭제, 페널티 추가
-	@Transactional
-	public boolean insertPenalty(int btypeNo, int boardNo, String deleteReason, String userId) throws Exception {
-		boolean result = true;
-
-		int deleteBoardResult = bDao.deleteBoard(btypeNo, boardNo);
-		int deleteSelectBoardResult = bDao.deleteSelectBoard(btypeNo, boardNo);
-		int insertPenaltyResult = bDao.insertPenalty(deleteReason, userId);
-
-		if (deleteBoardResult == 0 || deleteSelectBoardResult == 0 || insertPenaltyResult == 0) {
-			result = false;
-
-		}
-
-		return result;
-	}
 
 	@Override
 	public List<NoticeDTO> diffNotice() throws Exception {
@@ -584,14 +568,11 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 			// 신고된 게시글 삭제
 			if (bDao.deleteSelectBoard(btypeNo, boardNo) == 1) {
 				// 신고 내역에서 글삭제
-				if (bDao.deleteBoard(btypeNo, boardNo) == 1) {
+				if (bDao.deleteBoard(btypeNo, boardNo) > 0) {
 					result = true;
 				}
-				System.out.println("글삭제 성공");
 			}
-
 		}
-		
 		return result;
 	}
 
@@ -607,15 +588,20 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		return bDao.getNoticeTop5();
 	}
 
+
+	// 선택한 신고내역 삭제
 	@Override
-	public boolean deleteBoard(int btypeNo, int boardNo) throws Exception {
-  
-		boolean result = false;
+	public boolean deleteSelectedData(List<Long> selectedIds) throws Exception {
+		
+		   boolean result = true; 
 
-		if (bDao.deleteBoard(btypeNo, boardNo) == 1) {
-			result = true;
-		}
+		    for (Long reportNo : selectedIds) {
+		        if (bDao.deleteCheckBoard(reportNo) <= 0) {
+		            result = false; // 삭제 실패 시 false 설정
+		            break; // 삭제 실패 시 반복을 멈춤
+		        }
+		    }
 
-		return false;
+		return result;
 	}
 }

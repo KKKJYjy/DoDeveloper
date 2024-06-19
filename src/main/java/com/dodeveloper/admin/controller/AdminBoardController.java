@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -317,21 +319,23 @@ public class AdminBoardController {
 	    Map<String, Object> response = new HashMap<>();
 	    response.put("success", success);
 
-	    return ResponseEntity.ok(response);
+	    if (success) {
+	        return ResponseEntity.ok(response); 
+	    } else {
+	        return ResponseEntity.badRequest().body(response); 
+	    }
 	}
 	
-	  @PostMapping("/deleteReport")
-	    @ResponseBody
-	    public String deleteReport(@RequestParam("btypeNo") int btypeNo, @RequestParam("boardNo") int boardNo) throws Exception {
-	        
-		  	String result = null;
-		  
-		  	if (bService.deleteBoard(btypeNo, boardNo)) {
-		  		result = "/admin/report";
-		  	}
-		  
-	        return result;	
+	@PostMapping("/deleteReport")
+	public ResponseEntity<String> deleteReport(@RequestBody List<Long> selectedIds) throws Exception {
+	    // 서비스 계층에 선택된 데이터 ID들을 전달하여 삭제 처리
+	    boolean success = bService.deleteSelectedData(selectedIds);
+
+	    if (success) {
+	        return ResponseEntity.ok("삭제 성공");
+	    } else {
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("삭제 실패");
 	    }
-	
+	}	
 	
 }

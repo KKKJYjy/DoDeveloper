@@ -39,7 +39,7 @@ public class BoardCheckController {
                 redirectUrl = "/study/viewStudyBoard?stuNo=" + boardNo;
                 break;
             case 4:
-                redirectUrl = "/algorithm/algDetail?boardNo=" + boardNo;
+                redirectUrl = "/algorithm/codeDetail?algDetailNo=" + boardNo;
                 break;
             default:
                 redirectUrl = "/errorPage"; // 예외 처리

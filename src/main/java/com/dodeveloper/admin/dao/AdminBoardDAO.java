@@ -157,4 +157,7 @@ public interface AdminBoardDAO {
 
   //최신 공지글 5개를 가져오는 메서드 (메인홈에 출력할 용도)
 	List<NoticeDTO> getNoticeTop5() throws Exception;
+
+	// 체크박스 선택한 신고내역 삭제하는 메서드
+	int deleteCheckBoard(Long reportNo) throws Exception;
 }

@@ -29,7 +29,7 @@ public class ConnectLogController {
 
 	@GetMapping(value = "/totalLog")
 	public void showTotalLog() {
-
+			
 	}
 
 	@GetMapping(value = "/getLog", produces = "application/json; charset=utf-8")
