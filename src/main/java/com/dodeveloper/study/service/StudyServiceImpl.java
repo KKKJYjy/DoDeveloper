@@ -254,21 +254,21 @@ public class StudyServiceImpl implements StudyService {
 
 		int result = 0;
 
-		System.out.println("modifyStack: 수정할 스터디 스택" + modifyStack.toString());
-		System.out.println("insertStack: 수정할 스터디 스터디 모집글" + newStudy.toString());
+//		System.out.println("modifyStack: 수정할 스터디 스택" + modifyStack.toString());
+//		System.out.println("insertStack: 수정할 스터디 스터디 모집글" + newStudy.toString());
 
 		if (sDao.modifyStudy(newStudy) == 1) {
-			System.out.println("스터디글수정성공");
+//			System.out.println("스터디글수정성공");
 
 			for (StuStackDTO s : modifyStack) {
 				if (s.isDelete()) {
 					sDao.deleteStudyStack(s.getStuStackNo());
-					System.out.println(s.getStuStackNo() + "번째 스터디언어 삭제 성공");
+//					System.out.println(s.getStuStackNo() + "번째 스터디언어 삭제 성공");
 					result = 1;
 				}
 				if (s.isNew()) {
 					sDao.insertNewStack(s.getStuBoardNo(), s.getChooseStack());
-					System.out.println(s.getChooseStack() + "스터디언어 추가 성공");
+//					System.out.println(s.getChooseStack() + "스터디언어 추가 성공");
 					result = 1;
 				}
 
@@ -309,10 +309,10 @@ public class StudyServiceImpl implements StudyService {
 		makingPagingInfo(studyStackList, pageNo);
 		List<StudyBoardVO> lst = sDao.searchStudyByStack(studyStackList, pi);
 
-		for (StudyBoardVO l : lst) {
-			System.out.println("service단 게시글제목:" + l.getStuTitle());
-		}
-		System.out.println("service단 게시글갯수:" + lst.size());
+//		for (StudyBoardVO l : lst) {
+//			System.out.println("service단 게시글제목:" + l.getStuTitle());
+//		}
+//		System.out.println("service단 게시글갯수:" + lst.size());
 
 		// 스터디 No번째글 스터디 언어 목록
 		List<StuStackDTO> stuStackList = new ArrayList<StuStackDTO>();
@@ -356,7 +356,7 @@ public class StudyServiceImpl implements StudyService {
 		this.pi.setViewPostCntPerPage(11);
 		this.pi.setPageCntPerBlock(5);
 
-		System.out.println(sDao.selectTotalBoardCntWithSdtoWithStuStack(studyStackList));
+//		System.out.println(sDao.selectTotalBoardCntWithSdtoWithStuStack(studyStackList));
 		this.pi.setTotalPostCnt(sDao.selectTotalBoardCntWithSdtoWithStuStack(studyStackList));
 
 		// 총 페이지 수를 구해 저장.
@@ -376,7 +376,7 @@ public class StudyServiceImpl implements StudyService {
 		// 현재 페이징 블럭 끝 페이지 구해 저장
 		this.pi.setEndNumOfCurrentPagingBlock();
 
-		System.out.println(pi.toString());
+//		System.out.println(pi.toString());
 
 	}
 
@@ -402,7 +402,7 @@ public class StudyServiceImpl implements StudyService {
 		this.pi.setStartRowIndex();
 
 		// 게시물 총 데이터 갯수를 구해 저장
-		System.out.println(sDao.selectTotalBoardCntWithSdtoWithStatusFilter(sDTO, status));
+//		System.out.println(sDao.selectTotalBoardCntWithSdtoWithStatusFilter(sDTO, status));
 		this.pi.setTotalPostCnt(sDao.selectTotalBoardCntWithSdtoWithStatusFilter(sDTO, status));
 
 		// 전체 페이지 블럭 갯수 구해 저장
@@ -417,7 +417,7 @@ public class StudyServiceImpl implements StudyService {
 		// 현재 페이징 블럭 끝 페이지 구해 저장
 		this.pi.setEndNumOfCurrentPagingBlock();
 
-		System.out.println(pi.toString());
+//		System.out.println(pi.toString());
 
 	}
 
@@ -437,7 +437,7 @@ public class StudyServiceImpl implements StudyService {
 		this.pi.setPageCntPerBlock(5);
 
 		// 게시물 총 데이터 갯수를 구해 저장
-		System.out.println(sDao.selectTotalBoardCntWithSdto(sDTO));
+//		System.out.println(sDao.selectTotalBoardCntWithSdto(sDTO));
 		this.pi.setTotalPostCnt(sDao.selectTotalBoardCntWithSdto(sDTO));
 
 		// 총 페이지 수를 구해 저장.
@@ -457,7 +457,7 @@ public class StudyServiceImpl implements StudyService {
 		// 현재 페이징 블럭 끝 페이지 구해 저장
 		this.pi.setEndNumOfCurrentPagingBlock();
 
-		System.out.println(pi.toString());
+//		System.out.println(pi.toString());
 
 	}
 
@@ -476,9 +476,9 @@ public class StudyServiceImpl implements StudyService {
 		this.pi.setViewPostCntPerPage(11);
 		this.pi.setPageCntPerBlock(5);
 
-		System.out.println("service단 검색어가 없고 필터가 있는 경우: " + status);
+//		System.out.println("service단 검색어가 없고 필터가 있는 경우: " + status);
 		// 게시물 총 데이터 갯수를 구해 저장
-		System.out.println(sDao.selectTotalBoardCntWithStatusFilter(status));
+//		System.out.println(sDao.selectTotalBoardCntWithStatusFilter(status));
 		this.pi.setTotalPostCnt(sDao.selectTotalBoardCntWithStatusFilter(status));
 
 		// 총 페이지 수를 구해 저장.
@@ -498,7 +498,7 @@ public class StudyServiceImpl implements StudyService {
 		// 현재 페이징 블럭 끝 페이지 구해 저장
 		this.pi.setEndNumOfCurrentPagingBlock();
 
-		System.out.println(pi.toString());
+//		System.out.println(pi.toString());
 	}
 
 	/**
@@ -516,7 +516,7 @@ public class StudyServiceImpl implements StudyService {
 		this.pi.setPageCntPerBlock(5);
 
 		// 게시물 총 데이터 갯수를 구해 저장
-		System.out.println(sDao.selectTotalBoardCnt());
+//		System.out.println(sDao.selectTotalBoardCnt());
 		this.pi.setTotalPostCnt(sDao.selectTotalBoardCnt());
 
 		// 총 페이지 수를 구해 저장.
@@ -536,7 +536,7 @@ public class StudyServiceImpl implements StudyService {
 		// 현재 페이징 블럭 끝 페이지 구해 저장
 		this.pi.setEndNumOfCurrentPagingBlock();
 
-		System.out.println(pi.toString());
+//		System.out.println(pi.toString());
 
 	}
 

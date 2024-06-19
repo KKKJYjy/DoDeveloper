@@ -130,7 +130,7 @@
 			
 			// 지도 검색한 값 가져오기
 			let searchMap = $("#searchMap").val();
-			console.log(searchMap);
+			//console.log(searchMap);
 			
 			// 1) 키워드로 장소를 검색
 			ps.keywordSearch(searchMap, placesSearchCB);
@@ -172,7 +172,7 @@
 				            detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
 				            
 				            mapName = result[0].address.address_name;
-				            console.log("주소검색시 Y: ", mapY, ", X: " , mapX , ", 주소 : ", mapName);
+				           // console.log("주소검색시 Y: ", mapY, ", X: " , mapX , ", 주소 : ", mapName);
 				        }   
 				        
 						// 인포윈도우로 장소에 대한 설명을 표시합니다
@@ -198,7 +198,7 @@
 	function finalClick(){
 		// 지도 검색바에 선택한 장소명 출력
 		$("#searchMap").val(mapName);
-		console.log("최종 클릭 Y: ", mapY, ", X: " , mapX , ", 주소 : ", mapName);
+		//console.log("최종 클릭 Y: ", mapY, ", X: " , mapX , ", 주소 : ", mapName);
 	}
 	
 	// 좌표로 법정동 상세 주소 정보를 요청합니다
@@ -329,18 +329,18 @@
 					"content-type" : "application/json"
 				},
 				success : function(data) {
-					console.log(data);
+					//console.log(data);
 					result = true; //insertStudy 먼저 수행한뒤 insertStack 수행하도록
 
 				}
 			});
 
-			console.log("if문 끝나기전", result);
+			//console.log("if문 끝나기전", result);
 		} else {
 
 		}
 
-		console.log("if문 끝난후", result);
+		//console.log("if문 끝난후", result);
 		return result;
 	}
 </script>
