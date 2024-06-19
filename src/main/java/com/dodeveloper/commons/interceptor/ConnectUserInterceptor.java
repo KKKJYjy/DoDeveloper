@@ -29,7 +29,7 @@ public class ConnectUserInterceptor extends HandlerInterceptorAdapter {
 		
 		
 
-		System.out.println("prehandle이 호출됨!!!!!!!!");
+//		System.out.println("prehandle이 호출됨!!!!!!!!");
 
 		HttpSession session = request.getSession();
 
@@ -48,7 +48,7 @@ public class ConnectUserInterceptor extends HandlerInterceptorAdapter {
 		
 		String accessDate = accessTime.format(formatter);
 
-		System.out.println("Session ID: " + sessionId + "접속중인 uri : " + uri + "접속시간 : " + accessDate);
+//		System.out.println("Session ID: " + sessionId + "접속중인 uri : " + uri + "접속시간 : " + accessDate);
 		
 		connectLog.setSessionId(sessionId);
 		connectLog.setUri(uri);

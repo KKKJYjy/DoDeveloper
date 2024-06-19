@@ -24,16 +24,16 @@ public class RememberInterceptor extends HandlerInterceptorAdapter implements Se
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
-		logger.info("RememberInterceptor.pre>> 모든 주소");
+//		logger.info("RememberInterceptor.pre>> 모든 주소");
 
 		HttpSession session = request.getSession();
 		
 		Cookie loginCookie = WebUtils.getCookie(request, LOGIN_COOKIE);
-		logger.info("loginCookie : " + loginCookie);
+//		logger.info("loginCookie : " + loginCookie);
 		if (loginCookie != null) {
-			logger.info("loginCookie.getValue() : " + loginCookie.getValue());
+//			logger.info("loginCookie.getValue() : " + loginCookie.getValue());
 			MemberVO loginedUser = mService.checkLoginBefore(loginCookie.getValue());
-			logger.info("loginedUser : " + loginedUser);
+//			logger.info("loginedUser : " + loginedUser);
 			if (loginedUser != null)
 				session.setAttribute(LOGIN_MEMBER, loginedUser);
 		}
