@@ -109,7 +109,7 @@ public class MemberController {
 	private static final long EMAIL_WAIT_TO_VALIDATION_MINUTE = 5;
 	
 	public MemberController() {
-		//timer.schedule(deleteOldRequest, 1000, 1000 * 60);
+		timer.schedule(deleteOldRequest, 1000, 1000 * 60);
 	}
 	
 	private Timer timer = new Timer(true);
