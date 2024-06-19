@@ -49,7 +49,7 @@
 			success : function(data) {
 				drawPie(data);
 				drawTable(data);
-				console.log(data);
+			//	console.log(data);
 			},
 
 		});
@@ -67,7 +67,7 @@
 				dataType : "json", // 서버로부터 수신받을 데이터의 타입
 				async : true,
 				success : function(data) {
-					console.log(data); // 데이터를 콘솔에 출력하여 확인
+				//	console.log(data); // 데이터를 콘솔에 출력하여 확인
 					drawLine(data);
 				},
 
@@ -105,7 +105,7 @@
 					.getElementById('connect_log_chart'));
 			connectLogChart.draw(connectLogData, connectLogOptions);
 		} else {
-			console.log('데이터 없음');
+			// console.log('데이터 없음');
 		}
 	}
 
@@ -133,9 +133,9 @@
 			var uriCountChart = new google.visualization.PieChart(document
 					.getElementById('uri_count_chart'));
 			uriCountChart.draw(uriCountData, uriCountOptions);
-			console.log("차트 생성 성공");
+			// console.log("차트 생성 성공");
 		} else {
-			console.log('데이터 없음');
+			// console.log('데이터 없음');
 		}
 	}
 	

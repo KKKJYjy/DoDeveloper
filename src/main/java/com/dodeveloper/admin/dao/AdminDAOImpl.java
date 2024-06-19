@@ -47,7 +47,7 @@ public class AdminDAOImpl implements AdminDAO {
 	// 유저 상태 변경
 	@Override
 	public int updateUserStatus(Map<String, Object> params) throws Exception {
-		System.out.println(params + "상태 변경(DAO)");
+		// System.out.println(params + "상태 변경(DAO)");
 			
 		return ses.update(ns + ".updateUserStatus", params);
 	}
@@ -55,7 +55,7 @@ public class AdminDAOImpl implements AdminDAO {
 	// 패널티 테이블에서 정지일자와 해제일 업데이트
 	@Override
 	public int updatePenaltyRecord(Map<String, Object> penaltyParams) throws Exception {
-		System.out.println("DAO단 정지일과 해제일 실행 : " + penaltyParams);
+		// System.out.println("DAO단 정지일과 해제일 실행 : " + penaltyParams);
 		
 		return ses.update(ns + ".updatePenaltyRecord", penaltyParams);
 	}
@@ -63,7 +63,7 @@ public class AdminDAOImpl implements AdminDAO {
 	// 탈퇴회원 처리
 	@Override
 	public int banUser(String userId) throws Exception {
-		System.out.println(userId + "탈퇴처리(DAO)");
+		// System.out.println(userId + "탈퇴처리(DAO)");
 		
 		return ses.update(ns + ".banUser", userId);
 	}
@@ -72,7 +72,7 @@ public class AdminDAOImpl implements AdminDAO {
 	
 	@Override
 	public int insertConnectLog(ConnectLogDTO cl) throws Exception {
-		System.out.println("접속기록 저장 : " + cl.toString());
+		// System.out.println("접속기록 저장 : " + cl.toString());
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("sessionId", cl.getSessionId());

@@ -253,7 +253,7 @@ public class AdminBoardController {
 
 	@RequestMapping(value = "/report", method = RequestMethod.GET)
 	public void report(Model model) throws Exception {
-		logger.info("신고내역 조회");
+		// logger.info("신고내역 조회");
 
 		List<ReportVO> reportList = bService.getReport();
 
@@ -311,10 +311,10 @@ public class AdminBoardController {
 	public ResponseEntity<Map<String, Object>> deleteBoard(@RequestParam("btypeNo") int btypeNo,
 	        @RequestParam("boardNo") int boardNo, @RequestParam("deleteReason") String deleteReason, @RequestParam("userId") String userId) throws Exception {
 
-	    System.out.println("btypeNo: " + btypeNo);
-	    System.out.println("boardNo: " + boardNo);
-	    System.out.println("userId: " + userId);
-	    System.out.println("deleteReason: " + deleteReason);
+//	    System.out.println("btypeNo: " + btypeNo);
+//	    System.out.println("boardNo: " + boardNo);
+//	    System.out.println("userId: " + userId);
+//	    System.out.println("deleteReason: " + deleteReason);
 	    
 	    boolean success = bService.insertOrUpdatePenaltyRecord(deleteReason, userId, btypeNo, boardNo);
 	    Map<String, Object> response = new HashMap<>();

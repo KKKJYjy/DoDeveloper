@@ -43,7 +43,7 @@ public class AdminServiceImpl implements AdminService {
 
 	
 	public List<UserDTO> getAllUser() throws Exception {
-		System.out.println("서비스단 유저 조회");
+		// System.out.println("서비스단 유저 조회");
 		
 		List<UserDTO> userList = aDao.selectAllUser();
 		
@@ -65,14 +65,14 @@ public class AdminServiceImpl implements AdminService {
             cal.setTime(suspendStart);
             cal.add(Calendar.DAY_OF_MONTH, 7);
             Date suspendEnd = cal.getTime();
-            System.out.println("해제일" + suspendEnd);
+           //  System.out.println("해제일" + suspendEnd);
 
             
             // 사용자 상태 업데이트
             Map<String, Object> userParams = new HashMap<>();
             userParams.put("userId", userId);
             userParams.put("newStatus", newStatus);
-            System.out.println("유저와 변경된 상태 : " + userParams);
+          //   System.out.println("유저와 변경된 상태 : " + userParams);
             aDao.updateUserStatus(userParams);
 
             
@@ -82,7 +82,7 @@ public class AdminServiceImpl implements AdminService {
                 penaltyParams.put("userId", userId);
                 penaltyParams.put("suspendStart", formattedDate);
                 penaltyParams.put("suspendEnd", suspendEnd);
-                System.out.println("정지된 유저와 정지일, 해제일 : " + penaltyParams);
+               //  System.out.println("정지된 유저와 정지일, 해제일 : " + penaltyParams);
                 aDao.updatePenaltyRecord(penaltyParams);
                 
             } else if ("탈퇴회원".equals(newStatus)) {
@@ -103,7 +103,7 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public int getConnectLog(ConnectLogDTO connectLog) throws Exception {
-		System.out.println("접속기록 서비스단 호출" + connectLog);
+		// System.out.println("접속기록 서비스단 호출" + connectLog);
 		
 		int result = aDao.insertConnectLog(connectLog);
 		
@@ -125,7 +125,7 @@ public class AdminServiceImpl implements AdminService {
 		List<ConnectLogVO> result = aDao.connectDateLog(month);
 		
 		for(ConnectLogVO c : result) {
-			System.out.println(c.toString());
+			// System.out.println(c.toString());
 		}
 		
 		return result;

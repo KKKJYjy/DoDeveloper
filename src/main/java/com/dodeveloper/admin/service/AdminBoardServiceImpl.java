@@ -694,11 +694,11 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	@Transactional
 	public boolean insertOrUpdatePenaltyRecord(String deleteReason, String userId, int btypeNo, int boardNo)
 			throws Exception {
-		System.out.println("패널티 서비스단 호출");
-		System.out.println("btypeNo: " + btypeNo);
-		System.out.println("boardNo: " + boardNo);
-		System.out.println("userId: " + userId);
-		System.out.println("deleteReason: " + deleteReason);
+//		System.out.println("패널티 서비스단 호출");
+//		System.out.println("btypeNo: " + btypeNo);
+//		System.out.println("boardNo: " + boardNo);
+//		System.out.println("userId: " + userId);
+//		System.out.println("deleteReason: " + deleteReason);
 		boolean result = false;
 
 		if (bDao.insertPenalty(deleteReason, userId) == 1) { // (insert)
