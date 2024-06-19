@@ -8,7 +8,7 @@
 </head>
 <body>
 <script>
-    alert("로그인한 유자와 게시글 작성자가 일치하지 않습니다.");
+    alert("로그인한 유저와 게시글 작성자가 일치하지 않습니다.");
     location.href='/';
 </script>
 </body>

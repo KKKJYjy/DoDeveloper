@@ -118,12 +118,12 @@ textarea {
 		<section id="algorithm" class="basic">
 			<div class="container">
 
-				<h1>${algDetailList[0].algDetailTitle}</h1>
+				
 
 				<h1>alg</h1>
 
 
-				<div>${algDetail}</div>
+				
 
 
 

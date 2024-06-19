@@ -186,31 +186,7 @@ function insertReport() {
 		<!-- Basic Section - Algorithm Page -->
 		<section id="algorithm" class="basic">
 			<div class="container">
-				<h1>${algDetailList[0].algDetailTitle}</h1>
-				<h1>${algDetailList[0].algDetailContent}</h1>
-				<h1>${algDetailList[1].algDetailContent}</h1>
-
-				<h2>${fn:length(algDetailList)}</h2>
-
-				<h1>alg ${algDetailList[0].boardType}</h1>
-
-
-
-
-
-				
-
-
-
-
-
-
-
-				<div>${algDetailList}</div>
-
-				<div>${algDetailList[0].algBoardNo}</div>
-
-
+	
 
 
 				<c:forEach var="algDetail" items="${algDetailList}" begin="0"
