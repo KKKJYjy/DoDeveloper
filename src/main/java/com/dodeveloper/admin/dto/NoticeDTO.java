@@ -21,4 +21,5 @@ public class NoticeDTO {
 	private String title;
 	private String content;
 	private int readCount;
+	private int bType;
 }

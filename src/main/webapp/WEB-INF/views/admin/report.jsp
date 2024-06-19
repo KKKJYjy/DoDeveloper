@@ -42,6 +42,7 @@
 		$('#myModal').show();
 	}
 	
+
 	function checkCheckbox() {
 		  let selectedReportIds = [];
 		    let list = $("input[name='rowCheck']");
@@ -57,6 +58,7 @@
 		    } else {
 		        deleteReport(selectedReportIds);
 		    }
+
 	}
 	
 	

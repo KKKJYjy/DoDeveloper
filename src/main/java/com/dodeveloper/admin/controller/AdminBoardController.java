@@ -149,6 +149,7 @@ public class AdminBoardController {
 		if (pageNo <= 0) {
 			pageNo = 1;
 		}
+		
 
 		returnMap = bService.getlistNotcBoard(pageNo, sc);
 		model.addAttribute("notcBoardList", (List<NoticeDTO>) returnMap.get("notcBoardList"));

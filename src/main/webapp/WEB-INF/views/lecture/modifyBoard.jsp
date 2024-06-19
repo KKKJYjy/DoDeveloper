@@ -215,7 +215,7 @@ document.getElementById('yourFormId').addEventListener('submit', function(event)
 				<section class="notice">
 					<div class="page-title">
 						<div class="container">
-							<h3>강의 추천 게시글 작성 페이지</h3>
+							<!-- <h3>강의 추천 게시글 작성 페이지</h3> -->
 						</div>
 					</div>
 

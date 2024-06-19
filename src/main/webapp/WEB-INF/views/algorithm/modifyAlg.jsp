@@ -59,7 +59,7 @@
 			<div class="container">
 
 
-				<h1>${algBoardList}</h1>
+				
 
 				<form action="/algorithm/modifyAlg" method="post">
 
@@ -105,10 +105,10 @@
 
 
 
-					<button type="submit">수정</button>
-					<button type="reset">취소</button>
+					<button type="submit" class="btn btn-success">수정</button>
+					<button type="reset" class="btn btn-info">reset</button>
 				</form>
-				<button type="button" class="btn btn-danger" onclick="location.href='/algorithm/listAll';">Danger</button>
+				<button type="button" class="btn btn-danger" onclick="location.href='/algorithm/listAll';">취소</button>
 				
 
 

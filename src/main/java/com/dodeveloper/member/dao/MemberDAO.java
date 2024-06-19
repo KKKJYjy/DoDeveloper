@@ -7,6 +7,7 @@ import com.dodeveloper.member.dto.LoginDTO;
 import com.dodeveloper.member.dto.RegisterDTO;
 import com.dodeveloper.member.dto.SessionDTO;
 import com.dodeveloper.member.vo.MemberVO;
+import com.dodeveloper.mypage.dto.ChangeEmailDTO;
 import com.dodeveloper.mypage.dto.ChangeProfileDTO;
 import com.dodeveloper.mypage.dto.ChangePwdDTO;
 
@@ -49,4 +50,7 @@ public interface MemberDAO {
 	
 	// 회원탈퇴 status 변경
 	int changeDropStatus(DropMemberDTO dropMemberDTO) throws Exception;
+	
+	// 회원 이메일 변경
+	public int changeEmail(ChangeEmailDTO changeEmailDTO) throws Exception;
 }

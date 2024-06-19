@@ -148,25 +148,22 @@ public class StudyServiceImpl implements StudyService {
 
 			if (sDao.insertNewStudy(newStudy) == 1) {
 				System.out.println("스터디글추가성공");
-
 				System.out.println("insertStack: 새로 추가할 스터디 스터디 모집글" + newStudy.toString());
 
 				// StuStackVO의 stuBoardNo값 세팅
 				newStack.setStuBoardNo(sDao.selectNextStuNo());
-				System.out.println("insertStack: 추가할 스터디 스택 게시글 번호" + newStack.getStuBoardNo());
-				System.out.println("insertStack: 새로 추가할 스터디 스택가져오자" + newStack.toString());
+				System.out.println("insertStack: 추가할 스터디 언어 게시글 번호" + newStack.getStuBoardNo());
 
 				for (int chooseStack : chooseStacks) {
 					if (sDao.insertNewStack(newStack.getStuBoardNo(), chooseStack) == 1) {
-						System.out.println("스택추가성공");
+						System.out.println("스터디언어추가성공");
 						result = 1;
 					}
 				}
-			} else {
-				System.out.println("스터디글추가실패");
 			}
+			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			System.out.println("스터디글추가, 스터디언어추가실패");
 			e.printStackTrace();
 		}
 
@@ -204,7 +201,7 @@ public class StudyServiceImpl implements StudyService {
 		Map<String, Object> result = new HashMap<String, Object>();
 
 		// System.out.println(stuNo + "번째 글을" + userId + "가 조회한다 - 서비스단");
-		System.out.println(lDao.selectDiff(userId, stuNo, bType));
+		//System.out.println(lDao.selectDiff(userId, stuNo, bType));
 
 		// 하루이내에 같은 유저가 현재 글을 본적이 있는지 체크
 		if (lDao.selectDiff(userId, stuNo, bType) == -1) {
@@ -323,18 +320,11 @@ public class StudyServiceImpl implements StudyService {
 		for (StudyBoardVO s : lst) {
 			// stuNo를 넘겨주어 공부할 언어 정보를 가져오자
 			stuStackList.addAll(sDao.selectAllStudyStack(s.getStuNo()));
-
-			// System.out.println(s.getStuNo());
 		}
-		// stack테이블의 모든 값들을 가져오자
-		List<StackVO> stackList = sDao.selectAllStack();
-
-		// System.out.println(stuStackList.toString());
 
 		result.put("studyList", lst);
 		result.put("stuStackList", stuStackList);
 		result.put("pagingInfo", this.pi);
-		// result.put("stackList", stackList);
 
 		return result;
 

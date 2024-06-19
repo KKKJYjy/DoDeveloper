@@ -3,13 +3,22 @@
  */
 
 
+  function checkEmailFormat(emailAddress){
+      let emailRegex = new RegExp('^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$');
+      if(!emailRegex.test(emailAddress)){
+    		return false;
+      }
+      return true;
+  }
 
-  function sendRequestToVerificateEmail(emailAddress){
+  function sendRequestToVerifyEmail(emailAddress){
+    	
       let urlWhole = window.location.href;
       let urlPath = window.location.pathname;
       let urlWithoutPathName = urlWhole.substring(0, urlWhole.indexOf(urlPath));
 	  
-	  let urlInput = "./emailConfirmRequest";
+	  let urlInput = urlWithoutPathName + "/member/emailConfirmRequest";
+	  
 	  result = false;
 	  
 	  $.ajax({
@@ -28,7 +37,12 @@
   }
   
   function sendEmailVerificationCode(code){
-	  let urlInput = "./emailCode";
+      let urlWhole = window.location.href;
+      let urlPath = window.location.pathname;
+      let urlWithoutPathName = urlWhole.substring(0, urlWhole.indexOf(urlPath));
+	  
+	  let urlInput = urlWithoutPathName + "/member/emailCode";
+	  
 	  result = false;
 	  
 	  $.ajax({

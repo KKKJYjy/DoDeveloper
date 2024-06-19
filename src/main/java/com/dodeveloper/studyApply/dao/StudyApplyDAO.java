@@ -19,4 +19,7 @@ public interface StudyApplyDAO {
 	//스터디 신청을 수정하는 메서드
 	int modifyApply(StudyApplyDTO modifyApply) throws Exception;
 
+	//스터디 신청을 한 적이 있는지 검사하는 메서드
+	int isDuplicate(StudyApplyDTO newApply) throws Exception;
+
 }

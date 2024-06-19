@@ -49,6 +49,8 @@
   ======================================================== -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script
+	src="/resources/assets/js/emailVerification/emailVerification.js"></script>
 <script>
   $(function () {
   var staticBackdrop = document.getElementById("staticBackdrop");
@@ -67,6 +69,16 @@
     $("#etcReason").val("");
     $('input[name="dropReason"]:checked').prop("checked", false);
   });
+  
+  var staticBackdrop = document.getElementById("sb-change-email");
+  staticBackdrop.addEventListener("show.bs.modal", function (event) {
+    console.log("sb-change-email open");
+
+	$("#new-email").val("");
+	$("#email-code").val("");
+	blockEmailCodeInput(true);
+	blockSubmitEmailBtn(true);
+  });
 
   $("#fileUploader").change(handleImgInput);
 
@@ -77,6 +89,20 @@
   getProfileImage();
   
   getAllScrap();
+  
+  $("#new-email").on("keyup", function(e){
+	  isValidEmail = false;
+	  blockEmailCodeInput(true);
+	  blockSubmitEmailBtn(true);
+  });
+  
+  $("#request-verify-email-btn").on("click", function(e){
+	  inputNewEmail();
+  });
+  
+  $("#check-email-code-btn").on("click", function(e){
+	  checkEmailCode();
+  });
   
 });
 
@@ -372,11 +398,125 @@ function changePwd() {
 	}
 }
 
+
+//------------------- 이메일 변경 시작 -----------------------
+let emailTimer;
+let isValidEmail = false;
+
+function inputNewEmail(){
+	let newEmailAddress = $("#new-email").val();
+	if(!checkEmailFormat(newEmailAddress)){
+	 $("#email-error-msg").html("이메일을 다시 한 번 확인해주세요.");
+	 $("#email-error-msg").css("color", "red");
+	}
+	sendRequestToVerifyEmail(newEmailAddress);
+	
+	blockEmailCodeInput(false);
+	startEmailTimer(1000 * 60 * 5);
+}
+
+function checkEmailCode(){
+	let code = $("#email-code").val();
+	
+	if(!sendEmailVerificationCode(code)){
+		 $("#email-error-msg").html("인증이 실패했습니다.");
+		 $("#email-error-msg").css("color", "red");
+	}else{
+		 $("#email-error-msg").html("인증 성공!");
+		 $("#email-error-msg").css("color", "green");
+
+		 blockEmailCodeInput(true);
+		 blockSubmitEmailBtn(false);
+		 endEmailTimer();
+		 
+		 isValidEmail = true;
+	}
+}
+
+function blockEmailCodeInput(wannaBlock){
+	$("#email-code").prop("disabled", wannaBlock);
+	$("#check-email-code-btn").prop("disabled", wannaBlock);
+}
+
+function blockSubmitEmailBtn(wannaBlock){
+	$("#submit-email-btn").prop("disabled", wannaBlock);
+}
+
+function startEmailTimer(timeLimit){
+	  let now = new Date();
+	  emailCodeExpireDate = new Date( now.getTime() + timeLimit );
+	  
+	  emailTimer = setInterval(() => {
+	         showRemainingTime(emailCodeExpireDate);
+	}, 100);
+}
+
+function endEmailTimer(){
+	  clearInterval(emailTimer);
+	  $("#email-timelimit").html("");
+}
+
+function showRemainingTime(expireDate){
+	  const now = new Date();
+	  const remainingTime = expireDate.getTime() - now.getTime();
+	  
+	  let output = "";
+	  
+	  if(remainingTime <= 0){
+		  output = "0:00";
+  	  	  $("#email-timelimit").html(output);
+  	      blockEmailCodeInput(true);
+     	  return;
+	  }
+  
+	  let remainingMinute = Math.trunc(remainingTime / (1000 * 60));
+	  let remainingSecond = Math.trunc(remainingTime % (1000 * 60) / 1000);
+
+	  output += remainingMinute + ":";
+	  
+	  if(remainingSecond < 10){
+		  output += "0" + remainingSecond;
+	  }else{
+		  output += remainingSecond + "";
+	  }
+  
+	  $("#email-timelimit").html(output);
+}
+
+function changeEmail() {
+	if(!isValidEmail){
+		return;
+	}
+	
+	let emailInfo = new Object();
+	emailInfo.userId = "${sessionScope.loginMember.userId}";
+	emailInfo.email = $("#new-email").val();
+		
+	$.ajax({
+	    url: "/mypage/email",
+	    type: "put",
+	    contentType: "application/json;charset=utf-8;",
+	    data: JSON.stringify(emailInfo),
+	    dataType: "json",
+	    success: function (data) {
+	      if (data.isSuccess == "true") {
+	    	alert("변경 성공");
+	    	location.href = "/mypage/myProfile";
+	      }else{
+	    	alert(data.reason);
+	    	$('#sb-change-email').modal('toggle');
+	      }
+	    },
+	});
+	
+}
+//------------------- 이메일 변경 끝 -----------------------
+
 function modifyProfile() {
 	$("#modifyProfileBtn").hide();
 	$("#updateProfileBtn").show();
 	
-	$('#email').attr("readonly", false);
+//	$('#email').attr("readonly", false);
 	
 	/* $("#careerRadio1").removeAttr("onclick");
 	$("#careerRadio2").removeAttr("onclick"); */
@@ -388,7 +528,7 @@ function updateProfile() {
 	$("#modifyProfileBtn").show();
 	$("#updateProfileBtn").hide();
 	
-	$('#email').attr("readonly", true);
+//	$('#email').attr("readonly", true);
 	
 	/* $("#careerRadio1").attr("onclick", 'return false');
 	$("#careerRadio2").attr("onclick", 'return false'); */
@@ -536,11 +676,11 @@ function dropMember() {
 		<!-- Basic Section - My Page -->
 		<section id="myPage" class="contact">
 			<!-- <div class="container">
-        	
         </div> -->
 			<!--  Section Title -->
-			<div class="container section-title mt-5 pt-5" data-aos="fade-up">
-				<h2>마이 페이지</h2>
+
+			<div class="container section-title mt-5 pt-5 text-light" data-aos="fade-up">
+				<h2 class="text-light">마이 페이지</h2>
 				<p>${sessionScope.loginMember.userId}님의 개인정보 및 프로필 사진변경 등 저장된 글 들을 볼 수 있는 공간</p>
 			</div>
 			<!-- End Section Title -->
@@ -581,14 +721,14 @@ function dropMember() {
 									<form>
 										<div class="row gx-3">
 											<div class="col">
-												<label class="small mb-1" for="userId">아이디 (변경불가)</label> <input
+												<label class="small mb-1" for="userId">아이디</label> <input
 													class="form-control" id="userId" type="text"
 													value="${loginMember.userId }" readonly />
 											</div>
 										</div>
 										<div class="row gx-3 mt-3">
 											<div class="col">
-												<label class="small mb-1" for="userName">이름 (변경불가)</label> <input
+												<label class="small mb-1" for="userName">이름</label> <input
 													class="form-control" id="userName" type="text"
 													value="${loginMember.userName }" readonly />
 											</div>
@@ -626,10 +766,10 @@ function dropMember() {
 										<div class="mt-3">
 											<button id="modifyProfileBtn"
 												class="btn btn-primary float-end" type="button"
-												onclick="modifyProfile();">개인정보 수정</button>
+												onclick="modifyProfile();">커리어 수정</button>
 											<button id="updateProfileBtn"
 												class="btn btn-success float-end" type="button"
-												onclick="updateProfile();" style="display: none;">개인정보
+												onclick="updateProfile();" style="display: none;">커리어
 												저장</button>
 										</div>
 
@@ -648,11 +788,12 @@ function dropMember() {
 
 										<a href="/mypage/myStudyList"
 											class="btn btn-outline-secondary" aria-current="page">
-											${sessionScope.loginMember.userId}님이 작성한 스터디 모임글</a>
-											<a href="/mypage/myApplyList" class="btn btn-outline-secondary">
-											${sessionScope.loginMember.userId}님이 참여 신청한 스터디 모임글</a>
-											<a href="/mypage/myJoinedStudyList" class="btn btn-outline-secondary">
-											${sessionScope.loginMember.userId}님이 참여중인 스터디 모임글</a>
+											작성한 스터디 모임글</a> <a
+											href="/mypage/myApplyList" class="btn btn-outline-secondary">
+											참여 신청한 스터디 모임글</a> <a
+											href="/mypage/myJoinedStudyList"
+											class="btn btn-outline-secondary">
+											참여중인 스터디 모임글</a>
 
 									</div>
 								</div>
@@ -664,36 +805,20 @@ function dropMember() {
 						<div class="col-xl-8">
 							<div class="card mb-4 mb-xl-0">
 								<div class="card-header">강의 추천</div>
-									<div class="card-body">
-										<div class="btn-group">
-											<a href="/mypage/myLectureList" class="btn btn-outline-secondary" aria-current="page">
-												${sessionScope.loginMember.userId}님이 작성한 게시글</a>
-											<a href="/mypage/myReplyLectureList" class="btn btn-outline-secondary">
-												${sessionScope.loginMember.userId}님이 내가 작성한 댓글</a>
-										</div>
-										<div class="btn-group">
-											<a href="/mypage/myScrapLectureList" class="btn btn-outline-secondary">
-												${sessionScope.loginMember.userId}님이 스크랩 한 게시글</a>
-											<a href="/mypage/myLikeLectureList" class="btn btn-outline-secondary">
-												${sessionScope.loginMember.userId}님이 좋아요 누른 게시글</a>
-										</div>	
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="row justify-content-center mt-3">
-						<div class="col-xl-8">
-							<div class="card mb-4 mb-xl-0">
-								<div class="card-header">기업 리뷰</div>
-									<div class="card-body">
-										<div class="btn-group">
-											<a href="/mypage/" class="btn btn-outline-secondary" aria-current="page">
-												${sessionScope.loginMember.userId}님이 작성한 게시글</a>
-											<a href="/mypage/" class="btn btn-outline-secondary">
-												${sessionScope.loginMember.userId}님이 스크랩 한 게시글</a>
-											<a href="/mypage/" class="btn btn-outline-secondary">
-												${sessionScope.loginMember.userId}님이 내가 작성한 댓글</a>
+								<div class="card-body">
+									<div class="btn-group">
+										<a href="/mypage/myLectureList"
+											class="btn btn-outline-secondary" aria-current="page">
+											작성한 게시글</a> <a
+											href="/mypage/myReplyLectureList"
+											class="btn btn-outline-secondary">
+											작성한 댓글</a>
+										<a href="/mypage/myScrapLectureList"
+											class="btn btn-outline-secondary">
+											스크랩한 게시글</a> <a
+											href="/mypage/myLikeLectureList"
+											class="btn btn-outline-secondary">
+											좋아요한 게시글</a>
 									</div>
 								</div>
 							</div>
@@ -706,26 +831,8 @@ function dropMember() {
 								<div class="card-header">알고리즘</div>
 									<div class="card-body">
 										<div class="btn-group">
-											<a href="/mypage/" class="btn btn-outline-secondary" aria-current="page">
-												${sessionScope.loginMember.userId}님이 작성한 게시글</a>
-											<a href="/mypage/" class="btn btn-outline-secondary">
-												${sessionScope.loginMember.userId}님이 스크랩 한 게시글</a>
-											<a href="/mypage/" class="btn btn-outline-secondary">
-												${sessionScope.loginMember.userId}님이 내가 작성한 댓글</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					
-					<div class="row justify-content-center mt-3">
-						<div class="col-xl-8">
-							<div class="card mb-4 mb-xl-0">
-								<div class="card-header">신고</div>
-									<div class="card-body">
-										<div class="btn-group">
-											<a href="/mypage/" class="btn btn-outline-secondary" aria-current="page">
-												${sessionScope.loginMember.userId}님이 신고한 게시글</a>
+											<a href="/mypage/myAlgList" class="btn btn-outline-secondary" aria-current="page">
+												작성한 게시글</a>
 									</div>
 								</div>
 							</div>
@@ -735,17 +842,18 @@ function dropMember() {
 					<div class="row justify-content-center mt-3">
 						<div class="col-xl-8">
 							<div class="card mb-4 mb-xl-0">
-								<div class="card-header">문의</div>
+								<div class="card-header">기타</div>
 									<div class="card-body">
 										<div class="btn-group">
-											<a href="/mypage/" class="btn btn-outline-secondary" aria-current="page">
-												${sessionScope.loginMember.userId}님이 작성한 문의</a>
+											<a href="/mypage/myReportList" class="btn btn-outline-secondary" aria-current="page">
+												신고한 게시글</a>
+												<a href="/mypage/myQnAList" class="btn btn-outline-secondary" aria-current="page">
+											작성한 문의글</a>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-
 
 					<div class="row justify-content-center mt-3">
 						<div class="col-xl-8">
@@ -754,6 +862,9 @@ function dropMember() {
 								<div class="card-body">
 									<button class="btn btn-primary" type="button"
 										data-bs-toggle="modal" data-bs-target="#staticBackdrop">비밀번호
+										변경</button>
+									<button class="btn btn-info" type="button"
+										data-bs-toggle="modal" data-bs-target="#sb-change-email" style="color:white;">이메일
 										변경</button>
 									<button class="btn btn-success" type="button"
 										onclick="location.href='/member/logout'">로그아웃</button>
@@ -822,6 +933,60 @@ function dropMember() {
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">취소</button>
 					<button type="button" class="btn btn-danger" onclick="changePwd();">변경</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 이메일 변경 Modal -->
+	<div class="modal fade" id="sb-change-email" data-bs-backdrop="static"
+		data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="staticBackdropLabel">이메일 변경</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="form-header text-center mb-4">
+						<i class="bi bi-shield-lock"></i>
+						<div class="text-center mb-3">
+							<span class="fw-light fs-4 text-secondary">새로운 이메일을
+								입력해주세요.</span>
+						</div>
+					</div>
+
+					<div class="mb-3 mt-2" id="email-input-div">
+						<div class="label-group">
+							<label for="new-email" class="form-label">새 이메일</label><span
+								id="email-error-msg" class="errMessage"></span>
+						</div>
+						<input type="text" class="form-control" id="new-email"
+							name="email" />
+
+						<div>
+							<button type="button"
+								class="btn btn-block btn-outline-secondary mt-2"
+								id="request-verify-email-btn">인증받기</button>
+							<span id="email-timelimit" style="color: red;"></span>
+						</div>
+
+						<div id="email-validation-check">
+							<input type="text" class="form-control" id="email-code"
+								style="margin: 5px 0;" disabled />
+							<button type="button" id="check-email-code-btn"
+								class="btn btn-outline-success btn-sm" disabled>인증확인</button>
+						</div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">취소</button>
+					<button type="button" class="btn btn-primary" id="submit-email-btn"
+						onclick="changeEmail();" disabled>확인</button>
 				</div>
 			</div>
 		</div>

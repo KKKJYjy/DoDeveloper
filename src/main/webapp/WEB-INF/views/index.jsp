@@ -93,7 +93,7 @@
 							<!-- Slides -->
 							<c:forEach var="notice" items="${noticeList }">
 								<div class="swiper-slide text-light text-center" 
-								onclick="location.href='/adminView/noticViewDetail?boardNo=${notice.boardNo}';">
+								onclick="location.href='notice/viewBoard?boardNo=${notice.boardNo}';">
 									${notice.title }</div>
 							</c:forEach>
 						</div>

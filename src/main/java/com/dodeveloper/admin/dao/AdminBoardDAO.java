@@ -30,6 +30,9 @@ public interface AdminBoardDAO {
 
 	// 공지사항 조회 메서드
 	List<NoticeDTO> selectListNotcBoard(PagingInfo pi) throws Exception;
+	
+	// 공지사항 조회순 메서드
+	List<NoticeDTO> selectListViewNotcBoard(PagingInfo pi) throws Exception;
 
 	// 스터디게시글 전체 갯수 구할 수 있는 메서드
 	int selectTotalBoardCnt() throws Exception;
@@ -145,6 +148,15 @@ public interface AdminBoardDAO {
 
 	// 홈에 기업리뷰 최신글 5개 출력
 	List<AdminReviewBoardVO> selectDiffRev() throws Exception;
+	
+	// 공지사항 조회수
+	int notcReadCnt(int boardNo) throws Exception;
+	
+	// 공지사항 글을 언제 읽었는지
+	int selectDiffNotc(int boardNo, String user) throws Exception;
+	
+	// ?글을 유저가 조회했다는 이력 기록
+	int insertReadCntProcess(int boardNo, String user) throws Exception;
 	
 	// 패널티를 증가 시키며, 불량회원 테이블에 insert
 	int insertPenalty(String deleteReason, String userId) throws Exception;

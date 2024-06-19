@@ -8,7 +8,7 @@
 <meta charset="utf-8" />
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-<title>My Study List - DoDeveloper</title>
+<title>My Lecture List - DoDeveloper</title>
 <meta content="" name="description" />
 <meta content="" name="keywords" />
 
@@ -93,7 +93,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr onclick="location.href='/mypage/myLectureList';">
+										<tr onclick="location.href='/lecture/viewBoard?lecNo=${lectureList.lecNo}';">
 											<td>${lectureList.lecTitle}</td>
 											<td>${lectureList.lecPostDate}</td>
 											<td>${lectureList.lecScore}</td>

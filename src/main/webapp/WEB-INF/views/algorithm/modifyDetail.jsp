@@ -38,6 +38,7 @@
 
 <!-- Template Main CSS File -->
 <link href="/resources/assets/css/main.css" rel="stylesheet" />
+<link href="/resources/assets/css/mypage/myProfile.css" rel="stylesheet" />
 
 <!-- =======================================================
   * Template Name: Append
@@ -117,12 +118,12 @@ textarea {
 		<section id="algorithm" class="basic">
 			<div class="container">
 
-				<h1>${algDetailList[0].algDetailTitle}</h1>
+				
 
 				<h1>alg</h1>
 
 
-				<div>${algDetail}</div>
+				
 
 
 

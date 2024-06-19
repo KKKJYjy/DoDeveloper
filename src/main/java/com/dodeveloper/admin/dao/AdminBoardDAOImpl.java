@@ -84,6 +84,19 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 	}
 	
 	
+	
+	@Override
+	public List<NoticeDTO> selectListViewNotcBoard(PagingInfo pi) throws Exception {
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("startRowIndex", pi.getStartRowIndex());
+		params.put("viewPostCntPerPage", pi.getViewPostCntPerPage());
+		
+		return ses.selectList(ns + ".selectViewNotc", params);
+	}
+
+	
+	
 
 	@Override
 	public int selectTotalBoardCnt() throws Exception {
@@ -393,6 +406,16 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 		return ses.selectList(ns + ".selectDiffRev");
 	}
 	
+	
+	@Override
+	public int notcReadCnt(int boardNo) throws Exception {
+		
+		
+		
+		return ses.update(ns + ".notcReadCntBoard", boardNo);
+	}
+	
+	
 
 	// 패널티를 증가 시키며, 불량회원 테이블에 insert
 	@Override
@@ -451,6 +474,33 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 		
 		return ses.delete(ns + ".deleteCheckBoard", reportNo);
 	}
+
+	
+	
+	@Override
+	public int selectDiffNotc(int boardNo, String user) throws Exception {
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+
+		params.put("user", user);
+		params.put("boardNo", boardNo);
+
+		return ses.selectOne(ns + ".getDate", params);
+	}
+
+	@Override
+	public int insertReadCntProcess(int boardNo, String user) throws Exception {
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+
+		params.put("user", user);
+		params.put("boardNo", boardNo);
+
+		return ses.insert(ns + ".insertReadCntProcess", params);
+	}
+
+	
+	
 
 	
 

@@ -71,7 +71,7 @@
 	<!-- 공지사항 조회 -->
 	<select id="getNotcBoard" resultType="NoticeDTO">
 		select * from noticeBoard
-		order by boardNo desc limit #{startRowIndex},#{viewPostCntPerPage}
+		order by postDate desc limit #{startRowIndex},#{viewPostCntPerPage}
 	</select>
 
 
@@ -313,6 +313,12 @@
 		order by boardNo desc limit 5
 	</select>
 
+	<!-- 공지사항 조회순 -->
+	<select id="selectViewNotc" resultType="NoticeDTO">
+		select * from noticeBoard
+		order by readCount desc limit #{startRowIndex}, #{viewPostCntPerPage}
+	</select>
+
 	<!-- 문의사항 최신글 5개 조회 -->
 	<select id="selectDiffQna" resultType="QnaBoardVO">
 		select * from qnaBoard
@@ -344,8 +350,33 @@
 	</select>
 
 
+	<!-- 공지사항 조회수 -->
+	<update id="notcReadCntBoard" parameterType="int">
+		update noticeBoard
+		set
+		readCount = readCount + 1
+		where boardNo = #{boardNo}
+	</update>
 
+	<!-- 글을 유저가 조회했다는 이력 -->
+	<insert id="insertReadCntProcess">
+		insert into readCount(readWho, boardNo, bType)
+		values(#{user}, #{boardNo},
+		6);
+	</insert>
 
+	<!-- 유저가 글을 언제 읽었는지 -->
+	<select id="getDate" resultType="int">
+		select ifnull(a.diff, -1) as
+		datediff from
+		(select datediff(now(),
+		(select
+		readWhen from readCount
+		where bType = 6 and readWho=#{user} and
+		boardNo=#{boardNo} order by
+		readNo desc limit 1))
+		as diff) a
+	</select>
 
 	<!-- 유저 전체 조회 -->
 	<select id="selectAllUser" resultType="UserDTO">

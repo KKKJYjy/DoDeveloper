@@ -32,6 +32,10 @@ public interface AdminBoardService {
 	// 공지사항 조회하는 메서드
 		Map<String, Object> getlistNotcBoard(int pageNo, SearchCriteriaDTO sc) throws Exception;
 		
+	// 공지사항 조회순
+		Map<String, Object> getlistViewNotcBoard(int pageNo, SearchCriteriaDTO sc) throws Exception;
+		
+		
 	// 스터디 게시물 삭체 처리하는 메서드
 	//	boolean studeleteBoard(int stuNo) throws Exception;
 		
@@ -69,7 +73,7 @@ public interface AdminBoardService {
 
 		
 		// 공지사항 상세페이지
-	    NoticeDTO getNotcBoardNo(int boardNo) throws Exception;
+		Map<String, Object> getNotcBoardNo(int boardNo, String user) throws Exception;
 	    
 	    // 공지사항 게시물 얻어오는 메서드
 	    Map<String, Object> getNotcByBoardNo (int boardNo) throws Exception;
@@ -87,7 +91,7 @@ public interface AdminBoardService {
 	    // 문의사항 작성
 	    boolean writeQndBoard(QnaBoardVO newBoard) throws Exception;
 	    
-
+	    
 	    
 	    // dashboard에 공지사항 5개만 출력
 	    List<NoticeDTO> diffNotice() throws Exception;

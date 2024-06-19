@@ -1,15 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="utf-8" />
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-<title>Algorithm List - DoDeveloper</title>
+<title>My QnA List - DoDeveloper</title>
 <meta content="" name="description" />
 <meta content="" name="keywords" />
+
+<!-- jquery -->
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+
+<!-- 부트스트랩 아이콘 -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
 
 <!-- Favicons -->
 <link href="/resources/assets/img/favicon.png" rel="icon" />
@@ -26,9 +34,9 @@
 <!-- Vendor CSS Files -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-	rel="stylesheet" />
+	rel="stylesheet">
 <link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link href="/resources/assets/vendor/glightbox/css/glightbox.min.css"
 	rel="stylesheet" />
 <link
@@ -48,124 +56,81 @@
   ======================================================== -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-</head>
+<!-- 강의 추천 게시판의 myLectureList css 파일 -->
+<link href="/resources/assets/css/lecture/myLectureList.css"
+	rel="stylesheet" />
 
 <script>
-	$(function name() {
-		
-		let user = '${sessionScope.loginMember.userId}';
-		
-		console.log(user);
-		
-		$('#writer').val(user);
-		
-		
-		
-		
-	});
-
+	
 </script>
-
+</head>
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
 	<%@ include file="../header.jsp"%>
 
 	<main id="main">
-		<!-- Basic Section - Algorithm Page -->
-		<section id="algorithm" class="basic">
-			<div class="container">
+		<!-- Basic Section - Study Page -->
+		<section id="lecture" class="lectureBasic">
 
-				<h1>${algDetailList[0].algDetailTitle}</h1>
+			<div class="container" style="width: 70%">
 
-				<h1>alg</h1>
-
-
-				<div>${algDetailList}</div>
-
-				<div>${boardNo}</div>
+				<div class="container">
+					<h3 class="center text-center text-light pb-4 fw-medium">
+						${sessionScope.loginMember.userId}님이 신고한 게시판</h3>
+				</div>
 
 
-
-				<form action="/algorithm/writeDetailPOST" method="post">
-
-
-					<div class="mb-3 mt-3">
-						<label for="title" class="form-label">글 번호 : </label> <input
-							type="number" class="form-control" id="algBoardNo"
-							name="algBoardNo" value="${boardNo }" readonly="readonly" />
+					<c:forEach var="myQnA" items="${myPageQnAList}">
+						<div class="col-md mb-2 lecture">
+						<div class="card mb-3">
+							<div class="card-body">
+								<table class="table">
+									<thead>
+										<tr>
+											<th>제목</th>
+											<th>내용</th>
+											<th>작성 일자</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr onclick="location.href='/qna/viewBoard?no=${myQnA.no}';">
+											<td>${myQnA.qnaTitle }</td>
+											<td>${myQnA.qnaContent }</td>
+											<td>${myQnA.postDate }</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
 					</div>
-					
-					
-					
+				</c:forEach>
 
+					<!-- 페이징 -->
+					<!-- 여기서 사용한 쿼리스트링은 페이징 다음 페이지로 넘어갔을 때 조건을 유지하기 위해서 사용한 것 -->
+					<ul class="pagination">
+						<c:if test="${param.pageNo > 1}">
+							<li class="page-item "><a class="page-link"
+								href="/mypage/myQnAList?pageNo=${param.pageNo -1 }">Previous</a></li>
+						</c:if>
+						<c:forEach var="i"
+							begin="${pagingInfo.startNumOfCurrentPagingBlock }"
+							end="${pagingInfo.endNumOfCurrentPagingBlock }" step="1">
+							<li class="page-item " id="${i }"><a class="page-link"
+								href="/mypage/myQnAList?pageNo=${i }">${i }</a></li>
+						</c:forEach>
+						<c:if test="${param.pageNo < pagingInfo.totalPageCnt}">
+							<li class="page-item "><a class="page-link"
+								href="/mypage/myQnAList?pageNo=${param.pageNo +1 }">Next</a></li>
+						</c:if>
+					</ul>
 
-					<div class="mb-3 mt-3">
-						<label for="title" class="form-label">글쓴이 : </label> <input
-							type="text" class="form-control" id="writer"
-							placeholder=" 입력하세요..." name="writer" readonly="readonly" />
-					</div>
-					
-					
-					
-					<div class="mb-3 mt-3">
-						<label for="title" class="form-label">제목 : </label> <input
-							type="text" class="form-control" id="algDetailTitle"
-							placeholder=" 입력하세요..." name="algDetailTitle" />
-					</div>
-					
-
-
-					<!--  event.keyCode == 9 (tab 키를 누르면 텍스트 박스에서 tab 이 적욕되도록 함 -->
-					<div class="mb-3 mt-3">
-
-						<label for="title" class="form-label">게시글 내용 : </label>
-						<textarea
-							onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}"
-							class="form-control" value="${algDetail[0].algDetailContent }"
-							id="algDetailContent" placeholder="입력하세요..."
-							name="algDetailContent"></</textarea>
-					</div>
-					
-					<div class="mb-3 mt-3">
-						<label for="title" class="form-label">result : </label> <input
-							type="text" class="form-control" id="algDetailResult"
-							placeholder=" 입력하세요..." name="algDetailResult" />
-					</div>
-
-
-					<div class="mb-3 mt-3">
-						<label for="title" class="form-label">comment : </label> <input
-							type="text" class="form-control" id="algDetailComment"
-							placeholder=" 입력하세요..." name="algDetailComment" />
-					</div>
-					
-					
-
-					<div class="btns">
-
-						<button type="submit" class="btn btn-info">글쓰기</button>
-						<button type="button" class="btn btn-info"
-							onclick="location.href='/';">글수정</button>
-					
-						<button type="button" class="btn btn-info"
-							onclick="location.href='/algorithm/algDetail?boardNo=${boardNo}';">목록으로</button>
-					</div>
+				</div>
 
 
 
-
-
-
-
-				</form>
-
-
-
-
-
-
-			</div>
 		</section>
 		<!-- End Basic Section -->
+
+
 	</main>
 
 	<%@ include file="../footer.jsp"%>
@@ -200,5 +165,6 @@
 
 	<!-- Template Main JS File -->
 	<script src="/resources/assets/js/main.js"></script>
+
 </body>
 </html>

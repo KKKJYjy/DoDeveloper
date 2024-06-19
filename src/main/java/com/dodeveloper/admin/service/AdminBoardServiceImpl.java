@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dodeveloper.admin.dao.AdminBoardDAO;
@@ -110,6 +112,33 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		this.pi.setEndNumOfCurrentPagingBlock();
 	}
 
+	private void makeLecPagingInfo(int pageNo, SearchCriteriaDTO sc) throws Exception {
+		this.pi.setPageNo(pageNo);
+
+		this.pi.setViewPostCntPerPage(10);
+		this.pi.setPageCntPerBlock(5);
+
+		this.pi.setTotalPostCnt(bDao.selectLecBoardSearchCritera(sc));
+
+		// 총 페이지 수
+		this.pi.setTotalPageCnt();
+
+		// 보여주기 시작할 글의 번호
+		this.pi.setStartRowIndex();
+
+		// 전체 페이지 블럭 갯수
+		this.pi.setTotalPageBlockCnt();
+
+		// 현재 페이지가 속한 페이징 블럭 번호
+		this.pi.setPageBlockOfCurrentPage();
+
+		// 현재 페이징 블럭 시작 페이지 번호
+		this.pi.setStartNumOfCurrentPagingBlock();
+
+		// 현재 페이징 블럭 끝 페이지 번호
+		this.pi.setEndNumOfCurrentPagingBlock();
+	}
+
 	private void makeLecPagingInfo(int pageNo) throws Exception {
 		this.pi.setPageNo(pageNo);
 
@@ -123,6 +152,33 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		this.pi.setTotalPageCnt();
 
 		// 보여주기 시작할 글 번호
+		this.pi.setStartRowIndex();
+
+		// 전체 페이지 블럭 갯수
+		this.pi.setTotalPageBlockCnt();
+
+		// 현재 페이지가 속한 페이징 블럭 번호
+		this.pi.setPageBlockOfCurrentPage();
+
+		// 현재 페이징 블럭 시작 페이지 번호
+		this.pi.setStartNumOfCurrentPagingBlock();
+
+		// 현재 페이징 블럭 끝 페이지 번호
+		this.pi.setEndNumOfCurrentPagingBlock();
+	}
+
+	private void makeAlgPagingInfo(int pageNo, SearchCriteriaDTO sc) throws Exception {
+		this.pi.setPageNo(pageNo);
+
+		this.pi.setViewPostCntPerPage(10);
+		this.pi.setPageCntPerBlock(5);
+
+		this.pi.setTotalPostCnt(bDao.selectAlgBoardSearchCritera(sc));
+
+		// 총 페이지 수
+		this.pi.setTotalPageCnt();
+
+		// 보여주기 시작할 글의 번호
 		this.pi.setStartRowIndex();
 
 		// 전체 페이지 블럭 갯수
@@ -166,6 +222,33 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		this.pi.setEndNumOfCurrentPagingBlock();
 	}
 
+	private void makeRevPagingInfo(int pageNo, SearchCriteriaDTO sc) throws Exception {
+		this.pi.setPageNo(pageNo);
+
+		this.pi.setViewPostCntPerPage(10);
+		this.pi.setPageCntPerBlock(5);
+
+		this.pi.setTotalPostCnt(bDao.selectRevBoardSearchCritera(sc));
+
+		// 총 페이지 수
+		this.pi.setTotalPageCnt();
+
+		// 보여주기 시작할 글의 번호
+		this.pi.setStartRowIndex();
+
+		// 전체 페이지 블럭 갯수
+		this.pi.setTotalPageBlockCnt();
+
+		// 현재 페이지가 속한 페이징 블럭 번호
+		this.pi.setPageBlockOfCurrentPage();
+
+		// 현재 페이징 블럭 시작 페이지 번호
+		this.pi.setStartNumOfCurrentPagingBlock();
+
+		// 현재 페이징 블럭 끝 페이지 번호
+		this.pi.setEndNumOfCurrentPagingBlock();
+	}
+
 	private void makeRevPagingInfo(int pageNo) throws Exception {
 		this.pi.setPageNo(pageNo);
 
@@ -179,6 +262,33 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		this.pi.setTotalPageCnt();
 
 		// 보여주기 시작할 글 번호
+		this.pi.setStartRowIndex();
+
+		// 전체 페이지 블럭 갯수
+		this.pi.setTotalPageBlockCnt();
+
+		// 현재 페이지가 속한 페이징 블럭 번호
+		this.pi.setPageBlockOfCurrentPage();
+
+		// 현재 페이징 블럭 시작 페이지 번호
+		this.pi.setStartNumOfCurrentPagingBlock();
+
+		// 현재 페이징 블럭 끝 페이지 번호
+		this.pi.setEndNumOfCurrentPagingBlock();
+	}
+
+	private void makeNotcPagingInfo(int pageNo, SearchCriteriaDTO sc) throws Exception {
+		this.pi.setPageNo(pageNo);
+
+		this.pi.setViewPostCntPerPage(10);
+		this.pi.setPageCntPerBlock(5);
+
+		this.pi.setTotalPostCnt(bDao.selectNotcBoardSearchCritera(sc));
+
+		// 총 페이지 수
+		this.pi.setTotalPageCnt();
+
+		// 보여주기 시작할 글의 번호
 		this.pi.setStartRowIndex();
 
 		// 전체 페이지 블럭 갯수
@@ -258,7 +368,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		List<AdminLectureVO> lecBoardList = null;
 
 		if (sc.getSearchType() != null && sc.getSearchValue() != null) {
-			makePagingInfo(pageNo, sc);
+			makeLecPagingInfo(pageNo, sc);
 			lecBoardList = bDao.selectLecBoardListSc(sc, pi);
 		} else {
 			makeLecPagingInfo(pageNo);
@@ -280,7 +390,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		List<AdminArgBoardVO> argBoardList = null;
 
 		if (sc.getSearchType() != null && sc.getSearchValue() != null) {
-			makePagingInfo(pageNo, sc);
+			makeAlgPagingInfo(pageNo, sc);
 			argBoardList = bDao.selectAlgBoardListSc(sc, pi);
 		} else {
 			makeAlgPagingInfo(pageNo);
@@ -304,7 +414,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		List<AdminReviewBoardVO> revBoardList = null;
 
 		if (sc.getSearchType() != null && sc.getSearchValue() != null) {
-			makePagingInfo(pageNo, sc);
+			makeRevPagingInfo(pageNo, sc);
 			revBoardList = bDao.selectRevBoardListSc(sc, pi);
 		} else {
 			makeRevPagingInfo(pageNo);
@@ -326,7 +436,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		List<NoticeDTO> notcBoardList = null;
 
 		if (sc.getSearchType() != null && sc.getSearchValue() != null) {
-			makePagingInfo(pageNo, sc);
+			makeNotcPagingInfo(pageNo, sc);
 			notcBoardList = bDao.selectNotcBoardListSc(sc, pi);
 		} else {
 			makeNotcPagingInfo(pageNo);
@@ -338,6 +448,24 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		returnMap.put("pagingInfo", this.pi);
 
 		return returnMap;
+	}
+
+	@Override
+	public Map<String, Object> getlistViewNotcBoard(int pageNo, SearchCriteriaDTO sc) throws Exception {
+
+		System.out.println("서비스단 : 공지사항 조회순");
+
+		List<NoticeDTO> notcBoardList = null;
+
+		makeNotcPagingInfo(pageNo);
+		notcBoardList = bDao.selectListViewNotcBoard(pi);
+
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		returnMap.put("notcBoardList", notcBoardList);
+		returnMap.put("pagingInfo", this.pi);
+
+		return returnMap;
+
 	}
 
 //	@Override
@@ -424,18 +552,27 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 
 		List<ReportVO> report = (List<ReportVO>) bDao.selectReportBoardNo(btypeNo, boardNo);
 
-
 		return report;
 	}
 
 	@Override
-	public NoticeDTO getNotcBoardNo(int boardNo) throws Exception {
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+	public Map<String, Object> getNotcBoardNo(int boardNo, String user) throws Exception {
 
 		System.out.println("서비스단 : 공지사항 상세페이지");
 
+		if (bDao.selectDiffNotc(boardNo, user) == -1) {
+			bDao.notcReadCnt(boardNo);
+			bDao.insertReadCntProcess(boardNo, user);
+		}
+
 		NoticeDTO notice = bDao.selectNoticeBoardNo(boardNo);
 
-		return notice;
+		Map<String, Object> result = new HashMap<String, Object>();
+
+		result.put("notice", notice);
+
+		return result;
 	}
 
 	@Override
@@ -559,11 +696,11 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 			throws Exception {
 		System.out.println("패널티 서비스단 호출");
 		System.out.println("btypeNo: " + btypeNo);
-	    System.out.println("boardNo: " + boardNo);
-	    System.out.println("userId: " + userId);
-	    System.out.println("deleteReason: " + deleteReason);
+		System.out.println("boardNo: " + boardNo);
+		System.out.println("userId: " + userId);
+		System.out.println("deleteReason: " + deleteReason);
 		boolean result = false;
-		
+
 		if (bDao.insertPenalty(deleteReason, userId) == 1) { // (insert)
 			// 신고된 게시글 삭제
 			if (bDao.deleteSelectBoard(btypeNo, boardNo) == 1) {
@@ -573,15 +710,15 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 				}
 			}
 		}
+
 		return result;
 	}
 
-
 	/**
-		* @author : yeonju
-		* @date : 2024. 6. 10.
-		* @return : List<NoticeDTO>
-		* @description : 최신 공지글 5개를 가져오는 메서드 (메인홈에 출력할 용도) 
+	 * @author : yeonju
+	 * @date : 2024. 6. 10.
+	 * @return : List<NoticeDTO>
+	 * @description : 최신 공지글 5개를 가져오는 메서드 (메인홈에 출력할 용도)
 	 */
 	@Override
 	public List<NoticeDTO> getNoticeTop5() throws Exception {
@@ -604,4 +741,5 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 
 		return result;
 	}
+
 }

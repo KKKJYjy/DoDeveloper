@@ -102,7 +102,7 @@
     	}
     	
     	$("#email-code").prop("disabled", false);
-    	sendRequestToVerificateEmail(emailAddress);
+    	sendRequestToVerifyEmail(emailAddress);
     	$("#email-validation-check").show();
     	startEmailValidationTimer(1000 * 60 * 5);
       }
