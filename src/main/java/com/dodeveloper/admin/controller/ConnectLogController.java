@@ -34,7 +34,7 @@ public class ConnectLogController {
 
 	@GetMapping(value = "/getLog", produces = "application/json; charset=utf-8")
 	public @ResponseBody ResponseEntity<Map<String, Object>> connectLog(@RequestParam("month") int month) {
-		// logger.info("totalLog 페이지 호출");
+		
 
 
 
