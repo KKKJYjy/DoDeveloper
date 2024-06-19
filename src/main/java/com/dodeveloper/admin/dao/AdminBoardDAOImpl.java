@@ -420,7 +420,7 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 	// 패널티를 증가 시키며, 불량회원 테이블에 insert
 	@Override
 	public int insertPenalty(String deleteReason, String userId) throws Exception {
-		System.out.println("insertPenalty : 삭제완료됨");
+		// System.out.println("insertPenalty : 삭제완료됨");
 		
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("reportReason", deleteReason);
@@ -433,7 +433,7 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 	// 신고 해당 게시물 삭제
 	@Override
 	public int deleteSelectBoard(int btypeNo, int boardNo) throws Exception {
-		System.out.println("deleteSelectBoard : 삭제완료됨");
+		// System.out.println("deleteSelectBoard : 삭제완료됨");
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("btypeNo", btypeNo);
 		params.put("boardNo", boardNo);
@@ -445,7 +445,7 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 	@Override
 	public int deleteBoard(int btypeNo, int boardNo) {
 		
-		System.out.println("deleteBoard : 삭제완료됨");
+		// System.out.println("deleteBoard : 삭제완료됨");
 		
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("btypeNo", btypeNo);

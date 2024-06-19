@@ -43,7 +43,7 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
 	 */
 	@Override
 	public List<CompanyInfoVO> getEntireCompanyInfo() throws Exception {
-		System.out.println("서비스단 : 기업정보 전체 조회!");
+//		System.out.println("서비스단 : 기업정보 전체 조회!");
 
 		// DAO단 호출 (selectEntireCompanyInfo())
 		// static 하지 않으니까 객체명.메서드 로 호출해야함
@@ -63,7 +63,7 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
 	 */
 	@Override
 	public List<RevCompanyBoardVO> getCompanyInfoRev(int companyInfoNo) throws Exception {
-		System.out.println("서비스단 : 클릭한 기업 리뷰 게시글!!!!!!");
+//		System.out.println("서비스단 : 클릭한 기업 리뷰 게시글!!!!!!");
 
 		// DAO단 호출 (selectCompanyInfoRev())
 		List<RevCompanyBoardVO> revList = ciDao.selectCompanyInfoRev(companyInfoNo);
@@ -81,7 +81,7 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
 	 */
 	@Override
 	public int writeCompanyBoardService(WrittenCompanyBoardDTO newWrittenCompanyBoard) throws Exception {
-		System.out.println("작성 호출 확인!!!!!!!");
+//		System.out.println("작성 호출 확인!!!!!!!");
 		int resultWriteBoard = ciDao.insertRevWrittenBoard(newWrittenCompanyBoard);
 
 		return resultWriteBoard; 
@@ -97,7 +97,7 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
 	 */
 	@Override
 	public int deleteWrittenBoard(int revNo) throws Exception {
-		System.out.println("서비스단 : 게시글 삭제");
+//		System.out.println("서비스단 : 게시글 삭제");
 		int deleteRevBoard = ciDao.deleteWrittenBoard(revNo);
 
 		return deleteRevBoard;
@@ -114,7 +114,7 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
 	 */
 	@Override
 	public RevCompanyBoardVO editWrittenBoard(int revNo) throws Exception {
-		System.out.println("서비스단 : 수정할 게시글");
+//		System.out.println("서비스단 : 수정할 게시글");
 
 		return ciDao.selectEditWrittenBoard(revNo);
 
@@ -131,7 +131,7 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
 	 */
 	@Override
 	public int revEditWrittenBoard(RevCompanyBoardVO newEditWrittenBoard) throws Exception {
-		System.out.println("서비스단 : 수정 글 완료");
+//		System.out.println("서비스단 : 수정 글 완료");
 		int updateRevBoard = ciDao.updateEditWrittenBoard(newEditWrittenBoard);
 
 		return updateRevBoard;
@@ -164,7 +164,7 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
 	 */
 	@Override
 	public List<ScrapRevJoinVO> selectAllScrap(String scrapId) throws Exception {
-		System.out.println(scrapId + "서비스단 ScrapRevJoinVO 스크랩");
+//		System.out.println(scrapId + "서비스단 ScrapRevJoinVO 스크랩");
 		
 		return sDao.selectAllScrap(scrapId);
 	}
@@ -209,7 +209,7 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
 	 */
 	@Override
 	public List<CompanyInfoWithRevVO> getCompanyTop5() throws Exception {
-		System.out.println("최근 5개의 기업 정보 리스트를 불러오자 : " + ciDao.getCompanyTop5().toString());
+//		System.out.println("최근 5개의 기업 정보 리스트를 불러오자 : " + ciDao.getCompanyTop5().toString());
 		return ciDao.getCompanyTop5();
 	}	
 

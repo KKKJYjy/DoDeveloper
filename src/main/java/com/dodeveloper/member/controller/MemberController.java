@@ -108,10 +108,11 @@ public class MemberController {
 	private static final long PWD_RESET_LINK_EXPIRE_MINUTE = 30;
 	private static final long EMAIL_WAIT_TO_VALIDATION_MINUTE = 5;
 	
+	/*
 	public MemberController() {
-		//timer.schedule(deleteOldRequest, 1000, 1000 * 60);
+		timer.schedule(deleteOldRequest, 1000, 1000 * 60);
 	}
-	
+
 	private Timer timer = new Timer(true);
 	
 	TimerTask deleteOldRequest = new TimerTask() {
@@ -144,11 +145,11 @@ public class MemberController {
 			}
 		}
 	};
-	
+	*/
 	
 	@GetMapping("/login")
 	public void loginGet(HttpServletRequest request, HttpSession session) {
-		logger.info("Login View.");
+//		logger.info("Login View.");
 
 		if(request.getParameter("redirectUrl") == null) {
 			return;
@@ -168,16 +169,16 @@ public class MemberController {
 
 	@RequestMapping(value = "/loginPost", method = RequestMethod.POST)
 	public String loginPost(LoginDTO loginDTO, Model model, HttpSession session) throws Exception {
-		logger.info("login...LoginDTO={}", loginDTO);
+//		logger.info("login...LoginDTO={}", loginDTO);
 
 		MemberVO loginMember = mService.login(loginDTO);
-		System.out.println("loginMember : " + loginMember);
+//		System.out.println("loginMember : " + loginMember);
 
 		if (loginMember == null) {
 
 			model.addAttribute("loginResult", "fail");
 
-			System.out.println("로그인 실패");
+//			System.out.println("로그인 실패");
 
 			return "redirect:/member/login";
 
@@ -185,7 +186,7 @@ public class MemberController {
 
 		if (loginDTO.isRemember()) {
 			String sessionId = session.getId();
-			System.out.println("sessionId : " + sessionId);
+//			System.out.println("sessionId : " + sessionId);
 			Timestamp sessionLimit = new Timestamp(System.currentTimeMillis() + (1000 * SessionNames.EXPIRE));
 
 			mService.keepLogin(new SessionDTO(sessionId, sessionLimit, loginMember.getUserId()));
@@ -194,7 +195,7 @@ public class MemberController {
 		model.addAttribute(SessionNames.LOGIN_MEMBER, loginMember);
 		session.setAttribute(SessionNames.UNREAD_MESSAGE_CNT,
 				messageService.countUnreadReceivedMessages(loginDTO.getUserId()));
-		System.out.println("로그인 성공2");
+//		System.out.println("로그인 성공2");
 
 		return "/member/loginPost";
 
@@ -212,7 +213,7 @@ public class MemberController {
 			String sessionId = session.getId();
 			Timestamp sessionLimit = new Timestamp(System.currentTimeMillis());
 			MemberVO loginMember = (MemberVO) session.getAttribute(SessionNames.LOGIN_MEMBER);
-			logger.info(loginMember.toString() + "가 로그아웃 합니다.");
+//			logger.info(loginMember.toString() + "가 로그아웃 합니다.");
 
 			SessionDTO sessionDTO = new SessionDTO(sessionId, sessionLimit, loginMember.getUserId());
 			mService.keepLogin(sessionDTO);
@@ -227,7 +228,7 @@ public class MemberController {
 
 	@GetMapping("/register")
 	public void registerGet() {
-		logger.info("register View.");
+//		logger.info("register View.");
 	}
 
 	@RequestMapping(value = "/emailConfirmRequest", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
@@ -283,7 +284,7 @@ public class MemberController {
 
 	@RequestMapping(value = "/registerPost", method = RequestMethod.POST)
 	public String registerPost(RegisterDTO registerDTO, HttpSession session) throws Exception {
-		logger.info(registerDTO.toString() + "회원가입");
+//		logger.info(registerDTO.toString() + "회원가입");
 		
 		if(registerDTO.getEmail() == null) {
 			registerDTO.setEmail("");
@@ -301,14 +302,14 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping(value = "/duplicateUserId", method = RequestMethod.POST)
 	public Map<String, Boolean> duplicateUserId(String userId) throws Exception {
-		logger.info("아이디 중복체크 : " + userId);
+//		logger.info("아이디 중복체크 : " + userId);
 
 		boolean result = false;
 
 		if (mService.duplicateUserId(userId) == 1) {
 			result = true;
 		}
-		logger.info("아이디 중복체크 결과 : " + result);
+//		logger.info("아이디 중복체크 결과 : " + result);
 
 		Map<String, Boolean> resultMap = new HashMap<String, Boolean>();
 		resultMap.put("isDuplicate", result);
@@ -319,7 +320,7 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping(value = "/forgottenUserId", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
 	public ResponseEntity<String> sendUserId(String email) throws Exception {
-		logger.info(email + "이 아이디를 요청함");
+//		logger.info(email + "이 아이디를 요청함");
 		
 		if(email.equals("")) {
 			return ResponseEntity.ok("이메일을 입력해주십시오.");
@@ -328,7 +329,7 @@ public class MemberController {
 		List<MemberVO> members = mService.getMemberByEmail(email);
 		
 		if (members == null || members.isEmpty()) {
-			System.out.println("해당 이메일로 가입된 회원이 없습니다.");
+//			System.out.println("해당 이메일로 가입된 회원이 없습니다.");
 			return ResponseEntity.ok("해당 이메일로 가입된 회원이 없습니다.");
 		}
 
@@ -339,14 +340,14 @@ public class MemberController {
 		}
 		
 		mailManager.sendUserId(email, userIds);
-		logger.info(email + " 에게 전송완료");
+//		logger.info(email + " 에게 전송완료");
 		return ResponseEntity.ok("해당 이메일로 유저 아이디를 전송했습니다.");
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "/pwdResetLink", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
 	public ResponseEntity<String> pwdResetLink(String userId, String email, HttpServletRequest request, HttpSession session) throws Exception {
-		logger.info("uid: " + userId + "// email : " + email + " 에서 비밀번호 재생성을 요청함");
+//		logger.info("uid: " + userId + "// email : " + email + " 에서 비밀번호 재생성을 요청함");
 		
 		if(email.equals("")) {
 			return ResponseEntity.ok("이메일을 입력해주십시오.");
@@ -384,24 +385,24 @@ public class MemberController {
 		
 		mailManager.sendPwdResetLink(email, urlResult);
 		
-		logger.info(email + " 에게 전송완료");
+//		logger.info(email + " 에게 전송완료");
 		return ResponseEntity.ok("해당 이메일로 비밀번호 재설정 링크를 전송했습니다.");
 	}
 
 	
 	@RequestMapping(value = "/" + PASSWORD_RESET_URL + "/{UUID}", method = RequestMethod.GET)
 	public String pwdResetPage(@PathVariable("UUID") String uuid, Model model) throws Exception {
-		logger.info("패스워드 리셋 링크: " + uuid + " 접속 요청됨");
+//		logger.info("패스워드 리셋 링크: " + uuid + " 접속 요청됨");
 		
 		if(!pwdResetUserHolder.containsKey(uuid)) {
-			logger.info("패스워드 리셋 링크: " + uuid + " 접속 거절 -> 유효하지 않은 uuid");
+//			logger.info("패스워드 리셋 링크: " + uuid + " 접속 거절 -> 유효하지 않은 uuid");
 			return "redirect:/";
 		}
 		
 		long passedMinuteAfterRequest = ChronoUnit.MINUTES.between(pwdResetUserHolder.get(uuid).getRequestTime(), LocalDateTime.now());
 		
 		if(passedMinuteAfterRequest > PWD_RESET_LINK_EXPIRE_MINUTE) {
-			logger.info("패스워드 리셋 링크: " + uuid + " 접속 거절 -> timeout");
+//			logger.info("패스워드 리셋 링크: " + uuid + " 접속 거절 -> timeout");
 			return "redirect:/";
 		}
 		
@@ -418,11 +419,11 @@ public class MemberController {
 		
 		MemberVO pwdResettingMember = pwdResetUserHolder.get(uuid).getMember();
 		
-		logger.info("패스워드 리셋 요청 들어옴");
-		logger.info("새로운 패스워드 : " + newPwd + "//" + "uuid : " + uuid);
+//		logger.info("패스워드 리셋 요청 들어옴");
+//		logger.info("새로운 패스워드 : " + newPwd + "//" + "uuid : " + uuid);
 		
 		if(pwdResettingMember == null) {
-			logger.info("uuid 를 통한 멤버 탐색 실패함");
+//			logger.info("uuid 를 통한 멤버 탐색 실패함");
 			result.put("isSuccess", "0");
 			result.put("reason", "timeout");
 			return ResponseEntity.ok(result);
@@ -430,13 +431,13 @@ public class MemberController {
 
 		ChangePwdDTO changePwdDTO = new ChangePwdDTO(pwdResettingMember.getUserId(), null, newPwd);
 		if(mService.changeUserPwd(changePwdDTO) != 1) {
-			logger.info("비밀번호 변경 로직 실패함");
+//			logger.info("비밀번호 변경 로직 실패함");
 			result.put("isSuccess", "0");
 			result.put("reason", "serverFail");
 			return ResponseEntity.ok(result);
 		};
 		
-		logger.info("성공적으로 비밀번호 수정함");
+//		logger.info("성공적으로 비밀번호 수정함");
 		
 		result.put("isSuccess", "1");
 		return ResponseEntity.ok(result);
@@ -446,7 +447,7 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping(value = "/dropMember", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<Map<String, Object>> dropMember(@RequestBody DropMemberDTO dropMemberDTO) throws Exception {
-		System.out.println("dropMemberDTO : " + dropMemberDTO.toString());
+//		System.out.println("dropMemberDTO : " + dropMemberDTO.toString());
 
 		Map<String, Object> returnMap = new HashMap<String, Object>();
 

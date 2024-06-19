@@ -25,7 +25,7 @@
 					"userId" : userId
 				},
 				success : function(response) {
-					console.log("서버에서 받은 데이터:", response);
+					// console.log("서버에서 받은 데이터:", response);
 					if (response.success) {
 						alert("상태 변경 성공");
 						location.reload();

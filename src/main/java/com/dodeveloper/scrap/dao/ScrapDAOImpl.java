@@ -29,7 +29,7 @@ public class ScrapDAOImpl implements ScrapDAO {
 	 */
 	@Override
 	public List<ScrapRevJoinVO> selectAllScrap(String scrapId) throws Exception {
-		System.out.println(scrapId + "DAO단 ScrapRevJoin 스크랩");
+//		System.out.println(scrapId + "DAO단 ScrapRevJoin 스크랩");
 		List<ScrapRevJoinVO>lst = ses.selectList(ns + ".selectAllScrap", scrapId);
 
 		return ses.selectList(ns + ".selectAllScrap", scrapId);

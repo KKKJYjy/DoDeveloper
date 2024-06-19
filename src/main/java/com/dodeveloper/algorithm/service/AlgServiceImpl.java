@@ -42,12 +42,12 @@ public class AlgServiceImpl implements AlgService {
 	@Override
 	public List<AlgBoardDTO> getListAllBoard(PagingInfo pagingInfo) throws Exception {
 		// algBoard 리스트 받아옴
-		System.out.println("게시판조회(서브스)");
+		//System.out.println("게시판조회(서브스)");
 		List<AlgBoardDTO> algBoardList = null;
 		
 		algBoardList = aDao.selectAlgBoard(pagingInfo);
 		
-		System.out.println(algBoardList.toString()+"(service)");
+		//System.out.println(algBoardList.toString()+"(service)");
 		
 		return algBoardList;
 	}
@@ -57,7 +57,7 @@ public class AlgServiceImpl implements AlgService {
 	public List<AlgDetailDTO> getListDetail(int boardNo) {
 		// boardNo 에 해당하는 algDetail 리스트 받아오기
 		List<AlgDetailDTO> algDetailList = null;
-		System.out.println(boardNo+"번의 알고리즘 조회");
+		//System.out.println(boardNo+"번의 알고리즘 조회");
 //		LoginDTO loginDTO = null;
 //		System.out.println(loginDTO.getUserId());
 		
@@ -68,7 +68,7 @@ public class AlgServiceImpl implements AlgService {
 			// 
 			e.printStackTrace();
 		}
-		System.out.println(algDetailList);
+		//System.out.println(algDetailList);
 		
 		
 		return algDetailList;
@@ -82,7 +82,7 @@ public class AlgServiceImpl implements AlgService {
 
 	@Override
 	public void writeAlgBoard(AlgBoardDTO algBoardDTO) throws Exception {
-		System.out.println("글쓰기(서비스)"); 
+		//System.out.println("글쓰기(서비스)"); 
 		int insert = aDao.insertAlgBoard(algBoardDTO);
 	}
 
@@ -146,22 +146,22 @@ public class AlgServiceImpl implements AlgService {
 	    
 	    boolean result = false;
 	    
-	    System.out.println(reportDTO.toString());
-	    System.out.println("신고글 인서트");
-	    System.out.println(reportDTO.getBtypeNo());
+	    //System.out.println(reportDTO.toString());
+	    //System.out.println("신고글 인서트");
+	    //System.out.println(reportDTO.getBtypeNo());
 	    String reporter = (String)reportDTO.getReporter();
 	    String writer = (String)reportDTO.getWriter();
 	   
 	    if(reporter.equals(writer)) {
 		// 신고자와 게시글 작성자가 같을 때 false 반환
-		System.out.println("reporter = writer");
-		System.out.println("자기 글에 신고 불가");
+		//System.out.println("reporter = writer");
+		//System.out.println("자기 글에 신고 불가");
 	    }
 	    else {
 		
 		if(aDao.countReporter(reportDTO) >= 1) {
 		    // 신고자와 게시글 작성자가 같지 않고 신고자가 이미 신고한 게시글에 신고함
-		    System.out.println("이미 신고함");
+		    //System.out.println("이미 신고함");
 		} else {
 		    
 		    aDao.insertReport(reportDTO);
@@ -180,7 +180,7 @@ public class AlgServiceImpl implements AlgService {
 	    //
 	    AlgDetailDTO algDetail = null;
 	    
-	   System.out.println("service codeDetail");
+	   //System.out.println("service codeDetail");
 	    
 	    algDetail = aDao.selectOneAlgDetail( algDetailNo);
 	    
@@ -192,7 +192,7 @@ public class AlgServiceImpl implements AlgService {
 	@Override
 	public boolean remBoard(int algDetailNo) {
 	    boolean result = false;
-	    System.out.println("서비스 에서 "+algDetailNo+"번 글을 삭제하자");
+	    //System.out.println("서비스 에서 "+algDetailNo+"번 글을 삭제하자");
 		if (aDao.deleteAlgDetailDelete(algDetailNo) == 1) {
 			result = true;
 			System.out.println(result);
@@ -216,7 +216,7 @@ public class AlgServiceImpl implements AlgService {
 	@Override
 	public PagingInfo getPagingInfo(int pageNo) throws Exception {
 	    // TODO Auto-generated method stub
-	    System.out.println("서비스단 : "+pageNo+"번게시물 조회");
+	    //System.out.println("서비스단 : "+pageNo+"번게시물 조회");
 	    
 	    
 	    PagingInfo page = makePagingInfo(pageNo);
@@ -262,7 +262,7 @@ public class AlgServiceImpl implements AlgService {
 		// 현재 페이징 블럭 ed\n 페이지 번호 구해 저장하기
 		this.pi.setEndNumOfCurrentPagingBlock();
 		
-		System.out.println(pi);
+		//System.out.println(pi);
 		
 		return pi;
 	}

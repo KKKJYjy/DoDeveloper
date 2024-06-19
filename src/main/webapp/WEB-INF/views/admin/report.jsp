@@ -38,7 +38,7 @@
 		selectedBtypeNo = btypeNo;
 		selectedBoardNo = boardNo;
 		writer = writerIdParam;
-		console.log(btypeNo, boardNo, writer);
+		// console.log(btypeNo, boardNo, writer);
 		$('#myModal').show();
 	}
 	
@@ -64,7 +64,7 @@
 	
 	function deleteReport(selectedReportIds){
 		alert("내역을 삭제합니다")
-		console.log(selectedReportIds);
+		// console.log(selectedReportIds);
 		
 		   $.ajax({
 		    	url : "/admin/deleteReport",
@@ -92,7 +92,7 @@
 	    }
 
 	    alert("신고 처리합니다");
-	    console.log(selectedBtypeNo, selectedBoardNo, deleteReason, writer);
+	   //  console.log(selectedBtypeNo, selectedBoardNo, deleteReason, writer);
 
 	    $.ajax({
 	        url: "/admin/insertPenalty",
@@ -105,7 +105,7 @@
 	            userId: writer
 	        },
 	        success: function(response) {
-	            console.log("서버에서 받은 데이터:", response);
+	         //   console.log("서버에서 받은 데이터:", response);
 	            if (response.success) {
 	                alert("삭제 성공");
 	                location.replace("report");
