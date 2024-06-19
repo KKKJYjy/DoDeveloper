@@ -53,7 +53,9 @@
 
 <style>
 body {
-	padding: 1.5em;
+	 
+	/* padding: 1.5em;
+	*/
 	background: #f5f5f5
 }
 

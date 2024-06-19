@@ -266,10 +266,10 @@ function insertReport() {
 
 					</select> <label for="title" class="form-label">게시글 작성자 : </label> <input
 						type="text" class="form-control" id="writer"
-						placeholder="게시글 작성자를 입력하세요..." name="writer" /> <label
+						placeholder="게시글 작성자를 입력하세요..." name="writer" readonly="readonly"/> <label
 						for="title" class="form-label">신고글 작성자 : </label> <input
 						type="text" class="form-control" id="reporter"
-						placeholder="신고글 작성자를 입력하세요..." name="reporter" />
+						placeholder="신고글 작성자를 입력하세요..." name="reporter" readonly="readonly"/>
 
 
 
