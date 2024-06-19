@@ -93,7 +93,7 @@ public class MessageController {
 		List<MessageBoxVO> messageBoxs = messageService.getReceivedLogsOfMessage(messageNo);
 		List<String> receivers = new LinkedList<String>();
 
-		System.out.println(messageBoxs);
+//		System.out.println(messageBoxs);
 		for (MessageBoxVO messageBox : messageBoxs) {
 			receivers.add(messageBox.getReceiver());
 		}
@@ -327,7 +327,7 @@ public class MessageController {
 	@RequestMapping(value = "/file", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public ResponseEntity<String> uploadFile(@RequestBody MultipartFile file) {
 
-		logger.info("file upload start : " + file.getOriginalFilename());
+//		logger.info("file upload start : " + file.getOriginalFilename());
 		String uploadName = null;
 
 		if (file.getOriginalFilename().length() > 50) {
@@ -352,7 +352,7 @@ public class MessageController {
 	@RequestMapping(value = "/file/{fileName}", method = RequestMethod.GET)
 	public ResponseEntity<byte[]> downloadFile(@PathVariable("fileName") String fileName) {
 
-		logger.info("file download start: " + fileProcessing.getPermaUploadPath() + File.separator + fileName);
+//		logger.info("file download start: " + fileProcessing.getPermaUploadPath() + File.separator + fileName);
 
 		File downloadDir = new File(fileProcessing.getPermaUploadPath());
 		FileFilter fileFilter = new WildcardFileFilter(fileName + ".*");
@@ -360,7 +360,7 @@ public class MessageController {
 		File sameNamedFileButHasNoExt = new File(fileProcessing.getPermaUploadPath() + File.separator + fileName);
 
 		if (sameNamedFiles.length <= 0 && !sameNamedFileButHasNoExt.exists()) {
-			logger.info("file to download is not found!1");
+//			logger.info("file to download is not found!1");
 			return new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
 		}
 
@@ -368,7 +368,7 @@ public class MessageController {
 		if (!downloadFile.exists()) {
 			downloadFile = sameNamedFiles[0];
 			if (!downloadFile.exists()) {
-				logger.info("file to download is not found!2");
+//				logger.info("file to download is not found!2");
 				return new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
 			}
 		}
@@ -390,7 +390,7 @@ public class MessageController {
 	}
 
 	private boolean authorityCheck(String userId, HttpSession session) {
-		System.out.println("세션 아이디: " + session.getId());
+//		System.out.println("세션 아이디: " + session.getId());
 		MemberVO loginMember = (MemberVO) session.getAttribute(SessionNames.LOGIN_MEMBER);
 		
 		return loginMember != null && userId.equals(loginMember.getUserId());
