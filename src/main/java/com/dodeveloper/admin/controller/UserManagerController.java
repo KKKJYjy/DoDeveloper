@@ -33,18 +33,17 @@ public class UserManagerController {
 
 	// 회원 전체 조회하는 메서드
 	@RequestMapping("/userList")
-	public String userList(Model model) throws Exception {
+	public void userList(Model model) throws Exception {
 		logger.info("userList 페이지 호출");
 
 		List<UserDTO> returnMap = null;
 
-		
+		String resultPage = null;
 
 		returnMap = aService.getAllUser();
 		model.addAttribute("userList", returnMap);
 
 		resultPage = "redirect:/adminUserlist/userList";
-
 	}
 
 	@PostMapping("/status")
