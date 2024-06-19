@@ -36,26 +36,31 @@
 	rel="stylesheet" />
 <!-- Custom CSS -->
 <link href="/resources/admin/css/style.min.css" rel="stylesheet" />
+<script>
+$(document).ready(function() {
+	var path = window.location.pathname;
+	var page = path.split("/").pop();
+	var pageName = page.charAt(0).toUpperCase() + page.slice(1).replace(".jsp", "");
+	$(".page-title").text(pageName);
+	$(".breadcrumb-item.active").text(pageName);
+});
+</script>
 </head>
 
 <body>
 
-	<div class="page-breadcrumb">
+		<div class="page-breadcrumb">
 		<div class="row align-items-center">
 			<div class="col-md-6 col-8 align-self-center">
-				<h3 class="page-title mb-0 p-0">Dashboard</h3>
+				<h3 class="page-title mb-0 p-0"></h3>
 				<div class="d-flex align-items-center">
 					<nav aria-label="breadcrumb">
 						<ol class="breadcrumb">
 							<li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
-							<li class="breadcrumb-item active" aria-current="page">
-								Dashboard</li>
+							<li class="breadcrumb-item active" aria-current="page"></li>
 						</ol>
 					</nav>
 				</div>
-			</div>
-			<div class="col-md-6 col-4 align-self-center">
-				<div class="text-end upgrade-btn"></div>
 			</div>
 		</div>
 	</div>

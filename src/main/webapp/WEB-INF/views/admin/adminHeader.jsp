@@ -72,12 +72,9 @@
 						<!-- Logo -->
 						<!-- ============================================================== -->
   
-					    <a class="navbar-brand ms-4" href="../"> <!-- Logo icon --> </b> <!--End Logo icon -->
-							<!-- Logo text --> <span class="logo-text"> <!-- dark Logo text -->
-								<img src="/resources/admin/assets/images/logo.png"
-								alt="homepage" class="dark-logo" />
-						</span>
-						</a>    
+					   <a href="/" class="logo d-flex align-items-center me-auto me-xl-0" style="color: red; font-size: 32px; margin-left: 20px; text-shadow: 1px 1px 0 white, -1px -1px 0 white, -1px 1px 0 white, 1px -1px 0 white;">
+				 <span style="font-size: 24px;">띠브</span> <span>DDev</span>
+			</a>   
 						
 						          
 						
@@ -133,17 +130,17 @@
 										class="nav-link dropdown-toggle text-muted"
 										href="/mypage/myProfile" id="navbarDropdown" role="button"
 										aria-expanded="false">
-											${sessionScope.loginMember.userName}님이 로그인중입니다.</a></li>
+											${sessionScope.loginMember.userName}</a></li>
 
 										
 										
-										<a href="/member/logout" class="logOut">로그아웃</a>
+										<a href="/member/logout" class="logOut" style="color: red; font-size: 12px; margin-left: 20px; text-shadow: 1px 1px 0 white, -1px -1px 0 white, -1px 1px 0 white, 1px -1px 0 white;">로그아웃</a>
 									
 								</c:when>
 								<c:otherwise>
 									
 										
-										<a href="/member/login" class="login">로그인</a>
+										<a href="/member/login" class="login" style="font-size: 24px; margin-left: 20px; text-shadow: 1px 1px 0 white, -1px -1px 0 white, -1px 1px 0 white, 1px -1px 0 white;">로그인</a>
 									
 								</c:otherwise>
 							</c:choose>

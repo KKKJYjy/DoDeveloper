@@ -13,11 +13,9 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
 	$(function() {
-
 		$('.status').change(function() {
-
 			let newStatus = $(this).val();
-			let userId = $(this).closest('tr').find('.userId').text(); // 해당 행의 userId 값 가져오기
+			let userId = $(this).closest('tr').find('.userId').text();
 
 			$.ajax({
 				url : "/admin/status",
@@ -25,20 +23,26 @@
 				data : {
 					"newStatus" : newStatus,
 					"userId" : userId
-				}, // 보내는 데이터
-				success : function(data) {
-					// data(json)
-					// 통신 성공하면 실행할 내용들....
-					console.log(data);
-
+				},
+				success : function(response) {
+					console.log("서버에서 받은 데이터:", response);
+					if (response.success) {
+						alert("상태 변경 성공");
+						location.reload();
+					} else {
+						alert("상태 변경 실패");
+					}
 				},
 			});
-
-		})
-	})
+		});
+	});
 </script>
 <style>
 .penalty {
+	color: red;
+}
+
+.badMember {
 	color: red;
 }
 </style>
@@ -61,16 +65,7 @@
 
 		<div class="container-fluid">
 
-			<!-- 검색 박스 -->
-			<div class="nav-item search-box">
-				<a class="nav-link text-muted" href="javascript:void(0)"><i
-					class="ti-search"></i></a>
-				<form class="app-search" style="display: none">
-					<input type="text" class="form-control"
-						placeholder="Search &amp; enter" /> <a class="srh-btn"><i
-						class="ti-close"></i></a>
-				</form>
-			</div>
+
 			<!-- ============================================================== -->
 			<!-- Start Page Content -->
 			<!-- ============================================================== -->
@@ -89,24 +84,44 @@
 											<th class="border-top-0">회원 이름</th>
 											<th class="border-top-0">이메일</th>
 											<th class="border-top-0">가입 일자</th>
-											<th class="border-top-0">누적 경고</th>
+											<th class="border-top-0">누적 경고(정지해제일)</th>
 											<th class="border-top-0">상태</th>
 										</tr>
 									</thead>
 									<tbody>
 										<c:forEach var="user" items="${userList}">
 											<tr id="${user.userId}">
-												<td class="userId">${user.userId}</td>
-												<td>${user.userName}</td>
+												<c:choose>
+													<c:when test="${user.status == '정지회원'}">
+														<td class="userId badMember">${user.userId}</td>
+														<td class="badMember">${user.userName}</td>
+													</c:when>
+													<c:when test="${user.status == '탈퇴회원'}">
+														<td class="userId badMember">${user.userId}</td>
+														<td class="badMember">${user.userName}</td>
+													</c:when>
+													<c:otherwise>
+														<td class="userId">${user.userId}</td>
+														<td>${user.userName}</td>
+													</c:otherwise>
+												</c:choose>
 												<td>${user.email}</td>
 												<td><fmt:formatDate value="${user.registerDate}"
 														pattern="yyyy-MM-dd" /></td>
 												<c:choose>
-													<c:when test="${user.penaltyCnt == null }">
+													<c:when
+														test="${user.penaltyCnt == 0 && user.status == '정상회원'}">
 														<td>0</td>
 													</c:when>
+													<c:when test="${user.status == '정지회원' }">
+														<td class="penalty">${user.penaltyCnt } (<fmt:formatDate
+																value="${user.suspendEnd}" pattern="yyyy-MM-dd" />)
+														</td>
+													</c:when>
+
 													<c:otherwise>
-														<td class="penalty">${user.penaltyCnt }</td>
+														<td class="penalty">${user.penaltyCnt }
+														</td>
 													</c:otherwise>
 												</c:choose>
 

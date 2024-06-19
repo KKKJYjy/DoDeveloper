@@ -19,6 +19,7 @@ public class UserDTO {
 	private String userName;
 	private String email;
 	private Timestamp registerDate;
-	private Integer penaltyCnt;;
+	private Integer penaltyCnt;
+	private Timestamp suspendEnd;
 	private String status;
 }
