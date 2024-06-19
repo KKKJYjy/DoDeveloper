@@ -295,7 +295,7 @@ ol, ul {
 
 <script>
 	function classCodeFilter(val) {
-		alert("!!??!!");
+		
 		console.log(val);
 
 		$.ajax({
@@ -336,9 +336,7 @@ ol, ul {
 			html += `<tr>`
 			html += `<td style="color: black;" id="title" class="title"><a id="myLink" class="myLink" href="#">no</a></td>`;
 			html += `<td>Matman</td>`;
-			html += `<td>(713) 123-8965</td>`;
-			html += `<td><a id="myLink">jmatman@stewart.com</a></td>`;
-			html += `<td>01/13/1979</td>`;
+			
 			html += `</tr>`;
 		}
 
@@ -445,6 +443,8 @@ ol, ul {
 
 					<button type="button" class="btn btn-info"
 						onclick="location.href='/algorithm/writePOST';">글쓰기</button>
+					<button type="button" class="btn btn-info"
+						onclick="location.href='/algorithm/modifyAlg';">글수정</button>
 
 				</div>
 
