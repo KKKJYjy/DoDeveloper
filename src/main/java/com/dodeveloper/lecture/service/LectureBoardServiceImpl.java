@@ -82,8 +82,6 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	    returnMap.put("lectureBoardList", lectureBoardList);
 	    returnMap.put("pagingInfo", this.pi);
 
-	    // System.out.println(pi);
-
 	    return returnMap;
 	}
 
@@ -103,7 +101,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 	    this.pi.setPageNo(pageNo);
 	    
 	    this.pi.setViewPostCntPerPage(10); // 한 페이지당 보여줄 게시글의 갯수
-	    this.pi.setPageCntPerBlock(4); // 1개의 블럭에 몇 페이지씩 보여줄 것인지
+	    this.pi.setPageCntPerBlock(5); // 1개의 블럭에 몇 페이지씩 보여줄 것인지
 
 	    // 게시물의 데이터 갯수 구해 멤버 변수에 저장
 	    if (lsDTO.getSearchType() != null && lsDTO.getSearchValue() != null) {
@@ -154,7 +152,7 @@ public class LectureBoardServiceImpl implements LectureBoardService {
 		this.pi.setPageNo(pageNo);
 		
 		this.pi.setViewPostCntPerPage(10); // 한 페이지당 보여줄 게시글의 갯수
-	    this.pi.setPageCntPerBlock(4); // 1개의 블럭에 몇 페이지씩 보여줄 것인지
+	    this.pi.setPageCntPerBlock(5); // 1개의 블럭에 몇 페이지씩 보여줄 것인지
 
 		// 게시물의 데이터 갯수 구해 멤버 변수에 저장
 		this.pi.setTotalPostCnt(lDao.selectTotalLectureBoardCnt());

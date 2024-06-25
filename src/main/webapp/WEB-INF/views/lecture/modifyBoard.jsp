@@ -172,13 +172,6 @@ function modifyIsValid() {
     
     return result;
 }
-
-// 폼 제출 이벤트에 유효성 검사 함수 연결
-document.getElementById('yourFormId').addEventListener('submit', function(event) {
-    if (!isValid()) {
-        event.preventDefault(); // 폼 제출 방지
-    }
-});
 </script>
 <style>
 /* 별점 */
