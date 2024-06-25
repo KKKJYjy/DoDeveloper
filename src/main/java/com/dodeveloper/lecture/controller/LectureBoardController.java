@@ -94,7 +94,6 @@ public class LectureBoardController {
 //	        logger.info("제목: " + lecture.getLecTitle() + "조회수 : " + lecture.getLecReadCount());
 //	    }
 
-		// 바인딩
 		// 게시글 자체를 바인딩
 		model.addAttribute("lectureBoardList", (List<LectureBoardVO>) resultMap.get("lectureBoardList"));
 		// 페이징 정보를 바인딩
@@ -291,7 +290,7 @@ public class LectureBoardController {
 	 * @return : @ResponseBody String
 	 * @description : 유저가 게시글을 작성하려다 취소버튼을 누른 경우에 작동되는 메서드
 	 */
-	@RequestMapping(value = "/cancel", method = RequestMethod.POST, produces = "text/plain; charset=utf-8")
+	@RequestMapping(value = "/cancel", method = RequestMethod.POST)
 	public @ResponseBody String cancelBoard() {
 //		System.out.println("게시글 작성 안할래요!");
 
