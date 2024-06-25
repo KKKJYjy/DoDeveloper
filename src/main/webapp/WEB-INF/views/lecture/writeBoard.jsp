@@ -56,7 +56,7 @@ function insertLecture() {
 	let lecTitle = document.getElementById('lecTitle').value;
 	let lecReview = document.getElementById('lecReviewHidden').value;
 	let lecPostDate = document.getElementById('lecPostDate').value;
-	let lecScore = document.getElementById('lecScore').value; // 별점 값을 가져옴
+	let lecScore = document.getElementById('lecScore').value; // 별점
 	let lecLink = document.getElementById('lecLink').value;
 
 	let newLecBoard = {
@@ -144,35 +144,6 @@ function setStarRating() {
 
 // 위 별점 설정한 함수 호출
 setStarRating();
-
-//유저가 누른 별점을 불러오는 함수
-(function() {
-	// 별점을 표시하는 함수 starSc
-	let starSc = document.querySelectorAll('.starRating .star');
-	// 유저가 누른 별점을 저장하는 함수score
-	let score = 0;
-
-	starSc.forEach(function(e, i) {
-		e.addEventListener('click', function() { // 유저가 선택한 별점을 처리
-			rating(i + 1); // 유저가 클릭한 별의 i에 1을 더해서 rating 함수에 전달
-		});
-	});
-
-	// 유저가 클릭한 별접 DB에 업데이트
-	function rating(score) {
-		// 유저가 클릭한 별점(score)이 낮은 index(i)는 on클래스 추가해서 활성화
-		// 유저가 클릭한 별점(score)이 낮은 index(i)는 on클래스 제거해서 비활성화
-		starSc.forEach(function(e, i) {
-			if (i < score) {
-				e.classList.add('on');
-			} else {
-				e.classList.remove('on');
-			}
-		});
-		score = score; // 유저가 선택한 score를 score에 저장
-		document.getElementById('lecScore').value = score; // 선택한 별점을 hidden input에 저장
-	}
-})();
 
 //---------------------------------------------------------------------
 

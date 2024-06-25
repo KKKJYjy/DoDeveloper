@@ -209,6 +209,9 @@ $(function() {
 						console.log(data);
 					}
 				});
+			} else {
+				// 로그인 안한 유저일 경우 로그인 후 댓글 작성 가능
+				alert('로그인 후 댓글 작성 가능합니다!');
 			}
 		}
 	});
@@ -254,6 +257,8 @@ function getAllReplies() {
 
 // 댓글 data들을 모아서 자리만들기
 function outputReplies(data) {
+	let writer = '${sessionScope.loginMember.userId}'; // 로그인 한 유저
+	
 	let output = `<div class="list-group replies">`;
 	$.each(data, function(i, reply) {
 		output += `<ul class="list-group-item">`;
@@ -266,12 +271,14 @@ function outputReplies(data) {
 		output += `<div>\${diff}</div>`; // 댓글 시간
 		
 		output += `<div class='replyBtns'>`;
-		output += `<div class='replyEditBtns'>`;
-		output += `<img src='/resources/images/reply/replyedit.png' onclick='showModifyReply(\${reply.replyNo});' />`;
-		output += `</div>`;
-		output += `<div class='replyRemoveBtns'>`;
-		output += `<img src='/resources/images/reply/replytrash.png' onclick='showRemoveReply(\${reply.replyNo});' />`;
-		output += `</div>`;
+		if (writer === reply.replyer) {
+			output += `<div class='replyEditBtns'>`;
+			output += `<img src='/resources/images/reply/replyedit.png' onclick='showModifyReply(\${reply.replyNo});' />`;
+			output += `</div>`;
+			output += `<div class='replyRemoveBtns'>`;
+			output += `<img src='/resources/images/reply/replytrash.png' onclick='showRemoveReply(\${reply.replyNo});' />`;
+			output += `</div>`;
+		}
 		output += `</div>`;
 		
 		output += `</div>`;
@@ -312,20 +319,12 @@ function processPostDate(writtenDate) {
 
 // ---------------------------------------------------------------------
 
-// 댓글 수정 전 로그인 한 유저만 가능하도록
+// 댓글 수정 전 댓글 작성자만 가능하도록
 function showModifyReply(replyNo) {
-	// alert(replyNo);
-	let user = preAuth(); // 로그인 한 유저
 	
 	let writer = null; // 작성자를 null로 두고
 	
-	$.each(replies, function(i, r) {
-		if (replyNo == r.replyNo) {
-			writer = r.replyer; // 댓글 작성자
-		}
-	});
-	
-	if (user == writer) { // 로그인 한 유저의 글일 경우에만 수정 가능
+	if (writer === reply.replyer) { // 로그인 한 유저의 글일 경우에만 수정 가능
 		let output = `<div class="modifyReply">`;
 		output += `<div class="mb-3 mt-3">`;
 		output += `<label for="modifyReplyContent" class="form-label">수정할 댓글 내용 : </label>`;
@@ -336,13 +335,6 @@ function showModifyReply(replyNo) {
 		output += `</button></div></div>`;
 		
 		$(output).insertAfter($(`#reply_\${replyNo}`));
-	} else if (user != writer){
-		// 댓글 작성자가 아닌데 수정을 할 경우
-		alert("작성자 댓글이 아닙니다.");
-	} else {
-		// 로그인을 안하고 수정을 할 경우
-		alert("로그인 후 부탁드립니다!");
-		return "/member/login";
 	}
 }
 
@@ -387,7 +379,7 @@ function modifyReply(replyNo) {
 
 //---------------------------------------------------------------------
 
-// 댓글 삭제 시 로그인 유저만 가능하도록
+// 댓글 삭제 시 댓글 작성자만 가능하도록
 function showRemoveReply(replyNo) {
 	// alert(replyNo);
 	let user = preAuth(); // 로그인 한 유저
@@ -418,11 +410,6 @@ function showRemoveReply(replyNo) {
 				}
 			});
 		}
-	} else if (user == writer) {
-		alert("작성자 댓글이 아닙니다.");
-	} else {
-		alert("로그인 후 부탁드립니다!");
-		return "/member/login";
 	}
 }
 
@@ -493,14 +480,19 @@ function getLikeStatus() {
         error: function() {
             console.log('좋아요 상태를 불러오는데 실패했습니다.');
         }
-    });
+    });   
 }
 
 // 하트 아이콘 클릭 시 호출되는 함수(clickHeart)
 function clickHeart() {
     let lecNo = '${lecBoard.lecNo}'; // 게시글 번호
-    let user = '${sessionScope.loginMember.userId}'; // 로그인 한 유저의 정보
+    let user = preAuth(); // 로그인 한 유저의 정보
     let lecLikeTitle = '${lecBoard.lecTitle}'; // 게시글 제목
+    
+    // 로그인 후 좋아요 클릭 가능하도록
+    if (user === '') {
+    	alert('로그인 후 좋아요가 가능합니다!');
+    }
 
     // 좋아요 또는 좋아요 취소 요청을 보낼 URL 설정 - 삼항 연산자 사용
     let url = liked ? '/lecture/unLike' : '/lecture/like';
@@ -657,6 +649,11 @@ function clickScrap() {
     let lecNo = '${lecBoard.lecNo}'; // 게시글 번호
     let user = preAuth(); // 로그인 한 유저만 스크랩 / 스크랩 취소 가능하도록
     let scrapLecTitle = '${lecBoard.lecTitle}';
+    
+    // 로그인 후 스크랩 클릭 가능하도록
+    if (user === '') {
+    	alert('로그인 후 스크랩이 가능합니다!');
+    }
 
     // 스크랩 또는 스크랩 취소 요청을 보낼 URL 설정 - 삼항 연산자 사용
     let url = scraped ? '/lecture/unScrap' : '/lecture/scrap';
@@ -944,9 +941,7 @@ function closeReport() {
 						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 					</div>
 
-					<!-- Modal body
-					 -->
-
+					<!-- Modal body -->
 					<label for="title" class="form-label">신고할 게시판 제목 : </label>
 					<input type="text" class="form-control" id="reportTitle" value="${lecBoard.lecTitle}"
 						name="reportTitle" readonly="readonly" />
