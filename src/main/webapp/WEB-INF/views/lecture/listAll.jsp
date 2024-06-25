@@ -50,47 +50,59 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
-	/* 검색 조건 */
-	function isValid() {
-		let searchType = $('#searchType').val(); // 검색 조건의 type
-		let searchValue = $('#searchValue').val(); // 검색 조건의 값
-		let filterType = $('#filterType').val(); // 검색 필터의 type
+/* 검색 조건 */
+function isValid() {
+	let searchType = $('#searchType').val(); // 검색 조건의 type
+	let searchValue = $('#searchValue').val(); // 검색 조건의 값
+	let filterType = $('#filterType').val(); // 검색 필터의 type
 
-		if (searchType === "-1") {
-			alert("검색 조건을 선택해주세요.");
-			return false;
-		}
-
-		if (searchValue.trim() === "") {
-			alert("검색어를 입력해주세요.");
-			return false;
-		}
-
-		if (filterType === "-1") {
-			return false;
-		}
-
-		// SQL 쿼리문 키워드 검사
-		let sqlKeywords = [ "OR", "SELECT", "AND", "INSERT", "UPDATE",
-				"DELETE", "DROP", "EXEC", "TRUNCATE", "CREATE", "ALTER" ];
-		for (let i = 0; i < sqlKeywords.length; i++) {
-			if (searchValue.toUpperCase().includes(sqlKeywords[i])) {
-				alert("검색어에 유효하지 않은 키워드가 포함되어 있습니다.");
-				return false;
-			}
-		}
-
-		return true;
+	if (searchType === "-1") {
+		alert("검색 조건을 선택해주세요.");
+		return false;
 	}
 
-	/* 페이징 */
-	$(function() {
-		let pageNo = '${param.pageNo}';
-		// alert(pageNo);
+	if (searchValue.trim() === "") {
+		alert("검색어를 입력해주세요.");
+		return false;
+	}
 
-		// id가 pageNo변수인 태그를 찾아 그 태그에 'active'라는 이름의 클래스 부여
-		$(`\${pageNo}`).addClass('active');
-	});
+	if (filterType === "-1") {
+		return false;
+	}
+
+	// SQL 쿼리문 키워드 검사
+	let sqlKeywords = [ "OR", "SELECT", "AND", "INSERT", "UPDATE",
+			"DELETE", "DROP", "EXEC", "TRUNCATE", "CREATE", "ALTER" ];
+	for (let i = 0; i < sqlKeywords.length; i++) {
+		if (searchValue.toUpperCase().includes(sqlKeywords[i])) {
+			alert("검색어에 유효하지 않은 키워드가 포함되어 있습니다.");
+			return false;
+		}
+	}
+
+	return true;
+}
+
+/* 페이징 */
+$(function() {
+	let pageNo = '${param.pageNo}';
+	// alert(pageNo);
+});
+
+/* 로그인 후 게시글 작성 가능 */
+function writen() {
+    let writer = '${sessionScope.loginMember.userId}'; // 로그인 한 유저
+
+    if (writer === '') {
+        alert('로그인 후 이용부탁드립니다.');
+        // 로그인 페이지로 이동, 로그인 성공 후 글 작성 페이지로
+        window.location.href = '/lecture/writeBoard';
+        return false;
+    } else {
+        // 로그인되어 있으면 글 작성 페이지로 이동
+        window.location.href = '/lecture/writeBoard';
+    }
+}
 </script>
 <style>
 select option:hover {
@@ -150,18 +162,17 @@ select option:hover {
 								data-bs-toggle="dropdown">검색 필터</button>
 							<ul class="dropdown-menu" id="filterType" name="filterType">
 								<li><a class="dropdown-item"
-									href="?pageNo=${param.pageNo }&filterType=latest&searchType=${param.searchType}&searchValue=${param.searchValue}">최신순</a></li>
+									href="?pageNo=${pagingInfo.pageNo }&filterType=latest&searchType=${param.searchType}&searchValue=${param.searchValue}">최신순</a></li>
 								<li><a class="dropdown-item"
-									href="?pageNo=${param.pageNo }&filterType=popular&searchType=${param.searchType}&searchValue=${param.searchValue}">인기순</a></li>
+									href="?pageNo=${pagingInfo.pageNo }&filterType=popular&searchType=${param.searchType}&searchValue=${param.searchValue}">인기순</a></li>
 								<li><a class="dropdown-item"
-									href="?pageNo=${param.pageNo }&filterType=view&searchType=${param.searchType}&searchValue=${param.searchValue}">조회순</a></li>
+									href="?pageNo=${pagingInfo.pageNo }&filterType=view&searchType=${param.searchType}&searchValue=${param.searchValue}">조회순</a></li>
 								<li><a class="dropdown-item"
-									href="?pageNo=${param.pageNo }&filterType=starScore&searchType=${param.searchType}&searchValue=${param.searchValue}">별점순</a></li>
+									href="?pageNo=${pagingInfo.pageNo }&filterType=starScore&searchType=${param.searchType}&searchValue=${param.searchValue}">별점순</a></li>
 							</ul>
 
-							<button type="button" class="btn btn-dark writeren"
-								id="applyFilterBtn"
-								onclick="location.href='/lecture/writeBoard';">글 작성</button>
+							<button type="button" class="btn btn-dark writeren" id="applyFilterBtn"
+								onclick="return writen();">글 작성</button>
 						</div>
 					</form>
 
